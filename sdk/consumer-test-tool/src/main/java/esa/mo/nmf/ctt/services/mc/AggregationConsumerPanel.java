@@ -64,6 +64,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
      */
     public AggregationConsumerPanel(AggregationConsumerServiceImpl serviceMCAggregation) {
         initComponents();
+        jLabel6.setFont(jLabel6.getFont().deriveFont(java.awt.Font.BOLD, 18f));
 
         this.serviceMCAggregation = serviceMCAggregation;
         aggregationTable = new AggregationTablePanel(serviceMCAggregation.getCOMServices().getArchiveService());
@@ -123,7 +124,6 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         removeDefinitionAllButton = new javax.swing.JButton();
         msgBoxOn = new javax.swing.JCheckBox();
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Aggregation Service - Definitions");
         jLabel6.setToolTipText("");

@@ -76,6 +76,8 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
      */
     public DirectoryConnectionConsumerPanel(final ConnectionConsumer connectionConsumer, final JTabbedPane tabs) {
         initComponents();
+        jLabel7.setFont(jLabel7.getFont().deriveFont(java.awt.Font.BOLD, 18f));
+        jLabel1.setFont(jLabel1.getFont().deriveFont(java.awt.Font.BOLD, 12f));
         this.connectionConsumer = connectionConsumer;
         this.tabs = tabs;
         this.initTextBoxAddress();
@@ -233,7 +235,6 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
         setPreferredSize(new java.awt.Dimension(1280, 720));
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Communication Settings");
         jLabel7.setToolTipText("");
@@ -313,7 +314,6 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
         jSplitPane1.setLeftComponent(jScrollPane2);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 2, 0));
         jLabel1.setText("Providers List:");

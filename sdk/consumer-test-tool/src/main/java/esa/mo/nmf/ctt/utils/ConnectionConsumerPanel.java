@@ -69,6 +69,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
      */
     public ConnectionConsumerPanel(ConnectionConsumer connectionConsumer, JTabbedPane tabs) {
         initComponents();
+        jLabel7.setFont(jLabel7.getFont().deriveFont(java.awt.Font.BOLD, 18f));
         this.connectionConsumer = connectionConsumer;
         this.tabs = tabs;
 
@@ -141,7 +142,6 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         checkBoxStatistic = new javax.swing.JCheckBox();
         connectButton = new javax.swing.JButton();
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Communication Settings");
         jLabel7.setToolTipText("");

@@ -76,6 +76,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
      */
     public ArchiveConsumerManagerPanel(ArchiveConsumerServiceImpl archiveService) {
         initComponents();
+        jLabel6.setFont(jLabel6.getFont().deriveFont(java.awt.Font.BOLD, 18f));
         serviceCOMArchive = archiveService;
     }
 
@@ -371,7 +372,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         jButtonDeleteAll = new javax.swing.JButton();
         open_ArchiveSync = new javax.swing.JButton();
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("COM Archive Manager");
         jLabel6.setToolTipText("");

@@ -42,6 +42,7 @@ public class ClockConsumerPanel extends javax.swing.JPanel {
 
     public ClockConsumerPanel(ClockStub clockService) {
         initComponents();
+        jLabel6.setFont(jLabel6.getFont().deriveFont(java.awt.Font.BOLD, 18f));
 
         this.clockService = clockService;
     }
@@ -66,7 +67,6 @@ public class ClockConsumerPanel extends javax.swing.JPanel {
         getTimeButton = new javax.swing.JButton();
         timeLabel = new javax.swing.JLabel();
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Clock Service");
         jLabel6.setToolTipText("");
@@ -79,7 +79,7 @@ public class ClockConsumerPanel extends javax.swing.JPanel {
 
         parameterTab.add(jPanel5);
 
-        timeLabel.setFont(new java.awt.Font("Ubuntu", 0, 36)); // NOI18N
+        timeLabel.setFont(timeLabel.getFont().deriveFont(36f));
         timeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         timeLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 

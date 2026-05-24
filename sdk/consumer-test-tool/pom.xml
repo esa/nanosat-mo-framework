@@ -75,6 +75,7 @@
             <groupId>int.esa.nmf.core</groupId>
             <artifactId>nmf-composites</artifactId>
         </dependency>
+
     </dependencies>
 
     <build>

@@ -69,6 +69,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
     public ArchiveSyncConsumerManagerPanel(ArchiveConsumerServiceImpl archiveService,
             ArchiveSyncConsumerServiceImpl archiveSyncService) {
         initComponents();
+        jLabel6.setFont(jLabel6.getFont().deriveFont(java.awt.Font.BOLD, 18f));
         this.serviceCOMArchive = archiveService;
         this.serviceCOMArchiveSync = archiveSyncService;
     }
@@ -264,7 +265,6 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         jButtonDeleteAll = new javax.swing.JButton();
         test_button = new javax.swing.JButton();
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("ArchiveSync Tester");
         jLabel6.setToolTipText("");

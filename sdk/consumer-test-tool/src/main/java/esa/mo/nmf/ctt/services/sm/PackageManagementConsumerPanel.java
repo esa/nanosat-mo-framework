@@ -53,6 +53,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
      */
     public PackageManagementConsumerPanel(PackageManagementConsumerServiceImpl serviceSMPackageManagement) {
         initComponents();
+        jLabel6.setFont(jLabel6.getFont().deriveFont(java.awt.Font.BOLD, 18f));
 
         this.serviceSMPackageManagement = serviceSMPackageManagement;
         packagesTable = new PackageManagementTablePanel();
@@ -82,7 +83,6 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         upgradeButton = new javax.swing.JButton();
         listAppAllButton = new javax.swing.JButton();
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Package Management Service");
         jLabel6.setToolTipText("");

@@ -54,6 +54,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
     public AggregationAddModify(final AggregationConsumerServiceImpl aggregationService,
             final DefaultTableModel parameterTableData, final DefaultTableModel aggregationTableData) {
         initComponents();
+        titleEditParameter.setFont(titleEditParameter.getFont().deriveFont(18f));
 
         this.aggregationService = aggregationService;
         this.aggregationTableData = aggregationTableData;
@@ -234,7 +235,6 @@ public class AggregationAddModify extends javax.swing.JFrame {
         jPanel13.setMinimumSize(new java.awt.Dimension(400, 300));
         jPanel13.setPreferredSize(new java.awt.Dimension(400, 300));
 
-        titleEditParameter.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         titleEditParameter.setText("Auto-change Label");
         jPanel13.add(titleEditParameter);
 

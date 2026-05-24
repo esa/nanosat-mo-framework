@@ -68,6 +68,7 @@ public class EventConsumerPanel extends javax.swing.JPanel {
     public EventConsumerPanel(EventConsumerServiceImpl eventService,
             final ArchiveConsumerServiceImpl archiveService) {
         initComponents();
+        jLabel6.setFont(jLabel6.getFont().deriveFont(java.awt.Font.BOLD, 18f));
         serviceCOMEvent = eventService;
         comObjects = new ArrayList<>();
 
@@ -188,7 +189,6 @@ public class EventConsumerPanel extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         eventTable = new javax.swing.JTable();
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Event Service");
         jLabel6.setToolTipText("");

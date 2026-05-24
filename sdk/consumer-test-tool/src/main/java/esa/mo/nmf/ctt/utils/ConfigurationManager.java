@@ -51,13 +51,7 @@ public class ConfigurationManager extends javax.swing.JFrame
 
     try {
       UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-    } catch (UnsupportedLookAndFeelException e) {
-      // handle exception
-    } catch (ClassNotFoundException e) {
-      // handle exception
-    } catch (InstantiationException e) {
-      // handle exception
-    } catch (IllegalAccessException e) {
+    } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
       // handle exception
     }
 
@@ -104,6 +98,7 @@ public class ConfigurationManager extends javax.swing.JFrame
   public ConfigurationManager(final String name)
   {
     initComponents();
+    jLabel6.setFont(jLabel6.getFont().deriveFont(java.awt.Font.BOLD, 18f));
     this.setLocationRelativeTo(null);
     this.setTitle(name);
 
@@ -162,7 +157,6 @@ public class ConfigurationManager extends javax.swing.JFrame
 
         homeTab.setName("homeTab"); // NOI18N
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Welcome!");
         jLabel6.setToolTipText("");

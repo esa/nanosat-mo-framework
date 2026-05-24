@@ -126,7 +126,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         setLayout(new BorderLayout());
 
         JLabel titleLabel = new JLabel("Action Service - Definitions");
-        titleLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
+        titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 18f));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(titleLabel, BorderLayout.NORTH);
 
@@ -154,7 +154,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         executionLogTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
         JLabel executionLogLabel = new JLabel("Execution Progress");
-        executionLogLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+        executionLogLabel.setFont(executionLogLabel.getFont().deriveFont(Font.BOLD, 14f));
         executionLogLabel.setBorder(BorderFactory.createEmptyBorder(4, 4, 2, 4));
 
         JPanel executionLogPanel = new JPanel(new BorderLayout());

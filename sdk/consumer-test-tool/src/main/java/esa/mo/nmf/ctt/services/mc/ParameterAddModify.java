@@ -66,6 +66,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
     public ParameterAddModify(final ParameterConsumerServiceImpl parameterService,
             final DefaultTableModel parameterTableData) {
         initComponents();
+        titleEditParameter.setFont(titleEditParameter.getFont().deriveFont(18f));
 
         this.serviceMCParameter = parameterService;
         this.parameterTableData = parameterTableData;
@@ -195,7 +196,6 @@ public class ParameterAddModify extends javax.swing.JFrame {
         jPanel4.setMinimumSize(new java.awt.Dimension(280, 530));
         jPanel4.setPreferredSize(new java.awt.Dimension(280, 530));
 
-        titleEditParameter.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         titleEditParameter.setText("Auto-change Label");
         jPanel4.add(titleEditParameter);
 

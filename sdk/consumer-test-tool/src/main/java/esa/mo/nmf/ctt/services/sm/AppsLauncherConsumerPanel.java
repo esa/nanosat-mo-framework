@@ -73,6 +73,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
      */
     public AppsLauncherConsumerPanel(AppsLauncherConsumerServiceImpl serviceSMAppsLauncher) {
         initComponents();
+        jLabel6.setFont(jLabel6.getFont().deriveFont(java.awt.Font.BOLD, 18f));
 
         appsTable = new AppsLauncherTablePanel(serviceSMAppsLauncher.getCOMServices().getArchiveService());
 
@@ -161,7 +162,6 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         listAppAllButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Apps Launcher Service");
         jLabel6.setToolTipText("");

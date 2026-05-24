@@ -62,6 +62,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
      */
     public ParameterConsumerPanel(ParameterConsumerServiceImpl serviceMCParameter) {
         initComponents();
+        jLabel6.setFont(jLabel6.getFont().deriveFont(java.awt.Font.BOLD, 18f));
 
         this.serviceMCParameter = serviceMCParameter;
         parameterTable = new ParameterTablePanel(serviceMCParameter.getCOMServices().getArchiveService());
@@ -100,7 +101,6 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         listDefinitionAllButton = new javax.swing.JButton();
         removeDefinitionAllButton = new javax.swing.JButton();
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Parameter Service - Definitions");
         jLabel6.setToolTipText("");

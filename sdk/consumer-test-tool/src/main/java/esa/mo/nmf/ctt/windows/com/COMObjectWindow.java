@@ -59,6 +59,10 @@ public final class COMObjectWindow extends javax.swing.JDialog {
     public COMObjectWindow(final ArchivePersistenceObject comObject,
             final boolean editable, final ArchiveStub archiveService) throws IOException {
         initComponents();
+        jLabel3.setFont(jLabel3.getFont().deriveFont(java.awt.Font.BOLD));
+        jLabel4.setFont(jLabel4.getFont().deriveFont(java.awt.Font.BOLD));
+        jLabel6.setFont(jLabel6.getFont().deriveFont(java.awt.Font.BOLD));
+        jLabel7.setFont(jLabel7.getFont().deriveFont(java.awt.Font.BOLD));
 
         if (comObject == null) {
             Logger.getLogger(COMObjectWindow.class.getName()).log(Level.SEVERE,
@@ -232,7 +236,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         objIdentification2.setText("Object Instance Identifier:");
         objIdentification2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-
         javax.swing.GroupLayout topPanelLayout = new javax.swing.GroupLayout(topPanel);
         topPanel.setLayout(topPanelLayout);
         topPanelLayout.setHorizontalGroup(
@@ -247,7 +250,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                     .addGroup(topPanelLayout.createSequentialGroup()
                         .addComponent(objIdentification1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfObjectType, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE))
+                        .addComponent(tfObjectType, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE))
                     .addGroup(topPanelLayout.createSequentialGroup()
                         .addComponent(objIdentification2, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -302,7 +305,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
 
         jLabel2.setText("Object Instance Id:");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Related");
 
@@ -312,17 +314,14 @@ public final class COMObjectWindow extends javax.swing.JDialog {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Source");
 
         jLabel5.setText("Object Type:");
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Object Body");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Other Details");
 
@@ -376,8 +375,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                                         .addGap(0, 33, Short.MAX_VALUE))
                                     .addComponent(sourceDomain, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(sourceButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(componentsPanelLayout.createSequentialGroup()
-                                    .addComponent(sourceType))))))
+                                    .addComponent(sourceType)))))
                     .addGroup(componentsPanelLayout.createSequentialGroup()
                         .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -393,8 +391,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                             .addGroup(componentsPanelLayout.createSequentialGroup()
                                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 34, Short.MAX_VALUE))
-                            .addGroup(componentsPanelLayout.createSequentialGroup()
-                            .addComponent(relatedType))
+                            .addComponent(relatedType)
                             .addComponent(relatedObjId)
                             .addComponent(relatedButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
@@ -417,8 +414,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                     .addGroup(componentsPanelLayout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(relatedType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(relatedType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -432,8 +428,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(sourceType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(sourceType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

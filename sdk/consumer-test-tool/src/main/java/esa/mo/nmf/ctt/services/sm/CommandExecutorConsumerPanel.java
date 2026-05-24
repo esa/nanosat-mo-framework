@@ -66,6 +66,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
      */
     public CommandExecutorConsumerPanel(CommandExecutorConsumerServiceImpl serviceSMCommandExecutor) {
         initComponents();
+        jLabel6.setFont(jLabel6.getFont().deriveFont(java.awt.Font.BOLD, 18f));
 
         ArchiveConsumerServiceImpl archive = serviceSMCommandExecutor.getCOMServices().getArchiveService();
         recentCommandsTable = new CommandExecutorTablePanel(archive);
@@ -143,7 +144,6 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
         listAppAllButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Command Executor Service");
         jLabel6.setToolTipText("");

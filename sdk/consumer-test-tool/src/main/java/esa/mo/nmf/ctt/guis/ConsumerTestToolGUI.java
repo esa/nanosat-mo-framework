@@ -49,9 +49,7 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
     public static void main(final String[] args) {
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-        } catch (UnsupportedLookAndFeelException | InstantiationException | ClassNotFoundException e) {
-        } catch (IllegalAccessException e) {
-            // handle exception
+        } catch (UnsupportedLookAndFeelException | InstantiationException | ClassNotFoundException | IllegalAccessException e) {
         }
 
         final String name = System.getProperty("application.name", "CTT: Consumer Test Tool");
