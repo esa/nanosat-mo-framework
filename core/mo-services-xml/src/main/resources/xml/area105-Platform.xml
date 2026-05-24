@@ -21,7 +21,7 @@
                 <mal:pubsubIP name="picturesStream" number="1"
                               comment="The picturesStream operation allows a consumer to subscribe for pictures published after enableStream call." >
                     <mal:documentation name="Requirement" order="1">
-                        The timestamp of the update shall be the time of when the picture was taken.
+                        The service provider shall set the NOTIFY message timestamp to the time when the picture was taken.
                     </mal:documentation>
                     <mal:messages>
                         <mal:subscriptionKeys>
@@ -51,9 +51,6 @@
                 </mal:pubsubIP>
                 <mal:submitIP name="enableStream" number="2"
                               comment="The enableStream operation allows a consumer to set the rate, dimension and format of the Pictures being streamed." >
-                    <mal:documentation name="Requirement" order="1">
-                        If the enable field is TRUE, then the tag field shall not be NULL, empty, nor the wildcard '*'.
-                    </mal:documentation>
                     <mal:messages>
                         <mal:submit comment="">
                             <mal:field name="enable" canBeNull="true"
@@ -99,7 +96,7 @@
                                 <mal:type area="Platform" list="true" name="PictureFormat" />
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="When the tag field is NULL or a wildcard.">
+                        <mal:errorRef comment="When the enable field is TRUE and the tag field is NULL, empty, or a wildcard.">
                             <mal:type area="COM" list="false" name="INVALID" />
                         </mal:errorRef>
                     </mal:errors>
@@ -392,7 +389,7 @@
                         A consumer may supply the wildcard value of '*' in the names field to return all supported nearby position events.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The RESPONSE message shall maintain the same ordering as the REQUEST message unless the wildcard value was included in the request.
+                        If the names field does not include the wildcard value, then the RESPONSE message shall maintain the same ordering as the REQUEST message.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request comment="">
@@ -721,7 +718,7 @@
                 </mal:diagram>
                 <com:objects comment="">
                     <com:object number="1" name="NearbyPosition"
-                                comment="Represents a nearby position marker." >
+                                comment="A nearby position marker." >
                         <com:objectType>
                             <mal:type area="Platform" list="false" name="NearbyPositionDefinition" />
                         </com:objectType>
@@ -731,7 +728,7 @@
                         </com:sourceObject>
                     </com:object>
                     <com:object number="2" name="NearbyPositionAlert"
-                                comment="Contains a boolean value indicating entering or exiting state." >
+                                comment="A boolean value indicating whether the spacecraft is entering or exiting the nearby position boundary." >
                         <com:objectType>
                             <mal:type area="MAL" list="false" name="Boolean" />
                         </com:objectType>
