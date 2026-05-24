@@ -50,7 +50,6 @@ public class ConfigurationManager extends javax.swing.JFrame
   {
 
     try {
-      // Set cross-platform Java L&F (also called "Metal")
       UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
     } catch (UnsupportedLookAndFeelException e) {
       // handle exception
@@ -158,10 +157,7 @@ public class ConfigurationManager extends javax.swing.JFrame
 
         tabs.setToolTipText("");
         tabs.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        tabs.setMaximumSize(new java.awt.Dimension(800, 600));
-        tabs.setMinimumSize(new java.awt.Dimension(800, 600));
         tabs.setName("tabs"); // NOI18N
-        tabs.setPreferredSize(new java.awt.Dimension(800, 600));
         tabs.setRequestFocusEnabled(false);
 
         homeTab.setName("homeTab"); // NOI18N

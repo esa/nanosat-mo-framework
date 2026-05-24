@@ -238,17 +238,12 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         jLabel7.setText("Communication Settings");
         jLabel7.setToolTipText("");
 
-        homeTab.setMinimumSize(new java.awt.Dimension(200, 300));
         homeTab.setName(""); // NOI18N
-        homeTab.setPreferredSize(new java.awt.Dimension(800, 600));
 
-        jPanel10.setPreferredSize(new java.awt.Dimension(1750, 60));
 
         jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel29.setText("Directory Service URI:");
-        jLabel29.setPreferredSize(new java.awt.Dimension(150, 14));
 
-        uriServiceDirectory.setPreferredSize(new java.awt.Dimension(350, 20));
         uriServiceDirectory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 uriServiceDirectoryActionPerformed(evt);
@@ -269,36 +264,30 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
-                .addComponent(uriServiceDirectory, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(load_URI_links1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(connectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 193, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(uriServiceDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(load_URI_links1))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE))
-        );
+        // Row 1: label + URI field
+        javax.swing.JPanel uriRow = new javax.swing.JPanel(new java.awt.BorderLayout(6, 0));
+        uriRow.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 6, 4, 6));
+        uriRow.add(jLabel29, java.awt.BorderLayout.WEST);
+        uriRow.add(uriServiceDirectory, java.awt.BorderLayout.CENTER);
+
+        // Row 2: two buttons side by side, occupying the left 50%
+        javax.swing.JPanel buttonRow = new javax.swing.JPanel(new java.awt.GridBagLayout());
+        buttonRow.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 6, 6, 6));
+        java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
+        gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.insets = new java.awt.Insets(0, 0, 0, 3);
+        buttonRow.add(load_URI_links1, gbc);
+        gbc.insets = new java.awt.Insets(0, 3, 0, 0);
+        buttonRow.add(connectButton, gbc);
+        gbc.weightx = 2.0;
+        gbc.insets = new java.awt.Insets(0, 0, 0, 0);
+        buttonRow.add(new javax.swing.JPanel(), gbc);
+
+        jPanel10.setLayout(new java.awt.BorderLayout());
+        jPanel10.add(uriRow, java.awt.BorderLayout.NORTH);
+        jPanel10.add(buttonRow, java.awt.BorderLayout.SOUTH);
 
         jSplitPane1.setDividerLocation(280);
 
@@ -325,48 +314,22 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         jSplitPane1.setLeftComponent(jScrollPane2);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 2, 0));
         jLabel1.setText("Providers List:");
 
-        javax.swing.GroupLayout homeTabLayout = new javax.swing.GroupLayout(homeTab);
-        homeTab.setLayout(homeTabLayout);
-        homeTabLayout.setHorizontalGroup(
-            homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
-            .addGroup(homeTabLayout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE))
-        );
-        homeTabLayout.setVerticalGroup(
-            homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(homeTabLayout.createSequentialGroup()
-                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 260, Short.MAX_VALUE))
-            .addGroup(homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homeTabLayout.createSequentialGroup()
-                    .addGap(99, 99, 99)
-                    .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)))
-        );
+        javax.swing.JPanel headerPanel = new javax.swing.JPanel(new java.awt.BorderLayout());
+        headerPanel.add(jPanel10, java.awt.BorderLayout.CENTER);
+        headerPanel.add(jLabel1, java.awt.BorderLayout.SOUTH);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
-            .addComponent(homeTab, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jLabel7)
-                .addGap(18, 18, 18)
-                .addComponent(homeTab, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE))
-        );
+        homeTab.setLayout(new java.awt.BorderLayout());
+        homeTab.add(headerPanel, java.awt.BorderLayout.NORTH);
+        homeTab.add(jSplitPane1, java.awt.BorderLayout.CENTER);
+
+        this.setLayout(new java.awt.BorderLayout(0, 8));
+        this.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 0, 0, 0));
+        this.add(jLabel7, java.awt.BorderLayout.NORTH);
+        this.add(homeTab, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
@@ -448,6 +411,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     }
 
     private void uriServiceDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceDirectoryActionPerformed
+        load_URI_links1ActionPerformed(evt);
     }//GEN-LAST:event_uriServiceDirectoryActionPerformed
 
     @SuppressWarnings("unchecked")

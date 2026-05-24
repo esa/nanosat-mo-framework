@@ -48,7 +48,6 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
      */
     public static void main(final String[] args) {
         try {
-            // Set cross-platform Java L&F (also called "Metal")
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         } catch (UnsupportedLookAndFeelException | InstantiationException | ClassNotFoundException e) {
         } catch (IllegalAccessException e) {
@@ -117,10 +116,7 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
 
         tabs.setToolTipText("");
         tabs.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        tabs.setMaximumSize(new java.awt.Dimension(800, 600));
-        tabs.setMinimumSize(new java.awt.Dimension(800, 600));
         tabs.setName("tabs"); // NOI18N
-        tabs.setPreferredSize(new java.awt.Dimension(800, 600));
         tabs.setRequestFocusEnabled(false);
         getContentPane().add(tabs, java.awt.BorderLayout.CENTER);
 
