@@ -54,7 +54,7 @@ public class AppsLauncherManagerWindows extends AppsLauncherManager {
 
         ret.add("cmd");
         ret.add("/c");
-        ret.add(prefix + trimmedAppName + ".bat");
+        ret.add(prefix + "app.bat");
 
         return ret.toArray(new String[0]);
     }

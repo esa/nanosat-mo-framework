@@ -203,14 +203,14 @@ public class AuxFilesGenerator {
 
         if (os.isUnix() || os.isMac()) {
             String content = generateLinuxStartAppScript(javaCMD, appDetails);
-            File startApp = new File(appDir, "start_" + name + ".sh");
+            File startApp = new File(appDir, "start_app.sh");
             writeFile(startApp, content);
             startApp.setExecutable(true, true);
         }
 
         if (os.isWindows()) {
             String content = generateWindowsStartAppScript(javaCMD, jarName, appDetails);
-            File startApp = new File(appDir, "start_" + name + ".bat");
+            File startApp = new File(appDir, "start_app.bat");
             writeFile(startApp, content);
         }
     }

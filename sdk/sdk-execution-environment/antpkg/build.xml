@@ -85,12 +85,12 @@
   <target name="emit-space-app-all-mc-services">
     <ant antfile="antpkg/build_shell_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.AllInOne"/>
-      <property name="id" value="start_all-mc-services"/>
+      <property name="id" value="start_app"/>
       <property name="binDir" value="all-mc-services"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.AllInOne"/>
-      <property name="id" value="start_all-mc-services"/>
+      <property name="id" value="start_app"/>
       <property name="binDir" value="all-mc-services"/>
     </ant>
   </target>
@@ -98,12 +98,12 @@
   <target name="emit-space-app-publish-clock">
     <ant antfile="antpkg/build_shell_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.PushClock"/>
-      <property name="id" value="start_publish-clock"/>
+      <property name="id" value="start_app"/>
       <property name="binDir" value="publish-clock"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.PushClock"/>
-      <property name="id" value="start_publish-clock"/>
+      <property name="id" value="start_app"/>
       <property name="binDir" value="publish-clock"/>
     </ant>
   </target>
@@ -111,12 +111,12 @@
   <target name="emit-space-app-camera">
     <ant antfile="antpkg/build_shell_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.SnapNMF"/>
-      <property name="id" value="start_camera"/>
+      <property name="id" value="start_app"/>
       <property name="binDir" value="camera"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.SnapNMF"/>
-      <property name="id" value="start_camera"/>
+      <property name="id" value="start_app"/>
       <property name="binDir" value="camera"/>
     </ant>
   </target>
@@ -124,12 +124,12 @@
   <target name="emit-space-app-benchmark">
     <ant antfile="antpkg/build_shell_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.BenchmarkApp"/>
-      <property name="id" value="start_benchmark"/>
+      <property name="id" value="start_app"/>
       <property name="binDir" value="benchmark"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.BenchmarkApp"/>
-      <property name="id" value="start_benchmark"/>
+      <property name="id" value="start_app"/>
       <property name="binDir" value="benchmark"/>
     </ant>
   </target>
@@ -137,12 +137,12 @@
   <target name="emit-space-app-payloads-test">
     <ant antfile="antpkg/build_shell_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.PayloadsTestApp"/>
-      <property name="id" value="start_payloads-test"/>
+      <property name="id" value="start_app"/>
       <property name="binDir" value="payloads-test"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.PayloadsTestApp"/>
-      <property name="id" value="start_payloads-test"/>
+      <property name="id" value="start_app"/>
       <property name="binDir" value="payloads-test"/>
     </ant>
   </target>
@@ -150,36 +150,36 @@
   <target name="emit-space-app-waveform">
     <ant antfile="antpkg/build_shell_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.Waveform"/>
-      <property name="id" value="start_waveform"/>
+      <property name="id" value="start_app"/>
       <property name="binDir" value="waveform"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.Waveform"/>
-      <property name="id" value="start_waveform"/>
+      <property name="id" value="start_app"/>
       <property name="binDir" value="waveform"/>
     </ant>
   </target>
   <target name="emit-space-app-camera-acquisitor-system">
     <ant antfile="antpkg/build_shell_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.CameraAcquisitorSystemApp"/>
-      <property name="id" value="start_camera-acquisitor-system"/>
+      <property name="id" value="start_app"/>
       <property name="binDir" value="camera-acquisitor-system"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.CameraAcquisitorSystemApp"/>
-      <property name="id" value="start_camera-acquisitor-system"/>
+      <property name="id" value="start_app"/>
       <property name="binDir" value="camera-acquisitor-system"/>
     </ant>
   </target>
   <target name="emit-space-app-picture-processor">
     <ant antfile="antpkg/build_shell_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.pictureprocessor.PictureProcessorApp"/>
-      <property name="id" value="start_picture-processor"/>
+      <property name="id" value="start_app"/>
       <property name="binDir" value="picture-processor"/>
     </ant>
     <ant antfile="antpkg/build_batch_script.xml">
       <property name="mainClass" value="esa.mo.nmf.apps.pictureprocessor.PictureProcessorApp"/>
-      <property name="id" value="start_picture-processor"/>
+      <property name="id" value="start_app"/>
       <property name="binDir" value="picture-processor"/>
     </ant>
   </target>

@@ -576,7 +576,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
             String fileExt = getScriptExtension();
             File appsFolderPath = this.getAppsFolderPath(curr.getName());
             File stopScript = new File(appsFolderPath + File.separator + curr.getName().getValue()
-                    + File.separator + "stop_" + curr.getName().getValue() + fileExt);
+                    + File.separator + "stop_app" + fileExt);
             boolean stopScriptExists = stopScript.exists();
             if (curr.getCategory().getValue().equalsIgnoreCase("NMF_App")) {
                 if (appDirectoryServiceNames.get(i) == null) {

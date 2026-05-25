@@ -466,12 +466,12 @@ public class NMFPackageManager {
     private static void removeAuxiliaryFiles(File folder, String appName) throws IOException {
         File provider = new File(folder, HelperMisc.PROVIDER_PROPERTIES_FILE);
         File transport = new File(folder, HelperMisc.TRANSPORT_PROPERTIES_FILE);
-        File linux = new File(folder, "start_" + appName + ".sh");
-        File windows = new File(folder, "start_" + appName + ".bat");
+        File linux = new File(folder, "start_app.sh");
+        File windows = new File(folder, "start_app.bat");
 
         // Remove the provider.properties
         // Remove the transport.properties
-        // Remove the start_myAppName.sh or start_myAppName.bat
+        // Remove the start_app.sh or start_app.bat
         NMFPackageManager.removeFile(provider);
         NMFPackageManager.removeFile(windows.exists() ? windows : linux);
         if (transport.exists()) {

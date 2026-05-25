@@ -108,7 +108,7 @@ public class AppsLauncherManagerBubblewrap extends AppsLauncherManager {
         ret.add("PATH");
         ret.add(DEFAULT_PATH);
 
-        ret.add("./" + prefix + trimmedAppName + ".sh");
+        ret.add("./" + prefix + "app.sh");
 
         return ret.toArray(new String[0]);
     }

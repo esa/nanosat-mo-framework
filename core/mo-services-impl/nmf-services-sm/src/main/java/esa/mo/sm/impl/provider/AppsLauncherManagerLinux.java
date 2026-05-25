@@ -86,7 +86,7 @@ public class AppsLauncherManagerLinux extends AppsLauncherManager {
         for (String envVar : env) {
             envString.append(envVar).append(" ");
         }
-        String script = prefix + trimmedAppName + ".sh";
+        String script = prefix + "app.sh";
         ret.add("cd " + workDir + ";" + envString.toString() + "./" + script);
 
         return ret.toArray(new String[0]);
