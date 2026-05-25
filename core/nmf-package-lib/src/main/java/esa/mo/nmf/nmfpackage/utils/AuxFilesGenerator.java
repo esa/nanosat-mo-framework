@@ -63,8 +63,8 @@ public class AuxFilesGenerator {
 
         str.append("# Jars from: App, NMF, and Shared dependencies:\n");
         str.append("JAR_APP=").append(meta.getAppMainJar()).append("\n");
-        // The following code must be changed:
-        str.append("JARS_NMF=").append(Deployment.getJarsNMFDir()).append("\n");
+        str.append("JARS_NMF_DIR=").append(Deployment.getJarsNMFDir()).append("\n");
+        str.append("JARS_NMF=$(find \"$JARS_NMF_DIR\" -name \"*.jar\" | tr '\\n' ':')\n");
         String shared = "";
 
         if (meta.hasDependencies()) {
@@ -73,7 +73,7 @@ public class AuxFilesGenerator {
             str.append("JARS_SHARED=").append(paths);
             shared = ":$JARS_SHARED";
         }
-        str.append("\n\nJARS_ALL=$JAR_APP:$JARS_NMF/*").append(shared);
+        str.append("\n\nJARS_ALL=$JAR_APP:$JARS_NMF").append(shared);
         str.append("\n\n");
 
         str.append("if [ -z \"$JAVA_OPTS\" ] ; then\n");

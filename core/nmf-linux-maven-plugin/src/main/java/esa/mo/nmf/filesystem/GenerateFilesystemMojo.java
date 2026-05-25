@@ -75,13 +75,14 @@ public class GenerateFilesystemMojo extends AbstractMojo {
      * The isolation mode applied to all apps managed by this Supervisor.
      * Supported values are defined in {@link AppsIsolationMode}:
      * <ul>
-     *   <li>{@code none} (default) — apps run as the user that launched the Supervisor.</li>
-     *   <li>{@code linux-userspace} — each app runs under a dedicated Linux user account
-     *       created at install time.</li>
-     *   <li>{@code docker-containers} — each app runs inside a dedicated Docker container
-     *       (not yet implemented).</li>
-     *   <li>{@code bubblewrap} — each app runs inside a bubblewrap sandbox
-     *       (not yet implemented).</li>
+     * <li>{@code none} (default) — apps run as the user that launched the
+     * Supervisor.</li>
+     * <li>{@code linux-userspace} — each app runs under a dedicated Linux user
+     * account created at install time.</li>
+     * <li>{@code docker-containers} — each app runs inside a dedicated Docker
+     * container (not yet implemented).</li>
+     * <li>{@code bubblewrap} — each app runs inside a bubblewrap sandbox (not
+     * yet implemented).</li>
      * </ul>
      */
     @Parameter(property = "generate-filesystem.appsIsolation", defaultValue = AppsIsolationMode.NONE)
@@ -163,10 +164,16 @@ public class GenerateFilesystemMojo extends AbstractMojo {
             boolean isMO = artifactId.contains("int.esa.ccsds.mo");
             boolean isNMFCore = artifactId.contains("int.esa.nmf.core");
 
-            boolean fromComposites = false; // Resolves dependencies like sqlite
+            // Resolves transitive dependencies like sqlite pulled in by nmf-composites
+            boolean fromComposites = false;
             List<String> trail = artifact.getDependencyTrail();
-            if (trail != null && trail.size() > 2) {
-                fromComposites = trail.get(1).contains("nmf-composites");
+            if (trail != null) {
+                for (String step : trail) {
+                    if (step.contains("nmf-composites")) {
+                        fromComposites = true;
+                        break;
+                    }
+                }
             }
 
             if (isMO || isNMFCore || fromComposites) {
