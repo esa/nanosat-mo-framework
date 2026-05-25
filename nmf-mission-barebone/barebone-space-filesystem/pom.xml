@@ -92,7 +92,7 @@
                                     <goal>generate-filesystem</goal>
                                 </goals>
                                 <configuration>
-                                    <supervisorMainClass>myclass</supervisorMainClass>
+                                    <supervisorMainClass>esa.mo.nmf.mission.barebone.BareboneSupervisorImpl</supervisorMainClass>
                                 </configuration>
                             </execution>
                         </executions>
