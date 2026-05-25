@@ -60,14 +60,21 @@ import picocli.CommandLine;
  */
 public class ParameterCommands {
 
-    private static final Logger LOGGER = Logger.getLogger(ParameterCommands.class.getName());
+    private static final Logger LOGGER =
+            Logger.getLogger(ParameterCommands.class.getName());
     public static Identifier parameterSubscription;
 
-    @CommandLine.Command(name = "subscribe", description = "Subscribes to specified parameters")
+    @CommandLine.Command(
+            name = "subscribe",
+            description = "Subscribes to specified parameters")
     public static class ParameterMonitorValue extends BaseCommand implements Runnable {
 
-        @CommandLine.Parameters(arity = "0..*", paramLabel = "<parameterNames>", index = "0",
-                description = "Names of the parameters to subscribe to. If non are specified subscribe to all.\n"
+        @CommandLine.Parameters(
+                arity = "0..*",
+                paramLabel = "<parameterNames>",
+                index = "0",
+                description = "Names of the parameters to subscribe to."
+                + " If non are specified subscribe to all.\n"
                 + " - examples: param1 or param1 param2")
         List<String> parameterNames;
 
@@ -78,11 +85,13 @@ public class ParameterCommands {
             }
 
             if (consumer.getMCServices().getParameterService() == null) {
-                System.out.println("Parameter service is not available for this provider!");
+                System.out.println(
+                        "Parameter service is not available for this provider!");
                 return;
             }
 
-            Identifier subscriptionId = new Identifier("CLI-Consumer-ParameterSubscription");
+            Identifier subscriptionId =
+                    new Identifier("CLI-Consumer-ParameterSubscription");
             /*
             EntityKeyList entityKeys = new EntityKeyList();
             if (parameterNames == null || parameterNames.isEmpty()) {
@@ -102,35 +111,46 @@ public class ParameterCommands {
             if (parameterNames == null || parameterNames.isEmpty()) {
             } else {
                 for (String parameter : parameterNames) {
-                    filters.add(new SubscriptionFilter(new Identifier("name"), new AttributeList(parameter)));
+                    filters.add(new SubscriptionFilter(
+                            new Identifier("name"),
+                            new AttributeList(parameter)));
                 }
             }
 
-            ParameterStub stub = consumer.getMCServices().getParameterService().getParameterStub();
-            Subscription subscription = new Subscription(subscriptionId, null, null, filters);
+            ParameterStub stub =
+                    consumer.getMCServices().getParameterService().getParameterStub();
+            Subscription subscription =
+                    new Subscription(subscriptionId, null, null, filters);
             parameterSubscription = subscriptionId;
             final Object lock = new Object();
             try {
                 stub.monitorValueRegister(subscription, new ParameterAdapter() {
                     @Override
-                    public void monitorValueNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                    public void monitorValueNotifyReceived(
+                            org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                             org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                             org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
                             org.ccsds.moims.mo.com.structures.ObjectKey objKey,
                             org.ccsds.moims.mo.mc.structures.ParameterValue newValue,
                             java.util.Map qosProperties) {
-                        String parameterName = ((Union) updateHeader.getKeyValues().get(0).getValue()).getStringValue();
+                        String parameterName = ((Union) updateHeader
+                                .getKeyValues().get(0).getValue()).getStringValue();
                         long timestamp = msgHeader.getTimestamp().getValue();
-                        String value = ((Union) updateHeader.getKeyValues().get(1).getValue()).getStringValue();
+                        String value = ((Union) updateHeader
+                                .getKeyValues().get(1).getValue()).getStringValue();
                         //String value = parameterValueList.get(0).getRawValue().toString();
 
-                        System.out.println("[" + timestamp + "] - " + parameterName + ": " + value);
+                        System.out.println(
+                                "[" + timestamp + "] - " + parameterName + ": " + value);
                     }
 
                     @Override
-                    public void monitorValueRegisterErrorReceived(MALMessageHeader msgHeader, MOErrorException error,
+                    public void monitorValueRegisterErrorReceived(
+                            MALMessageHeader msgHeader,
+                            MOErrorException error,
                             Map qosProperties) {
-                        LOGGER.log(Level.SEVERE, "Error during monitorValueRegister!", error);
+                        LOGGER.log(Level.SEVERE,
+                                "Error during monitorValueRegister!", error);
                         synchronized (lock) {
                             lock.notifyAll();
                         }
@@ -150,11 +170,17 @@ public class ParameterCommands {
         }
     }
 
-    @CommandLine.Command(name = "enable", description = "Enables generation of specified parameters")
+    @CommandLine.Command(
+            name = "enable",
+            description = "Enables generation of specified parameters")
     public static class ParameterEnableGeneration extends BaseCommand implements Runnable {
 
-        @CommandLine.Parameters(arity = "0..*", paramLabel = "<parameterNames>", index = "0",
-                description = "Names of the parameters to enable. If non are specified enable all")
+        @CommandLine.Parameters(
+                arity = "0..*",
+                paramLabel = "<parameterNames>",
+                index = "0",
+                description = "Names of the parameters to enable."
+                + " If non are specified enable all")
         List<String> parameterNames;
 
         @Override
@@ -164,19 +190,27 @@ public class ParameterCommands {
             }
 
             if (consumer.getMCServices().getParameterService() == null) {
-                System.out.println("Parameter service is not available for this provider!");
+                System.out.println(
+                        "Parameter service is not available for this provider!");
                 return;
             }
-            enableOrDisableParameterGeneration(consumer.getMCServices().getParameterService().getParameterStub(),
+            enableOrDisableParameterGeneration(
+                    consumer.getMCServices().getParameterService().getParameterStub(),
                     parameterNames, true);
         }
     }
 
-    @CommandLine.Command(name = "disable", description = "Disables generation of specified parameters")
+    @CommandLine.Command(
+            name = "disable",
+            description = "Disables generation of specified parameters")
     public static class ParameterDisableGeneration extends BaseCommand implements Runnable {
 
-        @CommandLine.Parameters(arity = "0..*", paramLabel = "<parameterNames>", index = "0",
-                description = "Names of the parameters to disable. If non are specified disable all")
+        @CommandLine.Parameters(
+                arity = "0..*",
+                paramLabel = "<parameterNames>",
+                index = "0",
+                description = "Names of the parameters to disable."
+                + " If non are specified disable all")
         List<String> parameterNames;
 
         @Override
@@ -186,42 +220,66 @@ public class ParameterCommands {
             }
 
             if (consumer.getMCServices().getParameterService() == null) {
-                System.out.println("Parameter service is not available for this provider!");
+                System.out.println(
+                        "Parameter service is not available for this provider!");
                 return;
             }
-            enableOrDisableParameterGeneration(consumer.getMCServices().getParameterService().getParameterStub(),
+            enableOrDisableParameterGeneration(
+                    consumer.getMCServices().getParameterService().getParameterStub(),
                     parameterNames, false);
         }
     }
 
-    @CommandLine.Command(name = "get", description = "Dumps to a file MO parameters samples from COM archive.")
+    @CommandLine.Command(
+            name = "get",
+            description = "Dumps to a file MO parameters samples from COM archive.")
     public static class GetParameters extends BaseCommand implements Runnable {
 
-        @CommandLine.Parameters(arity = "1", paramLabel = "<filename>", index = "0",
+        @CommandLine.Parameters(
+                arity = "1",
+                paramLabel = "<filename>",
+                index = "0",
                 description = "Target file for the parameters samples")
         String file;
 
-        @CommandLine.Parameters(arity = "0..*", paramLabel = "<parameterNames>", index = "1",
-                description = "Names of the parameters to retrieve\n" + " - examples: param1 or param1 param2")
+        @CommandLine.Parameters(
+                arity = "0..*",
+                paramLabel = "<parameterNames>",
+                index = "1",
+                description = "Names of the parameters to retrieve\n"
+                + " - examples: param1 or param1 param2")
         List<String> parameterNames;
 
-        @CommandLine.Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
+        @CommandLine.Option(
+                names = {"-d", "--domain"},
+                paramLabel = "<domainId>",
                 description = "Restricts the dump to parameters in a specific domain\n"
-                + "  - format: key1.key2.[...].keyN.\n" + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+                + "  - format: key1.key2.[...].keyN.\n"
+                + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domainId;
 
-        @CommandLine.Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
+        @CommandLine.Option(
+                names = {"-s", "--start"},
+                paramLabel = "<startTime>",
                 description = "Restricts the dump to parameters generated after the given time\n"
-                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-04 08:37:58.482\"")
+                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
+                + "  - example: \"2021-03-04 08:37:58.482\"")
         String startTime;
 
-        @CommandLine.Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
+        @CommandLine.Option(
+                names = {"-e", "--end"},
+                paramLabel = "<endTime>",
                 description = "Restricts the dump to parameters generated before the given time. "
-                + "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n"
-                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-05 12:05:45.271\"")
+                + "If this option is provided without the -s option, returns the single"
+                + " object that has the closest timestamp to, but not greater than"
+                + " <endTime>\n"
+                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
+                + "  - example: \"2021-03-05 12:05:45.271\"")
         String endTime;
 
-        @CommandLine.Option(names = {"-j", "--json"}, paramLabel = "<json>",
+        @CommandLine.Option(
+                names = {"-j", "--json"},
+                paramLabel = "<json>",
                 description = "If specified output will be in JSON format")
         boolean json;
 
@@ -239,69 +297,103 @@ public class ParameterCommands {
                 return;
             }
             // prepare domain, time and object id filters
-            Time startTimeF = startTime == null ? null : HelperTime.readableString2Time(startTime);
-            Time endTimeF = endTime == null ? null : HelperTime.readableString2Time(endTime);
-            IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
+            Time startTimeF =
+                    startTime == null ? null : HelperTime.readableString2Time(startTime);
+            Time endTimeF =
+                    endTime == null ? null : HelperTime.readableString2Time(endTime);
+            IdentifierList domain =
+                    domainId == null ? null : HelperDomain.domainId2domain(domainId);
 
-            ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null,
-                    null);
+            ArchiveQuery archiveQuery = new ArchiveQuery(
+                    domain, null, null, 0L, null, startTimeF, endTimeF, null, null);
 
             ArchiveToParametersAdapter parametersAdapter = new ArchiveToParametersAdapter();
-            ObjectType parameterObjectType = new ObjectType(MCHelper.MC_AREA_NUMBER,
-                    ParameterServiceInfo.PARAMETER_SERVICE_NUMBER, MCHelper.MC_AREA_VERSION, new UShort(0));
+            ObjectType parameterObjectType = new ObjectType(
+                    MCHelper.MC_AREA_NUMBER,
+                    ParameterServiceInfo.PARAMETER_SERVICE_NUMBER,
+                    MCHelper.MC_AREA_VERSION,
+                    new UShort(0));
             queryArchive(parameterObjectType, archiveQuery, parametersAdapter, parametersAdapter);
 
-            ArchiveToAggregationsAdapter aggregationsAdapter = new ArchiveToAggregationsAdapter();
-            ObjectType aggregationObjectType = new ObjectType(MCHelper.MC_AREA_NUMBER,
-                    AggregationServiceInfo.AGGREGATION_SERVICE_NUMBER, MCHelper.MC_AREA_VERSION, new UShort(0));
-            queryArchive(aggregationObjectType, archiveQuery, aggregationsAdapter, aggregationsAdapter);
+            ArchiveToAggregationsAdapter aggregationsAdapter =
+                    new ArchiveToAggregationsAdapter();
+            ObjectType aggregationObjectType = new ObjectType(
+                    MCHelper.MC_AREA_NUMBER,
+                    AggregationServiceInfo.AGGREGATION_SERVICE_NUMBER,
+                    MCHelper.MC_AREA_VERSION,
+                    new UShort(0));
+            queryArchive(
+                    aggregationObjectType, archiveQuery,
+                    aggregationsAdapter, aggregationsAdapter);
 
-            Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> allParameters = parametersAdapter.getParameterValues();
+            Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>>
+                    allParameters = parametersAdapter.getParameterValues();
 
             // Display list of aggregations
-            Map<IdentifierList, Map<Long, List<TimestampedAggregationValue>>> aggregationValuesMap = aggregationsAdapter.getAggregationValues();
+            Map<IdentifierList, Map<Long, List<TimestampedAggregationValue>>>
+                    aggregationValuesMap = aggregationsAdapter.getAggregationValues();
             if (aggregationValuesMap != null) {
                 //Make the parameter map
                 for (IdentifierList domainKey : aggregationValuesMap.keySet()) {
-                    for (Map.Entry<Long, List<TimestampedAggregationValue>> entry : aggregationValuesMap.get(domainKey).entrySet()) {
+                    for (Map.Entry<Long, List<TimestampedAggregationValue>> entry
+                            : aggregationValuesMap.get(domainKey).entrySet()) {
                         Long definitionId = entry.getKey();
-                        AggregationDefinition definition = aggregationsAdapter.getAggregationDefinitions().get(
-                                domainKey).get(definitionId);
+                        AggregationDefinition definition =
+                                aggregationsAdapter.getAggregationDefinitions()
+                                .get(domainKey).get(definitionId);
 
                         for (TimestampedAggregationValue aggregationValue : entry.getValue()) {
-                            for (int i = 0;
-                                    i < aggregationValue.getAggregationValue().getParameterSetValues().size();
-                                    i++) {
-                                AggregationSetValue values = aggregationValue.getAggregationValue().getParameterSetValues().get(i);
-                                AggregationParameterSet definitions = definition.getParameterSets().get(i);
+                            for (int i = 0; i < aggregationValue.getAggregationValue()
+                                    .getParameterSetValues().size(); i++) {
+                                AggregationSetValue values = aggregationValue
+                                        .getAggregationValue()
+                                        .getParameterSetValues().get(i);
+                                AggregationParameterSet definitions =
+                                        definition.getParameterSets().get(i);
 
                                 int valueSetNumber = 0;
-                                double deltaTime = values.getDeltaTime() != null ? values.getDeltaTime().getInSeconds() : 0;
-                                double intervalTime = values.getIntervalTime() != null ? values.getIntervalTime().getInSeconds() : 0;
-                                long valueSetTimestamp = aggregationValue.getTimestamp().getValue()
+                                double deltaTime = values.getDeltaTime() != null
+                                        ? values.getDeltaTime().getInSeconds() : 0;
+                                double intervalTime = values.getIntervalTime() != null
+                                        ? values.getIntervalTime().getInSeconds() : 0;
+                                long valueSetTimestamp =
+                                        aggregationValue.getTimestamp().getValue()
                                         + (long) (deltaTime * 1000L);
 
                                 for (int n = 0; n < values.getValues().size(); n++) {
-                                    // Check if we are starting a new set of values compared to the given definition list
+                                    // Check if we are starting a new set of values
+                                    // compared to the given definition list
                                     if (n % definitions.getParameters().size() == 0) {
                                         valueSetNumber++;
                                     }
 
-                                    AggregationParameterValue value = values.getValues().get(n);
-                                    Long parameterId = definitions.getParameters().get(n % definitions.getParameters().size());
+                                    AggregationParameterValue value =
+                                            values.getValues().get(n);
+                                    int paramIdx =
+                                            n % definitions.getParameters().size();
+                                    Long parameterId =
+                                            definitions.getParameters().get(paramIdx);
 
-                                    TimestampedParameterValue paramValue = new TimestampedParameterValue(
+                                    TimestampedParameterValue paramValue =
+                                            new TimestampedParameterValue(
                                             value.getValue(),
-                                            new Time(valueSetTimestamp + (long) (valueSetNumber * intervalTime * 1000L)));
+                                            new Time(valueSetTimestamp
+                                            + (long) (valueSetNumber * intervalTime
+                                            * 1000L)));
 
-                                    Identifier parameterName = parametersAdapter.getIdentitiesMap().get(domainKey).get(
-                                            parameterId);
-                                    if (allParameters.get(domainKey).containsKey(parameterName)) {
-                                        allParameters.get(domainKey).get(parameterName).add(paramValue);
+                                    Identifier parameterName =
+                                            parametersAdapter.getIdentitiesMap()
+                                            .get(domainKey).get(parameterId);
+                                    if (allParameters.get(domainKey)
+                                            .containsKey(parameterName)) {
+                                        allParameters.get(domainKey)
+                                                .get(parameterName).add(paramValue);
                                     } else {
-                                        List<TimestampedParameterValue> list = new ArrayList<>();
+                                        List<TimestampedParameterValue> list =
+                                                new ArrayList<>();
                                         list.add(paramValue);
-                                        allParameters.get(domainKey).put(parameterName, list);
+                                        allParameters.get(domainKey)
+                                                .put(parameterName, list);
                                     }
                                 }
                             }
@@ -318,16 +410,19 @@ public class ParameterCommands {
 
                     FileWriter writer = new FileWriter(file);
 
-                    Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> parameters = new HashMap<>();
+                    Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>>
+                            parameters = new HashMap<>();
                     if (parameterNames != null && !parameterNames.isEmpty()) {
                         for (String name : parameterNames) {
                             for (IdentifierList domainKey : allParameters.keySet()) {
-                                List<TimestampedParameterValue> values = allParameters.get(domainKey).get(
-                                        new Identifier(name));
+                                List<TimestampedParameterValue> values =
+                                        allParameters.get(domainKey)
+                                        .get(new Identifier(name));
                                 if (values == null) {
                                     continue;
                                 }
-                                values.sort(Comparator.comparingLong(TimestampedParameterValue::getTimestamp));
+                                values.sort(Comparator.comparingLong(
+                                        TimestampedParameterValue::getTimestamp));
                                 if (!parameters.containsKey(domainKey)) {
                                     parameters.put(domainKey, new HashMap<>());
                                 }
@@ -337,8 +432,8 @@ public class ParameterCommands {
                     } else {
                         parameters = allParameters;
                         for (IdentifierList domainKey : parameters.keySet()) {
-                            for (Map.Entry<Identifier, List<TimestampedParameterValue>> entry : parameters.get(
-                                    domainKey).entrySet()) {
+                            for (Map.Entry<Identifier, List<TimestampedParameterValue>>
+                                    entry : parameters.get(domainKey).entrySet()) {
                                 entry.getValue().sort(Comparator.comparingLong(
                                         TimestampedParameterValue::getTimestamp));
                             }
@@ -346,17 +441,23 @@ public class ParameterCommands {
                     }
 
                     if (json) {
-                        Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+                        Gson gson = new GsonBuilder()
+                                .setPrettyPrinting().disableHtmlEscaping().create();
                         gson.toJson(parameters, writer);
                     } else {
                         for (IdentifierList domainKey : parameters.keySet()) {
-                            writer.write("Domain: " + HelperDomain.domain2domainId(domainKey) + "\n");
-                            List<String> keys = parameters.get(domainKey).keySet().stream().map(Identifier::getValue)
+                            writer.write(
+                                    "Domain: "
+                                    + HelperDomain.domain2domainId(domainKey) + "\n");
+                            List<String> keys = parameters.get(domainKey).keySet()
+                                    .stream().map(Identifier::getValue)
                                     .sorted().collect(Collectors.toList());
                             for (String parameter : keys) {
-                                for (TimestampedParameterValue value : parameters.get(domainKey).get(new Identifier(
-                                        parameter))) {
-                                    String line = parameter + "\t" + value.getTimestamp()
+                                for (TimestampedParameterValue value
+                                        : parameters.get(domainKey)
+                                        .get(new Identifier(parameter))) {
+                                    String line = parameter + "\t"
+                                            + value.getTimestamp()
                                             + "\t" + value.getParameterValue() + "\n";
                                     writer.write(line);
                                 }
@@ -364,7 +465,8 @@ public class ParameterCommands {
                         }
                     }
                     writer.close();
-                    System.out.println("\nParameters successfully dumped to file: " + file + "\n");
+                    System.out.println(
+                            "\nParameters successfully dumped to file: " + file + "\n");
                 } else {
                     System.out.println("\nNo parameters found\n");
                 }
@@ -374,12 +476,17 @@ public class ParameterCommands {
         }
     }
 
-    @CommandLine.Command(name = "list", description = "Lists available parameters in a COM archive.")
+    @CommandLine.Command(
+            name = "list",
+            description = "Lists available parameters in a COM archive.")
     public static class ListParameters extends BaseCommand implements Runnable {
 
-        @CommandLine.Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
+        @CommandLine.Option(
+                names = {"-d", "--domain"},
+                paramLabel = "<domainId>",
                 description = "Restricts the dump to objects in a specific domain\n"
-                + "  - format: key1.key2.[...].keyN.\n" + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
+                + "  - format: key1.key2.[...].keyN.\n"
+                + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domainId;
 
         public void run() {
@@ -394,21 +501,28 @@ public class ParameterCommands {
                 LOGGER.log(Level.SEVERE, "Failed to create consumer!");
                 return;
             }
-            IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
+            IdentifierList domain =
+                    domainId == null ? null : HelperDomain.domainId2domain(domainId);
 
-            ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, null, null, null, null);
+            ArchiveQuery archiveQuery = new ArchiveQuery(
+                    domain, null, null, 0L, null, null, null, null, null);
 
             ArchiveToParametersAdapter adapter = new ArchiveToParametersAdapter();
-            queryArchive(ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE, archiveQuery, adapter, adapter);
+            queryArchive(
+                    ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,
+                    archiveQuery, adapter, adapter);
 
             // Display list of NMF apps that have parameters
-            Map<IdentifierList, List<Identifier>> parameters = adapter.getParameterIdentities();
+            Map<IdentifierList, List<Identifier>> parameters =
+                    adapter.getParameterIdentities();
             if (parameters.size() <= 0) {
-                System.out.println("\nNo parameter found in the provided archive: " + (databaseFile == null
-                        ? providerURI : databaseFile));
+                System.out.println(
+                        "\nNo parameter found in the provided archive: "
+                        + (databaseFile == null ? providerURI : databaseFile));
             } else {
                 System.out.println("\nFound the following parameters: ");
-                for (Map.Entry<IdentifierList, List<Identifier>> entry : parameters.entrySet()) {
+                for (Map.Entry<IdentifierList, List<Identifier>> entry
+                        : parameters.entrySet()) {
                     System.out.println("Domain: " + entry.getKey());
                     for (Identifier parameter : entry.getValue()) {
                         System.out.println("  - " + parameter);
@@ -419,8 +533,9 @@ public class ParameterCommands {
         }
     }
 
-    public static void enableOrDisableParameterGeneration(ParameterStub parameterService, List<String> parameters,
-            boolean enable) {
+    public static void enableOrDisableParameterGeneration(
+            ParameterStub parameterService,
+            List<String> parameters, boolean enable) {
         IdentifierList request = new IdentifierList();
         if (parameters == null || parameters.isEmpty()) {
             request.add(new Identifier("*"));
@@ -437,7 +552,8 @@ public class ParameterCommands {
         } catch (MALInteractionException e) {
             MOErrorException error = e.getStandardError();
             if (error.getErrorNumber().equals(MALHelper.UNKNOWN_ERROR_NUMBER)) {
-                System.out.println("Provided parameters don't exist in the provider:");
+                System.out.println(
+                        "Provided parameters don't exist in the provider:");
                 for (UInteger id : (UIntegerList) error.getExtraInformation()) {
                     System.out.println("- " + request.get((int) id.getValue()));
                 }
@@ -456,16 +572,26 @@ public class ParameterCommands {
             Integer, String, Long, Float, Double, Boolean
         }
 
-        @CommandLine.Parameters(arity = "1", paramLabel = "<paramName>",
-                index = "0", description = "Name of parameter to update")
+        @CommandLine.Parameters(
+                arity = "1",
+                paramLabel = "<paramName>",
+                index = "0",
+                description = "Name of parameter to update")
         String parameterName;
 
-        @CommandLine.Parameters(arity = "1", paramLabel = "<paramType>",
-                index = "1", description = "Type of parameter, choose from: ${COMPLETION-CANDIDATES} ")
+        @CommandLine.Parameters(
+                arity = "1",
+                paramLabel = "<paramType>",
+                index = "1",
+                description = "Type of parameter, choose from: ${COMPLETION-CANDIDATES} ")
         ParameterType parameterType;
 
-        @CommandLine.Parameters(arity = "1", paramLabel = "<paramValue>",
-                index = "2", description = "Value of parameter to update, for boolean types write true/false")
+        @CommandLine.Parameters(
+                arity = "1",
+                paramLabel = "<paramValue>",
+                index = "2",
+                description = "Value of parameter to update,"
+                + " for boolean types write true/false")
         String parameterValue;
 
         @Override
@@ -475,7 +601,8 @@ public class ParameterCommands {
             }
 
             if (consumer.getMCServices().getParameterService() == null) {
-                System.out.println("Parameter service not available for this provider");
+                System.out.println(
+                        "Parameter service not available for this provider");
                 return;
             }
 
@@ -484,7 +611,8 @@ public class ParameterCommands {
                 if (parameter != null) {
                     consumer.setParameter(parameterName, parameter);
                 } else {
-                    System.out.println("The parameter could not be converted to the correct type and set");
+                    System.out.println(
+                            "The parameter could not be converted to the correct type and set");
                 }
             } catch (Exception e) {
                 System.out.println("There was an unexpected error");

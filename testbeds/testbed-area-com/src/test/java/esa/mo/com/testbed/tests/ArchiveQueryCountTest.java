@@ -45,14 +45,18 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * End-to-end tests for the COM Archive {@code query} and {@code count} operations.
+ * End-to-end tests for the COM Archive {@code query} and {@code count}
+ * operations.
  *
- * <p>Each test class gets its own in-memory SQLite archive (set via the
- * {@code esa.nmf.archive.persistence.jdbc.url} system property before the provider starts),
- * so tests are fully isolated from the on-disk archive and from each other test class.
+ * <p>
+ * Each test class gets its own in-memory SQLite archive (set via the
+ * {@code esa.nmf.archive.persistence.jdbc.url} system property before the
+ * provider starts), so tests are fully isolated from the on-disk archive and
+ * from each other test class.
  *
- * <p>Each object type constant uses a unique area number so that objects stored by one
- * test method cannot accidentally appear in another method's query results.
+ * <p>
+ * Each object type constant uses a unique area number so that objects stored by
+ * one test method cannot accidentally appear in another method's query results.
  */
 public class ArchiveQueryCountTest {
 
@@ -91,8 +95,9 @@ public class ArchiveQueryCountTest {
     }
 
     /**
-     * Stores two objects of the same type and verifies that a wildcard query returns
-     * exactly those two objects via UPDATE messages before the final empty RESPONSE.
+     * Stores two objects of the same type and verifies that a wildcard query
+     * returns exactly those two objects via UPDATE messages before the final
+     * empty RESPONSE.
      */
     @Test
     public void testQueryReturnsStoredObjects() throws MALInteractionException, MALException, InterruptedException {
@@ -110,8 +115,9 @@ public class ArchiveQueryCountTest {
     }
 
     /**
-     * Verifies that setting {@code returnBody=true} causes the provider to include object bodies
-     * in the UPDATE messages. The body content is not checked here — only its presence.
+     * Verifies that setting {@code returnBody=true} causes the provider to
+     * include object bodies in the UPDATE messages. The body content is not
+     * checked here — only its presence.
      */
     @Test
     public void testQueryReturnBody() throws MALInteractionException, MALException, InterruptedException {
@@ -125,7 +131,8 @@ public class ArchiveQueryCountTest {
         HeterogeneousList bodies = new HeterogeneousList();
         bodies.add(new ConfigurationSet(keysList));
         stub.store(true, QUERY_BODY_TYPE, domain,
-                HelperArchive.generateArchiveDetailsList(null, null, providerURI), bodies);
+                HelperArchive.generateArchiveDetailsList(null, null, providerURI),
+                bodies);
 
         QueryResult result = runQuery(stub, QUERY_BODY_TYPE, true);
 
@@ -141,8 +148,8 @@ public class ArchiveQueryCountTest {
     }
 
     /**
-     * Verifies that querying for an object type that was never stored produces an empty RESPONSE
-     * with no preceding UPDATE messages.
+     * Verifies that querying for an object type that was never stored produces
+     * an empty RESPONSE with no preceding UPDATE messages.
      */
     @Test
     public void testQueryNoMatch() throws MALInteractionException, MALException, InterruptedException {
@@ -154,7 +161,8 @@ public class ArchiveQueryCountTest {
     }
 
     /**
-     * Stores three objects and verifies that {@code count} returns exactly three.
+     * Stores three objects and verifies that {@code count} returns exactly
+     * three.
      */
     @Test
     public void testCountMatchingObjects() throws MALInteractionException, MALException, InterruptedException {
@@ -173,7 +181,8 @@ public class ArchiveQueryCountTest {
     }
 
     /**
-     * Verifies that {@code count} returns zero for an object type that was never stored.
+     * Verifies that {@code count} returns zero for an object type that was
+     * never stored.
      */
     @Test
     public void testCountNoMatch() throws MALInteractionException, MALException, InterruptedException {
@@ -185,15 +194,17 @@ public class ArchiveQueryCountTest {
     }
 
     // --- Error / non-nominal tests ---
-
     /**
-     * Verifies that {@code query} raises INVALID when a {@link CompositeFilter} fails validation
-     * inside the provider. Using {@link ExpressionOperator#GREATER} with a {@code null} field
-     * value is rejected by {@code isCompositeFilterValid}, which causes the provider to throw
-     * an INVALID error per the COM Archive spec.
+     * Verifies that {@code query} raises INVALID when a {@link CompositeFilter}
+     * fails validation inside the provider. Using
+     * {@link ExpressionOperator#GREATER} with a {@code null} field value is
+     * rejected by {@code isCompositeFilterValid}, which causes the provider to
+     * throw an INVALID error per the COM Archive spec.
      *
-     * <p>At least one object of {@code FILTER_ERROR_TYPE} must be stored so that the filter
-     * loop is actually entered — an empty result set bypasses filter validation entirely.
+     * <p>
+     * At least one object of {@code FILTER_ERROR_TYPE} must be stored so that
+     * the filter loop is actually entered — an empty result set bypasses filter
+     * validation entirely.
      */
     @Test
     public void testQueryInvalidOnBadFilter()
@@ -209,19 +220,26 @@ public class ArchiveQueryCountTest {
         filters.add(new CompositeFilter("anyField", ExpressionOperator.GREATER, null));
         CompositeFilterSet filterSet = new CompositeFilterSet(filters);
 
-        MOErrorException error = runQueryExpectError(stub, FILTER_ERROR_TYPE, new ArchiveQuery(0L), filterSet);
+        MOErrorException error = runQueryExpectError(
+                stub, FILTER_ERROR_TYPE, new ArchiveQuery(0L), filterSet);
 
-        Assert.assertNotNull("Provider must return an error for an invalid CompositeFilter", error);
-        Assert.assertEquals("Error must be INVALID", COMHelper.INVALID_ERROR_NUMBER, error.getErrorNumber());
+        Assert.assertNotNull(
+                "Provider must return an error for an invalid CompositeFilter", error);
+        Assert.assertEquals(
+                "Error must be INVALID", COMHelper.INVALID_ERROR_NUMBER,
+                error.getErrorNumber());
     }
 
     /**
-     * Verifies that {@code query} raises INVALID (req 11) when {@code sortFieldName} does not
-     * reference a field that exists on the stored object type.
+     * Verifies that {@code query} raises INVALID (req 11) when
+     * {@code sortFieldName} does not reference a field that exists on the
+     * stored object type.
      *
-     * <p>Objects must be present in the archive before the query: the provider only invokes the
-     * sort logic when the result set is non-empty, so querying an empty archive would silently
-     * skip sorting and return a normal RESPONSE instead of an error.
+     * <p>
+     * Objects must be present in the archive before the query: the provider
+     * only invokes the sort logic when the result set is non-empty, so querying
+     * an empty archive would silently skip sorting and return a normal RESPONSE
+     * instead of an error.
      */
     @Test
     public void testQueryInvalidOnUnknownSortField()
@@ -234,17 +252,20 @@ public class ArchiveQueryCountTest {
         storeEmpty(stub, SORT_ERROR_TYPE, domain, providerURI);
 
         // sortOrder=true activates sorting; "nonExistentField" will not resolve to any field.
-        ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null, 0L, null, null, null, Boolean.TRUE, "nonExistentField");
+        ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null,
+                0L, null, null, null, Boolean.TRUE, "nonExistentField");
 
         MOErrorException error = runQueryExpectError(stub, SORT_ERROR_TYPE, archiveQuery, null);
 
         Assert.assertNotNull("Provider must return an error for an unknown sort field", error);
-        Assert.assertEquals("Error must be INVALID", COMHelper.INVALID_ERROR_NUMBER, error.getErrorNumber());
+        Assert.assertEquals("Error must be INVALID",
+                COMHelper.INVALID_ERROR_NUMBER, error.getErrorNumber());
     }
 
     /**
-     * Verifies that {@code count} raises INVALID when a {@link CompositeFilter} fails validation.
-     * Same mechanism as {@link #testQueryInvalidOnBadFilter} but exercised via the count path.
+     * Verifies that {@code count} raises INVALID when a {@link CompositeFilter}
+     * fails validation. Same mechanism as {@link #testQueryInvalidOnBadFilter}
+     * but exercised via the count path.
      */
     @Test
     public void testCountInvalidOnBadFilter()
@@ -260,18 +281,23 @@ public class ArchiveQueryCountTest {
         filters.add(new CompositeFilter("anyField", ExpressionOperator.GREATER, null));
         CompositeFilterSet filterSet = new CompositeFilterSet(filters);
 
-        MOErrorException error = runCountExpectError(stub, FILTER_ERROR_TYPE, new ArchiveQuery(0L), filterSet);
+        MOErrorException error = runCountExpectError(
+                stub, FILTER_ERROR_TYPE, new ArchiveQuery(0L), filterSet);
 
         Assert.assertNotNull("Provider must return an error for an invalid CompositeFilter", error);
-        Assert.assertEquals("Error must be INVALID", COMHelper.INVALID_ERROR_NUMBER, error.getErrorNumber());
+        Assert.assertEquals("Error must be INVALID",
+                COMHelper.INVALID_ERROR_NUMBER, error.getErrorNumber());
     }
 
     /**
-     * Verifies that {@code count} raises INVALID (req 1 of count, which mirrors query req 11)
-     * when {@code sortFieldName} does not reference a defined field.
+     * Verifies that {@code count} raises INVALID (req 1 of count, which mirrors
+     * query req 11) when {@code sortFieldName} does not reference a defined
+     * field.
      *
-     * <p>Same caveat as {@link #testQueryInvalidOnUnknownSortField}: at least one object of the
-     * queried type must exist so that sorting is actually attempted.
+     * <p>
+     * Same caveat as {@link #testQueryInvalidOnUnknownSortField}: at least one
+     * object of the queried type must exist so that sorting is actually
+     * attempted.
      */
     @Test
     public void testCountInvalidOnUnknownSortField()
@@ -283,37 +309,46 @@ public class ArchiveQueryCountTest {
 
         storeEmpty(stub, SORT_ERROR_TYPE, domain, providerURI);
 
-        ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null, 0L, null, null, null, Boolean.TRUE, "nonExistentField");
+        ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null,
+                0L, null, null, null, Boolean.TRUE, "nonExistentField");
 
         MOErrorException error = runCountExpectError(stub, SORT_ERROR_TYPE, archiveQuery, null);
 
         Assert.assertNotNull("Provider must return an error for an unknown sort field", error);
-        Assert.assertEquals("Error must be INVALID", COMHelper.INVALID_ERROR_NUMBER, error.getErrorNumber());
+        Assert.assertEquals("Error must be INVALID",
+                COMHelper.INVALID_ERROR_NUMBER, error.getErrorNumber());
     }
 
     // --- Helpers ---
-
     /**
-     * Stores one object of the given type with an empty body, using a provider-assigned instance ID.
-     * Intended as a lightweight fixture helper — the body content is irrelevant to query/count tests.
+     * Stores one object of the given type with an empty body, using a
+     * provider-assigned instance ID. Intended as a lightweight fixture helper —
+     * the body content is irrelevant to query/count tests.
      */
-    private static void storeEmpty(ArchiveStub stub, ObjectType type, IdentifierList domain, URI providerURI)
-            throws MALInteractionException, MALException {
+    private static void storeEmpty(ArchiveStub stub, ObjectType type,
+            IdentifierList domain, URI providerURI) throws MALInteractionException, MALException {
         HeterogeneousList bodies = new HeterogeneousList();
         bodies.add(new ConfigurationSet(new ObjectKeysList()));
         stub.store(true, type, domain,
-                HelperArchive.generateArchiveDetailsList(null, null, providerURI), bodies);
+                HelperArchive.generateArchiveDetailsList(null, null, providerURI),
+                bodies);
     }
 
     /**
-     * Runs an async archive query for all objects of the given type and waits for completion.
+     * Runs an async archive query for all objects of the given type and waits
+     * for completion.
      *
-     * <p>Uses an {@link ArchiveQuery} with {@code related=0} (wildcard) and no filter,
-     * which matches all stored objects of {@code type} regardless of domain or other fields.
+     * <p>
+     * Uses an {@link ArchiveQuery} with {@code related=0} (wildcard) and no
+     * filter, which matches all stored objects of {@code type} regardless of
+     * domain or other fields.
      *
-     * @param returnBody whether the provider should include object bodies in UPDATE messages
-     * @return the accumulated results from all UPDATE messages received before the final RESPONSE
-     * @throws AssertionError if the interaction does not complete within 5 seconds
+     * @param returnBody whether the provider should include object bodies in
+     * UPDATE messages
+     * @return the accumulated results from all UPDATE messages received before
+     * the final RESPONSE
+     * @throws AssertionError if the interaction does not complete within 5
+     * seconds
      */
     private static QueryResult runQuery(ArchiveStub stub, ObjectType type, boolean returnBody)
             throws MALInteractionException, MALException, InterruptedException {
@@ -330,12 +365,16 @@ public class ArchiveQueryCountTest {
     }
 
     /**
-     * Runs an async archive count for all objects of the given type and waits for completion.
+     * Runs an async archive count for all objects of the given type and waits
+     * for completion.
      *
-     * <p>Uses the same wildcard {@link ArchiveQuery} as {@link #runQuery}.
+     * <p>
+     * Uses the same wildcard {@link ArchiveQuery} as {@link #runQuery}.
      *
-     * @return the count returned by the provider, or -1 if the response was unexpectedly null
-     * @throws AssertionError if the interaction does not complete within 5 seconds
+     * @return the count returned by the provider, or -1 if the response was
+     * unexpectedly null
+     * @throws AssertionError if the interaction does not complete within 5
+     * seconds
      */
     private static long runCount(ArchiveStub stub, ObjectType type)
             throws MALInteractionException, MALException, InterruptedException {
@@ -351,9 +390,9 @@ public class ArchiveQueryCountTest {
     }
 
     /**
-     * Returns the total number of archive objects across all UPDATE messages in {@code result}.
-     * A single query may produce multiple UPDATE messages (one per domain/type pair), so all
-     * lists must be summed.
+     * Returns the total number of archive objects across all UPDATE messages in
+     * {@code result}. A single query may produce multiple UPDATE messages (one
+     * per domain/type pair), so all lists must be summed.
      */
     private static int countObjects(QueryResult result) {
         int total = 0;
@@ -366,21 +405,27 @@ public class ArchiveQueryCountTest {
     }
 
     /**
-     * Accumulates the {@code objDetails} and {@code objBodies} payloads received across all
-     * query UPDATE messages, and captures any error so the calling thread can rethrow it.
+     * Accumulates the {@code objDetails} and {@code objBodies} payloads
+     * received across all query UPDATE messages, and captures any error so the
+     * calling thread can rethrow it.
      */
     private static class QueryResult {
-        /** One entry per UPDATE message received; each list covers one domain/type batch. */
+
+        /**
+         * One entry per UPDATE; each list covers one domain/type batch.
+         */
         final List<ArchiveDetailsList> objDetails = new ArrayList<>();
         final List<HeterogeneousList> objBodies = new ArrayList<>();
         MALException error;
     }
 
     /**
-     * {@link ArchiveAdapter} that collects query UPDATE payloads into a {@link QueryResult}
-     * and releases a {@link CountDownLatch} when the final RESPONSE (or an error) arrives.
+     * {@link ArchiveAdapter} that collects query UPDATE payloads into a
+     * {@link QueryResult} and releases a {@link CountDownLatch} when the final
+     * RESPONSE (or an error) arrives.
      */
     private static class QueryAdapter extends ArchiveAdapter {
+
         private final CountDownLatch latch;
         private final QueryResult result;
 
@@ -412,10 +457,12 @@ public class ArchiveQueryCountTest {
     }
 
     /**
-     * {@link ArchiveAdapter} that captures the {@code count} RESPONSE and releases a
-     * {@link CountDownLatch} when the response (or an error) arrives.
+     * {@link ArchiveAdapter} that captures the {@code count} RESPONSE and
+     * releases a {@link CountDownLatch} when the response (or an error)
+     * arrives.
      */
     private static class CountAdapter extends ArchiveAdapter {
+
         private final CountDownLatch latch;
         // AtomicReference because the MAL callback arrives on a different thread.
         final AtomicReference<Long> count = new AtomicReference<>();
@@ -445,11 +492,13 @@ public class ArchiveQueryCountTest {
     }
 
     /**
-     * Sends an async {@code query} with the given lists and waits for either an error or a
-     * normal response. Returns the captured {@link MOErrorException}, or {@code null} if the
-     * provider responded successfully instead of with an error.
+     * Sends an async {@code query} with the given lists and waits for either an
+     * error or a normal response. Returns the captured
+     * {@link MOErrorException}, or {@code null} if the provider responded
+     * successfully instead of with an error.
      *
-     * @throws AssertionError if neither a response nor an error arrives within 5 seconds
+     * @throws AssertionError if neither a response nor an error arrives within
+     * 5 seconds
      */
     private static MOErrorException runQueryExpectError(ArchiveStub stub, ObjectType type,
             ArchiveQuery archiveQuery, QueryFilter queryFilter)
@@ -462,11 +511,13 @@ public class ArchiveQueryCountTest {
     }
 
     /**
-     * Sends an async {@code count} with the given lists and waits for either an error or a
-     * normal response. Returns the captured {@link MOErrorException}, or {@code null} if the
-     * provider responded successfully instead of with an error.
+     * Sends an async {@code count} with the given lists and waits for either an
+     * error or a normal response. Returns the captured
+     * {@link MOErrorException}, or {@code null} if the provider responded
+     * successfully instead of with an error.
      *
-     * @throws AssertionError if neither a response nor an error arrives within 5 seconds
+     * @throws AssertionError if neither a response nor an error arrives within
+     * 5 seconds
      */
     private static MOErrorException runCountExpectError(ArchiveStub stub, ObjectType type,
             ArchiveQuery archiveQuery, QueryFilter queryFilter)
@@ -479,11 +530,13 @@ public class ArchiveQueryCountTest {
     }
 
     /**
-     * {@link ArchiveAdapter} that captures the first error received on any query or count
-     * callback and releases a latch. Also releases the latch on a normal response so that
-     * {@code runQueryExpectError} / {@code runCountExpectError} can distinguish the two cases.
+     * {@link ArchiveAdapter} that captures the first error received on any
+     * query or count callback and releases a latch. Also releases the latch on
+     * a normal response so that {@code runQueryExpectError} /
+     * {@code runCountExpectError} can distinguish the two cases.
      */
     private static class ErrorCaptor extends ArchiveAdapter {
+
         private final CountDownLatch latch;
         // volatile: written by the MAL callback thread, read by the test thread after latch.await().
         volatile MOErrorException error;
@@ -493,7 +546,6 @@ public class ArchiveQueryCountTest {
         }
 
         // --- query error callbacks ---
-
         @Override
         public void queryAckErrorReceived(MALMessageHeader msgHeader,
                 MOErrorException error, Map qosProperties) {
@@ -515,14 +567,16 @@ public class ArchiveQueryCountTest {
             latch.countDown();
         }
 
-        /** Releases the latch so the caller knows the interaction completed without error. */
+        /**
+         * Releases the latch so the caller knows the interaction completed
+         * without error.
+         */
         @Override
         public void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
             latch.countDown();
         }
 
         // --- count error callbacks ---
-
         @Override
         public void countAckErrorReceived(MALMessageHeader msgHeader,
                 MOErrorException error, Map qosProperties) {
@@ -537,7 +591,10 @@ public class ArchiveQueryCountTest {
             latch.countDown();
         }
 
-        /** Releases the latch so the caller knows the interaction completed without error. */
+        /**
+         * Releases the latch so the caller knows the interaction completed
+         * without error.
+         */
         @Override
         public void countResponseReceived(MALMessageHeader msgHeader, Long count, Map qosProperties) {
             latch.countDown();

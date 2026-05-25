@@ -21,7 +21,8 @@
 package esa.mo.helpertools.misc;
 
 /**
- * A Helper class dedicated to the NanoSat MO Framework specific properties and constants
+ * A Helper class dedicated to the NanoSat MO Framework specific properties and
+ * constants
  */
 public class Const {
 
@@ -43,6 +44,7 @@ public class Const {
     public static final long APP_SHUTDOWN_GUARD_MS = 5000;
     public static final String PLATFORM_GNSS_FALLBACK_TO_TLE_PROPERTY = "esa.mo.nmf.platform.gnss.fallback.to.tle";
     public static final String PLATFORM_GNSS_FALLBACK_TO_TLE_DEFAULT = "true";
+
     /* UTC offset in milliseconds */
     public static final String PLATFORM_GNSS_UTC_OFFSET_PROPERTY = "esa.mo.nmf.platform.gnss.utc.offset";
     public static final String PLATFORM_GNSS_UTC_OFFSET_DEFAULT = "-18.000";

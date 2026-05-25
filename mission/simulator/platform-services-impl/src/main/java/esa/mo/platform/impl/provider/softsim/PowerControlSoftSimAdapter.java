@@ -53,13 +53,13 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface,
     }
 
     private final ConcurrentHashMap<SimPayloadDevice, Device> deviceByType;
-    private final Map<Long, SimPayloadDevice> payloadIdByObjInstId;
+    private final Map<Long, SimPayloadDevice> devices;
     private static final Logger LOGGER = Logger.getLogger(PowerControlSoftSimAdapter.class.getName());
 
     public PowerControlSoftSimAdapter() {
         LOGGER.log(Level.INFO, "Initialisation");
         deviceByType = new ConcurrentHashMap<>();
-        payloadIdByObjInstId = new HashMap<>();
+        devices = new HashMap<>();
         initDevices();
     }
 
@@ -82,7 +82,7 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface,
 
     private void addDevice(Device device, SimPayloadDevice payload) {
         deviceByType.put(payload, device);
-        payloadIdByObjInstId.put(device.getUnitObjInstId(), payload);
+        devices.put(device.getUnitObjInstId(), payload);
     }
 
     @Override
@@ -105,13 +105,13 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface,
     public void enableDevices(DeviceList inputList) throws IOException {
         for (Device device : inputList) {
             LOGGER.log(Level.INFO, "Looking up Device {0}", new Object[]{device});
-            SimPayloadDevice payloadId = payloadIdByObjInstId.get(device.getUnitObjInstId());
+            SimPayloadDevice payloadId = devices.get(device.getUnitObjInstId());
             if (device.getUnitObjInstId() != null) {
-                payloadId = payloadIdByObjInstId.get(device.getUnitObjInstId());
+                payloadId = devices.get(device.getUnitObjInstId());
             } else {
                 Device found = findByType(device.getDeviceType());
                 if (found != null) {
-                    payloadId = payloadIdByObjInstId.get(found.getUnitObjInstId());
+                    payloadId = devices.get(found.getUnitObjInstId());
                 } else {
                     throw new IOException("Cannot find the device.");
                 }

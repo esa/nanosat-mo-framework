@@ -44,39 +44,55 @@ import picocli.CommandLine.*;
  * @author Tanguy Soto
  * @author Marcel Mikołajko
  */
-@Command(name = "log", subcommands = {LogsCommands.ListLogs.class, LogsCommands.GetLogs.class},
-        description = "Gets or lists NMF app logs using the content of a local or remote COM archive.")
+@Command(
+        name = "log",
+        subcommands = {LogsCommands.ListLogs.class, LogsCommands.GetLogs.class},
+        description = "Gets or lists NMF app logs using the content of a local or remote"
+                + " COM archive.")
 public class LogsCommands {
 
-    private static final Logger LOGGER = Logger.getLogger(LogsCommands.class.getName());
+    private static final Logger LOGGER =
+            Logger.getLogger(LogsCommands.class.getName());
 
-    @Command(name = "list", description = "Lists NMF apps having logs in the content of a local or remote COM archive.")
+    @Command(
+            name = "list",
+            description = "Lists NMF apps having logs in the content of a local or"
+                    + " remote COM archive.")
     public static class ListLogs extends BaseCommand implements Runnable {
 
         @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
                 description = "Restricts the list to NMF apps in a specific domain\n"
-                + "  - default: search for app in all domains\n" + "  - format: key1.key2.[...].keyN.\n"
+                + "  - default: search for app in all domains\n"
+                + "  - format: key1.key2.[...].keyN.\n"
                 + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domainId;
 
         @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
-                description = "Restricts the list to NMF apps having logs logged after the given time\n"
-                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-04 08:37:58.482\"")
+                description = "Restricts the list to NMF apps having logs logged"
+                + " after the given time\n"
+                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
+                + "  - example: \"2021-03-04 08:37:58.482\"")
         String startTime;
 
         @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
-                description = "Restricts the list to NMF apps having logs logged before the given time. "
-                + "If this option is provided without the -s option, returns the single "
-                + "object that has the closest timestamp to, but not greater than <endTime>\n"
-                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-05 12:05:45.271\"")
+                description = "Restricts the list to NMF apps having logs logged"
+                + " before the given time. "
+                + "If this option is provided without the -s option, returns the"
+                + " single object that has the closest timestamp to, but not"
+                + " greater than <endTime>\n"
+                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
+                + "  - example: \"2021-03-05 12:05:45.271\"")
         String endTime;
 
         @Override
         public void run() {
             // Query all objects from SoftwareManagement area filtering for
             // StandardOutput and StandardError events and App object is done in the query adapter
-            ObjectType objectsTypes = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
-                    new UShort(0), SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
+            ObjectType objectsTypes = new ObjectType(
+                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
+                    new UShort(0),
+                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION,
+                    new UShort(0));
 
             boolean consumerCreated = false;
             if (providerURI != null) {
@@ -90,11 +106,14 @@ public class LogsCommands {
                 return;
             }
             // prepare domain, time and object id filters
-            IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
-            Time startTimeF = startTime == null ? null : HelperTime.readableString2Time(startTime);
-            Time endTimeF = endTime == null ? null : HelperTime.readableString2Time(endTime);
-            ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, startTimeF, endTimeF, null,
-                    null);
+            IdentifierList domain =
+                    domainId == null ? null : HelperDomain.domainId2domain(domainId);
+            Time startTimeF =
+                    startTime == null ? null : HelperTime.readableString2Time(startTime);
+            Time endTimeF =
+                    endTime == null ? null : HelperTime.readableString2Time(endTime);
+            ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L,
+                    null, startTimeF, endTimeF, null, null);
 
             // execute query
             ArchiveToAppListAdapter adapter = new ArchiveToAppListAdapter();
@@ -103,7 +122,8 @@ public class LogsCommands {
             // Display list of NMF apps that have logs
             ArrayList<String> appsWithLogs = adapter.getAppWithLogs();
             if (appsWithLogs.size() <= 0) {
-                System.out.println("No NMF apps with logs found in the provided archive");
+                System.out.println(
+                        "No NMF apps with logs found in the provided archive");
             } else {
                 System.out.println("Found the following NMF apps with logs: ");
                 for (String appName : appsWithLogs) {
@@ -113,32 +133,43 @@ public class LogsCommands {
         }
     }
 
-    @Command(name = "get",
-            description = "Dumps to a LOG file an NMF app logs using the content of a local or remote COM archive.")
+    @Command(
+            name = "get",
+            description = "Dumps to a LOG file an NMF app logs using the content of a"
+                    + " local or remote COM archive.")
     public static class GetLogs extends BaseCommand implements Runnable {
 
-        @Parameters(arity = "1", paramLabel = "<appName>", description = "Name of the NMF app we want the logs for")
+        @Parameters(
+                arity = "1",
+                paramLabel = "<appName>",
+                description = "Name of the NMF app we want the logs for")
         String appName;
 
-        @Parameters(arity = "1", paramLabel = "<logFile>", description = "target LOG file")
+        @Parameters(
+                arity = "1",
+                paramLabel = "<logFile>",
+                description = "target LOG file")
         String logFile;
 
         @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
                 description = "Domain of the NMF app we want the logs for\n"
-                + "  - default: search for app in all domains\n" + "  - format: key1.key2.[...].keyN.\n"
+                + "  - default: search for app in all domains\n"
+                + "  - format: key1.key2.[...].keyN.\n"
                 + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
         String domainId;
 
         @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
                 description = "Restricts the dump to logs logged after the given time\n"
-                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-04 08:37:58.482\"")
+                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
+                + "  - example: \"2021-03-04 08:37:58.482\"")
         String startTime;
 
         @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
                 description = "Restricts the dump to logs logged before the given time. "
                 + "If this option is provided without the -s option, returns the single "
                 + "object that has the closest timestamp to, but not greater than <endTime>\n"
-                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-05 12:05:45.271\"")
+                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
+                + "  - example: \"2021-03-05 12:05:45.271\"")
         String endTime;
 
         @Option(names = {"-t", "--timestamped"}, paramLabel = "<addTimestamps>",
@@ -149,13 +180,17 @@ public class LogsCommands {
         public void run() {
             // Query all objects from SoftwareManagement area and CommandExecutor service,
             // filtering for StandardOutput and StandardError events is done in the query adapter
-            ObjectType outputObjectTypes = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
-                CommandExecutorServiceInfo.COMMANDEXECUTOR_SERVICE_NUMBER,
-                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
+            ObjectType outputObjectTypes = new ObjectType(
+                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
+                    CommandExecutorServiceInfo.COMMANDEXECUTOR_SERVICE_NUMBER,
+                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION,
+                    new UShort(0));
 
-            ObjectType eventObjectTypes = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
-                AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER,
-                SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION, new UShort(0));
+            ObjectType eventObjectTypes = new ObjectType(
+                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
+                    AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER,
+                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION,
+                    new UShort(0));
 
             boolean consumerCreated = false;
             if (providerURI != null) {
@@ -169,16 +204,19 @@ public class LogsCommands {
                 return;
             }
             // Query archive for the App object id
-            IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
+            IdentifierList domain =
+                    domainId == null ? null : HelperDomain.domainId2domain(domainId);
             ObjectKey appObjectKey = getAppObjectKey(appName, domain);
 
             if (appObjectKey == null) {
                 if (databaseFile == null) {
-                    LOGGER.log(Level.SEVERE, String.format("Couldn't find App with name %s in provider at %s", appName,
-                            providerURI));
+                    LOGGER.log(Level.SEVERE, String.format(
+                            "Couldn't find App with name %s in provider at %s",
+                            appName, providerURI));
                 } else {
-                    LOGGER.log(Level.SEVERE, String.format("Couldn't find App with name %s in database at %s", appName,
-                            databaseFile));
+                    LOGGER.log(Level.SEVERE, String.format(
+                            "Couldn't find App with name %s in database at %s",
+                            appName, databaseFile));
                 }
                 return;
             }
@@ -186,15 +224,15 @@ public class LogsCommands {
             // prepare domain, time and object id filters
             Time startTimeF = startTime == null ? null : HelperTime.readableString2Time(startTime);
             Time endTimeF = endTime == null ? null : HelperTime.readableString2Time(endTime);
-            ArchiveQuery outputArchiveQuery = new ArchiveQuery(domain, null, null, 0L, appObjectKey, startTimeF,
-                    endTimeF, null, null);
+            ArchiveQuery outputArchiveQuery = new ArchiveQuery(domain, null, null,
+                    0L, appObjectKey, startTimeF, endTimeF, null, null);
 
             // execute query
             ArchiveToLogAdapter adapter = new ArchiveToLogAdapter(logFile, addTimestamps);
             queryArchive(outputObjectTypes, outputArchiveQuery, adapter, adapter);
 
-            ArchiveQuery eventArchiveQuery = new ArchiveQuery(domain, null, null, appObjectKey.getInstId(),
-                    null, startTimeF, endTimeF, null, null);
+            ArchiveQuery eventArchiveQuery = new ArchiveQuery(domain, null, null,
+                    appObjectKey.getInstId(), null, startTimeF, endTimeF, null, null);
             adapter.resetAdapter();
             queryArchive(eventObjectTypes, eventArchiveQuery, adapter, adapter);
 

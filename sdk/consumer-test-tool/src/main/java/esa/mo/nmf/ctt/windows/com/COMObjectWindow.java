@@ -65,10 +65,10 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         jLabel7.setFont(jLabel7.getFont().deriveFont(java.awt.Font.BOLD));
 
         if (comObject == null) {
-            Logger.getLogger(COMObjectWindow.class.getName()).log(Level.SEVERE,
-                    "A null object was submitted into the COMObjectWindow. The COM object will not be displayed.");
-            throw new IOException(
-                    "A null object was submitted into the COMObjectWindow. The COM object will not be displayed.");
+            String msg = "A null object was submitted into the COMObjectWindow."
+                    + " The COM object will not be displayed.";
+            Logger.getLogger(COMObjectWindow.class.getName()).log(Level.SEVERE, msg);
+            throw new IOException(msg);
         }
 
         this.setModal(true);
@@ -77,15 +77,17 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         this.comObject = comObject;
         this.editable = editable;
         this.archiveService = archiveService;
+        String bodyType;
 
         // Set the object Body type field
         if (comObject.getObject() != null) {
-            this.tfObjectBodyType.setText(comObject.getObject().getClass().getSimpleName());
+            bodyType = comObject.getObject().getClass().getSimpleName();
         } else {
-            this.tfObjectBodyType.setText("null");
+            bodyType = "null";
             this.objectBodyButton.setEnabled(false);
         }
 
+        this.tfObjectBodyType.setText(bodyType);
         this.tfDomain.setEditable(editable);
         this.tfObjId.setEditable(editable);
 
@@ -104,7 +106,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         ArchiveDetails archiveDetails = comObject.getArchiveDetails();
 
         if (archiveDetails != null) {
-
             if (archiveDetails.getNetwork() != null) {
                 this.tfNetwork.setText(archiveDetails.getNetwork().toString());
             } else {
@@ -134,13 +135,13 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                 if (comObjectInfo.hasRelated()) {
                     if (comObjectInfo.getRelatedType() != null) {
                         this.relatedType.setText(
-                            comObjectInfo.getRelatedType().getArea() + "-" +
-                            comObjectInfo.getRelatedType().getService() + "-" +
-                            comObjectInfo.getRelatedType().getVersion() + "-" +
-                            comObjectInfo.getRelatedType().getNumber() + " " +
-                            HelperCOM.objType2string(comObjectInfo.getRelatedType()));
+                            comObjectInfo.getRelatedType().getArea() + "-"
+                            + comObjectInfo.getRelatedType().getService() + "-"
+                            + comObjectInfo.getRelatedType().getVersion() + "-"
+                            + comObjectInfo.getRelatedType().getNumber() + " "
+                            + HelperCOM.objType2string(comObjectInfo.getRelatedType()));
                     } else {
-                        this.relatedType.setText("no info");  // Problem needs to be fixed!! Why no information available?
+                        this.relatedType.setText("no info"); // TODO: why no information available?
                         this.relatedButton.setEnabled(false);
                     }
                 }
@@ -374,7 +375,11 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(0, 33, Short.MAX_VALUE))
                                     .addComponent(sourceDomain, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(sourceButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(sourceButton,
+                                        javax.swing.GroupLayout.Alignment.TRAILING,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                        Short.MAX_VALUE)
                                     .addComponent(sourceType)))))
                     .addGroup(componentsPanelLayout.createSequentialGroup()
                         .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -503,12 +508,13 @@ public final class COMObjectWindow extends javax.swing.JDialog {
     private void relatedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatedButtonActionPerformed
         COMObject comObjectInfo = HelperCOM.objType2COMObject(comObject.getObjectType());
 
-        ArchivePersistenceObject relatedCOMObject = HelperArchive.getArchiveCOMObject(archiveService,
+        ArchivePersistenceObject related = HelperArchive.getArchiveCOMObject(
+                archiveService,
                 comObjectInfo.getRelatedType(),
                 comObject.getDomain(),
                 comObject.getArchiveDetails().getLinks().getRelated());
 
-        if (relatedCOMObject == null) {
+        if (related == null) {
             JOptionPane.showMessageDialog(null,
                     "The object was not found in the COM Archive!", "Error!",
                     JOptionPane.PLAIN_MESSAGE);
@@ -516,19 +522,22 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         }
 
         try {
-            COMObjectWindow newWindow = new COMObjectWindow(relatedCOMObject, editable, archiveService);
+            COMObjectWindow newWindow = new COMObjectWindow(related, editable, archiveService);
         } catch (IOException ex) {
-            Logger.getLogger(COMObjectWindow.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(COMObjectWindow.class.getName())
+                    .log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_relatedButtonActionPerformed
 
     private void sourceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sourceButtonActionPerformed
-        ArchivePersistenceObject sourceCOMObject = HelperArchive.getArchiveCOMObject(archiveService,
-                comObject.getArchiveDetails().getLinks().getSource().getType(),
-                comObject.getArchiveDetails().getLinks().getSource().getDomain(),
-                comObject.getArchiveDetails().getLinks().getSource().getInstId());
+        ObjectLinks links = comObject.getArchiveDetails().getLinks();
+        ArchivePersistenceObject source = HelperArchive.getArchiveCOMObject(
+                archiveService,
+                links.getSource().getType(),
+                links.getSource().getDomain(),
+                links.getSource().getInstId());
 
-        if (sourceCOMObject == null) {
+        if (source == null) {
             JOptionPane.showMessageDialog(null,
                     "The object was not found in the COM Archive!", "Error!",
                     JOptionPane.PLAIN_MESSAGE);
@@ -536,9 +545,10 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         }
 
         try {
-            COMObjectWindow newWindow = new COMObjectWindow(sourceCOMObject, editable, archiveService);
+            COMObjectWindow newWindow = new COMObjectWindow(source, editable, archiveService);
         } catch (IOException ex) {
-            Logger.getLogger(COMObjectWindow.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(COMObjectWindow.class.getName())
+                    .log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_sourceButtonActionPerformed
 
