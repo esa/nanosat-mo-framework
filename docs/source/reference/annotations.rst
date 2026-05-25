@@ -7,7 +7,7 @@ Annotation reference
 
 This page is the complete reference for the M&C annotation API. For
 discussion and examples, see
-:doc:`../app-development/monitor-and-control`.
+:doc:`../development-app/monitor-and-control`.
 
 The annotations live in ``esa.mo.nmf.annotations``.
 

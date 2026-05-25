@@ -44,7 +44,7 @@ The Java API JARs in ``core/mo-services-apis/`` are generated from
 these XML files; the XML is the single source of truth. For a
 narrative overview of the service categories, see
 :doc:`../reference/services` and
-:doc:`../app-development/platform-services/index`.
+:doc:`../development-app/platform-services/index`.
 
 User-facing guides (historical)
 -------------------------------
@@ -54,10 +54,10 @@ Located under ``sdk/sdk-execution-environment/src/main/resources/docs/``:
 - **NMF Quick Start Guide** — ``NMF_Quick_Start_Guide.pdf``.
   Superseded by :doc:`../quickstart/index`.
 - **Development Guide — NMF Apps** — ``Development_Guide_NMF_Apps.pdf``.
-  Superseded by :doc:`../app-development/index`.
+  Superseded by :doc:`../development-app/index`.
 - **Development Guide — NMF Ground Applications** —
   ``Development_Guide_NMF_Ground_applications.pdf``. Superseded by
-  :doc:`../ground-development/index`.
+  :doc:`../development-ground/index`.
 
 Background reading
 ------------------

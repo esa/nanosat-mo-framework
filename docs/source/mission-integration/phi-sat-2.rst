@@ -17,7 +17,7 @@ Packaging for ɸ-Sat-2
 ---------------------
 
 The standard NMF Package mechanism (see
-:doc:`../app-development/packaging`) is used; the mission-specific
+:doc:`../development-app/packaging`) is used; the mission-specific
 addition is the inclusion of AI models and tile data when relevant.
 
 Configure the ``nmf-package-maven-plugin`` to bundle the model and
@@ -68,7 +68,7 @@ AI inference
 ɸ-Sat-2 runs the **ArtificialIntelligence** Platform service backed by
 the ``AIMovidiusAdapter``, which targets the on-board Intel Movidius
 VPU. See
-:doc:`../app-development/platform-services/artificial-intelligence`
+:doc:`../development-app/platform-services/artificial-intelligence`
 for the consumer-side API.
 
 App chaining (cloud-tile filtering)
@@ -85,4 +85,4 @@ collaborate via the Directory Service:
 
 This pattern is described in general terms in
 :doc:`../concepts/apps-and-supervisor` and
-:doc:`../app-development/app-chaining`.
+:doc:`../development-app/app-chaining`.

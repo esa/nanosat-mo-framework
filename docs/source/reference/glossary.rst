@@ -50,7 +50,7 @@ Glossary
 
    Ground MO Proxy
       A bridge between MALTCP on the ground and MALSPP over a space
-      link. See :doc:`../ground-development/ground-mo-proxy`.
+      link. See :doc:`../development-ground/ground-mo-proxy`.
 
    MAL
       Message Abstraction Layer. The lowest CCSDS MO layer; defines

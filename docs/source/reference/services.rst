@@ -47,7 +47,7 @@ Platform (``area105-Platform.xml``)
 -----------------------------------
 
 For consumer-side usage, see
-:doc:`../app-development/platform-services/index`.
+:doc:`../development-app/platform-services/index`.
 
 - **Camera** (#1)
 - **GPS** (#2)

@@ -53,7 +53,7 @@ Testing in an OPS-SAT-like environment
 --------------------------------------
 
 For pre-flight testing, the mission build also produces a
-**Ground MO Proxy** (see :doc:`../ground-development/ground-mo-proxy`)
+**Ground MO Proxy** (see :doc:`../development-ground/ground-mo-proxy`)
 and a Supervisor with simulator targeted at the OPS-SAT platform.
 
 1. Run ``mvn install -Pground`` in ``nmf-mission-ops-sat``. The build
