@@ -38,13 +38,6 @@
           rx="4" fill="#fff" stroke="#aac" stroke-width="1"/>
     <text x="582" y="80" text-anchor="middle" fill="#333">App B</text>
 
-    <!-- app chaining: A → B (horizontal line, above Supervisor) -->
-    <line x1="215" y1="75" x2="505" y2="75"
-          stroke="#555" stroke-width="1.2"
-          marker-end="url(#arr)"/>
-    <text x="360" y="67" text-anchor="middle"
-          font-size="11" fill="#555" font-style="italic">app chaining</text>
-
     <!-- spawns: Supervisor → App A -->
     <line x1="258" y1="165" x2="215" y2="75"
           stroke="#888" stroke-width="1.2" stroke-dasharray="5,3"
