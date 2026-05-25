@@ -27,6 +27,7 @@ development, mission integration, tooling, and reference material.
 
    app-development/index
    ground-development/index
+   mission-development/index
 
 .. toctree::
    :maxdepth: 1
