@@ -1,6 +1,6 @@
-==========================
-Mission Development Guide
-==========================
+================================
+Development Guide for Missions
+================================
 
 This guide describes how to integrate the NanoSat MO Framework into a
 specific mission — that is, how to build and configure the

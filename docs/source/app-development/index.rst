@@ -1,6 +1,6 @@
-=======================
-App Development Guide
-=======================
+=========================
+Development Guide for Apps
+=========================
 
 This guide describes how to develop a Space App that runs on the NMF
 Supervisor, exposes Monitor & Control services, and consumes Platform

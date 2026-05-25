@@ -1,10 +1,10 @@
-=================================
-Ground Software Development Guide
-=================================
+=====================================
+Development Guide for Ground Software
+=====================================
 
 This guide describes how to develop a Ground Application that connects
 to one or more NMF Apps and consumes their MO services. It mirrors the
-:doc:`../app-development/index` on the consumer side.
+:doc:`../app-development/index` on the space side.
 
 A ground application typically:
 
