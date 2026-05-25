@@ -18,6 +18,7 @@ mkdir -p $LOG_PATH
 $JAVA_CMD \
     -Xms16M \
     -Djava.util.logging.config.file=$JAVA_LOGGER \
+    -Desa.mo.nmf.packagemanager.appsIsolation=@APPS_ISOLATION@ \
     -classpath "$NMF_HOME/libs/*:$NMF_HOME/jars-mission/$MISSION_VERSION/*:$NMF_HOME/jars-nmf/$NMF_VERSION/*" \
     @SUPERVISOR_MAIN_CLASS@ \
     2>&1 | tee -a $LOG_PATH/$FILENAME

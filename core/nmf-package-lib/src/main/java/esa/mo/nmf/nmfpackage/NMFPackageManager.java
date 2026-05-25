@@ -57,7 +57,7 @@ public class NMFPackageManager {
     // This must match the group_nmf_apps value in the fresh_install.sh file
     private static final String GROUP_NMF_APPS = "nmf-apps";
 
-    // The groups will be disbled in the current state of the NMF because there 
+    // The groups will be disbled in the current state of the NMF because there
     // is no need for it at the moment and it is not supported by the Phi-Sat-2
     // mission on-board computer. This might have to be revised in the future...
     private static final boolean GROUP_FLAG = false;
@@ -118,7 +118,8 @@ public class NMFPackageManager {
         String packageName = metadata.getPackageName();
 
         if (metadata.isApp()) {
-            String username = generateUsername(packageName);
+            boolean linuxUserspace = AppsIsolationMode.isLinuxUserspace();
+            String username = linuxUserspace ? generateUsername(packageName) : null;
             String password = null;
 
             File appDir = new File(Deployment.getAppsDir(), packageName);
@@ -127,7 +128,7 @@ public class NMFPackageManager {
             File logDir = Deployment.getLogsDirForApp(packageName);
             logDir.mkdirs();
 
-            if (OS.isUnix()) {
+            if (OS.isUnix() && linuxUserspace) {
                 try {
                     // Create the User for this App
                     boolean withGroup = true;
@@ -221,7 +222,8 @@ public class NMFPackageManager {
             File installationDir = new File(Deployment.getAppsDir(), packageName);
             removeAuxiliaryFiles(installationDir, packageName);
 
-            if (OS.isUnix()) {
+            boolean linuxUserspace = AppsIsolationMode.isLinuxUserspace();
+            if (OS.isUnix() && linuxUserspace) {
                 if (!keepUserData) {
                     String username = generateUsername(packageName);
                     try {

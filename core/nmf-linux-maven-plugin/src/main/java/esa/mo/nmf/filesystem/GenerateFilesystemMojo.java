@@ -21,6 +21,7 @@
 package esa.mo.nmf.filesystem;
 
 import esa.mo.nmf.environment.Deployment;
+import esa.mo.nmf.nmfpackage.AppsIsolationMode;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -71,6 +72,22 @@ public class GenerateFilesystemMojo extends AbstractMojo {
     private String nmfVersion;
 
     /**
+     * The isolation mode applied to all apps managed by this Supervisor.
+     * Supported values are defined in {@link AppsIsolationMode}:
+     * <ul>
+     *   <li>{@code none} (default) — apps run as the user that launched the Supervisor.</li>
+     *   <li>{@code linux-userspace} — each app runs under a dedicated Linux user account
+     *       created at install time.</li>
+     *   <li>{@code docker-containers} — each app runs inside a dedicated Docker container
+     *       (not yet implemented).</li>
+     *   <li>{@code bubblewrap} — each app runs inside a bubblewrap sandbox
+     *       (not yet implemented).</li>
+     * </ul>
+     */
+    @Parameter(property = "generate-filesystem.appsIsolation", defaultValue = AppsIsolationMode.NONE)
+    private String appsIsolation;
+
+    /**
      * The set of libraries to be added
      */
     @Parameter(property = "generate-filesystem.libs")
@@ -85,6 +102,7 @@ public class GenerateFilesystemMojo extends AbstractMojo {
         getLog().info(">> mainClass = " + supervisorMainClass);
         getLog().info(">> nmfVersion = " + nmfVersion);
         getLog().info(">> version = " + missionVersion);
+        getLog().info(">> appsIsolation = " + appsIsolation);
 
         if (supervisorMainClass == null) {
             throw new MojoExecutionException("The supervisorMainClass tag is not defined!"
@@ -125,6 +143,7 @@ public class GenerateFilesystemMojo extends AbstractMojo {
             replacements.put("@SUPERVISOR_MAIN_CLASS@", supervisorMainClass);
             replacements.put("@NMF_VERSION@", nmfVersion);
             replacements.put("@MISSION_VERSION@", missionVersion);
+            replacements.put("@APPS_ISOLATION@", appsIsolation);
             filesystem.generateScript("", file_start_script, replacements);
         } catch (IOException ex) {
             throw new MojoExecutionException(ex);
