@@ -117,8 +117,6 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
     @Parameter(property = "generate-nmf-package.privilege", defaultValue = "normal")
     private Privilege privilege;
 
-    private final static File TARGET_FOLDER = new File("target");
-
     @Override
     public void execute() throws MojoExecutionException {
         getLog().info("Generating NMF Package...");
@@ -151,11 +149,13 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
                     + "<configuration> tag!\n");
         }
 
+        File targetFolder = new File(project.getBuild().getDirectory());
+
         File myAppFilename;
         String mainJar;
 
         try {
-            myAppFilename = HelperNMFPackage.findAppJarInFolder(TARGET_FOLDER);
+            myAppFilename = HelperNMFPackage.findAppJarInFolder(targetFolder);
             mainJar = myAppFilename.getName();
             getLog().info(">> mainJar = " + mainJar);
         } catch (IOException ex) {
@@ -192,7 +192,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
                 getLog().info("  >> GroupId = " + artifact.getGroupId());
                 getLog().info("  >> ArtifactId = " + artifact.getArtifactId());
                 getLog().info("  >> Version = " + artifact.getVersion());
-                dependencies.add(packageJarDependency(artifact));
+                dependencies.add(packageJarDependency(artifact, targetFolder));
             }
         }
 
@@ -211,7 +211,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         }
 
         getLog().info("------\nGenerating project NMF Package...\n");
-        builder.createPackage(TARGET_FOLDER);
+        builder.createPackage(targetFolder);
 
         File packageFile = new File(project.getBuild().getDirectory(),
                 name + "-" + version + "." + Const.NMF_PACKAGE_SUFFIX);
@@ -221,14 +221,14 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         }
     }
 
-    private String packageJarDependency(Artifact artifact) {
+    private String packageJarDependency(Artifact artifact, File targetFolder) {
         File file = artifact.getFile();
         String artifactId = artifact.getArtifactId();
         String ver = artifact.getVersion();
         MetadataDependency metadata = new MetadataDependency(artifactId, ver);
         NMFPackageBuilder builder = new NMFPackageBuilder(metadata);
         builder.addFileOrDirectory(file);
-        builder.createPackage(TARGET_FOLDER);
+        builder.createPackage(targetFolder);
         return file.getName();
     }
 }
