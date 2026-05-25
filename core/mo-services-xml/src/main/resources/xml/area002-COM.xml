@@ -590,45 +590,39 @@
                 A provider may offer multiple service addresses and bindings in order to support multiple message transports and encodings.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="5">
-                Each service address entry shall include the service interface binding signature description, interface address, MAL protocol mapping, message encoding, the supported QoS levels and associated QoS properties available for that connection.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="6">
-                A service consumer may indicate its required QoS level and priority by using these values in the lookup operation.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="7">
                 If a service has operations based on the PUB-SUB interaction pattern, then the Directory service shall hold two URIs for that service: the URI of the primary interface and the URI of the broker.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="8">
+            <mal:documentation name="Service-level Requirement" order="6">
                 A ServiceProvider COM object shall represent a provider.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">
+            <mal:documentation name="Service-level Requirement" order="7">
                 The ServiceProvider COM object body shall contain the provider id taken from the providerId field of the PublishDetails composite.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
+            <mal:documentation name="Service-level Requirement" order="8">
                 The service provider shall set the ServiceProvider COM object related link to NULL.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="11">
+            <mal:documentation name="Service-level Requirement" order="9">
                 The service provider shall set the ServiceProvider COM object source link to NULL.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="12">
+            <mal:documentation name="Service-level Requirement" order="10">
                 A ProviderCapabilities COM object shall represent the supported capabilities of a provider.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="13">
+            <mal:documentation name="Service-level Requirement" order="11">
                 The ProviderCapabilities COM object body shall contain the provider details of the provider.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="14">
+            <mal:documentation name="Service-level Requirement" order="12">
                 The ProviderCapabilities COM object related link shall indicate which ServiceProvider COM object it links to.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="15">
+            <mal:documentation name="Service-level Requirement" order="13">
                 The service provider shall set the ProviderCapabilities COM object source link to NULL.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="16">
+            <mal:documentation name="Service-level Requirement" order="14">
                 The add operation shall create the ServiceProvider and ProviderCapabilities objects.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="17">
+            <mal:documentation name="Service-level Requirement" order="15">
                 The provider of the Directory service shall populate the object instance identifier for the ServiceProvider and ProviderCapabilities objects.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="18">
+            <mal:documentation name="Service-level Requirement" order="16">
                 If the implementation of the Directory service uses a COM archive, then the provider of the Directory service shall store all directory objects in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1">
@@ -712,24 +706,21 @@
                         If the supportedCapabilitySets list of a contained ServiceCapability structure is empty or contains '0', then the service provider shall return an INVALID error.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
-                        If the supportedLevels list is empty or the priorityLevels field is '0' for any contained AddressDetails structure, then the service provider shall return an INVALID error.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
                         If an error occurs, then the service provider shall not make any changes.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
+                    <mal:documentation name="Requirement" order="6">
                         If the providerId field of the PublishDetails structure matches an existing ServiceProvider COM object, then the service provider shall update the existing details of that provider.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
+                    <mal:documentation name="Requirement" order="7">
                         If the providerId field of the PublishDetails structure does not match an existing ServiceProvider COM object, then the service provider shall create a new ServiceProvider COM object to represent the new provider.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="9">
+                    <mal:documentation name="Requirement" order="8">
                         The service provider shall create a new ProviderCapabilities COM object to store the capabilities of the provider.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="10">
+                    <mal:documentation name="Requirement" order="9">
                         The directory provider should store the created objects in the COM archive.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="11">
+                    <mal:documentation name="Requirement" order="10">
                         The service provider shall return the COM identifiers of the ServiceProvider and ProviderCapabilities COM objects representing the provider.
                     </mal:documentation>
                     <mal:messages>
@@ -1244,22 +1235,10 @@
                 </mal:field>
             </mal:composite>
             <mal:composite name="AddressDetails" shortFormPart="23"
-                           comment="The AddressDetails structure carries all information required by the Directory service about a provider URI and attributes relating to QoS.">
+                           comment="The AddressDetails structure carries all information required by the Directory service about a provider URI.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
-                <mal:field name="supportedLevels" canBeNull="false"
-                           comment="The set of possible QoS levels this service can provide.">
-                    <mal:type area="MAL" list="true" name="QoSLevel"/>
-                </mal:field>
-                <mal:field name="QoSproperties" canBeNull="false"
-                           comment="Any QoS properties relevant to this address URIs and the specified transport.">
-                    <mal:type area="MAL" list="true" name="NamedValue"/>
-                </mal:field>
-                <mal:field name="priorityLevels" canBeNull="false"
-                           comment="The number of QoS priority levels that this provider supports.">
-                    <mal:type area="MAL" list="false" name="UInteger"/>
-                </mal:field>
                 <mal:field name="serviceURI" canBeNull="true"
                            comment="The Service URI for the physical location of this service. NULL for a shared data provider (Broker).">
                     <mal:type area="MAL" list="false" name="URI"/>

@@ -155,9 +155,7 @@ public class DirectoryLookupTest {
     }
 
     private static AddressDetails makeAddress(String uri) {
-        QoSLevelList qos = new QoSLevelList();
-        qos.add(QoSLevel.ASSURED);
-        return new AddressDetails(qos, new NamedValueList(), new UInteger(1), new URI(uri), null);
+        return new AddressDetails(new URI(uri), null);
     }
 
     private static ServiceFilter makeFilter(IdentifierList schemeFilter) {

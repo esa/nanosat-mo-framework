@@ -89,14 +89,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     }
 
     private static AddressDetails getServiceAddressDetails(final SingleConnectionDetails conn) {
-        QoSLevelList qos = new QoSLevelList();
-        qos.add(QoSLevel.ASSURED);
-        NamedValueList qosProperties = new NamedValueList();  // Nothing here for now...
-
-        AddressDetails serviceAddress = new AddressDetails(qos, qosProperties,
-                new UInteger(1), conn.getProviderURI(), conn.getBrokerURI());
-
-        return serviceAddress;
+        return new AddressDetails(conn.getProviderURI(), conn.getBrokerURI());
     }
 
     private static AddressDetailsList findAddressDetailsListOfService(final ServiceId key,

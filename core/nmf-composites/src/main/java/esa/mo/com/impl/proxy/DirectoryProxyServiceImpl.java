@@ -117,9 +117,6 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                     }
 
                     AddressDetails addressDetails = new AddressDetails(
-                            dets.getSupportedLevels(),
-                            dets.getQoSproperties(),
-                            dets.getPriorityLevels(),
                             new URI(serviceURI),
                             brokerURI);
 
