@@ -21,6 +21,7 @@
 package esa.mo.nmf.filesystem;
 
 import esa.mo.nmf.environment.Deployment;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import org.apache.maven.artifact.Artifact;
@@ -101,7 +102,8 @@ public class GenerateFilesystemMojo extends AbstractMojo {
                     + "<configuration> tag!\n");
         }
 
-        FilesystemGenerator filesystem = new FilesystemGenerator();
+        File outputDir = new File(project.getBuild().getDirectory(), "space-filesystem");
+        FilesystemGenerator filesystem = new FilesystemGenerator(outputDir);
 
         try {
             // Add the logging.properties file
