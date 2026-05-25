@@ -13,38 +13,33 @@ the build-side configuration.
 Adding the plugin to your app
 -----------------------------
 
-Add the following profile to the app's ``pom.xml``:
+Add the following to the app's ``pom.xml``:
 
 .. code-block:: xml
 
-   <profiles>
-     <profile>
-       <id>generate-nmf-package</id>
-       <build>
-         <plugins>
-           <plugin>
-             <groupId>int.esa.nmf.core</groupId>
-             <artifactId>nmf-package-maven-plugin</artifactId>
-             <executions>
-               <execution>
-                 <phase>package</phase>
-                 <goals>
-                   <goal>generate-nmf-package</goal>
-                 </goals>
-                 <configuration>
-                   <mainClass>esa.mo.nmf.apps.MyApp</mainClass>
-                   <libs>
-                     <!-- Additional files or folders to bundle. -->
-                     <!-- <lib>${basedir}/calibration-data</lib> -->
-                   </libs>
-                 </configuration>
-               </execution>
-             </executions>
-           </plugin>
-         </plugins>
-       </build>
-     </profile>
-   </profiles>
+   <build>
+     <plugins>
+       <plugin>
+         <groupId>int.esa.nmf.core</groupId>
+         <artifactId>nmf-package-maven-plugin</artifactId>
+         <executions>
+           <execution>
+             <phase>package</phase>
+             <goals>
+               <goal>generate-nmf-package</goal>
+             </goals>
+             <configuration>
+               <mainClass>esa.mo.nmf.apps.MyApp</mainClass>
+               <libs>
+                 <!-- Additional files or folders to bundle. -->
+                 <!-- <lib>${basedir}/calibration-data</lib> -->
+               </libs>
+             </configuration>
+           </execution>
+         </executions>
+       </plugin>
+     </plugins>
+   </build>
 
 Configuration
 -------------
@@ -58,11 +53,11 @@ Configuration
 Building a package
 ------------------
 
-Run the build with the profile enabled:
+The package is built as part of the normal build:
 
 .. code-block:: bash
 
-   mvn clean install -Pgenerate-nmf-package
+   mvn clean install
 
 The resulting ``<app-name>-<version>.nmfpackage`` is produced in the
 project's ``target/`` directory. Inspect it with any ZIP utility.
