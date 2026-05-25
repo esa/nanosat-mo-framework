@@ -74,6 +74,60 @@
             <artifactId>nanosat-mo-supervisor-sim</artifactId>
             <version>${esa.nmf.version}</version>
         </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>all-mc-services</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>publish-clock</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>camera</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>benchmark</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>payloads-test</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>waveform</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>camera-acquisitor-system</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>picture-processor</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>python-script</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
     </dependencies>
 
     <build>
@@ -108,70 +162,4 @@
         </plugins>
     </build>
 
-    <profiles>
-        <profile>
-            <!-- Installs the SDK example apps into the playground filesystem.
-                 Requires the apps to have been built first:
-                   mvn install -Pgenerate-nmf-package (in each example app, or via the examples-space reactor)
-                 Then run:
-                   mvn package -Pinstall-apps -->
-            <id>install-apps</id>
-            <dependencies>
-                <dependency>
-                    <groupId>int.esa.nmf.sdk</groupId>
-                    <artifactId>all-mc-services</artifactId>
-                    <version>${esa.nmf.version}</version>
-                    <type>nmfpack</type>
-                </dependency>
-                <dependency>
-                    <groupId>int.esa.nmf.sdk</groupId>
-                    <artifactId>publish-clock</artifactId>
-                    <version>${esa.nmf.version}</version>
-                    <type>nmfpack</type>
-                </dependency>
-                <dependency>
-                    <groupId>int.esa.nmf.sdk</groupId>
-                    <artifactId>camera</artifactId>
-                    <version>${esa.nmf.version}</version>
-                    <type>nmfpack</type>
-                </dependency>
-                <dependency>
-                    <groupId>int.esa.nmf.sdk</groupId>
-                    <artifactId>benchmark</artifactId>
-                    <version>${esa.nmf.version}</version>
-                    <type>nmfpack</type>
-                </dependency>
-                <dependency>
-                    <groupId>int.esa.nmf.sdk</groupId>
-                    <artifactId>payloads-test</artifactId>
-                    <version>${esa.nmf.version}</version>
-                    <type>nmfpack</type>
-                </dependency>
-                <dependency>
-                    <groupId>int.esa.nmf.sdk</groupId>
-                    <artifactId>waveform</artifactId>
-                    <version>${esa.nmf.version}</version>
-                    <type>nmfpack</type>
-                </dependency>
-                <dependency>
-                    <groupId>int.esa.nmf.sdk</groupId>
-                    <artifactId>camera-acquisitor-system</artifactId>
-                    <version>${esa.nmf.version}</version>
-                    <type>nmfpack</type>
-                </dependency>
-                <dependency>
-                    <groupId>int.esa.nmf.sdk</groupId>
-                    <artifactId>picture-processor</artifactId>
-                    <version>${esa.nmf.version}</version>
-                    <type>nmfpack</type>
-                </dependency>
-                <dependency>
-                    <groupId>int.esa.nmf.sdk</groupId>
-                    <artifactId>python-script</artifactId>
-                    <version>${esa.nmf.version}</version>
-                    <type>nmfpack</type>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
 </project>
