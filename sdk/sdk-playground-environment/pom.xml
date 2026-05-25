@@ -20,13 +20,15 @@
         <groupId>int.esa.nmf</groupId>
         <artifactId>parent</artifactId>
         <version>5.0-SNAPSHOT</version>
-        <relativePath>../parent/pom.xml</relativePath>
+        <relativePath>../../parent/pom.xml</relativePath>
     </parent>
 
     <groupId>int.esa.nmf.sdk</groupId>
-    <artifactId>reactor</artifactId>
-    <name>ESA NMF SDK</name>
-    <packaging>pom</packaging>
+    <artifactId>sdk-playground-environment</artifactId>
+    <packaging>jar</packaging>
+
+    <name>ESA NMF SDK - Playground Environment</name>
+    <description>Local execution environment for SDK developers. Generates a proper NMF filesystem layout using the nmf-linux-maven-plugin, replacing the legacy ant-based sdk-execution-environment.</description>
 
     <organization>
         <name>ESA</name>
@@ -60,17 +62,50 @@
     </developers>
 
     <properties>
+        <esa.nmf.version>5.0-SNAPSHOT</esa.nmf.version>
         <maven.deploy.skip>true</maven.deploy.skip>
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
     </properties>
 
-    <modules>
-        <module>examples-space</module>
-        <module>examples-ground</module>
-        <module>all-mc-services-with-sim</module>
-        <module>consumer-test-tool</module>
-        <module>cli-tool</module>
-        <module>sdk-execution-environment</module>
-        <module>sdk-playground-environment</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>int.esa.nmf.simulator</groupId>
+            <artifactId>nanosat-mo-supervisor-sim</artifactId>
+            <version>${esa.nmf.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>generate-filesystem</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>int.esa.nmf.core</groupId>
+                        <artifactId>nmf-linux-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>generate-filesystem</goal>
+                                </goals>
+                                <configuration>
+                                    <supervisorMainClass>esa.mo.nmf.sim.supervisor.NanosatMOSupervisorBasicImpl</supervisorMainClass>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
