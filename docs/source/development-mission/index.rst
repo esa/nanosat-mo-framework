@@ -9,6 +9,10 @@ mission wraps the spacecraft's hardware into NMF-compatible services;
 and the apps run on top without knowing which hardware they are
 flying on.
 
+.. figure:: ../images/nmf-missions-on-core.png
+   :align: center
+   :alt: Multiple NMF Missions built on top of a single NMF Core Implementation
+
 .. note::
 
    Mission development is separate from App development and Ground
