@@ -174,11 +174,11 @@
                                 <svg:path d="M0,0 V10 L15,5 Z" fill="rgb(0,0,0)"/>
                             </svg:marker>
                         </svg:defs>
-                        <svg:path d="M135,90 L240,90 L345,90" end="Package" fill="none" marker-mid="url(#relatedArrow)" start="Installation" stroke="rgb(0,0,0)" stroke-width="1"/>
-                        <svg:g id="Package" transform="translate(280,50)">
+                        <svg:path d="M135,90 L240,90 L345,90" end="PackageDefinition" fill="none" marker-mid="url(#relatedArrow)" start="Installation" stroke="rgb(0,0,0)" stroke-width="1"/>
+                        <svg:g id="PackageDefinition" transform="translate(280,50)">
                             <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="130" x="4" y="4"/>
                             <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="130"/>
-                            <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="65" y="25">Package</svg:text>
+                            <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="65" y="25">PackageDefinition</svg:text>
                             <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="65" y="45">1</svg:text>
                             <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="65" y="65">PackageDefinition</svg:text>
                         </svg:g>
@@ -192,7 +192,7 @@
                     </svg:svg>
                 </mal:diagram>
                 <com:objects comment="">
-                    <com:object comment="" number="1" name="Package">
+                    <com:object comment="" number="1" name="PackageDefinition">
                         <com:objectType>
                             <mal:type area="SoftwareManagement" list="false" name="PackageDefinition"/>
                         </com:objectType>
