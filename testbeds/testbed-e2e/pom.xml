@@ -51,16 +51,24 @@
         <url>https://github.com/esa/nanosat-mo-framework/issues</url>
     </issueManagement>
 
+    <properties>
+        <esa.nmf.version>5.0-SNAPSHOT</esa.nmf.version>
+        <nmf.e2e.filesystem>${project.build.directory}/space-filesystem/nanosat-mo-framework</nmf.e2e.filesystem>
+    </properties>
+
     <dependencies>
-        <dependency>
-            <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nmf-composites</artifactId>
-            <version>${esa.nmf.version}</version>
-        </dependency>
+        <!-- Supervisor — used by generate-filesystem to classify JARs -->
         <dependency>
             <groupId>int.esa.nmf.simulator</groupId>
             <artifactId>nanosat-mo-supervisor-sim</artifactId>
             <version>${esa.nmf.version}</version>
+        </dependency>
+        <!-- App under test -->
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>all-mc-services</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -95,9 +103,37 @@
                 <artifactId>maven-resources-plugin</artifactId>
             </plugin>
             <plugin>
+                <groupId>int.esa.nmf.core</groupId>
+                <artifactId>nmf-linux-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-e2e-filesystem</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>generate-filesystem</goal>
+                        </goals>
+                        <configuration>
+                            <supervisorMainClass>esa.mo.nmf.sim.supervisor.NanosatMOSupervisorBasicImpl</supervisorMainClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-e2e-apps</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>install-packages</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <nmf.e2e.filesystem>${nmf.e2e.filesystem}</nmf.e2e.filesystem>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
         </plugins>
     </build>
