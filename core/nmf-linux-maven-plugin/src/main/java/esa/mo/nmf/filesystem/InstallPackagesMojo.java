@@ -95,8 +95,8 @@ public class InstallPackagesMojo extends AbstractMojo {
             }
         }
 
-        File stagingDir = new File(project.getBuild().getDirectory(), "nmfpack-staging");
-        stagingDir.mkdirs();
+        File packagesDir = new File(nmfDir, Deployment.DIR_PACKAGES);
+        packagesDir.mkdirs();
 
         NMFPackageManager manager = new NMFPackageManager(null);
         int count = 0;
@@ -109,14 +109,8 @@ public class InstallPackagesMojo extends AbstractMojo {
             File packageFile = artifact.getFile();
             if (packageFile == null || !packageFile.exists()) {
                 throw new MojoExecutionException("Package file not found for artifact: "
-                        + artifact + ". Build the app with -Pgenerate-nmf-package first.");
+                        + artifact + ". Build the app first.");
             }
-
-            // Isolate each app in its own staging subdir to avoid dep-package
-            // filename collisions across apps.
-            File appStaging = new File(stagingDir,
-                    artifact.getArtifactId() + "-" + artifact.getVersion());
-            appStaging.mkdirs();
 
             // Read the package metadata to find which dep JARs it needs.
             Metadata metadata;
@@ -138,33 +132,29 @@ public class InstallPackagesMojo extends AbstractMojo {
                                 + ". Add it to the playground pom dependencies.");
                     }
 
-                    // NMFPackageBuilder names the output
-                    // "<artifactId>-<version>.nmfpack", which matches what
-                    // installDependencies looks for:
-                    // depJarName.replace(".jar", ".nmfpack")  (standard Maven naming)
                     MetadataDependency depMeta = new MetadataDependency(
                             depArtifact.getArtifactId(), depArtifact.getVersion());
                     NMFPackageBuilder depBuilder = new NMFPackageBuilder(depMeta);
                     depBuilder.addFileOrDirectory(depArtifact.getFile());
-                    depBuilder.createPackage(appStaging);
+                    depBuilder.createPackage(packagesDir);
                     getLog().info("  Packaged dep: " + depJarName);
                 }
             }
 
             // installDependencies looks for dep packages in the same directory
-            // as the main package, so copy the main package into the staging dir.
-            File stagedMain = new File(appStaging, packageFile.getName());
+            // as the main package; both live in packagesDir.
+            File packageInDir = new File(packagesDir, packageFile.getName());
             try {
-                Files.copy(packageFile.toPath(), stagedMain.toPath(),
+                Files.copy(packageFile.toPath(), packageInDir.toPath(),
                         StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException ex) {
                 throw new MojoExecutionException(
-                        "Failed to stage package: " + packageFile.getName(), ex);
+                        "Failed to copy package: " + packageFile.getName(), ex);
             }
 
             getLog().info("Installing: " + packageFile.getName());
             try {
-                manager.install(stagedMain.getAbsolutePath(), nmfDir);
+                manager.install(packageInDir.getAbsolutePath(), nmfDir);
                 count++;
             } catch (IOException ex) {
                 throw new MojoExecutionException(
