@@ -59,8 +59,8 @@
     <dependencies>
         <!-- Supervisor — used by generate-filesystem to classify JARs -->
         <dependency>
-            <groupId>int.esa.nmf.simulator</groupId>
-            <artifactId>nanosat-mo-supervisor-sim</artifactId>
+            <groupId>int.esa.nmf</groupId>
+            <artifactId>barebone-nanosat-mo-supervisor</artifactId>
             <version>${esa.nmf.version}</version>
         </dependency>
         <!-- App under test -->
@@ -113,7 +113,7 @@
                             <goal>generate-filesystem</goal>
                         </goals>
                         <configuration>
-                            <supervisorMainClass>esa.mo.nmf.sim.supervisor.NanosatMOSupervisorBasicImpl</supervisorMainClass>
+                            <supervisorMainClass>esa.mo.nmf.mission.barebone.BareboneSupervisorImpl</supervisorMainClass>
                         </configuration>
                     </execution>
                     <execution>

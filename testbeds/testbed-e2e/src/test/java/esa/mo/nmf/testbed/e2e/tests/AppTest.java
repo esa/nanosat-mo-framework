@@ -32,7 +32,7 @@ import org.junit.BeforeClass;
 public class AppTest {
 
     private static final SupervisorHarness supervisorHarness = new SupervisorHarness();
-    private static final AppHarness appHarness = new AppHarness("all-mc-services");
+    private static final AppHarness appHarness = new AppHarness("all-mc-services", supervisorHarness);
 
     @BeforeClass
     public static void setUpClass() throws IOException {
