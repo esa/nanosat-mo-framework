@@ -28,6 +28,7 @@ import esa.mo.nmf.ctt.windows.element.MOWindow;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.event.HierarchyEvent;
 import java.io.InterruptedIOException;
 import java.util.Map;
 import java.util.logging.Level;
@@ -154,7 +155,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         leftPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         // Right: execution log
-        String[] cols = {"Time", "Action ID", "Execution ID", "Category", "Stage Type", "Success", "Step", "Comment"};
+        String[] cols = {"Time", "Action ID", "Execution ID", "Stage Type", "Success", "Step", "Comment"};
         executionLogModel = new DefaultTableModel(new Object[][]{}, cols) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -163,7 +164,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
             @Override
             public Class<?> getColumnClass(int col) {
-                if (col == 5) {
+                if (col == 4) {
                     return Boolean.class;
                 }
                 return String.class;
@@ -184,6 +185,11 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
         splitPane.setResizeWeight(0.5);
+        splitPane.addHierarchyListener(e -> {
+            if ((e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0 && splitPane.isShowing()) {
+                splitPane.setDividerLocation(0.5);
+            }
+        });
         add(splitPane, BorderLayout.CENTER);
     }
 
@@ -329,31 +335,25 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             final NullableAttributeList keys = updateHeader.getKeyValues();
             Long definitionId = null;
             Long executionId = null;
-            Short category = null;
 
-            if (keys != null && keys.size() >= 3) {
+            if (keys != null && keys.size() >= 2) {
                 if (keys.get(0) != null && keys.get(0).getValue() != null) {
                     definitionId = ((Union) keys.get(0).getValue()).getLongValue();
                 }
                 if (keys.get(1) != null && keys.get(1).getValue() != null) {
                     executionId = ((Union) keys.get(1).getValue()).getLongValue();
                 }
-                if (keys.get(2) != null && keys.get(2).getValue() != null) {
-                    category = ((UOctet) keys.get(2).getValue()).getValue();
-                }
             }
 
             final String timestamp = HelperTime.time2readableString(msgHeader.getTimestamp());
             final Long finalDefinitionId = definitionId;
             final Long finalExecutionId = executionId;
-            final Short finalCategory = category;
             final String finalStageType = stageType != null ? stageType.toString() : "";
 
             SwingUtilities.invokeLater(() -> executionLogModel.addRow(new Object[]{
                 timestamp,
                 finalDefinitionId,
                 finalExecutionId,
-                finalCategory,
                 finalStageType,
                 success,
                 step,
