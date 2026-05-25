@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.nmfpackage;
 
+import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
 import esa.mo.nmf.nmfpackage.metadata.MetadataDependency;
 import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
@@ -32,11 +33,13 @@ import java.util.logging.Logger;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.project.MavenProjectHelper;
 
 /**
  * Generates the NMF Package for the NMF App
@@ -53,6 +56,9 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
      */
     @Parameter(defaultValue = "${project}")
     private MavenProject project;
+
+    @Component
+    private MavenProjectHelper projectHelper;
 
     /**
      * The App name of the NMF Package
@@ -206,6 +212,13 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
 
         getLog().info("------\nGenerating project NMF Package...\n");
         builder.createPackage(TARGET_FOLDER);
+
+        File packageFile = new File(project.getBuild().getDirectory(),
+                name + "-" + version + "." + Const.NMF_PACKAGE_SUFFIX);
+        if (packageFile.exists()) {
+            projectHelper.attachArtifact(project, Const.NMF_PACKAGE_SUFFIX, packageFile);
+            getLog().info("Attached artifact: " + packageFile.getName());
+        }
     }
 
     private String packageJarDependency(Artifact artifact) {

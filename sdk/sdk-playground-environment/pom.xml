@@ -68,6 +68,7 @@
     </properties>
 
     <dependencies>
+        <!-- Supervisor — used by generate-filesystem to classify JARs -->
         <dependency>
             <groupId>int.esa.nmf.simulator</groupId>
             <artifactId>nanosat-mo-supervisor-sim</artifactId>
@@ -87,6 +88,64 @@
     <profiles>
         <profile>
             <id>generate-filesystem</id>
+            <dependencies>
+                <!-- SDK example apps — installed as NMF packages into the playground filesystem.
+                     Build the example apps with -Pgenerate-nmf-package first. -->
+                <dependency>
+                    <groupId>int.esa.nmf.sdk</groupId>
+                    <artifactId>all-mc-services</artifactId>
+                    <version>${esa.nmf.version}</version>
+                    <type>nmfpack</type>
+                </dependency>
+                <dependency>
+                    <groupId>int.esa.nmf.sdk</groupId>
+                    <artifactId>publish-clock</artifactId>
+                    <version>${esa.nmf.version}</version>
+                    <type>nmfpack</type>
+                </dependency>
+                <dependency>
+                    <groupId>int.esa.nmf.sdk</groupId>
+                    <artifactId>camera</artifactId>
+                    <version>${esa.nmf.version}</version>
+                    <type>nmfpack</type>
+                </dependency>
+                <dependency>
+                    <groupId>int.esa.nmf.sdk</groupId>
+                    <artifactId>benchmark</artifactId>
+                    <version>${esa.nmf.version}</version>
+                    <type>nmfpack</type>
+                </dependency>
+                <dependency>
+                    <groupId>int.esa.nmf.sdk</groupId>
+                    <artifactId>payloads-test</artifactId>
+                    <version>${esa.nmf.version}</version>
+                    <type>nmfpack</type>
+                </dependency>
+                <dependency>
+                    <groupId>int.esa.nmf.sdk</groupId>
+                    <artifactId>waveform</artifactId>
+                    <version>${esa.nmf.version}</version>
+                    <type>nmfpack</type>
+                </dependency>
+                <dependency>
+                    <groupId>int.esa.nmf.sdk</groupId>
+                    <artifactId>camera-acquisitor-system</artifactId>
+                    <version>${esa.nmf.version}</version>
+                    <type>nmfpack</type>
+                </dependency>
+                <dependency>
+                    <groupId>int.esa.nmf.sdk</groupId>
+                    <artifactId>picture-processor</artifactId>
+                    <version>${esa.nmf.version}</version>
+                    <type>nmfpack</type>
+                </dependency>
+                <dependency>
+                    <groupId>int.esa.nmf.sdk</groupId>
+                    <artifactId>python-script</artifactId>
+                    <version>${esa.nmf.version}</version>
+                    <type>nmfpack</type>
+                </dependency>
+            </dependencies>
             <build>
                 <plugins>
                     <plugin>
@@ -94,6 +153,7 @@
                         <artifactId>nmf-linux-maven-plugin</artifactId>
                         <executions>
                             <execution>
+                                <id>generate-supervisor-filesystem</id>
                                 <phase>package</phase>
                                 <goals>
                                     <goal>generate-filesystem</goal>
@@ -101,6 +161,13 @@
                                 <configuration>
                                     <supervisorMainClass>esa.mo.nmf.sim.supervisor.NanosatMOSupervisorBasicImpl</supervisorMainClass>
                                 </configuration>
+                            </execution>
+                            <execution>
+                                <id>install-example-apps</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>install-packages</goal>
+                                </goals>
                             </execution>
                         </executions>
                     </plugin>

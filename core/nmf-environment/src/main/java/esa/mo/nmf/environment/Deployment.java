@@ -58,6 +58,25 @@ public class Deployment {
     private static File pathNMF = null;
 
     /**
+     * Initialises the NMF root directory. May be called at most once per JVM
+     * lifetime, before any other {@code Deployment} method is used. Intended
+     * for tooling (e.g. Maven Mojos) that operates on a generated filesystem
+     * at a known path rather than deriving the root from the JVM working
+     * directory.
+     *
+     * @param dir The directory to use as the NMF root.
+     * @throws IllegalStateException if the root has already been set.
+     */
+    public synchronized static void initialize(File dir) {
+        if (pathNMF != null) {
+            throw new IllegalStateException(
+                    "NMF root directory is already set to '" + pathNMF
+                    + "' and cannot be changed.");
+        }
+        pathNMF = dir;
+    }
+
+    /**
      * Returns the NMF root directory.
      *
      * @return The NMF root directory.
