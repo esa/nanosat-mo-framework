@@ -77,7 +77,7 @@ public class FiveStagesAction {
             ActionDefinition actionDef1 = new ActionDefinition(
                     new Identifier(ACTION5STAGES),
                     "Example of an Action with 5 stages.",
-                    ActionCategory.DEFAULT, new UShort(5), argDef);
+                    new UShort(5), argDef);
             actionDefs.add(actionDef1);
             registrationObject.registerActions(actionDefs);
         }

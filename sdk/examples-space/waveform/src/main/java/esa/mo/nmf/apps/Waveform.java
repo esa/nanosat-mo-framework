@@ -121,11 +121,11 @@ public class Waveform {
             ActionDefinitionList actionDefs = new ActionDefinitionList();
             ActionDefinition actionDef1 = new ActionDefinition(
                     new Identifier("start"), "Start the plotter.",
-                    ActionCategory.DEFAULT, new UShort(0), new ArgumentDefinitionList());
+                    new UShort(0), new ArgumentDefinitionList());
             actionDefs.add(actionDef1);
             ActionDefinition actionDef2 = new ActionDefinition(
                     new Identifier("stop"), "Stop the plotter.",
-                    ActionCategory.DEFAULT, new UShort(0), new ArgumentDefinitionList());
+                    new UShort(0), new ArgumentDefinitionList());
             actionDefs.add(actionDef2);
 
             ArgumentDefinitionList argDef1 = new ArgumentDefinitionList();
@@ -137,7 +137,7 @@ public class Waveform {
 
             ActionDefinition actionDef3 = new ActionDefinition(
                     new Identifier("updateAmplitude"), "Update the Amplitude",
-                    ActionCategory.DEFAULT, new UShort(0), argDef1);
+                    new UShort(0), argDef1);
             actionDefs.add(actionDef3);
 
             ArgumentDefinitionList argDef2 = new ArgumentDefinitionList();
@@ -149,7 +149,7 @@ public class Waveform {
 
             ActionDefinition actionDef4 = new ActionDefinition(
                     new Identifier("updateFrequency"), "Update the Frequency",
-                    ActionCategory.DEFAULT, new UShort(0), argDef2);
+                    new UShort(0), argDef2);
             actionDefs.add(actionDef4);
 
             registrationObject.registerActions(actionDefs);

@@ -173,9 +173,7 @@ public final class ActionManager extends MCManager {
     }
 
     protected boolean isActionDefinitionValid(ActionDefinition oldDef, ActionDefinition newDef) {
-        if (//!oldDef.getName().equals(newDef.getName()) ||
-                !oldDef.getCategory().equals(newDef.getCategory())
-                || !oldDef.getProgressStepCount().equals(newDef.getProgressStepCount())) {
+        if (!oldDef.getProgressStepCount().equals(newDef.getProgressStepCount())) {
             return false;
         }
 
@@ -333,14 +331,9 @@ public final class ActionManager extends MCManager {
         final Identifier name = this.getName(definitionId);
 
         actionsExecutor.execute(() -> {
-            final ActionDefinition actionDefinition = getActionDefinition(definitionId);
-            final UOctet category = (actionDefinition != null && actionDefinition.getCategory() != null)
-                    ? new UOctet((short) actionDefinition.getCategory().getValue())
-                    : new UOctet((short) 0);
-
             if (progressPublisher != null) {
                 progressPublisher.publishExecutionProgress(definitionId, executionId,
-                        category, ExecutionStageType.START, true, null, null);
+                        ExecutionStageType.START, true, null, null);
             }
 
             UInteger errorNumber;
@@ -356,7 +349,7 @@ public final class ActionManager extends MCManager {
 
             if (progressPublisher != null) {
                 progressPublisher.publishExecutionProgress(definitionId, executionId,
-                        category, ExecutionStageType.END, success, null, comment);
+                        ExecutionStageType.END, success, null, comment);
             }
 
             executionRequests.remove(executionId);

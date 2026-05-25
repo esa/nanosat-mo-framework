@@ -99,7 +99,6 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         actionDefs.add(new ActionDefinition(
                 new Identifier(ACTION_TAKE_PICTURE_RAW),
                 "Uses the NMF Camera service to take a picture.",
-                ActionCategory.DEFAULT,
                 new UShort(TOTAL_STAGES),
                 arguments1
         ));
@@ -107,7 +106,6 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         actionDefs.add(new ActionDefinition(
                 new Identifier(ACTION_TAKE_PICTURE_JPG),
                 "Uses the NMF Camera service to take a picture.",
-                ActionCategory.DEFAULT,
                 new UShort(TOTAL_STAGES),
                 arguments1
         ));

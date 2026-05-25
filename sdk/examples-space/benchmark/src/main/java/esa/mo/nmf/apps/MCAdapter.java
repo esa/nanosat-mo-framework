@@ -90,12 +90,12 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         actionDefs.add(new ActionDefinition(
                 new Identifier(ACTION_STORE_AGGS),
                 "Stores " + NUMBER_OF_OBJS + " aggregation definition objects in the COM Archive.",
-                ActionCategory.DEFAULT, new UShort(0), arguments1));
+                new UShort(0), arguments1));
 
         actionDefs.add(new ActionDefinition(
                 new Identifier(ACTION_STORE_PARS),
                 "Stores " + NUMBER_OF_OBJS + " parameter value objects in the COM Archive.",
-                ActionCategory.DEFAULT, new UShort(0), arguments1));
+                new UShort(0), arguments1));
 
         LongList actionObjIds = registration.registerActions(actionDefs);
     }

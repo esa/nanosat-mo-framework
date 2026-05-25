@@ -110,7 +110,6 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         actionDefs.add(new ActionDefinition(
                 new Identifier(ACTION_RUN_PYTHON_SCRIPT),
                 "Runs a python script",
-                ActionCategory.DEFAULT,
                 new UShort(TOTAL_STAGES),
                 arguments));
     }
@@ -128,7 +127,6 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         actionDefs.add(new ActionDefinition(
                 new Identifier(ACTION_DESTROY_PROCESS),
                 "Destroy a process",
-                ActionCategory.DEFAULT,
                 new UShort(1),
                 arguments));
     }

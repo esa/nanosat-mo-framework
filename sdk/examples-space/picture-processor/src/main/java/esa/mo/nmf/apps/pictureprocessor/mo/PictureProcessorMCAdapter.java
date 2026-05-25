@@ -124,7 +124,7 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         actionDefs.add(new ActionDefinition(
                 new Identifier(ACTION_TAKE_AND_PROCESS_PICTURE),
                 "Uses the NMF Camera to take a picture and process it through a python script",
-                ActionCategory.DEFAULT, new UShort(TOTAL_STAGES), arguments));
+                new UShort(TOTAL_STAGES), arguments));
     }
 
     private void populateActionDestroyProcess(ActionDefinitionList actionDefs) {
@@ -140,7 +140,6 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         actionDefs.add(new ActionDefinition(
                 new Identifier(ACTION_DESTROY_PROCESS),
                 "Destroy a process",
-                ActionCategory.DEFAULT,
                 new UShort(1),
                 arguments));
     }

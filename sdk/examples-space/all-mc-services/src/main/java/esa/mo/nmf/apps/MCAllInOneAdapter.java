@@ -245,22 +245,22 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         ActionDefinition actionDef1 = new ActionDefinition(
                 new Identifier(ACTION_SUN_POINTING_MODE),
                 "Changes the spacecraft's attitude to sun pointing mode.",
-                ActionCategory.DEFAULT, new UShort(0), arguments1);
+                new UShort(0), arguments1);
 
         ActionDefinition actionDef2 = new ActionDefinition(
                 new Identifier(ACTION_NADIR_POINTING_MODE),
                 "Changes the spacecraft's attitude to nadir pointing mode.",
-                ActionCategory.DEFAULT, new UShort(0), arguments1);
+                new UShort(0), arguments1);
 
         ActionDefinition actionDef3 = new ActionDefinition(
                 new Identifier(ACTION_UNSET),
                 "Unsets the spacecraft's attitude.",
-                ActionCategory.DEFAULT, new UShort(0), new ArgumentDefinitionList());
+                new UShort(0), new ArgumentDefinitionList());
 
         ActionDefinition actionDef4 = new ActionDefinition(
                 new Identifier(ACTION_5_STAGES),
                 "Example of an Action with 5 stages.",
-                ActionCategory.DEFAULT, new UShort(5), new ArgumentDefinitionList());
+                new UShort(5), new ArgumentDefinitionList());
 
         actionDefs.add(actionDef1);
         actionDefs.add(actionDef2);

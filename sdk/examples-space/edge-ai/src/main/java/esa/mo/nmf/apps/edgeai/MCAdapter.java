@@ -67,7 +67,6 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         actionDefs.add(new ActionDefinition(
                 new Identifier(ACTION_START_AI),
                 "Starts the AI inference using the AI service",
-                ActionCategory.DEFAULT,
                 new UShort(TOTAL_STAGES),
                 arguments1));
         
@@ -81,7 +80,6 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         actionDefs.add(new ActionDefinition(
                 new Identifier(ACTION_CANCEL_AI),
                 "Cancel the AI processing",
-                ActionCategory.DEFAULT,
                 new UShort(1),
                 arguments2));
 

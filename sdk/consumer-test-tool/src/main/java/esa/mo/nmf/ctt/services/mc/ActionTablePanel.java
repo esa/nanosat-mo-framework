@@ -57,7 +57,6 @@ public class ActionTablePanel extends SharedTablePanel {
             comObject.getArchiveDetails().getInstId(),
             pDef.getName().getValue(),
             pDef.getDescription(),
-            String.valueOf(pDef.getCategory().getValue()),
             pDef.getProgressStepCount().toString()});
 
         comObjects.add(comObject);
@@ -70,13 +69,11 @@ public class ActionTablePanel extends SharedTablePanel {
             "Id",
             "name",
             "description",
-            "Category",
             "progressStepCount"};
 
         tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
             Class[] types = new Class[]{
                 java.lang.Integer.class,
-                java.lang.String.class,
                 java.lang.String.class,
                 java.lang.String.class,
                 java.lang.String.class};

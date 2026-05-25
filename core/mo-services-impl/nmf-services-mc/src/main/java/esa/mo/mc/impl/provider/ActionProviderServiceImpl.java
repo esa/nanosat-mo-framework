@@ -387,16 +387,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             }
         }
 
-        UOctet actionCategory = new UOctet((short) 0);
-        if (execReq != null) {
-            ActionDefinition actionDefinition = manager.getActionDefinition(execReq.getDefinitionId());
-            if (actionDefinition != null && actionDefinition.getCategory() != null) {
-                actionCategory = new UOctet((short) actionDefinition.getCategory().getValue());
-            }
-        }
-
         Long definitionId = execReq != null ? execReq.getDefinitionId() : null;
-        publishExecutionProgress(definitionId, executionId, actionCategory,
+        publishExecutionProgress(definitionId, executionId,
                 ExecutionStageType.PROGRESS, success, new UShort(progressStage),
                 success ? null : "Error code: " + errorNumber);
     }
@@ -407,14 +399,13 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
      *
      * @param definitionId The id of the ActionDefinition being executed.
      * @param executionId The id of the execution of an action.
-     * @param actionCategory The category of the action.
      * @param stageType The lifecycle stage (START, PROGRESS, or END).
      * @param success Whether the execution stage completed successfully.
      * @param step The progress step number, or null for START and END stages.
      * @param comment An optional comment.
      */
     public void publishExecutionProgress(final Long definitionId, final Long executionId,
-            final UOctet actionCategory, final ExecutionStageType stageType,
+            final ExecutionStageType stageType,
             final boolean success, final UShort step, final String comment) {
         try {
             synchronized (lock) {
@@ -427,7 +418,6 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             AttributeList keys = new AttributeList();
             keys.add(new Union(definitionId));
             keys.add(new Union(executionId));
-            keys.add(actionCategory);
 
             URI source = connection.getConnectionDetails().getProviderURI();
             UpdateHeader updateHeader = new UpdateHeader(new Identifier(source.getValue()),

@@ -85,7 +85,7 @@ public class DemoHelloWorldSimple {
             actionDefs.add(new ActionDefinition(
                     new Identifier(ACTION_GO),
                     "Simple Go action with double value.",
-                    ActionCategory.DEFAULT, new UShort(3), arguments1));
+                    new UShort(3), arguments1));
 
             registrationObject.registerActions(actionDefs);
         }

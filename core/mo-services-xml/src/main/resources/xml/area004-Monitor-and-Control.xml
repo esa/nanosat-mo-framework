@@ -49,7 +49,7 @@
                         When an execution stage of an action is reached, the service provider shall publish an execution progress update.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The service provider shall publish the execution progress update using subscription keys corresponding to the definitionId, executionId, and actionCategory of the executing action.
+                        The service provider shall publish the execution progress update using subscription keys corresponding to the definitionId and executionId of the executing action.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
                         The PUBLISH message shall include the stageType field in the message body.
@@ -59,9 +59,6 @@
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
                         A service consumer may subscribe to updates for a specific action execution, or for all action executions by using the wildcard value in the executionId field.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
-                        A service consumer may subscribe to updates for a specific action category, or for all categories by using the wildcard value in the actionCategory field.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
                         If the execution stage did not complete successfully, then the success field of the PUBLISH message shall be FALSE.
@@ -82,9 +79,6 @@
                             </mal:field>
                             <mal:field name="executionId" canBeNull="false" comment="The id of the ExecutionRequest being executed.">
                                 <mal:type area="MAL" list="false" name="Long"/>
-                            </mal:field>
-                            <mal:field name="actionCategory" canBeNull="false" comment="The category of the action.">
-                                <mal:type area="MAL" list="false" name="UOctet"/>
                             </mal:field>
                         </mal:subscriptionKeys>
                         <mal:publishNotify>
@@ -1293,12 +1287,6 @@
                     <mal:type area="MAL" list="false" name="Attribute"/>
                 </mal:field>
             </mal:composite>
-            <mal:enumeration name="ActionCategory" shortFormPart="7"
-                             comment="Contains the default Action category values. It is implementation specific what the meaning of the values are in a particular context.">
-                <mal:item nvalue="1" value="DEFAULT" comment="Default category."/>
-                <mal:item nvalue="2" value="HIPRIORITY" comment="Category for high priority actions."/>
-                <mal:item nvalue="3" value="CRITICAL" comment="Category for critical actions."/>
-            </mal:enumeration>
             <mal:enumeration name="ExecutionStageType" shortFormPart="36"
                              comment="Identifies the lifecycle stage of an action execution update published via the monitorExecution operation.">
                 <mal:item nvalue="1" value="START" comment="Indicates the beginning of action execution."/>
@@ -1306,7 +1294,7 @@
                 <mal:item nvalue="3" value="END" comment="Indicates the end of action execution, whether successful or not."/>
             </mal:enumeration>
             <mal:composite name="ActionDefinition" shortFormPart="8"
-                           comment="The definition of an action, including its name, description, category, and argument list.">
+                           comment="The definition of an action, including its name, description, and argument list.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
@@ -1316,10 +1304,6 @@
                 </mal:field>
                 <mal:field name="description" canBeNull="false" comment="The description of the action.">
                     <mal:type area="MAL" list="false" name="String"/>
-                </mal:field>
-                <mal:field name="category" canBeNull="false"
-                           comment="The category of the action.">
-                    <mal:type area="MC" list="false" name="ActionCategory"/>
                 </mal:field>
                 <mal:field name="progressStepCount" canBeNull="false"
                            comment="Total number of steps that will be reported if PROGRESS reporting is selected in the sent Action. 0 if PROGRESS reporting is not used.">

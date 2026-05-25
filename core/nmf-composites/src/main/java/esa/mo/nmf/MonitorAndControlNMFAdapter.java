@@ -370,7 +370,6 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
                 LOGGER.log(Level.INFO, "Action registered: {0}", actionName);
                 actionDefs.add(new ActionDefinition(actionName, annotation.description(),
-                        new ActionCategory(annotation.category()),
                         new UShort(annotation.stepCount()), arguments));
             }
         }
