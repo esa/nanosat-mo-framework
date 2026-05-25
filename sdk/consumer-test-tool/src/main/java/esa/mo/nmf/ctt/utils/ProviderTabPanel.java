@@ -82,6 +82,11 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         return this.services;
     }
 
+    private void insertServiceTab(String title, javax.swing.JComponent panel, String tooltip) {
+        javax.swing.SwingUtilities.invokeLater(() ->
+                serviceTabs.insertTab(title, null, panel, tooltip, serviceTabs.getTabCount()));
+    }
+
     public void insertServicesTabs() {
         try {
             startTabs();
@@ -118,27 +123,24 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                 ProviderStatusAdapter providerStatusAdapter = new ProviderStatusAdapter(heartbeat);
                 heartbeat.startListening(providerStatusAdapter);
             } else {
-                status.setText("Heartbeat service not available.");
+                javax.swing.SwingUtilities.invokeLater(() -> status.setText("Heartbeat service not available."));
             }
 
             if (sm.getAppsLauncherService() != null) {
                 AppsLauncherConsumerPanel panel = new AppsLauncherConsumerPanel(sm.getAppsLauncherService());
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Apps Launcher service", null, panel, "Apps Launcher Tab", count);
+                insertServiceTab("Apps Launcher service", panel, "Apps Launcher Tab");
                 panel.init();
             }
 
             if (sm.getCommandExecutorService() != null) {
                 CommandExecutorConsumerPanel panel = new CommandExecutorConsumerPanel(sm.getCommandExecutorService());
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Command Executor service", null, panel, "Command Executor Tab", count);
+                insertServiceTab("Command Executor service", panel, "Command Executor Tab");
                 panel.init();
             }
 
             if (sm.getPackageManagementService() != null) {
                 PackageManagementConsumerPanel panel = new PackageManagementConsumerPanel(sm.getPackageManagementService());
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Package Management service", null, panel, "Package Management Tab", count);
+                insertServiceTab("Package Management service", panel, "Package Management Tab");
                 panel.init();
             }
         }
@@ -149,9 +151,11 @@ public class ProviderTabPanel extends javax.swing.JPanel {
 
             if (com.getArchiveService() != null) {
                 ArchiveConsumerManagerPanel panel = new ArchiveConsumerManagerPanel(com.getArchiveService());
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Archive Manager", null, panel, "Archive Tab", count);
-                panel.setArchiveSyncConfigs(count + 1, serviceTabs, services);
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                    int count = serviceTabs.getTabCount();
+                    serviceTabs.insertTab("Archive Manager", null, panel, "Archive Tab", count);
+                    panel.setArchiveSyncConfigs(count + 1, serviceTabs, services);
+                });
             }
 
             /*
@@ -163,8 +167,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
              */
             if (com.getEventService() != null) {
                 EventConsumerPanel panel = new EventConsumerPanel(com.getEventService(), com.getArchiveService());
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Event service", null, panel, "Event Tab", count);
+                insertServiceTab("Event service", panel, "Event Tab");
                 panel.init();
             }
         }
@@ -175,33 +178,32 @@ public class ProviderTabPanel extends javax.swing.JPanel {
 
             if (mc.getActionService() != null) {
                 ActionConsumerPanel panel = new ActionConsumerPanel(services);
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Action service", null, panel, "Action Tab", count);
+                insertServiceTab("Action service", panel, "Action Tab");
                 panel.init();
             }
 
             if (mc.getParameterService() != null) {
                 ParameterConsumerPanel panel1 = new ParameterConsumerPanel(mc.getParameterService());
                 ParameterPublishedValues panel2 = new ParameterPublishedValues(mc.getParameterService());
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Parameter service", null, panel1, "Parameter Tab", count);
-                serviceTabs.insertTab("Published Parameter Values", null, panel2, "Published Parameters Tab",
-                        count + 1);
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                    int count = serviceTabs.getTabCount();
+                    serviceTabs.insertTab("Parameter service", null, panel1, "Parameter Tab", count);
+                    serviceTabs.insertTab("Published Parameter Values", null, panel2, "Published Parameters Tab",
+                            count + 1);
+                });
                 panel1.init();
                 panel2.subscribeToParameters();
             }
 
             if (mc.getAggregationService() != null) {
                 AggregationConsumerPanel panel = new AggregationConsumerPanel(mc.getAggregationService());
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Aggregation service", null, panel, "Aggregation Tab", count);
+                insertServiceTab("Aggregation service", panel, "Aggregation Tab");
                 panel.init();
             }
 
             if (mc.getAlertService() != null) {
                 AlertConsumerPanel panel = new AlertConsumerPanel(mc.getAlertService());
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Alert service", null, panel, "Alert Tab", count);
+                insertServiceTab("Alert service", panel, "Alert Tab");
                 panel.init();
             }
 
@@ -252,8 +254,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                     });
 
                     ClockConsumerPanel consumerPanel = new ClockConsumerPanel(clock);
-                    int count = serviceTabs.getTabCount();
-                    serviceTabs.insertTab("Clock service", null, consumerPanel, "Clock Tab", count);
+                    insertServiceTab("Clock service", consumerPanel, "Clock Tab");
                     consumerPanel.init();
                 }
             } catch (IOException ex) {

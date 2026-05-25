@@ -39,6 +39,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import org.ccsds.moims.mo.com.directory.DirectoryServiceInfo;
@@ -387,9 +388,11 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                 pnlTab.add(closeLabel, gbc);
                 // ------------------
 
-                tabs.addTab("", providerPanel);
-                tabs.setSelectedIndex(count);
-                tabs.setTabComponentAt(count, pnlTab);
+                SwingUtilities.invokeLater(() -> {
+                    tabs.addTab("", providerPanel);
+                    tabs.setSelectedIndex(count);
+                    tabs.setTabComponentAt(count, pnlTab);
+                });
 
                 providerPanel.insertServicesTabs();
             }
