@@ -61,6 +61,7 @@ public class ParameterTest {
 
     @Test
     public void testGetValue() throws MALInteractionException, MALException {
+        System.out.println("Running: testGetValue()");
         ParameterDefinition def = new ParameterDefinition(
                 new Identifier("TestParam"),
                 "A simple integer test parameter",
@@ -74,6 +75,7 @@ public class ParameterTest {
 
         Assert.assertNotNull("addParameters must return a non-null ID list", ids);
         Assert.assertEquals("One ID must be returned", 1, ids.size());
+        System.out.println("Number of parameters added: " + ids.size());
 
         ParameterStub stub = harness.getParameterConsumerStub().getParameterStub();
         ParameterValueDetailsList result = stub.getValue(ids);
@@ -85,8 +87,10 @@ public class ParameterTest {
         Assert.assertNotNull("ParameterValueDetails must not be null", details);
 
         Union rawValue = (Union) details.getValue().getRawValue();
+        System.out.println("The raw value returned is: " + rawValue.getIntegerValue());
         Assert.assertEquals("Raw value must match the listener's fixed return value",
                 Integer.valueOf(42), rawValue.getIntegerValue());
+        System.out.flush();
     }
 
 }

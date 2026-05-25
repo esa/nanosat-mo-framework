@@ -57,6 +57,7 @@ public class ArchiveTest {
 
     @Test
     public void testStoreAndRetrieve() throws MALInteractionException, MALException {
+        System.out.println("Running: testStoreAndRetrieve()");
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
         URI providerURI = harness.getCOMServicesProvider()
@@ -75,6 +76,7 @@ public class ArchiveTest {
         Assert.assertEquals("One ID must be returned", 1, ids.size());
         Long instId = ids.get(0);
         Assert.assertNotNull("Returned instance ID must not be null", instId);
+        System.out.println("The returned instance ID is: " + instId);
 
         ConfigurationSet retrieved = (ConfigurationSet) HelperArchive.getObjectBodyFromArchive(
                 stub, TEST_OBJECT_TYPE, domain, instId);
@@ -85,6 +87,7 @@ public class ArchiveTest {
         Assert.assertEquals("ObjectType in entry must match",
                 storedBody.getConfigObjects().get(0).getObjType(),
                 retrieved.getConfigObjects().get(0).getObjType());
+        System.out.flush();
     }
 
 }

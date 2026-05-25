@@ -69,6 +69,7 @@ public class AlertTest {
     @Test
     public void testPublishAlertEventIsReceived() throws MALException, MALInteractionException,
             java.net.MalformedURLException, InterruptedException {
+        System.out.println("Running: testPublishAlertEventIsReceived()");
 
         // Connect an event consumer directly to the COM Event service provider
         SingleConnectionDetails eventDetails = harness.getCOMServicesProvider()
@@ -95,6 +96,7 @@ public class AlertTest {
                 null, new Identifier("TestAlert"), args, null, null);
 
         Assert.assertNotNull("publishAlertEvent must return a non-null event object ID", eventObjId);
+        System.out.println("The returned event object ID is: " + eventObjId);
 
         boolean delivered = latch.await(5, TimeUnit.SECONDS);
         Assert.assertTrue("Alert event must be received by the consumer within 5 seconds", delivered);
@@ -122,8 +124,10 @@ public class AlertTest {
         Assert.assertEquals("Must have exactly one argument", 1, receivedArgs.size());
 
         Union receivedValue = (Union) receivedArgs.get(0).getValue();
+        System.out.println("The received argument value is: " + receivedValue.getIntegerValue());
         Assert.assertEquals("Argument value must match the published value",
                 Integer.valueOf(42), receivedValue.getIntegerValue());
+        System.out.flush();
     }
 
 }
