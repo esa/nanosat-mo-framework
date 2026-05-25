@@ -81,3 +81,23 @@ Set ``generationEnabled = true`` and ``reportIntervalSeconds`` to a
 non-zero value when registering (listener API) or in the ``@Parameter``
 annotation (annotation API). The framework will then poll the parameter
 and publish updates at that interval.
+
+How to gracefully shut down my App?
+------------------------------------
+
+Register a :java:ref:`CloseAppListener` via
+``connector.setCloseAppListener(...)`` before the connector finishes
+initialising. The listener's ``onClose()`` callback is invoked when the
+Supervisor sends a graceful stop request, giving the app a chance to
+flush state, release resources, or persist data before the process is
+terminated.
+
+.. code-block:: java
+
+   connector.setCloseAppListener(() -> {
+       // flush state, close files, etc.
+   });
+   connector.init(mcAdapter);
+
+If no listener is registered the Supervisor will still stop the app, but
+without any app-side cleanup.
