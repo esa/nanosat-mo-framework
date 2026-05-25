@@ -40,7 +40,6 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
@@ -202,28 +201,11 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         Long objIdDef = comObject.getObjectId();
 
         ActionDefinition actDef = (ActionDefinition) comObject.getObject();
-        AttributeValueList argumentValueList = new AttributeValueList();
-        ArgumentDefinitionList arguments = actDef.getArguments();
+        AttributeValueList argumentValueList;
 
-        if (arguments != null) {
-            for (int i = 0; i < arguments.size(); i++) {
-                if (arguments.get(i) == null) {
-                    argumentValueList.add(null);
-                    continue;
-                }
-
-                int type = arguments.get(i).getRawType().getValue();
-                String attributeName = HelperAttributes.typeShortForm2attributeName(type);
-                Object aaa = HelperAttributes.attributeName2object(attributeName);
-                Attribute elem = (Attribute) HelperAttributes.javaType2Attribute(aaa);
-                argumentValueList.add(new AttributeValue(elem));
-            }
-        }
-
-        MOWindow moWindow = new MOWindow(argumentValueList, true, "Action arguments list");
-
+        ActionArgumentsDialog dialog = new ActionArgumentsDialog(actDef);
         try {
-            argumentValueList = (AttributeValueList) moWindow.getObject();
+            argumentValueList = dialog.getArgumentValues();
         } catch (InterruptedIOException ex) {
             return;
         }
