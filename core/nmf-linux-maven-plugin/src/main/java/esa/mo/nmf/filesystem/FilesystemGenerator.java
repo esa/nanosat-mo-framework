@@ -109,6 +109,9 @@ public class FilesystemGenerator {
             }
 
             Files.copy(inputStream, destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            if (filename.endsWith(".sh")) {
+                destinationFile.setExecutable(true, false);
+            }
             System.out.println("Resource copied to: " + destinationFile.getAbsolutePath());
         } catch (IOException ex) {
             throw ex;
@@ -140,6 +143,7 @@ public class FilesystemGenerator {
             }
 
             Files.write(destinationFile.toPath(), content.getBytes(StandardCharsets.UTF_8));
+            destinationFile.setExecutable(true, false);
             System.out.println("Script generated at: " + destinationFile.getAbsolutePath());
         }
     }
