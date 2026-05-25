@@ -605,22 +605,22 @@
                 The service provider shall set the ServiceProvider COM object source link to NULL.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="10">
-                A ProviderCapabilities COM object shall represent the supported capabilities of a provider.
+                A ProviderDetails COM object shall represent the supported capabilities of a provider.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="11">
-                The ProviderCapabilities COM object body shall contain the provider details of the provider.
+                The ProviderDetails COM object body shall contain the provider details of the provider.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="12">
-                The ProviderCapabilities COM object related link shall indicate which ServiceProvider COM object it links to.
+                The ProviderDetails COM object related link shall indicate which ServiceProvider COM object it links to.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="13">
-                The service provider shall set the ProviderCapabilities COM object source link to NULL.
+                The service provider shall set the ProviderDetails COM object source link to NULL.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="14">
-                The add operation shall create the ServiceProvider and ProviderCapabilities objects.
+                The add operation shall create the ServiceProvider and ProviderDetails objects.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="15">
-                The provider of the Directory service shall populate the object instance identifier for the ServiceProvider and ProviderCapabilities objects.
+                The provider of the Directory service shall populate the object instance identifier for the ServiceProvider and ProviderDetails objects.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="16">
                 If the implementation of the Directory service uses a COM archive, then the provider of the Directory service shall store all directory objects in the COM archive.
@@ -715,13 +715,13 @@
                         If the providerId field of the PublishDetails structure does not match an existing ServiceProvider COM object, then the service provider shall create a new ServiceProvider COM object to represent the new provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
-                        The service provider shall create a new ProviderCapabilities COM object to store the capabilities of the provider.
+                        The service provider shall create a new ProviderDetails COM object to store the capabilities of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="9">
                         The directory provider should store the created objects in the COM archive.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="10">
-                        The service provider shall return the COM identifiers of the ServiceProvider and ProviderCapabilities COM objects representing the provider.
+                        The service provider shall return the COM identifiers of the ServiceProvider and ProviderDetails COM objects representing the provider.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
@@ -791,13 +791,13 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <com:features>
-                <com:objects comment="The ServiceProvider and ProviderCapabilities objects used by the Directory service.">
+                <com:objects comment="The ServiceProvider and ProviderDetails objects used by the Directory service.">
                     <com:object number="1" name="ServiceProvider">
                         <com:objectType>
                             <mal:type area="MAL" list="false" name="Identifier"/>
                         </com:objectType>
                     </com:object>
-                    <com:object number="2" name="ProviderCapabilities">
+                    <com:object number="2" name="ProviderDetails">
                         <com:objectType>
                             <mal:type area="COM" list="false" name="ProviderDetails"/>
                         </com:objectType>

@@ -331,8 +331,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             HeterogeneousList capabilities = new HeterogeneousList();
             capabilities.add(newProviderDetails.getProviderDetails());
 
-            // Store in the Archive the ProviderCapabilities COM object
-            comServices.getArchiveService().store(false, DirectoryServiceInfo.PROVIDERCAPABILITIES_OBJECT_TYPE,
+            // Store in the Archive the ProviderDetails COM object
+            comServices.getArchiveService().store(false, DirectoryServiceInfo.PROVIDERDETAILS_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(), archDetails1, capabilities, null);
 
             this.providersAvailable.put(servProvObjId, newProviderDetails);
@@ -351,7 +351,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             ArchiveManager manager = comServices.getArchiveService().getArchiveManager();
             IdentifierList domain = ConfigurationProviderSingleton.getDomain();
             ArchiveQuery query = new ArchiveQuery(domain, null, null, providerObjectKey, null, null, null, null, null);
-            List<ArchivePersistenceObject> result = manager.query(DirectoryServiceInfo.PROVIDERCAPABILITIES_OBJECT_TYPE,
+            List<ArchivePersistenceObject> result = manager.query(DirectoryServiceInfo.PROVIDERDETAILS_OBJECT_TYPE,
                     query, null);
             Long capabilityId = result.get(0).getArchiveDetails().getInstId(); // there should be only one object in the query result
             LongList providerIds = new LongList();
@@ -359,7 +359,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             manager.removeEntries(DirectoryServiceInfo.SERVICEPROVIDER_OBJECT_TYPE, domain, providerIds, null);
             LongList capabilityIds = new LongList();
             capabilityIds.add(capabilityId);
-            manager.removeEntries(DirectoryServiceInfo.PROVIDERCAPABILITIES_OBJECT_TYPE, domain, capabilityIds, null);
+            manager.removeEntries(DirectoryServiceInfo.PROVIDERDETAILS_OBJECT_TYPE, domain, capabilityIds, null);
 
             this.providersAvailable.remove(providerObjectKey); // Remove the provider...
         }
