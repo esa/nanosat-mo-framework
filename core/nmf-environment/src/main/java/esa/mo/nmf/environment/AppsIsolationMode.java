@@ -18,7 +18,7 @@
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.nmfpackage;
+package esa.mo.nmf.environment;
 
 /**
  * Defines the isolation mode applied to NMF Apps managed by a Supervisor.
@@ -41,7 +41,7 @@ public class AppsIsolationMode {
     /** Each app runs inside a dedicated Docker container (not yet implemented). */
     public static final String DOCKER_CONTAINERS = "docker-containers";
 
-    /** Each app runs inside a bubblewrap sandbox (not yet implemented). */
+    /** Each app runs inside a bubblewrap sandbox. */
     public static final String BUBBLEWRAP = "bubblewrap";
 
     /**

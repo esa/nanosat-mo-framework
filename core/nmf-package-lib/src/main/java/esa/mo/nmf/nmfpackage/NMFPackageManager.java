@@ -22,6 +22,7 @@ package esa.mo.nmf.nmfpackage;
 
 import esa.mo.helpertools.misc.Const;
 import esa.mo.helpertools.misc.OSValidator;
+import esa.mo.nmf.environment.AppsIsolationMode;
 import esa.mo.nmf.environment.Deployment;
 import esa.mo.nmf.environment.LinuxUsersGroups;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;

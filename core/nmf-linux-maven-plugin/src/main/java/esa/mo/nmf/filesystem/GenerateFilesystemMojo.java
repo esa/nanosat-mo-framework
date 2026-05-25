@@ -21,7 +21,7 @@
 package esa.mo.nmf.filesystem;
 
 import esa.mo.nmf.environment.Deployment;
-import esa.mo.nmf.nmfpackage.AppsIsolationMode;
+import esa.mo.nmf.environment.AppsIsolationMode;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;

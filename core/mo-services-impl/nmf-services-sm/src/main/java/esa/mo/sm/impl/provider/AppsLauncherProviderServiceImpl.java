@@ -27,6 +27,7 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.Quota;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.helpertools.misc.OSValidator;
+import esa.mo.nmf.environment.AppsIsolationMode;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.io.IOException;
@@ -118,9 +119,13 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         this.comServices = comServices;
         this.directoryService = directoryService;
         OSValidator osValidator = new OSValidator();
-        manager = osValidator.isWindows()
-                ? new AppsLauncherManagerWindows(comServices)
-                : new AppsLauncherManagerLinux(comServices);
+        if (osValidator.isWindows()) {
+            manager = new AppsLauncherManagerWindows(comServices);
+        } else if (AppsIsolationMode.BUBBLEWRAP.equals(AppsIsolationMode.getCurrent())) {
+            manager = new AppsLauncherManagerBubblewrap(comServices);
+        } else {
+            manager = new AppsLauncherManagerLinux(comServices);
+        }
         appsLauncherServiceProvider = connection.startService(
                 AppsLauncherHelper.APPSLAUNCHER_SERVICE, true, this);
         running = true;
