@@ -7,9 +7,8 @@ user_nmf_admin="nmf-admin"
 user_nmf_admin_password="raspberry"
 user_nmf_app_prefix="app-"
 group_nmf_apps="nmf-apps"
-supervisor_mainclass="esa.mo.nmf.provider.NanoSatMOSupervisorRaspberryPiImpl"
 start_script_name="start_supervisor.sh"
-dir_nmf="/nanosat-mo-framework/"
+dir_nmf=$(pwd)/
 dir_home="/home/"
 ###############################################################################
 
@@ -97,34 +96,6 @@ create_dir(){
 	chown -R $owner:$group $directory
 	chmod -R $permissions $directory
 }
-
-# Create the start script for the nmf: start_supervisor.sh
-start_script_content="#!/bin/sh
-cd \${0%/*}
-
-JAVA_ORACLE_8=/nanosat-mo-framework/java/jdk-8-oracle-arm32-vfp-hflt/bin/java
-JAVA_OPENJDK_8=/nanosat-mo-framework/java/jdk8u292-b10-aarch32-20210423-jre/bin/java
-#JAVA_CMD=\$JAVA_OPENJDK_8
-JAVA_CMD=java
-JAVA_LOGGER=/nanosat-mo-framework/etc/logging.properties
-NMF_VERSION=5.0-SNAPSHOT
-MISSION_VERSION=5.0-SNAPSHOT
-
-# Prepare path for Supervisor logs
-NOW=\$(date +\"%F\")
-FILENAME=supervisor_\$NOW.log
-LOG_PATH=/nanosat-mo-framework/logs/supervisor
-mkdir -p \$LOG_PATH
-
-\$JAVA_CMD \\
-    -Xms16M \\
-    -Djava.util.logging.config.file=\$JAVA_LOGGER \\
-    -classpath \"libs/*:jars-mission/\$MISSION_VERSION/*:jars-nmf/\$NMF_VERSION/*\" \\
-    esa.mo.nmf.mission.barebone.BareboneSupervisorImpl  \\
-    2>&1 | tee -a \$LOG_PATH/\$FILENAME
-"
-
-echo "$start_script_content" | sudo tee $start_script_name
 
 chown -R $user_nmf_admin:$user_nmf_admin .
 chmod 775 .

@@ -24,8 +24,10 @@ import esa.mo.nmf.environment.Deployment;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.maven.artifact.Artifact;
@@ -110,6 +112,35 @@ public class FilesystemGenerator {
             System.out.println("Resource copied to: " + destinationFile.getAbsolutePath());
         } catch (IOException ex) {
             throw ex;
+        }
+    }
+
+    /**
+     * Generates a script file from a resource template, substituting placeholders.
+     *
+     * @param destination The name of the directory inside the NMF root.
+     * @param filename The filename of the template resource.
+     * @param replacements Map of placeholder strings to their replacement values.
+     * @throws IOException If the resource could not be found or written.
+     */
+    public void generateScript(String destination, String filename, Map<String, String> replacements) throws IOException {
+        ClassLoader classLoader = GenerateFilesystemMojo.class.getClassLoader();
+        File destinationDirectory = new File(dir_nmf, destination);
+        destinationDirectory.mkdirs();
+        File destinationFile = new File(destinationDirectory, filename);
+
+        try (InputStream inputStream = classLoader.getResourceAsStream(filename)) {
+            if (inputStream == null) {
+                throw new IOException("Resource not found: " + filename);
+            }
+
+            String content = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+            for (Map.Entry<String, String> entry : replacements.entrySet()) {
+                content = content.replace(entry.getKey(), entry.getValue());
+            }
+
+            Files.write(destinationFile.toPath(), content.getBytes(StandardCharsets.UTF_8));
+            System.out.println("Script generated at: " + destinationFile.getAbsolutePath());
         }
     }
 

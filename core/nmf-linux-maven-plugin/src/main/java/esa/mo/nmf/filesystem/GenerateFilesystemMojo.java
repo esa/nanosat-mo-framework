@@ -23,7 +23,9 @@ package esa.mo.nmf.filesystem;
 import esa.mo.nmf.environment.Deployment;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
@@ -115,6 +117,15 @@ public class GenerateFilesystemMojo extends AbstractMojo {
             String file_install = "fresh_install.sh";
             getLog().info("  >> Adding: " + file_install);
             filesystem.addResource("", file_install);
+
+            // Generate the start_supervisor.sh script from template
+            String file_start_script = "start_supervisor.sh";
+            getLog().info("  >> Generating: " + file_start_script);
+            Map<String, String> replacements = new HashMap<>();
+            replacements.put("@SUPERVISOR_MAIN_CLASS@", supervisorMainClass);
+            replacements.put("@NMF_VERSION@", nmfVersion);
+            replacements.put("@MISSION_VERSION@", missionVersion);
+            filesystem.generateScript("", file_start_script, replacements);
         } catch (IOException ex) {
             throw new MojoExecutionException(ex);
         }
