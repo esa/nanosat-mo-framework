@@ -3,11 +3,10 @@ Development Guide for Missions
 ================================
 
 An **NMF Mission** is a concrete implementation of the NanoSat MO
-Framework for a specific spacecraft. It sits between the generic NMF
-Core and the NMF Apps: the core provides the reusable machinery; the
-mission wraps the spacecraft's hardware into NMF-compatible services;
-and the apps run on top without knowing which hardware they are
-flying on.
+Framework for a specific mission. It leverages the existing NMF Core
+implementation: the core provides the reusable software; the
+mission wraps the spacecraft's hardware into NMF-compatible services.
+
 
 .. figure:: ../images/nmf-missions-on-core.png
    :align: center
@@ -16,37 +15,35 @@ flying on.
 .. note::
 
    Mission development is separate from App development and Ground
-   software development. The same NMF Core can host any number of
-   independent missions, and a correctly written NMF App is
-   mission-agnostic — it runs unmodified on any mission that provides
-   the platform services it needs.
+   software development. The same NMF Core can be reused by any number
+   of independent missions, and a correctly written NMF App is
+   mission-agnostic. The NMF App runs unmodified on any mission that
+   provides the platform services it needs.
 
-   There is intentional overlap between this guide and the
-   :doc:`../mission-integration/index` section.  That section focuses on
-   *deploying* a finished image onto hardware; this guide focuses on
-   *developing* the mission-specific software in the first place.
+How to develop an NMF Mission?
+------------------------------
 
-What a mission provides
------------------------
-
-A mission integration is responsible for three things:
+An NMF Mission is composed of the following parts:
 
 1. **A concrete** ``NanoSatMOSupervisor`` **subclass** — the process
-   that boots on the spacecraft, starts the NMF runtime, launches and
-   supervises NMF Apps, and exposes all services to the ground.
+   that boots on the spacecraft. It is responsible for starting the
+   NMF Apps and supervises them. Also, it exposes the Platform
+   services to both the NMF Apps and to Ground.
 
 2. **Platform service adapters** — hardware-specific implementations
    of the Platform service adapter interfaces (GPS, ADCS, Camera, …).
    These are the only code in the system that talks to real hardware;
    everything above them speaks MO services.
 
-3. **An on-board filesystem layout** — the directory tree and startup
-   scripts that the Supervisor and Apps expect to find on the
-   spacecraft's file system.
+3. **A custom transport binding** (if required) — if a custom or
+   tailored transport is used for the mission, the transport binding
+   must be implemented and integrated with the Ground MO Proxy for
+   protocol bridging.
 
-A mission may additionally supply a custom transport binding (e.g.
-MALSPP for a real space link) and integrate it with the Ground MO
-Proxy for protocol bridging.
+The on-board filesystem layout — the directory tree and startup
+scripts that the Supervisor and Apps expect to find on the spacecraft's
+file system — is generated automatically by the
+``nmf-linux-maven-plugin`` (see :doc:`filesystem`).
 
 .. toctree::
    :maxdepth: 1

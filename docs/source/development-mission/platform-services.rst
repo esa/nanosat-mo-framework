@@ -102,16 +102,33 @@ A minimal GPS adapter skeleton:
 Runtime adapter selection
 --------------------------
 
-The simulator Supervisor selects the adapter class at runtime via the
-``nmf.platform.impl`` Java system property::
+There are two levels at which adapters can be selected at runtime.
+
+**Provider-level** — the ``nmf.platform.impl`` Java system property
+in ``provider.properties`` selects the entire
+``PlatformServicesProviderInterface`` implementation class::
 
     nmf.platform.impl=esa.mo.platform.impl.util.PlatformServicesProviderSoftSim
 
-This allows the same Supervisor binary to run against simulated hardware
-(on a developer workstation) or real hardware (on the spacecraft) simply
-by changing the property in ``provider.properties``. Mission integrators
-can adopt the same pattern to support mixed configurations during
-development and testing.
+This switches the whole platform stack between, for example, a full
+software simulator and a real hardware implementation.
+
+**Per-service level** — when using ``PlatformServicesProviderSoftSim``,
+individual adapter classes can be overridden via ``platformsim.properties``
+in the Supervisor's working directory. Each property names the adapter
+class to load for that service::
+
+    camera.adapter=esa.mo.platform.impl.provider.adapters.MyCameraAdapter
+    gps.adapter=esa.mo.platform.impl.provider.adapters.MyGPSAdapter
+    adcs.adapter=esa.mo.platform.impl.provider.adapters.MyADCSAdapter
+    clock.adapter=esa.mo.platform.impl.provider.adapters.MyClockAdapter
+    optrx.adapter=esa.mo.platform.impl.provider.adapters.MyOptRxAdapter
+    sdr.adapter=esa.mo.platform.impl.provider.adapters.MySDRAdapter
+    pc.adapter=esa.mo.platform.impl.provider.adapters.MyPowerControlAdapter
+
+If a property is absent the simulator's built-in soft-sim adapter is
+used for that service. This makes it straightforward to test one real
+hardware adapter in isolation while keeping the rest simulated.
 
 Adapter not available
 ----------------------

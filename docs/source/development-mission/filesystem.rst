@@ -89,6 +89,15 @@ the correct locations on a freshly provisioned spacecraft. It is
 executed once during initial hardware bring-up and should be run by the
 same non-root user that will operate the Supervisor at runtime.
 
+Mission project structure
+--------------------------
+
+The ``nmf-linux-maven-plugin`` is being extended to also generate the
+Maven project structure for new mission integrations. Until that
+feature is complete, the existing missions — :doc:`../mission-integration/ops-sat`
+and :doc:`../mission-integration/phi-sat-2` — are the working
+references for how to lay out a mission Maven project.
+
 Barebone reference
 -------------------
 

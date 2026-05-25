@@ -13,4 +13,3 @@ The pages below document the mission-specific additions.
 
    ops-sat
    phi-sat-2
-   new-mission

@@ -65,7 +65,8 @@ development but not suitable for a real space link. Missions that use
 MALSPP or another space-link transport must:
 
 1. Implement or configure the transport binding for both the Supervisor
-   and the Apps.
+   and the Apps. The binding is configured via ``transport.properties``
+   in both the Supervisor's and the Ground MO Proxy's working directories.
 2. Deploy a **Ground MO Proxy** that bridges the space-side transport
    to the MALTCP used by ground consumers (CTT, ground applications).
 
@@ -79,8 +80,6 @@ of this configuration.
 Further reading
 ----------------
 
-- :doc:`../mission-integration/new-mission` — high-level integration
-  checklist and project structure.
 - :doc:`../mission-integration/ops-sat` — complete worked example for
   the ESA OPS-SAT mission.
 - :doc:`../mission-integration/phi-sat-2` — worked example for the
