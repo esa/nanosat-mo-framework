@@ -33,18 +33,21 @@ import java.util.logging.Logger;
 /**
  * Manages the lifecycle of an NMF Supervisor process for end-to-end tests.
  *
- * <p>The filesystem used is generated fresh during the build
+ * <p>
+ * The filesystem used is generated fresh during the build
  * (generate-test-resources phase) and its root path is read from the
  * {@code nmf.e2e.filesystem} system property injected by the Surefire
  * configuration in the testbed pom.
  *
- * <p>The Supervisor is launched via {@code start_supervisor.sh} so that any
+ * <p>
+ * The Supervisor is launched via {@code start_supervisor.sh} so that any
  * breakage in the script is caught by the tests. Because the script pipes
  * output through {@code tee}, {@link Process#destroy()} only kills the shell;
  * {@link #tearDown()} therefore uses {@link ProcessHandle#descendants()} to
  * terminate the full process tree and avoid orphans holding the MAL port.
  *
- * <p>Readiness is determined by scanning the Supervisor's stdout for the
+ * <p>
+ * Readiness is determined by scanning the Supervisor's stdout for the
  * {@code URI: maltcp://...-Directory} line that the Supervisor emits once the
  * Directory service is fully initialised. This line also carries the URI used
  * by the tests to connect to the Directory service.
@@ -66,12 +69,12 @@ public class SupervisorHarness {
     private volatile String directoryURI;
 
     /**
-     * Starts the Supervisor from the generated NMF filesystem and blocks
-     * until it is ready (providerURIs.properties appears).
+     * Starts the Supervisor from the generated NMF filesystem and blocks until
+     * it is ready (providerURIs.properties appears).
      *
-     * @throws IOException if the filesystem property is missing, the
-     *                     directory does not exist, or the Supervisor does
-     *                     not become ready within the timeout.
+     * @throws IOException if the filesystem property is missing, the directory
+     * does not exist, or the Supervisor does not become ready within the
+     * timeout.
      */
     public void setUp() throws IOException {
         String path = System.getProperty(PROP_FILESYSTEM);
@@ -137,7 +140,8 @@ public class SupervisorHarness {
     }
 
     /**
-     * Returns a snapshot of all lines written to the Supervisor's stdout/stderr.
+     * Returns a snapshot of all lines written to the Supervisor's
+     * stdout/stderr.
      *
      * @return unmodifiable list of log lines captured so far.
      */
@@ -245,7 +249,10 @@ public class SupervisorHarness {
                 + "Log:\n" + String.join("\n", getProviderLog()));
     }
 
-    /** Scans captured log lines for the Directory URI emitted at the end of startup. */
+    /**
+     * Scans captured log lines for the Directory URI emitted at the end of
+     * startup.
+     */
     private String scanForDirectoryURI() {
         synchronized (logLines) {
             for (String line : logLines) {

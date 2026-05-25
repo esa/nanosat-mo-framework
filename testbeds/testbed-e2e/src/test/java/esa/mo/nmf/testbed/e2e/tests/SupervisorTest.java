@@ -25,10 +25,8 @@ import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.nmf.testbed.e2e.SupervisorHarness;
 import java.io.IOException;
 import org.ccsds.moims.mo.com.structures.ProviderSummary;
-import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.com.structures.ProviderSummaryList;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -60,7 +58,7 @@ public class SupervisorTest {
                 "Supervisor log must not contain WARNING lines",
                 harness.hasWarnings());
         System.out.flush();
-        */
+         */
     }
 
     @Test

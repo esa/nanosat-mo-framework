@@ -23,6 +23,9 @@ package esa.mo.nmf.testbed.e2e;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ProviderSummary;
@@ -40,7 +43,8 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherS
 /**
  * Manages the lifecycle of a named NMF App for end-to-end tests.
  *
- * <p>Requires a running Supervisor; construct with the same
+ * <p>
+ * Requires a running Supervisor; construct with the same
  * {@link SupervisorHarness} instance used by the test class and call
  * {@link SupervisorHarness#setUp()} before calling {@link #setUp()} here.
  *
@@ -49,7 +53,7 @@ import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherS
 public class AppHarness {
 
     private static final Logger LOGGER = Logger.getLogger(AppHarness.class.getName());
-    private static final int STARTUP_TIMEOUT_SECONDS = 60;
+    private static final int STARTUP_TIMEOUT_SECONDS = 2;
     private static final String WILDCARD = "*";
 
     private final String appName;
@@ -62,7 +66,7 @@ public class AppHarness {
     /**
      * Creates a harness for the named app.
      *
-     * @param appName          the NMF app name as known to the AppsLauncher.
+     * @param appName the NMF app name as known to the AppsLauncher.
      * @param supervisorHarness the already-constructed supervisor harness.
      */
     public AppHarness(String appName, SupervisorHarness supervisorHarness) {
@@ -71,9 +75,19 @@ public class AppHarness {
     }
 
     /**
-     * Requests the Supervisor to start the app and waits until it is running.
+     * Requests the Supervisor to start the app and waits until it has
+     * registered itself in the Directory service.
      *
-     * @throws IOException if the app could not be started.
+     * <p>
+     * Checking the Directory (rather than the AppsLauncher running flag) is the
+     * definitive proof of a successful start: the supervisor sets the running
+     * flag as soon as it spawns the process, before the JVM loads any classes.
+     * Registration with the Directory only happens inside
+     * {@code NanoSatMOConnectorImpl.init()}, so a JVM that crashes on startup
+     * (e.g. {@code NoClassDefFoundError}) will never appear there.
+     *
+     * @throws IOException if the app could not be started or did not register
+     * within the timeout.
      */
     public void setUp() throws IOException {
         String directoryURIStr = supervisorHarness.getDirectoryURI();
@@ -116,7 +130,8 @@ public class AppHarness {
             try {
                 LongList ids = new LongList();
                 ids.add(appId);
-                stub.stopApp(ids, new AppsLauncherAdapter() {});
+                stub.stopApp(ids, new AppsLauncherAdapter() {
+                });
                 LOGGER.info("stopApp('" + appName + "') submitted.");
             } catch (MALException | MALInteractionException e) {
                 LOGGER.log(Level.WARNING, "Error stopping app '" + appName + "': " + e.getMessage(), e);
@@ -140,16 +155,19 @@ public class AppHarness {
     }
 
     /**
-     * Returns the COM object instance ID of the app, available after {@link #setUp()}.
+     * Returns the COM object instance ID of the app, available after
+     * {@link #setUp()}.
      *
-     * @return the app's object instance ID, or {@code null} if setUp has not been called.
+     * @return the app's object instance ID, or {@code null} if setUp has not
+     * been called.
      */
     public Long getAppId() {
         return appId;
     }
 
     /**
-     * Returns {@code true} if the app is currently reported as running by the AppsLauncher.
+     * Returns {@code true} if the app is currently reported as running by the
+     * AppsLauncher.
      *
      * @return true if running.
      * @throws IOException if the query fails.
@@ -168,6 +186,28 @@ public class AppHarness {
             return false;
         } catch (MALException | MALInteractionException e) {
             throw new IOException("Failed to query app running state: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Reads the most recent log file written by the app's start script, or
+     * returns a fallback message.
+     */
+    private String readAppLog() {
+        java.io.File logDir = new java.io.File(supervisorHarness.getNmfDir(),
+                "logs/app_" + appName);
+        if (!logDir.isDirectory()) {
+            return "(log directory not found: " + logDir + ")";
+        }
+        java.io.File[] logs = logDir.listFiles(f -> f.getName().endsWith(".log"));
+        if (logs == null || logs.length == 0) {
+            return "(no log files found in " + logDir + ")";
+        }
+        Arrays.sort(logs, Comparator.comparingLong(java.io.File::lastModified).reversed());
+        try {
+            return new String(Files.readAllBytes(logs[0].toPath()));
+        } catch (IOException e) {
+            return "(could not read " + logs[0] + ": " + e.getMessage() + ")";
         }
     }
 
@@ -193,21 +233,28 @@ public class AppHarness {
         return ids.get(0);
     }
 
+    /**
+     * Waits 1 second after {@code runApp()} and checks whether the app is still
+     * running. A JVM that crashes on startup (e.g. classpath error,
+     * {@code NoClassDefFoundError}) exits in well under a second; the
+     * supervisor detects the process exit and flips the running flag to false,
+     * so this check reliably catches startup failures.
+     */
     private void waitUntilRunning() throws IOException {
-        long deadline = System.currentTimeMillis() + STARTUP_TIMEOUT_SECONDS * 1000L;
-        while (System.currentTimeMillis() < deadline) {
-            if (isRunning()) {
-                return;
-            }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new IOException("Interrupted while waiting for app '" + appName + "' to start.");
-            }
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IOException("Interrupted while waiting for app '" + appName + "' to start.");
         }
-        throw new IOException("App '" + appName + "' did not become running within "
-                + STARTUP_TIMEOUT_SECONDS + " seconds.");
+        if (!isRunning()) {
+            throw new IOException("App '" + appName + "' is not running 1 second after runApp() — "
+                    + "it likely crashed on startup."
+                    + "\n---------------------------"
+                    + "\nApp log:"
+                    + "\n" + readAppLog()
+                    + "\n---------------------------");
+        }
     }
 
 }

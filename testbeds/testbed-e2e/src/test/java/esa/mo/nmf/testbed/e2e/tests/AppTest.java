@@ -24,7 +24,9 @@ import esa.mo.nmf.testbed.e2e.AppHarness;
 import esa.mo.nmf.testbed.e2e.SupervisorHarness;
 import java.io.IOException;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * End-to-end tests for NMF Apps running under the Supervisor.
@@ -46,6 +48,12 @@ public class AppTest {
         supervisorHarness.tearDown();
     }
 
-    // TODO: add tests
+    @Test
+    public void testAppIsRunning() throws Exception {
+        System.out.println("Running: testAppIsRunning()");
+        System.out.println("The app ID is: " + appHarness.getAppId());
+        Assert.assertTrue("App must be running after setUp", appHarness.isRunning());
+        System.out.flush();
+    }
 
 }
