@@ -171,8 +171,9 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 // Register for CloseApp Events...
                 try {
                     // Convert provider to connectionDetails...
-                    final SingleConnectionDetails connectionDetails = AppsLauncherManager
-                            .getSingleConnectionDetailsFromProviderSummaryList(supervisorEventServiceConnectionDetails);
+                    final SingleConnectionDetails connectionDetails =
+                            AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(
+                                    supervisorEventServiceConnectionDetails);
                     serviceCOMEvent = new EventConsumerServiceImpl(connectionDetails);
                 } catch (IOException | MALException | MALInteractionException ex) {
                     LOGGER.log(Level.SEVERE,

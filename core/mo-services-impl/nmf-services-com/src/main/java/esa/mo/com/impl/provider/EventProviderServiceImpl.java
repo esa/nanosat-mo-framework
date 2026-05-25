@@ -192,8 +192,8 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             }
 
             Logger.getLogger(EventProviderServiceImpl.class.getName()).log(Level.FINE,
-                    "Publishing Event for the Event objId: {0}; with Event Object Number: {1}", new Object[]{objId, objType
-                                .getNumber()});
+                    "Publishing Event for the Event objId: {0}; with Event Object Number: {1}",
+                    new Object[]{objId, objType.getNumber()});
 
             // area(16) | service(16) | version(8) | 0(24) — number carried separately in eventObjectNumber key
             final Long areaServiceVersionKey = 0xFFFFFFFFFF000000L & HelperCOM.generateSubKey(objType);

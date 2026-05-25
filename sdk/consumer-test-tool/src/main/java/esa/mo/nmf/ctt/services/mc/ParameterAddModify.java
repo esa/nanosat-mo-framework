@@ -511,9 +511,10 @@ public class ParameterAddModify extends javax.swing.JFrame {
                 Logger.getLogger(ParameterAddModify.class.getName()).log(Level.INFO,
                     "addDefinition returned {0} object instance identifiers", output.size());
 
-                parameterTableData.addRow(new Object[]{output.get(0).getObjDefInstanceId().intValue(), request.getName()
-                    .toString(), Pdef.getDescription(), rawTypeCB.getItemAt(Pdef.getRawType()).toString(), Pdef
-                        .getRawUnit(), Pdef.getReportingEnabled(), Pdef.getReportInterval().getValue()});
+                parameterTableData.addRow(new Object[]{
+                    output.get(0).getObjDefInstanceId().intValue(), request.getName().toString(),
+                    Pdef.getDescription(), rawTypeCB.getItemAt(Pdef.getRawType()).toString(),
+                    Pdef.getRawUnit(), Pdef.getReportingEnabled(), Pdef.getReportInterval().getValue()});
             } catch (MALInteractionException | MALException ex) {
                 Logger.getLogger(ParameterAddModify.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -486,8 +486,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         //requirment 3.3.13.2.g: parameters shall only be updated if no error was raised
         for (int index = 0; index < paramIdentityInstIds.size(); index++) {  // requirement: 3.3.13.2.i, .k
-            manager.update(paramIdentityInstIds.get(index), paramDefDetails.get(index), null, connection
-                    .getConnectionDetails());  // Change in the manager, requirement 3.3.13.2.d, g
+            manager.update(paramIdentityInstIds.get(index), paramDefDetails.get(index),
+                    null, connection.getConnectionDetails());  // Change in the manager, requirement 3.3.13.2.d, g
             periodicReportingManager.refresh(paramIdentityInstIds.get(index));// then, refresh the Periodic updates
         }
 

@@ -369,8 +369,8 @@ public class CameraAcquisitorGround {
         AbsoluteDate endDate = now.shiftedBy(duration);
 
         //cache for one hour.
-        if (cachedTrack.length > 1 && (now.durationFrom(cachedTrack[0].orekitDate) < HOUR_IN_SECONDS || endDate
-                .durationFrom(cachedTrack[cachedTrack.length - 1].orekitDate) < HOUR_IN_SECONDS)) {
+        if (cachedTrack.length > 1 && (now.durationFrom(cachedTrack[0].orekitDate) < HOUR_IN_SECONDS
+                || endDate.durationFrom(cachedTrack[cachedTrack.length - 1].orekitDate) < HOUR_IN_SECONDS)) {
             return new GroundTrack(counter.incrementAndGet(), cachedTrack);
         }
 
@@ -543,8 +543,8 @@ public class CameraAcquisitorGround {
                                     && execReq.getArgumentValues().size() == 3) {
 
                                 String timestamp = execReq.getArgumentValues().get(2).getValue().toString();
-                                LOGGER.log(Level.INFO, "recovered action: " + timestamp + "\tID: " + objDetails.get(i)
-                                        .getInstId());
+                                LOGGER.log(Level.INFO,
+                                        "recovered action: " + timestamp + "\tID: " + objDetails.get(i).getInstId());
 
                                 activeActions.put(objDetails.get(i).getInstId(),
                                         new ActionReport[CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_STAGES]);

@@ -180,8 +180,8 @@ public class HelperCOM {
             return null;
         }
 
-        COMService service = (COMService) MALContextFactory.lookupArea(objType.getArea(), objType.getVersion())
-                .getServiceByNumber(objType.getService());
+        COMService service = (COMService) MALContextFactory
+                .lookupArea(objType.getArea(), objType.getVersion()).getServiceByNumber(objType.getService());
 
         if (service == null || objType.getNumber().getValue() == 0) {  // Special case for the event service...
             return null;

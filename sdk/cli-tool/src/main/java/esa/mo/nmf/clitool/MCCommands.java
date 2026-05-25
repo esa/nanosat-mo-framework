@@ -595,25 +595,25 @@ public class MCCommands {
                     AggregationServiceInfo.AGGREGATION_SERVICE_NUMBER, MCHelper.MC_AREA_VERSION, new UShort(0));
             queryArchive(aggregationObjectType, archiveQuery, aggregationsAdapter, aggregationsAdapter);
 
-            Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> allParameters = parametersAdapter
-                    .getParameterValues();
+            Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> allParameters =
+                    parametersAdapter.getParameterValues();
 
             // Display list of aggregations
-            Map<IdentifierList, Map<Long, List<TimestampedAggregationValue>>> aggregationValuesMap = aggregationsAdapter
-                    .getAggregationValues();
+            Map<IdentifierList, Map<Long, List<TimestampedAggregationValue>>> aggregationValuesMap =
+                    aggregationsAdapter.getAggregationValues();
             if (aggregationValuesMap != null) {
                 //Make the parameter map
                 for (IdentifierList domainKey : aggregationValuesMap.keySet()) {
-                    for (Map.Entry<Long, List<TimestampedAggregationValue>> entry : aggregationValuesMap.get(domainKey)
-                            .entrySet()) {
+                    for (Map.Entry<Long, List<TimestampedAggregationValue>> entry :
+                            aggregationValuesMap.get(domainKey).entrySet()) {
                         Long definitionId = entry.getKey();
                         AggregationDefinition definition = aggregationsAdapter.getAggregationDefinitions().get(
                                 domainKey).get(definitionId);
 
                         for (TimestampedAggregationValue aggregationValue : entry.getValue()) {
                             for (int i = 0; i < aggregationValue.getAggregationValue().getParameterSetValues().size(); i++) {
-                                AggregationSetValue values = aggregationValue.getAggregationValue()
-                                        .getParameterSetValues().get(i);
+                                AggregationSetValue values =
+                                        aggregationValue.getAggregationValue().getParameterSetValues().get(i);
                                 AggregationParameterSet definitions = definition.getParameterSets().get(i);
 
                                 int valueSetNumber = 0;
@@ -628,12 +628,12 @@ public class MCCommands {
                                     }
 
                                     AggregationParameterValue value = values.getValues().get(n);
-                                    Long parameterId = definitions.getParameters().get(n % definitions.getParameters()
-                                            .size());
+                                    Long parameterId =
+                                            definitions.getParameters().get(n % definitions.getParameters().size());
 
-                                    TimestampedParameterValue paramValue = new TimestampedParameterValue(value
-                                            .getValue(), new Time(valueSetTimestamp + (long) (valueSetNumber
-                                                    * intervalTime * 1000L)));
+                                    TimestampedParameterValue paramValue = new TimestampedParameterValue(
+                                            value.getValue(), new Time(valueSetTimestamp
+                                                    + (long) (valueSetNumber * intervalTime * 1000L)));
 
                                     Identifier parameterName = parametersAdapter.getIdentitiesMap().get(domainKey).get(
                                             parameterId);
@@ -697,8 +697,8 @@ public class MCCommands {
                             for (String parameter : keys) {
                                 for (TimestampedParameterValue value : parameters.get(domainKey).get(new Identifier(
                                         parameter))) {
-                                    String line = parameter + "\t" + value.getTimestamp() + "\t" + value
-                                            .getParameterValue() + "\n";
+                                    String line = parameter + "\t" + value.getTimestamp()
+                                            + "\t" + value.getParameterValue() + "\n";
                                     writer.write(line);
                                 }
                             }

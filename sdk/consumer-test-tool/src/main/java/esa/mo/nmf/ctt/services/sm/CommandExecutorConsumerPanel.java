@@ -111,8 +111,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
         // If there is a concrete row selected...
         int selectedRow = recentCommandsTable.getSelectedRow();
         if (selectedRow != -1) {
-            final Long objId = recentCommandsTable.getCOMObjects().get(selectedRow)
-                    .getArchiveDetails().getInstId();
+            final Long objId = recentCommandsTable.getCOMObjects().get(selectedRow).getArchiveDetails().getInstId();
             if (justUpdatedObjId != null && !justUpdatedObjId.equals(objId)) {
                 return;
             }
@@ -259,8 +258,9 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
 
         @Override
         public void runCommandResponseReceived(MALMessageHeader msgHeader, Long commandInstId, Map qosProperties) {
-            ArchivePersistenceObject comObj = HelperArchive.getArchiveCOMObject(serviceSMCommandExecutor
-                    .getCOMServices().getArchiveService().getArchiveStub(), CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE,
+            ArchivePersistenceObject comObj = HelperArchive.getArchiveCOMObject(
+                    serviceSMCommandExecutor.getCOMServices().getArchiveService().getArchiveStub(),
+                    CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE,
                     serviceSMCommandExecutor.getConnectionDetails().getDomain(), commandInstId);
             if (comObj == null) {
                 LOGGER.log(Level.SEVERE, "Retrieved null COM object for objInstId {0}", commandInstId);

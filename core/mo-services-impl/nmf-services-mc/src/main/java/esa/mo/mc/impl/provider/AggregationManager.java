@@ -402,8 +402,8 @@ public final class AggregationManager extends MCManager {
      */
     private AggregationParameterValueList checkForExpiredValues(Long identityId, int indexOfparameterSet,
             AggregationParameterSet aggrParamSet, AggregationParameterValueList newParameterValueSamples) {
-        final AggregationParameterValueList currentParamValues = this.aggValuesCurrent.get(identityId)
-                .getParameterSetValues().get(indexOfparameterSet).getValues();
+        final AggregationParameterValueList currentParamValues =
+                this.aggValuesCurrent.get(identityId).getParameterSetValues().get(indexOfparameterSet).getValues();
         //requirement: 3.3.3.i (ParameterService-requirement)
         //if sendUnchanged is true: replace validity-state with an EXPIRED state
         //todo: try to let the ParameterService set the EXPIRED state and not the AggregationService
@@ -749,8 +749,8 @@ public final class AggregationManager extends MCManager {
      */
     private AggregationParameterValueList setParameterSamplesInternally(Long identityId,
             int indexOfparameterSet, AggregationParameterValueList newParamSample) {
-        final AggregationParameterValueList currentParamValues = this.aggValuesCurrent
-                .get(identityId).getParameterSetValues().get(indexOfparameterSet).getValues();
+        final AggregationParameterValueList currentParamValues =
+                this.aggValuesCurrent.get(identityId).getParameterSetValues().get(indexOfparameterSet).getValues();
 
         AggregationSetValueList agg1 = this.aggValuesLast.get(identityId).getParameterSetValues();
         AggregationSetValue set1 = agg1.get(indexOfparameterSet);

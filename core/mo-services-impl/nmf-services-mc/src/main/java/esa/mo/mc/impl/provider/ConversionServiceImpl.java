@@ -205,8 +205,8 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
 
         double convertedValue = 0;
         for (Pair point : points) {
-            double midStep = Math.pow(HelperAttributes.attribute2double(value), ((Union) point.getFirst())
-                .getIntegerValue());
+            double midStep = Math.pow(HelperAttributes.attribute2double(value),
+                    ((Union) point.getFirst()).getIntegerValue());
             convertedValue += HelperAttributes.attribute2double(point.getSecond()) * midStep;
         }
 

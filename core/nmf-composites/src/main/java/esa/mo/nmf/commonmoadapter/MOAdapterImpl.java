@@ -474,8 +474,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
         ExecutionRequest execReq = new ExecutionRequest(
                 definitionId, argumentValues, null);
         try {
-            Long executionId = super.getMCServices().getActionService().getActionStub()
-                    .executeAction(execReq);
+            Long executionId = super.getMCServices().getActionService().getActionStub().executeAction(execReq);
             if (actionAdapter != null) {
                 actionAdapter.executeActionResponseReceived(null, executionId, null);
             }

@@ -423,8 +423,8 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         Boolean curState;
 
         if (aggregationTable.getSelectedRow() == -1) {  // Used to avoid problems if no row is selected
-            AggregationDefinition aggregationDefinition = (AggregationDefinition) aggregationTable
-                    .getFirstCOMObject().getObject();
+            AggregationDefinition aggregationDefinition =
+                    (AggregationDefinition) aggregationTable.getFirstCOMObject().getObject();
             if (aggregationDefinition != null) {
                 curState = aggregationDefinition.getReportingEnabled();
             } else {
@@ -554,8 +554,8 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         }
 
         Long objId = aggregationTable.getSelectedCOMObject().getArchiveDetails().getInstId();
-        Boolean curState = ((AggregationDefinition) aggregationTable.getSelectedCOMObject().getObject())
-                .getFilterEnabled(); // String to Boolean conversion
+        Boolean curState =
+                ((AggregationDefinition) aggregationTable.getSelectedCOMObject().getObject()).getFilterEnabled();
         LongList ids = new LongList();
         ids.add(objId);
 
@@ -659,11 +659,9 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
 
                     for (int i = 0; i < aggregationValue.getParameterSetValues().size(); i++) {  // Cycle through parameterSetValues
                         str.append("- AggregationParameterSet values index: ").append(i).append("\n");
-                        str.append("deltaTime: ").append(aggregationValue.getParameterSetValues().get(i)
-                                .getDeltaTime());
-                        str.append(" and intervalTime: ").append(aggregationValue.getParameterSetValues().get(i)
-                                .getIntervalTime()).append("\n");
                         AggregationSetValue parameterSetsValue = aggregationValue.getParameterSetValues().get(i);
+                        str.append("deltaTime: ").append(parameterSetsValue.getDeltaTime());
+                        str.append(" and intervalTime: ").append(parameterSetsValue.getIntervalTime()).append("\n");
 
                         for (int j = 0; j < parameterSetsValue.getValues().size(); j++) { // Cycle through the values
                             if (parameterSetsValue.getValues().get(j) == null) {

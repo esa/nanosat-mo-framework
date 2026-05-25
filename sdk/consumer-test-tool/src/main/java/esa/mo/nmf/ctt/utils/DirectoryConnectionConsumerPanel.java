@@ -202,8 +202,8 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         try (FileInputStream fis = new FileInputStream(file)) {
             props.load(fis);
         } catch (IOException ex) {
-            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
-                    .log(Level.WARNING, "Could not read providerURIs.properties", ex);
+            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(
+                    Level.WARNING, "Could not read providerURIs.properties", ex);
             return null;
         }
         String key = DirectoryServiceInfo.DIRECTORY_SERVICE_NAME.getValue() + "_URI";
@@ -479,11 +479,11 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                 try {
                     providerPanel.getServices().getCOMServices().getLoginService().getLoginStub().logout();
                     providerPanel.getServices().setAuthenticationId(null);
-                    Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
-                            .log(Level.INFO, "Logged out successfully");
+                    Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(
+                            Level.INFO, "Logged out successfully");
                 } catch (MALInteractionException | MALException e) {
-                    Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
-                            .log(Level.SEVERE, "Unexpected exception during logout!", e);
+                    Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(
+                            Level.SEVERE, "Unexpected exception during logout!", e);
                 }
             }
             providerPanel.getServices().closeConnections();

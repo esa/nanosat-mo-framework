@@ -82,8 +82,8 @@ public class ParameterManager extends MCManager {
     public boolean isReadOnly(Long id) {
         Class cla;
         try {
-            cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, AttributeType.class)
-                    .getDeclaringClass();
+            cla = parametersMonitoring.getClass()
+                    .getMethod("onGetValue", Identifier.class, AttributeType.class).getDeclaringClass();
             if (cla == ParameterStatusListener.class) {
                 return parametersMonitoring.isReadOnly(id);
             }
@@ -273,8 +273,8 @@ public class ParameterManager extends MCManager {
     public Attribute getValue(Long paramIdentityId) throws IOException {
         // check if new interface method is implemented, if yes, call it
         try {
-            Class cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, AttributeType.class)
-                    .getDeclaringClass();
+            Class cla = parametersMonitoring.getClass()
+                    .getMethod("onGetValue", Identifier.class, AttributeType.class).getDeclaringClass();
             if (cla == ParameterStatusListener.class) {
                 return parametersMonitoring.onGetValue(paramIdentityId);
             }
@@ -316,8 +316,8 @@ public class ParameterManager extends MCManager {
         Attribute value;
         try {
 
-            Class cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, AttributeType.class)
-                    .getDeclaringClass();
+            Class cla = parametersMonitoring.getClass()
+                    .getMethod("onGetValue", Identifier.class, AttributeType.class).getDeclaringClass();
             if (cla == ParameterStatusListener.class) {
                 value = parametersMonitoring.onGetValue(paramIdentityId);
             } else {
@@ -396,8 +396,8 @@ public class ParameterManager extends MCManager {
         final Long expPIdentityId = validityExpression.getParameterId();
         final Attribute expParamValue;
         try {
-            Class cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, AttributeType.class)
-                    .getDeclaringClass();
+            Class cla = parametersMonitoring.getClass()
+                    .getMethod("onGetValue", Identifier.class, AttributeType.class).getDeclaringClass();
             if (cla == ParameterStatusListener.class) {
                 expParamValue = parametersMonitoring.onGetValue(expPIdentityId);
             } else {
@@ -705,8 +705,8 @@ public class ParameterManager extends MCManager {
         }
 
         try {
-            Class cla = parametersMonitoring.getClass().getMethod("onGetValue", Identifier.class, AttributeType.class)
-                    .getDeclaringClass();
+            Class cla = parametersMonitoring.getClass()
+                    .getMethod("onGetValue", Identifier.class, AttributeType.class).getDeclaringClass();
             if (cla == ParameterStatusListener.class) {
                 return parametersMonitoring.onGetValue(identityId);
             }
