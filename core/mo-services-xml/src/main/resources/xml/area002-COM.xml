@@ -105,9 +105,6 @@
                     <mal:documentation name="Requirement" order="6">
                         The service provider may return objects in any implementation-specific order.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
-                        If ordering of the returned objects is required, then the query operation should be used instead.
-                    </mal:documentation>
                     <mal:messages>
                         <mal:invoke>
                             <mal:field name="objType" canBeNull="true" comment="The type of the object to be retrieved.">
@@ -143,7 +140,7 @@
                         </mal:errorRef>
                     </mal:errors>
                 </mal:invokeIP>
-                <mal:progressIP comment="The query operation retrieves a set of object identifiers, and optionally the object bodies, from a supplied query. The PROGRESS interaction pattern is used as the returned set of data may be quite large, allowing it to be split over several MAL messages." name="query" number="2">
+                <mal:progressIP comment="The query operation retrieves a set of object ids, and optionally the object bodies, from a supplied query. The PROGRESS interaction pattern is used as the returned set of data may be quite large, allowing it to be split over several MAL messages." name="query" number="2">
                     <mal:documentation name="Requirement" order="1">
                         Each part of the objType field may use the wildcard value of '0'.
                     </mal:documentation>
@@ -285,9 +282,9 @@
                 </mal:invokeIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="2">
-                <mal:requestIP comment="The store operation stores new objects in the archive and causes an ObjectStored event to be published by the archive. When new objects are stored the archive service provider is capable of allocating an unused id for the objects being stored. The returned id should be used by the service provider for identifying the object instances to its consumer to ensure that only a single id is used for each object instance." name="store" number="4">
+                <mal:requestIP comment="The store operation stores new objects in the archive and causes an ObjectStored event to be published by the archive. When new objects are stored the archive service provider is capable of assigning an unused id for the objects being stored. The returned id should be used by the service provider for identifying the object instances to its consumer to ensure that only a single id is used for each object instance." name="store" number="4">
                     <mal:documentation name="Requirement" order="1">
-                        If the id supplied in the archive details is '0', then the service provider shall allocate a new and unused id.
+                        If the id supplied in the archive details is '0', then the service provider shall assign a new and unused id.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The objDetails and objBodies lists shall be the same size, with one entry each per object to be stored.
