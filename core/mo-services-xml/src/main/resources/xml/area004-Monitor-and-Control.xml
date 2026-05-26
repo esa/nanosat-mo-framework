@@ -894,7 +894,7 @@
                 <mal:requestIP name="getValue" number="2"
                                comment="The getValue operation returns the latest received value for a requested aggregation.">
                     <mal:documentation name="Requirement" order="1">
-                        The definitionIds field shall support the wildcard value of '0', which matches all aggregations of the provider.
+                        The definitionIds field shall support the wildcard value of '0', which matches all aggregation definitions of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The service provider shall check for the wildcard value first; if found, the service provider shall make no further checks of the supplied ids.

@@ -20,25 +20,28 @@
  */
 package esa.mo.mc.testbed.tests;
 
-import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
-import esa.mo.com.impl.util.EventCOMObject;
-import esa.mo.com.impl.util.EventReceivedListener;
-import esa.mo.com.impl.util.HelperCOM;
+import esa.mo.mc.impl.consumer.AlertConsumerServiceImpl;
 import esa.mo.mc.testbed.SetUpProvidersAndConsumers;
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.Subscription;
+import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.UpdateHeader;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.mc.alert.consumer.AlertAdapter;
+import org.ccsds.moims.mo.mc.structures.AlertEvent;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.Union;
-import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
-import org.ccsds.moims.mo.mc.structures.AlertEventList;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -47,10 +50,9 @@ import org.junit.Test;
 /**
  * End-to-end test for the Alert service.
  *
- * Publishes an alert event via the provider and verifies it is received on the
- * consumer side via the COM Event service. This exercises the full
- * provider→Event service→consumer pipeline, including the subscription key
- * encoding that carries the event object number (K1).
+ * Publishes an alert via the provider and verifies it is received on the
+ * consumer side via the monitorAlert PUB-SUB operation. This exercises the
+ * full provider→broker→consumer pipeline.
  */
 public class AlertTest {
 
@@ -71,20 +73,28 @@ public class AlertTest {
             java.net.MalformedURLException, InterruptedException {
         System.out.println("Running: testPublishAlertEventIsReceived()");
 
-        // Connect an event consumer directly to the COM Event service provider
-        SingleConnectionDetails eventDetails = harness.getCOMServicesProvider()
-                .getEventService().getConnectionProvider().getConnectionDetails();
-        EventConsumerServiceImpl eventConsumer = new EventConsumerServiceImpl(eventDetails);
+        AlertConsumerServiceImpl alertConsumer = harness.getAlertConsumerStub();
 
         CountDownLatch latch = new CountDownLatch(1);
-        AtomicReference<EventCOMObject> receivedEvent = new AtomicReference<>();
+        AtomicReference<AlertEvent> receivedAlert = new AtomicReference<>();
+        AtomicReference<Long> receivedDefinitionId = new AtomicReference<>();
 
-        Subscription sub = HelperCOM.generateSubscriptionCOMEvent(
-                "AlertTest", AlertServiceInfo.ALERTEVENT_OBJECT_TYPE);
-        eventConsumer.addEventReceivedListener(sub, new EventReceivedListener() {
+        Subscription sub = ConnectionConsumer.subscriptionWildcardRandom();
+        alertConsumer.getAlertStub().monitorAlertRegister(sub, new AlertAdapter() {
             @Override
-            public void onDataReceived(EventCOMObject event) {
-                receivedEvent.set(event);
+            public void monitorAlertNotifyReceived(MALMessageHeader msgHeader,
+                    Identifier subscriptionId,
+                    UpdateHeader updateHeader,
+                    AlertEvent alertEvent,
+                    ObjectKey source,
+                    Map qosProperties) {
+                if (updateHeader.getKeyValues() != null && !updateHeader.getKeyValues().isEmpty()
+                        && updateHeader.getKeyValues().get(0) != null
+                        && updateHeader.getKeyValues().get(0).getValue() != null) {
+                    receivedDefinitionId.set(
+                            ((Union) updateHeader.getKeyValues().get(0).getValue()).getLongValue());
+                }
+                receivedAlert.set(alertEvent);
                 latch.countDown();
             }
         });
@@ -99,27 +109,15 @@ public class AlertTest {
         System.out.println("The returned event object ID is: " + eventObjId);
 
         boolean delivered = latch.await(5, TimeUnit.SECONDS);
-        Assert.assertTrue("Alert event must be received by the consumer within 5 seconds", delivered);
+        Assert.assertTrue("Alert must be received by the consumer within 5 seconds", delivered);
 
-        EventCOMObject event = receivedEvent.get();
-        Assert.assertNotNull("Received event must not be null", event);
-        Assert.assertEquals("Event object ID must match the published event object ID",
-                eventObjId, event.getObjId());
+        AlertEvent alertEvent = receivedAlert.get();
+        Assert.assertNotNull("Received alert event must not be null", alertEvent);
 
-        // Core assertion: the ObjectType round-trips correctly through the Event
-        // service subscription keys (exercises K1 encoding/decoding)
-        Assert.assertEquals("Event ObjectType must match ALERTEVENT_OBJECT_TYPE",
-                AlertServiceInfo.ALERTEVENT_OBJECT_TYPE, event.getObjType());
+        Long definitionId = receivedDefinitionId.get();
+        Assert.assertNotNull("Definition ID subscription key must be present", definitionId);
 
-        // Verify the event body arrived intact
-        Assert.assertNotNull("Event body must not be null", event.getBody());
-        Assert.assertTrue("Event body must be an AlertEventList",
-                event.getBody() instanceof AlertEventList);
-
-        AlertEventList alertEvents = (AlertEventList) event.getBody();
-        Assert.assertEquals("AlertEventList must contain exactly one event", 1, alertEvents.size());
-
-        AttributeValueList receivedArgs = alertEvents.get(0).getArgumentValues();
+        AttributeValueList receivedArgs = alertEvent.getArgumentValues();
         Assert.assertNotNull("Argument values must not be null", receivedArgs);
         Assert.assertEquals("Must have exactly one argument", 1, receivedArgs.size());
 
@@ -127,6 +125,12 @@ public class AlertTest {
         System.out.println("The received argument value is: " + receivedValue.getIntegerValue());
         Assert.assertEquals("Argument value must match the published value",
                 Integer.valueOf(42), receivedValue.getIntegerValue());
+
+        // Deregister
+        IdentifierList ids = new IdentifierList();
+        ids.add(sub.getSubscriptionId());
+        alertConsumer.getAlertStub().monitorAlertDeregister(ids);
+
         System.out.flush();
     }
 
