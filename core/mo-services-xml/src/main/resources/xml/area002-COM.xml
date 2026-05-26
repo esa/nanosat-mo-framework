@@ -140,7 +140,7 @@
                         </mal:errorRef>
                     </mal:errors>
                 </mal:invokeIP>
-                <mal:progressIP comment="The query operation retrieves a set of object ids, and optionally the object bodies, from a supplied query. The PROGRESS interaction pattern is used as the returned set of data may be quite large, allowing it to be split over several MAL messages." name="query" number="2">
+                <mal:progressIP comment="The query operation allows a consumer to query the archive for objects matching the supplied filter criteria, returning their metadata and optionally their bodies. Results are delivered as a stream of UPDATE messages to accommodate potentially large result sets." name="query" number="2">
                     <mal:documentation name="Requirement" order="1">
                         Each part of the objType field may use the wildcard value of '0'.
                     </mal:documentation>
