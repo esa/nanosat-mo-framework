@@ -54,7 +54,7 @@ public class AggregationTablePanel extends SharedTablePanel {
         AggregationDefinition pDef = (AggregationDefinition) comObject.getObject();
 
         tableData.addRow(new Object[]{
-            comObject.getArchiveDetails().getInstId(),
+            comObject.getArchiveDetails().getId(),
             pDef.getName().getValue(),
             pDef.getDescription(),
             pDef.getCategory().toString(),

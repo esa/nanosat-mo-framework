@@ -142,7 +142,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
             ArchivePersistenceObject comObject = new ArchivePersistenceObject(
                     archiveObjectOutput.getObjectType(),
                     archiveObjectOutput.getDomain(),
-                    archiveObjectOutput.getArchiveDetailsList().get(i).getInstId(),
+                    archiveObjectOutput.getArchiveDetailsList().get(i).getId(),
                     archiveObjectOutput.getArchiveDetailsList().get(i),
                     objects);
 
@@ -169,7 +169,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
 
         if (links.getSource() != null) {
             source = HelperCOM.objType2string(links.getSource().getType());
-            source += " (objId: " + links.getSource().getInstId().toString() + ")";
+            source += " (objId: " + links.getSource().getId().toString() + ")";
         }
 
         if (links.getRelated() != null) {
@@ -181,7 +181,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         }
 
         return new Object[]{timestamp, domain, objType,
-            comObject.getArchiveDetails().getInstId(), source, related};
+            comObject.getArchiveDetails().getId(), source, related};
     }
 
     private void addEntry(final ArchivePersistenceObject comObject) {

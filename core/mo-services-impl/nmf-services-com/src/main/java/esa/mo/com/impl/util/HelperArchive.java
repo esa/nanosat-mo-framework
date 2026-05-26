@@ -379,7 +379,7 @@ public class HelperArchive {
             TreeMap<Long, Integer> returnInstIdToListIndexMap = new TreeMap<>();
             // First generate mapping of returned ids into returned array index
             for (int i = 0; i < detailsList.size(); ++i) {
-                returnInstIdToListIndexMap.put(detailsList.get(i).getInstId(), i);
+                returnInstIdToListIndexMap.put(detailsList.get(i).getId(), i);
             }
             // Then iterate over requested object ids and insert results into the sorted
             // list in a matching order

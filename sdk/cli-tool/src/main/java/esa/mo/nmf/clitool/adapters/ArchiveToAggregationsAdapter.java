@@ -94,7 +94,7 @@ public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements Quer
             }
         } else if (AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE.equals(type)) {
             for (int i = 0; i < detailsList.size(); ++i) {
-                aggregationDefinitions.get(domain).put(detailsList.get(i).getInstId(),
+                aggregationDefinitions.get(domain).put(detailsList.get(i).getId(),
                         (AggregationDefinition) bodiesList.get(i));
             }
         }

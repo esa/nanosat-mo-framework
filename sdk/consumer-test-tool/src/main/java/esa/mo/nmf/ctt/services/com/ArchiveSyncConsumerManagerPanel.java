@@ -176,7 +176,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
             /*
             for (ArchivePersistenceObject comObject : comObjects) {
                 LongList objIds = new LongList();
-                objIds.add(comObject.getArchiveDetails().getInstId());
+                objIds.add(comObject.getArchiveDetails().getId());
                 try {
                     serviceCOMArchive.getArchiveStub().delete(comObject.getObjectType(), comObject.getDomain(), objIds);
                 } catch (MALInteractionException ex) {

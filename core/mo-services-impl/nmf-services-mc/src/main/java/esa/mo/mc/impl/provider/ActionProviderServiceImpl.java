@@ -493,7 +493,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         }
 
         // If the list is empty, reconfigure the service with nothing...
-        if (confSetDefs.getObjInstIds().isEmpty()) {
+        if (confSetDefs.getIds().isEmpty()) {
             manager.reconfigureDefinitions(new IdentifierList(), new LongList(),
                     new ActionDefinitionList());  // Reconfigures the Manager
 
@@ -506,14 +506,14 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
                 manager.getArchiveService(),
                 ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(),
-                confSetDefs.getObjInstIds());
+                confSetDefs.getIds());
 
         IdentifierList names = new IdentifierList();
         for (Element element : pDefs) {
             names.add(((ActionDefinition) element).getName());
         }
         // Reconfigures the Manager
-        manager.reconfigureDefinitions(names, confSetDefs.getObjInstIds(), pDefs);
+        manager.reconfigureDefinitions(names, confSetDefs.getIds(), pDefs);
 
         return true;
     }

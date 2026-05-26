@@ -568,7 +568,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
 
         // If the list is empty, reconfigure the service with nothing...
-        if (confSetDefs.getObjInstIds().isEmpty()) {
+        if (confSetDefs.getIds().isEmpty()) {
             // Reconfigures the Manager
             manager.reconfigureDefinitions(new IdentifierList(), new LongList(), new AlertDefinitionList());
             return true;
@@ -580,13 +580,13 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
                 manager.getArchiveService(),
                 AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(),
-                confSetDefs.getObjInstIds());
+                confSetDefs.getIds());
 
         IdentifierList names = new IdentifierList();
         for (Element element : pDefs) {
             names.add(((AlertDefinition) element).getName());
         }
-        manager.reconfigureDefinitions(names, confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
+        manager.reconfigureDefinitions(names, confSetDefs.getIds(), pDefs);   // Reconfigures the Manager
 
         return true;
     }

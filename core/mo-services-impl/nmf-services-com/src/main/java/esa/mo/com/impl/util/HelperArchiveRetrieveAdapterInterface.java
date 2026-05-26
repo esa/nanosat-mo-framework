@@ -37,7 +37,7 @@ public interface HelperArchiveRetrieveAdapterInterface {
             ArchivePersistenceObject tmp = new ArchivePersistenceObject(
                     getObjType(),
                     getDomain(),
-                    ((ArchiveDetails) objDetails.get(i)).getInstId(),
+                    ((ArchiveDetails) objDetails.get(i)).getId(),
                     (ArchiveDetails) objDetails.get(i),
                     (Element) obj.get(i));
 

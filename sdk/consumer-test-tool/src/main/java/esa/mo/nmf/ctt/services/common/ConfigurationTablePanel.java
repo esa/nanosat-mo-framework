@@ -47,7 +47,7 @@ public class ConfigurationTablePanel extends SharedTablePanel {
 
         ActionDefinition pDef = (ActionDefinition) comObject.getObject();
 
-        tableData.addRow(new Object[]{comObject.getArchiveDetails().getInstId(),
+        tableData.addRow(new Object[]{comObject.getArchiveDetails().getId(),
             "Dummy name...", pDef.getDescription(), "Severity removed...",
             pDef.getProgressStepCount().toString()});
 

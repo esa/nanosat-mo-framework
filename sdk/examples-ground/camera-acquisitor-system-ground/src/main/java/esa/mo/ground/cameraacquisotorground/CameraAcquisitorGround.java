@@ -544,9 +544,9 @@ public class CameraAcquisitorGround {
 
                                 String timestamp = execReq.getArgumentValues().get(2).getValue().toString();
                                 LOGGER.log(Level.INFO,
-                                        "recovered action: " + timestamp + "\tID: " + objDetails.get(i).getInstId());
+                                        "recovered action: " + timestamp + "\tID: " + objDetails.get(i).getId());
 
-                                activeActions.put(objDetails.get(i).getInstId(),
+                                activeActions.put(objDetails.get(i).getId(),
                                         new ActionReport[CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_STAGES]);
 
                                 AbsoluteDate scheduleDate = new AbsoluteDate(timestamp, TimeScalesFactory.getUTC());

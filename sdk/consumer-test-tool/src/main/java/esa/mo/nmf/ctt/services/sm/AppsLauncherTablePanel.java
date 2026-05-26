@@ -55,7 +55,7 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
 
         AppDetails appDetails = (AppDetails) comObject.getObject();
 
-        tableData.addRow(new Object[]{comObject.getArchiveDetails().getInstId(),
+        tableData.addRow(new Object[]{comObject.getArchiveDetails().getId(),
             appDetails.getName().toString(), appDetails.getDescription(),
             appDetails.getCategory().toString(), appDetails.getRunAtStartup(),
             appDetails.getRunning(), ""});

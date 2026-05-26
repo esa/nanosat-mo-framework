@@ -134,7 +134,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                     oldDetails.getProviderAddresses()
             );
 
-            updatedProviders.add(new ProviderSummary(in.getDomain(), in.getInstId(), in.getProviderId(), newDetails));
+            updatedProviders.add(new ProviderSummary(in.getDomain(), in.getId(), in.getProviderId(), newDetails));
         }
 
         return updatedProviders;

@@ -353,7 +353,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             ArchiveQuery query = new ArchiveQuery(domain, null, null, providerObjectKey, null, null, null, null, null);
             List<ArchivePersistenceObject> result = manager.query(DirectoryServiceInfo.PROVIDERDETAILS_OBJECT_TYPE,
                     query, null);
-            Long capabilityId = result.get(0).getArchiveDetails().getInstId(); // there should be only one object in the query result
+            Long capabilityId = result.get(0).getArchiveDetails().getId(); // there should be only one object in the query result
             LongList providerIds = new LongList();
             providerIds.add(providerObjectKey);
             manager.removeEntries(DirectoryServiceInfo.SERVICEPROVIDER_OBJECT_TYPE, domain, providerIds, null);

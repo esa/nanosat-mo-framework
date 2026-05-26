@@ -131,12 +131,12 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
 
         if (type == null || type.equals(parameterIdentityType)) {
             for (int i = 0; i < detailsList.size(); ++i) {
-                identitiesMap.get(domain).put(detailsList.get(i).getInstId(), (Identifier) bodiesList.get(i));
+                identitiesMap.get(domain).put(detailsList.get(i).getId(), (Identifier) bodiesList.get(i));
                 parameterIdentities.get(domain).add((Identifier) bodiesList.get(i));
             }
         } else if (type.equals(parameterDefinitionType)) {
             for (ArchiveDetails archiveDetails : detailsList) {
-                definitionsMap.get(domain).put(archiveDetails.getInstId(), archiveDetails.getLinks().getRelated());
+                definitionsMap.get(domain).put(archiveDetails.getId(), archiveDetails.getLinks().getRelated());
             }
         } else if (type.equals(parameterValueType)) {
             for (int i = 0; i < detailsList.size(); ++i) {

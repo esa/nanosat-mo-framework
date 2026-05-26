@@ -50,7 +50,7 @@ public class COMObjectStructure {
             final ArchiveDetails archiveDetails, final Element object) {
         this.objType = objType;
         this.domain = domain;
-        this.objId = archiveDetails.getInstId();
+        this.objId = archiveDetails.getId();
 
         this.sourceLink = archiveDetails.getLinks().getSource();
         this.relatedLink = archiveDetails.getLinks().getRelated();

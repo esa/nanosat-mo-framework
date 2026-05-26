@@ -211,7 +211,7 @@ public class AggregationCommands {
                             Map qosProperties) {
                         for (int i = 0; i < objDetails.size(); ++i) {
                             aggregationIdentities.put(
-                                    objDetails.get(i).getInstId(),
+                                    objDetails.get(i).getId(),
                                     ((Identifier) objBodies.get(i)).getValue());
                         }
 
@@ -313,7 +313,7 @@ public class AggregationCommands {
                             Map qosProperties) {
                         for (int i = 0; i < objDetails.size(); ++i) {
                             identityIdToName.put(
-                                    objDetails.get(i).getInstId(),
+                                    objDetails.get(i).getId(),
                                     ((Identifier) objBodies.get(i)).getValue());
                         }
 
@@ -354,7 +354,7 @@ public class AggregationCommands {
                             HeterogeneousList objBodies, Map qosProperties) {
                         for (ArchiveDetails details : objDetails) {
                             definitionIdToIdentity.put(
-                                    details.getInstId(),
+                                    details.getId(),
                                     identityIdToName.get(
                                     details.getLinks().getRelated()));
                         }
@@ -444,7 +444,7 @@ public class AggregationCommands {
                         int index = 1;
                         for (AggregationParameterValue value : values) {
                             String name =
-                                    definitionIdToIdentity.get(value.getParamDefInstId());
+                                    definitionIdToIdentity.get(value.getParamDefinitionId());
                             System.out.println(
                                     "  " + (name == null ? "parameter " + index : name)
                                     + ": " + value.getValue().getRawValue().toString());

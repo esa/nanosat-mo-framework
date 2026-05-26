@@ -568,7 +568,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
 
         // If the list is empty, reconfigure the service with nothing...
-        if (confSetDefs.getObjInstIds().isEmpty()) {
+        if (confSetDefs.getIds().isEmpty()) {
             manager.reconfigureDefinitions(new IdentifierList(), new LongList(),
                     new ParameterDefinitionList());   // Reconfigures the Manager
 
@@ -581,7 +581,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                 manager.getArchiveService(),
                 ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(),
-                confSetDefs.getObjInstIds());
+                confSetDefs.getIds());
 
         periodicReportingManager.pause();
 
@@ -590,7 +590,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             names.add(((ParameterDefinition) element).getName());
         }
         // Reconfigures the Manager
-        manager.reconfigureDefinitions(names, confSetDefs.getObjInstIds(), pDefs);
+        manager.reconfigureDefinitions(names, confSetDefs.getIds(), pDefs);
 
         periodicReportingManager.refreshAll();  // Refresh the reporting
         periodicReportingManager.start();

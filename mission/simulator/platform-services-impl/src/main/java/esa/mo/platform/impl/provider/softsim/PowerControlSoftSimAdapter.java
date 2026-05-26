@@ -82,7 +82,7 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface,
 
     private void addDevice(Device device, SimPayloadDevice payload) {
         deviceByType.put(payload, device);
-        devices.put(device.getUnitObjInstId(), payload);
+        devices.put(device.getUnitId(), payload);
     }
 
     @Override
@@ -105,13 +105,13 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface,
     public void enableDevices(DeviceList inputList) throws IOException {
         for (Device device : inputList) {
             LOGGER.log(Level.INFO, "Looking up Device {0}", new Object[]{device});
-            SimPayloadDevice payloadId = devices.get(device.getUnitObjInstId());
-            if (device.getUnitObjInstId() != null) {
-                payloadId = devices.get(device.getUnitObjInstId());
+            SimPayloadDevice payloadId = devices.get(device.getUnitId());
+            if (device.getUnitId() != null) {
+                payloadId = devices.get(device.getUnitId());
             } else {
                 Device found = findByType(device.getDeviceType());
                 if (found != null) {
-                    payloadId = devices.get(found.getUnitObjInstId());
+                    payloadId = devices.get(found.getUnitId());
                 } else {
                     throw new IOException("Cannot find the device.");
                 }
@@ -138,7 +138,7 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface,
     private void switchDevice(SimPayloadDevice device, Boolean enabled) throws IOException {
         LOGGER.log(Level.INFO, "Switching device {0} to enabled: {1}", new Object[]{device, enabled});
         Device d = deviceByType.get(device);
-        Device newDevice = new Device(enabled, d.getUnitObjInstId(), d.getName(), d.getDeviceType());
+        Device newDevice = new Device(enabled, d.getUnitId(), d.getName(), d.getDeviceType());
         deviceByType.put(device, newDevice);
         //deviceByType.get(device).setEnabled(enabled);
     }

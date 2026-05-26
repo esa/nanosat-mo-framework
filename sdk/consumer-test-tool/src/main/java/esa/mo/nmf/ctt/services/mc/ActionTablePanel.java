@@ -54,7 +54,7 @@ public class ActionTablePanel extends SharedTablePanel {
         ActionDefinition pDef = (ActionDefinition) comObject.getObject();
 
         tableData.addRow(new Object[]{
-            comObject.getArchiveDetails().getInstId(),
+            comObject.getArchiveDetails().getId(),
             pDef.getName().getValue(),
             pDef.getDescription(),
             pDef.getProgressStepCount().toString()});

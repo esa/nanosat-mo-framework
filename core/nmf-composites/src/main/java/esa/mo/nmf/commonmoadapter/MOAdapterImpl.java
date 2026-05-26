@@ -244,7 +244,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
 
                     for (AggregationSetValue aggregationSetValue : aggregationValue.getParameterSetValues()) {
                         for (AggregationParameterValue aggregationParamValue : aggregationSetValue.getValues()) {
-                            Long paramDefInstId = aggregationParamValue.getParamDefInstId();
+                            Long paramDefInstId = aggregationParamValue.getParamDefinitionId();
                             Attribute parameterValue = aggregationParamValue.getValue().getRawValue();
 
                             // TBD, not sure what to do with this now...

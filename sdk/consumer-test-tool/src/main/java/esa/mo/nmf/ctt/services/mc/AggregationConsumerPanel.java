@@ -551,7 +551,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
 
-        Long objId = aggregationTable.getSelectedCOMObject().getArchiveDetails().getInstId();
+        Long objId = aggregationTable.getSelectedCOMObject().getArchiveDetails().getId();
         Boolean curState
                 = ((AggregationDefinition) aggregationTable.getSelectedCOMObject().getObject()).getFilterEnabled();
         LongList ids = new LongList();
@@ -571,7 +571,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
 
-        Long objId = aggregationTable.getSelectedCOMObject().getArchiveDetails().getInstId();
+        Long objId = aggregationTable.getSelectedCOMObject().getArchiveDetails().getId();
         LongList longlist = new LongList();
         longlist.add(objId);
 

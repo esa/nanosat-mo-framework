@@ -90,7 +90,7 @@ public class Helper {
                 for (int i = 0; i < objDetails.size(); ++i) {
                     AppDetails details = (AppDetails) objBodies.get(i);
                     result.put(details.getName().getValue(),
-                            new ProviderAppDetails(objDetails.get(i).getInstId(), details));
+                            new ProviderAppDetails(objDetails.get(i).getId(), details));
                 }
             }
 

@@ -111,7 +111,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
         // If there is a concrete row selected...
         int selectedRow = recentCommandsTable.getSelectedRow();
         if (selectedRow != -1) {
-            final Long objId = recentCommandsTable.getCOMObjects().get(selectedRow).getArchiveDetails().getInstId();
+            final Long objId = recentCommandsTable.getCOMObjects().get(selectedRow).getArchiveDetails().getId();
             if (justUpdatedObjId != null && !justUpdatedObjId.equals(objId)) {
                 return;
             }
@@ -223,7 +223,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
             ObjectType objType = eventCOMObject.getObjType();
 
             String time = HelperTime.time2readableString(eventCOMObject.getTimestamp());
-            Long sourceObjId = eventCOMObject.getSource().getInstId();
+            Long sourceObjId = eventCOMObject.getSource().getId();
             if (sourceObjId == null) {
                 LOGGER.log(Level.SEVERE,
                         "Missing source object in a received event (oID {0}). This should never happen.",

@@ -151,7 +151,7 @@ public class EventConsumerPanel extends javax.swing.JPanel {
             String objDetailsRelated = (eventCOMObject.getRelated() != null)
                     ? eventCOMObject.getRelated().toString() : "null";
             String objDetailsSource = (eventCOMObject.getSource() != null)
-                    ? eventCOMObject.getSource().getInstId().toString() : "null";
+                    ? eventCOMObject.getSource().getId().toString() : "null";
 
             String time = HelperTime.time2readableString(eventCOMObject.getTimestamp());
             String domainName = HelperDomain.domain2domainId(eventCOMObject.getDomain());

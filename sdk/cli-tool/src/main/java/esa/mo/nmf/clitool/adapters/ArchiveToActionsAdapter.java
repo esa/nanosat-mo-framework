@@ -92,12 +92,12 @@ public class ArchiveToActionsAdapter extends ArchiveAdapter implements QueryStat
 
         if (type == null || type.equals(actionIdentityType)) {
             for (int i = 0; i < detailsList.size(); ++i) {
-                identitiesMap.get(domain).put(detailsList.get(i).getInstId(), (Identifier) bodiesList.get(i));
+                identitiesMap.get(domain).put(detailsList.get(i).getId(), (Identifier) bodiesList.get(i));
                 actionIdentities.get(domain).add((Identifier) bodiesList.get(i));
             }
         } else if (type.equals(actionDefinitionType)) {
             for (ArchiveDetails archiveDetails : detailsList) {
-                definitionsMap.get(domain).put(archiveDetails.getInstId(), archiveDetails.getLinks().getRelated());
+                definitionsMap.get(domain).put(archiveDetails.getId(), archiveDetails.getLinks().getRelated());
             }
         }
     }

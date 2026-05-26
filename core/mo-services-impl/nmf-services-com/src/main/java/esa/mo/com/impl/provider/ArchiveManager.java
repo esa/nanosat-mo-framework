@@ -318,8 +318,8 @@ public class ArchiveManager {
                 sourceObjectTypeId = this.fastObjectType.getObjectTypeId(source.getType());
             }
 
-            if (source.getInstId() != null) {
-                sourceObjId = source.getInstId();
+            if (source.getId() != null) {
+                sourceObjId = source.getId();
             }
         }
 
@@ -351,7 +351,7 @@ public class ArchiveManager {
             final int providerURIId = this.fastProviderURI.getProviderURIId(details.getProvider());
             final int networkId = this.fastNetwork.getNetworkId(details.getNetwork());
             final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(details.getLinks().getSource());
-            final Long objId = this.fastObjId.getUniqueObjId(objTypeId, domainId, details.getInstId());
+            final Long objId = this.fastObjId.getUniqueObjId(objTypeId, domainId, details.getId());
 
             // If there are no objects in the list, inject null...
             final Object objBody = (objects == null) ? null : ((objects.get(i) == null) ? null : objects.get(i));
@@ -403,13 +403,13 @@ public class ArchiveManager {
                     lArchiveDetails.get(i).getLinks().getSource());
 
             final COMObjectEntity newObj = new COMObjectEntity(objTypeId,
-                    domainId, lArchiveDetails.get(i).getInstId(),
+                    domainId, lArchiveDetails.get(i).getId(),
                     lArchiveDetails.get(i).getTimestamp().getValue(),
                     providerURIId, networkId, sourceLink,
                     lArchiveDetails.get(i).getLinks().getRelated(), objBody); // 0.170 ms
 
             newObjs.add(newObj);
-            objIds.add(lArchiveDetails.get(i).getInstId());
+            objIds.add(lArchiveDetails.get(i).getId());
         }
 
         Runnable publishEvents = null;
@@ -688,14 +688,14 @@ public class ArchiveManager {
         UIntegerList dupList = new UIntegerList();
 
         for (int i = 0; i < details.size() - 1; i++) {
-            Long instId = details.get(i).getInstId();
+            Long instId = details.get(i).getId();
 
             if (instId.intValue() == 0) { // Wildcard? Then jump over it
                 continue;
             }
 
             for (int j = i + 1; j < details.size(); j++) {
-                if (instId.intValue() == details.get(j).getInstId().intValue()) {
+                if (instId.intValue() == details.get(j).getId().intValue()) {
                     dupList.add(new UInteger(j));
                 }
             }

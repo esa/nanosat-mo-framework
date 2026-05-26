@@ -1165,7 +1165,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
 
         // If the list is empty, reconfigure the service with nothing...
-        if (confSetDefs.getObjInstIds().isEmpty()) {
+        if (confSetDefs.getIds().isEmpty()) {
             manager.reconfigureDefinitions(new IdentifierList(), new LongList(),
                     new AggregationDefinitionList());   // Reconfigures the Manager
 
@@ -1178,7 +1178,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                 manager.getArchiveService(),
                 AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(),
-                confSetDefs.getObjInstIds());
+                confSetDefs.getIds());
 
         periodicReportingManager.pause();
         periodicSamplingManager.pause();
@@ -1187,10 +1187,10 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         for (Element element : pDefs) {
             names.add(((AggregationDefinition) element).getName());
         }
-        manager.reconfigureDefinitions(names, confSetDefs.getObjInstIds(), pDefs);   // Reconfigures the Manager
+        manager.reconfigureDefinitions(names, confSetDefs.getIds(), pDefs);   // Reconfigures the Manager
 
         // The periodic reporting and sampling need to be refreshed
-        manager.createAggregationValuesList(confSetDefs.getObjInstIds());
+        manager.createAggregationValuesList(confSetDefs.getIds());
         periodicReportingManager.refreshAll();  // Refresh the reporting
         periodicSamplingManager.refreshAll();
         periodicReportingManager.start();

@@ -73,7 +73,7 @@ public class PersistProviderConfiguration {
                 archiveService,
                 ConfigurationServiceInfo.PROVIDERCONFIGURATION_OBJECT_TYPE,
                 confId.getDomain(),
-                confId.getInstId());
+                confId.getId());
 
         // Does the providerConfiguration object exists?
         if (comObjectProvider != null) {
@@ -82,7 +82,7 @@ public class PersistProviderConfiguration {
                     ConfigurationServiceInfo.CONFIGURATIONSET_OBJECT_TYPE,
                     confId.getDomain(),
                     comObjectProvider.getArchiveDetails().getLinks().getRelated());
-            objIds = ((ConfigurationSet) comObjectConfs.getObject()).getConfigObjects().get(0).getObjInstIds();
+            objIds = ((ConfigurationSet) comObjectConfs.getObject()).getConfigObjects().get(0).getIds();
             return;
         }
 
@@ -125,7 +125,7 @@ public class PersistProviderConfiguration {
             // Store the provider configuration
             // Related points to the Provider's Configuration Object
             ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(objIds3.get(0),
-                    null, new URI(""), confId.getInstId());
+                    null, new URI(""), confId.getId());
 
             HeterogeneousList providerNameList = new HeterogeneousList();
             providerNameList.add(provider.getProviderName());

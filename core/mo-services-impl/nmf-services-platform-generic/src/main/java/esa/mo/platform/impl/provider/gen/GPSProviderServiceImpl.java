@@ -500,7 +500,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         }
 
         // If the list is empty, reconfigure the service with nothing...
-        if (confSet.getObjInstIds().isEmpty()) {
+        if (confSet.getIds().isEmpty()) {
             manager.reconfigureDefinitions(new LongList(), new HeterogeneousList()); // Reconfigures the
             // Manager
             return true;
@@ -510,9 +510,9 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         // Load the Parameter Definitions from this configuration...
         HeterogeneousList pDefs = (HeterogeneousList) HelperArchive.getObjectBodyListFromArchive(
                 manager.getArchiveService(), GPSServiceInfo.NEARBYPOSITION_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(), confSet.getObjInstIds());
+                ConfigurationProviderSingleton.getDomain(), confSet.getIds());
 
-        manager.reconfigureDefinitions(confSet.getObjInstIds(), pDefs); // Reconfigures the Manager
+        manager.reconfigureDefinitions(confSet.getIds(), pDefs); // Reconfigures the Manager
 
         return true;
     }

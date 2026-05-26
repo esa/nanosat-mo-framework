@@ -258,7 +258,7 @@
                             </mal:field>
                         </mal:request>
                         <mal:response comment="">
-                            <mal:field name="commandInstId" canBeNull="true" comment="The COM object instance identifier of the spawned command, as stored in the Archive.">
+                            <mal:field name="commandId" canBeNull="true" comment="The COM id of the spawned command, as stored in the Archive.">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
                         </mal:response>
@@ -367,7 +367,7 @@
                             <mal:field name="appName" canBeNull="false" comment="The App name.">
                                 <mal:type area="MAL" list="false" name="Identifier"/>
                             </mal:field>
-                            <mal:field name="appId" canBeNull="false" comment="The AppDetails object instance identifier.">
+                            <mal:field name="appId" canBeNull="false" comment="The AppDetails id.">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
                         </mal:subscriptionKeys>
@@ -447,7 +447,7 @@
                         <mal:acknowledgement comment="">
                         </mal:acknowledgement>
                         <mal:update comment="">
-                            <mal:field name="appClosing" canBeNull="true" comment="The object instance identifier of the app that is closing.">
+                            <mal:field name="appClosing" canBeNull="true" comment="The id of the app that is closing.">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
                         </mal:update>

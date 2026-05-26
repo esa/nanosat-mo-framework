@@ -218,7 +218,7 @@ public class CameraAcquisitorSystemCameraTargetHandler {
 
                                 if (targetDate.compareTo(CameraAcquisitorSystemMCAdapter.getNow()) > 0) {
                                     photographLocation(execReq.getArgumentValues(), objDetails.get(
-                                            i).getInstId(), true,
+                                            i).getId(), true,
                                             null);
                                     LOGGER.log(Level.INFO, "recovered action: {0} latitude:{1} longitude:{2}",
                                             new Object[]{

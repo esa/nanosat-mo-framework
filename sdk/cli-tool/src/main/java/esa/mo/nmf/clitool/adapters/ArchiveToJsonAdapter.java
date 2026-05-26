@@ -201,7 +201,7 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
 
         public CleanCOMArchiveObject(ObjectType objectType, ArchiveDetails archiveDetails, Object object) {
             // archive details
-            instanceId = archiveDetails.getInstId();
+            instanceId = archiveDetails.getId();
             objectDetails = archiveDetails.getLinks() == null ? null : new CleanObjectDetails(archiveDetails.getLinks());
             networkZone = archiveDetails.getNetwork().getValue();
             creationTime = HelperTime.time2readableString(archiveDetails.getTimestamp());
@@ -231,7 +231,7 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
                 public CleanObjectKey(ObjectKey objectKey) {
                     objectType = HelperCOM.objType2string(objectKey.getType()).replace(" - ", ".").replace(": ", ".");
                     domain = HelperDomain.domain2domainId(objectKey.getDomain());
-                    instanceId = objectKey.getInstId();
+                    instanceId = objectKey.getId();
                 }
             }
         }

@@ -399,10 +399,10 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
         synchronized (manager) {
             for (int index = 0; index < details.size(); index++) { // Validation of ArchiveDetails object
-                if (details.get(index).getInstId() == 0) { // requirement: 3.4.6.2.5
+                if (details.get(index).getId() == 0) { // requirement: 3.4.6.2.5
                     // Shall be taken care in the manager & per inserted entry
                 } else { // Does it exist already?  // requirement: 3.4.6.2.6
-                    if (manager.objIdExists(objType, domain, details.get(index).getInstId())) {
+                    if (manager.objIdExists(objType, domain, details.get(index).getId())) {
                         dupIndexList.add(new UInteger(index));
                         continue;
                     }
@@ -487,12 +487,12 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             for (int index = 0; index < details.size(); index++) {
                 ArchiveDetails tmpArchiveDetails = details.get(index);
 
-                if (tmpArchiveDetails.getInstId() == 0) { // requirement: 3.4.7.2.8 (second part)
+                if (tmpArchiveDetails.getId() == 0) { // requirement: 3.4.7.2.8 (second part)
                     invIndexList.add(new UInteger(index));
                     continue;
                 }
 
-                if (!manager.objIdExists(objType, domain, tmpArchiveDetails.getInstId())) { // requirement: 3.4.7.2.4
+                if (!manager.objIdExists(objType, domain, tmpArchiveDetails.getId())) { // requirement: 3.4.7.2.4
                     unkIndexList.add(new UInteger(index)); // requirement: 3.4.7.2.5
                 }
             }

@@ -72,8 +72,8 @@ public abstract class CallableGenericQuery<T> implements Callable<T> {
         this.transactionsProcessor.dbBackend.createIndexesIfFirstTime();
 
         if (!sourceContainsWildcard) {
-            sourceObjIdContainsWildcard = (archiveQuery.getSource().getInstId() == null
-                    || archiveQuery.getSource().getInstId() == 0);
+            sourceObjIdContainsWildcard = (archiveQuery.getSource().getId() == null
+                    || archiveQuery.getSource().getId() == 0);
         }
 
         // Generate the query string

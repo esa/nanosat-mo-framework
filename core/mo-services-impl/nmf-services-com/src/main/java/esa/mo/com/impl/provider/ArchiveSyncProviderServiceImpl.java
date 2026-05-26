@@ -499,7 +499,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                     lastDomain = domain;
                     if (objType != null && (objType.equals(ToDelete.STDERR_VALUE.getType())
                             || objType.equals(ToDelete.STDOUT_VALUE.getType()))) {
-                        objDetails.stream().map(detail -> detail.getLinks().getSource().getInstId())
+                        objDetails.stream().map(detail -> detail.getLinks().getSource().getId())
                                 .forEach(clearedIds::add);
                     }
                     Logger.getLogger(this.getClass().getName()).log(Level.FINER, "Received update");
@@ -510,7 +510,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             public void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
                 Logger.getLogger(this.getClass().getName()).log(Level.FINE, "Received response!");
 
-                List<Long> ids = queryResults.stream().map(detail -> detail.getInstId()).collect(Collectors.toList());
+                List<Long> ids = queryResults.stream().map(detail -> detail.getId()).collect(Collectors.toList());
                 LongList objInstIds = new LongList();
                 objInstIds.addAll(ids);
                 try {

@@ -232,7 +232,7 @@ public class LogsCommands {
             queryArchive(outputObjectTypes, outputArchiveQuery, adapter, adapter);
 
             ArchiveQuery eventArchiveQuery = new ArchiveQuery(domain, null, null,
-                    appObjectKey.getInstId(), null, startTimeF, endTimeF, null, null);
+                    appObjectKey.getId(), null, startTimeF, endTimeF, null, null);
             adapter.resetAdapter();
             queryArchive(eventObjectTypes, eventArchiveQuery, adapter, adapter);
 

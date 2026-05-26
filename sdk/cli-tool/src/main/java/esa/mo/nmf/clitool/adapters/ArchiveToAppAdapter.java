@@ -102,7 +102,7 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
         for (int i = 0; i < archiveObjectOutput.getObjectBodies().size(); i++) {
             AppDetails appObject = (AppDetails) archiveObjectOutput.getObjectBodies().get(i);
             String appName = appObject.getName().getValue();
-            Long appInstanceId = archiveObjectOutput.getArchiveDetailsList().get(i).getInstId();
+            Long appInstanceId = archiveObjectOutput.getArchiveDetailsList().get(i).getId();
             // TODO uncomment when archive sync fixed
             // IdentifierList appDomain = archiveObjectOutput.getDomain();
             IdentifierList appDomain = new IdentifierList();

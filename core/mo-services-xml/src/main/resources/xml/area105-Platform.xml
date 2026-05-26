@@ -29,8 +29,8 @@
                                        comment="The value provided by the consumer during the enableStream operation.">
                                 <mal:type area="MAL" list="false" name="Identifier"/>
                             </mal:field>
-                            <mal:field name="objId" canBeNull="false"
-                                       comment="A unique object instance identifier.">
+                            <mal:field name="id" canBeNull="false"
+                                       comment="A unique id.">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
                             <mal:field name="width" canBeNull="false"
@@ -399,8 +399,8 @@
                             </mal:field>
                         </mal:request>
                         <mal:response comment="">
-                            <mal:field name="objInstIds" canBeNull="true"
-                                       comment="The list of object instance identifiers corresponding to the selected names." >
+                            <mal:field name="ids" canBeNull="true"
+                                       comment="The list of ids corresponding to the selected names." >
                                 <mal:type area="MAL" list="true" name="Long" />
                             </mal:field>
                         </mal:response>
@@ -418,8 +418,8 @@
                             </mal:field>
                         </mal:request>
                         <mal:response comment="">
-                            <mal:field name="objInstIds" canBeNull="true"
-                                       comment="The list of object instance identifiers assigned to the newly created NearbyPosition objects." >
+                            <mal:field name="ids" canBeNull="true"
+                                       comment="The list of ids assigned to the newly created NearbyPosition objects." >
                                 <mal:type area="MAL" list="true" name="Long" />
                             </mal:field>
                         </mal:response>
@@ -445,16 +445,16 @@
                               comment="The removeNearbyPosition operation allows a consumer to remove a list of nearby position events set in the service." >
                     <mal:messages>
                         <mal:submit comment="">
-                            <mal:field name="objInstIds" canBeNull="true"
-                                       comment="The list of object instance identifiers of the NearbyPosition objects to remove." >
+                            <mal:field name="ids" canBeNull="true"
+                                       comment="The list of ids of the NearbyPosition objects to remove." >
                                 <mal:type area="MAL" list="true" name="Long" />
                             </mal:field>
                         </mal:submit>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="When one of the supplied NearbyPosition object instance identifiers is unknown.">
+                        <mal:errorRef comment="When one of the supplied NearbyPosition ids is unknown.">
                             <mal:type area="MAL" list="false" name="UNKNOWN" />
-                            <mal:extraInformation comment="The indexes of the unknown entries in the objInstIds list.">
+                            <mal:extraInformation comment="The indexes of the unknown entries in the ids list.">
                                 <mal:type area="MAL" list="true" name="UInteger" />
                             </mal:extraInformation>
                         </mal:errorRef>
@@ -479,12 +479,12 @@
                                        comment="The NearbyPosition name.">
                                 <mal:type area="MAL" list="false" name="Identifier"/>
                             </mal:field>
-                            <mal:field name="objId" canBeNull="false"
-                                       comment="The NearbyPosition object instance identifier.">
+                            <mal:field name="nearbyPositionId" canBeNull="false"
+                                       comment="The NearbyPosition id.">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
-                            <mal:field name="pValObjId" canBeNull="false"
-                                       comment="The NearbyPositionAlert object instance identifier.">
+                            <mal:field name="alertId" canBeNull="false"
+                                       comment="The NearbyPositionAlert id.">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
                         </mal:subscriptionKeys>
@@ -1108,7 +1108,7 @@
             </mal:capabilitySet>
             <mal:capabilitySet comment="" number="2">
                 <mal:requestIP name="enableDevices" number="2"
-                               comment="The enableDevices operation allows a consumer to enable and disable specific devices. Device can be identified by object instance identifier and/or unit Type. If object instance identifier is NULL, then the first device of given type is selected." >
+                               comment="The enableDevices operation allows a consumer to enable and disable specific devices. Device can be identified by id and/or unit Type. If id is NULL, then the first device of given type is selected." >
                     <mal:messages>
                         <mal:request comment="">
                             <mal:field name="devices" canBeNull="true" comment="List of devices to be controlled." >
@@ -1734,7 +1734,7 @@
                 <mal:field name="enabled" canBeNull="false" comment="Power state of the unit." >
                     <mal:type area="MAL" list="false" name="Boolean" />
                 </mal:field>
-                <mal:field name="unitObjInstId" canBeNull="true" comment="The unique object instance identifier of the device." >
+                <mal:field name="unitId" canBeNull="true" comment="The unique id of the device." >
                     <mal:type area="MAL" list="false" name="Long" />
                 </mal:field>
                 <mal:field name="name" canBeNull="true" comment="Device name.">

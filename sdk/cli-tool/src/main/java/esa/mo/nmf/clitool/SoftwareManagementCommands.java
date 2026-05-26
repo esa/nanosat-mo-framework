@@ -368,7 +368,7 @@ public class SoftwareManagementCommands {
                     ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                 for (int i = 0; i < objDetails.size(); ++i) {
                     AppDetails details = (AppDetails) objBodies.get(i);
-                    result.put(details.getName().getValue(), new ProviderAppDetails(objDetails.get(i).getInstId(),
+                    result.put(details.getName().getValue(), new ProviderAppDetails(objDetails.get(i).getId(),
                             details));
                 }
             }

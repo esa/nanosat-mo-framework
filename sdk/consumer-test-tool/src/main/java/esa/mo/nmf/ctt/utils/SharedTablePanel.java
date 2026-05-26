@@ -186,7 +186,7 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
                 archiveService,
                 source.getType(),
                 source.getDomain(),
-                source.getInstId()
+                source.getId()
         );
     }
 
@@ -222,7 +222,7 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
             ArchivePersistenceObject comObject = new ArchivePersistenceObject(
                     archiveObjectOutput.getObjectType(),
                     archiveObjectOutput.getDomain(),
-                    archiveObjectOutput.getArchiveDetailsList().get(i).getInstId(),
+                    archiveObjectOutput.getArchiveDetailsList().get(i).getId(),
                     archiveObjectOutput.getArchiveDetailsList().get(i),
                     objects);
 

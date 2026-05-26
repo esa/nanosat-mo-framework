@@ -165,7 +165,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                     HelperCOM.objType2string(links.getSource().getType()));
 
                 this.sourceDomain.setText(HelperDomain.domain2domainId(links.getSource().getDomain()));
-                this.sourceObjId.setText(links.getSource().getInstId().toString());
+                this.sourceObjId.setText(links.getSource().getId().toString());
             }
         }
 
@@ -535,7 +535,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                 archiveService,
                 links.getSource().getType(),
                 links.getSource().getDomain(),
-                links.getSource().getInstId());
+                links.getSource().getId());
 
         if (source == null) {
             JOptionPane.showMessageDialog(null,

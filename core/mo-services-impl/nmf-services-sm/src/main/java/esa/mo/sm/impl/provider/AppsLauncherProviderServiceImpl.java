@@ -551,7 +551,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
 
         // If the list is empty, reconfigure the service with nothing...
-        if (confSet.getObjInstIds().isEmpty()) {
+        if (confSet.getIds().isEmpty()) {
             manager.reconfigureDefinitions(new LongList(), new HeterogeneousList());   // Reconfigures the Manager
             return true;
         }
@@ -559,16 +559,16 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         // ok, we're good to go...
         // Load the App Details from this configuration...
         HeterogeneousList pDefs = (HeterogeneousList) HelperArchive.getObjectBodyListFromArchive(manager.getArchiveService(),
-                AppsLauncherServiceInfo.APP_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), confSet.getObjInstIds());
+                AppsLauncherServiceInfo.APP_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), confSet.getIds());
 
-        if (manager.reconfigureDefinitions(confSet.getObjInstIds(), pDefs)) {
-            for (Long id : confSet.getObjInstIds()) { // Set all running state to false
+        if (manager.reconfigureDefinitions(confSet.getIds(), pDefs)) {
+            for (Long id : confSet.getIds()) { // Set all running state to false
                 manager.setRunning(id, false, null);
             }
         } else {
             LOGGER.log(Level.WARNING,
                     "Failed to reconfigure definitions. Ids: {0} pDefs: {1}",
-                    new Object[]{confSet.getObjInstIds(), pDefs});
+                    new Object[]{confSet.getIds(), pDefs});
         }
         return true;
     }

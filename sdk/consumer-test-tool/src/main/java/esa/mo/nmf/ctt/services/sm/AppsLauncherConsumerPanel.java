@@ -91,7 +91,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                 int selectedRow = appsTable.getSelectedRow();
                 // If there is a concrete row selected...
                 if (selectedRow != -1) {
-                    Long objId = appsTable.getCOMObjects().get(selectedRow).getArchiveDetails().getInstId();
+                    Long objId = appsTable.getCOMObjects().get(selectedRow).getArchiveDetails().getId();
                     appVerboseTextArea.setText(outputBuffers.get(objId).toString());
                     appVerboseTextArea.setCaretPosition(appVerboseTextArea.getDocument().getLength());
                 }
@@ -257,7 +257,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         }
 
         LongList ids = new LongList();
-        Long objId = appsTable.getSelectedCOMObject().getArchiveDetails().getInstId();
+        Long objId = appsTable.getSelectedCOMObject().getArchiveDetails().getId();
         ids.add(objId);
 
         unsubscribeFromPreviousEvents(objId);
@@ -283,7 +283,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
         LongList ids = new LongList();
-        Long objId = appsTable.getSelectedCOMObject().getArchiveDetails().getInstId();
+        Long objId = appsTable.getSelectedCOMObject().getArchiveDetails().getId();
         ids.add(objId);
 
         unsubscribeFromPreviousEvents(objId);
@@ -308,7 +308,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         }
 
         LongList ids = new LongList();
-        Long objId = appsTable.getSelectedCOMObject().getArchiveDetails().getInstId();
+        Long objId = appsTable.getSelectedCOMObject().getArchiveDetails().getId();
         ids.add(objId);
 
         unsubscribeFromPreviousEvents(objId);
@@ -448,9 +448,9 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                 org.ccsds.moims.mo.mal.structures.Element eventBody,
                 java.util.Map qosProperties) {
             // Does the objId received matches the one that we originally sent to the service?
-            if (originalObjId.equals(eventLinks.getSource().getInstId())) {
+            if (originalObjId.equals(eventLinks.getSource().getId())) {
                 ObjectKey obj = eventLinks.getSource();
-                updateAppStatus(obj.getInstId(), "Running", "Failed to start!");
+                updateAppStatus(obj.getId(), "Running", "Failed to start!");
             }
         }
     }

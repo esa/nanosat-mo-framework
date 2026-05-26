@@ -420,7 +420,7 @@ public final class AggregationManager extends MCManager {
                 ParameterValue pVal = agg.getValue();
                 if (currentParamValues.get(k).getValue().getRawValue().equals(pVal.getRawValue())) {
                     ParameterValue newValue = new ParameterValue(ValidityState.EXPIRED, pVal.getRawValue(), pVal.getConvertedValue());
-                    newParameterValueSamples.add(k, new AggregationParameterValue(newValue, agg.getParamDefInstId()));
+                    newParameterValueSamples.add(k, new AggregationParameterValue(newValue, agg.getParamDefinitionId()));
                 }
             }
         }

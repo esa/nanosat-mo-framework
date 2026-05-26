@@ -59,7 +59,7 @@ public class AlertTablePanel extends SharedTablePanel {
         AlertDefinition pDef = (AlertDefinition) comObject.getObject();
 
         tableData.addRow(new Object[]{
-            comObject.getArchiveDetails().getInstId(),
+            comObject.getArchiveDetails().getId(),
             pDef.getName().getValue(),
             pDef.getDescription(),
             pDef.getSeverity().toString(),
@@ -113,7 +113,7 @@ public class AlertTablePanel extends SharedTablePanel {
         }
         ArchivePersistenceObject result = null;
         for (ArchivePersistenceObject obj : comObjects) {
-            if (obj.getArchiveDetails().getInstId().equals(definitionId)) {
+            if (obj.getArchiveDetails().getId().equals(definitionId)) {
                 result = obj;
                 break;
             }

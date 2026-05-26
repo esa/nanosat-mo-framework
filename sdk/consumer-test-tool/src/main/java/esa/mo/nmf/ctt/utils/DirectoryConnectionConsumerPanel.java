@@ -424,7 +424,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             DefaultListModel listOfProviders = new DefaultListModel();
 
             for (ProviderSummary summary : summaryList) {
-                listOfProviders.addElement(summary.getInstId().toString()
+                listOfProviders.addElement(summary.getId().toString()
                         + ". " + summary.getProviderId().toString());
             }
 
