@@ -105,6 +105,23 @@ public class AlertTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
+    public ArchivePersistenceObject getCOMObjectById(Long definitionId) {
+        try {
+            semaphore.acquire();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ArchivePersistenceObject result = null;
+        for (ArchivePersistenceObject obj : comObjects) {
+            if (obj.getArchiveDetails().getInstId().equals(definitionId)) {
+                result = obj;
+                break;
+            }
+        }
+        semaphore.release();
+        return result;
+    }
+
     public AlertDefinition generateNewAlertDef(AlertDefinition def, boolean generation) {
         return new AlertDefinition(
                 def.getName(),

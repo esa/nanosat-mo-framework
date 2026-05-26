@@ -21,7 +21,6 @@
 package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
-import esa.mo.com.impl.provider.EventProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import java.util.HashMap;
 import org.ccsds.moims.mo.com.structures.*;
@@ -43,7 +42,6 @@ public abstract class MCManager {
     private final HashMap<Identifier, Long> nameToId;
     private final HashMap<Long, Element> objIdToDef;
 
-    private final EventProviderServiceImpl eventService;
     private final ArchiveProviderServiceImpl archiveService;
     private final COMServicesProvider comServices;
 
@@ -53,22 +51,14 @@ public abstract class MCManager {
         this.idToName = new HashMap<>();
 
         if (comServices != null) {
-            this.eventService = comServices.getEventService();
             this.archiveService = comServices.getArchiveService();
             this.comServices = comServices;
         } else {
-            this.eventService = null;
             this.archiveService = null;
             this.comServices = null;
         }
     }
 
-    public EventProviderServiceImpl getEventService() {
-        return this.eventService;
-    }
-
-    //TODO: synchrinized added; does the problem, that the updateDefinition-operation
-    //sometimes doesnt find the definition, that was right before updated? -> problem
     public ArchiveProviderServiceImpl getArchiveService() {
         return this.archiveService;
     }

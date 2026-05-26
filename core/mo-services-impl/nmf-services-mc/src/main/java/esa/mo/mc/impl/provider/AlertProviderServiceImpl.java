@@ -20,18 +20,18 @@
  */
 package esa.mo.mc.impl.provider;
 
-import esa.mo.com.impl.provider.EventProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
-import java.io.IOException;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.DuplicateException;
 import org.ccsds.moims.mo.com.InvalidException;
 import org.ccsds.moims.mo.com.structures.*;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.UnknownException;
@@ -39,10 +39,14 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingl
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
+import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
 import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mal.transport.MALErrorBody;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.alert.AlertHelper;
 import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
 import org.ccsds.moims.mo.mc.alert.provider.AlertInheritanceSkeleton;
+import org.ccsds.moims.mo.mc.alert.provider.MonitorAlertPublisher;
 import org.ccsds.moims.mo.mc.structures.*;
 
 /**
@@ -53,10 +57,12 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     private MALProvider alertServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
-    private boolean isRegistered = false;
     protected AlertManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
     private ConfigurationChangeListener configurationAdapter;
+    private MonitorAlertPublisher publisher;
+    private boolean isRegistered = false;
+    private final Object lock = new Object();
 
     /**
      * Creates the MAL objects, the publisher used to create updates and starts
@@ -67,13 +73,19 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
      */
     public synchronized void init(COMServicesProvider comServices) throws MALException {
         long timestamp = System.currentTimeMillis();
+
+        publisher = createMonitorAlertPublisher(ConfigurationProviderSingleton.getDomain(),
+                ConfigurationProviderSingleton.getNetwork(),
+                SessionType.LIVE, ConfigurationProviderSingleton.getSourceSessionName(),
+                QoSLevel.BESTEFFORT, null, new UInteger(0));
+
         // Shut down old service transport
         if (null != alertServiceProvider) {
             connection.closeAll();
         }
 
         alertServiceProvider = connection.startService(AlertServiceInfo.ALERT_SERVICE_NAME.toString(),
-                AlertHelper.ALERT_SERVICE, false, this);
+                AlertHelper.ALERT_SERVICE, true, this);
 
         running = true;
         manager = new AlertManager(comServices);
@@ -366,64 +378,109 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     public Long publishAlertEvent(final MALInteraction interaction, final Identifier alertDefinitionName,
             final AttributeValueList argumentValues, final IdentifierList argumentIds, final ObjectKey source) {
 
-        // Add code to publish an Alert following the requirements and using the  Event service
-        if (manager.getEventService() == null) {
-            return null;
-        }
-
         Long id = manager.getId(alertDefinitionName);
 
         if (id == null) {
-            // It doesn't... let's automatically generate the Alert Definition
             generateAlertDefinition(argumentValues, alertDefinitionName, interaction, null);
             id = manager.getId(alertDefinitionName);
         }
 
-        // Also, check if the Alert is enabled or not!
         AlertDefinition alertDef = manager.getAlertDefinitionFromDefId(id);
 
-        if (alertDef == null) { // requirement: 3.4.12.2.g
+        if (alertDef == null) {
             return null;
         }
 
-        if (!alertDef.getReportingEnabled()) {  // requirement: 3.4.3.a, 3.4.3.b
+        if (!alertDef.getReportingEnabled()) {
             return null;
         }
 
-        // Check if the argumentIds match
-        if (alertDef.getArguments() != null) {
-            if (argumentIds != null) {
-                for (int index = 0; index < alertDef.getArguments().size(); index++) {
-                    if (!alertDef.getArguments().get(index).getArgId().getValue().equals(argumentIds.get(index).getValue())) {  // If it doesn't match?
-                        return null;
-                    }
+        if (alertDef.getArguments() != null && argumentIds != null) {
+            for (int index = 0; index < alertDef.getArguments().size(); index++) {
+                if (!alertDef.getArguments().get(index).getArgId().getValue().equals(
+                        argumentIds.get(index).getValue())) {
+                    return null;
                 }
             }
         }
 
         AlertEvent alertEvent = new AlertEvent(argumentValues, argumentIds);
+        Long alertEventObjId = null;
 
-        // COM and Event usage 
-        // requirement: 3.4.3.d
-        // requirement: 3.4.7.b, 3.4.4.d, 3.4.4.f
-        Long alertEventObjId = manager.getEventService().generateAndStoreEvent(
-                AlertServiceInfo.ALERTEVENT_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(),
-                alertEvent, id, source, interaction);
-
-        // requirement: 3.4.5.a and 3.4.5.b and 3.4.5.c
-        AlertEventList alertEvents = new AlertEventList();
-        alertEvents.add(alertEvent);
-        final URI uri = EventProviderServiceImpl.convertMALInteractionToURI(interaction);
+        if (manager.getArchiveService() != null) {
+            try {
+                URI uri = connection.getPrimaryConnectionDetails().getProviderURI();
+                HeterogeneousList bodies = new HeterogeneousList();
+                bodies.add(alertEvent);
+                LongList ids = manager.getArchiveService().store(
+                        true,
+                        AlertServiceInfo.ALERTEVENT_OBJECT_TYPE,
+                        ConfigurationProviderSingleton.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(id, source, uri),
+                        bodies,
+                        null);
+                if (ids != null && !ids.isEmpty()) {
+                    alertEventObjId = ids.get(0);
+                }
+            } catch (MALException | MALInteractionException ex) {
+                Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.WARNING,
+                        "Failed to store AlertEvent in archive", ex);
+            }
+        }
 
         try {
-            manager.getEventService().publishEvent(uri, alertEventObjId,
-                    AlertServiceInfo.ALERTEVENT_OBJECT_TYPE, id, source, alertEvents);
-        } catch (IOException ex) {
-            Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            synchronized (lock) {
+                if (!isRegistered) {
+                    publisher.registerWithDefaultKeys(new PublishInteractionListener());
+                    isRegistered = true;
+                }
+            }
+
+            AttributeList keys = new AttributeList();
+            keys.add(new Union(id));
+
+            URI providerURI = connection.getConnectionDetails().getProviderURI();
+            UpdateHeader updateHeader = new UpdateHeader(new Identifier(providerURI.getValue()),
+                    connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
+
+            publisher.publish(updateHeader, alertEvent, source);
+        } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
+            Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during publishing of alert event", ex);
         }
 
         return alertEventObjId;
+    }
+
+    public static final class PublishInteractionListener implements MALPublishInteractionListener {
+
+        @Override
+        public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+                throws MALException {
+            Logger.getLogger(AlertProviderServiceImpl.class.getName()).fine(
+                    "PublishInteractionListener::publishDeregisterAckReceived");
+        }
+
+        @Override
+        public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
+                final Map qosProperties) throws MALException {
+            Logger.getLogger(AlertProviderServiceImpl.class.getName()).fine(
+                    "PublishInteractionListener::publishErrorReceived");
+        }
+
+        @Override
+        public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+                throws MALException {
+            Logger.getLogger(AlertProviderServiceImpl.class.getName()).fine(
+                    "PublishInteractionListener::publishRegisterAckReceived");
+        }
+
+        @Override
+        public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
+                final Map qosProperties) throws MALException {
+            Logger.getLogger(AlertProviderServiceImpl.class.getName()).warning(
+                    "PublishInteractionListener::publishRegisterErrorReceived");
+        }
     }
 
     /**
@@ -464,7 +521,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
         AlertDefinition alertDef = new AlertDefinition(
                 alertDefinitionName,
-                "This def. was auto-generated by the Alert service",
+                "Auto-generated definition",
                 Severity.INFORMATIONAL,
                 true,
                 args);

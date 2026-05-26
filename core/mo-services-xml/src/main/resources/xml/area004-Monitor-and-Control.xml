@@ -565,45 +565,68 @@
             </com:features>
         </mal:service>
         <mal:service xsi:type="com:ExtendedServiceType" name="Alert" number="3"
-                     comment="The alert service defines the structures and patterns for the publishing and monitoring of alerts. The alert service uses COM event service to monitor and publish alert events.&#xA;Whether alerts are published can be controlled using the enableReporting operation.&#xA;Alert definitions are maintained using the operations defined in this service but storage of definitions is delegated to the COM archive.">
+                     comment="The alert service defines the structures and patterns for the publishing and monitoring of alerts. Consumers subscribe to the monitorAlert PUB-SUB operation to receive alert notifications.&#xA;Whether alerts are published can be controlled using the enableReporting operation.&#xA;Alert definitions are maintained using the operations defined in this service but storage of definitions is delegated to the COM archive.">
             <mal:documentation name="Service-level Requirement" order="1">The alert service shall provide:
 &lt;ol&gt;
- &lt;li&gt;the capability for reporting of alerts;&lt;/li&gt;
+ &lt;li&gt;the capability for reporting of alerts via the monitorAlert PUB-SUB operation;&lt;/li&gt;
  &lt;li&gt;the capability for controlling reporting of alerts;&lt;/li&gt;
  &lt;li&gt;the capability for maintaining the list of alert definitions.&lt;/li&gt;
 &lt;/ol&gt;</mal:documentation>
             <mal:documentation name="Service-level Requirement" order="2">
                 The reportingEnabled field in the AlertDefinition shall specify whether alerts are published.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="11">
-                The service provider shall publish alert instances as events using the COM event operations.
-            </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="3">
                 The service provider shall represent alert definitions as AlertDefinition COM objects.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="4">
-                The service provider shall represent instances of an alert as an AlertEvent COM event.
+                The service provider shall represent instances of an alert as an AlertEvent COM object.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="5">
                 The AlertEvent object shall use the related link to indicate which AlertDefinition object it uses.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="6">
-                When an alert is generated, the service provider shall represent it as a COM event.
+                When an alert is generated, the service provider shall publish it via the monitorAlert operation.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="7">
-                The service provider shall publish the event using the COM event service.
+                The source field of the monitorAlert notification shall be the object that caused the alert to be generated.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="8">
-                The source link of the AlertEvent object shall be the object that caused the event to be generated.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">
                 The service provider should store AlertDefinition objects in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
-                When an alert event is published, the service provider should store the AlertEvent object in the COM archive.
+            <mal:documentation name="Service-level Requirement" order="9">
+                When an alert is published, the service provider should store the AlertEvent object in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1">
-                <mal:requestIP name="enableReporting" number="1"
+                <mal:pubsubIP name="monitorAlert" number="1"
+                              comment="The monitorAlert operation allows a consumer to subscribe for alert notifications.">
+                    <mal:documentation name="Requirement" order="1">
+                        When an enabled alert is generated, the service provider shall publish an alert notification.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        The service provider shall publish the alert notification using the definitionId of the AlertDefinition as a subscription key.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        A service consumer may subscribe to notifications for a specific alert definition, or for all alert definitions by using the wildcard value in the definitionId field.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:subscriptionKeys>
+                            <mal:field name="definitionId" canBeNull="false" comment="The id of the AlertDefinition.">
+                                <mal:type area="MAL" list="false" name="Long"/>
+                            </mal:field>
+                        </mal:subscriptionKeys>
+                        <mal:publishNotify>
+                            <mal:field name="alertEvent" canBeNull="false" comment="The alert event data.">
+                                <mal:type area="MC" list="false" name="AlertEvent"/>
+                            </mal:field>
+                            <mal:field name="source" canBeNull="true" comment="The object that caused the alert to be generated.">
+                                <mal:type area="COM" list="false" name="ObjectKey"/>
+                            </mal:field>
+                        </mal:publishNotify>
+                    </mal:messages>
+                </mal:pubsubIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="2">
+                <mal:requestIP name="enableReporting" number="2"
                                comment="The enableReporting operation allows a consumer to control whether PUBSUB reports are published for specific alerts or not.">
                     <mal:documentation name="Requirement" order="1">
                         The service provider shall support the wildcard value of '0' in the ids field, which matches all AlertDefinition objects of the provider.
@@ -658,8 +681,8 @@
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
-            <mal:capabilitySet number="2">
-                <mal:requestIP name="listDefinition" number="2"
+            <mal:capabilitySet number="3">
+                <mal:requestIP name="listDefinition" number="3"
                                comment="The listDefinition operation allows a consumer to request the ids of the AlertDefinition objects for the supported alerts of the provider.">
                     <mal:documentation name="Requirement" order="1">
                         The alertNames field may contain the wildcard value of '*' to return all supported AlertDefinition objects.
@@ -694,7 +717,7 @@
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
-            <mal:capabilitySet number="3">
+            <mal:capabilitySet number="4">
                 <mal:submitIP name="updateDefinition" number="4"
                               comment="The updateDefinition operation allows a consumer to update a definition for one or more alerts. The replacement definition should be stored in the COM archive by the service provider. The operation does not remove the previous object from the COM archive, merely removes the object from the provider.">
                     <mal:documentation name="Requirement" order="1">
@@ -744,20 +767,18 @@
                             <mal:type area="MC" list="false" name="AlertDefinition"/>
                         </com:objectType>
                     </com:object>
-                </com:objects>
-                <com:events comment="AlertEvent objects are published when an enabled alert is generated.">
-                    <com:event name="AlertEvent" number="2"
-                               comment="The AlertEvent shall be raised when an enabled alert is published.">
+                    <com:object number="2" name="AlertEvent"
+                                comment="Stored in the COM archive when an enabled alert is published.">
                         <com:objectType>
                             <mal:type area="MC" list="false" name="AlertEvent"/>
                         </com:objectType>
                         <com:relatedObject>
                             <com:objectType number="1" service="Alert" area="MC"/>
                         </com:relatedObject>
-                        <com:sourceObject comment="The object that caused the event to be generated"/>
-                    </com:event>
-                </com:events>
-                <com:archiveUsage comment="Alert objects and AlertEvent objects are stored in the COM archive."/>
+                        <com:sourceObject canBeNull="true" comment="The object that caused the alert to be generated"/>
+                    </com:object>
+                </com:objects>
+                <com:archiveUsage comment="AlertDefinition and AlertEvent objects are stored in the COM archive."/>
             </com:features>
         </mal:service>
         <mal:service xsi:type="com:ExtendedServiceType" name="Aggregation" number="6"
