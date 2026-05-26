@@ -764,7 +764,7 @@ public class MCCommands {
                                                             * 1000L)));
 
                                     Identifier parameterName
-                                            = parametersAdapter.getIdentitiesMap()
+                                            = parametersAdapter.getNamesMap()
                                                     .get(domainKey).get(parameterId);
                                     if (allParameters.get(domainKey)
                                             .containsKey(parameterName)) {
@@ -893,7 +893,7 @@ public class MCCommands {
                     archiveQuery, adapter, adapter);
 
             // Display list of NMF apps that have parameters
-            Map<IdentifierList, List<Identifier>> parameters = adapter.getParameterIdentities();
+            Map<IdentifierList, List<Identifier>> parameters = adapter.getParameterNames();
             if (parameters.size() <= 0) {
                 System.out.println(
                         "\nNo parameter found in the provided archive: "

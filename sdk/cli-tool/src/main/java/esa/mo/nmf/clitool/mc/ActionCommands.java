@@ -115,7 +115,7 @@ public class ActionCommands {
             queryArchive(ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE, archiveQuery, adapter, adapter);
 
             // Display list of NMF apps that have actions
-            Map<IdentifierList, List<Identifier>> actions = adapter.getActionIdentities();
+            Map<IdentifierList, List<Identifier>> actions = adapter.getActionNames();
             if (actions.size() <= 0) {
                 System.out.println("\nNo action found in the provided archive: " + (databaseFile == null
                         ? providerURI : databaseFile));

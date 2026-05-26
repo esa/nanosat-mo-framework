@@ -26,57 +26,6 @@ public class MCServicesHelper {
     public static final Identifier ALL_ID_STR = new Identifier("*");
     public static final Identifier EMPTY_ID_STR = new Identifier("");
     
-    public static final int ALERT_IDENTITY_OBJECT_NUMBER = 1;
-    public static final int ALERT_DEFINITION_OBJECT_NUMBER = 2;
-    public static final int ALERT_EVENT_OBJECT_NUMBER = 3;
-
-    public static final int PARAMETER_IDENTITY_OBJECT_NUMBER = 1;
-    public static final int PARAMETER_DEFINITION_OBJECT_NUMBER = 2;
-    public static final int PARAMETER_VALUE_INSTANCE_OBJECT_NUMBER = 3;
-
-    public static final int ACTION_IDENTITY_OBJECT_NUMBER = 1;
-    public static final int ACTION_DEFINITION_OBJECT_NUMBER = 2;
-    public static final int ACTION_INSTANCE_OBJECT_NUMBER = 3;
-    public static final int ACTION_FAILURE_OBJECT_NUMBER = 6;
-
-    public static final int ACTIVITY_RELEASE_OBJECT_NUMBER = 1;
-    public static final int ACTIVITY_ACCEPTANCE_OBJECT_NUMBER = 4;
-    public static final int ACTIVITY_EXECUTION_OBJECT_NUMBER = 5;
-    public static final int OPERATION_ACTIVITY_OBJECT_NUMBER = 6;
-
-    public static final int STATISTIC_FUNCTION_OBJECT_NUMBER = 1;
-    public static final int STATISTIC_LINK_OBJECT_NUMBER = 2;
-    public static final int STATISTIC_LINK_DEFINITION_OBJECT_NUMBER = 3;
-    public static final int STATISTIC_VALUE_INSTANCE_OBJECT_NUMBER = 4;
-
-    public static final int STATISTIC_MAX_FUNCTION_INSTANCE_NUMBER = 1;
-    public static final int STATISTIC_MIN_FUNCTION_INSTANCE_NUMBER = 2;
-    public static final int STATISTIC_MEAN_FUNCTION_INSTANCE_NUMBER = 3;
-    public static final int STATISTIC_STDDEV_FUNCTION_INSTANCE_NUMBER = 4;
-
-    public static final int CHECK_IDENTITY_OBJECT_NUMBER = 1;
-    public static final int CHECK_LINK_OBJECT_NUMBER = 2;
-    public static final int CHECK_LINK_DEFINITION_OBJECT_NUMBER = 3;
-    public static final int CHECK_TRANSITION_OBJECT_NUMBER = 4;
-    public static final int CONSTANT_CHECK_OBJECT_NUMBER = 5;
-    public static final int REFERENCE_CHECK_OBJECT_NUMBER = 6;
-    public static final int DELTA_CHECK_OBJECT_NUMBER = 7;
-    public static final int LIMIT_CHECK_OBJECT_NUMBER = 8;
-    public static final int COMPOUND_CHECK_OBJECT_NUMBER = 9;
-
-    public static final int AGGREGATION_IDENTITY_OBJECT_NUMBER = 1;
-    public static final int AGGREGATION_DEFINITION_OBJECT_NUMBER = 2;
-    public static final int AGGREGATION_VALUE_INSTANCE_OBJECT_NUMBER = 3;
-
-    public static final int CONVERSION_IDENTITY_OBJECT_NUMBER = 1;
-    public static final int DISCRETE_CONVERSION_OBJECT_NUMBER = 2;
-    public static final int LINE_CONVERSION_OBJECT_NUMBER = 3;
-    public static final int POLY_CONVERSION_OBJECT_NUMBER = 4;
-    public static final int RANGE_CONVERSION_OBJECT_NUMBER = 5;
-
-    public static final int GROUP_IDENTITY_OBJECT_NUMBER = 1;
-    public static final int GROUP_DEFINITION_OBJECT_NUMBER = 2;
-
     public static final String STORE_IN_ARCHIVE_PROPERTY = "esa.nmf.parameters.storeInArchive";
 
     // For the tests:

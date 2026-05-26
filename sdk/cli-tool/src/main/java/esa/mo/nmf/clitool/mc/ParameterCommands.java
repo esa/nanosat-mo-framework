@@ -108,13 +108,12 @@ public class ParameterCommands {
             entities.add(entity);
              */
             SubscriptionFilterList filters = new SubscriptionFilterList();
-            if (parameterNames == null || parameterNames.isEmpty()) {
-            } else {
+            if (parameterNames != null && !parameterNames.isEmpty()) {
+                AttributeList acceptableNames = new AttributeList();
                 for (String parameter : parameterNames) {
-                    filters.add(new SubscriptionFilter(
-                            new Identifier("name"),
-                            new AttributeList(parameter)));
+                    acceptableNames.add(new Identifier(parameter));
                 }
+                filters.add(new SubscriptionFilter(new Identifier("name"), acceptableNames));
             }
 
             ParameterStub stub =
@@ -133,12 +132,11 @@ public class ParameterCommands {
                             org.ccsds.moims.mo.com.structures.ObjectKey objKey,
                             org.ccsds.moims.mo.mc.structures.ParameterValue newValue,
                             java.util.Map qosProperties) {
-                        String parameterName = ((Union) updateHeader
-                                .getKeyValues().get(0).getValue()).getStringValue();
+                        String parameterName = ((Identifier) updateHeader
+                                .getKeyValues().get(0).getValue()).getValue();
                         long timestamp = msgHeader.getTimestamp().getValue();
-                        String value = ((Union) updateHeader
-                                .getKeyValues().get(1).getValue()).getStringValue();
-                        //String value = parameterValueList.get(0).getRawValue().toString();
+                        String value = newValue.getRawValue() == null
+                                ? "null" : newValue.getRawValue().toString();
 
                         System.out.println(
                                 "[" + timestamp + "] - " + parameterName + ": " + value);
@@ -382,7 +380,7 @@ public class ParameterCommands {
                                             * 1000L)));
 
                                     Identifier parameterName =
-                                            parametersAdapter.getIdentitiesMap()
+                                            parametersAdapter.getNamesMap()
                                             .get(domainKey).get(parameterId);
                                     if (allParameters.get(domainKey)
                                             .containsKey(parameterName)) {
@@ -514,7 +512,7 @@ public class ParameterCommands {
 
             // Display list of NMF apps that have parameters
             Map<IdentifierList, List<Identifier>> parameters =
-                    adapter.getParameterIdentities();
+                    adapter.getParameterNames();
             if (parameters.size() <= 0) {
                 System.out.println(
                         "\nNo parameter found in the provided archive: "
