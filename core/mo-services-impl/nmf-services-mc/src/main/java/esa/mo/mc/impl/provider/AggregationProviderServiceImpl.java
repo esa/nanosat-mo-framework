@@ -22,6 +22,7 @@ package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.helpertools.misc.Const;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.util.ArrayList;
@@ -107,8 +108,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         periodicSamplingManager.init(); // Initialize the Periodic Sampling Manager
 
         /*
-        storeAggregationsInCOMArchive = Boolean.parseBoolean(System.getProperty(MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY, "true"));
-        String msg = MessageFormat.format("{0} = {1}", MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY, storeAggregationsInCOMArchive);
+        storeAggregationsInCOMArchive = Boolean.parseBoolean(System.getProperty(Const.STORE_IN_ARCHIVE_PROPERTY, "true"));
+        String msg = MessageFormat.format("{0} = {1}", Const.STORE_IN_ARCHIVE_PROPERTY, storeAggregationsInCOMArchive);
         Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.FINE, msg);
          */
         initialiased = true;

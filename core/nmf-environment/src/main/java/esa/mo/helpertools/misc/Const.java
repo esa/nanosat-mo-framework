@@ -54,4 +54,5 @@ public class Const {
     public static final String ARCHIVESYNC_CHUNK_SIZE_DEFAULT = "200";
     public static final String ARCHIVESYNC_OBJECTS_LIMIT_PROPERTY = "esa.nmf.archive.sync.objects.limit";
     public static final String ARCHIVESYNC_OBJECTS_LIMIT_DEFAULT = "30000";
+    public static final String STORE_IN_ARCHIVE_PROPERTY = "esa.nmf.parameters.storeInArchive";
 }

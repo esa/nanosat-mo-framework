@@ -21,6 +21,7 @@
 package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.helpertools.misc.Const;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.util.ArrayList;
@@ -100,8 +101,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         periodicReportingManager.init(); // Initialize the Periodic Reporting Manager
 
         /*
-        storeParametersInCOMArchive = Boolean.parseBoolean(System.getProperty(MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY, "true"));
-        String msg = MessageFormat.format("{0} = {1}", MCServicesHelper.STORE_IN_ARCHIVE_PROPERTY, storeParametersInCOMArchive);
+        storeParametersInCOMArchive = Boolean.parseBoolean(System.getProperty(Const.STORE_IN_ARCHIVE_PROPERTY, "true"));
+        String msg = MessageFormat.format("{0} = {1}", Const.STORE_IN_ARCHIVE_PROPERTY, storeParametersInCOMArchive);
         Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.FINE, msg);
          */
         initialiased = true;
