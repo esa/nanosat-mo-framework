@@ -25,8 +25,13 @@ The CLI groups commands by service area:
 - **archive** — query and back up a local or remote COM Archive.
 - **log** — list apps with archived logs; export an app's logs to a
   file.
-- **parameter** / **aggregation** — subscribe, enable, disable, list,
-  and dump parameters and aggregations.
+- **parameter** — subscribe to live updates, enable/disable reporting,
+  list definitions, and dump historical samples from the archive.
+- **aggregation** — subscribe to live updates, enable/disable reporting.
+- **action** — list available actions and trigger them with optional
+  arguments.
+- **software-management** — find, install, uninstall, and upgrade NMF
+  packages on a remote provider.
 - **gps** — retrieve NMEA sentences from a remote GPS provider.
 - **adcs** — query the ADCS provider's status.
 - **camera** — request an image from a remote Camera provider.
@@ -54,6 +59,13 @@ Subscribe to a remote app's stdout:
 
    esa.mo.nmf.clitool.CLITool apps-launcher subscribe \
        -r maltcp://host:port/nanosat-mo-supervisor-Directory my-app
+
+Trigger an action on a remote provider:
+
+.. code-block:: bash
+
+   esa.mo.nmf.clitool.CLITool action trigger \
+       -r maltcp://host:port/provider-Directory MyAction
 
 Take a picture from a remote Camera provider:
 
