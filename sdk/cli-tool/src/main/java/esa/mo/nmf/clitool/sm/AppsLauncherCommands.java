@@ -81,11 +81,12 @@ public class AppsLauncherCommands {
                 Subscription subscription = new Subscription(subscriptionId, null, null, null);
 
                 if (appNames != null && !appNames.isEmpty()) {
-                    SubscriptionFilterList filters = new SubscriptionFilterList();
+                    AttributeList acceptableNames = new AttributeList();
                     for (String app : appNames) {
-                        filters.add(new SubscriptionFilter(new Identifier("appName"), new AttributeList(app)));
+                        acceptableNames.add(new Identifier(app));
                     }
-
+                    SubscriptionFilterList filters = new SubscriptionFilterList();
+                    filters.add(new SubscriptionFilter(new Identifier("appName"), acceptableNames));
                     subscription = new Subscription(subscriptionId, null, null, filters);
                 }
                 outputSubscription = subscriptionId;
@@ -97,7 +98,7 @@ public class AppsLauncherCommands {
                             org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
                             String outputStream,
                             java.util.Map qosProperties) {
-                        String providerName = ((Union) updateHeader.getKeyValues().get(0).getValue()).getStringValue();
+                        String providerName = ((Identifier) updateHeader.getKeyValues().get(0).getValue()).getValue();
                         String[] lines = outputStream.split("\n");
                         for (String line : lines) {
                             System.out.println("[" + providerName + "]: " + line);
