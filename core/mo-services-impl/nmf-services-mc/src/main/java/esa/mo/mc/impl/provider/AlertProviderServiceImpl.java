@@ -123,7 +123,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     }
 
     @Override
-    public LongList enableReporting(final Boolean enable, final LongList ids,
+    public void enableReporting(final Boolean enable, final LongList ids,
             MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
 
@@ -163,21 +163,16 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             throw new MALInteractionException(new UnknownException(unkIndexList));
         }
 
-        LongList output = new LongList();
-
         // requirement: 3.4.8.2.i (This part of the code is only reached if no error was raised)
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.4.8.e and 3.4.8.f and 3.4.8.j
-            Long out = manager.setReportingEnabled(objIdToBeEnabled.get(index),
+            manager.setReportingEnabled(objIdToBeEnabled.get(index),
                     enable, null, connection.getConnectionDetails());
-            output.add(out);
         }
 
         if (configurationAdapter != null) {
             configurationAdapter.onConfigurationChanged(this);
         }
-
-        return output;
     }
 
     @Override

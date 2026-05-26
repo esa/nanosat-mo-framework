@@ -511,17 +511,17 @@ public class ParameterManager extends MCManager {
      * @return True if it was successfully updated. false if def is null or the
      * new bool value was the same as the current value.
      */
-    protected Long setReportingEnabled(Long id, Boolean bool, ObjectKey source,
+    protected void setReportingEnabled(Long id, Boolean bool, ObjectKey source,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.a.c
         ParameterDefinition def = this.getParameterDefinition(id);
 
         if (def == null) {
-            return null;
+            return;
         }
 
         //requirement: 3.3.10.2.f
         if (def.getReportingEnabled().booleanValue() == bool) { // Is it set with the requested value already?
-            return id; // the value was not changed
+            return; // the value was not changed
         }
 
         ParameterDefinition newDef = new ParameterDefinition(def.getName(),
@@ -530,7 +530,7 @@ public class ParameterManager extends MCManager {
                 def.getValidityExpression(), def.getConversion());
 
         //requirement: 3.3.10.2.k
-        return this.update(id, newDef, source, connectionDetails);
+        this.update(id, newDef, source, connectionDetails);
     }
 
     /**
@@ -544,14 +544,10 @@ public class ParameterManager extends MCManager {
      * @param connectionDetails the given connectionDetails
      * @return the object instance identifier of the new parameter-definition
      */
-    protected Long update(Long id, ParameterDefinition definition,
+    protected void update(Long id, ParameterDefinition definition,
             ObjectKey source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.d
-        Long newDefId = id;
-
         if (super.getArchiveService() == null) { //only update locally
-            //add to providers local list
-            uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
-            newDefId = uniqueObjIdDef;
+            this.updateDef(id, definition);
         } else {  // update in the COM Archive
             try {
                 HeterogeneousList defs = new HeterogeneousList();
@@ -559,7 +555,6 @@ public class ParameterManager extends MCManager {
                 ArchiveDetailsList metadata = generateArchiveDetailsList(null, source,
                         connectionDetails.getProviderURI(), id);
 
-                // Update a new ParameterDefinition
                 super.getArchiveService().update(ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
                         metadata,
@@ -567,11 +562,8 @@ public class ParameterManager extends MCManager {
             } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
+            this.updateDef(id, definition);
         }
-        //update internal list
-        this.updateDef(id, definition);
-
-        return newDefId;
     }
 
     /**

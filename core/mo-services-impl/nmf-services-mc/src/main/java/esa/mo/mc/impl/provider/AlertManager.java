@@ -91,52 +91,46 @@ public final class AlertManager extends MCManager {
         return newIdPair;
     }
 
-    public Long update(final Long id, final AlertDefinition definition, final ObjectKey source,
+    public void update(final Long id, final AlertDefinition definition, final ObjectKey source,
             final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
-        Long newDefId = id;
-
         if (super.getArchiveService() == null) { //only update locally
-            //add to providers local list
-            uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
-            newDefId = uniqueObjIdDef;
-        } else { // update in the COM Archive        
+            this.updateDef(id, definition);
+        } else { // update in the COM Archive
             try {
                 HeterogeneousList defs = new HeterogeneousList();
                 defs.add(definition);
                 ArchiveDetailsList metadata = generateArchiveDetailsList(null, source,
                         connectionDetails.getProviderURI(), id);
 
-                // Update a new AlertDefinition and add to the archive; requirement: 3.4.7.a
+                // Update existing AlertDefinition in the archive; requirement: 3.4.7.a
                 super.getArchiveService().update(AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
                         metadata,
                         defs, null);
             } catch (MALException | MALInteractionException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AlertManager.class.getName()).log(Level.SEVERE, null, ex);
             }
+            this.updateDef(id, definition);
         }
-
-        this.updateDef(newDefId, definition);
-        return newDefId;
     }
 
-    public Long setReportingEnabled(final Long identityId, final Boolean bool,
+    public void setReportingEnabled(final Long identityId, final Boolean bool,
             final ObjectKey source, final SingleConnectionDetails connectionDetails) {
         // requirement: 3.3.2.5
         AlertDefinition def = this.getAlertDefinitionFromDefId(identityId);
         if (def == null) {
-            return null;
+            return;
         }
 
         // Is it set with the requested value already?
         if (def.getReportingEnabled().booleanValue() == bool) {
-            return identityId; // the value was not changed
+            return; // the value was not changed
         }
 
         AlertDefinition newDef = new AlertDefinition(def.getName(),
                 def.getDescription(), def.getSeverity(), bool, def.getArguments());
 
-        return this.update(identityId, newDef, source, connectionDetails);
+        this.update(identityId, newDef, source, connectionDetails);
     }
 
     public void setReportingEnabledAll(final Boolean bool, final ObjectKey source,

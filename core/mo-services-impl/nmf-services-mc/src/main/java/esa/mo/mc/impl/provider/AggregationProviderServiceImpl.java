@@ -289,7 +289,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
     }
 
     @Override
-    public LongList enableReporting(final Boolean enable, final LongList ids,
+    public void enableReporting(final Boolean enable, final LongList ids,
             final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
 
@@ -331,31 +331,18 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             throw new MALInteractionException(new UnknownException(unkIndexList));
         }
 
-        LongList output = new LongList();
-
         // requirement: 3.7.9.2.i (This part of the code is not reached if an error is thrown)
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.7.3.c, 3.7.9.2.f and 3.7.9.2.j, k
-            Long out = manager.setReportingEnabled(objIdToBeEnabled.get(index),
-                    enable, null, connection.getConnectionDetails());
-            output.add(out);
-
-            /*
-            //requirement: 3.7.9.2.e, l
-            if (objIdToBeEnabled.get(index).longValue() != out.longValue()) {
-                periodicReportingManager.refresh(objIdToBeEnabled.get(index));
-                periodicSamplingManager.refresh(objIdToBeEnabled.get(index));
-            }
-            */
-            periodicReportingManager.refresh(objIdToBeEnabled.get(index));
-            periodicSamplingManager.refresh(objIdToBeEnabled.get(index));
+            Long id = objIdToBeEnabled.get(index);
+            manager.setReportingEnabled(id, enable, null, connection.getConnectionDetails());
+            periodicReportingManager.refresh(id);
+            periodicSamplingManager.refresh(id);
         }
 
         if (configurationAdapter != null) {
             configurationAdapter.onConfigurationChanged(this);
         }
-
-        return output;
     }
 
     @Override

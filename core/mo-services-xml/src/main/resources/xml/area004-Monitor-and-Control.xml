@@ -404,8 +404,8 @@
                 </mal:submitIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="4">
-                <mal:requestIP name="enableReporting" number="4"
-                               comment="The enableReporting operation allows a consumer to control whether PUBSUB reports are published for specific parameters or not.">
+                <mal:submitIP name="enableReporting" number="4"
+                              comment="The enableReporting operation allows a consumer to control whether PUBSUB reports are published for specific parameters or not.">
                     <mal:documentation name="Requirement" order="1">
                         The ids field shall support the wildcard value of '0', which matches all parameters of the provider.
                     </mal:documentation>
@@ -413,57 +413,45 @@
                         The service provider shall check for the wildcard value first; if found, the service provider shall make no further checks of the supplied ids.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If the enable field is TRUE, then the service provider shall publish reports for matching ParameterDefinition objects.
+                        If the enable field is TRUE, then the service provider shall publish reports for matching parameter definitions.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If the enable field is FALSE, then the service provider shall not publish reports for matching ParameterDefinition objects.
+                        If the enable field is FALSE, then the service provider shall not publish reports for matching parameter definitions.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
-                        The service provider shall not raise an error if the supplied Boolean value is the same as the current reportingEnabled field for a matched ParameterDefinition object.
+                        The service provider shall not raise an error if the supplied Boolean value is the same as the current reportingEnabled field for a matched parameter definition.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
                         If an error is raised, then the service provider shall not make any modifications as a result of this operation call.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        If the reportingEnabled field is changed, then the service provider shall create a new ParameterDefinition object.
+                        If the reportingEnabled field is changed, then the service provider shall update the existing ParameterDefinition in the COM archive.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
-                        If a new ParameterDefinition object is created, then the service provider shall store it in the COM archive.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="9">
-                        If a new ParameterDefinition object is created, then that new object shall become the current ParameterDefinition for the parameter.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="10">
                         If the enable field is TRUE and the parameter is defined as periodic, then the service provider shall publish a report immediately.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="11">
+                    <mal:documentation name="Requirement" order="9">
                         If the enable field is TRUE and the parameter is defined as periodic, then the service provider shall start the report interval from the immediately published report.
                     </mal:documentation>
                     <mal:messages>
-                        <mal:request>
+                        <mal:submit>
                             <mal:field name="enable" canBeNull="false" comment="TRUE to enable reporting, FALSE to disable it.">
                                 <mal:type area="MAL" list="false" name="Boolean"/>
                             </mal:field>
                             <mal:field name="ids" canBeNull="false" comment="The list of ParameterDefinition object instance identifiers to enable or disable.">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
-                        </mal:request>
-                        <mal:response>
-                            <mal:field name="newObjInstIds" canBeNull="false"
-                                       comment="The list of ids for the new ParameterDefinition objects.">
-                                <mal:type area="MAL" list="true" name="Long"/>
-                            </mal:field>
-                        </mal:response>
+                        </mal:submit>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="When one or more of the requested ParameterDefinition objects is unknown.">
+                        <mal:errorRef comment="When one or more of the requested parameters is unknown.">
                             <mal:type area="MAL" list="false" name="UNKNOWN"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
-                </mal:requestIP>
+                </mal:submitIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="5">
                 <mal:requestIP name="listDefinition" number="5"
@@ -626,60 +614,48 @@
                 </mal:pubsubIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="2">
-                <mal:requestIP name="enableReporting" number="2"
-                               comment="The enableReporting operation allows a consumer to control whether PUBSUB reports are published for specific alerts or not.">
+                <mal:submitIP name="enableReporting" number="2"
+                              comment="The enableReporting operation allows a consumer to control whether PUBSUB reports are published for specific alerts or not.">
                     <mal:documentation name="Requirement" order="1">
-                        The ids field shall support the wildcard value of '0', which matches all alert definitions of the provider.
+                        The ids field shall support the wildcard value of '0', which matches all alerts of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The service provider shall check for the wildcard value first; if found, the service provider shall make no further checks of the supplied ids.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If the enable field is TRUE, then the service provider shall publish reports for matching AlertDefinition objects.
+                        If the enable field is TRUE, then the service provider shall publish reports for matching alert definitions.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If the enable field is FALSE, then the service provider shall not publish reports for matching AlertDefinition objects.
+                        If the enable field is FALSE, then the service provider shall not publish reports for matching alert definitions.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
-                        The service provider shall not raise an error if the supplied Boolean value is the same as the current reportingEnabled field for a matched AlertDefinition object.
+                        The service provider shall not raise an error if the supplied Boolean value is the same as the current reportingEnabled field for a matched alert definition.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
                         If an error is raised, then the service provider shall not make any modifications as a result of this operation call.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        If the reportingEnabled field is changed, then the service provider shall create a new AlertDefinition object.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
-                        If a new AlertDefinition object is created, then the service provider shall store it in the COM archive.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="9">
-                        If a new AlertDefinition object is created, then that new object shall become the current AlertDefinition for the alert.
+                        If the reportingEnabled field is changed, then the service provider shall update the existing AlertDefinition in the COM archive.
                     </mal:documentation>
                     <mal:messages>
-                        <mal:request>
+                        <mal:submit>
                             <mal:field name="enable" canBeNull="false" comment="TRUE to enable reporting, FALSE to disable it.">
                                 <mal:type area="MAL" list="false" name="Boolean"/>
                             </mal:field>
                             <mal:field name="ids" canBeNull="false" comment="The list of AlertDefinition object instance identifiers to enable or disable.">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
-                        </mal:request>
-                        <mal:response>
-                            <mal:field name="newObjInstIds" canBeNull="false"
-                                       comment="The list of ids for the new AlertDefinition objects.">
-                                <mal:type area="MAL" list="true" name="Long"/>
-                            </mal:field>
-                        </mal:response>
+                        </mal:submit>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="When one or more of the requested AlertDefinition objects is unknown.">
+                        <mal:errorRef comment="When one or more of the requested alerts is unknown.">
                             <mal:type area="MAL" list="false" name="UNKNOWN"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
-                </mal:requestIP>
+                </mal:submitIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="3">
                 <mal:requestIP name="listDefinition" number="3"
@@ -933,66 +909,54 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="3">
-                <mal:requestIP name="enableReporting" number="3"
-                               comment="The enableReporting operation allows a consumer to control whether PUBSUB reports are published for specific aggregations or not. This affects all types of aggregations, periodic, filtered and ad-hoc.">
+                <mal:submitIP name="enableReporting" number="3"
+                              comment="The enableReporting operation allows a consumer to control whether PUBSUB reports are published for specific aggregations or not. This affects all types of aggregations, periodic, filtered and ad-hoc.">
                     <mal:documentation name="Requirement" order="1">
-                        The ids field shall support the wildcard value of '0', which matches all aggregations of the provider.
+                        The ids field shall support the wildcard value of '0', which matches all aggregation definitions of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The service provider shall check for the wildcard value first; if found, the service provider shall make no further checks of the supplied ids.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        If the enable field is TRUE, then the service provider shall publish reports for matching AggregationDefinition objects.
+                        If the enable field is TRUE, then the service provider shall publish reports for matching aggregation definitions.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If the enable field is FALSE, then the service provider shall not publish reports for matching AggregationDefinition objects.
+                        If the enable field is FALSE, then the service provider shall not publish reports for matching aggregation definitions.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
-                        The service provider shall not raise an error if the supplied Boolean value is the same as the current reportingEnabled field of the matched AggregationDefinition object.
+                        The service provider shall not raise an error if the supplied Boolean value is the same as the current reportingEnabled field of the matched aggregation definition.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
                         If an error is raised, then the service provider shall not make any modifications as a result of this operation call.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        If the reportingEnabled field is changed, then the service provider shall create a new AggregationDefinition object.
+                        If the reportingEnabled field is changed, then the service provider shall update the existing AggregationDefinition in the COM archive.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
-                        If a new AggregationDefinition object is created, then the service provider shall store it in the COM archive.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="9">
-                        If a new AggregationDefinition object is created, then that new object shall be the current AggregationDefinition used for the aggregation.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="10">
                         If reporting is being enabled and the aggregation is periodic, then the service provider shall publish a report immediately.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="11">
+                    <mal:documentation name="Requirement" order="9">
                         If reporting is being enabled and the aggregation is periodic, then the service provider shall start the report interval from the immediately published report.
                     </mal:documentation>
                     <mal:messages>
-                        <mal:request>
+                        <mal:submit>
                             <mal:field name="enable" canBeNull="false" comment="TRUE to enable reporting, FALSE to disable it.">
                                 <mal:type area="MAL" list="false" name="Boolean"/>
                             </mal:field>
                             <mal:field name="ids" canBeNull="false" comment="The list of AggregationDefinition object instance identifiers to enable or disable.">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
-                        </mal:request>
-                        <mal:response>
-                            <mal:field name="newObjInstIds" canBeNull="false"
-                                       comment="The list of ids for the new AggregationDefinition objects.">
-                                <mal:type area="MAL" list="true" name="Long"/>
-                            </mal:field>
-                        </mal:response>
+                        </mal:submit>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="When one or more of the requested AggregationDefinition objects is unknown.">
+                        <mal:errorRef comment="When one or more of the requested aggregations is unknown.">
                             <mal:type area="MAL" list="false" name="UNKNOWN"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
-                </mal:requestIP>
+                </mal:submitIP>
                 <mal:submitIP name="enableFilter" number="4"
                               comment="The enableFilter operation allows a consumer to control whether reports for specific aggregations are filtered or not. This affects both periodic and ad-hoc aggregations.">
                     <mal:documentation name="Requirement" order="1">

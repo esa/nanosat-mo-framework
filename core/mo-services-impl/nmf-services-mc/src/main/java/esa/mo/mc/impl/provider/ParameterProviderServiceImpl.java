@@ -177,7 +177,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     }
 
     @Override
-    public LongList enableReporting(final Boolean enable, final LongList ids,
+    public void enableReporting(final Boolean enable, final LongList ids,
             final MALInteraction interaction) throws MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
 
@@ -217,24 +217,17 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             throw new MALInteractionException(new UnknownException(unkIndexList));
         }
 
-        LongList output = new LongList();
-
         // requirement: 3.3.10.2.i (This part of the code is only reached if no error was raised)
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.3.10.2.e, 3.3.10.2.f, 3.3.10.2.j and 3.3.10.2.k
             Long id = objIdToBeEnabled.get(index);
-            Long out = manager.setReportingEnabled(id, enable, null,
-                    connection.getConnectionDetails());
-            output.add(out);
-
+            manager.setReportingEnabled(id, enable, null, connection.getConnectionDetails());
             periodicReportingManager.refresh(id);
         }
 
         if (configurationAdapter != null) {
             configurationAdapter.onConfigurationChanged(this);
         }
-
-        return output;
     }
 
     @Override

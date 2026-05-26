@@ -826,14 +826,10 @@ public final class AggregationManager extends MCManager {
      * @param connectionDetails The connection details.
      * @return The id of the new definition.
      */
-    public Long update(Long identityId, AggregationDefinition definition, ObjectKey source,
+    public void update(Long identityId, AggregationDefinition definition, ObjectKey source,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
-        Long newDefId = identityId;
-
         if (super.getArchiveService() == null) { //only update locally
-            //add to providers local list
-            uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
-            newDefId = uniqueObjIdDef;
+            this.updateDef(identityId, definition);
         } else {  // update in the COM Archive
             try {
                 HeterogeneousList defs = new HeterogeneousList();
@@ -849,11 +845,8 @@ public final class AggregationManager extends MCManager {
             } catch (MALException | MALInteractionException ex) {
                 Logger.getLogger(AggregationManager.class.getName()).log(Level.SEVERE, null, ex);
             }
+            this.updateDef(identityId, definition);
         }
-        //update internal lists
-        this.updateDef(newDefId, definition);
-
-        return newDefId;
     }
 
     public boolean delete(Long identityId) {
@@ -868,16 +861,16 @@ public final class AggregationManager extends MCManager {
         return true;
     }
 
-    public Long setReportingEnabled(Long defId, Boolean status, ObjectKey source,
+    public void setReportingEnabled(Long defId, Boolean status, ObjectKey source,
             SingleConnectionDetails connectionDetails) {
         AggregationDefinition def = this.getAggregationDefinition(defId);
 
         if (def == null) {
-            return null;
+            return;
         }
-        //requirement: 3.7.9.2.f    
+        //requirement: 3.7.9.2.f
         if (def.getReportingEnabled().booleanValue() == status) { // Is it set with the requested value already?
-            return defId; // the value was not changed
+            return; // the value was not changed
         }
 
         AggregationDefinition newDef = new AggregationDefinition(def.getName(),
@@ -886,7 +879,7 @@ public final class AggregationManager extends MCManager {
                 def.getFilteredTimeout(), status, def.getParameterSets());
 
         //requirement: 3.7.9.2.j, k
-        return this.update(defId, newDef, source, connectionDetails);
+        this.update(defId, newDef, source, connectionDetails);
     }
 
     public void setReportingEnabledAll(Boolean bool, ObjectKey source, SingleConnectionDetails connectionDetails) {
