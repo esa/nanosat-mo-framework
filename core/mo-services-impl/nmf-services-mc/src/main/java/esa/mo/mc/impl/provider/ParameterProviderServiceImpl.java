@@ -442,17 +442,17 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     }
 
     @Override
-    public void updateDefinition(LongList paramIdentityInstIds, ParameterDefinitionList paramDefDetails,
+    public void updateDefinition(LongList ids, ParameterDefinitionList paramDefDetails,
             MALInteraction interaction) throws MALInteractionException, MALException { // requirement: 3.3.13.2.a
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
-        if (paramIdentityInstIds == null || paramDefDetails == null) { // Are the inputs null?
-            throw new IllegalArgumentException("paramIdentityInstIds and paramDefDetails arguments must not be null");
+        if (ids == null || paramDefDetails == null) { // Are the inputs null?
+            throw new IllegalArgumentException("ids and paramDefDetails arguments must not be null");
         }
 
-        for (int index = 0; index < paramIdentityInstIds.size(); index++) {
-            final Long identityId = paramIdentityInstIds.get(index);
+        for (int index = 0; index < ids.size(); index++) {
+            final Long identityId = ids.get(index);
 
             //requirement: 3.3.13.2.c: id is Null or 0?
             if (identityId == null || identityId == 0) {
@@ -485,10 +485,10 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
 
         //requirment 3.3.13.2.g: parameters shall only be updated if no error was raised
-        for (int index = 0; index < paramIdentityInstIds.size(); index++) {  // requirement: 3.3.13.2.i, .k
-            manager.update(paramIdentityInstIds.get(index), paramDefDetails.get(index),
+        for (int index = 0; index < ids.size(); index++) {  // requirement: 3.3.13.2.i, .k
+            manager.update(ids.get(index), paramDefDetails.get(index),
                     null, connection.getConnectionDetails());  // Change in the manager, requirement 3.3.13.2.d, g
-            periodicReportingManager.refresh(paramIdentityInstIds.get(index));// then, refresh the Periodic updates
+            periodicReportingManager.refresh(ids.get(index));// then, refresh the Periodic updates
         }
 
         if (configurationAdapter != null) {

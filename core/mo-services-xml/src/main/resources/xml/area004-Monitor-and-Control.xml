@@ -320,7 +320,7 @@
                 <mal:requestIP name="getValue" number="2"
                                comment="The getValue operation returns the latest received value for a requested parameter.">
                     <mal:documentation name="Requirement" order="1">
-                        The paramInstIds field shall support the wildcard value of '0', which matches all parameter definitions of the provider.
+                        The ids field shall support the wildcard value of '0', which matches all parameter definitions of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The service provider shall check for the wildcard value first; if found, the service provider shall make no further checks of the supplied ids.
@@ -333,7 +333,7 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="paramInstIds" canBeNull="false"
+                            <mal:field name="ids" canBeNull="false"
                                        comment="The list of ParameterDefinition ids.">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
@@ -518,7 +518,7 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
-                            <mal:field name="paramInstIds" canBeNull="false"
+                            <mal:field name="ids" canBeNull="false"
                                        comment="The ids of the ParameterDefinition objects to be updated.">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
@@ -529,7 +529,7 @@
                         </mal:submit>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="When the paramInstIds list contains NULL or '0', or the paramInstIds and definitions lists are not the same length, or a supplied reportInterval value is not supported by the provider.">
+                        <mal:errorRef comment="When the ids list contains NULL or '0', or the ids and definitions lists are not the same length, or a supplied reportInterval value is not supported by the provider.">
                             <mal:type area="COM" list="false" name="INVALID"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
