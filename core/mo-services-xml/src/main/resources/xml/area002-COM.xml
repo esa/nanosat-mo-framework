@@ -973,7 +973,7 @@
                     <mal:type area="MAL" list="false" name="UShort"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite shortFormPart="2" name="ObjectKey" comment="The ObjectKey structure combines an object type and an object key such that it identifies the instance and type of an object for a specific domain.">
+            <mal:composite shortFormPart="2" name="ObjectKey" comment="The ObjectKey structure uniquely identifies a COM object by combining its type, domain, and id.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
