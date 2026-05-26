@@ -459,7 +459,7 @@
             <mal:capabilitySet comment="" number="4">
                 <mal:requestIP name="listApp" number="5" comment="The listApp operation allows a consumer to request the ids of the Apps objects and running status for an app name or for a certain app category.">
                     <mal:documentation name="Requirement" order="1">
-                        The service provider shall maintain the same order in the returned lists as in the submitted appNames list, unless the wildcard value is included in the appNames field.
+                        The service provider shall maintain the same order in the returned lists as the submitted appNames list unless the wildcard value was included in the request.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request comment="">

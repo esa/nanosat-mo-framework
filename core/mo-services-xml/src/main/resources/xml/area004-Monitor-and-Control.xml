@@ -55,10 +55,10 @@
                         The PUBLISH message shall include the stageType field in the message body.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        A service consumer may subscribe to updates for a specific action definition, or for all action definitions by using the wildcard value in the definitionId field.
+                        A service consumer may subscribe to notifications for a specific action definition, or for all action definitions by using the wildcard value in the definitionId field.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
-                        A service consumer may subscribe to updates for a specific action execution, or for all action executions by using the wildcard value in the executionId field.
+                        A service consumer may subscribe to notifications for a specific action execution, or for all action executions by using the wildcard value in the executionId field.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
                         If the execution stage did not complete successfully, then the success field of the PUBLISH message shall be FALSE.
@@ -150,7 +150,7 @@
                         The service provider shall check for the wildcard value first; if found, the service provider shall make no further checks of the supplied identifiers.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
+                        The service provider shall maintain the same order in the returned list as the submitted list unless the wildcard value was included in the request.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
@@ -320,7 +320,7 @@
                 <mal:requestIP name="getValue" number="2"
                                comment="The getValue operation returns the latest received value for a requested parameter.">
                     <mal:documentation name="Requirement" order="1">
-                        The service provider shall support the wildcard value of '0' in the paramInstIds field, which matches all parameters of the provider.
+                        The paramInstIds field shall support the wildcard value of '0', which matches all parameter definitions of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The service provider shall check for the wildcard value first; if found, the service provider shall make no further checks of the supplied ids.
@@ -407,7 +407,7 @@
                 <mal:requestIP name="enableReporting" number="4"
                                comment="The enableReporting operation allows a consumer to control whether PUBSUB reports are published for specific parameters or not.">
                     <mal:documentation name="Requirement" order="1">
-                        The service provider shall support the wildcard value of '0' in the ids field, which matches all ParameterDefinition objects of the provider.
+                        The ids field shall support the wildcard value of '0', which matches all parameters of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The service provider shall check for the wildcard value first; if found, the service provider shall make no further checks of the supplied ids.
@@ -629,7 +629,7 @@
                 <mal:requestIP name="enableReporting" number="2"
                                comment="The enableReporting operation allows a consumer to control whether PUBSUB reports are published for specific alerts or not.">
                     <mal:documentation name="Requirement" order="1">
-                        The service provider shall support the wildcard value of '0' in the ids field, which matches all AlertDefinition objects of the provider.
+                        The ids field shall support the wildcard value of '0', which matches all alert definitions of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The service provider shall check for the wildcard value first; if found, the service provider shall make no further checks of the supplied ids.
@@ -936,7 +936,7 @@
                 <mal:requestIP name="enableReporting" number="3"
                                comment="The enableReporting operation allows a consumer to control whether PUBSUB reports are published for specific aggregations or not. This affects all types of aggregations, periodic, filtered and ad-hoc.">
                     <mal:documentation name="Requirement" order="1">
-                        The ids field shall support the wildcard value of '0', which matches all AggregationDefinition objects of the provider.
+                        The ids field shall support the wildcard value of '0', which matches all aggregations of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The service provider shall check for the wildcard value first; if found, the service provider shall make no further checks of the supplied ids.
@@ -996,7 +996,7 @@
                 <mal:submitIP name="enableFilter" number="4"
                               comment="The enableFilter operation allows a consumer to control whether reports for specific aggregations are filtered or not. This affects both periodic and ad-hoc aggregations.">
                     <mal:documentation name="Requirement" order="1">
-                        The ids field shall support the wildcard value of '0', which matches all AggregationDefinition objects of the provider.
+                        The ids field shall support the wildcard value of '0', which matches all aggregation definitions of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The service provider shall check for the wildcard value first; if found, the service provider shall make no further checks of the supplied ids.
@@ -1052,7 +1052,7 @@
                         The service provider shall check for the wildcard value first; if found, the service provider shall make no further checks of the supplied identifiers.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
+                        The service provider shall maintain the same order in the returned list as the submitted list unless the wildcard value was included in the request.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
@@ -1166,7 +1166,7 @@
                 <mal:submitIP name="removeAggregation" number="8"
                               comment="The removeAggregation operation allows a consumer to remove one or more aggregations from the list of aggregations supported by the aggregation provider.&#xA;The operation does not remove the AggregationDefinition objects from the COM archive, merely removes the objects from the provider. This permits existing AggregationValue objects to continue to reference the correct AggregationDefinition object in the COM archive.">
                     <mal:documentation name="Requirement" order="1">
-                        The definitionIds field shall support the wildcard value of '0', which matches all aggregations of the provider.
+                        The definitionIds field shall support the wildcard value of '0', which matches all aggregation definitions of the provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The service provider shall check for the wildcard value first; if found, the service provider shall make no further checks of the supplied ids.
