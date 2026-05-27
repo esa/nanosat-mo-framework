@@ -175,7 +175,6 @@ public class DirectoryLookupTest {
                 new Identifier(PROVIDER_NAME),
                 wildcardDomain,
                 new ServiceId(new UShort(0), new UShort(0), new UOctet((short) 0)),
-                new UShortList(),
                 schemeFilter);
     }
 

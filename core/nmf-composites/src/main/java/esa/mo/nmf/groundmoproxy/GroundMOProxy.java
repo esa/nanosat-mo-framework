@@ -131,8 +131,7 @@ public abstract class GroundMOProxy {
         ServiceFilter filter = new ServiceFilter(
                 new Identifier("*"),
                 wildcardList,
-                key,
-                new UShortList(), null);
+                key, null);
         ProviderList list = localDirectoryService.lookup(filter, null);
         // Post-filter the list
         Iterator itr = list.iterator();

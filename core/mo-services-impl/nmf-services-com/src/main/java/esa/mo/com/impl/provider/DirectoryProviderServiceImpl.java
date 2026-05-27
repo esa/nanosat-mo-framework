@@ -170,8 +170,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             Provider provider = list.get(keys.get(i));
 
             //Check service provider name
-            if (!filter.getServiceProviderId().toString().equals("*")) { // If not a wildcard...
-                if (!provider.getProviderName().toString().equals(filter.getServiceProviderId().toString())) {
+            if (!filter.getProviderName().toString().equals("*")) { // If not a wildcard...
+                if (!provider.getProviderName().toString().equals(filter.getProviderName().toString())) {
                     continue;
                 }
             }
@@ -212,25 +212,6 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 if (filter.getServiceId().getKeyAreaVersion().getValue() != 0) {
                     if (!serviceCapability.getServiceId().getKeyAreaVersion().equals(
                             filter.getServiceId().getKeyAreaVersion())) {
-                        continue;
-                    }
-                }
-
-                // Check service capabilities
-                if (!filter.getRequiredCapabilitySets().isEmpty()) { // Not empty...
-                    boolean capExists = false;
-
-                    for (UShort cap : filter.getRequiredCapabilitySets()) {
-                        // cycle all the ones available in the provider
-                        for (UShort proCap : filter.getRequiredCapabilitySets()) {
-                            if (cap.equals(proCap)) {
-                                capExists = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!capExists) { // If the capability we want does not exist, then get out...
                         continue;
                     }
                 }

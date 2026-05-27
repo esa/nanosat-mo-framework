@@ -625,7 +625,7 @@
                         If no match is found, then the service provider shall return an empty list.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
-                        If the serviceProviderId field is NULL, then the service provider shall match all provider identifiers.
+                        If the providerName field is NULL, then the service provider shall match all provider identifiers.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
                         If the final identifier of the domain field of the filter is the wildcard '*', then the service provider shall search all sub-domains for matches.
@@ -649,9 +649,6 @@
                         If the version field is the wildcard '0', then the service provider shall match all area versions.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="13">
-                        If the requiredCapabilitySets field is NULL or an empty list, then the service provider shall match all service capability sets.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="14">
                         If the addressSchemeFilter field is not NULL, then the service provider shall only include service addresses whose URI starts with one of the listed scheme values in the RESPONSE message.
                     </mal:documentation>
                     <mal:messages>
@@ -1244,7 +1241,7 @@
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
-                <mal:field name="serviceProviderId" canBeNull="true"
+                <mal:field name="providerName" canBeNull="true"
                            comment="The required provider. Can be NULL in which case matches all values.">
                     <mal:type area="MAL" list="false" name="Identifier"/>
                 </mal:field>
@@ -1255,10 +1252,6 @@
                 <mal:field name="serviceId" canBeNull="true"
                            comment="The service to filter on, values can be NULL which matches all values.">
                     <mal:type area="MAL" list="false" name="ServiceId"/>
-                </mal:field>
-                <mal:field name="requiredCapabilitySets" canBeNull="true"
-                           comment="List of required capability sets. If NULL then matches any.">
-                    <mal:type area="MAL" list="true" name="UShort"/>
                 </mal:field>
                 <mal:field name="addressSchemeFilter" canBeNull="true"
                            comment="URI scheme prefixes to match against service addresses (e.g. 'malspp', 'maltcp'). If NULL, all addresses are returned.">

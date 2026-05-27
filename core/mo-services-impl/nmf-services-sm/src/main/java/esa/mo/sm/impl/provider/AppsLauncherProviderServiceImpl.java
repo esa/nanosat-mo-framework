@@ -406,7 +406,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             ServiceId serviceId = new ServiceId(eventCOM.getAreaNumber(),
                     eventCOM.getServiceNumber(), eventCOM.getServiceVersion());
             ServiceFilter sf = new ServiceFilter(serviceProviderName, domain,
-                    serviceId, new UShortList(), null);
+                    serviceId, null);
 
             if (app.getCategory().getValue().equalsIgnoreCase("NMF_App")) {
                 // Do a lookup on the Central Drectory service for the app that we want
