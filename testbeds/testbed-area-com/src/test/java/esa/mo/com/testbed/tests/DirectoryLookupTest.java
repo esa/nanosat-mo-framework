@@ -147,10 +147,8 @@ public class DirectoryLookupTest {
         addresses.add(makeAddress("malspp://test-host:2048/test-service"));
 
         ServiceId serviceId = new ServiceId(new UShort(0), new UShort(0), new UOctet((short) 0));
-        UShortList capSets = new UShortList();
-        capSets.add(new UShort(1));
         ServiceCapabilityList capabilities = new ServiceCapabilityList();
-        capabilities.add(new ServiceCapability(serviceId, capSets, new NamedValueList(), addresses));
+        capabilities.add(new ServiceCapability(serviceId, new NamedValueList(), addresses));
 
         IdentifierList domain = new IdentifierList();
         domain.add(new Identifier("test"));

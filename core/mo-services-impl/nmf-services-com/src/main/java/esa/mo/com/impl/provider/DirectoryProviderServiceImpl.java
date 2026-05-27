@@ -218,7 +218,6 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
                 ServiceCapability newServiceCapability = new ServiceCapability(
                         serviceCapability.getServiceId(),
-                        serviceCapability.getSupportedCapabilitySets(),
                         serviceCapability.getServiceProperties(),
                         new AddressDetailsList()
                 );
@@ -349,8 +348,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             AddressDetailsList serviceAddresses = new AddressDetailsList();
             serviceAddresses.add(serviceAddress);
             ServiceId key = DirectoryProviderServiceImpl.generateServiceKey(conn.getServiceKey());
-            // "If NULL then all capabilities supported."
-            ServiceCapability capability = new ServiceCapability(key, null, new NamedValueList(), serviceAddresses);
+            ServiceCapability capability = new ServiceCapability(key, new NamedValueList(), serviceAddresses);
             capabilities.add(capability);
         }
 
@@ -371,8 +369,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                     serviceAddresses = new AddressDetailsList();
 
                     // Then create a new capability object
-                    // "If NULL then all capabilities supported."
-                    capability = new ServiceCapability(key2, null, new NamedValueList(), serviceAddresses);
+                    capability = new ServiceCapability(key2, new NamedValueList(), serviceAddresses);
                     capabilities.add(capability);
                 }
                 serviceAddresses.add(serviceAddress);

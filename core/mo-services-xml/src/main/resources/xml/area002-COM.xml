@@ -682,9 +682,6 @@
                         If any area, service, or version field of a contained ServiceId structure contains '0', then the service provider shall return an INVALID error.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        If the supportedCapabilitySets list of a contained ServiceCapability structure is empty or contains '0', then the service provider shall return an INVALID error.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
                         If an error occurs, then the service provider shall not make any changes.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
@@ -1188,10 +1185,6 @@
                 <mal:field name="serviceId" canBeNull="false"
                            comment="The area, service, and version fields.">
                     <mal:type area="MAL" list="false" name="ServiceId"/>
-                </mal:field>
-                <mal:field name="supportedCapabilitySets" canBeNull="true"
-                           comment="The supported capability set numbers for this provider. If NULL then all capability sets supported.">
-                    <mal:type area="MAL" list="true" name="UShort"/>
                 </mal:field>
                 <mal:field name="serviceProperties" canBeNull="true"
                            comment="Deployment-specific service properties.">

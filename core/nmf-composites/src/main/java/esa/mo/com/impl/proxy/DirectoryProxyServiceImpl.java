@@ -125,7 +125,6 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
 
                 newCapabilities.add(new ServiceCapability(
                         capability.getServiceId(),
-                        capability.getSupportedCapabilitySets(),
                         capability.getServiceProperties(),
                         newDets));
             }

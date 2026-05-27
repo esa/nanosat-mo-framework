@@ -83,12 +83,12 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         this.tabs = tabs;
         this.initTextBoxAddress();
 
-        String[] tableCol = new String[]{"Service name", "Supported Capabilities",
-            "Service Properties", "URI address", "Broker URI Address"};
+        String[] tableCol = new String[]{"Service name", "Service Properties",
+            "URI address", "Broker URI Address"};
 
         tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
             Class[] types = new Class[]{
-                java.lang.String.class, java.lang.String.class, java.lang.String.class,
+                java.lang.String.class, java.lang.String.class,
                 java.lang.String.class, java.lang.String.class
             };
 
@@ -142,12 +142,8 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                             ? "null" : service.getServiceAddresses().get(0).getBrokerURI().toString();
                 }
 
-                String supportedCapabilities = (service.getSupportedCapabilitySets() == null)
-                        ? "All Supported" : service.getSupportedCapabilitySets().toString();
-
                 tableData.addRow(new Object[]{
                     serviceName,
-                    supportedCapabilities,
                     service.getServiceProperties().toString(),
                     serviceURI,
                     brokerURI

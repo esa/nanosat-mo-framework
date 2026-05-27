@@ -136,7 +136,6 @@ public class HelperCommon {
             }
             ServiceCapability cap = new ServiceCapability(
                     oldCapabilities.get(i).getServiceId(),
-                    oldCapabilities.get(i).getSupportedCapabilitySets(),
                     oldCapabilities.get(i).getServiceProperties(),
                     serviceAddresses);
 
