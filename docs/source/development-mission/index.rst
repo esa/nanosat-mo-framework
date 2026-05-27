@@ -52,4 +52,5 @@ file system — is generated automatically by the
    supervisor
    platform-services
    filesystem
+   app-isolation
    deployment
