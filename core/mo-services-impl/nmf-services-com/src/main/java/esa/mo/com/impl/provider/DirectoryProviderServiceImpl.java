@@ -59,7 +59,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     private boolean initialiased = false;
     private boolean running = false;
     private final ConnectionProvider connection = new ConnectionProvider();
-    protected final Map<Long, PublishDetails> providersAvailable = new ConcurrentHashMap<>();
+    protected final Map<Long, Provider> providersAvailable = new ConcurrentHashMap<>();
     protected final Object MUTEX = new Object();
     private COMServicesProvider comServices;
 
@@ -153,7 +153,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             }
         }
 
-        final HashMap<Long, PublishDetails> list;
+        final HashMap<Long, Provider> list;
 
         synchronized (MUTEX) {
             list = new HashMap<>(providersAvailable);
@@ -167,7 +167,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
         // Filter...
         for (int i = 0; i < keys.size(); i++) { // Filter through all providers
-            PublishDetails provider = list.get(keys.get(i));
+            Provider provider = list.get(keys.get(i));
 
             //Check service provider name
             if (!filter.getServiceProviderId().toString().equals("*")) { // If not a wildcard...
@@ -273,18 +273,16 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     }
 
     @Override
-    public Long add(final PublishDetails newProviderDetails,
+    public Long add(final Provider newProviderDetails,
             final MALInteraction interaction) throws MALInteractionException, MALException {
         Identifier serviceProviderName = newProviderDetails.getProviderName();
-        HeterogeneousList objBodies = new HeterogeneousList();
-        objBodies.add(serviceProviderName);
 
         synchronized (MUTEX) {
-            final HashMap<Long, PublishDetails> list = new HashMap<>(providersAvailable);
+            final HashMap<Long, Provider> list = new HashMap<>(providersAvailable);
 
             // Do we already have this provider in the Directory service?
             for (Long key : list.keySet()) {
-                PublishDetails provider = this.providersAvailable.get(key);
+                Provider provider = this.providersAvailable.get(key);
 
                 if (serviceProviderName.getValue().equals(provider.getProviderName().getValue())) {
                     // It is repeated!!
@@ -309,34 +307,21 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 throw new MALInteractionException(new InvalidException(null));
             }
 
-            // Store in the Archive the ServiceProvider COM object and get an object instance identifier
-            final LongList returnedServProvObjIds = comServices.getArchiveService().store(true,
-                    DirectoryServiceInfo.SERVICEPROVIDER_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), archDetails,
-                    objBodies, null);
+            HeterogeneousList body = new HeterogeneousList();
+            body.add(newProviderDetails);
 
-            Long servProvObjId;
+            // Store the Provider COM object in the Archive and get an object instance identifier
+            final LongList returnedProvObjIds = comServices.getArchiveService().store(true,
+                    DirectoryServiceInfo.PROVIDER_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
+                    archDetails, body, null);
 
-            if (!returnedServProvObjIds.isEmpty()) {
-                servProvObjId = returnedServProvObjIds.get(0);
-            } else {  // Nothing was returned...
+            if (returnedProvObjIds.isEmpty()) {
                 throw new MALInteractionException(new InvalidException(null));
             }
 
-            // related contains the objId of the ServiceProvider object
-            final ArchiveDetailsList archDetails1 = (interaction == null)
-                    ? HelperArchive.generateArchiveDetailsList(servProvObjId, null,
-                            connection.getPrimaryConnectionDetails().getProviderURI())
-                    : HelperArchive.generateArchiveDetailsList(servProvObjId, null, interaction.getMessageHeader().getFromURI());
-
-            HeterogeneousList capabilities = new HeterogeneousList();
-            capabilities.add(newProviderDetails.getProviderDetails());
-
-            // Store in the Archive the ProviderDetails COM object
-            comServices.getArchiveService().store(false, DirectoryServiceInfo.PROVIDER_OBJECT_TYPE,
-                    ConfigurationProviderSingleton.getDomain(), archDetails1, capabilities, null);
-
-            this.providersAvailable.put(servProvObjId, newProviderDetails);
-            return servProvObjId;
+            Long provObjId = returnedProvObjIds.get(0);
+            this.providersAvailable.put(provObjId, newProviderDetails);
+            return provObjId;
         }
     }
 
@@ -350,16 +335,9 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
             ArchiveManager manager = comServices.getArchiveService().getArchiveManager();
             IdentifierList domain = ConfigurationProviderSingleton.getDomain();
-            ArchiveQuery query = new ArchiveQuery(domain, null, null, providerObjectKey, null, null, null, null, null);
-            List<ArchivePersistenceObject> result = manager.query(DirectoryServiceInfo.PROVIDER_OBJECT_TYPE,
-                    query, null);
-            Long capabilityId = result.get(0).getArchiveDetails().getId(); // there should be only one object in the query result
             LongList providerIds = new LongList();
             providerIds.add(providerObjectKey);
-            manager.removeEntries(DirectoryServiceInfo.SERVICEPROVIDER_OBJECT_TYPE, domain, providerIds, null);
-            LongList capabilityIds = new LongList();
-            capabilityIds.add(capabilityId);
-            manager.removeEntries(DirectoryServiceInfo.PROVIDER_OBJECT_TYPE, domain, capabilityIds, null);
+            manager.removeEntries(DirectoryServiceInfo.PROVIDER_OBJECT_TYPE, domain, providerIds, null);
 
             this.providersAvailable.remove(providerObjectKey); // Remove the provider...
         }
@@ -373,7 +351,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         }
     }
 
-    public PublishDetails loadURIs(final String providerName) {
+    public Provider loadURIs(final String providerName) {
         ServicesConnectionDetails primaryConnectionDetails = ConnectionProvider.getGlobalProvidersDetailsPrimary();
         ServicesConnectionDetails secondaryAddresses = ConnectionProvider.getGlobalProvidersDetailsSecondary();
 
@@ -422,7 +400,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
         ProviderDetails serviceDetails = new ProviderDetails(capabilities, new AddressDetailsList());
 
-        PublishDetails newProviderDetails = new PublishDetails(new Identifier(providerName),
+        Provider newProviderDetails = new Provider(null,
+                new Identifier(providerName),
                 ConfigurationProviderSingleton.getDomain(),
                 serviceDetails);
 

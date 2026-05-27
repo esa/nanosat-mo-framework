@@ -72,7 +72,8 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
         this.withdrawAllProviders();
 
         for (Provider provider : updatedProviders) {
-            PublishDetails pub = new PublishDetails(
+            Provider pub = new Provider(
+                    null,
                     provider.getProviderName(),
                     provider.getDomain(),
                     provider.getProviderDetails());
@@ -148,9 +149,9 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
      */
     public void rerouteArchiveServiceURI(IdentifierList providerDomain, URI to) {
         synchronized (MUTEX) {
-            Collection<PublishDetails> providers = providersAvailable.values();
+            Collection<Provider> providers = providersAvailable.values();
 
-            for (PublishDetails provider : providers) {
+            for (Provider provider : providers) {
                 if (providerDomain.equals(provider.getDomain())) {
                     ServiceCapabilityList capabilities = provider.getProviderDetails().getServiceCapabilities();
 
@@ -180,9 +181,9 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
      */
     public void rerouteActionServiceURI(IdentifierList providerDomain, URI to) {
         synchronized (MUTEX) {
-            Collection<PublishDetails> providers = providersAvailable.values();
+            Collection<Provider> providers = providersAvailable.values();
 
-            for (PublishDetails provider : providers) {
+            for (Provider provider : providers) {
                 if (providerDomain.equals(provider.getDomain())) {
                     ServiceCapabilityList capabilities = provider.getProviderDetails().getServiceCapabilities();
 

@@ -155,7 +155,8 @@ public class DirectoryLookupTest {
         IdentifierList domain = new IdentifierList();
         domain.add(new Identifier("test"));
 
-        PublishDetails pub = new PublishDetails(
+        Provider pub = new Provider(
+                null,
                 new Identifier(PROVIDER_NAME),
                 domain,
                 new ProviderDetails(capabilities, new AddressDetailsList()));

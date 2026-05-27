@@ -247,9 +247,9 @@ public abstract class GroundMOProxy {
                         }
                     };
 
-                    // Use the count operation from the Archive for Common.Directory.ServiceProvider
+                    // Use the count operation from the Archive for Common.Directory.Provider
                     archiveService.getArchiveStub().count(
-                            DirectoryServiceInfo.SERVICEPROVIDER_OBJECT_TYPE,
+                            DirectoryServiceInfo.PROVIDER_OBJECT_TYPE,
                             archiveQuery,
                             null, adapter);
 

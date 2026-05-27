@@ -243,7 +243,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
         // Populate the local Directory service with the entries from the URIs File
         LOGGER.log(Level.INFO, "Populating local Directory service...");
-        PublishDetails publishDetails = directoryService.loadURIs(this.providerName);
+        Provider publishDetails = directoryService.loadURIs(this.providerName);
 
         // Populate the provider list of services in the Central Directory service
         if (centralDirectoryURI != null) {

@@ -581,7 +581,7 @@
                 A provider shall use the add operation to make available the set of services and the capabilities of those services that it offers.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="3">
-                The add operation shall take a PublishDetails structure which defines the capabilities and addressing information of that provider.
+                The add operation shall take a Provider structure which defines the capabilities and addressing information of that provider.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="4">
                 A provider may offer multiple service addresses and bindings in order to support multiple message transports and encodings.
@@ -590,36 +590,24 @@
                 If a service has operations based on the PUB-SUB interaction pattern, then the Directory service shall hold two URIs for that service: the URI of the primary interface and the URI of the broker.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="6">
-                A ServiceProvider COM object shall represent a provider.
+                A Provider COM object shall represent a provider and its supported capabilities.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="7">
-                The ServiceProvider COM object body shall contain the provider name taken from the providerName field of the PublishDetails composite.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="8">
-                The service provider shall set the ServiceProvider COM object related link to NULL.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">
-                The service provider shall set the ServiceProvider COM object source link to NULL.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
-                A Provider COM object shall represent the supported capabilities of a provider.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="11">
                 The Provider COM object body shall contain the provider details of the provider.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="12">
-                The Provider COM object related link shall indicate which ServiceProvider COM object it links to.
+            <mal:documentation name="Service-level Requirement" order="8">
+                The service provider shall set the Provider COM object related link to NULL.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="13">
+            <mal:documentation name="Service-level Requirement" order="9">
                 The service provider shall set the Provider COM object source link to NULL.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="14">
-                The add operation shall create the ServiceProvider and Provider objects.
+            <mal:documentation name="Service-level Requirement" order="10">
+                The add operation shall create the Provider object.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="15">
-                The provider of the Directory service shall populate the id for the ServiceProvider and Provider objects.
+            <mal:documentation name="Service-level Requirement" order="11">
+                The provider of the Directory service shall populate the id for the Provider object.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="16">
+            <mal:documentation name="Service-level Requirement" order="12">
                 If the implementation of the Directory service uses a COM archive, then the provider of the Directory service shall store all directory objects in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1">
@@ -649,7 +637,7 @@
                         If the network field is NULL, then the service provider shall match all networks.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="9">
-                        The service provider shall use the serviceId field to match against the ServiceId fields of the PublishDetails of a specific provider.
+                        The service provider shall use the serviceId field to match against the ServiceId fields of the Provider of a specific provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="10">
                         If the serviceId field is NULL, then the service provider shall match all areas, services, and versions.
@@ -694,7 +682,7 @@
                         If the domain field of the newProviderDetails is empty or contains the wildcard '*', then the service provider shall return an INVALID error.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        If the providerName field of the PublishDetails structure is empty or contains the wildcard '*', then the service provider shall return an INVALID error.
+                        If the providerName field of the Provider structure is empty or contains the wildcard '*', then the service provider shall return an INVALID error.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
                         If any area, service, or version field of a contained ServiceId structure contains '0', then the service provider shall return an INVALID error.
@@ -706,24 +694,21 @@
                         If an error occurs, then the service provider shall not make any changes.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
-                        If the providerName field of the PublishDetails structure matches an existing ServiceProvider COM object, then the service provider shall update the existing details of that provider.
+                        If the providerName field of the Provider structure matches an existing Provider COM object, then the service provider shall update the existing details of that provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        If the providerName field of the PublishDetails structure does not match an existing ServiceProvider COM object, then the service provider shall create a new ServiceProvider COM object to represent the new provider.
+                        If the providerName field of the Provider structure does not match an existing Provider COM object, then the service provider shall create a new Provider COM object to represent the new provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
-                        The service provider shall create a new Provider COM object to store the capabilities of the provider.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="9">
                         The directory provider should store the created objects in the COM archive.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="10">
-                        The service provider shall return the COM identifiers of the ServiceProvider and Provider COM objects representing the provider.
+                    <mal:documentation name="Requirement" order="9">
+                        The service provider shall return the COM identifier of the Provider COM object representing the provider.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
                             <mal:field name="newProviderDetails" canBeNull="false" comment="The details of the provider to be added or updated in the Directory service.">
-                                <mal:type area="COM" list="false" name="PublishDetails"/>
+                                <mal:type area="COM" list="false" name="Provider"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
@@ -754,7 +739,7 @@
                         </mal:submit>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="When the supplied providerId does not match an existing ServiceProvider COM object.">
+                        <mal:errorRef comment="When the supplied providerId does not match an existing Provider COM object.">
                             <mal:type area="MAL" list="false" name="UNKNOWN"/>
                         </mal:errorRef>
                         <mal:errorRef comment="When the supplied providerId is '0'.">
@@ -788,19 +773,11 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <com:features>
-                <com:objects comment="The ServiceProvider and Provider objects used by the Directory service.">
-                    <com:object number="1" name="ServiceProvider">
+                <com:objects comment="The Provider object used by the Directory service.">
+                    <com:object number="1" name="Provider">
                         <com:objectType>
-                            <mal:type area="MAL" list="false" name="Identifier"/>
+                            <mal:type area="COM" list="false" name="Provider"/>
                         </com:objectType>
-                    </com:object>
-                    <com:object number="2" name="Provider">
-                        <com:objectType>
-                            <mal:type area="COM" list="false" name="ProviderDetails"/>
-                        </com:objectType>
-                        <com:relatedObject>
-                            <com:objectType number="1" service="Directory" area="COM"/>
-                        </com:relatedObject>
                     </com:object>
                 </com:objects>
                 <com:archiveUsage comment="The Directory service COM archive usage."/>
@@ -1250,7 +1227,7 @@
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
-                <mal:field canBeNull="false" comment="The unique id of this provider entry." name="id">
+                <mal:field canBeNull="true" comment="The unique id of this provider entry." name="id">
                     <mal:type area="MAL" list="false" name="Long"/>
                 </mal:field>
                 <mal:field name="providerName" canBeNull="false" comment="The name of this provider.">
@@ -1264,23 +1241,7 @@
                     <mal:type area="COM" list="false" name="ProviderDetails"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="PublishDetails" shortFormPart="25"
-                           comment="The PublishDetails structure carries all information required to publish new provider details.">
-                <mal:extends>
-                    <mal:type area="MAL" list="false" name="Composite"/>
-                </mal:extends>
-                <mal:field name="providerName" canBeNull="false"
-                           comment="The unique provider name; allows multiple providers of the same service type to coexist in the directory service.">
-                    <mal:type area="MAL" list="false" name="Identifier"/>
-                </mal:field>
-                <mal:field name="domain" canBeNull="false" comment="The domain of the provider.">
-                    <mal:type area="MAL" list="true" name="Identifier"/>
-                </mal:field>
-                <mal:field name="providerDetails" canBeNull="false"
-                           comment="The new provider details.">
-                    <mal:type area="COM" list="false" name="ProviderDetails"/>
-                </mal:field>
-            </mal:composite>
+
             <mal:composite name="ServiceFilter" shortFormPart="26"
                            comment="The ServiceFilter structure specifies all criteria required by the Directory service for a service lookup. The field filters are AND'd together.">
                 <mal:extends>
