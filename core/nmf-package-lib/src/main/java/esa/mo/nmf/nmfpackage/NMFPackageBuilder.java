@@ -134,7 +134,8 @@ public class NMFPackageBuilder {
         Logger.getLogger(NMFPackageBuilder.class.getName()).log(
                 Level.INFO, "Generating metadata file...");
 
-        File metadataFile = new File(Metadata.FILENAME);
+        String tempDir = (destinationFolder != null) ? destinationFolder : System.getProperty("java.io.tmpdir");
+        File metadataFile = new File(tempDir, Metadata.FILENAME);
 
         try {
             metadata.store(metadataFile); // Store the metadata file
@@ -215,10 +216,8 @@ public class NMFPackageBuilder {
 
     private static void zipFiles(String outputPath, ArrayList<String> from,
             ArrayList<String> newLocations) {
-        try {
-            BufferedInputStream origin;
-            FileOutputStream dest = new FileOutputStream(outputPath);
-            ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(dest));
+        try (ZipOutputStream out = new ZipOutputStream(
+                new BufferedOutputStream(new FileOutputStream(outputPath)))) {
             byte[] data = new byte[BUFFER];
 
             for (int i = 0; i < from.size(); i++) {
@@ -226,18 +225,17 @@ public class NMFPackageBuilder {
                 String newPath = newLocations.get(i);
                 System.out.println("    (" + i + ") Selecting file: " + file
                         + "\n    (" + i + ") To NMF Package path: " + newPath);
-                origin = new BufferedInputStream(new FileInputStream(file), BUFFER);
+                try (BufferedInputStream origin = new BufferedInputStream(
+                        new FileInputStream(file), BUFFER)) {
+                    ZipEntry entry = new ZipEntry(newPath);
+                    out.putNextEntry(entry);
 
-                ZipEntry entry = new ZipEntry(newPath);
-                out.putNextEntry(entry);
-
-                int count;
-                while ((count = origin.read(data, 0, BUFFER)) != -1) {
-                    out.write(data, 0, count);
+                    int count;
+                    while ((count = origin.read(data, 0, BUFFER)) != -1) {
+                        out.write(data, 0, count);
+                    }
                 }
-                origin.close();
             }
-            out.close();
         } catch (IOException ex) {
             Logger.getLogger(NMFPackageBuilder.class.getName()).log(
                     Level.SEVERE, "The Files could not be zipped!", ex);
