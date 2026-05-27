@@ -116,10 +116,8 @@ public class ParameterCommands {
                 filters.add(new SubscriptionFilter(new Identifier("name"), acceptableNames));
             }
 
-            ParameterStub stub =
-                    consumer.getMCServices().getParameterService().getParameterStub();
-            Subscription subscription =
-                    new Subscription(subscriptionId, null, null, filters);
+            ParameterStub stub = consumer.getMCServices().getParameterService().getParameterStub();
+            Subscription subscription = new Subscription(subscriptionId, null, null, filters);
             parameterSubscription = subscriptionId;
             final Object lock = new Object();
             try {
