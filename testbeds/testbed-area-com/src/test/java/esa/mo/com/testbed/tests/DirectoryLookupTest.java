@@ -158,7 +158,6 @@ public class DirectoryLookupTest {
         PublishDetails pub = new PublishDetails(
                 new Identifier(PROVIDER_NAME),
                 domain,
-                new Identifier("test-network"),
                 new ProviderDetails(capabilities, new AddressDetailsList()));
 
         harness.getCOMServicesProvider().getDirectoryService().add(pub, null);

@@ -691,7 +691,7 @@
             <mal:capabilitySet number="2">
                 <mal:requestIP name="add" number="2" comment="The add operation adds a new or updates an existing entry in the list of providers held in the directory service.">
                     <mal:documentation name="Requirement" order="1">
-                        If any of the domain or network fields of the newProviderDetails are empty or contain the wildcard '*', then the service provider shall return an INVALID error.
+                        If the domain field of the newProviderDetails is empty or contains the wildcard '*', then the service provider shall return an INVALID error.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         If the providerName field of the PublishDetails structure is empty or contains the wildcard '*', then the service provider shall return an INVALID error.
@@ -1275,9 +1275,6 @@
                 </mal:field>
                 <mal:field name="domain" canBeNull="false" comment="The domain of the provider.">
                     <mal:type area="MAL" list="true" name="Identifier"/>
-                </mal:field>
-                <mal:field name="network" canBeNull="false" comment="The network of the provider.">
-                    <mal:type area="MAL" list="false" name="Identifier"/>
                 </mal:field>
                 <mal:field name="providerDetails" canBeNull="false"
                            comment="The new provider details.">

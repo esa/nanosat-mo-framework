@@ -424,7 +424,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
         PublishDetails newProviderDetails = new PublishDetails(new Identifier(providerName),
                 ConfigurationProviderSingleton.getDomain(),
-                ConfigurationProviderSingleton.getNetwork(), serviceDetails);
+                serviceDetails);
 
         try {
             this.add(newProviderDetails, null);

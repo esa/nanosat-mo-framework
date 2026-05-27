@@ -75,7 +75,6 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
             PublishDetails pub = new PublishDetails(
                     provider.getProviderName(),
                     provider.getDomain(),
-                    new Identifier("not_available"),
                     provider.getProviderDetails());
             this.add(pub, null);
         }
