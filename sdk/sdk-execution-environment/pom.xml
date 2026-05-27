@@ -210,7 +210,7 @@
                         </goals>
                         <configuration>
                             <target>
-                                <copy file="${basedir}/../../logging.properties" todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf"/>
+                                <copy file="${basedir}/src/main/resources/logging.properties" todir="${esa.nmf.sdk.assembly.outputdir}/home/nmf"/>
                                 <ant antfile="antpkg/build.xml"/>
                                 <copy todir="${esa.nmf.sdk.assembly.outputdir}/docs">
                                     <fileset dir="${basedir}/src/main/resources/docs">
