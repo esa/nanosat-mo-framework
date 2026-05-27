@@ -5,16 +5,14 @@ Consuming Monitor & Control services
 .. contents:: Table of contents
    :local:
 
-This section shows the consumer-side patterns for the four most common
-M&C interactions: reading parameter values, invoking actions, and
-subscribing to alerts and action progress.
+This section shows the consumer-side patterns for the four most common M&C interactions: reading parameter
+values, invoking actions, and subscribing to alerts and action progress.
 
 The Ground MO Adapter
 ---------------------
 
-The code blocks below assume a ``GroundMOAdapterImpl`` instance named
-``gma`` — the consumer-side handle for one remote provider, with
-typed accessors per service category (``gma.getMCServices()``,
+The code blocks below assume a ``GroundMOAdapterImpl`` instance named ``gma`` — the consumer-side handle for
+one remote provider, with typed accessors per service category (``gma.getMCServices()``,
 ``gma.getCOMServices()``, ``gma.getSMServices()``).
 
 .. code-block:: java
@@ -26,8 +24,7 @@ See :doc:`ground-mo-adapter` for full coverage.
 Simple commanding
 -----------------
 
-The ``setValue`` and ``submitAction`` operations are sufficient for
-straightforward control of a remote app:
+The ``setValue`` and ``submitAction`` operations are sufficient for straightforward control of a remote app:
 
 .. code-block:: java
 
@@ -46,16 +43,14 @@ straightforward control of a remote app:
 Acquiring parameter values
 --------------------------
 
-A consumer that needs current values without subscribing can call
-``getValue`` directly:
+A consumer that needs current values without subscribing can call ``getValue`` directly:
 
 .. code-block:: java
 
    ParameterStub params = gma.getMCServices().getParameterService();
    ParameterValueList values = params.getValue(parameterInstanceIds);
 
-For continuous updates, subscribe to the Parameter service's PubSub
-operation:
+For continuous updates, subscribe to the Parameter service's PubSub operation:
 
 .. code-block:: java
 
@@ -77,8 +72,7 @@ Each update arrives asynchronously through the adapter.
 Listening to alerts
 -------------------
 
-The Alert service publishes via PubSub. The consumer pattern mirrors
-parameter subscription:
+The Alert service publishes via PubSub. The consumer pattern mirrors parameter subscription:
 
 .. code-block:: java
 
@@ -92,10 +86,9 @@ See the generated API for the exact adapter and callback signatures.
 Listening for action execution progress
 ---------------------------------------
 
-When invoking a multi-stage action, register an
-``ActionMonitorAdapter`` to receive progress updates. The Supervisor
-publishes execution stages via the COM Event service, and the adapter
-demultiplexes them by action instance identifier.
+When invoking a multi-stage action, register an ``ActionMonitorAdapter`` to receive progress updates. The
+Supervisor publishes execution stages via the COM Event service, and the adapter demultiplexes them by action
+instance identifier.
 
 .. code-block:: java
 
@@ -103,5 +96,4 @@ demultiplexes them by action instance identifier.
    ActionMonitorAdapter monitor = new ActionMonitorAdapter() { /* ... */ };
    actions.monitorExecutionRegister(subscription, monitor);
 
-Each stage reported by the app appears as a notification on the
-adapter.
+Each stage reported by the app appears as a notification on the adapter.

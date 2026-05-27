@@ -2,9 +2,8 @@
 Background & Reference Documents
 ================================
 
-This section indexes the formal documents and background reading
-that accompany the NMF. The documents themselves are PDFs in the
-repository; this page is the index.
+This section indexes the formal documents and background reading that accompany the NMF. The documents
+themselves are PDFs in the repository; this page is the index.
 
 .. note::
 
@@ -18,32 +17,25 @@ ECSS deliverables
 
 Located under ``sdk/sdk-execution-environment/src/main/resources/docs/NMF_Design_Documents/``:
 
-- **NMF Software Requirements Specification (SRS)** — ``NMF_SRS.pdf``.
-  No longer maintained.
-- **NMF Software Design Document (SDD)** — ``NMF_SDD.pdf``. No longer
-  maintained.
+- **NMF Software Requirements Specification (SRS)** — ``NMF_SRS.pdf``. No longer maintained.
+- **NMF Software Design Document (SDD)** — ``NMF_SDD.pdf``. No longer maintained.
 
 MO Service Specifications
 -------------------------
 
-The authoritative definitions of every MO service exposed by the NMF
-live in the MO XML files under ``core/mo-services-xml/``:
+The authoritative definitions of every MO service exposed by the NMF live in the MO XML files under
+``core/mo-services-xml/``:
 
 - ``area001-MAL.xml`` — Message Abstraction Layer.
-- ``area002-COM.xml`` — Common Object Model (Event, Archive,
-  ArchiveSync, Directory, Login, Configuration).
-- ``area004-Monitor-and-Control.xml`` — MC services (Parameter,
-  Action, Aggregation, Alert, Conversion).
-- ``area007-Software-Management.xml`` — SM services (AppsLauncher,
-  PackageManagement, Heartbeat, CommandExecutor).
-- ``area105-Platform.xml`` — Platform services (Camera, GPS,
-  AutonomousADCS, SoftwareDefinedRadio, OpticalDataReceiver,
-  PowerControl, Clock, ArtificialIntelligence).
+- ``area002-COM.xml`` — Common Object Model (Event, Archive, ArchiveSync, Directory, Login, Configuration).
+- ``area004-Monitor-and-Control.xml`` — MC services (Parameter, Action, Aggregation, Alert, Conversion).
+- ``area007-Software-Management.xml`` — SM services (AppsLauncher, PackageManagement, Heartbeat,
+  CommandExecutor).
+- ``area105-Platform.xml`` — Platform services (Camera, GPS, AutonomousADCS, SoftwareDefinedRadio,
+  OpticalDataReceiver, PowerControl, Clock, ArtificialIntelligence).
 
-The Java API JARs in ``core/mo-services-apis/`` are generated from
-these XML files; the XML is the single source of truth. For a
-narrative overview of the service categories, see
-:doc:`../reference/services` and
+The Java API JARs in ``core/mo-services-apis/`` are generated from these XML files; the XML is the single
+source of truth. For a narrative overview of the service categories, see :doc:`../reference/services` and
 :doc:`../development-app/platform-services/index`.
 
 User-facing guides (historical)
@@ -51,28 +43,22 @@ User-facing guides (historical)
 
 Located under ``sdk/sdk-execution-environment/src/main/resources/docs/``:
 
-- **NMF Quick Start Guide** — ``NMF_Quick_Start_Guide.pdf``.
-  Superseded by :doc:`../quickstart/index`.
-- **Development Guide — NMF Apps** — ``Development_Guide_NMF_Apps.pdf``.
-  Superseded by :doc:`../development-app/index`.
-- **Development Guide — NMF Ground Applications** —
-  ``Development_Guide_NMF_Ground_applications.pdf``. Superseded by
-  :doc:`../development-ground/index`.
+- **NMF Quick Start Guide** — ``NMF_Quick_Start_Guide.pdf``. Superseded by :doc:`../quickstart/index`.
+- **Development Guide — NMF Apps** — ``Development_Guide_NMF_Apps.pdf``. Superseded by
+  :doc:`../development-app/index`.
+- **Development Guide — NMF Ground Applications** — ``Development_Guide_NMF_Ground_applications.pdf``.
+  Superseded by :doc:`../development-ground/index`.
 
 Background reading
 ------------------
 
-- **PhD Dissertation (Cesar Coelho)** —
-  ``Dissertation__Cesar_Coelho.pdf``. The foundational text describing
+- **PhD Dissertation (Cesar Coelho)** — ``Dissertation__Cesar_Coelho.pdf``. The foundational text describing
   the NMF's design and motivation.
-- **Software Simulator MSc Thesis** —
-  ``Software_Simulator_Master_Thesis.pdf``. The simulator's design.
-- **Software Simulator User Manual** —
-  ``Software_Simulator_Software_User_Manual.pdf``. Superseded by
+- **Software Simulator MSc Thesis** — ``Software_Simulator_Master_Thesis.pdf``. The simulator's design.
+- **Software Simulator User Manual** — ``Software_Simulator_Software_User_Manual.pdf``. Superseded by
   :doc:`../tooling/simulator`.
 
 Presentations
 -------------
 
-- **NMF SDK presentation** — ``NMF_SDK_presentation.pptx``.
-  Overview slides.
+- **NMF SDK presentation** — ``NMF_SDK_presentation.pptx``. Overview slides.

@@ -5,52 +5,42 @@ Adding Monitor & Control capabilities
 .. contents:: Table of contents
    :local:
 
-Monitor & Control (M&C) integration is the mechanism by which an app
-exposes its state and behaviour: telemetry parameters that ground
-operators can read and subscribe to, actions they can invoke, alerts
-the app can raise, and aggregations that group related parameters.
+Monitor & Control (M&C) integration is the mechanism by which an app exposes its state and behaviour:
+telemetry parameters that ground operators can read and subscribe to, actions they can invoke, alerts the app
+can raise, and aggregations that group related parameters.
 
-The NMF provides two equivalent APIs for M&C integration. Pick the one
-that matches your style:
+The NMF provides two equivalent APIs for M&C integration. Pick the one that matches your style:
 
-- `Listener-interface API`_ — extend ``SimpleMonitorAndControlAdapter``
-  and override explicit methods for each operation. No reflection at
-  runtime; all dispatch is explicit. Closer to the underlying MO
-  service interface.
-- `Annotation API`_ — extend ``MonitorAndControlNMFAdapter`` and
-  annotate fields and methods with ``@Parameter``, ``@Action``, and
-  ``@ActionParameter``. More compact for apps with many parameters and
-  actions; relies on reflection at registration time to discover
-  annotated members.
+- `Listener-interface API`_ — extend ``SimpleMonitorAndControlAdapter`` and override explicit methods for each
+  operation. No reflection at runtime; all dispatch is explicit. Closer to the underlying MO service
+  interface.
+- `Annotation API`_ — extend ``MonitorAndControlNMFAdapter`` and annotate fields and methods with
+  ``@Parameter``, ``@Action``, and ``@ActionParameter``. More compact for apps with many parameters and
+  actions; relies on reflection at registration time to discover annotated members.
 
-Both APIs ultimately register the same MO objects with the Supervisor's
-Directory Service, and the resulting app is indistinguishable from the
-consumer side. The :doc:`worked-example` page implements the same app
-twice — once with each API — so you can compare them side by side.
+Both APIs ultimately register the same MO objects with the Supervisor's Directory Service, and the resulting
+app is indistinguishable from the consumer side. The :doc:`worked-example` page implements the same app twice
+— once with each API — so you can compare them side by side.
 
 The MC services
 ---------------
 
-The MC service category provides five services. An app's adapter
-exposes whichever of these are relevant to its behaviour:
+The MC service category provides five services. An app's adapter exposes whichever of these are relevant to
+its behaviour:
 
 - **Parameter** — read, set, and subscribe to telemetry values.
-- **Action** — invoke commands, optionally with multi-stage progress
-  reporting.
+- **Action** — invoke commands, optionally with multi-stage progress reporting.
 - **Aggregation** — group parameters into reports published as a unit.
 - **Alert** — publish operational alerts.
-- **Conversion** — declarative conversions between raw and engineering
-  parameter values.
+- **Conversion** — declarative conversions between raw and engineering parameter values.
 
-See :doc:`../concepts/mo-architecture` for where the MC services sit in
-the broader CCSDS MO stack.
+See :doc:`../concepts/mo-architecture` for where the MC services sit in the broader CCSDS MO stack.
 
 Listener-interface API
 ----------------------
 
-The listener-interface API exposes parameters and actions through
-explicit method calls on the ``SimpleMonitorAndControlAdapter``
-superclass. No reflection is involved at runtime.
+The listener-interface API exposes parameters and actions through explicit method calls on the
+``SimpleMonitorAndControlAdapter`` superclass. No reflection is involved at runtime.
 
 Adapter skeleton
 ^^^^^^^^^^^^^^^^
@@ -84,9 +74,8 @@ Adapter skeleton
 Registering parameters
 ^^^^^^^^^^^^^^^^^^^^^^
 
-Parameters are registered during ``initialRegistrations`` by building a
-``ParameterDefinitionList`` and passing it to
-``r.registerParameters(defs)``:
+Parameters are registered during ``initialRegistrations`` by building a ``ParameterDefinitionList`` and
+passing it to ``r.registerParameters(defs)``:
 
 .. code-block:: java
 
@@ -103,15 +92,14 @@ Parameters are registered during ``initialRegistrations`` by building a
    ));
    r.registerParameters(defs);
 
-A parameter is identified by its name (the ``Identifier``); the same
-name is used when handling reads and writes.
+A parameter is identified by its name (the ``Identifier``); the same name is used when handling reads and
+writes.
 
 Reading parameter values
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-When a consumer queries a parameter, the framework calls
-``onGetValueSimple(String name)``. The adapter returns the current
-value:
+When a consumer queries a parameter, the framework calls ``onGetValueSimple(String name)``. The adapter
+returns the current value:
 
 .. code-block:: java
 
@@ -128,9 +116,8 @@ value:
 Writing parameter values
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-When a consumer writes a parameter, ``onSetValueSimple(String name,
-Serializable value)`` is called. Return ``true`` to confirm the
-assignment, ``false`` to reject:
+When a consumer writes a parameter, ``onSetValueSimple(String name, Serializable value)`` is called. Return
+``true`` to confirm the assignment, ``false`` to reject:
 
 .. code-block:: java
 
@@ -168,9 +155,8 @@ Action categories are: ``DEFAULT``, ``CRITICAL``, ``HIPRIORITY``.
 Handling action invocations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When a consumer invokes an action, ``actionArrivedSimple(String name,
-Serializable[] values, Long executionId)`` is called. Return ``true``
-on success, ``false`` on failure:
+When a consumer invokes an action, ``actionArrivedSimple(String name, Serializable[] values, Long
+executionId)`` is called. Return ``true`` on success, ``false`` on failure:
 
 .. code-block:: java
 
@@ -187,28 +173,26 @@ on success, ``false`` on failure:
 Multi-stage actions
 ~~~~~~~~~~~~~~~~~~~
 
-For actions that take more than a moment, declare a non-zero step count
-when registering, then report progress from the action handler:
+For actions that take more than a moment, declare a non-zero step count when registering, then report progress
+from the action handler:
 
 .. code-block:: java
 
    connector.reportActionExecutionProgress(true, 0, currentStage, totalStages, executionId);
 
-The Supervisor forwards each progress update to subscribed consumers
-via the COM Event service.
+The Supervisor forwards each progress update to subscribed consumers via the COM Event service.
 
 Reference example
 ^^^^^^^^^^^^^^^^^
 
-The ``sdk/examples-space/hello-world-simple`` example uses this API end
-to end and is a good starting point for adaptation.
+The ``sdk/examples-space/hello-world-simple`` example uses this API end to end and is a good starting point
+for adaptation.
 
 Annotation API
 --------------
 
-The annotation API exposes parameters and actions by annotating fields
-and methods on a subclass of ``MonitorAndControlNMFAdapter``. At
-registration time, the framework uses reflection to discover annotated
+The annotation API exposes parameters and actions by annotating fields and methods on a subclass of
+``MonitorAndControlNMFAdapter``. At registration time, the framework uses reflection to discover annotated
 members and registers the corresponding MO objects with the Supervisor.
 
 The annotation classes live in ``esa.mo.nmf.annotations``:
@@ -238,20 +222,16 @@ Adapter skeleton
 ``@Parameter``
 ^^^^^^^^^^^^^^
 
-Apply ``@Parameter`` to a field whose value is the parameter's value.
-The annotation accepts:
+Apply ``@Parameter`` to a field whose value is the parameter's value. The annotation accepts:
 
 - ``name`` — the parameter name. Defaults to the field name when empty.
 - ``description`` — text shown to the consumer.
 - ``rawUnit`` — unit string (e.g. ``"degC"``, ``"rad/s"``).
 - ``generationEnabled`` — whether automatic generation is on at startup.
-- ``reportIntervalSeconds`` — interval for periodic reporting; ``0``
-  disables periodic generation.
-- ``readOnly`` — rejects writes if ``true``. Always ``true`` for
-  ``final`` fields.
-- ``onGetFunction`` — name of a no-argument method called immediately
-  before the value is read, used to refresh the field. The method must
-  be ``public``.
+- ``reportIntervalSeconds`` — interval for periodic reporting; ``0`` disables periodic generation.
+- ``readOnly`` — rejects writes if ``true``. Always ``true`` for ``final`` fields.
+- ``onGetFunction`` — name of a no-argument method called immediately before the value is read, used to
+  refresh the field. The method must be ``public``.
 
 Example:
 
@@ -267,8 +247,7 @@ Example:
        temperatureC = sensor.readCelsius();
    }
 
-Writes are dispatched automatically to the annotated field unless
-``onSetValue`` is overridden in the adapter.
+Writes are dispatched automatically to the annotated field unless ``onSetValue`` is overridden in the adapter.
 
 ``@Action``
 ^^^^^^^^^^^
@@ -277,10 +256,8 @@ Apply ``@Action`` to a method. The annotation accepts:
 
 - ``name`` — the action name. Defaults to the method name when empty.
 - ``description`` — text shown to the consumer.
-- ``category`` — ``0`` (default), ``ActionCategory.CRITICAL``, or
-  ``ActionCategory.HIPRIORITY``.
-- ``stepCount`` — number of progress stages reported by the action.
-  ``0`` for single-shot actions.
+- ``category`` — ``0`` (default), ``ActionCategory.CRITICAL``, or ``ActionCategory.HIPRIORITY``.
+- ``stepCount`` — number of progress stages reported by the action. ``0`` for single-shot actions.
 
 The method signature must be:
 
@@ -297,15 +274,13 @@ Return ``null`` on success or a ``UInteger`` error code on failure.
 ``@ActionParameter``
 ~~~~~~~~~~~~~~~~~~~~
 
-Each argument after the three required ones must be annotated with
-``@ActionParameter``:
+Each argument after the three required ones must be annotated with ``@ActionParameter``:
 
 - ``name`` (required) — the parameter's display name.
 - ``description`` — text shown to the consumer.
-- ``rawType``, ``rawUnit``, ``convertedType``, ``convertedUnit`` —
-  declarative type and unit metadata.
-- ``conditionalConversionFieldName`` — name of a field containing a
-  ``ConditionalConversionList`` for value-dependent conversions.
+- ``rawType``, ``rawUnit``, ``convertedType``, ``convertedUnit`` — declarative type and unit metadata.
+- ``conditionalConversionFieldName`` — name of a field containing a ``ConditionalConversionList`` for
+  value-dependent conversions.
 
 Example:
 
@@ -324,28 +299,22 @@ Example:
 Multi-stage actions
 ~~~~~~~~~~~~~~~~~~~
 
-For an action with non-zero ``stepCount``, call
-``connector.reportActionExecutionProgress(...)`` after each stage; see
-the `Listener-interface API`_ section above for the signature.
+For an action with non-zero ``stepCount``, call ``connector.reportActionExecutionProgress(...)`` after each
+stage; see the `Listener-interface API`_ section above for the signature.
 
 Caveats
 ^^^^^^^
 
-- **Reflection at registration.** The framework scans the adapter class
-  at registration time. Field and method names referenced in
-  ``onGetFunction``, ``conditionalConversionFieldName``, and similar
-  attributes are resolved by name and not checked at compile time;
-  mistyped names surface only at runtime.
-- **No method-level call paths.** All dispatch goes through the
-  annotated members, so static analysis tools that look for unused
-  methods may flag annotated handlers as unused.
-- **Equivalent to the listener API.** The set of MO objects ultimately
-  registered is the same. Choose the API that matches your style and
-  the project's coding conventions.
+- **Reflection at registration.** The framework scans the adapter class at registration time. Field and method
+  names referenced in ``onGetFunction``, ``conditionalConversionFieldName``, and similar attributes are
+  resolved by name and not checked at compile time; mistyped names surface only at runtime.
+- **No method-level call paths.** All dispatch goes through the annotated members, so static analysis tools
+  that look for unused methods may flag annotated handlers as unused.
+- **Equivalent to the listener API.** The set of MO objects ultimately registered is the same. Choose the API
+  that matches your style and the project's coding conventions.
 
 Reference example
 ^^^^^^^^^^^^^^^^^
 
-The ``sdk/examples-space/all-mc-services`` and
-``sdk/examples-space/camera-acquisitor-system`` examples use this API
-end to end.
+The ``sdk/examples-space/all-mc-services`` and ``sdk/examples-space/camera-acquisitor-system`` examples use
+this API end to end.

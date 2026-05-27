@@ -5,8 +5,7 @@ Annotation reference
 .. contents:: Table of contents
    :local:
 
-This page is the complete reference for the M&C annotation API. For
-discussion and examples, see
+This page is the complete reference for the M&C annotation API. For discussion and examples, see
 :doc:`../development-app/monitor-and-control`.
 
 The annotations live in ``esa.mo.nmf.annotations``.
@@ -134,6 +133,5 @@ Applied to each non-required parameter of an ``@Action`` method.
 ``@Aggregation``
 ----------------
 
-Applied to a field declaring an aggregation that other ``@Parameter``
-fields can join via their ``aggregations`` attribute. See the API JAR
-for the exact attribute set.
+Applied to a field declaring an aggregation that other ``@Parameter`` fields can join via their
+``aggregations`` attribute. See the API JAR for the exact attribute set.

@@ -2,33 +2,28 @@
 Service reference
 =================
 
-This page indexes the MO services exposed by the NMF. The XML files
-under ``core/mo-services-xml/src/main/resources/xml/`` are the source
-of truth for service definitions, operations, data types, and
-documentation strings.
+This page indexes the MO services exposed by the NMF. The XML files under
+``core/mo-services-xml/src/main/resources/xml/`` are the source of truth for service definitions, operations,
+data types, and documentation strings.
 
-For where each service sits architecturally, see
-:doc:`../concepts/mo-architecture`.
+For where each service sits architecturally, see :doc:`../concepts/mo-architecture`.
 
 COM (``area002-COM.xml``)
 -------------------------
 
 - **Event** — generic publish/subscribe of COM events.
 - **Archive** — persistent storage and querying of COM objects.
-- **ArchiveSync** — synchronisation of a COM Archive with a remote
-  provider.
+- **ArchiveSync** — synchronisation of a COM Archive with a remote provider.
 - **Directory** — discovery of services by domain and provider.
-- **Login** — authentication of consumers (XML-defined; provider
-  implementation is currently consumer-side only).
-- **Configuration** — persistence of provider configuration (XML-defined;
-  configuration persistence is currently handled by
-  ``esa.mo.reconfigurable.provider.PersistProviderConfiguration``).
+- **Login** — authentication of consumers (XML-defined; provider implementation is currently consumer-side
+  only).
+- **Configuration** — persistence of provider configuration (XML-defined; configuration persistence is
+  currently handled by ``esa.mo.reconfigurable.provider.PersistProviderConfiguration``).
 
 Monitor & Control (``area004-Monitor-and-Control.xml``)
 -------------------------------------------------------
 
-- **Parameter** — telemetry parameter definition, generation, and
-  subscription.
+- **Parameter** — telemetry parameter definition, generation, and subscription.
 - **Action** — command invocation with multi-stage progress reporting.
 - **Aggregation** — grouping of parameters into reports.
 - **Alert** — operational alert generation and distribution.
@@ -40,14 +35,12 @@ Software Management (``area007-Software-Management.xml``)
 - **AppsLauncher** — run, stop, kill, list, and monitor apps.
 - **PackageManagement** — install, uninstall, upgrade NMF Packages.
 - **Heartbeat** — periodic liveness publication.
-- **CommandExecutor** — execute shell commands on the spacecraft host
-  (where permitted).
+- **CommandExecutor** — execute shell commands on the spacecraft host (where permitted).
 
 Platform (``area105-Platform.xml``)
 -----------------------------------
 
-For consumer-side usage, see
-:doc:`../development-app/platform-services/index`.
+For consumer-side usage, see :doc:`../development-app/platform-services/index`.
 
 - **Camera** (#1)
 - **GPS** (#2)
@@ -58,5 +51,4 @@ For consumer-side usage, see
 - **Clock** (#8)
 - **ArtificialIntelligence** (#9)
 
-Numbering gaps reflect services that have been retired since earlier
-NMF versions.
+Numbering gaps reflect services that have been retired since earlier NMF versions.

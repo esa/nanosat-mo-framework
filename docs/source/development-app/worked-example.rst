@@ -5,24 +5,22 @@ Worked example
 .. contents:: Table of contents
    :local:
 
-This worked example implements a minimal NMF App that exposes one
-parameter and one action, using each of the two M&C APIs side by side.
+This worked example implements a minimal NMF App that exposes one parameter and one action, using each of the
+two M&C APIs side by side.
 
 The app
 -------
 
 The app exposes:
 
-- A parameter ``greeting`` of type String, initially ``"Hello, world"``,
-  reported every 3 seconds.
+- A parameter ``greeting`` of type String, initially ``"Hello, world"``, reported every 3 seconds.
 - An action ``shout`` that uppercases the current ``greeting``.
 
 Main class
 ----------
 
-The main class is identical for both APIs. It instantiates the
-Connector, constructs the adapter, and lets the Supervisor manage the
-rest of the lifecycle:
+The main class is identical for both APIs. It instantiates the Connector, constructs the adapter, and lets the
+Supervisor manage the rest of the lifecycle:
 
 .. code-block:: java
 
@@ -41,9 +39,8 @@ rest of the lifecycle:
 Adapter
 -------
 
-The adapter exposes the parameter and action. Below, the same adapter
-is shown with each API. The two versions are interchangeable; pick
-either.
+The adapter exposes the parameter and action. Below, the same adapter is shown with each API. The two versions
+are interchangeable; pick either.
 
 .. tabs::
 
@@ -131,20 +128,16 @@ either.
 What changes between the two versions
 -------------------------------------
 
-- **Boilerplate.** The listener version explicitly builds the
-  ``ParameterDefinitionList`` and ``ActionDefinitionList``; the
-  annotation version relies on reflection to discover annotated
-  members.
-- **Dispatch.** The listener version switches on parameter and action
-  names in ``onGetValueSimple`` / ``onSetValueSimple`` /
-  ``actionArrivedSimple``; the annotation version dispatches directly
-  through the annotated field and method.
-- **Externally observable behaviour.** None. The same MO objects are
-  registered with the Directory Service, and a consumer cannot
-  distinguish the two implementations.
+- **Boilerplate.** The listener version explicitly builds the ``ParameterDefinitionList`` and
+  ``ActionDefinitionList``; the annotation version relies on reflection to discover annotated members.
+- **Dispatch.** The listener version switches on parameter and action names in ``onGetValueSimple`` /
+  ``onSetValueSimple`` / ``actionArrivedSimple``; the annotation version dispatches directly through the
+  annotated field and method.
+- **Externally observable behaviour.** None. The same MO objects are registered with the Directory Service,
+  and a consumer cannot distinguish the two implementations.
 
-For a more substantial worked example involving Platform service
-consumption and multi-stage actions, see :doc:`sobel-example`.
+For a more substantial worked example involving Platform service consumption and multi-stage actions, see
+:doc:`sobel-example`.
 
 .. note::
 

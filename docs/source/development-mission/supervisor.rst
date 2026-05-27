@@ -5,12 +5,10 @@ Implementing the NMF Supervisor
 .. contents:: Table of contents
    :local:
 
-The ``NanoSatMOSupervisor`` abstract class in ``core/nmf-composites``
-is the base for every mission-specific Supervisor. It handles all the
-generic NMF machinery — COM services, MC services, Heartbeat, Apps
-Launcher, Package Management, Command Executor, and the Central
-Directory service. The mission subclass supplies only what is unique to
-its hardware: the Platform service adapters.
+The ``NanoSatMOSupervisor`` abstract class in ``core/nmf-composites`` is the base for every mission-specific
+Supervisor. It handles all the generic NMF machinery — COM services, MC services, Heartbeat, Apps Launcher,
+Package Management, Command Executor, and the Central Directory service. The mission subclass supplies only
+what is unique to its hardware: the Platform service adapters.
 
 The ``init`` method
 -------------------
@@ -30,22 +28,20 @@ Most missions call through to this from a one-argument override::
              new NMFPackagePMBackend("packages", this.getAppsLauncherService()));
     }
 
-The ``MCSupervisorBasicAdapter`` bundled in ``nmf-composites`` is a
-ready-to-use MC adapter that exposes basic Supervisor health parameters
-and actions. Pass an instance of it (after calling
-``adapter.setNmfSupervisor(supervisor)``) unless the mission needs
-custom Supervisor-level parameters or actions.
+The ``MCSupervisorBasicAdapter`` bundled in ``nmf-composites`` is a ready-to-use MC adapter that exposes basic
+Supervisor health parameters and actions. Pass an instance of it (after calling
+``adapter.setNmfSupervisor(supervisor)``) unless the mission needs custom Supervisor-level parameters or
+actions.
 
 The ``initPlatformServices`` hook
 ----------------------------------
 
-``NanoSatMOSupervisor`` calls this abstract method once the COM stack
-is up, before returning from ``init``::
+``NanoSatMOSupervisor`` calls this abstract method once the COM stack is up, before returning from ``init``::
 
     public abstract void initPlatformServices(COMServicesProvider comServices);
 
-This is where the mission instantiates and initialises its platform
-services provider. The pattern used by the simulator is:
+This is where the mission instantiates and initialises its platform services provider. The pattern used by the
+simulator is:
 
 .. code-block:: java
 
@@ -61,14 +57,14 @@ services provider. The pattern used by the simulator is:
         super.getPlatformServices().init(conn, null);
     }
 
-The ``super.getPlatformServices()`` consumer is what the
-``NanoSatMOConnector`` inside each NMF App ultimately talks to.
+The ``super.getPlatformServices()`` consumer is what the ``NanoSatMOConnector`` inside each NMF App ultimately
+talks to.
 
 Minimal mission: Barebone Supervisor
 --------------------------------------
 
-The ``nmf-mission-barebone`` module contains the simplest possible
-mission — one that deliberately omits all Platform services:
+The ``nmf-mission-barebone`` module contains the simplest possible mission — one that deliberately omits all
+Platform services:
 
 .. code-block:: java
 
@@ -94,23 +90,20 @@ mission — one that deliberately omits all Platform services:
         }
     }
 
-This is a valid, runnable Supervisor. Apps deployed on top of it can
-use MC services (Parameters, Actions, Alerts, Aggregations) but will
-get a ``null`` platform service stub if they call
+This is a valid, runnable Supervisor. Apps deployed on top of it can use MC services (Parameters, Actions,
+Alerts, Aggregations) but will get a ``null`` platform service stub if they call
 ``getNMFProvider().getPlatformServices()``.
 
 ``main`` class and startup script
 ------------------------------------
 
-The Supervisor's ``main`` class must be passed to the
-``nmf-linux-maven-plugin`` as the ``supervisorMainClass`` parameter
-(see :doc:`filesystem`). The plugin generates a startup script that
-invokes the class by name.
+The Supervisor's ``main`` class must be passed to the ``nmf-linux-maven-plugin`` as the
+``supervisorMainClass`` parameter (see :doc:`filesystem`). The plugin generates a startup script that invokes
+the class by name.
 
 Preventing root execution
 --------------------------
 
-``NanoSatMOSupervisor.init`` throws a ``RuntimeException`` if the JVM
-user is ``root``. This is intentional — running the Supervisor as root
-on a spacecraft is a security risk. The deployment must create a
-dedicated non-root user and launch the Supervisor under that account.
+``NanoSatMOSupervisor.init`` throws a ``RuntimeException`` if the JVM user is ``root``. This is intentional —
+running the Supervisor as root on a spacecraft is a security risk. The deployment must create a dedicated
+non-root user and launch the Supervisor under that account.

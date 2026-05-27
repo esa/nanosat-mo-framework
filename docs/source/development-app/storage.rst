@@ -5,9 +5,8 @@ App Storage
 .. contents:: Table of contents
    :local:
 
-NMF provides ``AppStorage``, a utility class that returns standardised,
-app-specific directories for writing files. App developers should always
-use these paths rather than arbitrary locations in the filesystem.
+NMF provides ``AppStorage``, a utility class that returns standardised, app-specific directories for writing
+files. App developers should always use these paths rather than arbitrary locations in the filesystem.
 
 Directory layout
 ----------------
@@ -19,25 +18,22 @@ All directories are created under the user's home directory::
        user-data/
        nmf-internal/
 
-Directories are created automatically on first access with permissions
-``rwxrwx---`` (owner and ``nmf-admin`` group). On Windows the equivalent
-owner-only read/write/execute permissions are applied instead.
+Directories are created automatically on first access with permissions ``rwxrwx---`` (owner and ``nmf-admin``
+group). On Windows the equivalent owner-only read/write/execute permissions are applied instead.
 
 The three directories
 ---------------------
 
 ``AppStorage.getAppCacheDir()``
-   Ephemeral data. The system may delete files here automatically when
-   disk space is needed. Do not rely on these files surviving across
-   app restarts or relocations.
+   Ephemeral data. The system may delete files here automatically when disk space is needed. Do not rely on
+   these files surviving across app restarts or relocations.
 
 ``AppStorage.getAppUserdataDir()``
-   Persistent, app-specific data. Use this for any files that must
-   survive restarts — processed images, recorded measurements, etc.
+   Persistent, app-specific data. Use this for any files that must survive restarts — processed images,
+   recorded measurements, etc.
 
 ``AppStorage.getAppNMFInternalDir()``
-   Reserved for NMF framework internals (COM archive database, instance
-   lock file).
+   Reserved for NMF framework internals (COM archive database, instance lock file).
 
 .. warning::
 

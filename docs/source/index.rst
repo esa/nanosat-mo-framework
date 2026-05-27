@@ -5,14 +5,12 @@
 NanoSat MO Framework Documentation
 ==================================
 
-The `NanoSat MO Framework <https://github.com/esa/nanosat-mo-framework>`_
-is a Java software framework for developing on-board and ground software
-for small satellites, based on the CCSDS Mission Operations services.
+The `NanoSat MO Framework <https://github.com/esa/nanosat-mo-framework>`_ is a Java software framework for
+developing on-board and ground software for small satellites, based on the CCSDS Mission Operations services.
 
-If you are new to the framework, start with :doc:`quickstart/index`.
-For the architectural model behind the runtime, read
-:doc:`concepts/index`. The remaining sections cover app and ground
-development, mission integration, tooling, and reference material.
+If you are new to the framework, start with :doc:`quickstart/index`. For the architectural model behind the
+runtime, read :doc:`concepts/index`. The remaining sections cover app and ground development, mission
+integration, tooling, and reference material.
 
 .. toctree::
    :maxdepth: 1

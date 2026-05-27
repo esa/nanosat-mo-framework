@@ -5,10 +5,9 @@ On-board Filesystem Layout
 .. contents:: Table of contents
    :local:
 
-The NMF expects a specific directory structure on the spacecraft's file
-system. The ``nmf-linux-maven-plugin`` generates this layout
-automatically from the mission's Maven project and produces a
-``fresh_install.sh`` script for the initial hardware deployment.
+The NMF expects a specific directory structure on the spacecraft's file system. The ``nmf-linux-maven-plugin``
+generates this layout automatically from the mission's Maven project and produces a ``fresh_install.sh``
+script for the initial hardware deployment.
 
 Standard directory layout
 --------------------------
@@ -24,15 +23,13 @@ After generation the output tree looks like::
         ├── apps/             ← NMF Packages installed here at runtime
         └── ...
 
-The Supervisor startup script is placed at the root of the output
-alongside ``fresh_install.sh``.
+The Supervisor startup script is placed at the root of the output alongside ``fresh_install.sh``.
 
 Maven plugin configuration
 ---------------------------
 
-Add the ``nmf-linux-maven-plugin`` to the mission's filesystem
-submodule. The recommended practice is to put this inside a Maven
-profile so it is not executed on every build:
+Add the ``nmf-linux-maven-plugin`` to the mission's filesystem submodule. The recommended practice is to put
+this inside a Maven profile so it is not executed on every build:
 
 .. code-block:: xml
 
@@ -67,13 +64,12 @@ Activate the profile when you want to produce the filesystem artefact::
 
     mvn package -P generate-filesystem -pl mission/my-mission-filesystem
 
-The ``supervisorMainClass`` must be the fully-qualified class name of
-the mission's ``NanoSatMOSupervisor`` subclass (see :doc:`supervisor`).
+The ``supervisorMainClass`` must be the fully-qualified class name of the mission's ``NanoSatMOSupervisor``
+subclass (see :doc:`supervisor`).
 
-The ``esa.nmf.version`` property must be set (it is inherited from the
-NMF parent POM when the mission module is part of the NMF build). For
-standalone mission projects that import the parent POM as a dependency,
-set it explicitly:
+The ``esa.nmf.version`` property must be set (it is inherited from the NMF parent POM when the mission module
+is part of the NMF build). For standalone mission projects that import the parent POM as a dependency, set it
+explicitly:
 
 .. code-block:: xml
 
@@ -84,24 +80,21 @@ set it explicitly:
 ``fresh_install.sh``
 ----------------------
 
-The generated ``fresh_install.sh`` script copies the filesystem tree to
-the correct locations on a freshly provisioned spacecraft. It is
-executed once during initial hardware bring-up and should be run by the
-same non-root user that will operate the Supervisor at runtime.
+The generated ``fresh_install.sh`` script copies the filesystem tree to the correct locations on a freshly
+provisioned spacecraft. It is executed once during initial hardware bring-up and should be run by the same
+non-root user that will operate the Supervisor at runtime.
 
 Mission project structure
 --------------------------
 
-The ``nmf-linux-maven-plugin`` is being extended to also generate the
-Maven project structure for new mission integrations. Until that
-feature is complete, the existing missions — :doc:`../mission-integration/ops-sat`
-and :doc:`../mission-integration/phi-sat-2` — are the working
-references for how to lay out a mission Maven project.
+The ``nmf-linux-maven-plugin`` is being extended to also generate the Maven project structure for new mission
+integrations. Until that feature is complete, the existing missions — :doc:`../mission-integration/ops-sat`
+and :doc:`../mission-integration/phi-sat-2` — are the working references for how to lay out a mission Maven
+project.
 
 Barebone reference
 -------------------
 
-The ``nmf-mission-barebone/barebone-space-filesystem`` module is the
-simplest working example of a filesystem module. Its ``pom.xml``
-demonstrates the profile structure and the minimal dependency set
-required to produce a valid NMF filesystem layout.
+The ``nmf-mission-barebone/barebone-space-filesystem`` module is the simplest working example of a filesystem
+module. Its ``pom.xml`` demonstrates the profile structure and the minimal dependency set required to produce
+a valid NMF filesystem layout.

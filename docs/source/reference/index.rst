@@ -2,8 +2,8 @@
 Reference
 =========
 
-This section is the lookup-oriented reference for the NMF. Use it
-when you know what you need and want the precise details.
+This section is the lookup-oriented reference for the NMF. Use it when you know what you need and want the
+precise details.
 
 .. toctree::
    :maxdepth: 1
