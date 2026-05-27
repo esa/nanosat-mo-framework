@@ -49,14 +49,14 @@ public class HelperCommon {
      * @param provider The Provider object
      * @return ConnectionConsumer The ConnectionConsumer object
      */
-    public static ConnectionConsumer providerSummaryToConnectionConsumer(Provider provider) {
+    public static ConnectionConsumer providerToConnectionConsumer(Provider provider) {
         final ConnectionConsumer connection = new ConnectionConsumer();
 
         final ServicesConnectionDetails serviceDetails = new ServicesConnectionDetails();
         final HashMap<String, SingleConnectionDetails> services = new HashMap<>();
 
         // Cycle all the services in the provider and put them in the serviceDetails object
-        for (ServiceCapability serviceInfo : provider.getProviderDetails().getServiceCapabilities()) {
+        for (ServiceCapability serviceInfo : provider.getServiceCapabilities()) {
             ServiceId key = serviceInfo.getServiceId();
             AddressDetails addressDetails;
 
@@ -117,7 +117,7 @@ public class HelperCommon {
      * @return The filtered Provider
      */
     public static Provider selectBestIPCTransport(final Provider provider) {
-        final ServiceCapabilityList oldCapabilities = provider.getProviderDetails().getServiceCapabilities();
+        final ServiceCapabilityList oldCapabilities = provider.getServiceCapabilities();
         final ServiceCapabilityList newCapabilities = new ServiceCapabilityList();
 
         for (int i = 0; i < oldCapabilities.size(); i++) {
@@ -142,10 +142,8 @@ public class HelperCommon {
             newCapabilities.add(cap);
         }
 
-        final ProviderDetails details = new ProviderDetails(newCapabilities,
-                provider.getProviderDetails().getProviderAddresses());
         return new Provider(provider.getId(), provider.getProviderName(),
-                provider.getDomain(), details);
+                provider.getDomain(), newCapabilities, provider.getProviderAddresses());
     }
 
     /**

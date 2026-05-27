@@ -200,7 +200,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     // Select the best transport for IPC and convert to a ConnectionConsumer object
                     final Provider filteredConnections = HelperCommon.selectBestIPCTransport(
                             supervisorConnections.get(0));
-                    final ConnectionConsumer supervisorCCPlat = HelperCommon.providerSummaryToConnectionConsumer(
+                    final ConnectionConsumer supervisorCCPlat = HelperCommon.providerToConnectionConsumer(
                             filteredConnections);
 
                     // Connect to them...

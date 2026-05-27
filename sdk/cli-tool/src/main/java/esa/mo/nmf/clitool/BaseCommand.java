@@ -126,28 +126,28 @@ public abstract class BaseCommand {
         try {
             HelperMisc.loadPropertiesFile();
             providerURI = providerURI.contains("Archive") ? providerURI.replace("Archive", "Directory") : providerURI;
-            ProviderList providerSummaryList = NMFConsumer.retrieveProvidersFromDirectory(new URI(providerURI));
+            ProviderList providerList = NMFConsumer.retrieveProvidersFromDirectory(new URI(providerURI));
             Provider provider = null;
-            if (providerSummaryList.size() == 1) {
+            if (providerList.size() == 1) {
                 if (providerName != null) {
                     System.out.println("\nThere's only one provider in directory. Ignoring --provider option.\n");
                 }
-                provider = providerSummaryList.get(0);
+                provider = providerList.get(0);
             } else {
                 if (providerName == null) {
                     System.out.println("\nThere's more than one provider in directory.");
                     System.out.println("--provider option is required\n");
                     System.out.println("Available providers at this uri: " + providerURI);
-                    for (Provider summary : providerSummaryList) {
-                        System.out.println(" - " + summary.getProviderName());
+                    for (Provider p : providerList) {
+                        System.out.println(" - " + p.getProviderName());
                     }
                     System.out.println();
                     return false;
                 }
 
-                for (Provider summary : providerSummaryList) {
-                    if (summary.getProviderName().getValue().equals(providerName)) {
-                        provider = summary;
+                for (Provider p : providerList) {
+                    if (p.getProviderName().getValue().equals(providerName)) {
+                        provider = p;
                         break;
                     }
                 }
@@ -155,10 +155,10 @@ public abstract class BaseCommand {
 
             if (provider == null) {
                 System.out.println("\nProvider not found!");
-                if (!providerSummaryList.isEmpty()) {
+                if (!providerList.isEmpty()) {
                     System.out.println("Available providers at this uri: " + providerURI);
-                    for (Provider summary : providerSummaryList) {
-                        System.out.println(" - " + summary.getProviderName());
+                    for (Provider p : providerList) {
+                        System.out.println(" - " + p.getProviderName());
                     }
                 } else {
                     System.out.println("No providers available at this uri: " + providerURI);

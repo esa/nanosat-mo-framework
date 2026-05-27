@@ -76,7 +76,8 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                     null,
                     provider.getProviderName(),
                     provider.getDomain(),
-                    provider.getProviderDetails());
+                    provider.getServiceCapabilities(),
+                    provider.getProviderAddresses());
             this.add(pub, null);
         }
 
@@ -102,8 +103,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
         ProviderList updatedProviders = new ProviderList();
 
         for (Provider in : providers) {
-            ProviderDetails oldDetails = in.getProviderDetails();
-            final ServiceCapabilityList capabilities = oldDetails.getServiceCapabilities();
+            final ServiceCapabilityList capabilities = in.getServiceCapabilities();
             final ServiceCapabilityList newCapabilities = new ServiceCapabilityList();
 
             for (ServiceCapability capability : capabilities) {
@@ -128,12 +128,8 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                         capability.getServiceProperties(),
                         newDets));
             }
-            ProviderDetails newDetails = new ProviderDetails(
-                    newCapabilities,
-                    oldDetails.getProviderAddresses()
-            );
-
-            updatedProviders.add(new Provider(in.getId(), in.getProviderName(), in.getDomain(), newDetails));
+            updatedProviders.add(new Provider(in.getId(), in.getProviderName(), in.getDomain(),
+                    newCapabilities, in.getProviderAddresses()));
         }
 
         return updatedProviders;
@@ -152,7 +148,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
 
             for (Provider provider : providers) {
                 if (providerDomain.equals(provider.getDomain())) {
-                    ServiceCapabilityList capabilities = provider.getProviderDetails().getServiceCapabilities();
+                    ServiceCapabilityList capabilities = provider.getServiceCapabilities();
 
                     // Find the Archive service
                     for (ServiceCapability capability : capabilities) {
@@ -184,7 +180,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
 
             for (Provider provider : providers) {
                 if (providerDomain.equals(provider.getDomain())) {
-                    ServiceCapabilityList capabilities = provider.getProviderDetails().getServiceCapabilities();
+                    ServiceCapabilityList capabilities = provider.getServiceCapabilities();
 
                     // Find the Archive service
                     for (ServiceCapability capability : capabilities) {

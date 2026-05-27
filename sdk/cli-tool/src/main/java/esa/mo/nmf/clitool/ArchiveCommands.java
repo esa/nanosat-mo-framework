@@ -260,19 +260,17 @@ public class ArchiveCommands {
         // Query directory service with filter
         try {
             DirectoryConsumerServiceImpl centralDirectory = new DirectoryConsumerServiceImpl(centralDirectoryServiceURI);
-            ProviderList providersSummaries = centralDirectory.getDirectoryStub().lookup(sf2);
-            for (Provider providerSummary : providersSummaries) {
-                final StringBuilder provider = new StringBuilder(providerSummary.getProviderName().getValue());
-
-                ProviderDetails providerDetails = providerSummary.getProviderDetails();
+            ProviderList providers = centralDirectory.getDirectoryStub().lookup(sf2);
+            for (Provider p : providers) {
+                final StringBuilder provider = new StringBuilder(p.getProviderName().getValue());
 
                 // dump provider addresses
-                for (AddressDetails addressDetails : providerDetails.getProviderAddresses()) {
+                for (AddressDetails addressDetails : p.getProviderAddresses()) {
                     provider.append("\n\t - ").append(addressDetails.getServiceURI().getValue());
                 }
 
                 // dump services capabilities addresses
-                for (ServiceCapability serviceCapability : providerDetails.getServiceCapabilities()) {
+                for (ServiceCapability serviceCapability : p.getServiceCapabilities()) {
                     for (AddressDetails serviceAddressDetails : serviceCapability.getServiceAddresses()) {
                         provider.append("\n\t - ").append(serviceAddressDetails.getServiceURI().getValue());
                     }

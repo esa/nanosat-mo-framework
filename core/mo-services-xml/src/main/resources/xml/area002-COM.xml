@@ -1163,20 +1163,6 @@
                     <mal:type area="MAL" list="false" name="Time"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="ProviderDetails" shortFormPart="21"
-                           comment="The ProviderDetails structure describes a provider of a service and its capabilities. A provider may support more than one transport technology and therefore can be reached using more than one address. The providerAddresses list should be used when the individual services listed by the provider do not supply address information.">
-                <mal:extends>
-                    <mal:type area="MAL" list="false" name="Composite"/>
-                </mal:extends>
-                <mal:field name="serviceCapabilities" canBeNull="false"
-                           comment="The service capabilities supported by this provider.">
-                    <mal:type area="COM" list="true" name="ServiceCapability"/>
-                </mal:field>
-                <mal:field name="providerAddresses" canBeNull="false"
-                           comment="List of addresses for all services of this provider unless service specific addresses are supplied in the serviceCapabilities field. If all address information is supplied in the serviceCapabilities field this list should be zero length.">
-                    <mal:type area="COM" list="true" name="AddressDetails"/>
-                </mal:field>
-            </mal:composite>
             <mal:composite name="ServiceCapability" shortFormPart="22"
                            comment="The ServiceCapability structure describes a service and the capabilities offered by a provider.">
                 <mal:extends>
@@ -1223,9 +1209,13 @@
                 <mal:field canBeNull="false" comment="The domain of the provider." name="domain">
                     <mal:type area="MAL" list="true" name="Identifier"/>
                 </mal:field>
-                <mal:field name="providerDetails" canBeNull="false"
+                <mal:field name="serviceCapabilities" canBeNull="false"
                            comment="The service capabilities supported by this provider.">
-                    <mal:type area="COM" list="false" name="ProviderDetails"/>
+                    <mal:type area="COM" list="true" name="ServiceCapability"/>
+                </mal:field>
+                <mal:field name="providerAddresses" canBeNull="false"
+                           comment="List of addresses for all services of this provider unless service specific addresses are supplied in the serviceCapabilities field. If all address information is supplied in the serviceCapabilities field this list should be zero length.">
+                    <mal:type area="COM" list="true" name="AddressDetails"/>
                 </mal:field>
             </mal:composite>
 

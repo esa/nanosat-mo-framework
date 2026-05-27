@@ -189,10 +189,9 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
             // Set the Provider Details structure
             ServiceCapabilityList outCap = new ServiceCapabilityList();
-            ProviderDetails pDetails = provider.getProviderDetails();
 
             // Go through all the services and check each service
-            for (ServiceCapability serviceCapability : pDetails.getServiceCapabilities()) {
+            for (ServiceCapability serviceCapability : provider.getServiceCapabilities()) {
                 // Check service key - area field
                 if (filter.getServiceId().getKeyArea().getValue() != 0) {
                     if (!serviceCapability.getServiceId().getKeyArea().equals(filter.getServiceId().getKeyArea())) {
@@ -242,9 +241,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             }
 
             // It passed all the tests!
-            ProviderDetails outProvDetails = new ProviderDetails(outCap, pDetails.getProviderAddresses());
             outputList.add(new Provider(keys.get(i),
-                    provider.getProviderName(), provider.getDomain(), outProvDetails));
+                    provider.getProviderName(), provider.getDomain(), outCap, provider.getProviderAddresses()));
         }
 
         // Errors
@@ -376,12 +374,11 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             }
         }
 
-        ProviderDetails serviceDetails = new ProviderDetails(capabilities, new AddressDetailsList());
-
         Provider newProviderDetails = new Provider(null,
                 new Identifier(providerName),
                 ConfigurationProviderSingleton.getDomain(),
-                serviceDetails);
+                capabilities,
+                new AddressDetailsList());
 
         try {
             this.add(newProviderDetails, null);

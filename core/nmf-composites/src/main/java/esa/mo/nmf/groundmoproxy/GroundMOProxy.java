@@ -107,7 +107,7 @@ public abstract class GroundMOProxy {
             ServiceKey key = service.getserviceKey();
             ServiceId serviceId = new ServiceId(key.getAreaNumber(), key.getServiceNumber(), key.getAreaVersion());
             ProviderList list = getRemoteNMSProviderSpecificService(serviceId);
-            if (list.isEmpty() || list.get(0).getProviderDetails().getServiceCapabilities().isEmpty()) {
+            if (list.isEmpty() || list.get(0).getServiceCapabilities().isEmpty()) {
                 return null;
             }
             return AppsLauncherManager.getSingleConnectionDetailsFromProviderList(list);

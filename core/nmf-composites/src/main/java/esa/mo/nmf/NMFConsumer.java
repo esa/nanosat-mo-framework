@@ -103,7 +103,7 @@ public class NMFConsumer {
     public NMFConsumer(final Provider provider, final Blob authenticationId, final String localNamePrefix) {
         NMFConsumer.initHelpers(); // The Helpers need to be initialized before conversion
         // Grab the provider variable and put it into a ConnectionConsumer
-        this.connection = HelperCommon.providerSummaryToConnectionConsumer(provider);
+        this.connection = HelperCommon.providerToConnectionConsumer(provider);
         this.authenticationId = authenticationId;
         this.localNamePrefix = localNamePrefix;
     }
@@ -282,16 +282,16 @@ public class NMFConsumer {
                 addressSchemeFilter
         );
 
-        ProviderList summaryList;
+        ProviderList providers;
         try {
-            summaryList = directoryService.getDirectoryStub().lookup(filter);
+            providers = directoryService.getDirectoryStub().lookup(filter);
         } catch (MALException | MALInteractionException e) {
             throw e;
         } finally {
             directoryService.closeConnection();
         }
 
-        return summaryList;
+        return providers;
     }
 
     /**

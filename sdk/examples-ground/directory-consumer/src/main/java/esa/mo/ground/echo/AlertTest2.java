@@ -54,11 +54,11 @@ public class AlertTest2 {
     private final Random random = new Random();
 
     public AlertTest2() throws Throwable {
-        ProviderList summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(
+        ProviderList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(
                 URL_DIRECTORY_SERVICE));
 
-        if (!summaryList.isEmpty()) {
-            groundAdapter = new GroundMOAdapterImpl(summaryList.get(0));
+        if (!providers.isEmpty()) {
+            groundAdapter = new GroundMOAdapterImpl(providers.get(0));
         } else {
             //Something went wrong...
             groundAdapter = null;

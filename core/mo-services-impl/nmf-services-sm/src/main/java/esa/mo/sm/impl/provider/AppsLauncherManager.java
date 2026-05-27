@@ -669,8 +669,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         }
 
         // Get the service address details lists
-        ServiceCapabilityList capabilities = providersList.get(0).getProviderDetails().
-                getServiceCapabilities();
+        ServiceCapabilityList capabilities = providersList.get(0).getServiceCapabilities();
 
         // How many addresses do we have?
         if (capabilities.isEmpty()) { // Throw an error

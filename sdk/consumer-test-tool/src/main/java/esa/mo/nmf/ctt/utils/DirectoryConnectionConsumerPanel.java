@@ -64,7 +64,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
     private final javax.swing.JTabbedPane tabs;
     private ConnectionConsumer connectionConsumer;
-    private ProviderList summaryList;
+    private ProviderList providerList;
     private DefaultTableModel tableData;
     private static final String LAST_USED_CONSUMER_PREF = "last_used_consumer";
     private static Preferences prefs = Preferences.userNodeForPackage(DirectoryConnectionConsumerPanel.class);
@@ -116,7 +116,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             }
 
             ServiceCapabilityList services
-                    = summaryList.get(index).getProviderDetails().getServiceCapabilities();
+                    = providerList.get(index).getServiceCapabilities();
 
             // And then add the new stuff
             for (int i = 0; i < services.size(); i++) {
@@ -334,7 +334,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             return;
         }
 
-        final Provider summary = summaryList.get(providersList.getSelectedIndex());
+        final Provider provider = providerList.get(providersList.getSelectedIndex());
         final int count = tabs.getTabCount();
 
         Thread t1 = new Thread() {
@@ -344,13 +344,13 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
                 ServiceId loginServiceId = new ServiceId(LoginHelper.LOGIN_SERVICE.getArea().getNumber(),
                         LoginHelper.LOGIN_SERVICE.getServiceNumber(), LoginHelper.LOGIN_SERVICE.getArea().getVersion());
-                ServiceCapability loginService = summary.getProviderDetails().getServiceCapabilities().stream().filter(
+                ServiceCapability loginService = provider.getServiceCapabilities().stream().filter(
                         serviceCapability -> serviceCapability.getServiceId().equals(loginServiceId)).findFirst().orElse(
                                 null);
 
                 Blob authenticationId = null;
                 String localNamePrefix = null;
-                IdentifierList providerDomain = summary.getDomain();
+                IdentifierList providerDomain = provider.getDomain();
                 if (loginService != null) {
                     if (loginService.getServiceAddresses().get(0).getServiceURI().getValue().toLowerCase().contains("lwmcs")) {
                         localNamePrefix = "LWMCS_Consumer_" + new Random().nextInt();
@@ -363,12 +363,12 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                     }
                 }
 
-                ProviderTabPanel providerPanel = createNewProviderTabPanel(summary, authenticationId, localNamePrefix);
+                ProviderTabPanel providerPanel = createNewProviderTabPanel(provider, authenticationId, localNamePrefix);
 
                 // -- Close Button --
                 final javax.swing.JPanel pnlTab = new javax.swing.JPanel();
                 pnlTab.setOpaque(false);
-                JLabel label = new JLabel(summary.getProviderName().toString());
+                JLabel label = new JLabel(provider.getProviderName().toString());
                 JLabel closeLabel = new JLabel("x");
                 closeLabel.addMouseListener(new CloseMouseHandler(pnlTab, providerPanel));
                 closeLabel.setFont(closeLabel.getFont().deriveFont(closeLabel.getFont().getStyle() | Font.BOLD));
@@ -397,9 +397,9 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         t1.start();
     }//GEN-LAST:event_connectButtonActionPerformed
 
-    public ProviderTabPanel createNewProviderTabPanel(Provider providerSummary,
+    public ProviderTabPanel createNewProviderTabPanel(Provider provider,
             Blob authenticationId, String localNamePrefix) {
-        return new ProviderTabPanel(providerSummary, authenticationId, localNamePrefix);
+        return new ProviderTabPanel(provider, authenticationId, localNamePrefix);
     }
 
     private void errorConnectionProvider(String service, Throwable ex) {
@@ -416,12 +416,12 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     private void load_URI_links1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_load_URI_links1ActionPerformed
         try {
-            summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(this.getAddressToBeUsed());
+            providerList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(this.getAddressToBeUsed());
             DefaultListModel listOfProviders = new DefaultListModel();
 
-            for (Provider summary : summaryList) {
-                listOfProviders.addElement(summary.getId().toString()
-                        + ". " + summary.getProviderName().toString());
+            for (Provider p : providerList) {
+                listOfProviders.addElement(p.getId().toString()
+                        + ". " + p.getProviderName().toString());
             }
 
             providersList.setModel(listOfProviders);

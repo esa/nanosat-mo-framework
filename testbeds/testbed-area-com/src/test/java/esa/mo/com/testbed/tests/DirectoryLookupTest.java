@@ -157,7 +157,8 @@ public class DirectoryLookupTest {
                 null,
                 new Identifier(PROVIDER_NAME),
                 domain,
-                new ProviderDetails(capabilities, new AddressDetailsList()));
+                capabilities,
+                new AddressDetailsList());
 
         harness.getCOMServicesProvider().getDirectoryService().add(pub, null);
     }
@@ -178,14 +179,14 @@ public class DirectoryLookupTest {
 
     private static int countAddresses(Provider provider) {
         int total = 0;
-        for (ServiceCapability cap : provider.getProviderDetails().getServiceCapabilities()) {
+        for (ServiceCapability cap : provider.getServiceCapabilities()) {
             total += cap.getServiceAddresses().size();
         }
         return total;
     }
 
     private static URI getFirstAddress(Provider provider) {
-        for (ServiceCapability cap : provider.getProviderDetails().getServiceCapabilities()) {
+        for (ServiceCapability cap : provider.getServiceCapabilities()) {
             if (!cap.getServiceAddresses().isEmpty()) {
                 return cap.getServiceAddresses().get(0).getServiceURI();
             }
