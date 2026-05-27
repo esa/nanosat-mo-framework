@@ -30,7 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.com.structures.ProviderSummaryList;
+import org.ccsds.moims.mo.com.structures.ProviderList;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -64,7 +64,7 @@ public class AlertTest2 {
     }
 
     public AlertTest2() throws Throwable {
-        ProviderSummaryList summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(
+        ProviderList summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(
                 URL_DIRECTORY_SERVICE));
 
         if (!summaryList.isEmpty()) {

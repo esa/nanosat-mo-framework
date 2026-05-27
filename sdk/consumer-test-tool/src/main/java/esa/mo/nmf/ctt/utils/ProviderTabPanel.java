@@ -44,7 +44,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTabbedPane;
-import org.ccsds.moims.mo.com.structures.ProviderSummary;
+import org.ccsds.moims.mo.com.structures.Provider;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
@@ -63,7 +63,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
 
     private static final Logger LOGGER = Logger.getLogger(ProviderTabPanel.class.getName());
     protected final GroundMOAdapterImpl services;
-    private final ProviderSummary providerSummary;
+    private final Provider providerSummary;
 
     /**
      * Creates a new tab for a Provider and populates it.
@@ -72,7 +72,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
      * @param authenticationId The authentication Id.
      * @param localNamePrefix The local name prefix.
      */
-    public ProviderTabPanel(final ProviderSummary provider, Blob authenticationId, String localNamePrefix) {
+    public ProviderTabPanel(final Provider provider, Blob authenticationId, String localNamePrefix) {
         services = new GroundMOAdapterImpl(provider, authenticationId, localNamePrefix);
         providerSummary = provider;
         initComponents();

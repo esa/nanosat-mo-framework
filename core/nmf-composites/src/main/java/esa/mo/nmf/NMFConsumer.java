@@ -88,7 +88,7 @@ public class NMFConsumer {
      * @param provider The Provider details. This object can be obtained from
      * the Directory service
      */
-    public NMFConsumer(final ProviderSummary provider) {
+    public NMFConsumer(final Provider provider) {
         this(provider, null, null);
     }
 
@@ -100,7 +100,7 @@ public class NMFConsumer {
      * @param authenticationId authenticationId of the logged in user
      * @param localNamePrefix the prefix for the local name of the consumer
      */
-    public NMFConsumer(final ProviderSummary provider, final Blob authenticationId, final String localNamePrefix) {
+    public NMFConsumer(final Provider provider, final Blob authenticationId, final String localNamePrefix) {
         NMFConsumer.initHelpers(); // The Helpers need to be initialized before conversion
         // Grab the provider variable and put it into a ConnectionConsumer
         this.connection = HelperCommon.providerSummaryToConnectionConsumer(provider);
@@ -195,7 +195,7 @@ public class NMFConsumer {
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
      * reach the Directory service.
      */
-    public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI)
+    public static final ProviderList retrieveProvidersFromDirectory(final URI directoryURI)
             throws MALException, MalformedURLException, MALInteractionException {
         return NMFConsumer.retrieveProvidersFromDirectory(directoryURI, null, null);
     }
@@ -213,7 +213,7 @@ public class NMFConsumer {
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
      * reach the Directory service.
      */
-    public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI,
+    public static final ProviderList retrieveProvidersFromDirectory(final URI directoryURI,
             final Blob authenticationId, final String localNamePrefix)
             throws MALException, MalformedURLException, MALInteractionException {
         return NMFConsumer.retrieveProvidersFromDirectory(directoryURI, authenticationId, localNamePrefix, null);
@@ -232,7 +232,7 @@ public class NMFConsumer {
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
      * reach the Directory service.
      */
-    public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI,
+    public static final ProviderList retrieveProvidersFromDirectory(final URI directoryURI,
             final IdentifierList addressSchemeFilter)
             throws MALException, MalformedURLException, MALInteractionException {
         return NMFConsumer.retrieveProvidersFromDirectory(directoryURI, null, null, addressSchemeFilter);
@@ -250,12 +250,12 @@ public class NMFConsumer {
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
      * reach the Directory service.
      */
-    public static final ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI,
+    public static final ProviderList retrieveProvidersFromDirectory(final URI directoryURI,
             final String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
         return NMFConsumer.retrieveProvidersFromDirectory(directoryURI, null, localNamePrefix, null);
     }
 
-    private static ProviderSummaryList retrieveProvidersFromDirectory(final URI directoryURI,
+    private static ProviderList retrieveProvidersFromDirectory(final URI directoryURI,
             final Blob authenticationId, final String localNamePrefix,
             final IdentifierList addressSchemeFilter)
             throws MALException, MalformedURLException, MALInteractionException {
@@ -283,7 +283,7 @@ public class NMFConsumer {
                 addressSchemeFilter
         );
 
-        ProviderSummaryList summaryList;
+        ProviderList summaryList;
         try {
             summaryList = directoryService.getDirectoryStub().lookup(filter);
         } catch (MALException | MALInteractionException e) {

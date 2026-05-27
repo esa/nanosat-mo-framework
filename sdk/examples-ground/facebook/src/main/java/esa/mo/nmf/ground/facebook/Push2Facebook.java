@@ -32,8 +32,8 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.structures.ProviderSummary;
-import org.ccsds.moims.mo.com.structures.ProviderSummaryList;
+import org.ccsds.moims.mo.com.structures.Provider;
+import org.ccsds.moims.mo.com.structures.ProviderList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
@@ -95,12 +95,12 @@ public class Push2Facebook {
     private void registerDataListener(String directoryURI, String providerName)
             throws MalformedURLException, MALInteractionException, MALException {
 
-        ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(directoryURI));
+        ProviderList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(directoryURI));
 
         GroundMOAdapterImpl gma = null;
         if (!providers.isEmpty()) {
-            for (ProviderSummary provider : providers) {
-                if (provider.getProviderId().toString().equals(APP_PREFIX + providerName)) {
+            for (Provider provider : providers) {
+                if (provider.getProviderName().toString().equals(APP_PREFIX + providerName)) {
                     gma = new GroundMOAdapterImpl(provider);
                     gma.addDataReceivedListener(new DataReceivedAdapter());
                     break;

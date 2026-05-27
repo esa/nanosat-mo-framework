@@ -126,8 +126,8 @@ public abstract class BaseCommand {
         try {
             HelperMisc.loadPropertiesFile();
             providerURI = providerURI.contains("Archive") ? providerURI.replace("Archive", "Directory") : providerURI;
-            ProviderSummaryList providerSummaryList = NMFConsumer.retrieveProvidersFromDirectory(new URI(providerURI));
-            ProviderSummary provider = null;
+            ProviderList providerSummaryList = NMFConsumer.retrieveProvidersFromDirectory(new URI(providerURI));
+            Provider provider = null;
             if (providerSummaryList.size() == 1) {
                 if (providerName != null) {
                     System.out.println("\nThere's only one provider in directory. Ignoring --provider option.\n");
@@ -138,15 +138,15 @@ public abstract class BaseCommand {
                     System.out.println("\nThere's more than one provider in directory.");
                     System.out.println("--provider option is required\n");
                     System.out.println("Available providers at this uri: " + providerURI);
-                    for (ProviderSummary summary : providerSummaryList) {
-                        System.out.println(" - " + summary.getProviderId());
+                    for (Provider summary : providerSummaryList) {
+                        System.out.println(" - " + summary.getProviderName());
                     }
                     System.out.println();
                     return false;
                 }
 
-                for (ProviderSummary summary : providerSummaryList) {
-                    if (summary.getProviderId().getValue().equals(providerName)) {
+                for (Provider summary : providerSummaryList) {
+                    if (summary.getProviderName().getValue().equals(providerName)) {
                         provider = summary;
                         break;
                     }
@@ -157,8 +157,8 @@ public abstract class BaseCommand {
                 System.out.println("\nProvider not found!");
                 if (!providerSummaryList.isEmpty()) {
                     System.out.println("Available providers at this uri: " + providerURI);
-                    for (ProviderSummary summary : providerSummaryList) {
-                        System.out.println(" - " + summary.getProviderId());
+                    for (Provider summary : providerSummaryList) {
+                        System.out.println(" - " + summary.getProviderName());
                     }
                 } else {
                     System.out.println("No providers available at this uri: " + providerURI);
@@ -173,7 +173,7 @@ public abstract class BaseCommand {
 
             if (consumer.getCOMServices().getLoginService() != null
                     && consumer.getCOMServices().getLoginService().getLoginStub() != null) {
-                System.out.println("\nLogin required for " + provider.getProviderId());
+                System.out.println("\nLogin required for " + provider.getProviderName());
 
                 String login = System.console().readLine("Login: ");
                 char[] password = System.console().readPassword("Password: ");

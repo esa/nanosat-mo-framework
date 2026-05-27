@@ -163,7 +163,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                         new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME),
                         domain, new Identifier("*"),
                         serviceId, new UShortList(), null);
-                final ProviderSummaryList supervisorEventServiceConnectionDetails
+                final ProviderList supervisorEventServiceConnectionDetails
                         = centralDirectory.getDirectoryStub().lookup(sf);
 
                 LOGGER.log(Level.INFO, "The Central Directory service is operational!");
@@ -172,7 +172,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 try {
                     // Convert provider to connectionDetails...
                     final SingleConnectionDetails connectionDetails =
-                            AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(
+                            AppsLauncherManager.getSingleConnectionDetailsFromProviderList(
                                     supervisorEventServiceConnectionDetails);
                     serviceCOMEvent = new EventConsumerServiceImpl(connectionDetails);
                 } catch (IOException | MALException | MALInteractionException ex) {
@@ -195,11 +195,11 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                         new UShort(0), new UOctet((short) 0));
                 final ServiceFilter sf2 = new ServiceFilter(new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME),
                         domain, new Identifier("*"), sk, new UShortList(), null);
-                final ProviderSummaryList supervisorConnections = centralDirectory.getDirectoryStub().lookup(sf2);
+                final ProviderList supervisorConnections = centralDirectory.getDirectoryStub().lookup(sf2);
 
                 if (supervisorConnections.size() == 1) { // Platform services found!
                     // Select the best transport for IPC and convert to a ConnectionConsumer object
-                    final ProviderSummary filteredConnections = HelperCommon.selectBestIPCTransport(
+                    final Provider filteredConnections = HelperCommon.selectBestIPCTransport(
                             supervisorConnections.get(0));
                     final ConnectionConsumer supervisorCCPlat = HelperCommon.providerSummaryToConnectionConsumer(
                             filteredConnections);
@@ -211,7 +211,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     platformServices.init(supervisorCCPlat, comServicesConsumer);
                     LOGGER.log(Level.INFO,
                             "Successfully connected to Platform services on: {0}",
-                            supervisorConnections.get(0).getProviderId());
+                            supervisorConnections.get(0).getProviderName());
                 } else {
                     LOGGER.log(Level.SEVERE,
                             "The NanoSat MO Connector was expecting a single NMF Platform services provider!"

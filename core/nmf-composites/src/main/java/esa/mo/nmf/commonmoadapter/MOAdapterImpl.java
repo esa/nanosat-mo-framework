@@ -83,7 +83,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
      * @param providerDetails The Provider details. This object can be obtained
      * from the Directory service.
      */
-    public MOAdapterImpl(final ProviderSummary providerDetails) {
+    public MOAdapterImpl(final Provider providerDetails) {
         this(providerDetails, null, null);
     }
 
@@ -95,7 +95,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
      * @param authenticationId authenticationId of the logged in user
      * @param localNamePrefix the prefix for the local name of the consumer
      */
-    public MOAdapterImpl(final ProviderSummary providerDetails,
+    public MOAdapterImpl(final Provider providerDetails,
             final Blob authenticationId, final String localNamePrefix) {
         super(providerDetails, authenticationId, localNamePrefix);
         super.init();

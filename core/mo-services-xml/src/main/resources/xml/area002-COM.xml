@@ -593,7 +593,7 @@
                 A ServiceProvider COM object shall represent a provider.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="7">
-                The ServiceProvider COM object body shall contain the provider id taken from the providerId field of the PublishDetails composite.
+                The ServiceProvider COM object body shall contain the provider name taken from the providerName field of the PublishDetails composite.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="8">
                 The service provider shall set the ServiceProvider COM object related link to NULL.
@@ -677,7 +677,7 @@
                         </mal:request>
                         <mal:response>
                             <mal:field name="matchingProviders" canBeNull="false" comment="The providers that matched the filter.">
-                                <mal:type area="COM" list="true" name="ProviderSummary"/>
+                                <mal:type area="COM" list="true" name="Provider"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -694,7 +694,7 @@
                         If any of the domain or network fields of the newProviderDetails are empty or contain the wildcard '*', then the service provider shall return an INVALID error.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        If the providerId field of the PublishDetails structure is empty or contains the wildcard '*', then the service provider shall return an INVALID error.
+                        If the providerName field of the PublishDetails structure is empty or contains the wildcard '*', then the service provider shall return an INVALID error.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
                         If any area, service, or version field of a contained ServiceId structure contains '0', then the service provider shall return an INVALID error.
@@ -706,10 +706,10 @@
                         If an error occurs, then the service provider shall not make any changes.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="6">
-                        If the providerId field of the PublishDetails structure matches an existing ServiceProvider COM object, then the service provider shall update the existing details of that provider.
+                        If the providerName field of the PublishDetails structure matches an existing ServiceProvider COM object, then the service provider shall update the existing details of that provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        If the providerId field of the PublishDetails structure does not match an existing ServiceProvider COM object, then the service provider shall create a new ServiceProvider COM object to represent the new provider.
+                        If the providerName field of the PublishDetails structure does not match an existing ServiceProvider COM object, then the service provider shall create a new ServiceProvider COM object to represent the new provider.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
                         The service provider shall create a new ProviderDetails COM object to store the capabilities of the provider.
@@ -1245,8 +1245,8 @@
                     <mal:type area="MAL" list="false" name="URI"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="ProviderSummary" shortFormPart="24"
-                           comment="The ProviderSummary structure describes a provider of a service and its capabilities.">
+            <mal:composite name="Provider" shortFormPart="24"
+                           comment="The Provider structure describes a provider of a service and its capabilities.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
@@ -1256,7 +1256,7 @@
                 <mal:field canBeNull="false" comment="The unique id of this provider entry." name="id">
                     <mal:type area="MAL" list="false" name="Long"/>
                 </mal:field>
-                <mal:field name="providerId" canBeNull="false" comment="The id of this provider.">
+                <mal:field name="providerName" canBeNull="false" comment="The name of this provider.">
                     <mal:type area="MAL" list="false" name="Identifier"/>
                 </mal:field>
                 <mal:field name="providerDetails" canBeNull="false"
@@ -1269,8 +1269,8 @@
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
-                <mal:field name="providerId" canBeNull="false"
-                           comment="The unique provider id; allows multiple providers of the same service type to coexist in the directory service.">
+                <mal:field name="providerName" canBeNull="false"
+                           comment="The unique provider name; allows multiple providers of the same service type to coexist in the directory service.">
                     <mal:type area="MAL" list="false" name="Identifier"/>
                 </mal:field>
                 <mal:field name="domain" canBeNull="false" comment="The domain of the provider.">

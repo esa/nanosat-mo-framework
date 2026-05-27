@@ -79,7 +79,7 @@ public class DirectoryLookupTest {
             throws MALInteractionException, MALException {
         System.out.println("Running: testNullSchemeFilterReturnsAllAddresses()");
         ServiceFilter filter = makeFilter(null);
-        ProviderSummaryList results = directoryConsumer.getDirectoryStub().lookup(filter);
+        ProviderList results = directoryConsumer.getDirectoryStub().lookup(filter);
 
         Assert.assertEquals("Lookup must return exactly one provider", 1, results.size());
         int addressCount = countAddresses(results.get(0));
@@ -101,7 +101,7 @@ public class DirectoryLookupTest {
         schemeFilter.add(new Identifier("malspp"));
 
         ServiceFilter filter = makeFilter(schemeFilter);
-        ProviderSummaryList results = directoryConsumer.getDirectoryStub().lookup(filter);
+        ProviderList results = directoryConsumer.getDirectoryStub().lookup(filter);
 
         Assert.assertEquals("Lookup must return exactly one provider", 1, results.size());
         int addressCount = countAddresses(results.get(0));
@@ -129,7 +129,7 @@ public class DirectoryLookupTest {
         schemeFilter.add(new Identifier("xyz-transport"));
 
         ServiceFilter filter = makeFilter(schemeFilter);
-        ProviderSummaryList results = directoryConsumer.getDirectoryStub().lookup(filter);
+        ProviderList results = directoryConsumer.getDirectoryStub().lookup(filter);
 
         Assert.assertEquals("Provider must still appear even when no addresses match",
                 1, results.size());
@@ -180,7 +180,7 @@ public class DirectoryLookupTest {
                 schemeFilter);
     }
 
-    private static int countAddresses(ProviderSummary provider) {
+    private static int countAddresses(Provider provider) {
         int total = 0;
         for (ServiceCapability cap : provider.getProviderDetails().getServiceCapabilities()) {
             total += cap.getServiceAddresses().size();
@@ -188,7 +188,7 @@ public class DirectoryLookupTest {
         return total;
     }
 
-    private static URI getFirstAddress(ProviderSummary provider) {
+    private static URI getFirstAddress(Provider provider) {
         for (ServiceCapability cap : provider.getProviderDetails().getServiceCapabilities()) {
             if (!cap.getServiceAddresses().isEmpty()) {
                 return cap.getServiceAddresses().get(0).getServiceURI();

@@ -28,8 +28,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.structures.ProviderSummary;
-import org.ccsds.moims.mo.com.structures.ProviderSummaryList;
+import org.ccsds.moims.mo.com.structures.Provider;
+import org.ccsds.moims.mo.com.structures.ProviderList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -94,10 +94,10 @@ public class AppHarness {
         LOGGER.info("Connecting to Directory service at: " + directoryURIStr);
 
         try {
-            ProviderSummaryList providers = NMFConsumer.retrieveProvidersFromDirectory(
+            ProviderList providers = NMFConsumer.retrieveProvidersFromDirectory(
                     new URI(directoryURIStr));
 
-            ProviderSummary supervisorProvider = findSupervisorProvider(providers);
+            Provider supervisorProvider = findSupervisorProvider(providers);
             if (supervisorProvider == null) {
                 throw new IOException("No provider with AppsLauncher found at " + directoryURIStr);
             }
@@ -211,10 +211,10 @@ public class AppHarness {
         }
     }
 
-    private ProviderSummary findSupervisorProvider(ProviderSummaryList providers) {
+    private Provider findSupervisorProvider(ProviderList providers) {
         // App providers are prefixed with "App: "; skip them
-        for (ProviderSummary p : providers) {
-            String id = p.getProviderId() != null ? p.getProviderId().getValue() : "";
+        for (Provider p : providers) {
+            String id = p.getProviderName() != null ? p.getProviderName().getValue() : "";
             if (!id.startsWith("App: ")) {
                 return p;
             }

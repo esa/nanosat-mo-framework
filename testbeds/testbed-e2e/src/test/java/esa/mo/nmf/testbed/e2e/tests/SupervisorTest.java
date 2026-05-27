@@ -24,8 +24,8 @@ import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.nmf.testbed.e2e.SupervisorHarness;
 import java.io.IOException;
-import org.ccsds.moims.mo.com.structures.ProviderSummary;
-import org.ccsds.moims.mo.com.structures.ProviderSummaryList;
+import org.ccsds.moims.mo.com.structures.Provider;
+import org.ccsds.moims.mo.com.structures.ProviderList;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
 import org.junit.AfterClass;
@@ -74,10 +74,10 @@ public class SupervisorTest {
     public void testListApps() throws Exception {
         System.out.println("Running: testListApps()");
         String directoryURI = harness.getDirectoryURI();
-        ProviderSummaryList providers = NMFConsumer.retrieveProvidersFromDirectory(new URI(directoryURI));
+        ProviderList providers = NMFConsumer.retrieveProvidersFromDirectory(new URI(directoryURI));
         Assert.assertFalse("Directory must return at least one provider", providers.isEmpty());
 
-        ProviderSummary supervisorProvider = providers.get(0);
+        Provider supervisorProvider = providers.get(0);
         GroundMOAdapterImpl adapter = new GroundMOAdapterImpl(supervisorProvider);
         try {
             IdentifierList wildcard = new IdentifierList();

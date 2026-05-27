@@ -202,7 +202,7 @@ public class CameraAcquisitorGround {
         manager.addProvider(OrekitResources.getOrekitData());
 
         LOGGER.log(Level.INFO, "Setup providers");
-        ProviderSummaryList providers;
+        ProviderList providers;
         //maybe this initialization can occur inside the methods in case you want to check
         //availability again and retrieve providers after init
         LOGGER.log(Level.INFO, "Retrieving providers...");
@@ -211,10 +211,10 @@ public class CameraAcquisitorGround {
                 //System.out.println("Retrieving providers...");
                 providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(directoryURI);
                 LOGGER.log(Level.INFO, "Finished retrieving providers");
-                for (ProviderSummary provider : providers) {
-                    LOGGER.log(Level.INFO, "Name: {0} ", provider.getProviderId().getValue());
+                for (Provider provider : providers) {
+                    LOGGER.log(Level.INFO, "Name: {0} ", provider.getProviderName().getValue());
 
-                    if (provider.getProviderId().getValue().equals(PROVIDER_CAMERA_APP)) {
+                    if (provider.getProviderName().getValue().equals(PROVIDER_CAMERA_APP)) {
                         gma = new GroundMOAdapterImpl(provider);
                         break;
                     } else {

@@ -136,7 +136,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     }
 
     @Override
-    public ProviderSummaryList lookup(final ServiceFilter filter,
+    public ProviderList lookup(final ServiceFilter filter,
             final MALInteraction interaction) throws MALInteractionException, MALException {
         if (filter == null) { // Is the input null?
             throw new IllegalArgumentException("filter argument must not be null");
@@ -163,7 +163,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         keys.addAll(list.keySet());
 
         // Initialize the final Provider Summary List
-        ProviderSummaryList outputList = new ProviderSummaryList();
+        ProviderList outputList = new ProviderList();
 
         // Filter...
         for (int i = 0; i < keys.size(); i++) { // Filter through all providers
@@ -171,7 +171,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
             //Check service provider name
             if (!filter.getServiceProviderId().toString().equals("*")) { // If not a wildcard...
-                if (!provider.getProviderId().toString().equals(filter.getServiceProviderId().toString())) {
+                if (!provider.getProviderName().toString().equals(filter.getServiceProviderId().toString())) {
                     continue;
                 }
             }
@@ -263,8 +263,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
             // It passed all the tests!
             ProviderDetails outProvDetails = new ProviderDetails(outCap, pDetails.getProviderAddresses());
-            outputList.add(new ProviderSummary(provider.getDomain(),
-                    keys.get(i), provider.getProviderId(), outProvDetails));
+            outputList.add(new Provider(provider.getDomain(),
+                    keys.get(i), provider.getProviderName(), outProvDetails));
         }
 
         // Errors
@@ -275,7 +275,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     @Override
     public Long add(final PublishDetails newProviderDetails,
             final MALInteraction interaction) throws MALInteractionException, MALException {
-        Identifier serviceProviderName = newProviderDetails.getProviderId();
+        Identifier serviceProviderName = newProviderDetails.getProviderName();
         HeterogeneousList objBodies = new HeterogeneousList();
         objBodies.add(serviceProviderName);
 
@@ -286,7 +286,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             for (Long key : list.keySet()) {
                 PublishDetails provider = this.providersAvailable.get(key);
 
-                if (serviceProviderName.getValue().equals(provider.getProviderId().getValue())) {
+                if (serviceProviderName.getValue().equals(provider.getProviderName().getValue())) {
                     // It is repeated!!
                     LOGGER.warning("There was already a provider with the same name in the "
                             + "Directory service. Removing the old one and adding the new one...");

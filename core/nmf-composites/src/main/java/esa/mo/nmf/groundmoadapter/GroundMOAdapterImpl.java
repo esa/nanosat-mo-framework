@@ -21,7 +21,7 @@
 package esa.mo.nmf.groundmoadapter;
 
 import esa.mo.nmf.commonmoadapter.MOAdapterImpl;
-import org.ccsds.moims.mo.com.structures.ProviderSummary;
+import org.ccsds.moims.mo.com.structures.Provider;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.Blob;
 
@@ -60,7 +60,7 @@ public class GroundMOAdapterImpl extends MOAdapterImpl {
      * @param providerDetails The Provider details. This object can be obtained
      * from the Directory service
      */
-    public GroundMOAdapterImpl(final ProviderSummary providerDetails) {
+    public GroundMOAdapterImpl(final Provider providerDetails) {
         super(providerDetails);
     }
 
@@ -72,7 +72,7 @@ public class GroundMOAdapterImpl extends MOAdapterImpl {
      * @param authenticationId authenticationId of the logged in user
      * @param localNamePrefix the prefix for the local name of the consumer
      */
-    public GroundMOAdapterImpl(final ProviderSummary providerDetails, final Blob authenticationId,
+    public GroundMOAdapterImpl(final Provider providerDetails, final Blob authenticationId,
             final String localNamePrefix) {
         super(providerDetails, authenticationId, localNamePrefix);
     }

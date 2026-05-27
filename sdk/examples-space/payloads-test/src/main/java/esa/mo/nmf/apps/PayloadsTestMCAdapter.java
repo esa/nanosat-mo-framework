@@ -566,11 +566,11 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                     new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME),
                     domain, new Identifier("*"), serviceId,
                     new UShortList(), null);
-            final ProviderSummaryList supConnection = centralDirectory.getDirectoryStub().lookup(sf);
+            final ProviderList supConnection = centralDirectory.getDirectoryStub().lookup(sf);
 
             try {
                 final SingleConnectionDetails connectionDetails
-                        = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(supConnection);
+                        = AppsLauncherManager.getSingleConnectionDetailsFromProviderList(supConnection);
                 ParameterConsumerServiceImpl supervisorParameterService = new ParameterConsumerServiceImpl(
                         connectionDetails, null);
 

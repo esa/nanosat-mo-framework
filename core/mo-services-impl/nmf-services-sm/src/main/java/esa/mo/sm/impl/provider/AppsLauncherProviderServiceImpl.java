@@ -411,18 +411,18 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             if (app.getCategory().getValue().equalsIgnoreCase("NMF_App")) {
                 // Do a lookup on the Central Drectory service for the app that we want
                 MALInteraction malInt = (interaction != null) ? interaction.getInteraction() : null;
-                ProviderSummaryList providersList = this.directoryService.lookup(sf, malInt);
+                ProviderList providersList = this.directoryService.lookup(sf, malInt);
                 LOGGER.log(Level.FINER, "providersList object: {0}", providersList);
 
                 try {
                     // Add here the filtering for the best IPC!!!
                     final SingleConnectionDetails connectionDetails
-                            = AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(providersList);
+                            = AppsLauncherManager.getSingleConnectionDetailsFromProviderList(providersList);
                     appConnections.add(connectionDetails);
 
                     // Add to the list of Directory service Obj Ids
                     if (!providersList.isEmpty()) {
-                        appDirectoryServiceNames.add(providersList.get(0).getProviderId());
+                        appDirectoryServiceNames.add(providersList.get(0).getProviderName());
                     } else {
                         appDirectoryServiceNames.add(null);
                     }

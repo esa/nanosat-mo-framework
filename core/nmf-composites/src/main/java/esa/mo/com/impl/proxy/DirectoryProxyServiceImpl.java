@@ -59,21 +59,21 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
      * reach the Directory service.
      */
-    public ProviderSummaryList syncLocalDirectoryServiceWithCentral(final URI centralDirectoryServiceURI,
+    public ProviderList syncLocalDirectoryServiceWithCentral(final URI centralDirectoryServiceURI,
             final URI routedURI) throws MALException, MalformedURLException, MALInteractionException {
         IdentifierList schemeFilter = new IdentifierList();
         schemeFilter.add(new Identifier("malspp"));
-        ProviderSummaryList providers = NMFConsumer.retrieveProvidersFromDirectory(
+        ProviderList providers = NMFConsumer.retrieveProvidersFromDirectory(
                 centralDirectoryServiceURI, schemeFilter);
-        ProviderSummaryList updatedProviders = addProxyPrefix(providers, routedURI.getValue());
+        ProviderList updatedProviders = addProxyPrefix(providers, routedURI.getValue());
 
         // Clean the current list of provider that are available
         // on the Local Directory service
         this.withdrawAllProviders();
 
-        for (ProviderSummary provider : updatedProviders) {
+        for (Provider provider : updatedProviders) {
             PublishDetails pub = new PublishDetails(
-                    provider.getProviderId(),
+                    provider.getProviderName(),
                     provider.getDomain(),
                     new Identifier("not_available"),
                     provider.getProviderDetails());
@@ -93,15 +93,15 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
      * @return The updated providers list with the proxy prefix.
      * @throws IllegalArgumentException if the providers object is null
      */
-    public static ProviderSummaryList addProxyPrefix(final ProviderSummaryList providers,
+    public static ProviderList addProxyPrefix(final ProviderList providers,
             final String proxyURI) throws IllegalArgumentException {
         if (providers == null) {
             throw new IllegalArgumentException("The provider object cannot be null.");
         }
 
-        ProviderSummaryList updatedProviders = new ProviderSummaryList();
+        ProviderList updatedProviders = new ProviderList();
 
-        for (ProviderSummary in : providers) {
+        for (Provider in : providers) {
             ProviderDetails oldDetails = in.getProviderDetails();
             final ServiceCapabilityList capabilities = oldDetails.getServiceCapabilities();
             final ServiceCapabilityList newCapabilities = new ServiceCapabilityList();
@@ -134,7 +134,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                     oldDetails.getProviderAddresses()
             );
 
-            updatedProviders.add(new ProviderSummary(in.getDomain(), in.getId(), in.getProviderId(), newDetails));
+            updatedProviders.add(new Provider(in.getDomain(), in.getId(), in.getProviderName(), newDetails));
         }
 
         return updatedProviders;

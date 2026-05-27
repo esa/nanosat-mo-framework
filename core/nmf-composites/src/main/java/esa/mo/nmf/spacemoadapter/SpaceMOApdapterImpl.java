@@ -72,7 +72,7 @@ public class SpaceMOApdapterImpl extends MOAdapterImpl {
      * @param providerDetails The Provider details. This object can be obtained
      * from the Directory service
      */
-    public SpaceMOApdapterImpl(final ProviderSummary providerDetails) {
+    public SpaceMOApdapterImpl(final Provider providerDetails) {
         super(providerDetails);
         super.init();
     }
@@ -85,7 +85,7 @@ public class SpaceMOApdapterImpl extends MOAdapterImpl {
      * @param authenticationId authenticationId of the logged in user
      * @param localNamePrefix the prefix for the local name of the consumer
      */
-    public SpaceMOApdapterImpl(final ProviderSummary providerDetails,
+    public SpaceMOApdapterImpl(final Provider providerDetails,
             final Blob authenticationId, final String localNamePrefix) {
         super(providerDetails, authenticationId, localNamePrefix);
         super.init();
@@ -99,7 +99,7 @@ public class SpaceMOApdapterImpl extends MOAdapterImpl {
      * @return The SpaceMOAdapter instance.
      */
     public static SpaceMOApdapterImpl forNMFSupervisor(URI centralDirectoryServiceURI) {
-        return new SpaceMOApdapterImpl(getNMFProviderSummary(centralDirectoryServiceURI,
+        return new SpaceMOApdapterImpl(getNMFProvider(centralDirectoryServiceURI,
                 Const.NANOSAT_MO_SUPERVISOR_NAME));
     }
 
@@ -112,16 +112,16 @@ public class SpaceMOApdapterImpl extends MOAdapterImpl {
      * @return The SpaceMOAdapter instance.
      */
     public static SpaceMOApdapterImpl forNMFApp(URI centralDirectoryServiceURI, String appName) {
-        return new SpaceMOApdapterImpl(getNMFProviderSummary(centralDirectoryServiceURI,
+        return new SpaceMOApdapterImpl(getNMFProvider(centralDirectoryServiceURI,
                 Const.NANOSAT_MO_APP_IDENTIFIER_PREFIX + appName));
     }
 
     /**
      * Look up the central directory to find the NMF provider details.
      *
-     * @return ProviderSummary of the NMF provider or null if not found
+     * @return Provider of the NMF provider or null if not found
      */
-    private static ProviderSummary getNMFProviderSummary(URI centralDirectoryServiceURI, String providerName) {
+    private static Provider getNMFProvider(URI centralDirectoryServiceURI, String providerName) {
         // Create supervisor provider filter
         IdentifierList domain = new IdentifierList();
         domain.add(new Identifier("*"));
@@ -132,7 +132,7 @@ public class SpaceMOApdapterImpl extends MOAdapterImpl {
         // Query directory service with filter
         try {
             DirectoryConsumerServiceImpl centralDirectory = new DirectoryConsumerServiceImpl(centralDirectoryServiceURI);
-            ProviderSummaryList supervisorConnections = centralDirectory.getDirectoryStub().lookup(sf2);
+            ProviderList supervisorConnections = centralDirectory.getDirectoryStub().lookup(sf2);
             if (supervisorConnections.size() == 1) {
                 LOGGER.log(Level.INFO, String.format("Found %s provider",
                         Const.NANOSAT_MO_SUPERVISOR_NAME));

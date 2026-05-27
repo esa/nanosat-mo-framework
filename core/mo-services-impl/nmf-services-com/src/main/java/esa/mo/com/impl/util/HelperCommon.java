@@ -42,14 +42,14 @@ public class HelperCommon {
     private static final Logger LOGGER = Logger.getLogger(HelperCommon.class.getName());
 
     /**
-     * Generates the ConnectionConsumer from the ProviderSummary. It will select
+     * Generates the ConnectionConsumer from the Provider. It will select
      * the first URI available on the Service Addresses list, so the one with
      * index 0.
      *
-     * @param provider The ProviderSummary object
+     * @param provider The Provider object
      * @return ConnectionConsumer The ConnectionConsumer object
      */
-    public static ConnectionConsumer providerSummaryToConnectionConsumer(ProviderSummary provider) {
+    public static ConnectionConsumer providerSummaryToConnectionConsumer(Provider provider) {
         final ConnectionConsumer connection = new ConnectionConsumer();
 
         final ServicesConnectionDetails serviceDetails = new ServicesConnectionDetails();
@@ -108,15 +108,15 @@ public class HelperCommon {
     }
 
     /**
-     * Filters services addresses of a given ProviderSummary. If a service
+     * Filters services addresses of a given Provider. If a service
      * exposes multiple addresses (for multiple IPC transport), then only keep
      * the best one. Best meaning picking, if available, in the following order:
      * tcpip, rmi, other, malspp.
      *
-     * @param provider The ProviderSummary to filter
-     * @return The filtered ProviderSummary
+     * @param provider The Provider to filter
+     * @return The filtered Provider
      */
-    public static ProviderSummary selectBestIPCTransport(final ProviderSummary provider) {
+    public static Provider selectBestIPCTransport(final Provider provider) {
         final ServiceCapabilityList oldCapabilities = provider.getProviderDetails().getServiceCapabilities();
         final ServiceCapabilityList newCapabilities = new ServiceCapabilityList();
 
@@ -145,8 +145,8 @@ public class HelperCommon {
 
         final ProviderDetails details = new ProviderDetails(newCapabilities,
                 provider.getProviderDetails().getProviderAddresses());
-        return new ProviderSummary(provider.getDomain(), provider.getId(),
-                provider.getProviderId(), details);
+        return new Provider(provider.getDomain(), provider.getId(),
+                provider.getProviderName(), details);
     }
 
     /**

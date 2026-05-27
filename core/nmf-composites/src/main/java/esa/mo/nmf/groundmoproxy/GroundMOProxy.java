@@ -106,24 +106,24 @@ public abstract class GroundMOProxy {
         try {
             ServiceKey key = service.getserviceKey();
             ServiceId serviceId = new ServiceId(key.getAreaNumber(), key.getServiceNumber(), key.getAreaVersion());
-            ProviderSummaryList list = getRemoteNMSProviderSpecificService(serviceId);
+            ProviderList list = getRemoteNMSProviderSpecificService(serviceId);
             if (list.isEmpty() || list.get(0).getProviderDetails().getServiceCapabilities().isEmpty()) {
                 return null;
             }
-            return AppsLauncherManager.getSingleConnectionDetailsFromProviderSummaryList(list);
+            return AppsLauncherManager.getSingleConnectionDetailsFromProviderList(list);
         } catch (MALInteractionException | MALException | IOException ex) {
             LOGGER.log(Level.SEVERE, "Cannot produce Connection Details for the service", ex);
         }
         return null;
     }
 
-    public ProviderSummaryList getRemoteNMSProvider() throws MALInteractionException, MALException {
+    public ProviderList getRemoteNMSProvider() throws MALInteractionException, MALException {
         return getRemoteNMSProviderSpecificService(
                 new ServiceId(new UShort((short) 0), new UShort((short) 0), new UOctet((short) 0))
         );
     }
 
-    public ProviderSummaryList getRemoteNMSProviderSpecificService(ServiceId key)
+    public ProviderList getRemoteNMSProviderSpecificService(ServiceId key)
             throws MALInteractionException, MALException {
         IdentifierList wildcardList = new IdentifierList();
         wildcardList.add(new Identifier("*"));
@@ -134,12 +134,12 @@ public abstract class GroundMOProxy {
                 new Identifier("*"),
                 key,
                 new UShortList(), null);
-        ProviderSummaryList list = localDirectoryService.lookup(filter, null);
+        ProviderList list = localDirectoryService.lookup(filter, null);
         // Post-filter the list
         Iterator itr = list.iterator();
         while (itr.hasNext()) {
-            ProviderSummary ps = (ProviderSummary) itr.next();
-            if (!ps.getProviderId().getValue().startsWith(Const.NANOSAT_MO_SUPERVISOR_NAME)) {
+            Provider ps = (Provider) itr.next();
+            if (!ps.getProviderName().getValue().startsWith(Const.NANOSAT_MO_SUPERVISOR_NAME)) {
                 itr.remove();
             }
         }

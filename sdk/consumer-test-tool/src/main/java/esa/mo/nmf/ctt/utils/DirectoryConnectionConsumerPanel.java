@@ -64,7 +64,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
     private final javax.swing.JTabbedPane tabs;
     private ConnectionConsumer connectionConsumer;
-    private ProviderSummaryList summaryList;
+    private ProviderList summaryList;
     private DefaultTableModel tableData;
     private static final String LAST_USED_CONSUMER_PREF = "last_used_consumer";
     private static Preferences prefs = Preferences.userNodeForPackage(DirectoryConnectionConsumerPanel.class);
@@ -338,7 +338,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             return;
         }
 
-        final ProviderSummary summary = summaryList.get(providersList.getSelectedIndex());
+        final Provider summary = summaryList.get(providersList.getSelectedIndex());
         final int count = tabs.getTabCount();
 
         Thread t1 = new Thread() {
@@ -372,7 +372,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                 // -- Close Button --
                 final javax.swing.JPanel pnlTab = new javax.swing.JPanel();
                 pnlTab.setOpaque(false);
-                JLabel label = new JLabel(summary.getProviderId().toString());
+                JLabel label = new JLabel(summary.getProviderName().toString());
                 JLabel closeLabel = new JLabel("x");
                 closeLabel.addMouseListener(new CloseMouseHandler(pnlTab, providerPanel));
                 closeLabel.setFont(closeLabel.getFont().deriveFont(closeLabel.getFont().getStyle() | Font.BOLD));
@@ -401,7 +401,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         t1.start();
     }//GEN-LAST:event_connectButtonActionPerformed
 
-    public ProviderTabPanel createNewProviderTabPanel(ProviderSummary providerSummary,
+    public ProviderTabPanel createNewProviderTabPanel(Provider providerSummary,
             Blob authenticationId, String localNamePrefix) {
         return new ProviderTabPanel(providerSummary, authenticationId, localNamePrefix);
     }
@@ -423,9 +423,9 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(this.getAddressToBeUsed());
             DefaultListModel listOfProviders = new DefaultListModel();
 
-            for (ProviderSummary summary : summaryList) {
+            for (Provider summary : summaryList) {
                 listOfProviders.addElement(summary.getId().toString()
-                        + ". " + summary.getProviderId().toString());
+                        + ". " + summary.getProviderName().toString());
             }
 
             providersList.setModel(listOfProviders);

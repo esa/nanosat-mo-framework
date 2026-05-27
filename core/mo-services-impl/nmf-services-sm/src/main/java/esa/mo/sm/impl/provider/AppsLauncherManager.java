@@ -653,8 +653,8 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         this.update(appInstId, newAppDetails, interaction); // Update the Archive
     }
 
-    public static SingleConnectionDetails getSingleConnectionDetailsFromProviderSummaryList(
-            ProviderSummaryList providersList) throws IOException {
+    public static SingleConnectionDetails getSingleConnectionDetailsFromProviderList(
+            ProviderList providersList) throws IOException {
         if (providersList.isEmpty()) { // Throw error!
             LOGGER.log(Level.WARNING,
                     "The service could not be found in the Directory service... Possible reasons:\n"
