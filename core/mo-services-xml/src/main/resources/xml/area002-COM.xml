@@ -168,22 +168,22 @@
                     <mal:documentation name="Requirement" order="9">
                         The domain field in each UPDATE message shall contain the domain of the matched objects.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="10">
+                    <mal:documentation name="Requirement" order="9">
                         If multiple ObjectTypes or domains are matched, then the service provider may return multiple UPDATE messages.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="11">
+                    <mal:documentation name="Requirement" order="9">
                         In each UPDATE message, the objDetails and objBodies lists shall have one entry per matched object.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="12">
+                    <mal:documentation name="Requirement" order="9">
                         The objDetails field in each UPDATE message shall contain the ArchiveDetails of the matched objects.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="13">
+                    <mal:documentation name="Requirement" order="9">
                         If the returnBody field of the PROGRESS message is TRUE, then the objBodies field in each UPDATE message shall contain the bodies of the matched objects.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="14">
+                    <mal:documentation name="Requirement" order="9">
                         If the returnBody field of the PROGRESS message is NULL or FALSE, then the objBodies field in each UPDATE message shall be NULL.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="15">
+                    <mal:documentation name="Requirement" order="9">
                         The service provider shall sort the returned lists based on the sorting options specified in the archiveQuery field.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="16">
@@ -634,27 +634,24 @@
                         If the domain field is NULL, then the service provider shall match all domains.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
-                        If the network field is NULL, then the service provider shall match all networks.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="9">
                         The service provider shall use the serviceId field to match against the ServiceId fields of the Provider of a specific provider.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="10">
+                    <mal:documentation name="Requirement" order="9">
                         If the serviceId field is NULL, then the service provider shall match all areas, services, and versions.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="11">
+                    <mal:documentation name="Requirement" order="10">
                         If the area field is the wildcard '0', then the service provider shall match all area names.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="12">
+                    <mal:documentation name="Requirement" order="11">
                         If the service field is the wildcard '0', then the service provider shall match all services.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="13">
+                    <mal:documentation name="Requirement" order="12">
                         If the version field is the wildcard '0', then the service provider shall match all area versions.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="14">
+                    <mal:documentation name="Requirement" order="13">
                         If the requiredCapabilitySets field is NULL or an empty list, then the service provider shall match all service capability sets.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="15">
+                    <mal:documentation name="Requirement" order="14">
                         If the addressSchemeFilter field is not NULL, then the service provider shall only include service addresses whose URI starts with one of the listed scheme values in the RESPONSE message.
                     </mal:documentation>
                     <mal:messages>
@@ -1254,10 +1251,6 @@
                 <mal:field name="domain" canBeNull="true"
                            comment="The domain to query. Can be NULL in which case matches all values.">
                     <mal:type area="MAL" list="true" name="Identifier"/>
-                </mal:field>
-                <mal:field name="network" canBeNull="true"
-                           comment="The network to match. Can be NULL in which case matches all values.">
-                    <mal:type area="MAL" list="false" name="Identifier"/>
                 </mal:field>
                 <mal:field name="serviceId" canBeNull="true"
                            comment="The service to filter on, values can be NULL which matches all values.">

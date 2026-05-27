@@ -277,7 +277,7 @@ public class NMFConsumer {
         wildcardList.add(new Identifier("*"));
 
         ServiceFilter filter = new ServiceFilter(new Identifier("*"),
-                wildcardList, new Identifier("*"),
+                wildcardList,
                 new ServiceId(new UShort((short) 0), new UShort((short) 0), new UOctet((short) 0)),
                 new UShortList(),
                 addressSchemeFilter

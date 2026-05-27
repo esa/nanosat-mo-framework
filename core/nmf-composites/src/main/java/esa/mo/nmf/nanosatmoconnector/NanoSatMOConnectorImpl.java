@@ -161,8 +161,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                         eventCOM.getServiceNumber(), eventCOM.getServiceVersion());
                 final ServiceFilter sf = new ServiceFilter(
                         new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME),
-                        domain, new Identifier("*"),
-                        serviceId, new UShortList(), null);
+                        domain, serviceId, new UShortList(), null);
                 final ProviderList supervisorEventServiceConnectionDetails
                         = centralDirectory.getDirectoryStub().lookup(sf);
 
@@ -194,7 +193,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 final ServiceId sk = new ServiceId(PlatformHelper.PLATFORM_AREA_NUMBER,
                         new UShort(0), new UOctet((short) 0));
                 final ServiceFilter sf2 = new ServiceFilter(new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME),
-                        domain, new Identifier("*"), sk, new UShortList(), null);
+                        domain, sk, new UShortList(), null);
                 final ProviderList supervisorConnections = centralDirectory.getDirectoryStub().lookup(sf2);
 
                 if (supervisorConnections.size() == 1) { // Platform services found!

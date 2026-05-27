@@ -127,7 +127,7 @@ public class SpaceMOApdapterImpl extends MOAdapterImpl {
         domain.add(new Identifier("*"));
         ServiceId sk = new ServiceId(new UShort(0), new UShort(0), new UOctet((short) 0));
         ServiceFilter sf2 = new ServiceFilter(new Identifier(providerName),
-                domain, new Identifier("*"), sk, new UShortList(), null);
+                domain, sk, new UShortList(), null);
 
         // Query directory service with filter
         try {

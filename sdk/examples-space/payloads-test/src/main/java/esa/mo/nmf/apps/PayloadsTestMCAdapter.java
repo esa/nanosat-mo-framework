@@ -564,8 +564,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                     key.getServiceNumber(), key.getAreaVersion());
             final ServiceFilter sf = new ServiceFilter(
                     new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME),
-                    domain, new Identifier("*"), serviceId,
-                    new UShortList(), null);
+                    domain, serviceId, new UShortList(), null);
             final ProviderList supConnection = centralDirectory.getDirectoryStub().lookup(sf);
 
             try {
