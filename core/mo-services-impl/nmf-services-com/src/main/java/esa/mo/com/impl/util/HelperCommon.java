@@ -145,8 +145,8 @@ public class HelperCommon {
 
         final ProviderDetails details = new ProviderDetails(newCapabilities,
                 provider.getProviderDetails().getProviderAddresses());
-        return new Provider(provider.getDomain(), provider.getId(),
-                provider.getProviderName(), details);
+        return new Provider(provider.getId(), provider.getProviderName(),
+                provider.getDomain(), details);
     }
 
     /**

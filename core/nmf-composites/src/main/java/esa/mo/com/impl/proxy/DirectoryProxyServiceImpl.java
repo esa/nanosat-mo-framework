@@ -133,7 +133,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                     oldDetails.getProviderAddresses()
             );
 
-            updatedProviders.add(new Provider(in.getDomain(), in.getId(), in.getProviderName(), newDetails));
+            updatedProviders.add(new Provider(in.getId(), in.getProviderName(), in.getDomain(), newDetails));
         }
 
         return updatedProviders;

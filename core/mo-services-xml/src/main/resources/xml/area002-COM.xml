@@ -1250,14 +1250,14 @@
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
-                <mal:field canBeNull="false" comment="The domain of the provider." name="domain">
-                    <mal:type area="MAL" list="true" name="Identifier"/>
-                </mal:field>
                 <mal:field canBeNull="false" comment="The unique id of this provider entry." name="id">
                     <mal:type area="MAL" list="false" name="Long"/>
                 </mal:field>
                 <mal:field name="providerName" canBeNull="false" comment="The name of this provider.">
                     <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field canBeNull="false" comment="The domain of the provider." name="domain">
+                    <mal:type area="MAL" list="true" name="Identifier"/>
                 </mal:field>
                 <mal:field name="providerDetails" canBeNull="false"
                            comment="The service capabilities supported by this provider.">

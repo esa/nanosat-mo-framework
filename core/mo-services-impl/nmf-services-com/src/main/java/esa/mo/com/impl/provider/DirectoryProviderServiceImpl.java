@@ -263,8 +263,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
             // It passed all the tests!
             ProviderDetails outProvDetails = new ProviderDetails(outCap, pDetails.getProviderAddresses());
-            outputList.add(new Provider(provider.getDomain(),
-                    keys.get(i), provider.getProviderName(), outProvDetails));
+            outputList.add(new Provider(keys.get(i),
+                    provider.getProviderName(), provider.getDomain(), outProvDetails));
         }
 
         // Errors
