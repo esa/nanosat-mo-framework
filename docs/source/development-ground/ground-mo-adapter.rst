@@ -11,22 +11,28 @@ a remote provider (an NMF App or the Supervisor) and exposes typed accessors for
 Connecting to a provider
 ------------------------
 
-Two factory methods are commonly used:
+The standard pattern is two steps: look up the Directory Service for the providers registered under it, then
+construct a ``GroundMOAdapterImpl`` from the chosen provider.
 
-- ``GroundMOAdapterImpl.forApp(directoryURI, appName)`` — connects to a named NMF App registered in the given
-  Directory Service.
-- ``GroundMOAdapterImpl.forSupervisor(directoryURI)`` — connects to the Supervisor at the given Directory
-  Service URI.
-
-Example:
+A ground application typically receives the Directory Service URI as a command-line argument, then:
 
 .. code-block:: java
 
-   String directoryURI = System.getProperty("esa.mo.nmf.centralDirectoryURI");
-   GroundMOAdapterImpl gma = GroundMOAdapterImpl.forApp(directoryURI, "my-app");
+   ProviderList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(directoryURI));
 
-After the call returns, the adapter has resolved the provider's service URIs through the Directory Service and
-is ready to issue operations.
+   // Pick by name (or take providers.get(0) if there is only one)
+   Provider target = providers.stream()
+           .filter(p -> "my-app".equals(p.getProviderName().getValue()))
+           .findFirst().orElseThrow();
+
+   GroundMOAdapterImpl gma = new GroundMOAdapterImpl(target);
+
+``retrieveProvidersFromDirectory`` queries the Directory Service and returns every provider currently
+registered. The constructor then resolves the provider's service URIs so the adapter is ready to issue
+operations.
+
+For providers requiring authentication, use the overloaded constructor that takes a ``Blob authenticationId``
+and a ``String localNamePrefix``.
 
 Accessing service consumer stubs
 --------------------------------

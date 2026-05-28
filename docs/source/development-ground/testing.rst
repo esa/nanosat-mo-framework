@@ -16,8 +16,8 @@ app, and the ground application connects to the Supervisor's Directory Service.
 
 1. Start the Supervisor with simulator (see :doc:`../quickstart/index`).
 2. Launch the target app through ``AppsLauncher.runApp``.
-3. Run the ground application with ``-Desa.mo.nmf.centralDirectoryURI=...`` pointing at the Supervisor's
-   Directory Service URI.
+3. Run the ground application, passing the Supervisor's Directory Service URI as an argument (the SDK
+   ground examples take it as the first positional argument to ``main``).
 
 This setup exercises the full distributed code path, including transport serialisation and Directory Service
 discovery.

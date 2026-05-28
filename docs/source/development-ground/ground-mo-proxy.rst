@@ -46,8 +46,9 @@ On startup, the proxy prints its own Directory Service URI, in the form:
 
    maltcp://<host>:<port>/ground-mo-proxy-Directory
 
-Ground applications use this URI as their ``esa.mo.nmf.centralDirectoryURI``. The proxy then handles
-Directory-Service queries and forwards subsequent operations across the link.
+Ground applications use this URI as the Directory Service URI they pass to
+``GroundMOAdapterImpl.retrieveProvidersFromDirectory``. The proxy then handles Directory-Service queries and
+forwards subsequent operations across the link.
 
 The proxy can be started before the Supervisor; warnings about an unreachable spacecraft are expected until
 the Supervisor comes up and the two synchronise their Directory entries.

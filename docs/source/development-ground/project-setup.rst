@@ -42,12 +42,19 @@ IDE, this is the "Run Configuration → Working directory" setting.
 Specifying the Directory Service URI
 ------------------------------------
 
-A ground application must know where to find the Supervisor's Directory Service. The standard mechanism is the
-``esa.mo.nmf.centralDirectoryURI`` system property:
+A ground application must know where to find the Supervisor's Directory Service. The SDK examples take it as
+a command-line argument and pass it through to ``GroundMOAdapterImpl.retrieveProvidersFromDirectory``:
 
 .. code-block:: bash
 
-   java -Desa.mo.nmf.centralDirectoryURI=maltcp://host:port/nanosat-mo-supervisor-Directory \
-        -jar my-ground-app.jar
+   java -jar my-ground-app.jar maltcp://host:port/nanosat-mo-supervisor-Directory
 
-In an IDE, set the same property as a VM option on the run configuration.
+In an IDE, configure the URI as a program argument on the run configuration. Reading the URI from a config
+file or environment variable is equally valid — ``GroundMOAdapterImpl`` does not require a particular source.
+
+.. note::
+
+   The ``esa.mo.nmf.centralDirectoryURI`` JVM system property is a
+   **space-side** mechanism used by the Supervisor to tell child apps
+   where its Directory Service lives. Ground applications do not read
+   that property.

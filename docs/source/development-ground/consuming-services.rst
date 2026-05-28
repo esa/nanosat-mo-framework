@@ -17,7 +17,8 @@ one remote provider, with typed accessors per service category (``gma.getMCServi
 
 .. code-block:: java
 
-   GroundMOAdapterImpl gma = GroundMOAdapterImpl.forApp(directoryURI, "my-app");
+   ProviderList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(directoryURI));
+   GroundMOAdapterImpl gma = new GroundMOAdapterImpl(providers.get(0));
 
 See :doc:`ground-mo-adapter` for full coverage.
 
