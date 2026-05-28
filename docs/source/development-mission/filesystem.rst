@@ -16,12 +16,19 @@ After generation the output tree looks like::
 
     space-filesystem/
     └── nanosat-mo-framework/
-        ├── etc/
-        │   └── logging.properties
-        ├── libs/
-        │   └── nmf/          ← NMF Core and MO service jars
-        ├── apps/             ← NMF Packages installed here at runtime
-        └── ...
+        ├── apps/                    ← Installed NMF Apps, one subdirectory per app
+        ├── drivers/                 ← native driver binaries for Platform services
+        ├── etc/                     ← configuration files (logging.properties, …)
+        ├── jars-nmf/                ← NMF Core and MO service jars
+        ├── jars-mission/            ← mission-specific jars
+        ├── jars-shared-libraries/   ← dependency-type NMF Packages shared by apps
+        ├── java/                    ← bundled JRE installations
+        ├── logs/                    ← Logs of the Supervisor and all NMF Apps
+        ├── packages/                ← Stored NMF Packages, one .nmfpackage per app
+        └── public/                  ← arbitrary shared resources
+
+The constants for each directory name live in ``esa.mo.nmf.environment.Deployment``; helper getters such as
+``Deployment.getAppsDir()`` and ``Deployment.getDriversDir()`` return absolute paths under ``NMF_HOME``.
 
 The Supervisor startup script is placed at the root of the output alongside ``fresh_install.sh``.
 

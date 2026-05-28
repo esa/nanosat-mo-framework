@@ -69,3 +69,24 @@ Supervisor. Connect the CTT to the Ground MO Proxy's Directory Service.
 
 The standard CTT (built with the SDK) works unchanged against the OPS-SAT Supervisor through the Ground MO
 Proxy; no mission-specific CTT is required.
+
+On-board filesystem layout
+--------------------------
+
+The OPS-SAT on-board filesystem follows a layout that predates the current ``Deployment`` directory
+constants. Each experimenter has a dedicated ``expXYZ/`` directory, and the NMF jars live under a single
+``libs/`` tree rather than the per-purpose ``jars-nmf/``, ``jars-mission/``, and ``jars-shared-libraries/``
+directories used elsewhere::
+
+    nanosat-mo-framework/
+    ├── etc/
+    │   └── logging.properties
+    ├── libs/
+    │   └── nmf/             ← NMF Core and MO service jars
+    ├── apps/                ← NMF Packages installed here at runtime
+    └── expXYZ/              ← per-experimenter working directory
+        ├── start_expXYZ.sh
+        └── provider.properties
+
+New missions should use the layout documented in :doc:`../development-mission/filesystem` rather than the
+OPS-SAT one.
