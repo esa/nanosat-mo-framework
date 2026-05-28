@@ -34,9 +34,9 @@ Applied to a field. Registers the field as an MC Parameter.
    * - ``rawUnit``
      - ``""``
      - Unit string (e.g. ``"degC"``).
-   * - ``generationEnabled``
+   * - ``reportingEnabled``
      - ``true``
-     - Whether generation is enabled at startup.
+     - Whether report generation is enabled at startup.
    * - ``reportIntervalSeconds``
      - ``0``
      - Periodic generation interval; ``0`` disables periodic generation.
@@ -77,12 +77,12 @@ Applied to a method. Registers the method as an MC Action.
    * - ``description``
      - ``""``
      - Description shown to consumers.
-   * - ``category``
-     - ``0``
-     - ``0`` (default), ``ActionCategory.CRITICAL``, or ``ActionCategory.HIPRIORITY``.
    * - ``stepCount``
      - ``0``
      - Number of progress stages reported; ``0`` for single-shot.
+   * - ``rawUnit``
+     - ``""``
+     - Unit string for the action's raw value, if applicable.
 
 The annotated method must have this signature:
 
@@ -115,20 +115,11 @@ Applied to each non-required parameter of an ``@Action`` method.
      - ``""``
      - Description shown to consumers.
    * - ``rawType``
-     - ``0``
+     - ``AttributeType.STRING_VALUE``
      - Raw MAL attribute type ordinal.
    * - ``rawUnit``
      - ``""``
      - Unit of the raw value.
-   * - ``conditionalConversionFieldName``
-     - ``""``
-     - Field holding a ``ConditionalConversionList``.
-   * - ``convertedType``
-     - ``-1``
-     - MAL attribute type after conversion.
-   * - ``convertedUnit``
-     - ``""``
-     - Unit of the converted value.
 
 ``@Aggregation``
 ----------------

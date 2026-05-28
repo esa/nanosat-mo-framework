@@ -85,7 +85,7 @@ passing it to ``r.registerParameters(defs)``:
            "Sensor temperature in degrees Celsius",
            AttributeType.FLOAT,
            "degC",
-           false,                  // generationEnabled
+           false,                  // reportingEnabled
            new Duration(3),        // reportInterval
            null,                   // validityExpression
            null                    // conversion
@@ -227,7 +227,7 @@ Apply ``@Parameter`` to a field whose value is the parameter's value. The annota
 - ``name`` — the parameter name. Defaults to the field name when empty.
 - ``description`` — text shown to the consumer.
 - ``rawUnit`` — unit string (e.g. ``"degC"``, ``"rad/s"``).
-- ``generationEnabled`` — whether automatic generation is on at startup.
+- ``reportingEnabled`` — whether automatic report generation is on at startup.
 - ``reportIntervalSeconds`` — interval for periodic reporting; ``0`` disables periodic generation.
 - ``readOnly`` — rejects writes if ``true``. Always ``true`` for ``final`` fields.
 - ``onGetFunction`` — name of a no-argument method called immediately before the value is read, used to
@@ -256,8 +256,8 @@ Apply ``@Action`` to a method. The annotation accepts:
 
 - ``name`` — the action name. Defaults to the method name when empty.
 - ``description`` — text shown to the consumer.
-- ``category`` — ``0`` (default), ``ActionCategory.CRITICAL``, or ``ActionCategory.HIPRIORITY``.
 - ``stepCount`` — number of progress stages reported by the action. ``0`` for single-shot actions.
+- ``rawUnit`` — unit string for the action's raw value, if applicable.
 
 The method signature must be:
 
@@ -278,9 +278,8 @@ Each argument after the three required ones must be annotated with ``@ActionPara
 
 - ``name`` (required) — the parameter's display name.
 - ``description`` — text shown to the consumer.
-- ``rawType``, ``rawUnit``, ``convertedType``, ``convertedUnit`` — declarative type and unit metadata.
-- ``conditionalConversionFieldName`` — name of a field containing a ``ConditionalConversionList`` for
-  value-dependent conversions.
+- ``rawType`` — MAL attribute type ordinal (defaults to ``AttributeType.STRING_VALUE``).
+- ``rawUnit`` — unit of the raw value.
 
 Example:
 
@@ -306,8 +305,9 @@ Caveats
 ^^^^^^^
 
 - **Reflection at registration.** The framework scans the adapter class at registration time. Field and method
-  names referenced in ``onGetFunction``, ``conditionalConversionFieldName``, and similar attributes are
-  resolved by name and not checked at compile time; mistyped names surface only at runtime.
+  names referenced in ``onGetFunction``, ``validityExpressionFieldName``, ``conversionFunctionName``, and
+  similar attributes are resolved by name and not checked at compile time; mistyped names surface only at
+  runtime.
 - **No method-level call paths.** All dispatch goes through the annotated members, so static analysis tools
   that look for unused methods may flag annotated handlers as unused.
 - **Equivalent to the listener API.** The set of MO objects ultimately registered is the same. Choose the API
