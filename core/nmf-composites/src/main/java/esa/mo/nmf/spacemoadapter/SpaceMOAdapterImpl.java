@@ -38,17 +38,17 @@ import org.ccsds.moims.mo.mal.structures.*;
  *
  * @author Tanguy Soto
  */
-public class SpaceMOApdapterImpl extends MOAdapterImpl {
+public class SpaceMOAdapterImpl extends MOAdapterImpl {
 
     /* Logger */
-    private static final Logger LOGGER = Logger.getLogger(SpaceMOApdapterImpl.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SpaceMOAdapterImpl.class.getName());
 
     /**
      * The constructor of this class
      *
      * @param connection The connection details of the provider
      */
-    public SpaceMOApdapterImpl(final ConnectionConsumer connection) {
+    public SpaceMOAdapterImpl(final ConnectionConsumer connection) {
         super(connection);
         super.init();
     }
@@ -60,7 +60,7 @@ public class SpaceMOApdapterImpl extends MOAdapterImpl {
      * @param authenticationId authenticationId of the logged in user
      * @param localNamePrefix the prefix for the local name of the consumer
      */
-    public SpaceMOApdapterImpl(final ConnectionConsumer connection,
+    public SpaceMOAdapterImpl(final ConnectionConsumer connection,
             final Blob authenticationId, final String localNamePrefix) {
         super(connection, authenticationId, localNamePrefix);
         super.init();
@@ -72,7 +72,7 @@ public class SpaceMOApdapterImpl extends MOAdapterImpl {
      * @param providerDetails The Provider details. This object can be obtained
      * from the Directory service
      */
-    public SpaceMOApdapterImpl(final Provider providerDetails) {
+    public SpaceMOAdapterImpl(final Provider providerDetails) {
         super(providerDetails);
         super.init();
     }
@@ -85,34 +85,34 @@ public class SpaceMOApdapterImpl extends MOAdapterImpl {
      * @param authenticationId authenticationId of the logged in user
      * @param localNamePrefix the prefix for the local name of the consumer
      */
-    public SpaceMOApdapterImpl(final Provider providerDetails,
+    public SpaceMOAdapterImpl(final Provider providerDetails,
             final Blob authenticationId, final String localNamePrefix) {
         super(providerDetails, authenticationId, localNamePrefix);
         super.init();
     }
 
     /**
-     * Returns a instance of SpaceMOApdapterImpl that consumes the NMF
+     * Returns a instance of SpaceMOAdapterImpl that consumes the NMF
      * supervisor provider found in the central directory service.
      *
      * @param centralDirectoryServiceURI URI of the central directory service
      * @return The SpaceMOAdapter instance.
      */
-    public static SpaceMOApdapterImpl forNMFSupervisor(URI centralDirectoryServiceURI) {
-        return new SpaceMOApdapterImpl(getNMFProvider(centralDirectoryServiceURI,
+    public static SpaceMOAdapterImpl forNMFSupervisor(URI centralDirectoryServiceURI) {
+        return new SpaceMOAdapterImpl(getNMFProvider(centralDirectoryServiceURI,
                 Const.NANOSAT_MO_SUPERVISOR_NAME));
     }
 
     /**
-     * Returns a instance of SpaceMOApdapterImpl that consumes the named space
+     * Returns a instance of SpaceMOAdapterImpl that consumes the named space
      * app found in the central directory service.
      *
      * @param centralDirectoryServiceURI URI of the central directory service
      * @param appName The name of the App.
      * @return The SpaceMOAdapter instance.
      */
-    public static SpaceMOApdapterImpl forNMFApp(URI centralDirectoryServiceURI, String appName) {
-        return new SpaceMOApdapterImpl(getNMFProvider(centralDirectoryServiceURI,
+    public static SpaceMOAdapterImpl forNMFApp(URI centralDirectoryServiceURI, String appName) {
+        return new SpaceMOAdapterImpl(getNMFProvider(centralDirectoryServiceURI,
                 Const.NANOSAT_MO_APP_IDENTIFIER_PREFIX + appName));
     }
 

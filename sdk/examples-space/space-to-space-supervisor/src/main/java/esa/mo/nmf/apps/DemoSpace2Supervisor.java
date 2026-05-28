@@ -21,7 +21,7 @@
 package esa.mo.nmf.apps;
 
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
-import esa.mo.nmf.spacemoadapter.SpaceMOApdapterImpl;
+import esa.mo.nmf.spacemoadapter.SpaceMOAdapterImpl;
 
 /**
  * This app connects to the supervisor's paramater service.
@@ -34,7 +34,7 @@ public class DemoSpace2Supervisor {
         connector.init(adapter);
 
         // Initialize application's NMF consumer (consuming the supervisor)
-        SpaceMOApdapterImpl supervisorSMA = SpaceMOApdapterImpl.forNMFSupervisor(connector.readCentralDirectoryServiceURI());
+        SpaceMOAdapterImpl supervisorSMA = SpaceMOAdapterImpl.forNMFSupervisor(connector.readCentralDirectoryServiceURI());
 
         adapter.setConnector(connector);
         adapter.setSupervisorSMA(supervisorSMA);

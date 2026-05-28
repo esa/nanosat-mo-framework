@@ -25,7 +25,7 @@ import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.commonmoadapter.SimpleDataReceivedListener;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
-import esa.mo.nmf.spacemoadapter.SpaceMOApdapterImpl;
+import esa.mo.nmf.spacemoadapter.SpaceMOAdapterImpl;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +41,7 @@ public class Space2SupervisorAdapter extends MonitorAndControlNMFAdapter {
     private NanoSatMOConnectorImpl connector;
 
     // The application's NMF consumer (consuming supervisor).
-    private SpaceMOApdapterImpl supervisorSMA;
+    private SpaceMOAdapterImpl supervisorSMA;
 
     private List<String> parametersNames = new ArrayList<>();
 
@@ -60,7 +60,7 @@ public class Space2SupervisorAdapter extends MonitorAndControlNMFAdapter {
         });
     }
 
-    public void setSupervisorSMA(SpaceMOApdapterImpl supervisorSMA) {
+    public void setSupervisorSMA(SpaceMOAdapterImpl supervisorSMA) {
         this.supervisorSMA = supervisorSMA;
     }
 

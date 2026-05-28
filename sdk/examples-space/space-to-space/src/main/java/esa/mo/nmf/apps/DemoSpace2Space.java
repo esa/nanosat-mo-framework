@@ -21,7 +21,7 @@
 package esa.mo.nmf.apps;
 
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
-import esa.mo.nmf.spacemoadapter.SpaceMOApdapterImpl;
+import esa.mo.nmf.spacemoadapter.SpaceMOAdapterImpl;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
@@ -47,7 +47,7 @@ public class DemoSpace2Space {
 
         // Initialize application's NMF consumer (consuming the supervisor)
         URI uri = connector.readCentralDirectoryServiceURI();
-        SpaceMOApdapterImpl spaceAppSMA = SpaceMOApdapterImpl.forNMFApp(uri, "gps");
+        SpaceMOAdapterImpl spaceAppSMA = SpaceMOAdapterImpl.forNMFApp(uri, "gps");
 
         adapter.setConnector(connector);
         adapter.setSpaceAppSMA(spaceAppSMA);
