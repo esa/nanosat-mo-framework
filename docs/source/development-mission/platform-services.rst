@@ -186,6 +186,38 @@ Driver binaries placed here are available to all adapters without the need to ha
     ├── jars-nmf/
     └── ...
 
+Reference mission hardware adapters
+------------------------------------
+
+Concrete hardware adapters that have been written for past missions, as a starting point for new mission
+work:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 40 35
+
+   * - Service
+     - Mission
+     - Hardware / adapter
+   * - Camera
+     - OPS-SAT
+     - BST IMS-100
+   * - Camera
+     - ɸ-Sat-2
+     - Multispectral imager
+   * - AutonomousADCS
+     - OPS-SAT
+     - **iADCS-100** (Berlin Space Technologies)
+   * - AutonomousADCS
+     - ɸ-Sat-2
+     - In-house implementation
+   * - SoftwareDefinedRadio
+     - OPS-SAT
+     - OPS-SAT SDR
+   * - ArtificialIntelligence
+     - ɸ-Sat-2
+     - Intel Movidius VPU via ``AIMovidiusAdapter``
+
 Adapter not available
 ----------------------
 

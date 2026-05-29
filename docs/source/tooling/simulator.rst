@@ -31,7 +31,8 @@ resources to ``~/.ops-sat-simulator``. The two main files are:
 
 Both use Java properties syntax. Edit the value on the right-hand side of each assignment.
 
-General configuration (``_OPS-SAT-SIMULATOR-header.txt``):
+General configuration (``_OPS-SAT-SIMULATOR-header.txt``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Internal model processing on/off
 - Simulated time advancement and real-time factor
@@ -42,12 +43,53 @@ General configuration (``_OPS-SAT-SIMULATOR-header.txt``):
 - Simulation start and end dates
 - Logging verbosity
 
-Platform configuration (``platformsim.properties``):
+Platform configuration (``platformsim.properties``)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- ``<service>.adapter`` — selects the adapter class for each Platform service (simulator or hardware).
+Each Platform service loads exactly one adapter, selected by a per-service ``<key>.adapter`` property. The
+default is the soft-sim adapter; mission-specific deployments override the property to point at a hardware
+adapter class. Property keys follow the service name except for **ADCS, which uses** ``iadcs.adapter``.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 25 25 50
+
+   * - Service
+     - Property key
+     - Notes
+   * - Camera
+     - ``camera.adapter``
+     - Soft-sim returns a fixed or random image (see below).
+   * - GPS
+     - ``gps.adapter``
+     - Soft-sim generates NMEA from the simulator's Orekit-driven orbit.
+   * - AutonomousADCS
+     - ``iadcs.adapter``
+     - Note the ``iadcs`` prefix. Soft-sim uses the attitude propagator.
+   * - SoftwareDefinedRadio
+     - ``sdr.adapter``
+     -
+   * - OpticalDataReceiver
+     - ``optrx.adapter``
+     -
+   * - PowerControl
+     - ``power.adapter``
+     -
+   * - Clock
+     - ``clock.adapter``
+     - Soft-sim returns modelled time at the configured real-time factor.
+   * - ArtificialIntelligence
+     - ``ai.adapter``
+     -
+
+The soft-sim Camera adapter also accepts:
+
 - ``camerasim.imagemode`` — ``Fixed`` or ``Random``.
 - ``camerasim.imagefile`` — image returned in ``Fixed`` mode.
 - ``camerasim.imagedirectory`` — directory sampled in ``Random`` mode.
+
+For the consumer-side API of each Platform service, see :doc:`../development-app/platform-services`. For
+implementing a mission-specific hardware adapter, see :doc:`../development-mission/platform-services`.
 
 Running the simulator UI
 ------------------------

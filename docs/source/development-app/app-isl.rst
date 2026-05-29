@@ -109,9 +109,7 @@ App Chaining works unchanged — only the Directory Service URI points to the re
 
    // Inter-satellite (App ISL — requires ISL-capable transport)
    URI remoteDirectoryURI = URI.create("maltcp://192.168.100.2:1024/nanosat-mo-supervisor-Directory");
-   SpaceMOAdapterImpl remoteSMA = SpaceMOAdapterImpl.forNMFApp(
-           remoteDirectoryURI,
-           "cloud-classifier");
+   SpaceMOAdapterImpl remoteSMA = SpaceMOAdapterImpl.forNMFApp(remoteDirectoryURI, "cloud-classifier");
 
 The remote ``SpaceMOAdapterImpl`` exposes the peer app's MC services exactly as if they were local.
 

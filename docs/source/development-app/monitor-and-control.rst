@@ -139,8 +139,7 @@ Actions are registered similarly:
 
    ActionDefinitionList actions = new ActionDefinitionList();
    ArgumentDefinitionList args = new ArgumentDefinitionList();
-   args.add(new ArgumentDefinition(new Identifier("setpoint"), null,
-            AttributeType.DOUBLE, "-"));
+   args.add(new ArgumentDefinition(new Identifier("setpoint"), null, AttributeType.DOUBLE, "-"));
    actions.add(new ActionDefinition(
            new Identifier("reset"),
            "Reset the sensor",
