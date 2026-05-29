@@ -9,11 +9,15 @@ The NMF CLI Tool is a command-line consumer for headless interaction with the CO
 Platform services, and Software Management services. It complements the GUI :doc:`ctt` for scripting,
 automation, and quick one-off queries.
 
-The CLI is delivered with the SDK under ``sdk/cli-tool`` and is invoked as:
+The CLI is delivered with the SDK as a launch script under
+``sdk/sdk-execution-environment/target/nmf-sdk-5.0-SNAPSHOT/home/nmf/cli-tool/``. Run it as:
 
 .. code-block:: bash
 
-   esa.mo.nmf.clitool.CLITool <category> <command> [options]
+   ./cli-tool.sh <category> <command> [options]
+
+The script sets ``NMF_HOME``, configures the classpath, and invokes the ``esa.mo.nmf.clitool.CLITool`` main
+class. On Windows, ``cli-tool.bat`` ships in the same directory.
 
 Command categories
 ------------------
@@ -43,28 +47,28 @@ Dump a local COM Archive to JSON:
 
 .. code-block:: bash
 
-   esa.mo.nmf.clitool.CLITool archive dump \
+   ./cli-tool.sh archive dump \
        -l ../nanosat-mo-supervisor-sim/comArchive.db dump.json
 
 Subscribe to a remote app's stdout:
 
 .. code-block:: bash
 
-   esa.mo.nmf.clitool.CLITool apps-launcher subscribe \
+   ./cli-tool.sh apps-launcher subscribe \
        -r maltcp://host:port/nanosat-mo-supervisor-Directory my-app
 
 Trigger an action on a remote provider:
 
 .. code-block:: bash
 
-   esa.mo.nmf.clitool.CLITool action trigger \
+   ./cli-tool.sh action trigger \
        -r maltcp://host:port/provider-Directory MyAction
 
 Take a picture from a remote Camera provider:
 
 .. code-block:: bash
 
-   esa.mo.nmf.clitool.CLITool camera take-picture \
+   ./cli-tool.sh camera take-picture \
        -r maltcp://host:port/camera-Directory \
        --resolution 1920x1080 --exposure 0.2 \
        --gain-red 1.0 --gain-green 1.0 --gain-blue 1.0 \

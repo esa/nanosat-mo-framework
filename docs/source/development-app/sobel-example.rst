@@ -66,5 +66,4 @@ Full source
 -----------
 
 The complete implementation lives under ``sdk/examples-space/picture-processor`` (image processing) and
-``sdk/examples-space/camera`` (camera consumption). The historical documentation of this example as a
-multi-page tutorial is preserved for now under ``apps/``.
+``sdk/examples-space/camera`` (camera consumption).

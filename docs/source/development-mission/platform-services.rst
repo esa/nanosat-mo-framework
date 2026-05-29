@@ -20,7 +20,7 @@ The Adapter pattern
 -------------------
 
 The NMF Platform services follow the **Adapter** structural design pattern. The NMF defines a set of MO
-service interfaces that can be used to develop the adapters. An NMF Mission is responsible for the creation of 
+service interfaces that can be used to develop the adapters. An NMF Mission is responsible for the creation of
 the specific adapters for its mission. This is achieved by creating the concrete *adapter* class that implements
 the defined interfaces and glues to the real hardware underneath.
 
