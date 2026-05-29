@@ -36,7 +36,7 @@ The authoritative definitions of every MO service exposed by the NMF live in the
 
 The Java API JARs in ``core/mo-services-apis/`` are generated from these XML files; the XML is the single
 source of truth. For a narrative overview of the service categories, see :doc:`../reference/services` and
-:doc:`../development-app/platform-services/index`.
+:doc:`../development-app/platform-services`.
 
 User-facing guides (historical)
 -------------------------------

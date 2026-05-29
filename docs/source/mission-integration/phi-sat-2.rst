@@ -63,7 +63,7 @@ AI inference
 
 ɸ-Sat-2 runs the **ArtificialIntelligence** Platform service backed by the ``AIMovidiusAdapter``, which
 targets the on-board Intel Movidius VPU. See
-:doc:`../development-app/platform-services/artificial-intelligence` for the consumer-side API.
+:doc:`../development-app/platform-services` for the consumer-side API.
 
 App chaining (cloud-tile filtering)
 -----------------------------------

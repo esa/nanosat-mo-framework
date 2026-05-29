@@ -92,4 +92,4 @@ or constructor argument:
    }
 
 From the adapter, Platform services are reached via ``connector.getPlatformServices()`` — see
-:doc:`platform-services/index`.
+:doc:`platform-services`.

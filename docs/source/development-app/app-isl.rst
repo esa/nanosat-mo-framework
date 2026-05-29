@@ -82,7 +82,7 @@ A swarm app running on each node can:
 - Publish its local sensor readings and state as MO parameters.
 - Subscribe to peer nodes' parameters over the ISL to build a shared situational picture.
 - Invoke actions on peer nodes to coordinate manoeuvres or payload scheduling.
-- Use the on-board :doc:`platform-services/artificial-intelligence` service to run local inference, then share
+- Use the on-board :doc:`platform-services` AI service to run local inference, then share
   results across the swarm rather than downlinking raw data.
 
 Because each node is a standard NMF Supervisor with the same Directory Service mechanism, the swarm topology

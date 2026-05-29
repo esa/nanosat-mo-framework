@@ -12,7 +12,7 @@ services, and consumes Platform services. It assumes familiarity with the archit
 
    project-setup
    monitor-and-control
-   platform-services/index
+   platform-services
    app-chaining
    app-isl
    logging

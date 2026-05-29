@@ -40,7 +40,7 @@ Software Management (``area007-Software-Management.xml``)
 Platform (``area105-Platform.xml``)
 -----------------------------------
 
-For consumer-side usage, see :doc:`../development-app/platform-services/index`.
+For consumer-side usage, see :doc:`../development-app/platform-services`.
 
 - **Camera** (#1)
 - **GPS** (#2)

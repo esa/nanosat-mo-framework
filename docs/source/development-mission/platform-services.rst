@@ -219,4 +219,4 @@ here because the SDK simulator uses it to swap in soft-sim adapters, and the OPS
 files reference it.
 
 For documentation on each individual service's semantics, see
-:doc:`../development-app/platform-services/index`.
+:doc:`../development-app/platform-services`.
