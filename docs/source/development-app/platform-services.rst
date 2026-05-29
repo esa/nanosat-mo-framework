@@ -25,6 +25,10 @@ of two adapter implementations per service:
 Which adapter is loaded is configured per-service via the ``<service>.adapter`` property in
 ``platformsim.properties`` in the Supervisor's working directory (see :doc:`../tooling/simulator`).
 
+The full operation list, request/response composites, and error codes for every service on this page are
+defined in ``core/mo-services-xml/src/main/resources/xml/area105-Platform.xml``. Each service section below
+summarises what the service does and how to consume it; consult the XML for the authoritative interface.
+
 Camera
 ------
 
@@ -95,8 +99,7 @@ emit NMEA.
 Operations
 ^^^^^^^^^^
 
-The service supports retrieval of NMEA sentences by identifier and parsed position / velocity / time data. See
-``area105-Platform.xml`` for the full operation list.
+The service supports retrieval of NMEA sentences by identifier and parsed position / velocity / time data.
 
 Consuming the service
 ^^^^^^^^^^^^^^^^^^^^^
@@ -134,8 +137,7 @@ the adapter interface is ``AutonomousADCSAdapterInterface``.
 Operations
 ^^^^^^^^^^
 
-Operations include attitude retrieval, target pointing commands, and status monitoring. See
-``area105-Platform.xml`` for the full operation list and the relevant data structures.
+Operations include attitude retrieval, target pointing commands, and status monitoring.
 
 Consuming the service
 ^^^^^^^^^^^^^^^^^^^^^
@@ -181,8 +183,7 @@ Defined in ``area105-Platform.xml`` as service number 4. Implemented by
 Operations
 ^^^^^^^^^^
 
-Operations include configuration of frequency, bandwidth, and gain, and sample streaming. See
-``area105-Platform.xml`` for the full operation list.
+Operations include configuration of frequency, bandwidth, and gain, and sample streaming.
 
 Consuming the service
 ^^^^^^^^^^^^^^^^^^^^^
@@ -210,7 +211,7 @@ Defined in ``area105-Platform.xml`` as service number 5. Implemented by
 Operations
 ^^^^^^^^^^
 
-Operations include receiver configuration and data stream access. See ``area105-Platform.xml`` for details.
+Operations include receiver configuration and data stream access.
 
 Consuming the service
 ^^^^^^^^^^^^^^^^^^^^^
@@ -237,8 +238,8 @@ the adapter interface is ``PowerControlAdapterInterface``.
 Operations
 ^^^^^^^^^^
 
-Operations include reading bus and battery state, listing controllable devices, and switching loads on or off.
-See ``area105-Platform.xml`` for the full operation list.
+Operations include reading bus and battery state, listing controllable devices, and switching loads on or
+off.
 
 Consuming the service
 ^^^^^^^^^^^^^^^^^^^^^
@@ -266,8 +267,7 @@ adapter interface is ``ClockAdapterInterface``.
 Operations
 ^^^^^^^^^^
 
-Operations include retrieval of the current on-board time and (where permitted) commanded time updates. See
-``area105-Platform.xml`` for the full operation list.
+Operations include retrieval of the current on-board time and (where permitted) commanded time updates.
 
 Consuming the service
 ^^^^^^^^^^^^^^^^^^^^^
@@ -301,8 +301,7 @@ Defined in ``area105-Platform.xml`` as service number 9. Implemented by
 Operations
 ^^^^^^^^^^
 
-Operations include model selection, inference invocation, and result retrieval. See ``area105-Platform.xml``
-for the full operation list.
+Operations include model selection, inference invocation, and result retrieval.
 
 Consuming the service
 ^^^^^^^^^^^^^^^^^^^^^
