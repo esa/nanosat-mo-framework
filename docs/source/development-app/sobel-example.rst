@@ -52,11 +52,11 @@ After each stage of the pipeline, the action handler reports back:
 
 .. code-block:: java
 
-   connector.reportActionExecutionProgress(
+   connector.reportExecutionProgress(
            true,                  // success
-           0,                     // errorCode
-           STAGE_IMG,             // currentStage
-           TOTAL_STAGES,          // totalStages declared at registration
+           0,                     // errorNumber
+           STAGE_IMG,             // progressStage
+           TOTAL_STAGES,          // totalNumberOfProgressStages declared at registration
            actionInstanceObjId);
 
 The Supervisor publishes each update via the COM Event service so the invoking consumer sees the stages in

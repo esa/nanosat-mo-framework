@@ -73,7 +73,7 @@ are interchangeable; pick either.
                  actions.add(new ActionDefinition(
                          new Identifier(A_SHOUT),
                          "Uppercase the greeting",
-                         ActionCategory.DEFAULT, new UShort(0),
+                         new UShort(0),
                          new ArgumentDefinitionList()));
                  r.registerActions(actions);
              }

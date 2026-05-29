@@ -143,13 +143,10 @@ Actions are registered similarly:
    actions.add(new ActionDefinition(
            new Identifier("reset"),
            "Reset the sensor",
-           ActionCategory.DEFAULT,
-           new UShort(0),          // step count (0 = single-shot)
+           new UShort(0),          // progressStepCount (0 = single-shot)
            args
    ));
    r.registerActions(actions);
-
-Action categories are: ``DEFAULT``, ``CRITICAL``, ``HIPRIORITY``.
 
 Handling action invocations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -177,7 +174,7 @@ from the action handler:
 
 .. code-block:: java
 
-   connector.reportActionExecutionProgress(true, 0, currentStage, totalStages, executionId);
+   connector.reportExecutionProgress(true, 0, currentStage, totalStages, executionId);
 
 The Supervisor forwards each progress update to subscribed consumers via the COM Event service.
 
@@ -297,7 +294,7 @@ Example:
 Multi-stage actions
 ~~~~~~~~~~~~~~~~~~~
 
-For an action with non-zero ``stepCount``, call ``connector.reportActionExecutionProgress(...)`` after each
+For an action with non-zero ``stepCount``, call ``connector.reportExecutionProgress(...)`` after each
 stage; see the `Listener-interface API`_ section above for the signature.
 
 Caveats
