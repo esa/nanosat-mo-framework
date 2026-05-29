@@ -23,16 +23,6 @@ Copy and rename an example
    - Update the ``author`` tag.
 
 4. Rename the Java classes and update their package declarations to match the new app.
-5. If the app uses Orekit data without supplying its own, add the ``orekit-resources`` dependency:
-
-   .. code-block:: xml
-
-      <dependency>
-        <groupId>int.esa.nmf.sdk</groupId>
-        <artifactId>orekit-resources</artifactId>
-        <version>${project.version}</version>
-        <type>jar</type>
-      </dependency>
 
 Project layout
 --------------
