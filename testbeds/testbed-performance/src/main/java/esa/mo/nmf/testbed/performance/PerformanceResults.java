@@ -20,9 +20,11 @@
  */
 package esa.mo.nmf.testbed.performance;
 
+import esa.mo.nmf.testbed.performance.cli.CLIResult;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.management.ManagementFactory;
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -57,24 +59,27 @@ public class PerformanceResults {
     private static final Logger LOGGER = Logger.getLogger(PerformanceResults.class.getName());
 
     /** command name -> [run1, run2, run3] */
-    private final Map<String, long[]> measurements = new LinkedHashMap<>();
+    private final Map<String, CLIResult[]> measurements = new LinkedHashMap<>();
 
     /**
-     * Records three timing samples for the given command label.
+     * Records three CLI invocation results for the given command label.
      *
-     * @param command display name used as the section header in the output file.
-     * @param run1    elapsed milliseconds for the first run.
-     * @param run2    elapsed milliseconds for the second run.
-     * @param run3    elapsed milliseconds for the third run.
+     * @param command display name used as the section header in the output file;
+     *                should include the tier prefix, e.g. {@code "tier-1-help"}.
+     * @param run1    result of the first invocation.
+     * @param run2    result of the second invocation.
+     * @param run3    result of the third invocation.
      */
-    public void record(String command, long run1, long run2, long run3) {
-        measurements.put(command, new long[]{run1, run2, run3});
+    public void record(String command, CLIResult run1, CLIResult run2, CLIResult run3) {
+        measurements.put(command, new CLIResult[]{run1, run2, run3});
     }
 
     /**
-     * Writes all recorded measurements to the results file and logs its path.
+     * Writes all recorded measurements to the results file and one log file per
+     * run (named {@code <command>-runN.log}) in the same directory, then logs
+     * the results file path.
      *
-     * @throws IOException if the results path property is missing or the file
+     * @throws IOException if the results path property is missing or any file
      *                     cannot be written.
      */
     public void save() throws IOException {
@@ -85,25 +90,48 @@ public class PerformanceResults {
         File file = new File(path);
         file.getParentFile().mkdirs();
 
+        long maxMemoryMb = ManagementFactory.getMemoryMXBean()
+                .getHeapMemoryUsage().getMax() / (1024 * 1024);
+
         try (PrintWriter pw = new PrintWriter(file)) {
             pw.println("# NMF CLI Tool - Performance Results");
             pw.println("# Timestamp: " + Instant.now());
             pw.println("# Java: " + System.getProperty("java.version")
                     + " " + System.getProperty("java.vm.name"));
+            pw.println("# OS: " + System.getProperty("os.name")
+                    + " " + System.getProperty("os.version")
+                    + " (" + System.getProperty("os.arch") + ")");
+            pw.println("# CPU cores: " + Runtime.getRuntime().availableProcessors());
+            pw.println("# JVM heap max: " + maxMemoryMb + " MB");
             pw.println();
 
-            for (Map.Entry<String, long[]> entry : measurements.entrySet()) {
-                long[] runs = entry.getValue();
-                long average = (runs[0] + runs[1] + runs[2]) / 3;
+            for (Map.Entry<String, CLIResult[]> entry : measurements.entrySet()) {
+                CLIResult[] runs = entry.getValue();
+                long average = (runs[0].elapsedMs + runs[1].elapsedMs + runs[2].elapsedMs) / 3;
                 pw.println("[" + entry.getKey() + "]");
-                pw.println("run_1_ms=" + runs[0]);
-                pw.println("run_2_ms=" + runs[1]);
-                pw.println("run_3_ms=" + runs[2]);
+                pw.println("run_1_ms=" + runs[0].elapsedMs + "  exit=" + runs[0].exitCode);
+                pw.println("run_2_ms=" + runs[1].elapsedMs + "  exit=" + runs[1].exitCode);
+                pw.println("run_3_ms=" + runs[2].elapsedMs + "  exit=" + runs[2].exitCode);
                 pw.println("average_ms=" + average);
                 pw.println();
+
+                writeRunLog(file.getParentFile(), entry.getKey(), runs);
             }
         }
         LOGGER.info("Performance results written to: " + file.getAbsolutePath());
+    }
+
+    private static void writeRunLog(File dir, String command, CLIResult[] runs) throws IOException {
+        for (int i = 0; i < runs.length; i++) {
+            File logFile = new File(dir, command + "-run" + (i + 1) + ".log");
+            try (PrintWriter pw = new PrintWriter(logFile)) {
+                pw.println("# command: " + command + "  run: " + (i + 1));
+                pw.println("# elapsed_ms: " + runs[i].elapsedMs);
+                pw.println("# exit_code: " + runs[i].exitCode);
+                pw.println();
+                pw.print(runs[i].output);
+            }
+        }
     }
 
 }

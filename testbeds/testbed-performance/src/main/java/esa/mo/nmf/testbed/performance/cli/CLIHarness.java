@@ -64,15 +64,16 @@ public class CLIHarness {
     }
 
     /**
-     * Spawns the CLI Tool in a fresh JVM, waits for it to exit, and returns
-     * the wall-clock elapsed time in milliseconds.
+     * Spawns the CLI Tool in a fresh JVM, waits for it to exit, and returns a
+     * {@link CLIResult} containing the wall-clock elapsed time, the captured
+     * stdout/stderr output, and the process exit code.
      *
      * @param args command-line arguments forwarded to the CLI tool.
-     * @return elapsed time in milliseconds from process start to exit.
+     * @return a {@link CLIResult} with elapsed time, output, and exit code.
      * @throws IOException          if the process could not be started or timed out.
      * @throws InterruptedException if the calling thread is interrupted while waiting.
      */
-    public long run(String... args) throws IOException, InterruptedException {
+    public CLIResult run(String... args) throws IOException, InterruptedException {
         List<String> cmd = new ArrayList<>();
         cmd.add("java");
         cmd.add("-jar");
@@ -85,11 +86,13 @@ public class CLIHarness {
         long start = System.currentTimeMillis();
         Process process = pb.start();
 
+        StringBuilder output = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(process.getInputStream()))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 LOGGER.fine("CLI output: " + line);
+                output.append(line).append(System.lineSeparator());
             }
         }
 
@@ -100,9 +103,9 @@ public class CLIHarness {
         }
 
         long elapsed = System.currentTimeMillis() - start;
-        LOGGER.info("CLI " + Arrays.toString(args) + " -> " + elapsed + " ms (exit "
-                + process.exitValue() + ")");
-        return elapsed;
+        int exitCode = process.exitValue();
+        LOGGER.info("CLI " + Arrays.toString(args) + " -> " + elapsed + " ms (exit " + exitCode + ")");
+        return new CLIResult(elapsed, output.toString(), exitCode);
     }
 
 }

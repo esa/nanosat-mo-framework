@@ -404,7 +404,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: cli-performance-results-jdk11
-          path: testbeds/testbed-performance/target/performance-results.txt
+          path: |
+            testbeds/testbed-performance/target/performance-results.txt
+            testbeds/testbed-performance/target/tier-*.log
 
   testbed-performance-jdk17:
     runs-on: ubuntu-latest
@@ -434,7 +436,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: cli-performance-results-jdk17
-          path: testbeds/testbed-performance/target/performance-results.txt
+          path: |
+            testbeds/testbed-performance/target/performance-results.txt
+            testbeds/testbed-performance/target/tier-*.log
 
   testbed-performance-jdk21:
     runs-on: ubuntu-latest
@@ -464,7 +468,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: cli-performance-results-jdk21
-          path: testbeds/testbed-performance/target/performance-results.txt
+          path: |
+            testbeds/testbed-performance/target/performance-results.txt
+            testbeds/testbed-performance/target/tier-*.log
 
   testbed-performance-jdk25:
     runs-on: ubuntu-latest
@@ -494,4 +500,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: cli-performance-results-jdk25
-          path: testbeds/testbed-performance/target/performance-results.txt
+          path: |
+            testbeds/testbed-performance/target/performance-results.txt
+            testbeds/testbed-performance/target/tier-*.log
