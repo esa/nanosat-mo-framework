@@ -58,22 +58,17 @@ import org.ccsds.moims.mo.mal.structures.UIntegerList;
 public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
     private final ConnectionProvider connection = new ConnectionProvider();
-    private final ArchiveManager manager = new ArchiveManager(null);
+    private final ArchiveManager manager = new ArchiveManager();
     private MALProvider archiveServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
 
     /**
-     * creates the MAL objects, the publisher used to create updates and starts
-     * the publishing thread
-     *
-     * @param eventService The Event service provider.
      * @throws MALException On initialization error.
      */
     public synchronized void init(EventProviderServiceImpl eventService) throws MALException {
         long timestamp = System.currentTimeMillis();
 
-        manager.setEventService(eventService);
         manager.init();
 
         // shut down old service transport
@@ -107,10 +102,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             Logger.getLogger(ArchiveProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during close down of the provider {0}", ex);
         }
-    }
-
-    public void setEventService(EventProviderServiceImpl eventService) {
-        manager.setEventService(eventService);
     }
 
     /**

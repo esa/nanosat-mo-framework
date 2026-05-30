@@ -5,23 +5,28 @@ import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 
 /**
+ * Object types whose instances are purged from the archive during
+ * synchronisation. The numeric values are hard-coded because this module
+ * (nmf-services-com) cannot depend on the MC or SM API jars.
  *
  * @author Yannick Lavan
  */
 public enum ToDelete {
-    //ACTIVITY_TRACKING(new UShort(2), new UShort(3), new UOctet((short)1), new UShort(6)),
-    ARCHIVE_OBJECT_STORED_EVENT(new UShort(2), new UShort(2), new UOctet((short) 1), new UShort(1)),
-    ARCHIVE_OBJECT_UPDATED_EVENT(new UShort(2), new UShort(2), new UOctet((short) 1), new UShort(2)),
-    ARCHIVE_OBJECT_DELETED_EVENT(new UShort(2), new UShort(2), new UOctet((short) 1), new UShort(3)),
-    PARAMETER_VALUE_INSTANCE(new UShort(4), new UShort(2), new UOctet((short) 1), new UShort(3)), AGGREGATION_VALUE(
-        new UShort(4), new UShort(6), new UOctet((short) 1), new UShort(3)), STDOUT_VALUE(new UShort(7), new UShort(3),
-            new UOctet((short) 1), new UShort(2)), STDERR_VALUE(new UShort(7), new UShort(3), new UOctet((short) 1),
-                new UShort(3));
+    /** MC::Parameter::ParameterValue (area=4, service=2, version=1, number=3) */
+    PARAMETER_VALUE_INSTANCE(4, 2, 1, 3),
+    /** MC::Aggregation::AggregationValue (area=4, service=6, version=1, number=3) */
+    AGGREGATION_VALUE(4, 6, 1, 3),
+    /** SM::CommandExecutor::StandardOutput (area=7, service=3, version=1, number=2) */
+    STDOUT_VALUE(7, 3, 1, 2),
+    /** SM::CommandExecutor::StandardError (area=7, service=3, version=1, number=3) */
+    STDERR_VALUE(7, 3, 1, 3);
 
-    private ObjectType type;
+    private final ObjectType type;
 
-    ToDelete(UShort area, UShort service, UOctet version, UShort number) {
-        this.type = new ObjectType(area, service, version, number);
+    ToDelete(int area, int service, int version, int number) {
+        this.type = new ObjectType(
+                new UShort(area), new UShort(service),
+                new UOctet((short) version), new UShort(number));
     }
 
     public ObjectType getType() {

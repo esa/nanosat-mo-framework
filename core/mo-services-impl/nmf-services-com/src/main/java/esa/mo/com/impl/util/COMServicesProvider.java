@@ -55,8 +55,6 @@ public class COMServicesProvider {
         // Set the Archive service in the Event service
         eventService.setArchiveService(archiveService);
 
-        archiveService.setEventService(eventService);
-
         // Initialize the Directory service
         directoryService.init(this);
     }

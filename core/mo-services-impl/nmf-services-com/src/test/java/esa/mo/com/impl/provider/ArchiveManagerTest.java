@@ -53,10 +53,7 @@ public class ArchiveManagerTest {
 
         Date testBegin = new Date();
 
-        esa.mo.com.impl.provider.EventProviderServiceImpl eventProviderServiceImpl0 = null;
-
-        esa.mo.com.impl.provider.ArchiveManager archiveManager1
-                = new esa.mo.com.impl.provider.ArchiveManager(eventProviderServiceImpl0);
+        ArchiveManager archiveManager1 = new ArchiveManager();
 
         Date start = new Date();
         archiveManager1.init();

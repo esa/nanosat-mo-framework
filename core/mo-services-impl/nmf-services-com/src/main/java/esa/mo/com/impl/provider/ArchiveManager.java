@@ -30,8 +30,6 @@ import esa.mo.com.impl.archive.fast.FastObjId;
 import esa.mo.com.impl.archive.fast.FastObjectType;
 import esa.mo.com.impl.archive.fast.FastProviderURI;
 import esa.mo.com.impl.util.HelperCOM;
-import esa.mo.helpertools.misc.Const;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -40,11 +38,8 @@ import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import org.ccsds.moims.mo.com.archive.ArchiveHelper;
-import org.ccsds.moims.mo.com.archive.ArchiveServiceInfo;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
@@ -77,25 +72,7 @@ public class ArchiveManager {
     private final FastObjId fastObjId;
     private final FastObjectType fastObjectType;
 
-    private EventProviderServiceImpl eventService;
-
-    /**
-     * Should generate COM Archive events: ObjectStored, ObjectUpdated,
-     * ObjectDeleted
-     */
-    private final boolean globalGenerateEvents;
-
-    /**
-     * Initializes the Archive manager
-     *
-     * @param eventService The Event service provider.
-     */
-    public ArchiveManager(EventProviderServiceImpl eventService) {
-        this.eventService = eventService;
-        this.globalGenerateEvents = Boolean.parseBoolean(System.getProperty(
-                Const.ARCHIVE_GENERATE_EVENTS_PROPERTY,
-                Const.ARCHIVE_GENERATE_EVENTS_DEFAULT));
-
+    public ArchiveManager() {
         this.dbBackend = new DatabaseBackend();
         this.dbProcessor = new TransactionsProcessor(dbBackend);
 
@@ -134,15 +111,6 @@ public class ArchiveManager {
         });
     }
 
-    /**
-     * Sets the Event service provider.
-     *
-     * @param eventService The Event service provider.
-     */
-    public void setEventService(EventProviderServiceImpl eventService) {
-        this.eventService = eventService;
-    }
-
     void close() {
         // Forces the code to wait until all the stores are flushed
         this.dbProcessor.stopInteractions(new Callable<Void>() {
@@ -158,8 +126,6 @@ public class ArchiveManager {
                 return null;
             }
         });
-
-        this.eventService = null; // Remove the pointer to avoid publishing more stuff
     }
 
     /**
@@ -334,18 +300,11 @@ public class ArchiveManager {
 
     public synchronized LongList insertEntries(final ObjectType objType, final IdentifierList domain,
             final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
-        return insertEntries(objType, domain, lArchiveDetails, objects, interaction, true);
-    }
-
-    public LongList insertEntries(final ObjectType objType, final IdentifierList domain,
-            final ArchiveDetailsList lArchiveDetails, final ElementList objects,
-            final MALInteraction interaction, boolean generateEvents) {
         final LongList objIds = new LongList(lArchiveDetails.size());
         final ArrayList<COMObjectEntity> perObjsEntities = new ArrayList<>(lArchiveDetails.size());
         final int domainId = this.fastDomain.getDomainId(domain);
         final int objTypeId = this.fastObjectType.getObjectTypeId(objType);
 
-        // Generate the object Ids if needed and the persistence objects to be stored
         for (int i = 0; i < lArchiveDetails.size(); i++) {
             ArchiveDetails details = lArchiveDetails.get(i);
             final int providerURIId = this.fastProviderURI.getProviderURIId(details.getProvider());
@@ -363,32 +322,16 @@ public class ArchiveManager {
             objIds.add(objId);
         }
 
-        Runnable publishEvents = null;
-
-        if (globalGenerateEvents && generateEvents) {
-            publishEvents = this.generatePublishEventsThread(
-                    ArchiveServiceInfo.OBJECTSTORED_OBJECT_TYPE,
-                    objType, domain, objIds, interaction);
-        }
-
-        this.dbProcessor.insert(perObjsEntities, publishEvents);
+        this.dbProcessor.insert(perObjsEntities, null);
         return objIds;
     }
 
-    public void updateEntries(final ObjectType objType, final IdentifierList domain,
-            final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
-        updateEntries(objType, domain, lArchiveDetails, objects, interaction, true);
-    }
-
     public synchronized void updateEntries(final ObjectType objType, final IdentifierList domain,
-            final ArchiveDetailsList lArchiveDetails, final ElementList objects,
-            final MALInteraction interaction, boolean generateEvents) {
+            final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
         final int domainId = this.fastDomain.getDomainId(domain);
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
         final ArrayList<COMObjectEntity> newObjs = new ArrayList<>();
-        final LongList objIds = new LongList();
 
-        // Generate the object Ids if needed and the persistence objects to be stored
         for (int i = 0; i < lArchiveDetails.size(); i++) {
             final URI provider = lArchiveDetails.get(i).getProvider();
             final Integer providerURIId = this.fastProviderURI.getProviderURIId(provider);
@@ -406,42 +349,19 @@ public class ArchiveManager {
                     domainId, lArchiveDetails.get(i).getId(),
                     lArchiveDetails.get(i).getTimestamp().getValue(),
                     providerURIId, networkId, sourceLink,
-                    lArchiveDetails.get(i).getLinks().getRelated(), objBody); // 0.170 ms
+                    lArchiveDetails.get(i).getLinks().getRelated(), objBody);
 
             newObjs.add(newObj);
-            objIds.add(lArchiveDetails.get(i).getId());
         }
 
-        Runnable publishEvents = null;
-
-        if (globalGenerateEvents && generateEvents) {
-            publishEvents = this.generatePublishEventsThread(
-                    ArchiveServiceInfo.OBJECTUPDATED_OBJECT_TYPE,
-                    objType, domain, objIds, interaction);
-        }
-
-        this.dbProcessor.update(newObjs, publishEvents);
+        this.dbProcessor.update(newObjs, null);
     }
 
     public LongList removeEntries(final ObjectType objType, final IdentifierList domain,
             final LongList objIds, final MALInteraction interaction) {
-        return removeEntries(objType, domain, objIds, interaction, true);
-    }
-
-    public LongList removeEntries(final ObjectType objType, final IdentifierList domain,
-            final LongList objIds, final MALInteraction interaction, boolean generateEvents) {
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
         final int domainId = this.fastDomain.getDomainId(domain);
-
-        Runnable publishEvents = null;
-
-        if (globalGenerateEvents && generateEvents) {
-            publishEvents = this.generatePublishEventsThread(
-                    ArchiveServiceInfo.OBJECTDELETED_OBJECT_TYPE,
-                    objType, domain, objIds, interaction);
-        }
-
-        this.dbProcessor.remove(objTypeId, domainId, objIds, publishEvents);
+        this.dbProcessor.remove(objTypeId, domainId, objIds, null);
         this.fastObjId.delete(objTypeId, domainId);
         return objIds;
     }
@@ -616,63 +536,6 @@ public class ArchiveManager {
         return outPerObjs;
     }
 
-    private static ObjectKeyList generateSources(final ObjectType objType,
-            final IdentifierList domain, final LongList objIds) {
-        final ObjectKeyList sourceList = new ObjectKeyList(objIds.size());
-
-        for (int i = 0; i < objIds.size(); i++) {
-            final ObjectKey source = new ObjectKey(objType, domain, objIds.get(i));
-
-            // Is the COM Object an Event coming from the archive?
-            ObjectType archType = HelperCOM.generateCOMObjectType(
-                    ArchiveHelper.ARCHIVE_SERVICE, source.getType().getNumber());
-
-            if (source.getType().equals(archType)) {
-                continue; // requirement: 3.4.2.5
-            }
-
-            sourceList.add(source);
-        }
-
-        return sourceList;
-    }
-
-    private void generateAndPublishEvents(final ObjectType objType,
-            final ObjectKeyList sourceList, final MALInteraction interaction) {
-        if (eventService == null) {
-            return;
-        }
-
-        if (sourceList.isEmpty()) { // Don't store anything if the list is empty...
-            return;
-        }
-
-        /* Just use it for debugging
-        LOGGER.log(Level.FINE, "\nobjType: " + objType.toString()
-                + "\nDomain: " + ConfigurationProviderSingleton.getDomain().toString() + "\nSourceList: " + sourceList.toString());
-         */
-        // requirement: 3.4.2.4
-        final LongList eventObjIds = eventService.generateAndStoreEvents(objType,
-                ConfigurationProviderSingleton.getDomain(), null, sourceList, interaction);
-
-        /* Just use it for debugging
-        LOGGER.log(Level.FINE, "The eventObjIds are: " + eventObjIds.toString());
-         */
-        URI sourceURI = new URI("");
-
-        if (interaction != null) {
-            if (interaction.getMessageHeader() != null) {
-                sourceURI = interaction.getMessageHeader().getToURI();
-            }
-        }
-
-        try {
-            eventService.publishEvents(sourceURI, eventObjIds, objType, null, sourceList, null);
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
-        }
-    }
-
     public static ObjectKey archivePerObj2source(final ArchivePersistenceObject obj) {
         return new ObjectKey(obj.getObjectType(), obj.getDomain(), obj.getObjectId());
     }
@@ -753,15 +616,6 @@ public class ArchiveManager {
         }
 
         return true;
-    }
-
-    private Runnable generatePublishEventsThread(final ObjectType comObject, final ObjectType objType,
-            final IdentifierList domain, final LongList objIds, final MALInteraction interaction) {
-        return () -> {
-            // Generate and Publish the Events - requirement: 3.4.2.1
-            ObjectKeyList sources = ArchiveManager.generateSources(objType, domain, objIds);
-            generateAndPublishEvents(comObject, sources, interaction);
-        };
     }
 
     public FastDomain getFastDomain() {
