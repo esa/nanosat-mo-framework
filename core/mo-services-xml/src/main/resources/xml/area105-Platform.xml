@@ -377,7 +377,7 @@
                     <mal:messages>
                         <mal:request>
                             <mal:field name="nearbyPositionDefinitions" canBeNull="true" comment="The list of nearby position definitions to add.">
-                                <mal:type area="Platform" list="true" name="NearbyPositionDefinition" />
+                                <mal:type area="Platform" list="true" name="NearbyPosition" />
                             </mal:field>
                         </mal:request>
                         <mal:response>
@@ -387,7 +387,7 @@
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="When one of the supplied NearbyPositionDefinition objects contains an invalid name.">
+                        <mal:errorRef comment="When one of the supplied NearbyPosition objects contains an invalid name.">
                             <mal:type area="COM" list="false" name="INVALID" />
                             <mal:extraInformation
                                 comment="The indexes of the erroneous entries in the nearbyPositionDefinitions list.">
@@ -670,7 +670,7 @@
                     <com:object number="1" name="NearbyPosition"
                                 comment="A nearby position marker." >
                         <com:objectType>
-                            <mal:type area="Platform" list="false" name="NearbyPositionDefinition" />
+                            <mal:type area="Platform" list="false" name="NearbyPosition" />
                         </com:objectType>
                         <com:relatedObject comment="" />
                         <com:sourceObject
@@ -1343,7 +1343,7 @@
                 <mal:item nvalue="1" value="GNSS" comment="GNSS."/>
                 <mal:item nvalue="2" value="TLE" comment="TLE propagation."/>
             </mal:enumeration>
-            <mal:composite name="NearbyPositionDefinition" shortFormPart="11" comment="A definition of a nearby position.">
+            <mal:composite name="NearbyPosition" shortFormPart="11" comment="A definition of a nearby position.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite" />
                 </mal:extends>

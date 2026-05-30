@@ -292,12 +292,12 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     }
 
     @Override
-    public LongList addNearbyPosition(final NearbyPositionDefinitionList nearbyPositionDefinitions,
+    public LongList addNearbyPosition(final NearbyPositionList nearbyPositionDefinitions,
             final MALInteraction interaction) throws MALInteractionException, MALException {
         LongList outLongLst = new LongList();
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
-        NearbyPositionDefinition def;
+        NearbyPosition def;
 
         if (nearbyPositionDefinitions == null) { // Is the input null?
             throw new IllegalArgumentException("nearbyPositionDefinitions argument must not be null");
@@ -589,7 +589,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
                     for (int i = 0; i < ids.size(); i++) {
                         Long objId = ids.get(i);
-                        NearbyPositionDefinition def = manager.get(objId);
+                        NearbyPosition def = manager.get(objId);
                         Boolean previousState = manager.getPreviousStatus(objId);
 
                         try {

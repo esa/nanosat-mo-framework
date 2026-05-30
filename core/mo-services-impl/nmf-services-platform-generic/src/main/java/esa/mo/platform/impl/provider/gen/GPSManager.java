@@ -68,11 +68,11 @@ public final class GPSManager extends DefinitionsManager {
 
     @Override
     public ElementList newDefinitionList() {
-        return new NearbyPositionDefinitionList();
+        return new NearbyPositionList();
     }
 
-    public NearbyPositionDefinition get(final Long input) {
-        return (NearbyPositionDefinition) this.getDef(input);
+    public NearbyPosition get(final Long input) {
+        return (NearbyPosition) this.getDef(input);
     }
 
     public synchronized Boolean getPreviousStatus(final Long input) {
@@ -83,11 +83,11 @@ public final class GPSManager extends DefinitionsManager {
         return previousIsInsideStatus.put(input, isInside);
     }
 
-    public NearbyPositionDefinitionList getAll() {
-        return (NearbyPositionDefinitionList) this.getAllDefs();
+    public NearbyPositionList getAll() {
+        return (NearbyPositionList) this.getAllDefs();
     }
 
-    public Long add(final NearbyPositionDefinition definition, final ObjectKey source, URI uri) {
+    public Long add(final NearbyPosition definition, final ObjectKey source, URI uri) {
         if (super.getArchiveService() == null) {
             uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
             this.addDef(uniqueObjIdDef, definition);
