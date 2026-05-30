@@ -7,7 +7,7 @@
     xmlns:com = "http://www.ccsds.org/schema/COMSchema"
     xmlns:svg = "http://www.w3.org/2000/svg"
     xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" comment="">
-    <mal:area name="SoftwareManagement" number="7" version="5" comment="The Software Management set of services contains services for on-board software management of a spacecraft. The following services are contained in the Software Management set:&#10;The Memory Management service is a low-level service intended to be used to load, dump and check memory addresses.&#10;The Software Image service is intended to manage Software Images and Software Patches by allowing the generation of new Software Images from a patch.&#10;The Package Management service allows the management of software packages on modern operating systems using the concept of packages.&#10;The Apps Launcher service allows the management of runnable applications in a system.&#10;The Heartbeat service publishes a periodic beat to the consumers that are listening.&#10;&#10;This section details the Software Management services. The area and structures are defined in terms of the MO Message Abstraction Layer (MAL), so it is possible to deploy them over any supported protocol and message transport.">
+    <mal:area name="SoftwareManagement" number="7" version="5" comment="Software Management services">
         <mal:service name="PackageManagement" number="1" xsi:type="com:ExtendedServiceType" comment="The Package Management service provides the ability to install, uninstall, upgrade, list, check packages. The service shall optionally support verification of packages, verification of digital signatures, upgrade software, manage dependencies.&#10;Packages can be organized in different categories in order to facilitate the management of software.">
             <mal:documentation name="Service-level Requirement" order="1">The Package Management service shall provide:
 &lt;ol&gt;
@@ -16,15 +16,15 @@
 &lt;li&gt;the capability for checking the integrity of a package.&lt;/li&gt;
 &lt;/ol&gt;
             </mal:documentation>
-            <mal:capabilitySet comment="" number="1">
+            <mal:capabilitySet number="1" comment="">
                 <mal:requestIP name="findPackage" number="1" comment="The findPackage operation allows a consumer to find the available packages on the provider.">
                     <mal:messages>
-                        <mal:request comment="">
+                        <mal:request>
                             <mal:field name="names" canBeNull="true" comment="The names of the packages.">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
                         </mal:request>
-                        <mal:response comment="">
+                        <mal:response>
                             <mal:field name="names" canBeNull="true" comment="The names of the packages.">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
@@ -44,17 +44,17 @@
                 </mal:requestIP>
                 <mal:invokeIP name="install" number="2" comment="The install operation allows a consumer to install the content of a package on the provider. The selected packages will be installed sequentially.">
                     <mal:messages>
-                        <mal:invoke comment="">
+                        <mal:invoke>
                             <mal:field name="names" canBeNull="true" comment="The names of the packages.">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
                         </mal:invoke>
-                        <mal:acknowledgement comment="">
+                        <mal:acknowledgement>
                             <mal:field name="integrity" canBeNull="true" comment="The status of the package integrity.">
                                 <mal:type area="MAL" list="true" name="Boolean"/>
                             </mal:field>
                         </mal:acknowledgement>
-                        <mal:response comment="">
+                        <mal:response>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
@@ -74,7 +74,7 @@
                 </mal:invokeIP>
                 <mal:invokeIP name="uninstall" number="3" comment="The uninstall operation allows a consumer to uninstall the content of a package on the provider. The selected packages will be uninstalled sequentially.">
                     <mal:messages>
-                        <mal:invoke comment="">
+                        <mal:invoke>
                             <mal:field name="names" canBeNull="true" comment="The names of the packages.">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
@@ -82,9 +82,9 @@
                                 <mal:type area="MAL" list="true" name="Boolean"/>
                             </mal:field>
                         </mal:invoke>
-                        <mal:acknowledgement comment="">
+                        <mal:acknowledgement>
                         </mal:acknowledgement>
-                        <mal:response comment="">
+                        <mal:response>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
@@ -103,17 +103,17 @@
                     </mal:errors>
                 </mal:invokeIP>
             </mal:capabilitySet>
-            <mal:capabilitySet comment="" number="2">
+            <mal:capabilitySet number="2" comment="">
                 <mal:invokeIP name="upgrade" number="4" comment="The upgrade operation allows a consumer to upgrade the content of a package on the provider. The selected packages will be upgraded sequentially.">
                     <mal:messages>
-                        <mal:invoke comment="">
+                        <mal:invoke>
                             <mal:field name="names" canBeNull="true" comment="The names of the packages.">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
                         </mal:invoke>
-                        <mal:acknowledgement comment="">
+                        <mal:acknowledgement>
                         </mal:acknowledgement>
-                        <mal:response comment="">
+                        <mal:response>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
@@ -132,15 +132,15 @@
                     </mal:errors>
                 </mal:invokeIP>
             </mal:capabilitySet>
-            <mal:capabilitySet comment="" number="3">
+            <mal:capabilitySet number="3" comment="">
                 <mal:requestIP name="checkPackageIntegrity" number="5" comment="The checkPackageIntegrity operation allows a consumer to check the integrity of a certain package on the provider.">
                     <mal:messages>
-                        <mal:request comment="">
+                        <mal:request>
                             <mal:field name="names" canBeNull="true" comment="The names of the packages.">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
                         </mal:request>
-                        <mal:response comment="">
+                        <mal:response>
                             <mal:field name="validCRCs" canBeNull="true" comment="Whether the CRC of each package is valid.">
                                 <mal:type area="MAL" list="true" name="Boolean"/>
                             </mal:field>
@@ -220,22 +220,22 @@
 &lt;li&gt;the capability for retrieving the period of the beat.&lt;/li&gt;
 &lt;/ol&gt;
             </mal:documentation>
-            <mal:capabilitySet comment="" number="1">
+            <mal:capabilitySet number="1" comment="">
                 <mal:pubsubIP name="beat" number="1" comment="The beat operation allows a provider to periodically send a heartbeat to the consumers.">
                     <mal:messages>
                         <mal:subscriptionKeys>
                         </mal:subscriptionKeys>
-                        <mal:publishNotify comment="">
+                        <mal:publishNotify>
                         </mal:publishNotify>
                     </mal:messages>
                 </mal:pubsubIP>
             </mal:capabilitySet>
-            <mal:capabilitySet comment="" number="2">
+            <mal:capabilitySet number="2" comment="">
                 <mal:requestIP name="getPeriod" number="2" comment="The getPeriod operation allows a consumer to get the period of the provider's heartbeat.">
                     <mal:messages>
-                        <mal:request comment="">
+                        <mal:request>
                         </mal:request>
-                        <mal:response comment="">
+                        <mal:response>
                             <mal:field name="period" canBeNull="true" comment="The period of the heartbeat message.">
                                 <mal:type area="MAL" list="false" name="Duration"/>
                             </mal:field>
@@ -249,15 +249,15 @@
             <mal:documentation name="Service-level Requirement" order="1">
                 The body of the Command COM object shall be of type CommandDetails.
             </mal:documentation>
-            <mal:capabilitySet comment="" number="1">
+            <mal:capabilitySet number="1" comment="">
                 <mal:requestIP name="runCommand" number="1" comment="The runCommand operation allows a consumer to spawn a new shell instance and execute an arbitrary command on the provider host.">
                     <mal:messages>
-                        <mal:request comment="">
+                        <mal:request>
                             <mal:field name="command" canBeNull="true" comment="Details of the command to be run.">
                                 <mal:type area="SoftwareManagement" list="false" name="CommandDetails"/>
                             </mal:field>
                         </mal:request>
-                        <mal:response comment="">
+                        <mal:response>
                             <mal:field name="commandId" canBeNull="true" comment="The COM id of the spawned command, as stored in the Archive.">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
@@ -331,27 +331,33 @@
                 The StopApp COM event shall be generated by the stopApp operation.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="7">
-                The Stopping COM event source link shall point to the StopApp COM event that requested the application to stop, or to NULL if there was no request.
+                If the application was requested to stop via a StopApp COM event, then the Stopping COM event source link shall point to that StopApp COM event.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="8">
-                The Stopping COM event shall be generated by the application when it is going to stop its execution.
+                If the application was not requested to stop via a StopApp COM event, then the Stopping COM event source link shall be NULL.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="9">
-                The Stopped COM event source link shall point to the StopApp COM event that requested the application to stop, or to NULL if there was no request.
+                The Stopping COM event shall be generated by the application when it is going to stop its execution.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="10">
-                The Stopped COM event shall be generated by the application when it has completely stopped its execution.
+                If the application was requested to stop via a StopApp COM event, then the Stopped COM event source link shall point to that StopApp COM event.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="11">
-                The body of the StartApp COM event shall be the name of the app to be started.
+                If the application was not requested to stop via a StopApp COM event, then the Stopped COM event source link shall be NULL.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="12">
-                The StartApp COM event related link shall point to the App COM object.
+                The Stopped COM event shall be generated by the application when it has completely stopped its execution.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="13">
+                The body of the StartApp COM event shall be the name of the app to be started.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="14">
+                The StartApp COM event related link shall point to the App COM object.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="15">
                 The StartApp COM event shall be generated by the runApp operation.
             </mal:documentation>
-            <mal:capabilitySet comment="" number="1">
+            <mal:capabilitySet number="1" comment="">
                 <mal:pubsubIP name="monitorExecution" number="1" comment="The monitorExecution operation allows a consumer to subscribe for the application execution output stream.">
                     <mal:documentation name="Requirement" order="1">
                         The timestamp of the NOTIFY message shall be the on-board time at which it is published.
@@ -371,7 +377,7 @@
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
                         </mal:subscriptionKeys>
-                        <mal:publishNotify comment="">
+                        <mal:publishNotify>
                             <mal:field name="outputStream" canBeNull="true" comment="The output stream of the application.">
                                 <mal:type area="MAL" list="false" name="String"/>
                             </mal:field>
@@ -379,10 +385,10 @@
                     </mal:messages>
                 </mal:pubsubIP>
             </mal:capabilitySet>
-            <mal:capabilitySet comment="" number="2">
+            <mal:capabilitySet number="2" comment="">
                 <mal:submitIP name="runApp" number="2" comment="The runApp operation allows a consumer to run an application on the provider.">
                     <mal:messages>
-                        <mal:submit comment="">
+                        <mal:submit>
                             <mal:field name="appIds" canBeNull="true" comment="The list of apps to run.">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
@@ -411,7 +417,7 @@
                 </mal:submitIP>
                 <mal:submitIP name="killApp" number="3" comment="The killApp operation allows a consumer to kill the execution of an application on the provider in case an application becomes unresponsive.">
                     <mal:messages>
-                        <mal:submit comment="">
+                        <mal:submit>
                             <mal:field name="appIds" canBeNull="true" comment="The list of apps to be killed.">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
@@ -433,36 +439,36 @@
                     </mal:errors>
                 </mal:submitIP>
             </mal:capabilitySet>
-            <mal:capabilitySet comment="" number="3">
+            <mal:capabilitySet number="3" comment="">
                 <mal:progressIP name="stopApp" number="4" comment="The stopApp operation allows a consumer to stop the execution of an application on the provider.">
                     <mal:documentation name="Requirement" order="1">
                         The service provider shall send the UPDATE message after the app acknowledges the command to stop.
                     </mal:documentation>
                     <mal:messages>
-                        <mal:progress comment="">
+                        <mal:progress>
                             <mal:field name="appIds" canBeNull="true" comment="The list of apps to stop.">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:progress>
-                        <mal:acknowledgement comment="">
+                        <mal:acknowledgement>
                         </mal:acknowledgement>
-                        <mal:update comment="">
+                        <mal:update>
                             <mal:field name="appClosing" canBeNull="true" comment="The id of the app that is closing.">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
                         </mal:update>
-                        <mal:response comment="">
+                        <mal:response>
                         </mal:response>
                     </mal:messages>
                 </mal:progressIP>
             </mal:capabilitySet>
-            <mal:capabilitySet comment="" number="4">
+            <mal:capabilitySet number="4" comment="">
                 <mal:requestIP name="listApp" number="5" comment="The listApp operation allows a consumer to request the ids of the Apps objects and running status for an app name or for a certain app category.">
                     <mal:documentation name="Requirement" order="1">
                         The service provider shall maintain the same order in the returned lists as the submitted appNames list unless the wildcard value was included in the request.
                     </mal:documentation>
                     <mal:messages>
-                        <mal:request comment="">
+                        <mal:request>
                             <mal:field name="appNames" canBeNull="true" comment="The list of application names.">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
@@ -470,7 +476,7 @@
                                 <mal:type area="MAL" list="false" name="Identifier"/>
                             </mal:field>
                         </mal:request>
-                        <mal:response comment="">
+                        <mal:response>
                             <mal:field name="appIds" canBeNull="true" comment="The list of apps.">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>

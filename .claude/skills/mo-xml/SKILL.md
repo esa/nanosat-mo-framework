@@ -40,13 +40,13 @@ Read this file whenever you are uncertain about which elements or attributes are
 ## 2. Area
 
 ```xml
-<mal:area name="MPD" number="9" version="1" comment="Mission Operations services - Mission Product Distribution">
+<mal:area name="COM" number="2" version="5" comment="Common Object Model services">
 ```
 
 - `name`: short uppercase abbreviation or CamelCase.
 - `number`: unique area number (check existing areas to avoid collision).
 - `version`: integer, starts at 1.
-- `comment`: format `"Mission Operations services - <Full Area Name>"`.
+- `comment`: spell out the area name in full, followed by `services` — e.g. `"Common Object Model services"`, `"Monitor and Control services"`, `"Software Management services"`, `"Platform services"`. The MAL area is the only exception: it uses just `"Message Abstraction Layer"` (no trailing `services`), because MAL is the underlying messaging layer rather than a set of services. The MPD upstream form `"Mission Operations services - <Full Area Name>"` is not used in NMF.
 
 ---
 

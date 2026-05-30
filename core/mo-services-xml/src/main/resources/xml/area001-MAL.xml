@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mal:specification xmlns:mal="http://www.ccsds.org/schema/ServiceSchema-v003" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <mal:area name="MAL" number="1" version="3">
+    <mal:area name="MAL" number="1" version="3" comment="Message Abstraction Layer">
         <mal:dataTypes>
             <mal:fundamental name="Attribute" comment="Attribute is the base type of all Attributes of the MAL data model. Attributes are contained within Composites and are used to build complex structures that make the data model.">
                 <mal:extends>
