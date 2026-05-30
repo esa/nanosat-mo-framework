@@ -226,7 +226,7 @@ public class AppsLauncherCommands {
                 });
 
                 synchronized (lock) {
-                    lock.wait(30_000);
+                    lock.wait(4_000);
                 }
 
             } catch (MALInteractionException | MALException | InterruptedException e) {
