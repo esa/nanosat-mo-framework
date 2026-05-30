@@ -207,7 +207,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
                 related, source, uri, objId);
 
-        return super.getArchiveService().store(true, AppsLauncherServiceInfo.APP_OBJECT_TYPE,
+        return super.getArchiveService().store(true, AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(), archDetails, defs, null);
     }
 
@@ -234,7 +234,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
 
         ArchiveDetails archiveDetails = HelperArchive.getArchiveDetailsFromArchive(super.getArchiveService(),
-                AppsLauncherServiceInfo.APP_OBJECT_TYPE, domain, objId);
+                AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE, domain, objId);
 
         if (archiveDetails == null) {
             throw new MALException("No object present in archive.");
@@ -243,7 +243,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
         archiveDetailsList.add(archiveDetails);
 
-        super.getArchiveService().update(AppsLauncherServiceInfo.APP_OBJECT_TYPE,
+        super.getArchiveService().update(AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE,
                 domain, archiveDetailsList, defs, interaction);
     }
 
@@ -493,7 +493,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         // Register on the Event service of the respective apps
         // Select all object numbers from the Apps Launcher service Events
         Subscription eventSub = HelperCOM.generateSubscriptionCOMEvent("ClosingAppEvents",
-                AppsLauncherServiceInfo.APP_OBJECT_TYPE);
+                AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE);
         try {
             // Subscribe to events
             EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(appConnection);

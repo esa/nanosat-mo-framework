@@ -183,7 +183,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     // Select all object numbers from the Apps Launcher service Events
                     subscription = HelperCOM.generateSubscriptionCOMEvent(
                             "CloseAppEventListener",
-                            AppsLauncherServiceInfo.APP_OBJECT_TYPE);
+                            AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE);
 
                     // Register with the subscription key provided
                     serviceCOMEvent.addEventReceivedListener(subscription, new CloseAppEventListener(this));

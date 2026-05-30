@@ -64,7 +64,7 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
     /**
      * SoftwareManagement.AppsLaunch.App object type
      */
-    private ObjectType appType = AppsLauncherServiceInfo.APP_OBJECT_TYPE;
+    private ObjectType appType = AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE;
 
     /**
      * Creates a new instance of ArchiveToAppAdapter.

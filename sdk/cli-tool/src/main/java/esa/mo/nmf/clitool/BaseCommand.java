@@ -286,7 +286,7 @@ public abstract class BaseCommand {
         // SoftwareManagement.AppsLaunch.App object type
         ObjectType appType = new ObjectType(SMHelper.SM_AREA_NUMBER,
                 AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
-                AppsLauncherServiceInfo.APP_OBJECT_NUMBER);
+                AppsLauncherServiceInfo.APPDETAILS_OBJECT_NUMBER);
 
         // prepare domain filter
         ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, null, null, null, null);

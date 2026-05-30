@@ -72,7 +72,7 @@ public class ArchiveToAppListAdapter extends ArchiveAdapter implements QueryStat
     /**
      * SoftwareManagement.AppsLaunch.App object type
      */
-    private ObjectType appType = AppsLauncherServiceInfo.APP_OBJECT_TYPE;
+    private ObjectType appType = AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE;
 
     /**
      * Maps of App instance id to their AppDetails object.

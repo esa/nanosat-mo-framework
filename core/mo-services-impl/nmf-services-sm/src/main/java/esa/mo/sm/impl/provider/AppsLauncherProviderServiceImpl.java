@@ -191,7 +191,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                     if (currentStd + segment.length() <= stdLimit) {
                         Element eventBody = new Union(segment);
                         stdQuota.increase(appObjId, segment.length());
-                        ObjectKey source = new ObjectKey(AppsLauncherServiceInfo.APP_OBJECT_TYPE,
+                        ObjectKey source = new ObjectKey(AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE,
                                 domain, appObjId);
                         eventService.generateAndStoreEvent(
                                 objType,
@@ -201,7 +201,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                                 = "Your logging is too verbose and reached the limit.\nPlease reduce verbosity.";
                         Element eventBody = new Union(errorString);
                         outputList = outputList + errorString;
-                        ObjectKey source = new ObjectKey(AppsLauncherServiceInfo.APP_OBJECT_TYPE,
+                        ObjectKey source = new ObjectKey(AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE,
                                 domain, appObjId);
                         eventService.generateAndStoreEvent(
                                 objType,
@@ -539,7 +539,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         ObjectKeys confSet = configurationObjectDetails.getConfigObjects().get(0);
 
         // Confirm the objType
-        if (!confSet.getObjType().equals(AppsLauncherServiceInfo.APP_OBJECT_TYPE)) {
+        if (!confSet.getObjType().equals(AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE)) {
             return false;
         }
 
@@ -557,7 +557,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         // ok, we're good to go...
         // Load the App Details from this configuration...
         HeterogeneousList pDefs = (HeterogeneousList) HelperArchive.getObjectBodyListFromArchive(manager.getArchiveService(),
-                AppsLauncherServiceInfo.APP_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), confSet.getIds());
+                AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(), confSet.getIds());
 
         if (manager.reconfigureDefinitions(confSet.getIds(), pDefs)) {
             for (Long id : confSet.getIds()) { // Set all running state to false
@@ -580,7 +580,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         LongList currentObjIds = new LongList();
         currentObjIds.addAll(defObjs.keySet());
 
-        final ObjectKeys objsSet = new ObjectKeys(AppsLauncherServiceInfo.APP_OBJECT_TYPE,
+        final ObjectKeys objsSet = new ObjectKeys(AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(), currentObjIds);
 
         final ObjectKeysList list = new ObjectKeysList();

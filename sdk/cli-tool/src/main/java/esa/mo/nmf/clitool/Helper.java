@@ -82,7 +82,7 @@ public class Helper {
         Map<String, ProviderAppDetails> result = new HashMap<>();
         ObjectType appType = new ObjectType(SMHelper.SM_AREA_NUMBER,
                 AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
-                AppsLauncherServiceInfo.APP_OBJECT_NUMBER);
+                AppsLauncherServiceInfo.APPDETAILS_OBJECT_NUMBER);
         archive.query(true, appType, archiveQuery, null, new ArchiveAdapter() {
             @Override
             public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,

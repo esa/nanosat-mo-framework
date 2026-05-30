@@ -224,7 +224,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                         BooleanList running, Map qosProperties) {
                     appsTable.refreshTableWithIds(appInstIds,
                             serviceSMAppsLauncher.getConnectionDetails().getDomain(),
-                            AppsLauncherServiceInfo.APP_OBJECT_TYPE);
+                            AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE);
 
                     for (int i = 0; i < appInstIds.size(); i++) {
                         Long objId = appInstIds.get(i);
@@ -473,7 +473,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                 }
             };
             serviceSMAppsLauncher.getCOMServices().getArchiveService().getArchiveStub().retrieve(
-                    AppsLauncherServiceInfo.APP_OBJECT_TYPE,
+                    AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE,
                     serviceSMAppsLauncher.getConnectionDetails().getDomain(),
                     ids,
                     adapter);

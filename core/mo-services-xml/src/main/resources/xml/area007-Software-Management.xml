@@ -511,11 +511,11 @@
                             </svg:marker>
                         </svg:defs>
 
-                        <svg:path d="M220,188 L301,188 L383,187" end="App" fill="none" marker-mid="url(#relatedArrow)" start="StopApp" stroke="rgb(0,0,0)" stroke-width="1"/>
+                        <svg:path d="M220,188 L301,188 L383,187" end="AppDetails" fill="none" marker-mid="url(#relatedArrow)" start="StopApp" stroke="rgb(0,0,0)" stroke-width="1"/>
                         <svg:path d="M220,188 L220,119 L220,50" end="COM::ActivityTracking::OperationActivity" fill="none" marker-mid="url(#sourceArrow)" start="StopApp" stroke="rgb(255,0,0)" stroke-width="1"/>
                         <svg:path d="M57,155 L138,171 L220,188" end="StopApp" fill="none" marker-mid="url(#sourceArrow)" start="Stopping" stroke="rgb(255,0,0)" stroke-width="1"/>
 
-                        <svg:path d="M383,187 L507,187 L631,188" end="PackageManagement::Installation" fill="none" marker-mid="url(#sourceArrow)" start="App" stroke="rgb(255,0,0)" stroke-width="1"/>
+                        <svg:path d="M383,187 L507,187 L631,188" end="PackageManagement::Installation" fill="none" marker-mid="url(#sourceArrow)" start="AppDetails" stroke="rgb(255,0,0)" stroke-width="1"/>
                         <svg:path d="M60,245 L140,217 L220,188" end="StopApp" fill="none" marker-mid="url(#sourceArrow)" start="Stopped" stroke="rgb(255,0,0)" stroke-width="1"/>
                         <svg:g id="Stopping" transform="translate(7,115)">
                             <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="15" width="100" x="4" y="4"/>
@@ -545,10 +545,10 @@
                             <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="135" y="45">6</svg:text>
                             <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="135" y="65">COM::ActivityTracking::OperationActivity</svg:text>
                         </svg:g>
-                        <svg:g id="App" transform="translate(333,147)">
+                        <svg:g id="AppDetails" transform="translate(333,147)">
                             <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="100" x="4" y="4"/>
                             <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="100"/>
-                            <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="50" y="25">App</svg:text>
+                            <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="50" y="25">AppDetails</svg:text>
                             <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="50" y="45">1</svg:text>
                             <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="50" y="65">AppDetails</svg:text>
                         </svg:g>
@@ -562,7 +562,7 @@
                     </svg:svg>
                 </mal:diagram>
                 <com:objects comment="The App COM object used by the Apps Launcher service.">
-                    <com:object comment="" number="1" name="App">
+                    <com:object comment="" number="1" name="AppDetails">
                         <com:objectType>
                             <mal:type area="SM" list="false" name="AppDetails"/>
                         </com:objectType>
