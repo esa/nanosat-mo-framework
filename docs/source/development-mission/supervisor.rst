@@ -57,8 +57,8 @@ simulator is:
         super.getPlatformServices().init(conn, null);
     }
 
-The ``super.getPlatformServices()`` consumer is what the ``NanoSatMOConnector`` inside each NMF App ultimately
-talks to.
+The ``super.getPlatformServices()`` consumer is what the ``NanoSatMOConnectorImpl`` inside each NMF App
+ultimately talks to.
 
 Minimal mission: Barebone Supervisor
 --------------------------------------

@@ -89,7 +89,7 @@ All adapters are collected by a single top-level interface::
     }
 
 A mission that only supports a subset of services returns ``null`` for those it does not implement. The
-``NanoSatMOConnector`` inside each NMF App checks for ``null`` before trying to use a service.
+``NanoSatMOConnectorImpl`` inside each NMF App checks for ``null`` before trying to use a service.
 
 The ``init`` method receives the ``COMServicesProvider`` so adapters can publish COM Events when hardware
 state changes (e.g. ADCS mode transitions, power faults).

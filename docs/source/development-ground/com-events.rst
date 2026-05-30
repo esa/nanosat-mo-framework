@@ -18,12 +18,12 @@ The Event service is reached through ``GroundMOAdapterImpl``:
 
    EventStub events = gma.getCOMServices().getEventService();
    Subscription sub = buildSubscription();  // see below
-   events.monitorEventRegister(sub, new EventReceivedAdapter() {
+   events.monitorEventRegister(sub, new EventAdapter() {
        @Override
        public void monitorEventNotifyReceived(
                MALMessageHeader header, Identifier subId,
-               UpdateHeaderList updates, ObjectIdList objIds,
-               ElementList elements, Map qos) {
+               UpdateHeader updateHeader, ObjectLinks eventLinks,
+               Long eventId, Element eventBody, Map qos) {
            // handle each event
        }
    });
