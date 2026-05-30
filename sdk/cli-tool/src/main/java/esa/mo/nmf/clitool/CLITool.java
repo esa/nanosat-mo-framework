@@ -28,7 +28,13 @@ public class CLITool {
     public static final String APP_NAME = "cli-consumer";
 
     public static void main(String[] args) {
+        long startTime = System.currentTimeMillis();
+        System.out.println("(1) The CLI Tool is starting...");
         Runtime.getRuntime().addShutdownHook(new Thread(BaseCommand::closeConsumer));
-        System.exit(Dispatcher.dispatch(args));
+        System.out.println("(2) The CLI Tool is starting...");
+        int exitCode = Dispatcher.dispatch(args);
+        long startupTime = System.currentTimeMillis() - startTime;
+        System.out.println("(3) The CLI Tool was started in: " + startupTime + " ms");
+        System.exit(exitCode);
     }
 }
