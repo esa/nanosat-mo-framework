@@ -521,7 +521,15 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
         return null; // Return null to work normally...
     }
 
-    private Integer getTypeShortForm(Class<?> type) {
+    /**
+     * Checks the java type and returns the equivalent MO type short form.
+     * Deprecated because it should be moved to: HelperAttributes()
+     *
+     * @param type The java type.
+     * @return The type short form in MO.
+     */
+    @Deprecated
+    public static Integer getTypeShortForm(Class<?> type) {
         Integer helperValue = HelperAttributes.attributeName2typeShortForm(type.getSimpleName());
         if (helperValue != null) {
             return helperValue;
