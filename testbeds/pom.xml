@@ -32,6 +32,7 @@
         <module>testbed-area-com</module>
         <module>testbed-area-mc</module>
         <module>testbed-e2e</module>
+        <module>testbed-performance</module>
     </modules>
 
 </project>
