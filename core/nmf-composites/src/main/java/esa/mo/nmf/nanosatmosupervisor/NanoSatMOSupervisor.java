@@ -130,7 +130,6 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             super.reconfigurableServices.add(this.appsLauncherService);
             this.appsLauncherService.setStdQuotaPerApp(stdQuota);
             this.appsLauncherService.addFolderWithApps(Deployment.getAppsDir());
-            this.comServices.getArchiveSyncService().setStdQuota(stdQuota);
             this.startMCServices(mcAdapter);
             this.initPlatformServices(comServices);
         } catch (MALException ex) {

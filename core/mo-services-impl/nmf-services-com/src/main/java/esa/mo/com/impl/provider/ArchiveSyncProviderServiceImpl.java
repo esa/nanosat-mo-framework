@@ -21,23 +21,17 @@
 package esa.mo.com.impl.provider;
 
 import esa.mo.com.impl.archive.entities.COMObjectEntity;
-import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.sync.Dictionary;
 import esa.mo.com.impl.sync.EncodeDecode;
-import esa.mo.com.impl.sync.ToDelete;
-import esa.mo.com.impl.util.Quota;
 import esa.mo.helpertools.misc.Const;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 import org.ccsds.moims.mo.com.InvalidException;
-import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archivesync.ArchiveSyncHelper;
 import org.ccsds.moims.mo.com.archivesync.body.GetTimeResponse;
 import org.ccsds.moims.mo.com.archivesync.provider.ArchiveSyncInheritanceSkeleton;
@@ -52,7 +46,6 @@ import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
 /**
  * Archive Sync service Provider.
@@ -87,11 +80,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
     private boolean initialiased = false;
 
-    private ArchiveConsumerServiceImpl archive;
-
     private Time latestSync;
-
-    private Quota stdQuota;
 
     private Timer dispatchersCleanupTimer;
 
@@ -104,13 +93,6 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
     public ArchiveSyncProviderServiceImpl(SingleConnectionDetails connectionToArchiveService,
             Blob authenticationId, String localNamePrefix) {
         this.latestSync = new Time(0);
-        try {
-            this.archive = new ArchiveConsumerServiceImpl(connectionToArchiveService, authenticationId,
-                localNamePrefix);
-        } catch (MALException | MalformedURLException ex){
-            LOGGER.log(Level.SEVERE, "The Archive could not be started!", ex);
-        }
-
         timerName = getTimerName();
         dispatchersCleanupTimer = new Timer(timerName);
         LOGGER.log(Level.FINE, "Dispatchers cleanup timer created " + timerName);
@@ -134,17 +116,6 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
     private static synchronized String getTimerName() {
         return "DispachersCleanupTimer_" + timerCounter++;
-    }
-
-    /**
-     * Set the quota. Should only be used when STD limits are used for the
-     * archive.
-     *
-     * @param quota The same Quota object that is passed to the
-     * AppsLauncherProviderServiceImpl using its setStdPerApp method.
-     */
-    public void setStdQuota(Quota quota) {
-        this.stdQuota = quota;
     }
 
     /**
@@ -201,7 +172,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
     @Override
     public void retrieveRange(Time from, Time until, ObjectTypeList objectTypes, Identifier compression,
             RetrieveRangeInteraction interaction) throws MALInteractionException, MALException {
-        final Dispatcher dispatcher = new Dispatcher(interaction, archive);
+        final Dispatcher dispatcher = new Dispatcher(interaction);
         long interactionTicket = interaction.getInteraction().getMessageHeader().getTransactionId();
         dispatchers.put(interactionTicket, dispatcher);
         final TimerTask timerTask = new CleaningTimerTask(interactionTicket);
@@ -223,8 +194,8 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         latestSync = perObjs.isEmpty() ? latestSync : perObjs.get(perObjs.size() - 1).getTimestamp().toTime();
 
         dispatcher.addObjects(perObjs);
-        LOGGER.log(Level.FINE, "Stage 1: " + perObjs.size() +
-            " objects were queried and are now being sent back to the consumer!");
+        LOGGER.log(Level.FINE, "Stage 1: " + perObjs.size()
+                + " objects were queried and are now being sent back to the consumer!");
 
         syncTimes.put(interactionTicket, latestSync.getValue());
         executor.execute(dispatcher::flushData);
@@ -326,6 +297,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             cleanTimerTask(transactionTicket, timerTask);
         }
 
+        dispatcher.purge();
         cleanDispatcher(transactionTicket, dispatcher);
 
         Long lastSyncTime = syncTimes.get(transactionTicket);
@@ -378,20 +350,19 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
         private byte[] dataToFlush = null;
 
-        private final ArchiveConsumerServiceImpl archive;
+        private List<COMObjectEntity> syncedEntities = Collections.emptyList();
 
         private int chunkSize = 200;
 
         private int numberOfChunks = 0;
 
-        private boolean purgeArchive;
+        private final boolean purgeArchive;
 
-        Dispatcher(final RetrieveRangeInteraction interaction, ArchiveConsumerServiceImpl archive) {
+        Dispatcher(final RetrieveRangeInteraction interaction) {
             this.interaction = interaction;
-            this.archive = archive;
 
             String chunkSizeParam = System.getProperty(Const.ARCHIVESYNC_CHUNK_SIZE_PROPERTY,
-                Const.ARCHIVESYNC_CHUNK_SIZE_DEFAULT);
+                    Const.ARCHIVESYNC_CHUNK_SIZE_DEFAULT);
 
             try {
                 this.chunkSize = Integer.parseInt(chunkSizeParam);
@@ -408,6 +379,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
         private void clear() {
             chunksFlushed.clear();
+            syncedEntities = Collections.emptyList();
         }
 
         public byte[] getFlushedChunk(int index) {
@@ -423,6 +395,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         }
 
         public void addObjects(final List<COMObjectEntity> entities) {
+            this.syncedEntities = entities;
             dataToFlush = EncodeDecode.encodeToCompressedByteArray(entities, manager, dictionary);
         }
 
@@ -451,15 +424,38 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             }
 
             LOGGER.log(Level.INFO, "Objects were successfully flushed! "
-                    + numberOfChunks + "{0} chunks in total!");
+                    + numberOfChunks + " chunks in total!");
+        }
 
-            // This block cleans up the archive after sync if the option is enabled
-            if (purgeArchive) {
-                ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null, 0L, null, new Time(0), latestSync, null, null);
-                // Iterate over constant set of types to purge until the latest synchronised object
-                for (ToDelete type : ToDelete.values()) {
-                    int removed = manager.deleteCOMObjectEntities(type.getType(), archiveQuery, null);
-                    LOGGER.log(Level.FINE, "Removed {} entities of type {}", new Object[]{removed, type.toString()});
+        public void purge() {
+            if (!purgeArchive || syncedEntities.isEmpty()) {
+                return;
+            }
+            Map<Integer, Map<Integer, LongList>> grouped = new HashMap<>();
+            for (COMObjectEntity entity : syncedEntities) {
+                grouped.computeIfAbsent(entity.getObjectTypeId(), k -> new HashMap<>())
+                        .computeIfAbsent(entity.getDomainId(), k -> new LongList())
+                        .add(entity.getObjectId());
+            }
+            for (Map.Entry<Integer, Map<Integer, LongList>> typeEntry : grouped.entrySet()) {
+                ObjectType objType;
+                try {
+                    objType = manager.getFastObjectType().getObjectType(typeEntry.getKey());
+                } catch (Exception ex) {
+                    LOGGER.log(Level.WARNING, "Could not resolve object type id {0}", typeEntry.getKey());
+                    continue;
+                }
+                for (Map.Entry<Integer, LongList> domainEntry : typeEntry.getValue().entrySet()) {
+                    IdentifierList domain;
+                    try {
+                        domain = manager.getFastDomain().getDomain(domainEntry.getKey());
+                    } catch (Exception ex) {
+                        LOGGER.log(Level.WARNING, "Could not resolve domain id {0}", domainEntry.getKey());
+                        continue;
+                    }
+                    manager.removeEntries(objType, domain, domainEntry.getValue(), null);
+                    LOGGER.log(Level.FINE, "Purged {0} synced objects of type {1}",
+                            new Object[]{domainEntry.getValue().size(), objType});
                 }
             }
         }
@@ -470,64 +466,6 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
                 interaction.sendUpdate(new Blob(aChunk), new UInteger(index));
             } catch (MALInteractionException | MALException ex) {
                 LOGGER.log(Level.SEVERE, "Unexpected exception!", ex);
-            }
-        }
-
-        private class ObjectsReceivedAdapter extends ArchiveAdapter {
-
-            private final ArchiveDetailsList queryResults = new ArchiveDetailsList();
-
-            private final HashSet<Long> clearedIds = new HashSet<>();
-
-            private IdentifierList lastDomain = null;
-
-            private final ArchiveConsumerServiceImpl archive;
-
-            private final ObjectType type;
-
-            public ObjectsReceivedAdapter(ArchiveConsumerServiceImpl archive, ObjectType type) {
-                this.archive = archive;
-                this.type = type;
-            }
-
-            @Override
-            public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
-                super.queryUpdateReceived(msgHeader, objType, domain, objDetails, objBodies, qosProperties);
-                if (objDetails != null) {
-                    queryResults.addAll(objDetails);
-                    lastDomain = domain;
-                    if (objType != null && (objType.equals(ToDelete.STDERR_VALUE.getType())
-                            || objType.equals(ToDelete.STDOUT_VALUE.getType()))) {
-                        objDetails.stream().map(detail -> detail.getLinks().getSource().getId())
-                                .forEach(clearedIds::add);
-                    }
-                    Logger.getLogger(this.getClass().getName()).log(Level.FINER, "Received update");
-                }
-            }
-
-            @Override
-            public void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
-                Logger.getLogger(this.getClass().getName()).log(Level.FINE, "Received response!");
-
-                List<Long> ids = queryResults.stream().map(detail -> detail.getId()).collect(Collectors.toList());
-                LongList objInstIds = new LongList();
-                objInstIds.addAll(ids);
-                try {
-                    Thread.sleep(1000);
-
-                    archive.getArchiveStub().delete(type, lastDomain, objInstIds);
-
-                    if (stdQuota != null) {
-                        stdQuota.clean(clearedIds);
-                    }
-                } catch (MALInteractionException | MALException ex) {
-                    LOGGER.log(Level.SEVERE, "Unexpected exception!", ex);
-                } catch (InterruptedException ex) {
-                    LOGGER.log(Level.SEVERE, "Unexpected exception!", ex);
-                    Thread.currentThread().interrupt();
-
-                }
             }
         }
     }
