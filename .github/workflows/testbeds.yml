@@ -384,6 +384,7 @@ jobs:
         id: get-date
         run: |
           echo "date=$(/bin/date -u "+%Y-week-%U")" >> $GITHUB_OUTPUT
+          echo "timestamp=$(/bin/date -u "+%Y-%m-%dT%H-%M-%SZ")" >> $GITHUB_OUTPUT
         shell: bash
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5
@@ -403,7 +404,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cli-performance-results-jdk11
+          name: cli-performance-results-jdk11-${{ steps.get-date.outputs.timestamp }}
           path: |
             testbeds/testbed-performance/target/performance-results.txt
             testbeds/testbed-performance/target/tier-*.log
@@ -416,6 +417,7 @@ jobs:
         id: get-date
         run: |
           echo "date=$(/bin/date -u "+%Y-week-%U")" >> $GITHUB_OUTPUT
+          echo "timestamp=$(/bin/date -u "+%Y-%m-%dT%H-%M-%SZ")" >> $GITHUB_OUTPUT
         shell: bash
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5
@@ -435,7 +437,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cli-performance-results-jdk17
+          name: cli-performance-results-jdk17-${{ steps.get-date.outputs.timestamp }}
           path: |
             testbeds/testbed-performance/target/performance-results.txt
             testbeds/testbed-performance/target/tier-*.log
@@ -448,6 +450,7 @@ jobs:
         id: get-date
         run: |
           echo "date=$(/bin/date -u "+%Y-week-%U")" >> $GITHUB_OUTPUT
+          echo "timestamp=$(/bin/date -u "+%Y-%m-%dT%H-%M-%SZ")" >> $GITHUB_OUTPUT
         shell: bash
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5
@@ -467,7 +470,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cli-performance-results-jdk21
+          name: cli-performance-results-jdk21-${{ steps.get-date.outputs.timestamp }}
           path: |
             testbeds/testbed-performance/target/performance-results.txt
             testbeds/testbed-performance/target/tier-*.log
@@ -480,6 +483,7 @@ jobs:
         id: get-date
         run: |
           echo "date=$(/bin/date -u "+%Y-week-%U")" >> $GITHUB_OUTPUT
+          echo "timestamp=$(/bin/date -u "+%Y-%m-%dT%H-%M-%SZ")" >> $GITHUB_OUTPUT
         shell: bash
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5
@@ -499,7 +503,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cli-performance-results-jdk25
+          name: cli-performance-results-jdk25-${{ steps.get-date.outputs.timestamp }}
           path: |
             testbeds/testbed-performance/target/performance-results.txt
             testbeds/testbed-performance/target/tier-*.log

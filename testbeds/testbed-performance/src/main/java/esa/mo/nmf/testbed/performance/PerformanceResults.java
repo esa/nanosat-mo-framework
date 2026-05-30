@@ -26,8 +26,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.management.ManagementFactory;
 import java.time.Instant;
-import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.logging.Logger;
 
 /**
@@ -59,7 +59,7 @@ public class PerformanceResults {
     private static final Logger LOGGER = Logger.getLogger(PerformanceResults.class.getName());
 
     /** command name -> [run1, run2, run3] */
-    private final Map<String, CLIResult[]> measurements = new LinkedHashMap<>();
+    private final Map<String, CLIResult[]> measurements = new TreeMap<>();
 
     /**
      * Records three CLI invocation results for the given command label.
