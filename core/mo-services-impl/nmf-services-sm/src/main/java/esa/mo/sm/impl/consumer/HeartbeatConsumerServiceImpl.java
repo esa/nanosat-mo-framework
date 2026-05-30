@@ -33,9 +33,9 @@ import org.ccsds.moims.mo.mal.helpertools.misc.ConsumerServiceImpl;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
-import org.ccsds.moims.mo.softwaremanagement.heartbeat.HeartbeatHelper;
-import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
-import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatStub;
+import org.ccsds.moims.mo.sm.heartbeat.HeartbeatHelper;
+import org.ccsds.moims.mo.sm.heartbeat.consumer.HeartbeatAdapter;
+import org.ccsds.moims.mo.sm.heartbeat.consumer.HeartbeatStub;
 
 /**
  *

@@ -32,7 +32,7 @@ import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.softwaremanagement.packagemanagement.consumer.PackageManagementAdapter;
+import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementAdapter;
 
 /**
  * The PackageManagementConsumerPanel class holds a panel to interact with a

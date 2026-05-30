@@ -26,7 +26,7 @@ import esa.mo.nmf.ctt.utils.SharedTablePanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
-import org.ccsds.moims.mo.softwaremanagement.structures.AppDetails;
+import org.ccsds.moims.mo.sm.structures.AppDetails;
 
 /**
  *

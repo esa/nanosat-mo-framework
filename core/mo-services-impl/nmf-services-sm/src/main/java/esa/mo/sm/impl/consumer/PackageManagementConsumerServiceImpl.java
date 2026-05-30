@@ -29,8 +29,8 @@ import org.ccsds.moims.mo.mal.consumer.MALConsumer;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.misc.ConsumerServiceImpl;
 import org.ccsds.moims.mo.mal.structures.Blob;
-import org.ccsds.moims.mo.softwaremanagement.packagemanagement.PackageManagementHelper;
-import org.ccsds.moims.mo.softwaremanagement.packagemanagement.consumer.PackageManagementStub;
+import org.ccsds.moims.mo.sm.packagemanagement.PackageManagementHelper;
+import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementStub;
 
 /**
  *

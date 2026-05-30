@@ -43,9 +43,9 @@ import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorServiceInfo;
-import org.ccsds.moims.mo.softwaremanagement.commandexecutor.consumer.CommandExecutorAdapter;
-import org.ccsds.moims.mo.softwaremanagement.structures.CommandDetails;
+import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorServiceInfo;
+import org.ccsds.moims.mo.sm.commandexecutor.consumer.CommandExecutorAdapter;
+import org.ccsds.moims.mo.sm.structures.CommandDetails;
 
 /**
  * The CommandExecutorConsumerPanel class holds a panel to interact with a

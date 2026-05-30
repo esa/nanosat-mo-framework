@@ -53,7 +53,7 @@ import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.clock.consumer.ClockStub;
-import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
+import org.ccsds.moims.mo.sm.heartbeat.consumer.HeartbeatAdapter;
 
 /**
  *

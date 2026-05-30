@@ -46,9 +46,9 @@ import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherAdapter;
-import org.ccsds.moims.mo.softwaremanagement.structures.AppDetails;
+import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
+import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherAdapter;
+import org.ccsds.moims.mo.sm.structures.AppDetails;
 
 /**
  * The AppsLauncherConsumerPanel class holds a panel to interact with an Apps

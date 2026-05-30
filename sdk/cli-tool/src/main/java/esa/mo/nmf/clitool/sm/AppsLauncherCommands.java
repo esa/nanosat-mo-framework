@@ -41,9 +41,9 @@ import org.ccsds.moims.mo.mal.structures.SubscriptionFilter;
 import org.ccsds.moims.mo.mal.structures.SubscriptionFilterList;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherAdapter;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherStub;
+import org.ccsds.moims.mo.sm.appslauncher.body.ListAppResponse;
+import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherAdapter;
+import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherStub;
 import picocli.CommandLine;
 
 /**

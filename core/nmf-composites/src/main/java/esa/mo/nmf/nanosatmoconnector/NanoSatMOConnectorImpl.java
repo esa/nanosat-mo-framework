@@ -53,7 +53,7 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.helpertools.misc.Const;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.platform.PlatformHelper;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
+import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
 
 /**
  * The implementation of the NanoSat MO Connector.

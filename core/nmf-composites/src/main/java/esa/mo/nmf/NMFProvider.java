@@ -56,7 +56,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.PlatformHelper;
-import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
+import org.ccsds.moims.mo.sm.SMHelper;
 
 /**
  * The generic NMF Provider. Includes a Heartbeat service and a Directory
@@ -305,7 +305,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
                 // Load the MAL factories for the supported services
                 MALContextFactory.getElementsRegistry().loadFullArea(COMHelper.COM_AREA);
                 MALContextFactory.getElementsRegistry().loadFullArea(MCHelper.MC_AREA);
-                MALContextFactory.getElementsRegistry().loadFullArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA);
+                MALContextFactory.getElementsRegistry().loadFullArea(SMHelper.SM_AREA);
                 MALContextFactory.getElementsRegistry().loadFullArea(PlatformHelper.PLATFORM_AREA);
 
                 duration = System.currentTimeMillis() - duration;

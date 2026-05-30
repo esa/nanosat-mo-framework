@@ -32,10 +32,10 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.structures.Blob;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
-import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorServiceInfo;
-import org.ccsds.moims.mo.softwaremanagement.heartbeat.HeartbeatServiceInfo;
-import org.ccsds.moims.mo.softwaremanagement.packagemanagement.PackageManagementServiceInfo;
+import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
+import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorServiceInfo;
+import org.ccsds.moims.mo.sm.heartbeat.HeartbeatServiceInfo;
+import org.ccsds.moims.mo.sm.packagemanagement.PackageManagementServiceInfo;
 
 /**
  * Class holding all the COM services consumers. The services can all be

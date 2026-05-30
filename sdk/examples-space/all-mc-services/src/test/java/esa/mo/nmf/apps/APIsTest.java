@@ -25,7 +25,7 @@ import java.io.IOException;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.platform.PlatformHelper;
-import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
+import org.ccsds.moims.mo.sm.SMHelper;
 import org.junit.Test;
 
 /**
@@ -42,6 +42,6 @@ public class APIsTest {
         org.junit.Assert.assertEquals(version, COMHelper.COM_AREA.getVersion().getValue());
         org.junit.Assert.assertEquals(version, MCHelper.MC_AREA.getVersion().getValue());
         org.junit.Assert.assertEquals(version, PlatformHelper.PLATFORM_AREA.getVersion().getValue());
-        org.junit.Assert.assertEquals(version, SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA.getVersion().getValue());
+        org.junit.Assert.assertEquals(version, SMHelper.SM_AREA.getVersion().getValue());
     }
 }

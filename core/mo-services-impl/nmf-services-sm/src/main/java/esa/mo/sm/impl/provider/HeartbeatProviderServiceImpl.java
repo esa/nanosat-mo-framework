@@ -44,10 +44,10 @@ import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.softwaremanagement.heartbeat.HeartbeatHelper;
-import org.ccsds.moims.mo.softwaremanagement.heartbeat.HeartbeatServiceInfo;
-import org.ccsds.moims.mo.softwaremanagement.heartbeat.provider.BeatPublisher;
-import org.ccsds.moims.mo.softwaremanagement.heartbeat.provider.HeartbeatInheritanceSkeleton;
+import org.ccsds.moims.mo.sm.heartbeat.HeartbeatHelper;
+import org.ccsds.moims.mo.sm.heartbeat.HeartbeatServiceInfo;
+import org.ccsds.moims.mo.sm.heartbeat.provider.BeatPublisher;
+import org.ccsds.moims.mo.sm.heartbeat.provider.HeartbeatInheritanceSkeleton;
 
 /**
  * Heartbeat service Provider.

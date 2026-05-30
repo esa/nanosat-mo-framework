@@ -43,8 +43,8 @@ import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
+import org.ccsds.moims.mo.sm.SMHelper;
+import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
 import picocli.CommandLine.Option;
 
 /**
@@ -284,7 +284,7 @@ public abstract class BaseCommand {
      */
     public static ObjectKey getAppObjectKey(String appName, IdentifierList domain) {
         // SoftwareManagement.AppsLaunch.App object type
-        ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
+        ObjectType appType = new ObjectType(SMHelper.SM_AREA_NUMBER,
                 AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
                 AppsLauncherServiceInfo.APP_OBJECT_NUMBER);
 

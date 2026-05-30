@@ -36,9 +36,9 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
-import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatStub;
-import org.ccsds.moims.mo.softwaremanagement.packagemanagement.consumer.PackageManagementStub;
+import org.ccsds.moims.mo.sm.heartbeat.consumer.HeartbeatAdapter;
+import org.ccsds.moims.mo.sm.heartbeat.consumer.HeartbeatStub;
+import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementStub;
 import picocli.CommandLine.Command;
 
 /**

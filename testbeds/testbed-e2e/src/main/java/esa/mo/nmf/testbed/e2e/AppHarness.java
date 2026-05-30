@@ -36,9 +36,9 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherAdapter;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherStub;
+import org.ccsds.moims.mo.sm.appslauncher.body.ListAppResponse;
+import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherAdapter;
+import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherStub;
 
 /**
  * Manages the lifecycle of a named NMF App for end-to-end tests.

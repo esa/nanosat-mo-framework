@@ -30,8 +30,8 @@ import org.ccsds.moims.mo.mal.consumer.MALConsumer;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.misc.ConsumerServiceImpl;
 import org.ccsds.moims.mo.mal.structures.Blob;
-import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
-import org.ccsds.moims.mo.softwaremanagement.commandexecutor.consumer.CommandExecutorStub;
+import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorHelper;
+import org.ccsds.moims.mo.sm.commandexecutor.consumer.CommandExecutorStub;
 
 /**
  *

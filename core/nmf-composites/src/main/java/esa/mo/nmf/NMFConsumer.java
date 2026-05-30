@@ -41,7 +41,7 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.platform.PlatformHelper;
-import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
+import org.ccsds.moims.mo.sm.SMHelper;
 
 /**
  * NMFConsumer connects to an NMF Provider and exposes the available services in
@@ -302,7 +302,7 @@ public class NMFConsumer {
         MALContextFactory.getElementsRegistry().loadFullArea(MALHelper.MAL_AREA);
         MALContextFactory.getElementsRegistry().loadFullArea(COMHelper.COM_AREA);
         MALContextFactory.getElementsRegistry().loadFullArea(MCHelper.MC_AREA);
-        MALContextFactory.getElementsRegistry().loadFullArea(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA);
+        MALContextFactory.getElementsRegistry().loadFullArea(SMHelper.SM_AREA);
         MALContextFactory.getElementsRegistry().loadFullArea(PlatformHelper.PLATFORM_AREA);
     }
 

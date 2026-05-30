@@ -41,7 +41,7 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingl
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
+import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
 
 /**
  * The implementation of the NanoSat MO Monolithic that can be extended by

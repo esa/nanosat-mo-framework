@@ -51,10 +51,10 @@ import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.StopAppInteraction;
-import org.ccsds.moims.mo.softwaremanagement.structures.AppDetails;
-import org.ccsds.moims.mo.softwaremanagement.structures.AppDetailsList;
+import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
+import org.ccsds.moims.mo.sm.appslauncher.provider.StopAppInteraction;
+import org.ccsds.moims.mo.sm.structures.AppDetails;
+import org.ccsds.moims.mo.sm.structures.AppDetailsList;
 
 /**
  *

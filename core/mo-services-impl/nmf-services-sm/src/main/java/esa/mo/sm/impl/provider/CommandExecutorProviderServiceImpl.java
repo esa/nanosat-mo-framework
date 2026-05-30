@@ -45,10 +45,10 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorHelper;
-import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorServiceInfo;
-import org.ccsds.moims.mo.softwaremanagement.commandexecutor.provider.CommandExecutorInheritanceSkeleton;
-import org.ccsds.moims.mo.softwaremanagement.structures.CommandDetails;
+import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorHelper;
+import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorServiceInfo;
+import org.ccsds.moims.mo.sm.commandexecutor.provider.CommandExecutorInheritanceSkeleton;
+import org.ccsds.moims.mo.sm.structures.CommandDetails;
 
 /**
  * Command Executor service Provider.

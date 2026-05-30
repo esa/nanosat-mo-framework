@@ -35,13 +35,13 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherAdapter;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherStub;
-import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
-import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatStub;
-import org.ccsds.moims.mo.softwaremanagement.structures.AppDetails;
+import org.ccsds.moims.mo.sm.SMHelper;
+import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
+import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherAdapter;
+import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherStub;
+import org.ccsds.moims.mo.sm.heartbeat.consumer.HeartbeatAdapter;
+import org.ccsds.moims.mo.sm.heartbeat.consumer.HeartbeatStub;
+import org.ccsds.moims.mo.sm.structures.AppDetails;
 import picocli.CommandLine.*;
 
 /**
@@ -359,7 +359,7 @@ public class SoftwareManagementCommands {
                 0L, null, null, null, null, null);
 
         Map<String, ProviderAppDetails> result = new HashMap<>();
-        ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
+        ObjectType appType = new ObjectType(SMHelper.SM_AREA_NUMBER,
                 AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
                 AppsLauncherServiceInfo.APP_OBJECT_NUMBER);
         archive.query(true, appType, archiveQuery, null, new ArchiveAdapter() {

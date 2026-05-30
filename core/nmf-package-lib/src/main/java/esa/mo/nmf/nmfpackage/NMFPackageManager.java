@@ -43,7 +43,7 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
+import org.ccsds.moims.mo.sm.appslauncher.body.ListAppResponse;
 
 /**
  * The NMFPackageManager class allows the install, uninstall and upgrade an NMF

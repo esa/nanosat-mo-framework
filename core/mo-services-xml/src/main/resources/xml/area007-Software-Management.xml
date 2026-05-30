@@ -7,7 +7,7 @@
     xmlns:com = "http://www.ccsds.org/schema/COMSchema"
     xmlns:svg = "http://www.w3.org/2000/svg"
     xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" comment="">
-    <mal:area name="SoftwareManagement" number="7" version="5" comment="Software Management services">
+    <mal:area name="SM" number="7" version="5" comment="Software Management services">
         <mal:service name="PackageManagement" number="1" xsi:type="com:ExtendedServiceType" comment="The Package Management service provides the ability to install, uninstall, upgrade, list, check packages. The service shall optionally support verification of packages, verification of digital signatures, upgrade software, manage dependencies.&#10;Packages can be organized in different categories in order to facilitate the management of software.">
             <mal:documentation name="Service-level Requirement" order="1">The Package Management service shall provide:
 &lt;ol&gt;
@@ -194,7 +194,7 @@
                 <com:objects comment="">
                     <com:object comment="" number="1" name="PackageDefinition">
                         <com:objectType>
-                            <mal:type area="SoftwareManagement" list="false" name="PackageDefinition"/>
+                            <mal:type area="SM" list="false" name="PackageDefinition"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
                         <com:sourceObject comment=""/>
@@ -204,7 +204,7 @@
                             <mal:type area="MAL" list="false" name="Identifier"/>
                         </com:objectType>
                         <com:relatedObject comment="">
-                            <com:objectType area="SoftwareManagement" number="1" service="PackageManagement"/>
+                            <com:objectType area="SM" number="1" service="PackageManagement"/>
                         </com:relatedObject>
                         <com:sourceObject comment=""/>
                     </com:object>
@@ -254,7 +254,7 @@
                     <mal:messages>
                         <mal:request>
                             <mal:field name="command" canBeNull="true" comment="Details of the command to be run.">
-                                <mal:type area="SoftwareManagement" list="false" name="CommandDetails"/>
+                                <mal:type area="SM" list="false" name="CommandDetails"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
@@ -269,7 +269,7 @@
                 <com:objects comment="The Command COM object used by the Command Executor service.">
                     <com:object comment="" number="1" name="Command">
                         <com:objectType>
-                            <mal:type area="SoftwareManagement" list="false" name="CommandDetails"/>
+                            <mal:type area="SM" list="false" name="CommandDetails"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
                         <com:sourceObject comment=""/>
@@ -282,7 +282,7 @@
                         </com:objectType>
                         <com:relatedObject comment=""/>
                         <com:sourceObject comment="">
-                            <com:objectType area="SoftwareManagement" number="1" service="CommandExecutor"/>
+                            <com:objectType area="SM" number="1" service="CommandExecutor"/>
                         </com:sourceObject>
                     </com:event>
                     <com:event comment="This event is produced to allow monitoring of the command stderr output. It contains a buffer of an arbitrary size with a chunk of stderr output." name="StandardError" number="3">
@@ -291,7 +291,7 @@
                         </com:objectType>
                         <com:relatedObject comment=""/>
                         <com:sourceObject comment="">
-                            <com:objectType area="SoftwareManagement" number="1" service="CommandExecutor"/>
+                            <com:objectType area="SM" number="1" service="CommandExecutor"/>
                         </com:sourceObject>
                     </com:event>
                     <com:event comment="This event is produced to indicate that the command has finished its execution. Contains an exit code." name="ExecutionFinished" number="4">
@@ -300,7 +300,7 @@
                         </com:objectType>
                         <com:relatedObject comment=""/>
                         <com:sourceObject comment="">
-                            <com:objectType area="SoftwareManagement" number="1" service="CommandExecutor"/>
+                            <com:objectType area="SM" number="1" service="CommandExecutor"/>
                         </com:sourceObject>
                     </com:event>
                 </com:events>
@@ -564,11 +564,11 @@
                 <com:objects comment="The App COM object used by the Apps Launcher service.">
                     <com:object comment="" number="1" name="App">
                         <com:objectType>
-                            <mal:type area="SoftwareManagement" list="false" name="AppDetails"/>
+                            <mal:type area="SM" list="false" name="AppDetails"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
                         <com:sourceObject comment="">
-                            <com:objectType area="SoftwareManagement" number="2" service="PackageManagement"/>
+                            <com:objectType area="SM" number="2" service="PackageManagement"/>
                         </com:sourceObject>
                     </com:object>
 
@@ -579,7 +579,7 @@
                             <mal:type area="MAL" list="false" name="Identifier"/>
                         </com:objectType>
                         <com:relatedObject comment="">
-                            <com:objectType area="SoftwareManagement" number="1" service="AppsLauncher"/>
+                            <com:objectType area="SM" number="1" service="AppsLauncher"/>
                         </com:relatedObject>
                         <com:sourceObject comment=""/>
                     </com:event>
@@ -587,13 +587,13 @@
                     <com:event comment="This event is generated when the application is going to stop." name="Stopping" number="3">
                         <com:relatedObject comment=""/>
                         <com:sourceObject comment="The source object shall be the StopApp event.">
-                            <com:objectType area="SoftwareManagement" number="2" service="AppsLauncher"/>
+                            <com:objectType area="SM" number="2" service="AppsLauncher"/>
                         </com:sourceObject>
                     </com:event>
                     <com:event comment="This event is generated by the app right before stopping completely." name="Stopped" number="4">
                         <com:relatedObject comment=""/>
                         <com:sourceObject comment="The source object shall be the StopApp event.">
-                            <com:objectType area="SoftwareManagement" number="2" service="AppsLauncher"/>
+                            <com:objectType area="SM" number="2" service="AppsLauncher"/>
                         </com:sourceObject>
                     </com:event>
                     <com:event comment="This event is generated upon receiving a request to start a certain app." name="StartApp" number="5">
@@ -601,7 +601,7 @@
                             <mal:type area="MAL" list="false" name="Identifier"/>
                         </com:objectType>
                         <com:relatedObject comment="">
-                            <com:objectType area="SoftwareManagement" number="1" service="AppsLauncher"/>
+                            <com:objectType area="SM" number="1" service="AppsLauncher"/>
                         </com:relatedObject>
                         <com:sourceObject comment=""/>
                     </com:event>

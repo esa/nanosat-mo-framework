@@ -33,9 +33,9 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
-import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorServiceInfo;
+import org.ccsds.moims.mo.sm.SMHelper;
+import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
+import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorServiceInfo;
 import picocli.CommandLine.*;
 
 /**
@@ -89,9 +89,9 @@ public class LogsCommands {
             // Query all objects from SoftwareManagement area filtering for
             // StandardOutput and StandardError events and App object is done in the query adapter
             ObjectType objectsTypes = new ObjectType(
-                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
+                    SMHelper.SM_AREA_NUMBER,
                     new UShort(0),
-                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION,
+                    SMHelper.SM_AREA_VERSION,
                     new UShort(0));
 
             boolean consumerCreated = false;
@@ -181,15 +181,15 @@ public class LogsCommands {
             // Query all objects from SoftwareManagement area and CommandExecutor service,
             // filtering for StandardOutput and StandardError events is done in the query adapter
             ObjectType outputObjectTypes = new ObjectType(
-                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
+                    SMHelper.SM_AREA_NUMBER,
                     CommandExecutorServiceInfo.COMMANDEXECUTOR_SERVICE_NUMBER,
-                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION,
+                    SMHelper.SM_AREA_VERSION,
                     new UShort(0));
 
             ObjectType eventObjectTypes = new ObjectType(
-                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
+                    SMHelper.SM_AREA_NUMBER,
                     AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER,
-                    SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_VERSION,
+                    SMHelper.SM_AREA_VERSION,
                     new UShort(0));
 
             boolean consumerCreated = false;

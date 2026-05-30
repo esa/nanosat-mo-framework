@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
+import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
 
 /**
  * The Listener for Event requests to close the NMF App. This class is used

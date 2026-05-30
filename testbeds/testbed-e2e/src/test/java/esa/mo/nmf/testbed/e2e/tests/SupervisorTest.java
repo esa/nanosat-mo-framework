@@ -27,7 +27,7 @@ import java.io.IOException;
 import org.ccsds.moims.mo.com.structures.Provider;
 import org.ccsds.moims.mo.com.structures.ProviderList;
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
+import org.ccsds.moims.mo.sm.appslauncher.body.ListAppResponse;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;

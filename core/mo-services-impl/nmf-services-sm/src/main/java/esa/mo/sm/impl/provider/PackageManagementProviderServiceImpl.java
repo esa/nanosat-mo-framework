@@ -33,11 +33,11 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.softwaremanagement.packagemanagement.PackageManagementHelper;
-import org.ccsds.moims.mo.softwaremanagement.packagemanagement.PackageManagementServiceInfo;
-import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.CheckPackageIntegrityResponse;
-import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.FindPackageResponse;
-import org.ccsds.moims.mo.softwaremanagement.packagemanagement.provider.*;
+import org.ccsds.moims.mo.sm.packagemanagement.PackageManagementHelper;
+import org.ccsds.moims.mo.sm.packagemanagement.PackageManagementServiceInfo;
+import org.ccsds.moims.mo.sm.packagemanagement.body.CheckPackageIntegrityResponse;
+import org.ccsds.moims.mo.sm.packagemanagement.body.FindPackageResponse;
+import org.ccsds.moims.mo.sm.packagemanagement.provider.*;
 
 /**
  * Package Management service Provider.

@@ -51,14 +51,14 @@ import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherHelper;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.AppsLauncherInheritanceSkeleton;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.MonitorExecutionPublisher;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.provider.StopAppInteraction;
-import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorServiceInfo;
-import org.ccsds.moims.mo.softwaremanagement.structures.AppDetails;
+import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherHelper;
+import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
+import org.ccsds.moims.mo.sm.appslauncher.body.ListAppResponse;
+import org.ccsds.moims.mo.sm.appslauncher.provider.AppsLauncherInheritanceSkeleton;
+import org.ccsds.moims.mo.sm.appslauncher.provider.MonitorExecutionPublisher;
+import org.ccsds.moims.mo.sm.appslauncher.provider.StopAppInteraction;
+import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorServiceInfo;
+import org.ccsds.moims.mo.sm.structures.AppDetails;
 
 /**
  * Apps Launcher service Provider.
