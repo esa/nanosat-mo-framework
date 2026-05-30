@@ -43,7 +43,7 @@ import org.junit.Test;
  * <p>
  * Tiers reflect the depth of network interaction:
  * <ul>
- *   <li>Tier 1 — no network (pure JVM + picocli startup cost)
+ *   <li>Tier 1 — no network (pure JVM startup cost)
  *   <li>Tier 2 — one MAL round-trip after connecting to the Supervisor
  *   <li>Tier 3 — two MAL round-trips (e.g. archive query + file write)
  * </ul>
@@ -103,6 +103,26 @@ public class CLIPerformanceTest {
         CLIResult r2 = cli.run("parameter", "get", dumpPath, "-r", uri);
         CLIResult r3 = cli.run("parameter", "get", dumpPath, "-r", uri);
         results.record("tier-3-parameter-get", r1, r2, r3);
+    }
+
+    @Test
+    public void testTier3AppRunStop() throws IOException, InterruptedException {
+        String uri = supervisor.getDirectoryURI();
+
+        CLIResult run1 = cli.run("apps-launcher", "run", "benchmark", "-r", uri);
+        Thread.sleep(2000);
+        CLIResult stop1 = cli.run("apps-launcher", "stop", "benchmark", "-r", uri);
+
+        CLIResult run2 = cli.run("apps-launcher", "run", "benchmark", "-r", uri);
+        Thread.sleep(2000);
+        CLIResult stop2 = cli.run("apps-launcher", "stop", "benchmark", "-r", uri);
+
+        CLIResult run3 = cli.run("apps-launcher", "run", "benchmark", "-r", uri);
+        Thread.sleep(2000);
+        CLIResult stop3 = cli.run("apps-launcher", "stop", "benchmark", "-r", uri);
+
+        results.record("tier-3-app-run", run1, run2, run3);
+        results.record("tier-3-app-stop", stop1, stop2, stop3);
     }
 
 }

@@ -73,6 +73,13 @@
             <classifier>jar-with-dependencies</classifier>
             <scope>provided</scope>
         </dependency>
+        <!-- App under test for run/stop performance measurement -->
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>benchmark</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -144,6 +151,13 @@
                         <configuration>
                             <supervisorMainClass>esa.mo.nmf.mission.barebone.BareboneSupervisorImpl</supervisorMainClass>
                         </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-perf-apps</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>install-packages</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
