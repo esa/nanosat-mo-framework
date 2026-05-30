@@ -397,6 +397,8 @@ jobs:
           key: ${{ runner.os }}-maven-mo-services-java-jdk11-${{ steps.get-date.outputs.date }}
       - name: Install NMF framework
         run: mvn --batch-mode -DskipTests install
+      - name: Install testbed-e2e
+        run: mvn --batch-mode -DskipTests install -f testbeds/testbed-e2e/pom.xml
       - name: Run performance testbed
         run: mvn --batch-mode test -f testbeds/testbed-performance/pom.xml
       - name: Upload performance results
@@ -429,6 +431,8 @@ jobs:
           key: ${{ runner.os }}-maven-mo-services-java-jdk17-${{ steps.get-date.outputs.date }}
       - name: Install NMF framework
         run: mvn --batch-mode -DskipTests install
+      - name: Install testbed-e2e
+        run: mvn --batch-mode -DskipTests install -f testbeds/testbed-e2e/pom.xml
       - name: Run performance testbed
         run: mvn --batch-mode test -f testbeds/testbed-performance/pom.xml
       - name: Upload performance results
@@ -461,6 +465,8 @@ jobs:
           key: ${{ runner.os }}-maven-mo-services-java-jdk21-${{ steps.get-date.outputs.date }}
       - name: Install NMF framework
         run: mvn --batch-mode -DskipTests install
+      - name: Install testbed-e2e
+        run: mvn --batch-mode -DskipTests install -f testbeds/testbed-e2e/pom.xml
       - name: Run performance testbed
         run: mvn --batch-mode test -f testbeds/testbed-performance/pom.xml
       - name: Upload performance results
@@ -493,6 +499,8 @@ jobs:
           key: ${{ runner.os }}-maven-mo-services-java-jdk25-${{ steps.get-date.outputs.date }}
       - name: Install NMF framework
         run: mvn --batch-mode -DskipTests install
+      - name: Install testbed-e2e
+        run: mvn --batch-mode -DskipTests install -f testbeds/testbed-e2e/pom.xml
       - name: Run performance testbed
         run: mvn --batch-mode test -f testbeds/testbed-performance/pom.xml
       - name: Upload performance results
