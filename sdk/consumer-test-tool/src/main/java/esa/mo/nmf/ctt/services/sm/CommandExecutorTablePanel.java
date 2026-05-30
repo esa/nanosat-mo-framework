@@ -28,7 +28,7 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
-import org.ccsds.moims.mo.sm.structures.CommandDetails;
+import org.ccsds.moims.mo.sm.structures.Command;
 
 /**
  *
@@ -57,7 +57,7 @@ public class CommandExecutorTablePanel extends SharedTablePanel {
                     Level.SEVERE, null, ex);
         }
 
-        CommandDetails commandDetails = (CommandDetails) comObject.getObject();
+        Command commandDetails = (Command) comObject.getObject();
 
         String pid = commandDetails.getPid() == null ? "not started yet" : commandDetails.getPid().toString();
         String exitCode = commandDetails.getExitCode() == null ? "not completed yet" : commandDetails.getExitCode().toString();

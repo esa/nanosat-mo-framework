@@ -45,7 +45,7 @@ import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorServiceInfo;
 import org.ccsds.moims.mo.sm.commandexecutor.consumer.CommandExecutorAdapter;
-import org.ccsds.moims.mo.sm.structures.CommandDetails;
+import org.ccsds.moims.mo.sm.structures.Command;
 
 /**
  * The CommandExecutorConsumerPanel class holds a panel to interact with a
@@ -202,7 +202,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
             // Either cancelled or didn't input any data
             return;
         }
-        CommandDetails cd = new CommandDetails(commandText, null, null);
+        Command cd = new Command(commandText, null, null);
         try {
             serviceSMCommandExecutor.getCommandExecutorStub().asyncRunCommand(cd, asyncAdapter);
         } catch (MALInteractionException | MALException ex) {

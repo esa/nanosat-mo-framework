@@ -247,14 +247,14 @@
         </mal:service>
         <mal:service name="CommandExecutor" number="3" xsi:type="com:ExtendedServiceType" comment="The Command Executor service allows executing arbitrary system commands and monitoring their status.">
             <mal:documentation name="Service-level Requirement" order="1">
-                The body of the Command COM object shall be of type CommandDetails.
+                The body of the Command COM object shall be of type Command.
             </mal:documentation>
             <mal:capabilitySet number="1" comment="">
                 <mal:requestIP name="runCommand" number="1" comment="The runCommand operation allows a consumer to spawn a new shell instance and execute an arbitrary command on the provider host.">
                     <mal:messages>
                         <mal:request>
                             <mal:field name="command" canBeNull="true" comment="Details of the command to be run.">
-                                <mal:type area="SM" list="false" name="CommandDetails"/>
+                                <mal:type area="SM" list="false" name="Command"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
@@ -269,7 +269,7 @@
                 <com:objects comment="The Command COM object used by the Command Executor service.">
                     <com:object comment="" number="1" name="Command">
                         <com:objectType>
-                            <mal:type area="SM" list="false" name="CommandDetails"/>
+                            <mal:type area="SM" list="false" name="Command"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
                         <com:sourceObject comment=""/>
@@ -672,7 +672,7 @@
                     <mal:type area="MAL" list="false" name="String"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="CommandDetails" shortFormPart="4" comment="The execution details of a command, including its status.">
+            <mal:composite name="Command" shortFormPart="4" comment="The execution details of a command, including its status.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>

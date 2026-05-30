@@ -48,7 +48,7 @@ import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorHelper;
 import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorServiceInfo;
 import org.ccsds.moims.mo.sm.commandexecutor.provider.CommandExecutorInheritanceSkeleton;
-import org.ccsds.moims.mo.sm.structures.CommandDetails;
+import org.ccsds.moims.mo.sm.structures.Command;
 
 /**
  * Command Executor service Provider.
@@ -63,7 +63,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
     private EventProviderServiceImpl eventService;
     private ArchiveProviderServiceImpl archiveService;
     private final OSValidator osValidator = new OSValidator();
-    private final Map<Long, CommandDetails> cachedCommandDetails = new HashMap<>();
+    private final Map<Long, Command> cachedCommandDetails = new HashMap<>();
 
     /**
      * Initializes the service provider.
@@ -108,11 +108,11 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
     }
 
     @Override
-    public Long runCommand(CommandDetails command, MALInteraction interaction)
+    public Long runCommand(Command command, MALInteraction interaction)
             throws MALInteractionException, MALException {
         Long storedCommandObject;
         if (command == null) {
-            throw new MALException("Received null CommandDetails.");
+            throw new MALException("Received null Command.");
         }
 
         // Source could be mapped to an OperationActivity associated with this transaction, but for now
@@ -159,7 +159,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
             pid = -1;
         }
 
-        CommandDetails newDetails = new CommandDetails(command.getCommand(), pid, command.getExitCode());
+        Command newDetails = new Command(command.getCommand(), pid, command.getExitCode());
         updateCommandDetails(storedCommandObject, newDetails);
         return storedCommandObject;
     }
@@ -206,15 +206,15 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
             LOGGER.log(Level.SEVERE, "generateAndStoreEvent returned null object ID");
         }
         try {
-            CommandDetails command = getCommandDetails(objId);
-            CommandDetails newDetails = new CommandDetails(command.getCommand(), command.getPid(), exitCode);
+            Command command = getCommandDetails(objId);
+            Command newDetails = new Command(command.getCommand(), command.getPid(), exitCode);
             updateCommandDetails(objId, newDetails);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "Cannot update COM Command object", ex);
         }
     }
 
-    private CommandDetails getCommandDetails(Long objId) throws IOException {
+    private Command getCommandDetails(Long objId) throws IOException {
         if (cachedCommandDetails.containsKey(objId)) {
             return cachedCommandDetails.get(objId);
         } else {
@@ -223,13 +223,13 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
             if (retrievedObject == null) {
                 throw new IOException("Could not retrieve Command object for objId: " + objId);
             }
-            CommandDetails ret = (CommandDetails) retrievedObject;
+            Command ret = (Command) retrievedObject;
             cachedCommandDetails.put(objId, ret);
             return ret;
         }
     }
 
-    private void updateCommandDetails(Long objId, CommandDetails command) {
+    private void updateCommandDetails(Long objId, Command command) {
         cachedCommandDetails.put(objId, command);
         final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
                 null, null,
