@@ -20,7 +20,7 @@
  */
 package esa.mo.nmf.testbed.performance.cli.tests;
 
-import esa.mo.nmf.testbed.e2e.SupervisorHarness;
+import esa.mo.nmf.testbed.performance.SupervisorHarness;
 import esa.mo.nmf.testbed.performance.PerformanceResults;
 import esa.mo.nmf.testbed.performance.cli.CLIHarness;
 import esa.mo.nmf.testbed.performance.cli.CLIResult;

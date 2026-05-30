@@ -59,12 +59,6 @@
     </properties>
 
     <dependencies>
-        <!-- Reuse SupervisorHarness from the e2e testbed -->
-        <dependency>
-            <groupId>int.esa.nmf.testbeds</groupId>
-            <artifactId>testbed-e2e</artifactId>
-            <version>${esa.nmf.version}</version>
-        </dependency>
         <!-- Supervisor — used by generate-filesystem to classify JARs -->
         <dependency>
             <groupId>int.esa.nmf</groupId>
@@ -159,7 +153,7 @@
                 <version>3.2.5</version>
                 <configuration>
                     <systemPropertyVariables>
-                        <nmf.e2e.filesystem>${nmf.perf.filesystem}</nmf.e2e.filesystem>
+                        <nmf.perf.filesystem>${nmf.perf.filesystem}</nmf.perf.filesystem>
                         <nmf.perf.cli.jar>${nmf.perf.cli.jar}</nmf.perf.cli.jar>
                         <nmf.perf.results>${nmf.perf.results}</nmf.perf.results>
                     </systemPropertyVariables>
