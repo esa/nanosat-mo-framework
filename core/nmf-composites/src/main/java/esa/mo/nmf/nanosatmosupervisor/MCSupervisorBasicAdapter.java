@@ -44,6 +44,7 @@ import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.structures.ParameterRawValue;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
+import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSStub;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.structures.*;
 
@@ -126,14 +127,10 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     public class ADCSDataHandler extends AutonomousADCSAdapter {
 
         @Override
-        public void monitorAttitudeNotifyReceived(
-                final MALMessageHeader msgHeader,
+        public void monitorAttitudeNotifyReceived(final MALMessageHeader msgHeader,
                 final Identifier lIdentifier, final UpdateHeader lUpdateHeader,
-                AttitudeTelemetry attitudeTm,
-                ActuatorsTelemetry actuatorsTelemetry,
-                Duration controlDuration,
-                AttitudeMode attitudeMode,
-                final Map qosp) {
+                AttitudeTelemetry attitudeTm, ActuatorsTelemetry actuatorsTelemetry,
+                Duration controlDuration, AttitudeMode attitudeMode, final Map qosp) {
             LOGGER.log(Level.FINE, "Received monitorAttitude notify");
             Quaternion attitude = attitudeTm.getAttitude();
             attitudeQuatA = attitude.getA();
@@ -144,11 +141,8 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     }
 
     public void onGetOSVersion() {
-        if (osValidator.isWindows()) {
-            OSVersion = shellCommander.runCommandAndGetOutputMessage(CMD_WINDOWS_VERSION);
-        } else {
-            OSVersion = shellCommander.runCommandAndGetOutputMessage(CMD_LINUX_VERSION);
-        }
+        String os = (osValidator.isWindows()) ? CMD_WINDOWS_VERSION : CMD_LINUX_VERSION;
+        OSVersion = shellCommander.runCommandAndGetOutputMessage(os);
     }
 
     public void onGetOSPartition() {
@@ -158,18 +152,18 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     }
 
     private void configureMonitoring() throws IOException, MALInteractionException, MALException, NMFException {
+        AutonomousADCSStub stub = nmfSupervisor.getPlatformServices().getAutonomousADCSService();
+
         if (attitudeMonitoringInterval.getInSeconds() >= 0.1) {
-            nmfSupervisor.getPlatformServices().getAutonomousADCSService().enableMonitoring(true,
-                    attitudeMonitoringInterval);
+            stub.enableMonitoring(true, attitudeMonitoringInterval);
         } else {
-            nmfSupervisor.getPlatformServices().getAutonomousADCSService().enableMonitoring(false,
-                    attitudeMonitoringInterval);
+            stub.enableMonitoring(false, attitudeMonitoringInterval);
         }
     }
 
     @Action(name = "ADCS.configureMonitoring")
-    public UInteger configureMonitoringAction(Long executionId, boolean reportProgress,
-            MALInteraction interaction) {
+    public UInteger configureMonitoringAction(Long executionId,
+            boolean reportProgress, MALInteraction interaction) {
         try {
             configureMonitoring();
         } catch (IOException | MALInteractionException | MALException | NMFException ex) {
@@ -211,7 +205,6 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
 
     @Action(name = "ADCS.sunpointing")
     public UInteger adcsSunPointing(Long executionId, boolean reportProgress, MALInteraction interaction) {
-
         try {
             nmfSupervisor.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(null,
                     new AttitudeModeSunPointing());
@@ -223,9 +216,8 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Action(name = "ADCS.nadirPointing")
-    public UInteger adcsNadirPointing(Long executionId, boolean reportProgress, MALInteraction interaction,
-            @ActionParameter(name = "duration") Duration duration) {
-
+    public UInteger adcsNadirPointing(Long executionId, boolean reportProgress,
+            MALInteraction interaction, @ActionParameter(name = "duration") Duration duration) {
         try {
             nmfSupervisor.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(duration,
                     new AttitudeModeNadirPointing());
@@ -238,7 +230,6 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
 
     @Action(name = "ADCS.unsetAttitude")
     public UInteger adcsUnsetAttitude(Long executionId, boolean reportProgress, MALInteraction interaction) {
-
         try {
             nmfSupervisor.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(new Duration(0), null);
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {
@@ -272,7 +263,5 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
         public void getNMEASentenceAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
             LOGGER.log(Level.INFO, "Received ack");
         }
-
     }
-
 }
