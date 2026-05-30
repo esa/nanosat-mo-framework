@@ -47,6 +47,11 @@
             <id>MarcelMikolajko</id>
             <name>Marcel Mikołajko</name>
         </developer>
+        <developer>
+            <id>CesarCoelho</id>
+            <name>César Coelho</name>
+            <url>https://github.com/CesarCoelho</url>
+        </developer>
     </developers>
 
     <properties>
