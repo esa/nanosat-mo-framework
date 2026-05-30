@@ -14,7 +14,7 @@ services, and consumes Platform services. It assumes familiarity with the archit
    monitor-and-control
    platform-services
    app-chaining
-   app-isl
+   inter-satellite-link
    logging
    storage
    packaging
