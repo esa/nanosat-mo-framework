@@ -21,6 +21,7 @@
 package esa.mo.nmf.clitool.mc;
 
 import static esa.mo.nmf.clitool.BaseCommand.consumer;
+import esa.mo.nmf.clitool.Args;
 import esa.mo.nmf.clitool.BaseCommand;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +42,6 @@ import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationAdapter;
 import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationStub;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.structures.*;
-import picocli.CommandLine;
 
 /**
  *
@@ -85,21 +85,13 @@ public class AggregationCommands {
         }
     }
 
-    @CommandLine.Command(
-            name = "enable",
-            description = "Enables generation of specified aggregations")
-    public static class AggregationEnableGeneration extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(
-                arity = "0..*",
-                paramLabel = "<aggregationNames>",
-                index = "0",
-                description = "Names of the aggregations to enable."
-                + " If non are specified enable all")
-        List<String> aggregationNames;
+    public static class AggregationEnableGeneration extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> aggregationNames = args.positionals();
+
             if (!super.initRemoteConsumer()) {
                 return;
             }
@@ -115,21 +107,13 @@ public class AggregationCommands {
         }
     }
 
-    @CommandLine.Command(
-            name = "disable",
-            description = "Disables generation of specified aggregations")
-    public static class AggregationDisableGeneration extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(
-                arity = "0..*",
-                paramLabel = "<aggregationNames>",
-                index = "0",
-                description = "Names of the aggregations to disable."
-                + " If non are specified disable all")
-        List<String> aggregationNames;
+    public static class AggregationDisableGeneration extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> aggregationNames = args.positionals();
+
             if (!super.initRemoteConsumer()) {
                 return;
             }
@@ -145,22 +129,13 @@ public class AggregationCommands {
         }
     }
 
-    @CommandLine.Command(
-            name = "subscribe",
-            description = "Subscribes to specified aggregations")
-    public static class AggregationMonitorValue extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(
-                arity = "0..*",
-                paramLabel = "<parameterNames>",
-                index = "0",
-                description = "Names of the aggregations to subscribe to."
-                + " If non are specified subscribe to all.\n"
-                + " - examples: aggregation1 or aggregation1 aggregation2")
-        List<String> aggregationNames;
+    public static class AggregationMonitorValue extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> aggregationNames = args.positionals();
+
             if (!super.initRemoteConsumer()) {
                 return;
             }
@@ -175,7 +150,7 @@ public class AggregationCommands {
                     .getAggregationService().getAggregationStub();
             try {
                 IdentifierList names = new IdentifierList();
-                if (aggregationNames == null || aggregationNames.isEmpty()) {
+                if (aggregationNames.isEmpty()) {
                     names.add(new Identifier("*"));
                 } else {
                     for (String name : aggregationNames) {
@@ -206,6 +181,12 @@ public class AggregationCommands {
                             ArchiveDetailsList objDetails,
                             HeterogeneousList objBodies,
                             Map qosProperties) {
+                        if (objDetails == null) {
+                            synchronized (lock) {
+                                lock.notifyAll();
+                            }
+                            return;
+                        }
                         for (int i = 0; i < objDetails.size(); ++i) {
                             AggregationDefinition def =
                                     (AggregationDefinition) objBodies.get(i);
@@ -264,6 +245,12 @@ public class AggregationCommands {
                             ArchiveDetailsList objDetails,
                             HeterogeneousList objBodies,
                             Map qosProperties) {
+                        if (objDetails == null) {
+                            synchronized (lock) {
+                                lock.notifyAll();
+                            }
+                            return;
+                        }
                         for (int i = 0; i < objDetails.size(); ++i) {
                             definitionIdToName.put(
                                     objDetails.get(i).getId(),
@@ -293,23 +280,8 @@ public class AggregationCommands {
 
                 Identifier subscriptionId =
                         new Identifier("CLI-Consumer-AggregationSubscription");
-                /*
-                EntityKeyList entityKeys = new EntityKeyList();
-                if (aggregationNames == null || aggregationNames.isEmpty()) {
-                    EntityKey entitykey = new EntityKey(new Identifier("*"), 0L, 0L, 0L);
-                    entityKeys.add(entitykey);
-                } else {
-                    for (String aggregation : aggregationNames) {
-                        EntityKey entitykey = new EntityKey(new Identifier(aggregation), 0L, 0L, 0L);
-                        entityKeys.add(entitykey);
-                    }
-                }
-                EntityRequest entity = new EntityRequest(null, false, false, false, false, entityKeys);
-                EntityRequestList entities = new EntityRequestList();
-                entities.add(entity);
-                 */
                 SubscriptionFilterList filters = new SubscriptionFilterList();
-                if (aggregationNames != null && !aggregationNames.isEmpty()) {
+                if (!aggregationNames.isEmpty()) {
                     AttributeList acceptableNames = new AttributeList();
                     for (String aggregation : aggregationNames) {
                         acceptableNames.add(new Identifier(aggregation));
@@ -332,7 +304,6 @@ public class AggregationCommands {
                             java.util.Map qosProperties) {
                         String aggregationName = ((Identifier) updateHeader
                                 .getKeyValues().get(0).getValue()).getValue();
-                        //long timestamp = updateHeaderList.get(0).getTimestamp().getValue();
                         AggregationParameterValueList values = newValue
                                 .getParameterSetValues().get(0).getValues();
                         System.out.println(aggregationName + ": ");

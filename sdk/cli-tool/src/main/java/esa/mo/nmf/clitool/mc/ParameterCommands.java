@@ -22,6 +22,7 @@ package esa.mo.nmf.clitool.mc;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import esa.mo.nmf.clitool.Args;
 import esa.mo.nmf.clitool.BaseCommand;
 import esa.mo.nmf.clitool.TimestampedAggregationValue;
 import esa.mo.nmf.clitool.TimestampedParameterValue;
@@ -52,7 +53,6 @@ import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
 import org.ccsds.moims.mo.mc.structures.*;
-import picocli.CommandLine;
 
 /**
  *
@@ -64,22 +64,13 @@ public class ParameterCommands {
             Logger.getLogger(ParameterCommands.class.getName());
     public static Identifier parameterSubscription;
 
-    @CommandLine.Command(
-            name = "subscribe",
-            description = "Subscribes to specified parameters")
-    public static class ParameterMonitorValue extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(
-                arity = "0..*",
-                paramLabel = "<parameterNames>",
-                index = "0",
-                description = "Names of the parameters to subscribe to."
-                + " If non are specified subscribe to all.\n"
-                + " - examples: param1 or param1 param2")
-        List<String> parameterNames;
+    public static class ParameterMonitorValue extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> parameterNames = args.positionals();
+
             if (!super.initRemoteConsumer()) {
                 return;
             }
@@ -92,23 +83,8 @@ public class ParameterCommands {
 
             Identifier subscriptionId =
                     new Identifier("CLI-Consumer-ParameterSubscription");
-            /*
-            EntityKeyList entityKeys = new EntityKeyList();
-            if (parameterNames == null || parameterNames.isEmpty()) {
-                EntityKey entitykey = new EntityKey(new Identifier("*"), 0L, 0L, 0L);
-                entityKeys.add(entitykey);
-            } else {
-                for (String parameter : parameterNames) {
-                    EntityKey entitykey = new EntityKey(new Identifier(parameter), 0L, 0L, 0L);
-                    entityKeys.add(entitykey);
-                }
-            }
-            EntityRequest entity = new EntityRequest(null, false, false, false, false, entityKeys);
-            EntityRequestList entities = new EntityRequestList();
-            entities.add(entity);
-             */
             SubscriptionFilterList filters = new SubscriptionFilterList();
-            if (parameterNames != null && !parameterNames.isEmpty()) {
+            if (!parameterNames.isEmpty()) {
                 AttributeList acceptableNames = new AttributeList();
                 for (String parameter : parameterNames) {
                     acceptableNames.add(new Identifier(parameter));
@@ -166,21 +142,13 @@ public class ParameterCommands {
         }
     }
 
-    @CommandLine.Command(
-            name = "enable",
-            description = "Enables generation of specified parameters")
-    public static class ParameterEnableGeneration extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(
-                arity = "0..*",
-                paramLabel = "<parameterNames>",
-                index = "0",
-                description = "Names of the parameters to enable."
-                + " If non are specified enable all")
-        List<String> parameterNames;
+    public static class ParameterEnableGeneration extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> parameterNames = args.positionals();
+
             if (!super.initRemoteConsumer()) {
                 return;
             }
@@ -196,21 +164,13 @@ public class ParameterCommands {
         }
     }
 
-    @CommandLine.Command(
-            name = "disable",
-            description = "Disables generation of specified parameters")
-    public static class ParameterDisableGeneration extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(
-                arity = "0..*",
-                paramLabel = "<parameterNames>",
-                index = "0",
-                description = "Names of the parameters to disable."
-                + " If non are specified disable all")
-        List<String> parameterNames;
+    public static class ParameterDisableGeneration extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> parameterNames = args.positionals();
+
             if (!super.initRemoteConsumer()) {
                 return;
             }
@@ -226,61 +186,24 @@ public class ParameterCommands {
         }
     }
 
-    @CommandLine.Command(
-            name = "get",
-            description = "Dumps to a file MO parameters samples from COM archive.")
-    public static class GetParameters extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(
-                arity = "1",
-                paramLabel = "<filename>",
-                index = "0",
-                description = "Target file for the parameters samples")
-        String file;
-
-        @CommandLine.Parameters(
-                arity = "0..*",
-                paramLabel = "<parameterNames>",
-                index = "1",
-                description = "Names of the parameters to retrieve\n"
-                + " - examples: param1 or param1 param2")
-        List<String> parameterNames;
-
-        @CommandLine.Option(
-                names = {"-d", "--domain"},
-                paramLabel = "<domainId>",
-                description = "Restricts the dump to parameters in a specific domain\n"
-                + "  - format: key1.key2.[...].keyN.\n"
-                + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
-        String domainId;
-
-        @CommandLine.Option(
-                names = {"-s", "--start"},
-                paramLabel = "<startTime>",
-                description = "Restricts the dump to parameters generated after the given time\n"
-                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
-                + "  - example: \"2021-03-04 08:37:58.482\"")
-        String startTime;
-
-        @CommandLine.Option(
-                names = {"-e", "--end"},
-                paramLabel = "<endTime>",
-                description = "Restricts the dump to parameters generated before the given time. "
-                + "If this option is provided without the -s option, returns the single"
-                + " object that has the closest timestamp to, but not greater than"
-                + " <endTime>\n"
-                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
-                + "  - example: \"2021-03-05 12:05:45.271\"")
-        String endTime;
-
-        @CommandLine.Option(
-                names = {"-j", "--json"},
-                paramLabel = "<json>",
-                description = "If specified output will be in JSON format")
-        boolean json;
+    public static class GetParameters extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            String domainId  = args.option("-d", "--domain");
+            String startTime = args.option("-s", "--start");
+            String endTime   = args.option("-e", "--end");
+            boolean json     = args.flag("-j", "--json");
+
+            List<String> positionals = args.positionals();
+            if (positionals.isEmpty()) {
+                System.out.println("Missing required argument: <filename>");
+                return;
+            }
+            String file = positionals.get(0);
+            List<String> parameterNames = positionals.subList(1, positionals.size());
+
             boolean consumerCreated = false;
             if (providerURI != null) {
                 consumerCreated = initRemoteConsumer();
@@ -408,7 +331,7 @@ public class ParameterCommands {
 
                     Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>>
                             parameters = new HashMap<>();
-                    if (parameterNames != null && !parameterNames.isEmpty()) {
+                    if (!parameterNames.isEmpty()) {
                         for (String name : parameterNames) {
                             for (IdentifierList domainKey : allParameters.keySet()) {
                                 List<TimestampedParameterValue> values =
@@ -472,20 +395,13 @@ public class ParameterCommands {
         }
     }
 
-    @CommandLine.Command(
-            name = "list",
-            description = "Lists available parameters in a COM archive.")
-    public static class ListParameters extends BaseCommand implements Runnable {
+    public static class ListParameters extends BaseCommand {
 
-        @CommandLine.Option(
-                names = {"-d", "--domain"},
-                paramLabel = "<domainId>",
-                description = "Restricts the dump to objects in a specific domain\n"
-                + "  - format: key1.key2.[...].keyN.\n"
-                + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
-        String domainId;
+        @Override
+        public void run(Args args) {
+            parseBaseOptions(args);
+            String domainId = args.option("-d", "--domain");
 
-        public void run() {
             boolean consumerCreated = false;
             if (providerURI != null) {
                 consumerCreated = initRemoteConsumer();
@@ -561,37 +477,33 @@ public class ParameterCommands {
         }
     }
 
-    @CommandLine.Command(name = "set", description = "Set a parameter value")
-    public static class SetParameter extends BaseCommand implements Runnable {
+    public static class SetParameter extends BaseCommand {
 
         enum ParameterType {
             Integer, String, Long, Float, Double, Boolean
         }
 
-        @CommandLine.Parameters(
-                arity = "1",
-                paramLabel = "<paramName>",
-                index = "0",
-                description = "Name of parameter to update")
-        String parameterName;
-
-        @CommandLine.Parameters(
-                arity = "1",
-                paramLabel = "<paramType>",
-                index = "1",
-                description = "Type of parameter, choose from: ${COMPLETION-CANDIDATES} ")
-        ParameterType parameterType;
-
-        @CommandLine.Parameters(
-                arity = "1",
-                paramLabel = "<paramValue>",
-                index = "2",
-                description = "Value of parameter to update,"
-                + " for boolean types write true/false")
-        String parameterValue;
-
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> positionals = args.positionals();
+            if (positionals.size() < 3) {
+                System.out.println("Usage: parameter set <paramName> <paramType> <paramValue>");
+                return;
+            }
+            String parameterName  = positionals.get(0);
+            String typeStr        = positionals.get(1);
+            String parameterValue = positionals.get(2);
+
+            ParameterType parameterType;
+            try {
+                parameterType = ParameterType.valueOf(typeStr);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Unknown parameter type: " + typeStr
+                        + ". Choose from: Integer, String, Long, Float, Double, Boolean");
+                return;
+            }
+
             if (!super.initRemoteConsumer()) {
                 return;
             }

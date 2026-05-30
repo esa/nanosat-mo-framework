@@ -21,16 +21,9 @@
 package esa.mo.nmf.clitool.sm;
 
 import static esa.mo.nmf.clitool.BaseCommand.consumer;
+import esa.mo.nmf.clitool.Args;
 import esa.mo.nmf.clitool.BaseCommand;
 import esa.mo.nmf.clitool.ExitCodes;
-import esa.mo.nmf.clitool.sm.AppsLauncherCommands.KillApp;
-import esa.mo.nmf.clitool.sm.AppsLauncherCommands.MonitorExecution;
-import esa.mo.nmf.clitool.sm.AppsLauncherCommands.RunApp;
-import esa.mo.nmf.clitool.sm.AppsLauncherCommands.StopApp;
-import esa.mo.nmf.clitool.sm.PackageManagementCommands.FindPackage;
-import esa.mo.nmf.clitool.sm.PackageManagementCommands.Install;
-import esa.mo.nmf.clitool.sm.PackageManagementCommands.Uninstall;
-import esa.mo.nmf.clitool.sm.PackageManagementCommands.Upgrade;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
@@ -39,7 +32,6 @@ import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.sm.heartbeat.consumer.HeartbeatAdapter;
 import org.ccsds.moims.mo.sm.heartbeat.consumer.HeartbeatStub;
 import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementStub;
-import picocli.CommandLine.Command;
 
 /**
  * @author marcel.mikolajko
@@ -51,23 +43,12 @@ public class SoftwareManagementCommands {
     public static Identifier heartbeatSubscription;
     public static Identifier outputSubscription;
 
-    @Command(name = "software-management", subcommands = {FindPackage.class, Install.class, Uninstall.class, Upgrade.class})
-    public static class SoftwareManagement {
-    }
-
-    @Command(name = "heartbeat", subcommands = {Beat.class})
-    public static class Heartbeat {
-    }
-
-    @Command(name = "apps-launcher", subcommands = {MonitorExecution.class, RunApp.class, StopApp.class, KillApp.class})
-    public static class AppsLauncher {
-    }
-
-    @Command(name = "subscribe", description = "Subscribes to provider's heartbeat")
-    public static class Beat extends BaseCommand implements Runnable {
+    public static class Beat extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+
             if (!super.initRemoteConsumer()) {
                 System.exit(ExitCodes.NO_HOST);
             }

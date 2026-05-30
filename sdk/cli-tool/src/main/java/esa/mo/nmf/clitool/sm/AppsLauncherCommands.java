@@ -22,6 +22,7 @@ package esa.mo.nmf.clitool.sm;
 
 import static esa.mo.nmf.clitool.BaseCommand.consumer;
 import static esa.mo.nmf.clitool.sm.SoftwareManagementCommands.outputSubscription;
+import esa.mo.nmf.clitool.Args;
 import esa.mo.nmf.clitool.BaseCommand;
 import esa.mo.nmf.clitool.ExitCodes;
 import esa.mo.nmf.clitool.Helper;
@@ -39,12 +40,10 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.SubscriptionFilter;
 import org.ccsds.moims.mo.mal.structures.SubscriptionFilterList;
-import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.appslauncher.body.ListAppResponse;
 import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherAdapter;
 import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherStub;
-import picocli.CommandLine;
 
 /**
  * The AppsLauncherCommands class contains the static classes for the Apps
@@ -56,15 +55,13 @@ public class AppsLauncherCommands {
 
     private static final Logger LOGGER = Logger.getLogger(AppsLauncherCommands.class.getName());
 
-    @CommandLine.Command(name = "subscribe", description = "Subscribes to app's stdout")
-    public static class MonitorExecution extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(arity = "0..*", paramLabel = "<appNames>", index = "0",
-                description = "Names of the apps to subscribe to. If non are specified subscribe to all.")
-        List<String> appNames;
+    public static class MonitorExecution extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> appNames = args.positionals();
+
             if (!super.initRemoteConsumer()) {
                 System.exit(ExitCodes.NO_HOST);
             }
@@ -80,7 +77,7 @@ public class AppsLauncherCommands {
                 Identifier subscriptionId = new Identifier("CLI-Consumer-AppsLauncherSubscription_" + timestamp);
                 Subscription subscription = new Subscription(subscriptionId, null, null, null);
 
-                if (appNames != null && !appNames.isEmpty()) {
+                if (!appNames.isEmpty()) {
                     AttributeList acceptableNames = new AttributeList();
                     for (String app : appNames) {
                         acceptableNames.add(new Identifier(app));
@@ -112,21 +109,24 @@ public class AppsLauncherCommands {
                     lock.wait();
                 }
             } catch (MALInteractionException | MALException | InterruptedException e) {
-                LOGGER.log(Level.SEVERE, "Error during heartbeat register!", e);
+                LOGGER.log(Level.SEVERE, "Error during monitorExecution register!", e);
                 System.exit(ExitCodes.GENERIC_ERROR);
             }
         }
     }
 
-    @CommandLine.Command(name = "run", description = "Runs the specified provider app")
-    public static class RunApp extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(arity = "1", paramLabel = "<appName>",
-                index = "0", description = "Name of the app to run.")
-        String appName;
+    public static class RunApp extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> positionals = args.positionals();
+            if (positionals.isEmpty()) {
+                System.out.println("Missing required argument: <appName>");
+                return;
+            }
+            String appName = positionals.get(0);
+
             if (!super.initRemoteConsumer()) {
                 System.exit(ExitCodes.NO_HOST);
             }
@@ -155,15 +155,18 @@ public class AppsLauncherCommands {
         }
     }
 
-    @CommandLine.Command(name = "stop", description = "Stops the specified provider app")
-    public static class StopApp extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(arity = "1", paramLabel = "<appName>",
-                index = "0", description = "Name of the app to stop.")
-        String appName;
+    public static class StopApp extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> positionals = args.positionals();
+            if (positionals.isEmpty()) {
+                System.out.println("Missing required argument: <appName>");
+                return;
+            }
+            String appName = positionals.get(0);
+
             if (!super.initRemoteConsumer()) {
                 System.exit(ExitCodes.NO_HOST);
             }
@@ -233,15 +236,18 @@ public class AppsLauncherCommands {
         }
     }
 
-    @CommandLine.Command(name = "kill", description = "Kills the specified provider app")
-    public static class KillApp extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(arity = "1", paramLabel = "<appName>",
-                index = "0", description = "Name of the app to kill.")
-        String appName;
+    public static class KillApp extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> positionals = args.positionals();
+            if (positionals.isEmpty()) {
+                System.out.println("Missing required argument: <appName>");
+                return;
+            }
+            String appName = positionals.get(0);
+
             if (!super.initRemoteConsumer()) {
                 System.exit(ExitCodes.NO_HOST);
             }

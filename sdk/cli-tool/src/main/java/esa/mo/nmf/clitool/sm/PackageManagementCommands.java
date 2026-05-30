@@ -21,8 +21,10 @@
 package esa.mo.nmf.clitool.sm;
 
 import static esa.mo.nmf.clitool.BaseCommand.consumer;
+import esa.mo.nmf.clitool.Args;
 import esa.mo.nmf.clitool.BaseCommand;
 import esa.mo.nmf.clitool.ExitCodes;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,11 +38,10 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.packagemanagement.body.FindPackageResponse;
 import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementAdapter;
 import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementStub;
-import picocli.CommandLine;
 
 /**
  * The PackageManagementCommands class contains the static classes for the
- * Package Management service. Launcher service.
+ * Package Management service.
  *
  * @author Cesar Coelho
  */
@@ -49,21 +50,18 @@ public class PackageManagementCommands {
     private static final Logger LOGGER =
             Logger.getLogger(PackageManagementCommands.class.getName());
 
-    @CommandLine.Command(
-            name = "findPackage",
-            description = "The findPackage operation allows a consumer to find"
-            + " the available packages on the provider.")
-    public static class FindPackage extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(
-                arity = "1",
-                paramLabel = "<packageName>",
-                index = "0",
-                description = "Name of the package to find.")
-        String name;
+    public static class FindPackage extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> positionals = args.positionals();
+            if (positionals.isEmpty()) {
+                System.out.println("Missing required argument: <packageName>");
+                return;
+            }
+            String name = positionals.get(0);
+
             if (!super.initRemoteConsumer()) {
                 System.exit(ExitCodes.NO_HOST);
             }
@@ -93,21 +91,18 @@ public class PackageManagementCommands {
         }
     }
 
-    @CommandLine.Command(
-            name = "install",
-            description = "The install operation allows a consumer to install"
-            + " the content of a package on the provider.")
-    public static class Install extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(
-                arity = "1",
-                paramLabel = "<packageName>",
-                index = "0",
-                description = "Name of the package to be installed.")
-        String name;
+    public static class Install extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> positionals = args.positionals();
+            if (positionals.isEmpty()) {
+                System.out.println("Missing required argument: <packageName>");
+                return;
+            }
+            String name = positionals.get(0);
+
             if (!super.initRemoteConsumer()) {
                 System.exit(ExitCodes.NO_HOST);
             }
@@ -171,27 +166,19 @@ public class PackageManagementCommands {
         }
     }
 
-    @CommandLine.Command(
-            name = "uninstall",
-            description = "The uninstall operation allows a consumer to uninstall"
-            + " the content of a package on the provider.")
-    public static class Uninstall extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(
-                arity = "1",
-                paramLabel = "<packageName>",
-                index = "0",
-                description = "Name of the package to be uninstalled.")
-        String name;
-
-        @CommandLine.Option(
-                names = {"-k", "--keepConfiguration"},
-                paramLabel = "<keepConfiguration>",
-                description = "It specifies if the existing configuration is to be kept.")
-        boolean keepConfiguration;
+    public static class Uninstall extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            boolean keepConfiguration = args.flag("-k", "--keepConfiguration");
+            List<String> positionals = args.positionals();
+            if (positionals.isEmpty()) {
+                System.out.println("Missing required argument: <packageName>");
+                return;
+            }
+            String name = positionals.get(0);
+
             if (!super.initRemoteConsumer()) {
                 System.exit(ExitCodes.NO_HOST);
             }
@@ -251,21 +238,18 @@ public class PackageManagementCommands {
         }
     }
 
-    @CommandLine.Command(
-            name = "upgrade",
-            description = "The upgrade operation allows a consumer to upgrade"
-            + " the content of a package on the provider.")
-    public static class Upgrade extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(
-                arity = "1",
-                paramLabel = "<packageName>",
-                index = "0",
-                description = "Name of the package to be upgraded.")
-        String name;
+    public static class Upgrade extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> positionals = args.positionals();
+            if (positionals.isEmpty()) {
+                System.out.println("Missing required argument: <packageName>");
+                return;
+            }
+            String name = positionals.get(0);
+
             if (!super.initRemoteConsumer()) {
                 System.exit(ExitCodes.NO_HOST);
             }

@@ -51,9 +51,6 @@ import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
-import picocli.CommandLine.Parameters;
 
 /**
  * Archive commands implementations
@@ -61,22 +58,27 @@ import picocli.CommandLine.Parameters;
  * @author Tanguy Soto
  * @author Marcel Mikołajko
  */
-@Command(name = "archive", subcommands = {ArchiveCommands.DumpRawArchive.class,
-    ArchiveCommands.DumpFormattedArchive.class,
-    ArchiveCommands.ListArchiveProviders.class,
-    ArchiveCommands.BackupProvider.class})
 public class ArchiveCommands {
 
     private static final Logger LOGGER = Logger.getLogger(ArchiveCommands.class.getName());
 
-    @Command(name = "dump_raw", description = "Dumps to a JSON file the raw tables content of a local COM archive")
-    public static class DumpRawArchive extends BaseCommand implements Runnable {
-
-        @Parameters(arity = "1", paramLabel = "<jsonFile>", description = "target JSON file")
-        String jsonFile;
+    public static class DumpRawArchive extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> positionals = args.positionals();
+            if (positionals.isEmpty()) {
+                System.out.println("Missing required argument: <jsonFile>");
+                return;
+            }
+            String jsonFile = positionals.get(0);
+
+            if (databaseFile == null) {
+                System.out.println("Missing required option: -l/--local <databaseFile>");
+                return;
+            }
+
             // Test if DB file exists
             File temp = new File(databaseFile);
             if (!temp.exists() || temp.isDirectory()) {
@@ -134,36 +136,23 @@ public class ArchiveCommands {
         }
     }
 
-    @Command(name = "dump", description = "Dumps to a JSON file the formatted content of a local or remote COM archive")
-    public static class DumpFormattedArchive extends BaseCommand implements Runnable {
-
-        @Parameters(arity = "1", paramLabel = "<jsonFile>", description = "target JSON file")
-        String jsonFile;
-
-        @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
-                description = "Restricts the dump to objects in a specific domain\n"
-                + "  - format: key1.key2.[...].keyN.\n" + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
-        String domainId;
-
-        @Option(names = {"-t", "--type"}, paramLabel = "<comType>",
-                description = "Restricts the dump to objects that are instances of <comType>\n"
-                + "  - format: areaNumber.serviceNumber.areaVersion.objectNumber.\n"
-                + "  - examples (0=wildcard): 4.2.1.1, 4.2.1.0 ")
-        String comType;
-
-        @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
-                description = "Restricts the dump to objects created after the given time\n"
-                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-04 08:37:58.482\"")
-        String startTime;
-
-        @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
-                description = "Restricts the dump to objects created before the given time. "
-                + "If this option is provided without the -s option, returns the single object that has the closest timestamp to, but not greater than <endTime>\n"
-                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n" + "  - example: \"2021-03-05 12:05:45.271\"")
-        String endTime;
+    public static class DumpFormattedArchive extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            String domainId  = args.option("-d", "--domain");
+            String comType   = args.option("-t", "--type");
+            String startTime = args.option("-s", "--start");
+            String endTime   = args.option("-e", "--end");
+
+            List<String> positionals = args.positionals();
+            if (positionals.isEmpty()) {
+                System.out.println("Missing required argument: <jsonFile>");
+                return;
+            }
+            String jsonFile = positionals.get(0);
+
             // prepare comType filter
             int areaNumber = 0;
             int serviceNumber = 0;
@@ -210,18 +199,18 @@ public class ArchiveCommands {
         }
     }
 
-    @Command(name = "list", description = "Lists the COM archive providers URIs found in a central directory")
-    public static class ListArchiveProviders extends BaseCommand implements Runnable {
+    public static class ListArchiveProviders extends BaseCommand {
 
-        @Parameters(arity = "1", paramLabel = "<centralDirectoryURI>",
-                description = "URI of the central directory to use")
-        String centralDirectoryURI;
-
-        /**
-         * Lists the COM archive providers URIs found in the central directory.
-         */
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> positionals = args.positionals();
+            if (positionals.isEmpty()) {
+                System.out.println("Missing required argument: <centralDirectoryURI>");
+                return;
+            }
+            String centralDirectoryURI = positionals.get(0);
+
             ArrayList<String> archiveProviderURIs = listCOMArchiveProviders(new URI(centralDirectoryURI));
 
             // No provider found warning
@@ -233,8 +222,8 @@ public class ArchiveCommands {
 
             // List providers found
             System.out.println("Found the following COM archive providers: ");
-            for (String providerURI : archiveProviderURIs) {
-                System.out.println(String.format(" - %s", providerURI));
+            for (String provUri : archiveProviderURIs) {
+                System.out.println(String.format(" - %s", provUri));
             }
         }
     }
@@ -284,19 +273,19 @@ public class ArchiveCommands {
         return archiveProviders;
     }
 
-    @Command(name = "backup_and_clean", description = "Backups the data for a specific provider")
-    public static class BackupProvider extends BaseCommand implements Runnable {
-
-        @Option(names = {"-o", "--output"}, paramLabel = "<filename>", description = "target file name")
-        String filename;
-
-        @Parameters(arity = "1", index = "0", paramLabel = "<domainId>",
-                description = "Restricts the dump to objects in a specific domain\n"
-                + "  - format: key1.key2.[...].keyN.\n" + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
-        String domainId;
+    public static class BackupProvider extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            String filename = args.option("-o", "--output");
+            List<String> positionals = args.positionals();
+            if (positionals.isEmpty()) {
+                System.out.println("Missing required argument: <domainId>");
+                return;
+            }
+            String domainId = positionals.get(0);
+
             if (!super.initRemoteConsumer()) {
                 return;
             }

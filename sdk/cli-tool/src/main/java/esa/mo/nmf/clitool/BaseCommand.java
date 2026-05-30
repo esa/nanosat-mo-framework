@@ -45,7 +45,6 @@ import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.SMHelper;
 import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
-import picocli.CommandLine.Option;
 
 /**
  * @author marcel.mikolajko
@@ -54,19 +53,8 @@ public abstract class BaseCommand {
 
     private static final Logger LOGGER = Logger.getLogger(BaseCommand.class.getName());
 
-    @Option(names = {"-h", "--help"}, usageHelp = true, description = "display a help message")
-    private boolean helpRequested;
-
-    @Option(names = {"-r", "--remote"}, paramLabel = "<providerURI>", description = "Provider URI\n"
-            + "  - example: maltcp://10.0.2.15:1024/nanosat-mo-supervisor-Directory")
     public String providerURI;
-
-    @Option(names = {"-l", "--local"}, paramLabel = "<databaseFile>", description = "Local SQLite database file\n"
-            + "  - example: ../nanosat-mo-supervisor-sim/comArchive.db")
     public String databaseFile;
-
-    @Option(names = {"-p", "--provider"}, paramLabel = "<providerName>",
-            description = "Name of the provider we want to connect to")
     public String providerName;
 
     public static GroundMOAdapterImpl consumer;
@@ -74,6 +62,18 @@ public abstract class BaseCommand {
 
     public static ArchiveConsumerServiceImpl localArchive;
     public static ArchiveProviderServiceImpl localArchiveProvider;
+
+    /**
+     * Consumes the shared base options (-r/--remote, -l/--local, -p/--provider)
+     * from the supplied Args instance, populating the corresponding fields.
+     */
+    protected void parseBaseOptions(Args args) {
+        providerURI   = args.option("-r", "--remote");
+        databaseFile  = args.option("-l", "--local");
+        providerName  = args.option("-p", "--provider");
+    }
+
+    public abstract void run(Args args);
 
     public boolean initLocalArchiveProvider(String databaseFile) {
         HelperMisc.loadPropertiesFile();

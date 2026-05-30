@@ -23,6 +23,7 @@ package esa.mo.nmf.clitool;
 import esa.mo.nmf.clitool.adapters.ArchiveToAppListAdapter;
 import esa.mo.nmf.clitool.adapters.ArchiveToLogAdapter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ArchiveQuery;
@@ -36,7 +37,6 @@ import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.sm.SMHelper;
 import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorServiceInfo;
-import picocli.CommandLine.*;
 
 /**
  * Log commands implementations
@@ -44,48 +44,20 @@ import picocli.CommandLine.*;
  * @author Tanguy Soto
  * @author Marcel Mikołajko
  */
-@Command(
-        name = "log",
-        subcommands = {LogsCommands.ListLogs.class, LogsCommands.GetLogs.class},
-        description = "Gets or lists NMF app logs using the content of a local or remote"
-                + " COM archive.")
 public class LogsCommands {
 
     private static final Logger LOGGER =
             Logger.getLogger(LogsCommands.class.getName());
 
-    @Command(
-            name = "list",
-            description = "Lists NMF apps having logs in the content of a local or"
-                    + " remote COM archive.")
-    public static class ListLogs extends BaseCommand implements Runnable {
-
-        @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
-                description = "Restricts the list to NMF apps in a specific domain\n"
-                + "  - default: search for app in all domains\n"
-                + "  - format: key1.key2.[...].keyN.\n"
-                + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
-        String domainId;
-
-        @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
-                description = "Restricts the list to NMF apps having logs logged"
-                + " after the given time\n"
-                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
-                + "  - example: \"2021-03-04 08:37:58.482\"")
-        String startTime;
-
-        @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
-                description = "Restricts the list to NMF apps having logs logged"
-                + " before the given time. "
-                + "If this option is provided without the -s option, returns the"
-                + " single object that has the closest timestamp to, but not"
-                + " greater than <endTime>\n"
-                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
-                + "  - example: \"2021-03-05 12:05:45.271\"")
-        String endTime;
+    public static class ListLogs extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            String domainId  = args.option("-d", "--domain");
+            String startTime = args.option("-s", "--start");
+            String endTime   = args.option("-e", "--end");
+
             // Query all objects from SoftwareManagement area filtering for
             // StandardOutput and StandardError events and App object is done in the query adapter
             ObjectType objectsTypes = new ObjectType(
@@ -133,51 +105,24 @@ public class LogsCommands {
         }
     }
 
-    @Command(
-            name = "get",
-            description = "Dumps to a LOG file an NMF app logs using the content of a"
-                    + " local or remote COM archive.")
-    public static class GetLogs extends BaseCommand implements Runnable {
-
-        @Parameters(
-                arity = "1",
-                paramLabel = "<appName>",
-                description = "Name of the NMF app we want the logs for")
-        String appName;
-
-        @Parameters(
-                arity = "1",
-                paramLabel = "<logFile>",
-                description = "target LOG file")
-        String logFile;
-
-        @Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
-                description = "Domain of the NMF app we want the logs for\n"
-                + "  - default: search for app in all domains\n"
-                + "  - format: key1.key2.[...].keyN.\n"
-                + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
-        String domainId;
-
-        @Option(names = {"-s", "--start"}, paramLabel = "<startTime>",
-                description = "Restricts the dump to logs logged after the given time\n"
-                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
-                + "  - example: \"2021-03-04 08:37:58.482\"")
-        String startTime;
-
-        @Option(names = {"-e", "--end"}, paramLabel = "<endTime>",
-                description = "Restricts the dump to logs logged before the given time. "
-                + "If this option is provided without the -s option, returns the single "
-                + "object that has the closest timestamp to, but not greater than <endTime>\n"
-                + "  - format: \"yyyy-MM-dd HH:mm:ss.SSS\"\n"
-                + "  - example: \"2021-03-05 12:05:45.271\"")
-        String endTime;
-
-        @Option(names = {"-t", "--timestamped"}, paramLabel = "<addTimestamps>",
-                description = "If specified additional timestamp will be added to each line")
-        boolean addTimestamps;
+    public static class GetLogs extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            String domainId  = args.option("-d", "--domain");
+            String startTime = args.option("-s", "--start");
+            String endTime   = args.option("-e", "--end");
+            boolean addTimestamps = args.flag("-t", "--timestamped");
+
+            List<String> positionals = args.positionals();
+            if (positionals.size() < 2) {
+                System.out.println("Usage: log get <appName> <logFile>");
+                return;
+            }
+            String appName = positionals.get(0);
+            String logFile = positionals.get(1);
+
             // Query all objects from SoftwareManagement area and CommandExecutor service,
             // filtering for StandardOutput and StandardError events is done in the query adapter
             ObjectType outputObjectTypes = new ObjectType(

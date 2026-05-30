@@ -22,6 +22,7 @@ package esa.mo.nmf.clitool.mc;
 
 import static esa.mo.nmf.clitool.BaseCommand.consumer;
 import static esa.mo.nmf.clitool.BaseCommand.queryArchive;
+import esa.mo.nmf.clitool.Args;
 import esa.mo.nmf.clitool.BaseCommand;
 import esa.mo.nmf.clitool.adapters.ArchiveToActionsAdapter;
 import java.io.Serializable;
@@ -34,81 +35,71 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
-import picocli.CommandLine;
 
 /**
  *
  * @author Cesar Coelho
  */
 public class ActionCommands {
-    
+
     private static final Logger LOGGER = Logger.getLogger(ActionCommands.class.getName());
-    
-    @CommandLine.Command(name = "trigger", description = "Triggers a specific action.")
-    public static class SubmitAction extends BaseCommand implements Runnable {
-        
-        @CommandLine.Parameters(arity = "1", paramLabel = "<actionName>",
-                index = "0", description = "Name of the action to trigger.")
-        String actionName;
-        
-        @CommandLine.Parameters(arity = "0..*", paramLabel = "<arguments>", index = "1",
-                description = "List of the arguments to use by the action.")
-        List<String> inputArguments;
-        
+
+    public static class SubmitAction extends BaseCommand {
+
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> positionals = args.positionals();
+            if (positionals.isEmpty()) {
+                System.out.println("Missing required argument: <actionName>");
+                return;
+            }
+            String actionName = positionals.get(0);
+            List<String> inputArguments = positionals.subList(1, positionals.size());
+
             if (!super.initRemoteConsumer()) {
                 return;
             }
-            
+
             if (consumer.getMCServices().getActionService() == null) {
                 System.out.println("Action service is not available for this provider!");
                 return;
             }
-            
-            Serializable[] objs = new Serializable[0];
-            
-            if (inputArguments != null) {
-                objs = new Serializable[inputArguments.size()];
-                
-                for (int i = 0; i < inputArguments.size(); i++) {
-                    String inputValue = inputArguments.get(i);
-                    
-                    try {
-                        Long longValue = Long.valueOf(inputValue);
-                        objs[i] = longValue;
-                    } catch (NumberFormatException ex) {
-                        objs[i] = inputArguments.get(i);
-                    }
+
+            Serializable[] objs = new Serializable[inputArguments.size()];
+            for (int i = 0; i < inputArguments.size(); i++) {
+                String inputValue = inputArguments.get(i);
+                try {
+                    objs[i] = Long.valueOf(inputValue);
+                } catch (NumberFormatException ex) {
+                    objs[i] = inputValue;
                 }
             }
-            
+
             consumer.launchAction(actionName, objs);
         }
     }
-    
-    @CommandLine.Command(name = "list", description = "Lists available actions in a COM archive.")
-    public static class ListActions extends BaseCommand implements Runnable {
-        
-        @CommandLine.Option(names = {"-d", "--domain"}, paramLabel = "<domainId>",
-                description = "Restricts the dump to objects in a specific domain\n"
-                + "  - format: key1.key2.[...].keyN.\n" + "  - example: esa.NMF_SDK.nanosat-mo-supervisor")
-        String domainId;
-        
-        public void run() {
+
+    public static class ListActions extends BaseCommand {
+
+        @Override
+        public void run(Args args) {
+            parseBaseOptions(args);
+            String domainId = args.option("-d", "--domain");
+
             boolean consumerCreated = false;
             if (providerURI != null) {
                 consumerCreated = initRemoteConsumer();
             } else if (databaseFile != null) {
                 consumerCreated = initLocalConsumer(databaseFile);
             }
-            
+
             if (!consumerCreated) {
                 LOGGER.log(Level.SEVERE, "Failed to create consumer!");
                 return;
             }
             IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
-            
+
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, null, null, null, null);
 
             ArchiveToActionsAdapter adapter = new ArchiveToActionsAdapter();
@@ -131,5 +122,5 @@ public class ActionCommands {
             }
         }
     }
-    
+
 }
