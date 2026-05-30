@@ -82,8 +82,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     private DirectoryProviderServiceImpl directoryService;
     private ConfigurationChangeListener configurationAdapter;
     private int stdLimit; // Limit of stdout/stderr to allow in the archive.
-    // Set of app ids for which the warning about verbose logging was sent
-    private final Set<Long> verboseLoggingWarningSent = new HashSet<>();
     /**
      * Object used to track archive usage by STD output of each app
      */

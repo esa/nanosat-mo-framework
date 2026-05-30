@@ -194,8 +194,9 @@ public class ProcessExecutionHandler {
                 try {
                     String line;
                     while ((line = br.readLine()) != null) {
-                        buf.append(line);
-                        buf.append("\n");
+                        synchronized (buf) {
+                            buf.append(line).append("\n");
+                        }
                     }
                 } catch (IOException ex) {
                     LOGGER.log(Level.INFO,
@@ -233,12 +234,12 @@ public class ProcessExecutionHandler {
         }
 
         private String getBufferData(StringBuffer buffer) {
-            // Change the buffer position
-            int bufSize = buffer.length();
-            if (bufSize != 0) {
-                String dataToPropagate = buffer.substring(0, bufSize);
-                buffer.delete(0, bufSize);
-                return dataToPropagate;
+            synchronized (buffer) {
+                if (buffer.length() != 0) {
+                    String data = buffer.toString();
+                    buffer.setLength(0);
+                    return data;
+                }
             }
             return null;
         }

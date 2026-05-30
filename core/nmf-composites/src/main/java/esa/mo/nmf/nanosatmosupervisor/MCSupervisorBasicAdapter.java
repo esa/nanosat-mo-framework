@@ -228,7 +228,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
 
         try {
             nmfSupervisor.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(duration,
-                    new AttitudeModeSunPointing());
+                    new AttitudeModeNadirPointing());
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             return new UInteger(1);
