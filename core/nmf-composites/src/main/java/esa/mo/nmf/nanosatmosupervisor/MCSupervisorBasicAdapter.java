@@ -30,6 +30,7 @@ import esa.mo.nmf.annotations.ActionParameter;
 import esa.mo.nmf.annotations.Parameter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.Date;
 import java.util.Map;
 import java.util.logging.Level;
@@ -196,10 +197,15 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
             description = "Sets the clock using a diff between the on-board time and the desired time.")
     public UInteger setTimeUsingDeltaMilliseconds(Long executionId, boolean reportProgress,
             MALInteraction interaction, @ActionParameter(name = "delta", rawUnit = "milliseconds") Long delta) {
-        String str = (new SimpleDateFormat(DATE_PATTERN)).format(new Date(System.currentTimeMillis() + delta));
-
-        ShellCommander shell = new ShellCommander();
-        shell.runCommand("date -s \"" + str + " UTC\" | hwclock --systohc");
+        String dateStr = new SimpleDateFormat(DATE_PATTERN, Locale.US).format(
+                new Date(System.currentTimeMillis() + delta)) + " UTC";
+        try {
+            new ProcessBuilder("date", "-s", dateStr).inheritIO().start().waitFor();
+            new ProcessBuilder("hwclock", "--systohc").inheritIO().start().waitFor();
+        } catch (IOException | InterruptedException ex) {
+            LOGGER.log(Level.SEVERE, "Error setting system time.", ex);
+            return new UInteger(1);
+        }
         return null;
     }
 
