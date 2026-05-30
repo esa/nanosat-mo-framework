@@ -31,10 +31,10 @@ public class CLITool {
         long startTime = System.currentTimeMillis();
         System.out.println("(1) The CLI Tool is starting...");
         Runtime.getRuntime().addShutdownHook(new Thread(BaseCommand::closeConsumer));
-        System.out.println("(2) The CLI Tool is starting...");
+        System.out.println("(2) The CLI Tool is dispaching the command...");
         int exitCode = Dispatcher.dispatch(args);
         long startupTime = System.currentTimeMillis() - startTime;
-        System.out.println("(3) The CLI Tool was started in: " + startupTime + " ms");
+        System.out.println("(3) The CLI Tool was executed in: " + startupTime + " ms");
         System.exit(exitCode);
     }
 }
