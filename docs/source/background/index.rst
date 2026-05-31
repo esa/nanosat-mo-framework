@@ -15,7 +15,7 @@ themselves are PDFs in the repository; this page is the index.
 ECSS deliverables
 -----------------
 
-Located under ``sdk/sdk-execution-environment/src/main/resources/docs/NMF_Design_Documents/``:
+Located under ``docs/reference-documents/NMF_Design_Documents/``:
 
 - **NMF Software Requirements Specification (SRS)** — ``NMF_SRS.pdf``. No longer maintained.
 - **NMF Software Design Document (SDD)** — ``NMF_SDD.pdf``. No longer maintained.
@@ -41,7 +41,7 @@ source of truth. For a narrative overview of the service categories, see :doc:`.
 User-facing guides (historical)
 -------------------------------
 
-Located under ``sdk/sdk-execution-environment/src/main/resources/docs/``:
+Located under ``docs/reference-documents/``:
 
 - **NMF Quick Start Guide** — ``NMF_Quick_Start_Guide.pdf``. Superseded by :doc:`../quickstart/index`.
 - **Development Guide — NMF Apps** — ``Development_Guide_NMF_Apps.pdf``. Superseded by
@@ -52,6 +52,8 @@ Located under ``sdk/sdk-execution-environment/src/main/resources/docs/``:
 Background reading
 ------------------
 
+Located under ``docs/reference-documents/``:
+
 - **PhD Dissertation (Cesar Coelho)** — ``Dissertation__Cesar_Coelho.pdf``. The foundational text describing
   the NMF's design and motivation.
 - **Software Simulator MSc Thesis** — ``Software_Simulator_Master_Thesis.pdf``. The simulator's design.
@@ -60,5 +62,7 @@ Background reading
 
 Presentations
 -------------
+
+Located under ``docs/reference-documents/``:
 
 - **NMF SDK presentation** — ``NMF_SDK_presentation.pptx``. Overview slides.
