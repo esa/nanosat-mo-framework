@@ -32,13 +32,14 @@ import opssat.simulator.threading.SimulatorNode;
  * @author Cezar Suteu
  */
 @ISimulatorDeviceData(descriptors = {"double:latitude [deg]", "double:longitude [deg]", "double:altitude [deg]",
-                                     "double:groundStationESOC_Elevation [deg]",
-                                     "double:groundStationESOC_Azimuth [deg]", "String:satsInView"})
+    "double:groundStationESOC_Elevation [deg]",
+    "double:groundStationESOC_Azimuth [deg]", "String:satsInView"})
 public class PGPS extends GenericPeripheral implements IGPS {
 
     public static class FirmwareReferenceOEM16 {
 
         public static class GPGGA_COL {
+
             public final static int HEADER = 0;
             public final static int UTC = 1;
             public final static int LAT = 2;
@@ -58,6 +59,7 @@ public class PGPS extends GenericPeripheral implements IGPS {
         }
 
         public static class GPGGALONG_COL {
+
             public final static int HEADER = 0;
             public final static int UTC = 1;
             public final static int LAT = 2;
@@ -77,6 +79,7 @@ public class PGPS extends GenericPeripheral implements IGPS {
         }
 
         public static class GPGGARTK_COL {
+
             public final static int HEADER = 0;
             public final static int UTC = 1;
             public final static int LAT = 2;
@@ -96,6 +99,7 @@ public class PGPS extends GenericPeripheral implements IGPS {
         }
 
         public static class GLMLA_COL {
+
             public final static int HEADER = 0;
             public final static int NUMBER_IN_SET = 1;
             public final static int NUMBER_CURRENT = 2;
@@ -116,6 +120,7 @@ public class PGPS extends GenericPeripheral implements IGPS {
         }
 
         public static class GPALM_COL {
+
             public final static int HEADER = 0;
             public final static int NUMBER_MSG_LOG = 1;
             public final static int NUMBER_CURRENT = 2;
@@ -136,6 +141,7 @@ public class PGPS extends GenericPeripheral implements IGPS {
         }
 
         public static class GPGRS_COL {
+
             public final static int HEADER = 0;
             public final static int UTC = 1;
             public final static int MODE = 2;
@@ -155,6 +161,7 @@ public class PGPS extends GenericPeripheral implements IGPS {
         }
 
         public static class GPGST_COL {
+
             public final static int HEADER = 0;
             public final static int UTC = 1;
             public final static int RMS_STD = 2;
@@ -168,6 +175,7 @@ public class PGPS extends GenericPeripheral implements IGPS {
         }
 
         public static class GPGSV_COL {
+
             public final static int HEADER = 0;
             public final static int NUMBER_MSGS = 1;
             public final static int CURRENT_MSG = 2;
@@ -192,6 +200,7 @@ public class PGPS extends GenericPeripheral implements IGPS {
         }
 
         public static class GPRMB_COL {
+
             public final static int HEADER = 0;
             public final static int DATA_STATUS = 1;
             public final static int XTRACK_ERR = 2;
@@ -211,6 +220,7 @@ public class PGPS extends GenericPeripheral implements IGPS {
         }
 
         public static class GPHDT_COL {
+
             public final static int HEADER = 0;
             public final static int HEADING = 1;
             public final static int DEGREES_TRUE = 2;
@@ -218,6 +228,7 @@ public class PGPS extends GenericPeripheral implements IGPS {
         }
 
         public static class GPRMC_COL {
+
             public final static int HEADER = 0;
             public final static int UTC = 1;
             public final static int POS_STATUS = 2;
@@ -235,6 +246,7 @@ public class PGPS extends GenericPeripheral implements IGPS {
         }
 
         public static class GPVTG_COL {
+
             public final static int HEADER = 0;
             public final static int TRACK_TRUE = 1;
             public final static int T_INDICATOR = 2;
@@ -249,6 +261,7 @@ public class PGPS extends GenericPeripheral implements IGPS {
         }
 
         public static class GPZDA_COL {
+
             public final static int HEADER = 0;
             public final static int UTC = 1;
             public final static int DAY = 2;
@@ -261,8 +274,9 @@ public class PGPS extends GenericPeripheral implements IGPS {
 
         public static double DDMMpMMMM2degrees(String DDMMpMMMM) {
             if (DDMMpMMMM.length() == 9) {
-                return Double.parseDouble(DDMMpMMMM.substring(0, 2)) + (Double.parseDouble(DDMMpMMMM.substring(2, 4)) +
-                    Double.parseDouble(DDMMpMMMM.substring(5, 9)) / 1000) / 60;
+                return Double.parseDouble(DDMMpMMMM.substring(0, 2))
+                        + (Double.parseDouble(DDMMpMMMM.substring(2, 4))
+                        + Double.parseDouble(DDMMpMMMM.substring(5, 9)) / 1000) / 60;
             } else {
                 return 0;
             }
@@ -271,8 +285,9 @@ public class PGPS extends GenericPeripheral implements IGPS {
         public static double DDDMMpMMMM2degrees(String DDMMpMMMM) {
             if (DDMMpMMMM.length() == 10) {
                 // DDDMMpMMMM sentence
-                return Double.parseDouble(DDMMpMMMM.substring(0, 3)) + (Double.parseDouble(DDMMpMMMM.substring(3, 5)) +
-                    Double.parseDouble(DDMMpMMMM.substring(6, 10)) / 1000) / 60;
+                return Double.parseDouble(DDMMpMMMM.substring(0, 3))
+                        + (Double.parseDouble(DDMMpMMMM.substring(3, 5))
+                        + Double.parseDouble(DDMMpMMMM.substring(6, 10)) / 1000) / 60;
             } else {
                 return 0;
             }
@@ -284,8 +299,9 @@ public class PGPS extends GenericPeripheral implements IGPS {
                 // System.out.println(DDMMpMMMMMMM.substring(2, 4));
                 // System.out.println(DDMMpMMMMMMM.substring(5, 12));
                 // System.out.println(Double.parseDouble(DDMMpMMMMMMM.substring(5, 12)) / 1000);
-                return Double.parseDouble(DDMMpMMMMMMM.substring(0, 2)) + (Double.parseDouble(DDMMpMMMMMMM.substring(2,
-                    4)) + Double.parseDouble(DDMMpMMMMMMM.substring(5, 12)) / 1000000) / 60;
+                return Double.parseDouble(DDMMpMMMMMMM.substring(0, 2))
+                        + (Double.parseDouble(DDMMpMMMMMMM.substring(2, 4))
+                        + Double.parseDouble(DDMMpMMMMMMM.substring(5, 12)) / 1000000) / 60;
             } else {
                 return 0;
             }
@@ -293,8 +309,9 @@ public class PGPS extends GenericPeripheral implements IGPS {
 
         public static double degMinutes2Degrees(String DDDMMpMMMMMMM) {
             if (DDDMMpMMMMMMM.length() == 13) {
-                return Double.parseDouble(DDDMMpMMMMMMM.substring(0, 3)) + (Double.parseDouble(DDDMMpMMMMMMM.substring(
-                    3, 5)) + Double.parseDouble(DDDMMpMMMMMMM.substring(6, 13)) / 1000000) / 60;
+                return Double.parseDouble(DDDMMpMMMMMMM.substring(0, 3))
+                        + (Double.parseDouble(DDDMMpMMMMMMM.substring(3, 5))
+                        + Double.parseDouble(DDDMMpMMMMMMM.substring(6, 13)) / 1000000) / 60;
             } else {
                 return 0;
             }
