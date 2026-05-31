@@ -11,7 +11,6 @@ The SDK depends on the NMF Mission - Software Simulator.
 ### Tools
 
 - [Consumer Test Tool](tools/consumer-test-tool) - allows consuming all of the services exposed by NMF through an user-friendly GUI
-- [Package Assembler](tools/package-assembler) - allows packaging space apps into a deliverables to mission
 
 ### [Space Examples](examples/space)
 

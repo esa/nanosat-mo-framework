@@ -155,9 +155,4 @@ Sphinx docs under `docs/source/` are organised into nine sections: `quickstart/`
 
 ## Environment
 
-Set `NMF_HOME` to the repository root before running apps:
-```bash
-export NMF_HOME=/path/to/nanosat-mo-framework
-```
-
-Logging uses `java.util.logging`; verbosity is controlled by `logging.properties` in `NMF_HOME`.
+Logging uses `java.util.logging`; verbosity is controlled by `logging.properties` in the Supervisor's working directory (`sdk/sdk-playground-environment/target/space-filesystem/nanosat-mo-framework/etc/`).
