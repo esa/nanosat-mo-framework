@@ -495,6 +495,31 @@
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
+            <mal:capabilitySet number="5" comment="">
+                <mal:pubsubIP name="monitorEvents" number="6" comment="The monitorEvents operation allows a consumer to subscribe to app lifecycle events.">
+                    <mal:messages>
+                        <mal:subscriptionKeys>
+                            <mal:field name="appName" canBeNull="false" comment="The name of the app to subscribe to, or wildcard for all apps.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                            <mal:field name="appId" canBeNull="false" comment="The object instance identifier of the app, or wildcard for all apps.">
+                                <mal:type area="MAL" list="false" name="Long"/>
+                            </mal:field>
+                        </mal:subscriptionKeys>
+                        <mal:publishNotify>
+                            <mal:field name="eventType" canBeNull="false" comment="The type of lifecycle event.">
+                                <mal:type area="SM" list="false" name="AppEventType"/>
+                            </mal:field>
+                            <mal:field name="exitCode" canBeNull="true" comment="The process exit code. Non-NULL only for STOPPED, KILLED, EXITED, and CRASHED events.">
+                                <mal:type area="MAL" list="false" name="Integer"/>
+                            </mal:field>
+                            <mal:field name="extraInfo" canBeNull="true" comment="Optional free-text information associated with the event, such as an error message or crash reason.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:field>
+                        </mal:publishNotify>
+                    </mal:messages>
+                </mal:pubsubIP>
+            </mal:capabilitySet>
             <com:features>
                 <mal:diagram name="AppsLauncherObjects">
                     <svg:svg height="300" version="1.1" width="760">
@@ -686,6 +711,15 @@
                     <mal:type area="MAL" list="false" name="Integer"/>
                 </mal:field>
             </mal:composite>
+            <mal:enumeration name="AppEventType" shortFormPart="5" comment="The AppEventType enumeration identifies the lifecycle event of an NMF app.">
+                <mal:item nvalue="1" value="START_REQUESTED" comment="A request to start the app was received."/>
+                <mal:item nvalue="2" value="STARTED"         comment="The app process started running."/>
+                <mal:item nvalue="3" value="STOP_REQUESTED"  comment="A request to stop the app gracefully was received."/>
+                <mal:item nvalue="4" value="STOPPED"         comment="The app stopped after a graceful stop request."/>
+                <mal:item nvalue="5" value="KILLED"          comment="The app process was forcibly killed."/>
+                <mal:item nvalue="6" value="EXITED"          comment="The app terminated on its own with exit code 0."/>
+                <mal:item nvalue="7" value="CRASHED"         comment="The app terminated on its own with a non-zero exit code."/>
+            </mal:enumeration>
         </mal:dataTypes>
     </mal:area>
 </mal:specification>

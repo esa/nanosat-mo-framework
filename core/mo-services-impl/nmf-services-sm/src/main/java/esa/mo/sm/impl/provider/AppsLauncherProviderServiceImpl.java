@@ -55,10 +55,12 @@ import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.sm.appslauncher.body.ListAppResponse;
 import org.ccsds.moims.mo.sm.appslauncher.provider.AppsLauncherInheritanceSkeleton;
+import org.ccsds.moims.mo.sm.appslauncher.provider.MonitorEventsPublisher;
 import org.ccsds.moims.mo.sm.appslauncher.provider.MonitorExecutionPublisher;
 import org.ccsds.moims.mo.sm.appslauncher.provider.StopAppInteraction;
 import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorServiceInfo;
 import org.ccsds.moims.mo.sm.structures.AppDetails;
+import org.ccsds.moims.mo.sm.structures.AppEventType;
 
 /**
  * Apps Launcher service Provider.
@@ -72,10 +74,14 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     private static final int MAX_SEGMENT_SIZE = UShort.MAX_VALUE - 256;
     private MALProvider appsLauncherServiceProvider;
     private MonitorExecutionPublisher publisher;
+    private MonitorEventsPublisher eventsPublisher;
     private boolean initialiased = false;
     private boolean running = false;
     private boolean isRegistered = false;
+    private boolean isEventsRegistered = false;
     private final Object lock = new Object();
+    private final Set<Long> killPendingApps = Collections.synchronizedSet(new HashSet<>());
+    private final Set<Long> stopPendingApps = Collections.synchronizedSet(new HashSet<>());
     private AppsLauncherManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
     private COMServicesProvider comServices;
@@ -102,6 +108,13 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                 Const.APPSLAUNCHER_STD_LIMIT_DEFAULT));
         stdLimit = kbyte * 1024; // init limit with value of property
         publisher = createMonitorExecutionPublisher(ConfigurationProviderSingleton.getDomain(),
+                null,
+                SessionType.LIVE,
+                ConfigurationProviderSingleton.getSourceSessionName(),
+                QoSLevel.BESTEFFORT,
+                null,
+                new UInteger(0));
+        eventsPublisher = createMonitorEventsPublisher(ConfigurationProviderSingleton.getDomain(),
                 null,
                 SessionType.LIVE,
                 ConfigurationProviderSingleton.getSourceSessionName(),
@@ -145,6 +158,27 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
      */
     public void setStdQuotaPerApp(Quota q) {
         this.stdQuota = q;
+    }
+
+    private void publishAppEvent(String appName, Long appId, AppEventType eventType, Integer exitCode, String extraInfo) {
+        try {
+            synchronized (lock) {
+                if (!isEventsRegistered) {
+                    eventsPublisher.registerWithDefaultKeys(new PublishInteractionListener());
+                    isEventsRegistered = true;
+                }
+            }
+            AttributeList keyValues = new AttributeList();
+            keyValues.add(new Identifier(appName));
+            keyValues.add(new Union(appId));
+            UpdateHeader updateHeader = new UpdateHeader(
+                    new Identifier(connection.getConnectionDetails().getProviderURI().getValue()),
+                    connection.getConnectionDetails().getDomain(),
+                    keyValues.getAsNullableAttributeList());
+            eventsPublisher.publish(updateHeader, eventType, exitCode, extraInfo);
+        } catch (IllegalArgumentException | MALException | MALInteractionException ex) {
+            LOGGER.log(Level.WARNING, "Exception publishing app event", ex);
+        }
     }
 
     private void publishExecutionMonitoring(final Long appObjId,
@@ -287,9 +321,11 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                         objType, ConfigurationProviderSingleton.getDomain(),
                         app.getName(), appId, null, interaction);
 
+                publishAppEvent(app.getName().toString(), appId, AppEventType.START_REQUESTED, null, null);
                 CallbacksImpl calback = new CallbacksImpl();
                 ProcessExecutionHandler pHandler = new ProcessExecutionHandler(calback, appId);
                 manager.startAppProcess(pHandler, interaction, directoryServiceURI);
+                publishAppEvent(app.getName().toString(), appId, AppEventType.STARTED, null, null);
             } catch (IOException ex) {
                 UIntegerList intIndexList = new UIntegerList();
                 intIndexList.add(new UInteger(i));
@@ -350,6 +386,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         // Kill the apps!
         for (int i = 0; i < appInstIds.size(); i++) {
+            killPendingApps.add(appInstIds.get(i));
             manager.killAppProcess(appInstIds.get(i), interaction);
         }
     }
@@ -452,6 +489,13 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         if (interaction != null) {
             interaction.sendAcknowledgement();
+        }
+
+        for (int i = 0; i < appInstIds.size(); i++) {
+            Long appId = appInstIds.get(i);
+            stopPendingApps.add(appId);
+            publishAppEvent(this.manager.get(appId).getName().toString(), appId,
+                    AppEventType.STOP_REQUESTED, null, null);
         }
 
         manager.stopApps(appInstIds, appDirectoryServiceNames, appConnections, interaction);
@@ -647,6 +691,16 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             LOGGER.log(Level.INFO,
                     "The process exited with code {0} and objId: {1}",
                     new Object[]{exitCode, objId});
+            String appName = manager.get(objId).getName().toString();
+            if (killPendingApps.remove(objId)) {
+                publishAppEvent(appName, objId, AppEventType.KILLED, exitCode, null);
+            } else if (stopPendingApps.remove(objId)) {
+                publishAppEvent(appName, objId, AppEventType.STOPPED, exitCode, null);
+            } else if (exitCode == 0) {
+                publishAppEvent(appName, objId, AppEventType.EXITED, exitCode, null);
+            } else {
+                publishAppEvent(appName, objId, AppEventType.CRASHED, exitCode, null);
+            }
             manager.setRunning(objId, false, null);
         }
     }

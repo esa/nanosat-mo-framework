@@ -50,6 +50,9 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     private static final String PARAMETER_ARCHIVE_SIZE = "COM_Archive.size";
     private static final String ACTION_STORE_AGGS = "StoreAggregations";
     private static final String ACTION_STORE_PARS = "StoreParameters";
+    private static final String ACTION_SHUTDOWN_GRACEFULLY = "shutdown.gracefully";
+    private static final String ACTION_SHUTDOWN_EXIT_0 = "shutdown.system.exit.0";
+    private static final String ACTION_SHUTDOWN_EXIT_X = "shutdown.system.exit.x";
 
     MCAdapter(NanoSatMOConnectorImpl connector) {
         this.connector = connector;
@@ -97,6 +100,24 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
                 "Stores " + NUMBER_OF_OBJS + " parameter value objects in the COM Archive.",
                 new UShort(0), arguments1));
 
+        actionDefs.add(new ActionDefinition(
+                new Identifier(ACTION_SHUTDOWN_GRACEFULLY),
+                "Shuts down the app gracefully via the NMF connector.",
+                new UShort(0), null));
+
+        actionDefs.add(new ActionDefinition(
+                new Identifier(ACTION_SHUTDOWN_EXIT_0),
+                "Shuts down the app immediately with exit code 0.",
+                new UShort(0), null));
+
+        ArgumentDefinitionList exitCodeArgs = new ArgumentDefinitionList();
+        exitCodeArgs.add(new ArgumentDefinition(new Identifier("exitCode"),
+                "The exit code.", AttributeType.INTEGER, "-"));
+        actionDefs.add(new ActionDefinition(
+                new Identifier(ACTION_SHUTDOWN_EXIT_X),
+                "Shuts down the app immediately with the specified exit code.",
+                new UShort(0), exitCodeArgs));
+
         LongList actionObjIds = registration.registerActions(actionDefs);
     }
 
@@ -129,6 +150,20 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
         if (ACTION_STORE_PARS.equals(name.getValue())) {
             StoreParameters.storeParameterValues(NUMBER_OF_OBJS, connector);
+        }
+
+        if (ACTION_SHUTDOWN_GRACEFULLY.equals(name.getValue())) {
+            new Thread(() -> connector.closeGracefully(null)).start();
+        }
+
+        if (ACTION_SHUTDOWN_EXIT_0.equals(name.getValue())) {
+            new Thread(() -> System.exit(0)).start();
+        }
+
+        if (ACTION_SHUTDOWN_EXIT_X.equals(name.getValue())) {
+            int exitCode = (Integer) HelperAttributes.attribute2JavaType(
+                    attributeValues.get(0).getValue());
+            new Thread(() -> System.exit(exitCode)).start();
         }
 
         return null;  // Action service not integrated
