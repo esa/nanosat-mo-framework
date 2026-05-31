@@ -36,7 +36,7 @@ From the repository root, run:
    mvn install
 
 This compiles the framework, generates the MO Java APIs from the XML service definitions, and assembles the
-SDK execution environment. The first build downloads dependencies and takes a few minutes.
+SDK Playground Environment. The first build downloads dependencies and takes a few minutes.
 
 For a faster intermediate build that skips Javadoc and the slow assembly step:
 
