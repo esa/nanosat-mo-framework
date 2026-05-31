@@ -27,7 +27,6 @@ import esa.mo.nmf.nanosatmosupervisor.MCSupervisorBasicAdapter;
 import esa.mo.nmf.nanosatmosupervisor.NanoSatMOSupervisor;
 import esa.mo.nmf.nmfpackage.NMFPackagePMBackend;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
-import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
 import esa.mo.platform.impl.util.PlatformServicesProviderSoftSim;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,27 +46,18 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
 
     private static final Logger LOGGER = Logger.getLogger(NanosatMOSupervisorBasicImpl.class.getName());
-    private PlatformServicesProviderInterface platformServicesProvider;
+    private PlatformServicesProviderSoftSim platformServicesProvider;
     private ConnectionConsumer connectionConsumer;
 
     @Override
     public void initPlatformServices(COMServicesProvider comServices) {
         try {
-            String platformProviderClass = System.getProperty("nmf.platform.impl", "esa.mo.platform.impl.util.PlatformServicesProviderSoftSim");
-            try {
-                platformServicesProvider
-                        = (PlatformServicesProviderInterface) Class.forName(platformProviderClass).newInstance();
-                platformServicesProvider.init(comServices);
-            } catch (NullPointerException | ClassNotFoundException | InstantiationException
-                    | IllegalAccessException ex) {
-                LOGGER.log(Level.SEVERE,
-                        "Something went wrong when initializing the platform services.",
-                        ex);
-                System.exit(-1);
-            }
+            platformServicesProvider = new PlatformServicesProviderSoftSim();
+            platformServicesProvider.init(comServices);
         } catch (MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
+
         // Now connect the platform services consumer loopback to it
         connectionConsumer = new ConnectionConsumer();
         try {
@@ -79,9 +69,7 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
     }
 
     protected void startStatusTracking() {
-        if (platformServicesProvider instanceof PlatformServicesProviderSoftSim) {
-            ((PlatformServicesProviderSoftSim) platformServicesProvider).startStatusTracking(connectionConsumer);
-        }
+        platformServicesProvider.startStatusTracking(connectionConsumer);
     }
 
     @Override
