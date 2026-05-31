@@ -94,6 +94,12 @@
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>hello-world</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
             <artifactId>benchmark</artifactId>
             <version>${esa.nmf.version}</version>
             <type>nmfpack</type>

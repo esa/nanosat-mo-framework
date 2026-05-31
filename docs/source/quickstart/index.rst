@@ -99,7 +99,7 @@ Start an example app
 ^^^^^^^^^^^^^^^^^^^^
 
 1. In the Supervisor tab, open the **Apps Launcher Service** sub-tab.
-2. Select an example app such as ``hello-world-simple``.
+2. Select an example app such as ``hello-world``.
 3. Click **runApp**.
 
 The Supervisor spawns the app process and the app's output appears in the Apps Launcher tab. Returning to
