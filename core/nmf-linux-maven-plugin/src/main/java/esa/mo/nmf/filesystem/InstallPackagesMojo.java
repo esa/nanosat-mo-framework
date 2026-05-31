@@ -22,6 +22,7 @@ package esa.mo.nmf.filesystem;
 
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.environment.Deployment;
+import esa.mo.nmf.environment.DeploymentTooling;
 import esa.mo.nmf.nmfpackage.NMFPackage;
 import esa.mo.nmf.nmfpackage.NMFPackageBuilder;
 import esa.mo.nmf.nmfpackage.NMFPackageManager;
@@ -81,8 +82,8 @@ public class InstallPackagesMojo extends AbstractMojo {
                     + "\nRun the generate-filesystem goal first.");
         }
 
-        Deployment.initialize(nmfDir);
-
+        DeploymentTooling.initialize(nmfDir);
+        try {
         // Build filename → artifact map for every resolved JAR so we can look
         // up the file when a package metadata lists a dep by JAR filename.
         @SuppressWarnings("unchecked")
@@ -163,5 +164,8 @@ public class InstallPackagesMojo extends AbstractMojo {
         }
 
         getLog().info("Installed " + count + " NMF package(s) into " + nmfDir.getAbsolutePath());
+        } finally {
+            DeploymentTooling.reset();
+        }
     }
 }
