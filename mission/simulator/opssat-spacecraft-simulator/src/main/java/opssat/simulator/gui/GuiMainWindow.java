@@ -257,7 +257,7 @@ public class GuiMainWindow implements Runnable {
 
         // Initializations
         hashTableDataOutAgregate = new Hashtable<>();
-        this.frame = new JFrame("OPS-SAT Simulator");
+        this.frame = new JFrame("CubeSat Simulator");
         this.frame.setIconImage(createImageIconFromBMPResource("ESA-logo.png").getImage());
         this.lblSimulatorData = new JLabel("SimulatorData");
         this.lblSimulatorTimeRunning = new JLabel("TimeRunning");
