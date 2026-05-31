@@ -36,8 +36,8 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 
 /**
- * This is a specific implementation of the NMF supervisor which is currently
- * being used by the SDK and the OPS-SAT mission. Using the property
+ * This is a specific implementation of the NMF supervisor integrated with the
+ * Platform services attached to the CubeSat simulator. Using the property
  * "nmf.platform.impl" one can select the class of the platform services
  * implementation which shall be used by the supervisor. If no such property is
  * provided, it will use the simulated platform services by default.
