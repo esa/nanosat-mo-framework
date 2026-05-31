@@ -79,56 +79,6 @@ You are now able to run the SupervisorSimulator and the CTT.
 You can apply the above parameters for your ground software and also for your space apps.
 Just make sure to enter the correct main classes and the working directories of the compiled apps (e.g. `sdk-playground-environment/target/space-filesystem/nanosat-mo-framework/apps/APPNAME`).
 
-### Fixing the "Plugin execution not covered by lifecycle configuration" message
-
-When developing apps with Maven you may want to invoke some plugins inside your pom.xml. Occasionally, Eclipse's m2e plugin may not be able to understand when to call a certain plugin.
-In this case, you can add a configuration for the m2e lifecycle mapping plugin inside your pom.xml. You can use the following example for reference.
-
-```xml
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.eclipse.m2e</groupId>
-          <artifactId>lifecycle-mapping</artifactId>
-          <version>1.0.0</version>
-          <configuration>
-            <lifecycleMappingMetadata>
-              <pluginExecutions>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-antrun-plugin</artifactId>
-                    <versionRange>1.8</versionRange>
-                    <goals>
-                      <goal>run</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <execute />
-                  </action>
-                </pluginExecution>
-                <pluginExecution>
-                  <pluginExecutionFilter>
-                    <groupId>com.googlecode.maven-download-plugin</groupId>
-                    <artifactId>download-maven-plugin</artifactId>
-                    <versionRange>1.4.0</versionRange>
-                    <goals>
-                      <goal>wget</goal>
-                    </goals>
-                  </pluginExecutionFilter>
-                  <action>
-                    <execute />
-                  </action>
-                </pluginExecution>
-              </pluginExecutions>
-            </lifecycleMappingMetadata>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-```
-
-Simply add a pluginExecution for the corresponding plugin.
 
 ## Adding an application to the SDK Playground Environment
 
