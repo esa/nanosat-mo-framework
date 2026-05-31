@@ -14,12 +14,11 @@ requiring real hardware.
 Running the Supervisor
 ----------------------
 
-After ``mvn install``, the assembled SDK is under
-``sdk/sdk-execution-environment/target/nmf-sdk-5.0-SNAPSHOT/``. Start the Supervisor with simulator:
+After ``mvn install``, start the Supervisor with simulator from the SDK Playground Environment:
 
 .. code-block:: bash
 
-   sdk/sdk-execution-environment/target/nmf-sdk-5.0-SNAPSHOT/home/nmf/nanosat-mo-supervisor-sim/nanosat-mo-supervisor-sim.sh
+   sdk/sdk-playground-environment/run_Supervisor.sh
 
 On startup, the Supervisor prints:
 

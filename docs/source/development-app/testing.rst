@@ -20,58 +20,33 @@ Running in the SDK environment
 The most realistic local test setup combines a Supervisor with the spacecraft simulator (for Platform
 services) and the CTT (as the ground consumer):
 
-1. Deploy the app into the SDK by adding it as a dependency of the ``sdk-execution-environment`` module and
-   registering its start script in ``antpkg/build.xml`` (see below).
+1. Deploy the app into the SDK Playground by adding it as a dependency of the
+   ``sdk-playground-environment`` module (see below).
 2. Build the SDK with ``mvn install``.
 3. Start the Supervisor with simulator and the CTT, as described in :doc:`../quickstart/index`.
 4. From the CTT, navigate to the **Apps Launcher Service**, select the app, and click **runApp**.
 5. Connect to the running app via **Communication Settings → Fetch Information** and exercise its parameters
    and actions.
 
-Deploying into the SDK
-^^^^^^^^^^^^^^^^^^^^^^
+Deploying into the SDK Playground
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To make the SDK assembly include the app:
+Apps are distributed as ``.nmfpackage`` files and installed by the ``nmf-linux-maven-plugin`` during the
+build. To include an app in the playground:
 
-1. In ``sdk/sdk-execution-environment/pom.xml``, add the app to the dependencies:
+In ``sdk/sdk-playground-environment/pom.xml``, add the app as an ``nmfpack`` dependency:
 
-   .. code-block:: xml
+.. code-block:: xml
 
-      <dependency>
-        <groupId>int.esa.nmf.sdk</groupId>
-        <artifactId>my-app</artifactId>
-        <version>${project.version}</version>
-      </dependency>
+   <dependency>
+     <groupId>int.esa.nmf.sdk</groupId>
+     <artifactId>my-app</artifactId>
+     <version>${project.version}</version>
+     <type>nmfpack</type>
+   </dependency>
 
-2. Add a copy task so the app's property files are deployed:
-
-   .. code-block:: xml
-
-      <copy todir="${esa.nmf.sdk.assembly.outputdir}/home/my-app">
-        <fileset dir="${basedir}/src/main/resources/space-common"/>
-        <fileset dir="${basedir}/src/main/resources/space-app-root"/>
-      </copy>
-
-3. In ``sdk/sdk-execution-environment/antpkg/build.xml``, register the start-script subtarget:
-
-   .. code-block:: xml
-
-      <target name="emit-space-app-my-app">
-        <ant antfile="antpkg/build_shell_script.xml">
-          <property name="mainClass" value="esa.mo.nmf.apps.MyApp"/>
-          <property name="id" value="start_my_app"/>
-          <property name="binDir" value="my-app"/>
-        </ant>
-        <ant antfile="antpkg/build_batch_script.xml">
-          <property name="mainClass" value="esa.mo.nmf.apps.MyApp"/>
-          <property name="id" value="start_my_app"/>
-          <property name="binDir" value="my-app"/>
-        </ant>
-      </target>
-
-4. Add ``emit-space-app-my-app`` to the ``build`` target's ``depends=`` attribute.
-
-The ``id`` property must use the ``start_`` prefix so the Supervisor recognises the script as an app launcher.
+Rebuild with ``mvn install``. The plugin automatically installs the package into the playground filesystem
+under ``target/space-filesystem/nanosat-mo-framework/apps/my-app/``.
 
 Alternative: Monolithic providers (not an App pattern)
 ------------------------------------------------------

@@ -11,11 +11,11 @@ for manual testing.
 Running the CTT
 ---------------
 
-After ``mvn install``, start the CTT from the SDK execution environment:
+After ``mvn install``, start the CTT from the SDK Playground Environment:
 
 .. code-block:: bash
 
-   sdk/sdk-execution-environment/target/nmf-sdk-5.0-SNAPSHOT/home/nmf/consumer-test-tool/consumer-test-tool.sh
+   sdk/sdk-playground-environment/run_CTT.sh
 
 The CTT window opens with the **Communication Settings** tab selected.
 

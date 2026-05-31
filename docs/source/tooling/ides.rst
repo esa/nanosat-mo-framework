@@ -21,7 +21,7 @@ Setting up the Supervisor with simulator
 
 1. Right-click the project **ESA NMF Core Composite - NanoSat MO Supervisor** and select **Properties**.
 2. Under **Run**, set the working directory to the Supervisor with simulator path
-   (``sdk/sdk-execution-environment/target/nmf-sdk-5.0-SNAPSHOT/home/nmf/nanosat-mo-supervisor-sim``).
+   (``sdk/sdk-playground-environment/target/space-filesystem/nanosat-mo-framework``).
 3. Add this VM option:
 
    .. code-block:: text
@@ -34,16 +34,16 @@ Setting up the CTT
 ^^^^^^^^^^^^^^^^^^
 
 1. Right-click the project **ESA NMF SDK Tool - Consumer Test Tool (CTT)** and select **Properties**.
-2. Under **Run**, set the working directory to the CTT execution environment
-   (``sdk/sdk-execution-environment/target/nmf-sdk-5.0-SNAPSHOT/home/nmf/consumer-test-tool``).
+2. Under **Run**, set the working directory to the CTT module
+   (``sdk/consumer-test-tool``).
 3. Save and run.
 
 Running a space app
 ^^^^^^^^^^^^^^^^^^^
 
-1. Set the working directory to a folder containing ``provider.properties``, ``settings.properties``, and
-   ``transport.properties`` (templates available under the SDK execution environment's ``space-app-root`` and
-   ``space-common`` resources).
+1. Set the working directory to the installed app folder in the playground, e.g.
+   ``sdk/sdk-playground-environment/target/space-filesystem/nanosat-mo-framework/apps/<app-name>/``.
+   This directory already contains ``provider.properties`` and ``transport.properties`` after a build.
 2. Add the VM option:
 
    .. code-block:: text

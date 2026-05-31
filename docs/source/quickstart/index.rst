@@ -49,21 +49,21 @@ For a faster intermediate build that skips Javadoc and the slow assembly step:
    Javadoc generation produces non-breaking warnings about missing module
    descriptors. These are expected and may be ignored.
 
-Run the SDK Execution Environment
----------------------------------
+Run the SDK Playground Environment
+----------------------------------
 
-After the build completes, the SDK Execution Environment is available under
-``sdk/sdk-execution-environment/target/nmf-sdk-5.0-SNAPSHOT/``.
+After the build completes, the SDK Playground Environment is available under
+``sdk/sdk-playground-environment/``.
 
 Start the Supervisor with simulator
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The Supervisor with simulator combines a Supervisor process with an in-process spacecraft simulator, so
 Platform services return realistic data without requiring real hardware:
 
 .. code-block:: bash
 
-   sdk/sdk-execution-environment/target/nmf-sdk-5.0-SNAPSHOT/home/nmf/nanosat-mo-supervisor-sim/nanosat-mo-supervisor-sim.sh
+   sdk/sdk-playground-environment/run_Supervisor.sh
 
 On startup, the Supervisor prints its Directory Service URI to the console, in the form:
 
@@ -80,7 +80,7 @@ In a second terminal:
 
 .. code-block:: bash
 
-   sdk/sdk-execution-environment/target/nmf-sdk-5.0-SNAPSHOT/home/nmf/consumer-test-tool/consumer-test-tool.sh
+   sdk/sdk-playground-environment/run_CTT.sh
 
 The CTT window opens.
 
