@@ -58,23 +58,35 @@ public class PlatformCommands {
         public void run(Args args) {
             parseBaseOptions(args);
             String resolution = args.option("-res", "--resolution");
-            String format     = args.option("-fmt", "--format");
-            String exposure   = args.option("-exp", "--exposure");
-            String gainRed    = args.option("-gr", "--gain-red");
-            String gainGreen  = args.option("-gg", "--gain-green");
-            String gainBlue   = args.option("-gb", "--gain-blue");
-            String filename   = args.option("-o", "--output");
+            String format = args.option("-fmt", "--format");
+            String exposure = args.option("-exp", "--exposure");
+            String gainRed = args.option("-gr", "--gain-red");
+            String gainGreen = args.option("-gg", "--gain-green");
+            String gainBlue = args.option("-gb", "--gain-blue");
+            String filename = args.option("-o", "--output");
 
             if (resolution == null) {
                 System.out.println("Missing required option: -res/--resolution");
                 return;
             }
-            if (format == null)   format   = "PNG";
-            if (exposure == null) exposure = "0.1";
-            if (gainRed == null)  gainRed  = "1.0";
-            if (gainGreen == null) gainGreen = "1.0";
-            if (gainBlue == null) gainBlue = "1.0";
-            if (filename == null) filename = "picture";
+            if (format == null) {
+                format = "PNG";
+            }
+            if (exposure == null) {
+                exposure = "0.1";
+            }
+            if (gainRed == null) {
+                gainRed = "1.0";
+            }
+            if (gainGreen == null) {
+                gainGreen = "1.0";
+            }
+            if (gainBlue == null) {
+                gainBlue = "1.0";
+            }
+            if (filename == null) {
+                filename = "picture";
+            }
 
             if (!super.initRemoteConsumer()) {
                 return;
@@ -93,7 +105,7 @@ public class PlatformCommands {
                     new UInteger(Integer.parseInt(res[0])),
                     new UInteger(Integer.parseInt(res[1])));
 
-            final String finalFormat   = format;
+            final String finalFormat = format;
             final String finalFilename = filename;
             CameraSettings settings = new CameraSettings(
                     pixelResolution,

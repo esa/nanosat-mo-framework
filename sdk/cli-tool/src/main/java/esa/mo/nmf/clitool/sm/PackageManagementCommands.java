@@ -47,8 +47,8 @@ import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementStub;
  */
 public class PackageManagementCommands {
 
-    private static final Logger LOGGER =
-            Logger.getLogger(PackageManagementCommands.class.getName());
+    private static final Logger LOGGER
+            = Logger.getLogger(PackageManagementCommands.class.getName());
 
     public static class FindPackage extends BaseCommand {
 
@@ -199,36 +199,32 @@ public class PackageManagementCommands {
                 packageManagement.uninstall(names,
                         keepConfigurations,
                         new PackageManagementAdapter() {
-                            @Override
-                            public void uninstallAckReceived(
-                                    MALMessageHeader msgHeader, Map qosProperties) {
-                                LOGGER.log(Level.INFO, "Uninstalling...");
-                            }
+                    @Override
+                    public void uninstallAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                        LOGGER.log(Level.INFO, "Uninstalling...");
+                    }
 
-                            @Override
-                            public void uninstallResponseReceived(
-                                    MALMessageHeader msgHeader, Map qosProperties) {
-                                LOGGER.log(Level.INFO, "Uninstalled successfully");
-                            }
+                    @Override
+                    public void uninstallResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                        LOGGER.log(Level.INFO, "Uninstalled successfully");
+                    }
 
-                            @Override
-                            public void uninstallAckErrorReceived(
-                                    MALMessageHeader msgHeader,
-                                    MOErrorException error, Map qosProperties) {
-                                LOGGER.log(Level.SEVERE,
-                                        "There was an error during the uninstall operation.",
-                                        error);
-                            }
+                    @Override
+                    public void uninstallAckErrorReceived(MALMessageHeader msgHeader,
+                            MOErrorException error, Map qosProperties) {
+                        LOGGER.log(Level.SEVERE,
+                                "There was an error during the uninstall operation.",
+                                error);
+                    }
 
-                            @Override
-                            public void uninstallResponseErrorReceived(
-                                    MALMessageHeader msgHeader,
-                                    MOErrorException error, Map qosProperties) {
-                                LOGGER.log(Level.SEVERE,
-                                        "There was an error during the uninstall operation.",
-                                        error);
-                            }
-                        }
+                    @Override
+                    public void uninstallResponseErrorReceived(MALMessageHeader msgHeader,
+                            MOErrorException error, Map qosProperties) {
+                        LOGGER.log(Level.SEVERE,
+                                "There was an error during the uninstall operation.",
+                                error);
+                    }
+                }
                 );
             } catch (MALInteractionException | MALException e) {
                 LOGGER.log(Level.SEVERE,
@@ -266,36 +262,32 @@ public class PackageManagementCommands {
                 names.add(new Identifier(name));
                 packageManagement.upgrade(names,
                         new PackageManagementAdapter() {
-                            @Override
-                            public void upgradeAckReceived(
-                                    MALMessageHeader msgHeader, Map qosProperties) {
-                                LOGGER.log(Level.INFO, "Upgrading...");
-                            }
+                    @Override
+                    public void upgradeAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                        LOGGER.log(Level.INFO, "Upgrading...");
+                    }
 
-                            @Override
-                            public void upgradeResponseReceived(
-                                    MALMessageHeader msgHeader, Map qosProperties) {
-                                LOGGER.log(Level.INFO, "Upgraded successfully");
-                            }
+                    @Override
+                    public void upgradeResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                        LOGGER.log(Level.INFO, "Upgraded successfully");
+                    }
 
-                            @Override
-                            public void upgradeAckErrorReceived(
-                                    MALMessageHeader msgHeader,
-                                    MOErrorException error, Map qosProperties) {
-                                LOGGER.log(Level.SEVERE,
-                                        "There was an error during the upgrade operation.",
-                                        error);
-                            }
+                    @Override
+                    public void upgradeAckErrorReceived(MALMessageHeader msgHeader,
+                            MOErrorException error, Map qosProperties) {
+                        LOGGER.log(Level.SEVERE,
+                                "There was an error during the upgrade operation.",
+                                error);
+                    }
 
-                            @Override
-                            public void upgradeResponseErrorReceived(
-                                    MALMessageHeader msgHeader,
-                                    MOErrorException error, Map qosProperties) {
-                                LOGGER.log(Level.SEVERE,
-                                        "There was an error during the upgrade operation.",
-                                        error);
-                            }
-                        }
+                    @Override
+                    public void upgradeResponseErrorReceived(MALMessageHeader msgHeader,
+                            MOErrorException error, Map qosProperties) {
+                        LOGGER.log(Level.SEVERE,
+                                "There was an error during the upgrade operation.",
+                                error);
+                    }
+                }
                 );
             } catch (MALInteractionException | MALException e) {
                 LOGGER.log(Level.SEVERE,

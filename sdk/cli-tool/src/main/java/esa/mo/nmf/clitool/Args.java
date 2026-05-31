@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Minimal command-line argument parser used in place of picocli.
+ * Minimal command-line argument parser.
  *
  * <p>
  * Callers consume named options and boolean flags first, then retrieve the

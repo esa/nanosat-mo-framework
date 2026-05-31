@@ -209,13 +209,14 @@ public class ArchiveCommands {
                 System.out.println("Missing required argument: <centralDirectoryURI>");
                 return;
             }
-            String centralDirectoryURI = positionals.get(0);
 
+            String centralDirectoryURI = positionals.get(0);
             ArrayList<String> archiveProviderURIs = listCOMArchiveProviders(new URI(centralDirectoryURI));
 
             // No provider found warning
             if (archiveProviderURIs.size() <= 0) {
-                LOGGER.log(Level.WARNING, String.format("No COM archive provider found in central directory at %s",
+                LOGGER.log(Level.WARNING, String.format(
+                        "No COM archive provider found in central directory at %s",
                         centralDirectoryURI));
                 return;
             }
@@ -243,8 +244,7 @@ public class ArchiveCommands {
         domain.add(new Identifier("*"));
         ServiceId sk = new ServiceId(COMHelper.COM_AREA_NUMBER,
                 ArchiveServiceInfo.ARCHIVE_SERVICE_NUMBER, new UOctet((short) 0));
-        ServiceFilter sf2 = new ServiceFilter(new Identifier("*"), domain,
-                sk, null);
+        ServiceFilter sf2 = new ServiceFilter(new Identifier("*"), domain, sk, null);
 
         // Query directory service with filter
         try {

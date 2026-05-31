@@ -33,13 +33,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
-import org.ccsds.moims.mo.mal.structures.AttributeList;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.Subscription;
-import org.ccsds.moims.mo.mal.structures.SubscriptionFilter;
-import org.ccsds.moims.mo.mal.structures.SubscriptionFilterList;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.appslauncher.body.ListAppResponse;
 import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherAdapter;
@@ -197,8 +191,7 @@ public class AppsLauncherCommands {
                     }
 
                     @Override
-                    public void stopAppResponseReceived(MALMessageHeader msgHeader,
-                            Map qosProperties) {
+                    public void stopAppResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
                         System.out.println("App stopped!");
 
                         synchronized (lock) {

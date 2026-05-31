@@ -65,7 +65,10 @@ public class ArchiveToBackupAdapter extends ArchiveAdapter implements QueryStatu
         boolean result = true;
         for (ArchiveCOMObjectsOutput objects : objectsToProcess) {
             try {
-                archive.store(false, objects.getObjectType(), objects.getDomain(), objects.getArchiveDetailsList(),
+                archive.store(false,
+                        objects.getObjectType(),
+                        objects.getDomain(),
+                        objects.getArchiveDetailsList(),
                         objects.getObjectBodies(), null);
             } catch (MALException | MALInteractionException e) {
                 LOGGER.log(Level.SEVERE, "Failed to store objects of type: " + objects.getObjectType(), e);

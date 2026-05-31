@@ -49,13 +49,11 @@ import org.ccsds.moims.mo.mc.structures.*;
  */
 public class AggregationCommands {
 
-    private static final Logger LOGGER =
-            Logger.getLogger(AggregationCommands.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AggregationCommands.class.getName());
     public static Identifier aggregationSubscription;
 
     public static void enableOrDisableAggregationGeneration(
-            AggregationStub aggregationService,
-            List<String> aggregations, boolean enable) {
+            AggregationStub aggregationService, List<String> aggregations, boolean enable) {
         IdentifierList request = new IdentifierList();
         if (aggregations == null || aggregations.isEmpty()) {
             request.add(new Identifier("*"));
@@ -72,8 +70,8 @@ public class AggregationCommands {
         } catch (MALInteractionException e) {
             MOErrorException error = e.getStandardError();
             if (error.getErrorNumber().equals(MALHelper.UNKNOWN_ERROR_NUMBER)) {
-                System.out.println(
-                        "Provided aggregations don't exist in the provider:");
+                System.out.println("Provided aggregations don't exist in the provider:");
+
                 for (UInteger id : (UIntegerList) error.getExtraInformation()) {
                     System.out.println("- " + request.get((int) id.getValue()));
                 }
@@ -97,8 +95,7 @@ public class AggregationCommands {
             }
 
             if (consumer.getMCServices().getAggregationService() == null) {
-                System.out.println(
-                        "Aggregation service is not available for this provider!");
+                System.out.println("Aggregation service is not available for this provider!");
                 return;
             }
             enableOrDisableAggregationGeneration(
@@ -119,8 +116,7 @@ public class AggregationCommands {
             }
 
             if (consumer.getMCServices().getAggregationService() == null) {
-                System.out.println(
-                        "Aggregation service is not available for this provider!");
+                System.out.println("Aggregation service is not available for this provider!");
                 return;
             }
             enableOrDisableAggregationGeneration(
@@ -141,13 +137,11 @@ public class AggregationCommands {
             }
 
             if (consumer.getMCServices().getAggregationService() == null) {
-                System.out.println(
-                        "Aggregation service is not available for this provider!");
+                System.out.println("Aggregation service is not available for this provider!");
                 return;
             }
 
-            AggregationStub stub = consumer.getMCServices()
-                    .getAggregationService().getAggregationStub();
+            AggregationStub stub = consumer.getMCServices().getAggregationService().getAggregationStub();
             try {
                 IdentifierList names = new IdentifierList();
                 if (aggregationNames.isEmpty()) {
@@ -160,8 +154,7 @@ public class AggregationCommands {
 
                 LongList result = stub.listDefinition(names);
 
-                ArchiveStub archive =
-                        consumer.getCOMServices().getArchiveService().getArchiveStub();
+                ArchiveStub archive = consumer.getCOMServices().getArchiveService().getArchiveStub();
                 LongList aggregationIds = new LongList();
                 LongList parameterIds = new LongList();
 
@@ -176,10 +169,8 @@ public class AggregationCommands {
                         domain, aggregationIds,
                         new ArchiveAdapter() {
                     @Override
-                    public void retrieveResponseReceived(
-                            MALMessageHeader msgHeader,
-                            ArchiveDetailsList objDetails,
-                            HeterogeneousList objBodies,
+                    public void retrieveResponseReceived(MALMessageHeader msgHeader,
+                            ArchiveDetailsList objDetails, HeterogeneousList objBodies,
                             Map qosProperties) {
                         if (objDetails == null) {
                             synchronized (lock) {
@@ -188,24 +179,19 @@ public class AggregationCommands {
                             return;
                         }
                         for (int i = 0; i < objDetails.size(); ++i) {
-                            AggregationDefinition def =
-                                    (AggregationDefinition) objBodies.get(i);
+                            AggregationDefinition def = (AggregationDefinition) objBodies.get(i);
+
                             if (def.getReportingEnabled()) {
-                                for (AggregationParameterSet set
-                                        : def.getParameterSets()) {
+                                for (AggregationParameterSet set : def.getParameterSets()) {
                                     parameterIds.addAll(set.getParameters());
                                 }
                             } else {
-                                System.out.println("Aggregation "
-                                        + def.getName()
-                                        + " is disabled!");
+                                System.out.println("Aggregation " + def.getName() + " is disabled!");
                             }
 
                             if (!def.getSendDefinitions()) {
-                                System.out.println(
-                                        "sendDefinitions is set to false for aggregation: "
-                                        + def.getName()
-                                        + ". Parameter names will not be available.");
+                                System.out.println("sendDefinitions is set to false for aggregation: "
+                                        + def.getName() + ". Parameter names will not be available.");
                             }
                         }
 
@@ -215,11 +201,9 @@ public class AggregationCommands {
                     }
 
                     @Override
-                    public void retrieveResponseErrorReceived(
-                            MALMessageHeader msgHeader,
+                    public void retrieveResponseErrorReceived(MALMessageHeader msgHeader,
                             MOErrorException error, Map qosProperties) {
-                        LOGGER.log(Level.SEVERE,
-                                "Error during archive retrieve!", error);
+                        LOGGER.log(Level.SEVERE, "Error during archive retrieve!", error);
                         synchronized (lock) {
                             lock.notifyAll();
                         }
@@ -240,10 +224,8 @@ public class AggregationCommands {
                         domain, parameterIds,
                         new ArchiveAdapter() {
                     @Override
-                    public void retrieveResponseReceived(
-                            MALMessageHeader msgHeader,
-                            ArchiveDetailsList objDetails,
-                            HeterogeneousList objBodies,
+                    public void retrieveResponseReceived(MALMessageHeader msgHeader,
+                            ArchiveDetailsList objDetails, HeterogeneousList objBodies,
                             Map qosProperties) {
                         if (objDetails == null) {
                             synchronized (lock) {
@@ -263,8 +245,7 @@ public class AggregationCommands {
                     }
 
                     @Override
-                    public void retrieveResponseErrorReceived(
-                            MALMessageHeader msgHeader,
+                    public void retrieveResponseErrorReceived(MALMessageHeader msgHeader,
                             MOErrorException error, Map qosProperties) {
                         LOGGER.log(Level.SEVERE,
                                 "Error during archive retrieve!", error);
@@ -278,8 +259,7 @@ public class AggregationCommands {
                     lock.wait();
                 }
 
-                Identifier subscriptionId =
-                        new Identifier("CLI-Consumer-AggregationSubscription");
+                Identifier subscriptionId = new Identifier("CLI-Consumer-AggregationSubscription");
                 SubscriptionFilterList filters = new SubscriptionFilterList();
                 if (!aggregationNames.isEmpty()) {
                     AttributeList acceptableNames = new AttributeList();
@@ -289,8 +269,7 @@ public class AggregationCommands {
                     filters.add(new SubscriptionFilter(new Identifier("aggregationName"), acceptableNames));
                 }
 
-                Subscription subscription =
-                        new Subscription(subscriptionId, null, null, filters);
+                Subscription subscription = new Subscription(subscriptionId, null, null, filters);
                 aggregationSubscription = subscriptionId;
 
                 stub.monitorValueRegister(subscription, new AggregationAdapter() {
@@ -302,15 +281,13 @@ public class AggregationCommands {
                             org.ccsds.moims.mo.com.structures.ObjectKey objKey,
                             org.ccsds.moims.mo.mc.structures.AggregationValue newValue,
                             java.util.Map qosProperties) {
-                        String aggregationName = ((Identifier) updateHeader
-                                .getKeyValues().get(0).getValue()).getValue();
-                        AggregationParameterValueList values = newValue
-                                .getParameterSetValues().get(0).getValues();
+                        String aggregationName = ((Identifier) updateHeader.getKeyValues().get(0).getValue()).getValue();
+                        AggregationParameterValueList values = newValue.getParameterSetValues().get(0).getValues();
                         System.out.println(aggregationName + ": ");
                         int index = 1;
+
                         for (AggregationParameterValue value : values) {
-                            String name =
-                                    definitionIdToName.get(value.getParamDefinitionId());
+                            String name = definitionIdToName.get(value.getParamDefinitionId());
                             System.out.println(
                                     "  " + (name == null ? "parameter " + index : name)
                                     + ": " + value.getValue().getRawValue().toString());
@@ -320,8 +297,7 @@ public class AggregationCommands {
                     }
 
                     @Override
-                    public void monitorValueRegisterErrorReceived(
-                            MALMessageHeader msgHeader,
+                    public void monitorValueRegisterErrorReceived(MALMessageHeader msgHeader,
                             MOErrorException error, Map qosProperties) {
                         LOGGER.log(Level.SEVERE,
                                 "Error during monitorValueRegister!", error);
@@ -340,5 +316,4 @@ public class AggregationCommands {
             }
         }
     }
-
 }

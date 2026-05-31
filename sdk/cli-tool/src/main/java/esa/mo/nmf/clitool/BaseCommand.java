@@ -30,7 +30,6 @@ import esa.mo.nmf.clitool.mc.ParameterCommands;
 import esa.mo.nmf.clitool.sm.SoftwareManagementCommands;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import java.net.MalformedURLException;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
@@ -42,7 +41,6 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.SMHelper;
 import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
 
@@ -218,8 +216,7 @@ public abstract class BaseCommand {
                 if (SoftwareManagementCommands.outputSubscription != null) {
                     ids.clear();
                     ids.add(SoftwareManagementCommands.outputSubscription);
-                    consumer.getSMServices().getAppsLauncherService().getAppsLauncherStub().monitorExecutionDeregister(
-                            ids);
+                    consumer.getSMServices().getAppsLauncherService().getAppsLauncherStub().monitorExecutionDeregister(ids);
                 }
             } catch (MALInteractionException | MALException e) {
                 LOGGER.log(Level.SEVERE, "Failed to deregister subscription: " + ids.get(0), e);
@@ -285,7 +282,8 @@ public abstract class BaseCommand {
     public static ObjectKey getAppObjectKey(String appName, IdentifierList domain) {
         // SoftwareManagement.AppsLaunch.App object type
         ObjectType appType = new ObjectType(SMHelper.SM_AREA_NUMBER,
-                AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
+                AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER,
+                new UOctet((short) 0),
                 AppsLauncherServiceInfo.APPDETAILS_OBJECT_NUMBER);
 
         // prepare domain filter

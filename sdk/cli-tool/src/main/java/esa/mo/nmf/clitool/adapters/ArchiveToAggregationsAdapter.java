@@ -65,8 +65,8 @@ public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements Quer
      * @param detailsList Archive details of the objects
      * @param bodiesList Bodies of the objects
      */
-    private void processObjects(ObjectType type, ArchiveDetailsList detailsList, HeterogeneousList bodiesList,
-            IdentifierList domain) {
+    private void processObjects(ObjectType type, ArchiveDetailsList detailsList,
+            HeterogeneousList bodiesList, IdentifierList domain) {
         if (detailsList == null) {
             return;
         }

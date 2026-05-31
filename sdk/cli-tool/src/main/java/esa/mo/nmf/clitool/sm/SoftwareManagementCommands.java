@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.heartbeat.consumer.HeartbeatAdapter;
 import org.ccsds.moims.mo.sm.heartbeat.consumer.HeartbeatStub;
 import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementStub;
@@ -67,7 +68,7 @@ public class SoftwareManagementCommands {
 
                 heartbeat.beatRegister(subscription, new HeartbeatAdapter() {
                     @Override
-                    public void beatNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
+                    public void beatNotifyReceived(MALMessageHeader msgHeader,
                             org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                             org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
                             java.util.Map qosProperties) {

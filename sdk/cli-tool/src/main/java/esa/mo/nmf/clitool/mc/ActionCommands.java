@@ -108,8 +108,8 @@ public class ActionCommands {
             // Display list of NMF apps that have actions
             Map<IdentifierList, List<Identifier>> actions = adapter.getActionNames();
             if (actions.size() <= 0) {
-                System.out.println("\nNo action found in the provided archive: " + (databaseFile == null
-                        ? providerURI : databaseFile));
+                String str = (databaseFile == null) ? providerURI : databaseFile;
+                System.out.println("\nNo action found in the provided archive: " + str);
             } else {
                 System.out.println("\nFound the following actions: ");
                 for (Map.Entry<IdentifierList, List<Identifier>> entry : actions.entrySet()) {
@@ -122,5 +122,4 @@ public class ActionCommands {
             }
         }
     }
-
 }

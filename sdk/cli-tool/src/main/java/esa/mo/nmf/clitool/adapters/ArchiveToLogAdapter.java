@@ -118,9 +118,11 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
                 return;
             }
 
+            HeterogeneousList bodies = archiveObjectOutput.getObjectBodies();
+
             // if somehow we have no object bodies, stop
             if (comType.getService().equals(CommandExecutorServiceInfo.COMMANDEXECUTOR_SERVICE_NUMBER)
-                    && archiveObjectOutput.getObjectBodies() == null) {
+                    && bodies == null) {
                 return;
             }
 
@@ -129,12 +131,12 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
                 String logObject;
                 if (comType.getService().equals(CommandExecutorServiceInfo.COMMANDEXECUTOR_SERVICE_NUMBER)) {
                     // write LOG message, we can safely cast to String
-                    logObject = (String) ((Element) archiveObjectOutput.getObjectBodies().get(i)).toString();
+                    logObject = (String) ((Element) bodies.get(i)).toString();
                 } else {
                     logObject = objectTypes.get(comType);
 
-                    if (archiveObjectOutput.getObjectBodies() != null) {
-                        logObject += ((Identifier) archiveObjectOutput.getObjectBodies().get(i)).getValue() + "\n";
+                    if (bodies != null) {
+                        logObject += ((Identifier) bodies.get(i)).getValue() + "\n";
                     } else {
                         logObject += "empty\n";
                     }

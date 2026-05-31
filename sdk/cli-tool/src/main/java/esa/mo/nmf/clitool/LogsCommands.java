@@ -78,12 +78,9 @@ public class LogsCommands {
                 return;
             }
             // prepare domain, time and object id filters
-            IdentifierList domain =
-                    domainId == null ? null : HelperDomain.domainId2domain(domainId);
-            Time startTimeF =
-                    startTime == null ? null : HelperTime.readableString2Time(startTime);
-            Time endTimeF =
-                    endTime == null ? null : HelperTime.readableString2Time(endTime);
+            IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
+            Time startTimeF = startTime == null ? null : HelperTime.readableString2Time(startTime);
+            Time endTimeF = endTime == null ? null : HelperTime.readableString2Time(endTime);
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L,
                     null, startTimeF, endTimeF, null, null);
 
@@ -149,8 +146,7 @@ public class LogsCommands {
                 return;
             }
             // Query archive for the App object id
-            IdentifierList domain =
-                    domainId == null ? null : HelperDomain.domainId2domain(domainId);
+            IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
             ObjectKey appObjectKey = getAppObjectKey(appName, domain);
 
             if (appObjectKey == null) {

@@ -60,8 +60,7 @@ import org.ccsds.moims.mo.mc.structures.*;
  */
 public class ParameterCommands {
 
-    private static final Logger LOGGER =
-            Logger.getLogger(ParameterCommands.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ParameterCommands.class.getName());
     public static Identifier parameterSubscription;
 
     public static class ParameterMonitorValue extends BaseCommand {
@@ -76,8 +75,7 @@ public class ParameterCommands {
             }
 
             if (consumer.getMCServices().getParameterService() == null) {
-                System.out.println(
-                        "Parameter service is not available for this provider!");
+                System.out.println("Parameter service is not available for this provider!");
                 return;
             }
 
@@ -112,8 +110,7 @@ public class ParameterCommands {
                         String value = newValue.getRawValue() == null
                                 ? "null" : newValue.getRawValue().toString();
 
-                        System.out.println(
-                                "[" + timestamp + "] - " + parameterName + ": " + value);
+                        System.out.println("[" + timestamp + "] - " + parameterName + ": " + value);
                     }
 
                     @Override
@@ -154,8 +151,7 @@ public class ParameterCommands {
             }
 
             if (consumer.getMCServices().getParameterService() == null) {
-                System.out.println(
-                        "Parameter service is not available for this provider!");
+                System.out.println("Parameter service is not available for this provider!");
                 return;
             }
             enableOrDisableParameterGeneration(
@@ -176,8 +172,7 @@ public class ParameterCommands {
             }
 
             if (consumer.getMCServices().getParameterService() == null) {
-                System.out.println(
-                        "Parameter service is not available for this provider!");
+                System.out.println("Parameter service is not available for this provider!");
                 return;
             }
             enableOrDisableParameterGeneration(
@@ -300,9 +295,7 @@ public class ParameterCommands {
                                             + (long) (valueSetNumber * intervalTime
                                             * 1000L)));
 
-                                    Identifier parameterName =
-                                            parametersAdapter.getNamesMap()
-                                            .get(domainKey).get(parameterId);
+                                    Identifier parameterName = parametersAdapter.getNamesMap().get(domainKey).get(parameterId);
                                     if (allParameters.get(domainKey)
                                             .containsKey(parameterName)) {
                                         allParameters.get(domainKey)
@@ -384,8 +377,7 @@ public class ParameterCommands {
                         }
                     }
                     writer.close();
-                    System.out.println(
-                            "\nParameters successfully dumped to file: " + file + "\n");
+                    System.out.println("\nParameters successfully dumped to file: " + file + "\n");
                 } else {
                     System.out.println("\nNo parameters found\n");
                 }
