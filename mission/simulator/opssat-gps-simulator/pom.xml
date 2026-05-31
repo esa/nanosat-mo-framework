@@ -21,7 +21,7 @@ under the License. -->
     <artifactId>gps-simulator</artifactId>
     <packaging>jar</packaging>
     <name>ESA NMF Sim - GPS Simulator</name>
-    <description>A simple simulator providing analitical solution for GPS and attitude measurement instruments on OPS-SAT</description>
+    <description>A simple simulator providing analitical solution for GPS and attitude measurement instruments on a CubeSat</description>
     <url>http://www.esa.int</url>
     <organization>
         <name>ESA</name>

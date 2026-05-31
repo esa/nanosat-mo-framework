@@ -20,8 +20,6 @@
  */
 package opssat.simulator;
 
-import java.util.Date;
-
 /**
  *
  * @author Cesar Coelho
@@ -49,7 +47,7 @@ public class InstrumentsSimulator {
      * Constructor for the Instruments Simulator. Starts with a dark dust orbit.
      */
     public InstrumentsSimulator() {
-        // Values from the OPS-SAT document:
+        // Values for a classic CubeSat mission:
         // a = 6371+650= 7021 km
         // i = 98.05 deg  (orbital period: 1.63 hours)
         // (double a, double i, double RAAN, double arg_per, double true_anomaly)
@@ -89,7 +87,7 @@ public class InstrumentsSimulator {
     public Date getGPStime() {
         return this.gps.getPosition().gettime();
     }
-*/
+     */
     public double getFineADCSmagnetometerBr() {
         return fineADCS.getMagnetometer().getB_r();
     }
