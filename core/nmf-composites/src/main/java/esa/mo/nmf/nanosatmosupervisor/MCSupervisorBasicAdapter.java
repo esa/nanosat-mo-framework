@@ -152,12 +152,10 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     }
 
     private void configureMonitoring() throws IOException, MALInteractionException, MALException, NMFException {
-        AutonomousADCSStub stub = nmfSupervisor.getPlatformServices().getAutonomousADCSService();
-
         if (attitudeMonitoringInterval.getInSeconds() >= 0.1) {
-            stub.enableMonitoring(true, attitudeMonitoringInterval);
+            nmfSupervisor.getPlatformServices().getAutonomousADCSService().enableMonitoring(true, attitudeMonitoringInterval);
         } else {
-            stub.enableMonitoring(false, attitudeMonitoringInterval);
+            nmfSupervisor.getPlatformServices().getAutonomousADCSService().enableMonitoring(false, attitudeMonitoringInterval);
         }
     }
 

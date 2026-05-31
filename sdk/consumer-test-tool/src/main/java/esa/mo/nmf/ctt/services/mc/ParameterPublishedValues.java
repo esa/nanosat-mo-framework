@@ -125,7 +125,8 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
                     String nameId = "(" + String.valueOf(objId) + ") " + name;
                     ValidityState validityState = parameterValue.getValidityState();
                     String validity = validityState.toString();
-                    String rawValue = HelperAttributes.attribute2string(parameterValue.getRawValue());
+                    String rawValueStr = HelperAttributes.attribute2string(parameterValue.getRawValue());
+                    final String rawValue = rawValueStr.isEmpty() ? "\"\"" : rawValueStr;
                     String convertedValue = HelperAttributes.attribute2string(parameterValue.getConvertedValue());
 
                     boolean isNotValid = ((int) validityState.getValue() != ValidityState.VALID_VALUE);
