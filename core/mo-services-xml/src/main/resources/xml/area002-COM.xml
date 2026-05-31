@@ -285,7 +285,7 @@
                 </mal:invokeIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="2" comment="">
-                <mal:requestIP name="store" number="4" comment="The store operation stores new objects in the archive and causes an ObjectStored event to be published by the archive. When new objects are stored the archive service provider is capable of assigning an unused id for the objects being stored. The returned id should be used by the service provider for identifying the object instances to its consumer to ensure that only a single id is used for each object instance.">
+                <mal:requestIP name="store" number="4" comment="The store operation stores new objects in the archive. When new objects are stored the archive service provider is capable of assigning an unused id for the objects being stored. The returned id should be used by the service provider for identifying the object instances to its consumer to ensure that only a single id is used for each object instance.">
                     <mal:documentation name="Requirement" order="1">
                         If the id supplied in the archive details is '0', then the service provider shall assign a new and unused id.
                     </mal:documentation>
@@ -348,7 +348,7 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="3" comment="">
-                <mal:submitIP name="update" number="5" comment="The update operation updates an object (or set of objects) and causes an ObjectUpdated event to be published by the archive.">
+                <mal:submitIP name="update" number="5" comment="The update operation updates an object (or set of objects).">
                     <mal:documentation name="Requirement" order="1">
                         The service provider shall match objects using the id from the ArchiveDetails combined with the object type and domain from the SUBMIT message.
                     </mal:documentation>
@@ -388,7 +388,7 @@
                 </mal:submitIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="4" comment="">
-                <mal:requestIP name="delete" number="6" comment="The delete operation deletes an object (or set of objects) and causes an ObjectDeleted event to be published by the archive.">
+                <mal:requestIP name="delete" number="6" comment="The delete operation deletes an object (or set of objects).">
                     <mal:documentation name="Requirement" order="1">
                         If the ids field contains the wildcard value '0', then the service provider shall match all object instances of the specified type and domain.
                     </mal:documentation>
