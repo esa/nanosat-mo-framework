@@ -34,7 +34,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 
 /**
- * NanoSat MO Monolithic OPS-SAT Software Simulator
+ * NanoSat MO Monolithic CubeSat Software Simulator
  *
  * @author Cesar Coelho
  */
@@ -45,13 +45,14 @@ public class NanoSatMOMonolithicSim extends NanoSatMOMonolithic {
     private PlatformServicesProviderSoftSim provider;
 
     /**
-     * To initialize the NanoSat MO Monolithic with this method, it is necessary to extend the
-     * MonitorAndControlAdapter adapter class. The SimpleMonitorAndControlAdapter class contains a
-     * simpler interface which allows sending directly parameters of the most common java types and it
+     * To initialize the NanoSat MO Monolithic with this method, it is necessary
+     * to extend the MonitorAndControlAdapter adapter class. The
+     * SimpleMonitorAndControlAdapter class contains a simpler interface which
+     * allows sending directly parameters of the most common java types and it
      * also allows the possibility to send serializable objects.
      *
-     * @param mcAdapter The adapter to connect the actions and parameters to the corresponding methods
-     *                  and variables of a specific entity.
+     * @param mcAdapter The adapter to connect the actions and parameters to the
+     * corresponding methods and variables of a specific entity.
      */
     @Override
     public void init(MonitorAndControlNMFAdapter mcAdapter) {

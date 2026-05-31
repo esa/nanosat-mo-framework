@@ -23,7 +23,7 @@
     <artifactId>nanosat-monolithic</artifactId>
     <packaging>jar</packaging>
     <name>ESA NMF Sim - NanoSat MO Monolithic</name>
-    <description>NanoSat MO Framework for OPS-SAT Software Simulator</description>
+    <description>NanoSat MO Framework for a CubeSat Software Simulator</description>
     <url>http://www.esa.int</url>
     <organization>
         <name>ESA</name>
