@@ -11,83 +11,149 @@ Supervisor plays in each transition.
 Observable state
 ----------------
 
-The NMF does not define a formal multi-state lifecycle enumeration for apps. From the perspective of the
-``AppsLauncher`` service, an app's state is binary:
+The ``AppsLauncher`` service exposes a structured lifecycle through the ``monitorEvents`` PubSub operation.
+Each event carries an ``AppEventType`` value, an optional ``exitCode``, and an optional ``extraInfo`` string.
 
-- ``running = false`` — the Supervisor has registered the app's metadata but has not spawned its process.
-- ``running = true`` — the Supervisor has spawned the app's process and it has registered with the Directory
-  Service.
+.. list-table:: AppEventType values
+   :header-rows: 1
+   :widths: 25 55 20
 
-This boolean is exposed on every ``AppDetails`` entry returned by the ``listApp`` operation, and changes are
-emitted as events via the COM Event service.
+   * - Value
+     - When it fires
+     - exitCode present?
+   * - ``START_REQUESTED``
+     - The Supervisor received a ``runApp`` call and is about to spawn the process.
+     - No
+   * - ``STARTED``
+     - The process has been spawned and is running.
+     - No
+   * - ``STOP_REQUESTED``
+     - The Supervisor received a ``stopApp`` call and has signalled the app to shut down gracefully.
+     - No
+   * - ``STOPPED``
+     - The app process ended after a graceful stop request.
+     - Yes
+   * - ``KILLED``
+     - The app process was forcibly terminated by ``killApp``.
+     - Yes
+   * - ``EXITED``
+     - The app self-terminated with exit code 0.
+     - Yes (0)
+   * - ``CRASHED``
+     - The app self-terminated with a non-zero exit code.
+     - Yes (≠ 0)
+
+Lifecycle diagram
+-----------------
 
 .. mermaid::
 
-    stateDiagram-v2
-        [*] --> Stopped
-        Stopped --> Running: runApp
-        Running --> Stopped: stopApp (graceful)
-        Running --> Stopped: killApp (forced)
+    flowchart TD
+        idle([Idle])
+        starting([Starting...])
+        running([Running])
+        stopping([Stopping...])
+
+        idle      -->|"START_REQUESTED\n(runApp received)"| starting
+        starting  -->|"STARTED\n(process alive)"| running
+        running   -->|"STOP_REQUESTED\n(stopApp received)"| stopping
+        stopping  -->|"STOPPED\n(exit code)"| idle
+        running   -->|"KILLED\n(exit code)"| idle
+        running   -->|"EXITED\n(exit code = 0)"| idle
+        running   -->|"CRASHED\n(exit code ≠ 0)"| idle
+
+The ``running`` boolean on ``AppDetails`` (returned by ``listApp``) still tracks the binary
+not-running / running distinction. ``monitorEvents`` provides the finer-grained view above.
 
 Operations
 ----------
 
 The ``AppsLauncher`` service exposes the following operations:
 
-- **runApp** (Submit) — start a registered app. Returns once the Supervisor has accepted the request and
-  started the process; the resulting ``running`` transition is observed via the Directory Service registration
-  of the app.
-- **stopApp** (Progress) — graceful shutdown. Multi-stage: the Supervisor signals the app to terminate, waits
-  for the app to release its services and exit, and reports each stage back to the consumer.
-- **killApp** (Submit) — forced termination. Used when an app has become unresponsive and ``stopApp`` cannot
-  complete.
-- **listApp** (Request) — returns the ``AppDetails`` for all registered apps, including each app's ``running``
-  flag.
-- **monitorExecution** (PubSub) — subscribe to an app's stdout stream so the consumer receives execution
-  output in real time.
+- **runApp** (Submit) — start a registered app. Fires ``START_REQUESTED`` then ``STARTED`` on
+  ``monitorEvents`` as the process lifecycle progresses.
+- **stopApp** (Progress) — graceful shutdown. Fires ``STOP_REQUESTED`` on acknowledgement and
+  ``STOPPED`` once the process exits.
+- **killApp** (Submit) — forced termination. Used when an app has become unresponsive. Fires
+  ``KILLED`` once the process exits.
+- **listApp** (Request) — returns the ``AppDetails`` for all registered apps, including each
+  app's ``running`` flag.
+- **monitorExecution** (PubSub) — subscribe to an app's stdout/stderr stream in real time.
+- **monitorEvents** (PubSub) — subscribe to app lifecycle events. Subscription key: ``appName``
+  and/or ``appId``; use the wildcard to receive events for all apps.
 
 Running an app
 ^^^^^^^^^^^^^^
-
-A typical run sequence:
 
 .. mermaid::
 
     sequenceDiagram
         autonumber
-        participant C as Consumer (CTT)
+        participant C as Consumer
         participant S as Supervisor (AppsLauncher)
         participant A as App process
         participant D as Directory Service
         C->>S: runApp(appId)
+        S-->>C: monitorEvents NOTIFY: START_REQUESTED
         S->>A: spawn JVM
         A->>D: register services
-        A-->>S: started
-        S-->>C: SUBMIT ACK
+        S-->>C: monitorEvents NOTIFY: STARTED
         Note over A,D: App is now discoverable
 
 Stopping an app
 ^^^^^^^^^^^^^^^
 
-``stopApp`` is a Progress operation, so the consumer receives multiple updates rather than a single ack:
+``stopApp`` is a Progress operation. The consumer receives interaction-pattern updates (ACK,
+RESPONSE) from the INVOKE as well as a ``monitorEvents`` notification when the process actually
+exits:
 
 .. mermaid::
 
     sequenceDiagram
         autonumber
-        participant C as Consumer (CTT)
+        participant C as Consumer
         participant S as Supervisor (AppsLauncher)
         participant A as App process
         C->>S: stopApp(appId)
         S-->>C: PROGRESS ACK
+        S-->>C: monitorEvents NOTIFY: STOP_REQUESTED
         S->>A: stop signal
-        A->>A: release services
-        A-->>S: stopped
-        S-->>C: PROGRESS UPDATE
+        A->>A: release services, exit
+        S-->>C: monitorEvents NOTIFY: STOPPED (exit code)
         S-->>C: PROGRESS RESPONSE (final)
 
-If the app does not exit within the configured timeout, the consumer may follow up with ``killApp`` to force
-termination.
+If the app does not exit within the configured timeout, the consumer may follow up with
+``killApp`` to force termination:
+
+.. mermaid::
+
+    sequenceDiagram
+        autonumber
+        participant C as Consumer
+        participant S as Supervisor (AppsLauncher)
+        participant A as App process
+        C->>S: killApp(appId)
+        S->>A: SIGKILL
+        S-->>C: monitorEvents NOTIFY: KILLED (exit code)
+
+Self-termination
+^^^^^^^^^^^^^^^^
+
+When an app exits on its own (without an explicit ``stopApp`` or ``killApp``), the Supervisor
+classifies the exit by exit code:
+
+.. mermaid::
+
+    sequenceDiagram
+        autonumber
+        participant S as Supervisor (AppsLauncher)
+        participant A as App process
+        participant C as Consumer
+        A->>A: System.exit(0)
+        S-->>C: monitorEvents NOTIFY: EXITED (exit code = 0)
+
+        A->>A: crash / System.exit(N≠0)
+        S-->>C: monitorEvents NOTIFY: CRASHED (exit code ≠ 0)
 
 Liveness via Heartbeat
 ----------------------
