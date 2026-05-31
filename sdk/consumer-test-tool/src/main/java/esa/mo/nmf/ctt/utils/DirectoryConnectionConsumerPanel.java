@@ -41,6 +41,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionListener;
+import esa.mo.nmf.ctt.utils.TableUtils;
 import javax.swing.table.DefaultTableModel;
 import org.ccsds.moims.mo.com.directory.DirectoryServiceInfo;
 import org.ccsds.moims.mo.com.login.LoginHelper;
@@ -104,6 +105,8 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         };
 
         jTable1.setModel(tableData);
+        tableData.addTableModelListener(
+                e -> SwingUtilities.invokeLater(() -> TableUtils.packColumns(jTable1)));
 
         ListSelectionListener listSelectionListener = listSelectionEvent -> {
             // Update the jTable according to the selection of the index
