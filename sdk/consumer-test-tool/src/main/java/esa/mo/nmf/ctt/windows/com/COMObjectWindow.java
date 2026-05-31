@@ -106,11 +106,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         ArchiveDetails archiveDetails = comObject.getArchiveDetails();
 
         if (archiveDetails != null) {
-            if (archiveDetails.getNetwork() != null) {
-                this.tfNetwork.setText(archiveDetails.getNetwork().toString());
-            } else {
-                this.tfNetwork.setText("null");
-            }
+            this.tfNetwork.setText("N/A");
 
             if (archiveDetails.getTimestamp() != null) {
                 this.tfTimestamp.setText(HelperTime.time2readableString(archiveDetails.getTimestamp()));

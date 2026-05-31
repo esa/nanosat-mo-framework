@@ -25,7 +25,6 @@ import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.URI;
@@ -46,7 +45,6 @@ public class EventCOMObject {
     private Element body;
 
     private Time timestamp;
-    private Identifier networkZone;
     private URI sourceURI;
 
     public EventCOMObject() {
@@ -54,7 +52,7 @@ public class EventCOMObject {
 
     public EventCOMObject(final IdentifierList domain, final ObjectType objType, final Long objId,
         final ObjectKey source, final Long related, final Element body, final Time timestamp,
-        final Identifier networkZone, final URI sourceURI) {
+        final URI sourceURI) {
         this.domain = domain;
         this.objType = objType;
         this.objId = objId;
@@ -64,7 +62,6 @@ public class EventCOMObject {
         this.body = body;
 
         this.timestamp = timestamp;
-        this.networkZone = networkZone;
         this.sourceURI = sourceURI;
     }
 
@@ -94,10 +91,6 @@ public class EventCOMObject {
 
     public Time getTimestamp() {
         return timestamp;
-    }
-
-    public Identifier getNetworkZone() {
-        return networkZone;
     }
 
     public URI getSourceURI() {
@@ -132,10 +125,6 @@ public class EventCOMObject {
         this.timestamp = timestamp;
     }
 
-    public void setNetworkZone(Identifier networkZone) {
-        this.networkZone = networkZone;
-    }
-
     public void setSourceURI(URI sourceURI) {
         this.sourceURI = sourceURI;
     }
@@ -147,7 +136,7 @@ public class EventCOMObject {
     @Override
     public String toString() {
         return MessageFormat.format("EventCOMObject: domain={1}, objType={2}, objId={3}, source={4}, related={5}" +
-            ", body={6}, timestamp={7}, networkZone={8}, sourceURI={9}", HelperDomain.domain2domainId(domain), objType,
-            objId, source, related, body, timestamp, networkZone, sourceURI);
+            ", body={6}, timestamp={7}, sourceURI={8}", HelperDomain.domain2domainId(domain), objType,
+            objId, source, related, body, timestamp, sourceURI);
     }
 }

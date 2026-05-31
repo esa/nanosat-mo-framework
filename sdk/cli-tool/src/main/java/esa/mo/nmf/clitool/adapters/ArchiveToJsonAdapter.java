@@ -190,7 +190,6 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
          */
         private Long instanceId;
         private CleanObjectDetails objectDetails;
-        private String networkZone;
         private String creationTime;
         private String providerURI;
 
@@ -203,7 +202,6 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
             // archive details
             instanceId = archiveDetails.getId();
             objectDetails = archiveDetails.getLinks() == null ? null : new CleanObjectDetails(archiveDetails.getLinks());
-            networkZone = archiveDetails.getNetwork().getValue();
             creationTime = HelperTime.time2readableString(archiveDetails.getTimestamp());
             providerURI = archiveDetails.getProvider().getValue();
 

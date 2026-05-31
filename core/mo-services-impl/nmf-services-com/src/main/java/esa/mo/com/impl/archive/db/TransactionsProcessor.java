@@ -152,8 +152,8 @@ public class TransactionsProcessor {
         types.add(objTypeId);
         IntegerList domains = new IntegerList();
         domains.add(domainId);
-        ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null, 0L, null, null, null, null, null);
-        CallableSelectQuery query = new CallableSelectQuery(this, types, archiveQuery, domains, null, null, null, null);
+        ArchiveQuery archiveQuery = new ArchiveQuery(null, null, 0L, null, null, null, null, null);
+        CallableSelectQuery query = new CallableSelectQuery(this, types, archiveQuery, domains, null, null, null);
         Future<ArrayList<COMObjectEntity>> future = dbTransactionsExecutor.submit(query);
 
         try {
@@ -210,11 +210,11 @@ public class TransactionsProcessor {
 
     public ArrayList<COMObjectEntity> query(final IntegerList objTypeIds,
             final ArchiveQuery archiveQuery, final IntegerList domainIds,
-            final Integer providerURIId, final Integer networkId,
+            final Integer providerURIId,
             final SourceLinkContainer sourceLink, final QueryFilter filter) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         final CallableSelectQuery task = new CallableSelectQuery(this, objTypeIds, archiveQuery,
-                domainIds, providerURIId, networkId, sourceLink, filter);
+                domainIds, providerURIId, sourceLink, filter);
 
         Future<ArrayList<COMObjectEntity>> future = dbTransactionsExecutor.submit(task);
 
@@ -229,11 +229,11 @@ public class TransactionsProcessor {
 
     public int delete(final IntegerList objTypeIds,
             final ArchiveQuery archiveQuery, final IntegerList domainIds,
-            final Integer providerURIId, final Integer networkId,
+            final Integer providerURIId,
             final SourceLinkContainer sourceLink, final QueryFilter filter) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         final CallableDeleteQuery task = new CallableDeleteQuery(this, objTypeIds, archiveQuery,
-                domainIds, providerURIId, networkId, sourceLink, filter);
+                domainIds, providerURIId, sourceLink, filter);
 
         Future<Integer> future = dbTransactionsExecutor.submit(task);
 

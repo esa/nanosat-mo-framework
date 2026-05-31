@@ -94,7 +94,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         resultCacheValidityMs = Integer.parseInt(System.getProperty(Const.PLATFORM_IADCS_CACHING_PERIOD, "1000"));
 
         publisher = createMonitorAttitudePublisher(ConfigurationProviderSingleton.getDomain(),
-                ConfigurationProviderSingleton.getNetwork(),
+                null,
                 SessionType.LIVE,
                 ConfigurationProviderSingleton.getSourceSessionName(),
                 QoSLevel.BESTEFFORT,

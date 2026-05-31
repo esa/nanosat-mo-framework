@@ -74,7 +74,7 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
     public synchronized void init() throws MALException {
         long timestamp = System.currentTimeMillis();
         publisher = createBeatPublisher(ConfigurationProviderSingleton.getDomain(),
-                ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE,
+                null, SessionType.LIVE,
                 ConfigurationProviderSingleton.getSourceSessionName(), QoSLevel.BESTEFFORT,
                 null, new UInteger(0));
 

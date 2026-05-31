@@ -32,7 +32,6 @@ import org.ccsds.moims.mo.com.archive.provider.ArchiveHandler;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.structures.*;
 
@@ -49,22 +48,21 @@ public class HelperArchive {
 
     /**
      * Checks if the archiveDetails structure contains a null value in any of
-     * the following fields: network, timestamp or provider
+     * the following fields: timestamp or provider
      *
      * @param archiveDetails The archive details object to be checked.
      * @return The boolean value of the comparison
      */
     public static Boolean archiveDetailsContainsNull(ArchiveDetails archiveDetails) {
         // Check if null
-        return archiveDetails.getNetwork().getValue() == null
-                || archiveDetails.getTimestamp() == null
+        return archiveDetails.getTimestamp() == null
                 || archiveDetails.getProvider().getValue() == null;
     }
 
     /**
      * Checks if the archiveDetails structure contains a wildcard in any of the
-     * following fields: network, timestamp or provider Null, "*" and 0 are
-     * considered wildcards
+     * following fields: timestamp or provider. Null, "*" and 0 are
+     * considered wildcards.
      *
      * @param archiveDetails The archive details object to be checked.
      * @return The boolean value of the comparison
@@ -75,14 +73,8 @@ public class HelperArchive {
         }
 
         // Check for nulls
-        if (archiveDetails.getNetwork() == null
-                || archiveDetails.getTimestamp() == null
+        if (archiveDetails.getTimestamp() == null
                 || archiveDetails.getProvider() == null) {
-            return true;
-        }
-
-        // Check if any of them have a wildcard
-        if (archiveDetails.getNetwork().getValue().equals("*")) {
             return true;
         }
 
@@ -100,8 +92,7 @@ public class HelperArchive {
     /**
      * Generates an ArchiveDetailsList with one ArchiveDetails entry for a new
      * COM object. The object instance identifier is set to 0 (auto-assigned by
-     * the archive), the network is taken from ConfigurationProviderSingleton,
-     * and the timestamp is set to now.
+     * the archive) and the timestamp is set to now.
      *
      * @param related Related field (id of the related object, or null)
      * @param source Source field (id of the object that caused creation, or null)
@@ -126,10 +117,8 @@ public class HelperArchive {
      */
     public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
             final ObjectKey source, final URI uri, final Long objId) {
-        final Identifier network = ConfigurationProviderSingleton.getNetwork();
         final ArchiveDetails archiveDetails = new ArchiveDetails(objId,
                 new ObjectLinks(related, source),
-                network != null ? network : new Identifier(""),
                 Time.now(),
                 uri);
         final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();

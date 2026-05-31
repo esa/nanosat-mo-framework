@@ -25,7 +25,6 @@ import esa.mo.com.impl.archive.db.SourceLinkContainer;
 import esa.mo.com.impl.archive.db.TransactionsProcessor;
 import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import esa.mo.com.impl.archive.fast.FastDomain;
-import esa.mo.com.impl.archive.fast.FastNetwork;
 import esa.mo.com.impl.archive.fast.FastObjId;
 import esa.mo.com.impl.archive.fast.FastObjectType;
 import esa.mo.com.impl.archive.fast.FastProviderURI;
@@ -67,7 +66,6 @@ public class ArchiveManager {
     private final TransactionsProcessor dbProcessor;
 
     private final FastDomain fastDomain;
-    private final FastNetwork fastNetwork;
     private final FastProviderURI fastProviderURI;
     private final FastObjId fastObjId;
     private final FastObjectType fastObjectType;
@@ -78,7 +76,6 @@ public class ArchiveManager {
 
         // Start the separate lists for the "fast" generation of objIds
         this.fastDomain = new FastDomain(dbBackend);
-        this.fastNetwork = new FastNetwork(dbBackend);
         this.fastProviderURI = new FastProviderURI(dbBackend);
         this.fastObjId = new FastObjId(dbBackend);
         this.fastObjectType = new FastObjectType(dbBackend);
@@ -101,7 +98,6 @@ public class ArchiveManager {
                 long timestamp2 = System.currentTimeMillis();
                 fastDomain.init();
                 fastObjectType.init();
-                fastNetwork.init();
                 fastProviderURI.init();
                 timestamp2 = System.currentTimeMillis() - timestamp2;
                 Logger.getLogger(ArchiveManager.class.getName()).log(Level.INFO,
@@ -162,7 +158,6 @@ public class ArchiveManager {
 
             fastObjId.resetFastIDs();
             fastDomain.resetTable();
-            fastNetwork.resetTable();
             fastProviderURI.resetTable();
             dbBackend.getAvailability().release();
 
@@ -215,12 +210,10 @@ public class ArchiveManager {
 
     private ArchivePersistenceObject convert2ArchivePersistenceObject(
             final COMObjectEntity comEntity, final IdentifierList domain, final Long objId) {
-        Identifier network = null;
         URI providerURI = null;
         ObjectType objType = null;
 
         try {
-            network = this.fastNetwork.getNetwork(comEntity.getNetwork());
             providerURI = this.fastProviderURI.getProviderURI(comEntity.getProviderURI());
             objType = this.fastObjectType.getObjectType(comEntity.getObjectTypeId());
         } catch (Exception ex) {
@@ -245,7 +238,7 @@ public class ArchiveManager {
 
         ArchiveDetails archiveDetails = new ArchiveDetails(comEntity.getObjectId(),
                 new ObjectLinks(comEntity.getRelatedLink(), objectKey),
-                network, new Time(comEntity.getTimestamp().getValue()), providerURI);
+                new Time(comEntity.getTimestamp().getValue()), providerURI);
 
         return new ArchivePersistenceObject(objType, domain, objId, archiveDetails, comEntity.getObject());
     }
@@ -308,7 +301,6 @@ public class ArchiveManager {
         for (int i = 0; i < lArchiveDetails.size(); i++) {
             ArchiveDetails details = lArchiveDetails.get(i);
             final int providerURIId = this.fastProviderURI.getProviderURIId(details.getProvider());
-            final int networkId = this.fastNetwork.getNetworkId(details.getNetwork());
             final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(details.getLinks().getSource());
             final Long objId = this.fastObjId.getUniqueObjId(objTypeId, domainId, details.getId());
 
@@ -317,7 +309,7 @@ public class ArchiveManager {
 
             perObjsEntities.add(new COMObjectEntity(objTypeId, domainId, objId,
                     details.getTimestamp().getValue(), providerURIId,
-                    networkId, sourceLink, details.getLinks().getRelated(),
+                    sourceLink, details.getLinks().getRelated(),
                     objBody));
             objIds.add(objId);
         }
@@ -336,9 +328,6 @@ public class ArchiveManager {
             final URI provider = lArchiveDetails.get(i).getProvider();
             final Integer providerURIId = this.fastProviderURI.getProviderURIId(provider);
 
-            final Identifier network = lArchiveDetails.get(i).getNetwork();
-            final Integer networkId = this.fastNetwork.getNetworkId(network);
-
             // If there are no objects in the list, inject null...
             Object objBody = (objects == null) ? null : ((objects.get(i) == null) ? null : objects.get(i));
 
@@ -348,7 +337,7 @@ public class ArchiveManager {
             final COMObjectEntity newObj = new COMObjectEntity(objTypeId,
                     domainId, lArchiveDetails.get(i).getId(),
                     lArchiveDetails.get(i).getTimestamp().getValue(),
-                    providerURIId, networkId, sourceLink,
+                    providerURIId, sourceLink,
                     lArchiveDetails.get(i).getLinks().getRelated(), objBody);
 
             newObjs.add(newObj);
@@ -397,8 +386,6 @@ public class ArchiveManager {
         final IntegerList domainIds = this.fastDomain.getDomainIds(archiveQuery.getDomain());
         final Integer providerURIId = (archiveQuery.getProvider() != null)
                 ? this.fastProviderURI.getProviderURIId(archiveQuery.getProvider()) : null;
-        final Integer networkId = (archiveQuery.getNetwork() != null)
-                ? this.fastNetwork.getNetworkId(archiveQuery.getNetwork()) : null;
         final ObjectKey sId = archiveQuery.getSource();
         final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(sId);
 
@@ -413,7 +400,7 @@ public class ArchiveManager {
         }
 
         return this.dbProcessor.delete(objTypeIds, archiveQuery,
-                domainIds, providerURIId, networkId, sourceLink, filter);
+                domainIds, providerURIId, sourceLink, filter);
     }
 
     public ArrayList<COMObjectEntity> queryCOMObjectEntity(final ObjectType objType,
@@ -424,8 +411,6 @@ public class ArchiveManager {
             final IntegerList domainIds = this.fastDomain.getDomainIds(archiveQuery.getDomain());
             final Integer providerURIId = (archiveQuery.getProvider() != null) ?
                     this.fastProviderURI.getProviderURIId(archiveQuery.getProvider()) : null;
-            final Integer networkId = (archiveQuery.getNetwork() != null) ?
-                    this.fastNetwork.getNetworkId(archiveQuery.getNetwork()) : null;
             final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(archiveQuery.getSource());
 
             if (archiveQuery.getSource() != null) {
@@ -441,7 +426,7 @@ public class ArchiveManager {
             }
 
             return this.dbProcessor.query(objTypeIds, archiveQuery, domainIds,
-                    providerURIId, networkId, sourceLink, filter);
+                    providerURIId, sourceLink, filter);
         } else {
             return new ArrayList<>();
         }
@@ -461,8 +446,6 @@ public class ArchiveManager {
         final IntegerList domainIds = this.fastDomain.getDomainIds(archiveQuery.getDomain());
         final Integer providerURIId = (archiveQuery.getProvider() != null)
                 ? this.fastProviderURI.getProviderURIId(archiveQuery.getProvider()) : null;
-        final Integer networkId = (archiveQuery.getNetwork() != null)
-                ? this.fastNetwork.getNetworkId(archiveQuery.getNetwork()) : null;
         final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(archiveQuery.getSource());
 
         if (archiveQuery.getSource() != null) {
@@ -476,7 +459,7 @@ public class ArchiveManager {
         }
 
         return this.dbProcessor.query(objTypeIds, archiveQuery, domainIds,
-                providerURIId, networkId, sourceLink, filter);
+                providerURIId, sourceLink, filter);
     }
 
     public static ArrayList<ArchivePersistenceObject> filterQuery(final ArrayList<ArchivePersistenceObject> perObjs,
@@ -620,10 +603,6 @@ public class ArchiveManager {
 
     public FastDomain getFastDomain() {
         return fastDomain;
-    }
-
-    public FastNetwork getFastNetwork() {
-        return fastNetwork;
     }
 
     public FastProviderURI getFastProviderURI() {

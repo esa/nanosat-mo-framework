@@ -287,7 +287,7 @@ public abstract class BaseCommand {
                 AppsLauncherServiceInfo.APPDETAILS_OBJECT_NUMBER);
 
         // prepare domain filter
-        ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, null, null, null, null);
+        ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, 0L, null, null, null, null, null);
 
         // execute query
         ArchiveToAppAdapter adapter = new ArchiveToAppAdapter(appName);

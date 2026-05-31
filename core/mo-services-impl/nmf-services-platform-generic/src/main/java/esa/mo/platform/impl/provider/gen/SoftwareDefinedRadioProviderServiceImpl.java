@@ -81,7 +81,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
     public synchronized void init(SoftwareDefinedRadioAdapterInterface adapter) throws MALException {
         long timestamp = System.currentTimeMillis();
         publisher = createStreamRadioPublisher(ConfigurationProviderSingleton.getDomain(),
-            ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE,
+            null, SessionType.LIVE,
             ConfigurationProviderSingleton.getSourceSessionName(),
             QoSLevel.BESTEFFORT, null, new UInteger(0));
 

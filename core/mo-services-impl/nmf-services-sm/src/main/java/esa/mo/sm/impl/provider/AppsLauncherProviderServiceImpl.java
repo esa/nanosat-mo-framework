@@ -102,7 +102,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                 Const.APPSLAUNCHER_STD_LIMIT_DEFAULT));
         stdLimit = kbyte * 1024; // init limit with value of property
         publisher = createMonitorExecutionPublisher(ConfigurationProviderSingleton.getDomain(),
-                ConfigurationProviderSingleton.getNetwork(),
+                null,
                 SessionType.LIVE,
                 ConfigurationProviderSingleton.getSourceSessionName(),
                 QoSLevel.BESTEFFORT,

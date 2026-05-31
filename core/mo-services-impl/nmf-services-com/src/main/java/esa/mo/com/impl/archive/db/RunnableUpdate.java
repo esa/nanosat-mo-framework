@@ -62,18 +62,17 @@ final class RunnableUpdate implements Runnable {
                 update.setObject(1, obj.getObjectTypeId());
                 update.setObject(2, obj.getObjectId());
                 update.setObject(3, obj.getDomainId());
-                update.setObject(4, obj.getNetwork());
-                update.setObject(5, obj.getObjectEncoded());
-                update.setObject(6, obj.getProviderURI());
-                update.setObject(7, obj.getRelatedLink());
-                update.setObject(8, obj.getSourceLink().getDomainId());
-                update.setObject(9, obj.getSourceLink().getObjId());
-                update.setObject(10, obj.getSourceLink().getObjectTypeId());
-                update.setObject(11, obj.getTimestamp().getValue());
+                update.setObject(4, obj.getObjectEncoded());
+                update.setObject(5, obj.getProviderURI());
+                update.setObject(6, obj.getRelatedLink());
+                update.setObject(7, obj.getSourceLink().getDomainId());
+                update.setObject(8, obj.getSourceLink().getObjId());
+                update.setObject(9, obj.getSourceLink().getObjectTypeId());
+                update.setObject(10, obj.getTimestamp().getValue());
 
-                update.setObject(12, newObjs.get(i).getObjectTypeId());
-                update.setObject(13, newObjs.get(i).getDomainId());
-                update.setObject(14, newObjs.get(i).getObjectId());
+                update.setObject(11, newObjs.get(i).getObjectTypeId());
+                update.setObject(12, newObjs.get(i).getDomainId());
+                update.setObject(13, newObjs.get(i).getObjectId());
                 update.addBatch();
 
                 // Flush every 1k objects...

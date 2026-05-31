@@ -160,7 +160,6 @@ public class EventConsumerPanel extends javax.swing.JPanel {
             ArchiveDetails archiveDetails = new ArchiveDetails(
                     eventCOMObject.getObjId(),
                     objectLinks,
-                    eventCOMObject.getNetworkZone(),
                     eventCOMObject.getTimestamp(),
                     eventCOMObject.getSourceURI());
 

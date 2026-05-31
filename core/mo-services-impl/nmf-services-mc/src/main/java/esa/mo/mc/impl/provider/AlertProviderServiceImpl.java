@@ -75,7 +75,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         long timestamp = System.currentTimeMillis();
 
         publisher = createMonitorAlertPublisher(ConfigurationProviderSingleton.getDomain(),
-                ConfigurationProviderSingleton.getNetwork(),
+                null,
                 SessionType.LIVE, ConfigurationProviderSingleton.getSourceSessionName(),
                 QoSLevel.BESTEFFORT, null, new UInteger(0));
 

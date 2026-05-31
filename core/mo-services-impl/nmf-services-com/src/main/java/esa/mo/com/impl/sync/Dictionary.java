@@ -38,7 +38,7 @@ public class Dictionary {
         this.fastIDreverse = new HashMap<>();
     }
 
-    public synchronized void resetFastNetwork() {
+    public synchronized void reset() {
         this.fastID = new HashMap<>();
         this.fastIDreverse = new HashMap<>();
         uniqueId = new AtomicInteger(0);

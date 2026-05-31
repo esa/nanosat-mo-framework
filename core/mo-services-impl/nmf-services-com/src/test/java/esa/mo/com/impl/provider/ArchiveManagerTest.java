@@ -81,18 +81,6 @@ public class ArchiveManagerTest {
 
         insertTime = 0;
 
-        for (int i = 0; i < NUMBER_OF_OBJECTS; i++) {
-            Date writeStart = new Date();
-            archiveManager1.getFastNetwork().getNetworkId(new Identifier("network_" + i));
-            Date writeStop = new Date();
-
-            insertTime += (writeStop.getTime() - writeStart.getTime());
-        }
-
-        times.put("02. Network insert average time : ", insertTime / NUMBER_OF_OBJECTS);
-
-        insertTime = 0;
-
         for (int i = 0; i < 10000; i++) {
             Date writeStart = new Date();
             archiveManager1.getFastObjectType().getObjectTypeId(new ObjectType(new UShort(i),
@@ -138,18 +126,6 @@ public class ArchiveManagerTest {
         }
 
         times.put("06. Domain read average time : ", readTime / NUMBER_OF_OBJECTS);
-
-        readTime = 0;
-
-        for (int i = 0; i < NUMBER_OF_OBJECTS; i++) {
-            Date writeStart = new Date();
-            archiveManager1.getFastNetwork().getNetworkId(new Identifier("network_" + i));
-            Date writeStop = new Date();
-
-            readTime += (writeStop.getTime() - writeStart.getTime());
-        }
-
-        times.put("07. Network read average time : ", readTime / NUMBER_OF_OBJECTS);
 
         readTime = 0;
 

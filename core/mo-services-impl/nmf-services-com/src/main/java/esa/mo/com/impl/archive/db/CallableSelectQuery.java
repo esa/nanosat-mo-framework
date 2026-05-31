@@ -35,8 +35,8 @@ public class CallableSelectQuery extends CallableGenericQuery<ArrayList<COMObjec
 
     public CallableSelectQuery(TransactionsProcessor transactionsProcessor, IntegerList objTypeIds,
             ArchiveQuery archiveQuery, IntegerList domainIds, Integer providerURIId,
-            Integer networkId, SourceLinkContainer sourceLink, QueryFilter filter) {
-        super(transactionsProcessor, objTypeIds, archiveQuery, domainIds, providerURIId, networkId, sourceLink, filter);
+            SourceLinkContainer sourceLink, QueryFilter filter) {
+        super(transactionsProcessor, objTypeIds, archiveQuery, domainIds, providerURIId, sourceLink, filter);
     }
 
     @Override
@@ -53,13 +53,12 @@ public class CallableSelectQuery extends CallableGenericQuery<ArrayList<COMObjec
                         TransactionsProcessor.convert2Long(rs.getObject(3)),
                         TransactionsProcessor.convert2Long(rs.getObject(4)),
                         (Integer) rs.getObject(5),
-                        (Integer) rs.getObject(6),
                         new SourceLinkContainer(
+                                (Integer) rs.getObject(6),
                                 (Integer) rs.getObject(7),
-                                (Integer) rs.getObject(8),
-                                TransactionsProcessor.convert2Long(rs.getObject(9))),
-                        TransactionsProcessor.convert2Long(rs.getObject(10)),
-                        (byte[]) rs.getObject(11)));
+                                TransactionsProcessor.convert2Long(rs.getObject(8))),
+                        TransactionsProcessor.convert2Long(rs.getObject(9)),
+                        (byte[]) rs.getObject(10)));
             }
         } catch (SQLException ex) {
             TransactionsProcessor.LOGGER.log(Level.SEVERE, null, ex);

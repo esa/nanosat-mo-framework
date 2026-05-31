@@ -100,7 +100,7 @@ public class ActionCommands {
             }
             IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
 
-            ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, null, 0L, null, null, null, null, null);
+            ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, 0L, null, null, null, null, null);
 
             ArchiveToActionsAdapter adapter = new ArchiveToActionsAdapter();
             queryArchive(ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE, archiveQuery, adapter, adapter);

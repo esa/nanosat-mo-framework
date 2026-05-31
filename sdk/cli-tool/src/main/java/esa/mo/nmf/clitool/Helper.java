@@ -77,7 +77,7 @@ public class Helper {
             throws MALInteractionException, MALException, InterruptedException {
         final Object lock = new Object();
 
-        ArchiveQuery archiveQuery = new ArchiveQuery(BaseCommand.domain, null, null, 0L, null, null, null, null, null);
+        ArchiveQuery archiveQuery = new ArchiveQuery(BaseCommand.domain, null, 0L, null, null, null, null, null);
 
         Map<String, ProviderAppDetails> result = new HashMap<>();
         ObjectType appType = new ObjectType(SMHelper.SM_AREA_NUMBER,

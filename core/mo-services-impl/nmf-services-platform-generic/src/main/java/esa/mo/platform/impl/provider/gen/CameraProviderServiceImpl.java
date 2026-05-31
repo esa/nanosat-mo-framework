@@ -84,7 +84,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
     public synchronized void init(COMServicesProvider comServices, CameraAdapterInterface adapter) throws MALException {
         long timestamp = System.currentTimeMillis();
         publisher = createPicturesStreamPublisher(ConfigurationProviderSingleton.getDomain(),
-                ConfigurationProviderSingleton.getNetwork(),
+                null,
                 SessionType.LIVE,
                 ConfigurationProviderSingleton.getSourceSessionName(),
                 QoSLevel.BESTEFFORT,

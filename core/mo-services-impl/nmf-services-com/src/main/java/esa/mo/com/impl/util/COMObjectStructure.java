@@ -27,7 +27,6 @@ import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
-import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.URI;
@@ -40,7 +39,6 @@ public class COMObjectStructure {
 
     private ObjectKey sourceLink;
     private Long relatedLink;
-    private Identifier network;
     private Time timestamp;
     private URI providerURI;
 
@@ -54,7 +52,6 @@ public class COMObjectStructure {
 
         this.sourceLink = archiveDetails.getLinks().getSource();
         this.relatedLink = archiveDetails.getLinks().getRelated();
-        this.network = archiveDetails.getNetwork();
         this.timestamp = archiveDetails.getTimestamp();
         this.providerURI = archiveDetails.getProvider();
 
@@ -88,10 +85,6 @@ public class COMObjectStructure {
         return relatedLink;
     }
 
-    public Identifier getNetwork() {
-        return network;
-    }
-
     public Time getTimestamp() {
         return timestamp;
     }
@@ -112,7 +105,7 @@ public class COMObjectStructure {
 
     public ArchiveDetails getArchiveDetails() {
         ObjectLinks objDetails = new ObjectLinks(relatedLink, sourceLink);
-        return new ArchiveDetails(objId, objDetails, network, timestamp, providerURI);
+        return new ArchiveDetails(objId, objDetails, timestamp, providerURI);
     }
 
 }

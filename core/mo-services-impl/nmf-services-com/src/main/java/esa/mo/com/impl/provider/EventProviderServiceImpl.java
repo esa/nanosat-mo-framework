@@ -65,7 +65,7 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         this.archiveService = archiveService;
 
         publisher = createMonitorEventPublisher(ConfigurationProviderSingleton.getDomain(),
-                ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE,
+                null, SessionType.LIVE,
                 ConfigurationProviderSingleton.getSourceSessionName(),
                 QoSLevel.BESTEFFORT, null, new UInteger(0));
 
@@ -316,7 +316,6 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         }
 
         HeterogeneousList events = null;
-        Identifier network = ConfigurationProviderSingleton.getNetwork();
         URI uri = null;
 
         if (interaction != null) {
@@ -336,7 +335,6 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
         for (int i = 0; i < objectLinksList.size(); i++) {
             ArchiveDetails archiveDetails = new ArchiveDetails(new Long(0),
                     objectLinksList.get(i),
-                    network,
                     Time.now(),
                     uri);
 
@@ -411,11 +409,10 @@ public class EventProviderServiceImpl extends EventInheritanceSkeleton {
             bodies = null;
         }
 
-        network = (network != null) ? network : ConfigurationProviderSingleton.getNetwork();
         uri = (uri != null) ? uri : connection.getConnectionDetails().getProviderURI();
 
         ArchiveDetails details = new ArchiveDetails(0L,
-                objectLinksList.get(0), network, Time.now(), uri);
+                objectLinksList.get(0), Time.now(), uri);
 
         ArchiveDetailsList detailsList = new ArchiveDetailsList();
         detailsList.add(details);

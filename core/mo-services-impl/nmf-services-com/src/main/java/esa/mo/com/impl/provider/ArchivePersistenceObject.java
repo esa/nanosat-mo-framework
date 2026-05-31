@@ -39,7 +39,6 @@ public class ArchivePersistenceObject implements Serializable {
 
     private final ObjectKey sourceLink;
     private final Long relatedLink;
-    private final String network;
 
     private final Long timestampArchiveDetails;
     private final String providerURI;
@@ -55,7 +54,6 @@ public class ArchivePersistenceObject implements Serializable {
         this.objId = objId;
 
         this.providerURI = (archiveDetails.getProvider() != null) ? archiveDetails.getProvider().getValue() : null;
-        this.network = (archiveDetails.getNetwork() != null) ? archiveDetails.getNetwork().getValue() : null;
         this.timestampArchiveDetails = (archiveDetails.getTimestamp() != null) ?
                 archiveDetails.getTimestamp().getValue() : 0;
 
@@ -82,10 +80,9 @@ public class ArchivePersistenceObject implements Serializable {
     }
 
     public ArchiveDetails getArchiveDetails() {
-        final Identifier net = (this.network == null) ? null : new Identifier(network);
         final URI uri = (this.providerURI == null) ? null : new URI(providerURI);
         return new ArchiveDetails(objId, new ObjectLinks(relatedLink, sourceLink),
-                net, new Time(timestampArchiveDetails), uri);
+                new Time(timestampArchiveDetails), uri);
     }
 
     public Object getObject() {

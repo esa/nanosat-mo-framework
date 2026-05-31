@@ -87,7 +87,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             ParameterManager parameterManager) throws MALException {
         long timestamp = System.currentTimeMillis();
         publisher = createMonitorValuePublisher(ConfigurationProviderSingleton.getDomain(),
-                ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE,
+                null, SessionType.LIVE,
                 ConfigurationProviderSingleton.getSourceSessionName(),
                 QoSLevel.BESTEFFORT, null, new UInteger(0));
 

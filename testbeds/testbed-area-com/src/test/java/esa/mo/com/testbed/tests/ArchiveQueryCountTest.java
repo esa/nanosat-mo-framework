@@ -273,7 +273,7 @@ public class ArchiveQueryCountTest {
         storeEmpty(stub, SORT_ERROR_TYPE, domain, providerURI);
 
         // sortOrder=true activates sorting; "nonExistentField" will not resolve to any field.
-        ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null,
+        ArchiveQuery archiveQuery = new ArchiveQuery(null, null,
                 0L, null, null, null, Boolean.TRUE, "nonExistentField");
 
         MOErrorException error = runQueryExpectError(stub, SORT_ERROR_TYPE, archiveQuery, null);
@@ -336,7 +336,7 @@ public class ArchiveQueryCountTest {
 
         storeEmpty(stub, SORT_ERROR_TYPE, domain, providerURI);
 
-        ArchiveQuery archiveQuery = new ArchiveQuery(null, null, null,
+        ArchiveQuery archiveQuery = new ArchiveQuery(null, null,
                 0L, null, null, null, Boolean.TRUE, "nonExistentField");
 
         MOErrorException error = runCountExpectError(stub, SORT_ERROR_TYPE, archiveQuery, null);

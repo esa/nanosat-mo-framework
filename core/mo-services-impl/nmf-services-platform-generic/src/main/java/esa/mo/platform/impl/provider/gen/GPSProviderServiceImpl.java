@@ -97,7 +97,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         long timestamp = System.currentTimeMillis();
 
         publisher = createNearbyPositionPublisher(ConfigurationProviderSingleton.getDomain(),
-                ConfigurationProviderSingleton.getNetwork(), SessionType.LIVE,
+                null, SessionType.LIVE,
                 ConfigurationProviderSingleton.getSourceSessionName(), QoSLevel.BESTEFFORT, null,
                 new UInteger(0));
 

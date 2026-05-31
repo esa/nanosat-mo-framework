@@ -234,7 +234,7 @@ public abstract class GroundMOProxy {
                         return;
                     }
                     ArchiveQuery archiveQuery = new ArchiveQuery(archiveService.getConnectionDetails().getDomain(),
-                            null, null, 0L, null, lastTime, currentOBT, false, null);
+                            null, 0L, null, lastTime, currentOBT, false, null);
 
                     long[] count = {0L}; // workaround to access the variable in the lambda below.
                     ArchiveAdapter adapter = new ArchiveAdapter() {

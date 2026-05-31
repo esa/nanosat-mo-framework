@@ -532,7 +532,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         ArchiveQuery archiveQuery = new ArchiveQuery(
                 null,
                 null,
-                null,
                 new Long(0),
                 null,
                 null,
@@ -745,7 +744,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         ArchiveQuery archiveQuery = new ArchiveQuery(
                 null,
                 null,
-                null,
                 new Long(0),
                 null,
                 null,
@@ -793,7 +791,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         ArchiveQuery archiveQuery = new ArchiveQuery(
                 null,
                 null,
-                null,
                 new Long(0),
                 null,
                 null,
@@ -814,7 +811,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
     public static ArchiveQuery generateArchiveQuery() {
         // ArchiveDetails
         return new ArchiveQuery(
-                null,
                 null,
                 null,
                 new Long(0),

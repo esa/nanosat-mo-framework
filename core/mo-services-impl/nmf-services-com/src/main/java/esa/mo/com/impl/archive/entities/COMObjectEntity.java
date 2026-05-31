@@ -50,7 +50,6 @@ public class COMObjectEntity implements Serializable {
     private Integer domainId;
     private Long objId;
     private Long relatedLink;
-    private Integer network;
     private Long timestampArchiveDetails;
     private Integer providerURI;
     private byte[] objBody;
@@ -59,7 +58,7 @@ public class COMObjectEntity implements Serializable {
     private Long sourceLinkObjId;
 
     public COMObjectEntity(Integer objectTypeId, Integer domain, Long objId,
-            Long timestampArchiveDetails, Integer providerURI, Integer network,
+            Long timestampArchiveDetails, Integer providerURI,
             SourceLinkContainer sourceLink, Long relatedLink, Object object) {
         this.objectTypeId = objectTypeId;
         this.domainId = domain;
@@ -67,7 +66,6 @@ public class COMObjectEntity implements Serializable {
 
         this.timestampArchiveDetails = timestampArchiveDetails;
         this.providerURI = providerURI;
-        this.network = network;
         this.relatedLink = relatedLink;
 
         this.sourceLinkObjectTypeId = (sourceLink == null) ? null : sourceLink.getObjectTypeId();
@@ -94,7 +92,7 @@ public class COMObjectEntity implements Serializable {
     }
 
     public COMObjectEntity(Integer objectTypeId, Integer domain, Long objId,
-            Long timestampArchiveDetails, Integer providerURI, Integer network,
+            Long timestampArchiveDetails, Integer providerURI,
             SourceLinkContainer sourceLink, Long relatedLink, byte[] object) {
         this.objectTypeId = objectTypeId;
         this.domainId = domain;
@@ -102,7 +100,6 @@ public class COMObjectEntity implements Serializable {
 
         this.timestampArchiveDetails = timestampArchiveDetails;
         this.providerURI = providerURI;
-        this.network = network;
         this.relatedLink = relatedLink;
 
         this.sourceLinkObjectTypeId = sourceLink.getObjectTypeId();
@@ -139,10 +136,6 @@ public class COMObjectEntity implements Serializable {
     public SourceLinkContainer getSourceLink() {
         final Integer domainIdLocal = (sourceLinkDomainId != null) ? sourceLinkDomainId : null;
         return new SourceLinkContainer(sourceLinkObjectTypeId, domainIdLocal, sourceLinkObjId);
-    }
-
-    public Integer getNetwork() {
-        return (this.network);
     }
 
     public Integer getProviderURI() {

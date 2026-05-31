@@ -34,9 +34,9 @@ public class CallableDeleteQuery extends CallableGenericQuery<Integer> {
     public static Logger LOGGER = Logger.getLogger(CallableDeleteQuery.class.getName());
 
     public CallableDeleteQuery(TransactionsProcessor transactionsProcessor, IntegerList objTypeIds,
-        ArchiveQuery archiveQuery, IntegerList domainIds, Integer providerURIId, Integer networkId,
+        ArchiveQuery archiveQuery, IntegerList domainIds, Integer providerURIId,
         SourceLinkContainer sourceLink, QueryFilter filter) {
-        super(transactionsProcessor, objTypeIds, archiveQuery, domainIds, providerURIId, networkId, sourceLink, filter);
+        super(transactionsProcessor, objTypeIds, archiveQuery, domainIds, providerURIId, sourceLink, filter);
     }
 
     @Override

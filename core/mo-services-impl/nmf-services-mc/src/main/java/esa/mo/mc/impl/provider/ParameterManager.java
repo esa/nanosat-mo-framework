@@ -126,7 +126,7 @@ public class ParameterManager extends MCManager {
             } else { //use the timestamp given
                 archiveDetailsList = new ArchiveDetailsList();
                 archiveDetailsList.add(new ArchiveDetails(0L, new ObjectLinks(related, source),
-                        ConfigurationProviderSingleton.getNetwork(), timestamp, connectionDetails.getProviderURI()));
+                        timestamp, connectionDetails.getProviderURI()));
             }
 
             try {
@@ -167,7 +167,6 @@ public class ParameterManager extends MCManager {
             for (int i = 0; i < relatedList.size(); i++) {
                 ArchiveDetails archiveDetails = new ArchiveDetails(0L,
                         new ObjectLinks(relatedList.get(i), sourcesList.get(i)),
-                        ConfigurationProviderSingleton.getNetwork(),
                         timestamps.get(i),
                         connectionDetails.getProviderURI());
 

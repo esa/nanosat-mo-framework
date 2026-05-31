@@ -338,7 +338,7 @@
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="When one or more of the objects being stored contains an invalid value: a wildcard value of '0' in the object type, a wildcard value of '*' in the domain, a value of '0', '*', or NULL in the network, timestamp, or provider fields of the archive details, or mismatched objDetails and objBodies list sizes.">
+                        <mal:errorRef comment="When one or more of the objects being stored contains an invalid value: a wildcard value of '0' in the object type, a wildcard value of '*' in the domain, a value of '0', '*', or NULL in the timestamp or provider fields of the archive details, or mismatched objDetails and objBodies list sizes.">
                             <mal:type area="COM" list="false" name="INVALID"/>
                             <mal:extraInformation comment="A list of the indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
@@ -989,9 +989,6 @@
                 <mal:field name="links" canBeNull="false" comment="The links of the Object.">
                     <mal:type area="COM" list="false" name="ObjectLinks"/>
                 </mal:field>
-                <mal:field name="network" canBeNull="true" comment="The network zone of the object.">
-                    <mal:type area="MAL" list="false" name="Identifier"/>
-                </mal:field>
                 <mal:field name="timestamp" canBeNull="true" comment="The time the object was created.">
                     <mal:type area="MAL" list="false" name="Time"/>
                 </mal:field>
@@ -1005,9 +1002,6 @@
                 </mal:extends>
                 <mal:field name="domain" canBeNull="true" comment="Only the objects whose domain matches the provided domain will be returned. The domain field supports the wildcard value of '*' only in the last part of the domain. NULL indicates all domains are matched.">
                     <mal:type area="MAL" list="true" name="Identifier"/>
-                </mal:field>
-                <mal:field name="network" canBeNull="true" comment="Optional network zone. Only the objects whose network zone matches the provided value will be returned. If NULL then all values will be matched.">
-                    <mal:type area="MAL" list="false" name="Identifier"/>
                 </mal:field>
                 <mal:field name="provider" canBeNull="true" comment="Optional provider. Only the objects whose provider URI matches the provided provider URI will be returned. If NULL then all values will be matched.">
                     <mal:type area="MAL" list="false" name="URI"/>
@@ -1087,9 +1081,6 @@
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
-                <mal:field name="network" canBeNull="true" comment="Dictionary id for the network of the COM Object.">
-                    <mal:type area="MAL" list="false" name="UInteger"/>
-                </mal:field>
                 <mal:field name="providerURI" canBeNull="true" comment="Dictionary id for the provider URI of the COM Object.">
                     <mal:type area="MAL" list="false" name="UInteger"/>
                 </mal:field>

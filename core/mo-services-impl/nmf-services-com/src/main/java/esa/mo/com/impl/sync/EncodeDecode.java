@@ -185,14 +185,6 @@ public class EncodeDecode {
 
     private static void encodeEntity(COMObjectEntity entity, ArchiveManager manager,
             Dictionary dictionary, BinaryEncoder encoder) throws Exception {
-        Identifier network = manager.getFastNetwork().getNetwork(entity.getNetwork());
-        Integer networkId = dictionary.getWordId(network.getValue());
-        encoder.encodeShort(networkId.shortValue());
-        if (networkId.shortValue() != networkId) {
-            LOGGER.log(Level.SEVERE, "network {0} shortValue {1} mismatch networkId full {2}",
-                    new Object[]{network.getValue(), networkId.shortValue(), networkId});
-        }
-
         URI providerURI = manager.getFastProviderURI().getProviderURI(entity.getProviderURI());
         Integer providerURIId = dictionary.getWordId(providerURI.getValue());
         encoder.encodeShort(providerURIId.shortValue());
@@ -252,7 +244,6 @@ public class EncodeDecode {
 
         while (stillDecoding) {
             try {
-                Short networkId = decoder.decodeShort();
                 Short providerURIId = decoder.decodeShort();
                 ObjectType objType = (ObjectType) decoder.decodeElement(new ObjectType());
 
@@ -289,10 +280,6 @@ public class EncodeDecode {
 
                 IntegerList ids = new IntegerList();
 
-                if (!dictionary.exists((int) networkId)) {
-                    ids.add((int) networkId);
-                }
-
                 if (!dictionary.exists((int) providerURIId)) {
                     ids.add((int) providerURIId);
                 }
@@ -313,7 +300,6 @@ public class EncodeDecode {
                     }
                 }
 
-                Identifier network = new Identifier(dictionary.getWord((int) networkId));
                 URI providerURI = new URI(dictionary.getWord((int) providerURIId));
                 IdentifierList sourceDomain;
                 if (sourceDomainId != null) {
@@ -327,7 +313,7 @@ public class EncodeDecode {
 
                 ObjectLinks objDetails = new ObjectLinks(relatedLink, objectKey);
 
-                ArchiveDetails archDetails = new ArchiveDetails(objId, objDetails, network, timestamp, providerURI);
+                ArchiveDetails archDetails = new ArchiveDetails(objId, objDetails, timestamp, providerURI);
 
                 objs.add(new COMObjectStructure(domain, objType, archDetails, element));
             } catch (IndexOutOfBoundsException ex) {

@@ -79,7 +79,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         long timestamp = System.currentTimeMillis();
 
         publisher = createMonitorExecutionPublisher(ConfigurationProviderSingleton.getDomain(),
-                ConfigurationProviderSingleton.getNetwork(),
+                null,
                 SessionType.LIVE, ConfigurationProviderSingleton.getSourceSessionName(),
                 QoSLevel.BESTEFFORT, null, new UInteger(0));
 
