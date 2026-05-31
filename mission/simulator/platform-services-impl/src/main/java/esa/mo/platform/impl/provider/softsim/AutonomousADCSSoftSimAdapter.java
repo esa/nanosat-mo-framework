@@ -143,7 +143,6 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
 
     @Override
     public ReactionWheelParameters getAllReactionWheelParameters() {
-
         Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
             "Reaction wheel parameters are not implemented in the Simulator yet!");
         return null;
