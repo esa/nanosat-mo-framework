@@ -153,8 +153,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             UIntegerList unkIndexList = new UIntegerList();
 
             for (int index = 0; index < ids.size(); index++) {
-                Long identityId = ids.get(index);
-                if (!manager.existsDef(identityId)) { // requirement 3.3.8.2.d: Does the ParameterIdentity exist? 
+                Long defId = ids.get(index);
+                if (!manager.existsDef(defId)) { // requirement 3.3.8.2.d: Does the ParameterDefinition exist?
                     unkIndexList.add(new UInteger(index)); // add the index to the list of errors
                     continue;
                 }
@@ -243,24 +243,24 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
 
         for (int index = 0; index < rawValueList.size(); index++) {
-            Long identityId = rawValueList.get(index).getParameterId();
+            Long defId = rawValueList.get(index).getParameterId();
             ParameterRawValue newValue = rawValueList.get(index);
-            ParameterDefinition pDef = manager.getParameterDefinition(identityId);
+            ParameterDefinition pDef = manager.getParameterDefinition(defId);
 
             //requirement 3.3.9.2.b
-            if (identityId == 0) {
+            if (defId == 0) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
 
             //requirement 3.3.9.2.c
-            if (!manager.existsDef(identityId)) {
+            if (!manager.existsDef(defId)) {
                 unkIndexList.add(new UInteger(index));
                 continue;
             }
 
             //requriement 3.3.9.2.d: checks if a parameter is readOnly
-            if (manager.isReadOnly(identityId)) {
+            if (manager.isReadOnly(defId)) {
                 readOnlyIndexList.add(new UInteger(index));
                 continue;
             }
@@ -446,15 +446,15 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
 
         for (int index = 0; index < ids.size(); index++) {
-            final Long identityId = ids.get(index);
+            final Long defId = ids.get(index);
 
             //requirement: 3.3.13.2.c: id is Null or 0?
-            if (identityId == null || identityId == 0) {
+            if (defId == null || defId == 0) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
             //requirement: 3.3.13.2.b: The object instance identifier could not be found?
-            if (!manager.existsDef(identityId)) {
+            if (!manager.existsDef(defId)) {
                 unkIndexList.add(new UInteger(index));
                 continue;
             }
@@ -490,29 +490,29 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
     }
 
-    public void removeParameter(final LongList identityIds, final MALInteraction interaction) throws MALException,
+    public void removeParameter(final LongList defIds, final MALInteraction interaction) throws MALException,
             MALInteractionException { // requirement: 3.3.11.2.1
         UIntegerList unkIndexList = new UIntegerList();
         LongList removalLst = new LongList();
 
-        if (identityIds == null) { // Is the input null?
+        if (defIds == null) { // Is the input null?
             throw new IllegalArgumentException("LongList argument must not be null");
         }
 
-        for (int index = 0; index < identityIds.size(); index++) {
-            Long identityId = identityIds.get(index);
+        for (int index = 0; index < defIds.size(); index++) {
+            Long defId = defIds.get(index);
 
-            if (identityId == 0) {  // Is it the wildcard '0'? requirement: 3.3.14.2.b, .c
+            if (defId == 0) {  // Is it the wildcard '0'? requirement: 3.3.14.2.b, .c
                 removalLst.clear();  // if the wildcard is in the middle of the input list, we clear the output list and...
                 removalLst.addAll(manager.listAllDefinitions()); // ... add all in a row
                 unkIndexList.clear();
                 break;
             }
 
-            if (!manager.existsDef(identityId)) { // Does it match an existing identity? requirement: 3.3.14.2.d
+            if (!manager.existsDef(defId)) { // Does it match an existing identity? requirement: 3.3.14.2.d
                 unkIndexList.add(new UInteger(index));
             } else {
-                removalLst.add(identityId);
+                removalLst.add(defId);
             }
         }
 
@@ -670,7 +670,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         /**
          * refreshes the interval for periodic updates of the parameter with the
-         * given identityId
+         * given defId
          *
          * @param id the id of the Parameter
          *
@@ -690,12 +690,12 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             }
         }
 
-        public void refreshList(LongList identityIds) {
-            if (identityIds == null) {
+        public void refreshList(LongList defIds) {
+            if (defIds == null) {
                 return;
             }
-            for (Long identityId : identityIds) {
-                refresh(identityId);
+            for (Long defId : defIds) {
+                refresh(defId);
             }
         }
 
@@ -708,43 +708,43 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
          * generatinEneabled-Field to true and starts the timer for the further
          * periodic updates.
          *
-         * @param identityId the identityId of the parameter to be updated
+         * @param defId the definition id of the parameter to be updated
          * periodically
          */
-        private void addPeriodicReporting(Long identityId) {
+        private void addPeriodicReporting(Long defId) {
             TaskScheduler timer = new TaskScheduler(1);
-            timerList.put(identityId, timer);
-            publishPeriodicParameterUpdate(identityId);
+            timerList.put(defId, timer);
+            publishPeriodicParameterUpdate(defId);
             //requirement: 3.3.3.c
-            startTimer(identityId, manager.getParameterDefinition(identityId).getReportInterval());
+            startTimer(defId, manager.getParameterDefinition(defId).getReportInterval());
         }
 
-        private void removePeriodicReporting(Long identityId) {
-            this.stopTimer(identityId);
-            timerList.remove(identityId);
+        private void removePeriodicReporting(Long defId) {
+            this.stopTimer(defId);
+            timerList.remove(defId);
         }
 
         /**
          *
-         * @param identityId
+         * @param defId
          * @param interval
          */
-        private void startTimer(final Long identityId, final Duration interval) {  // requirement: 3.3.3.c
-            timerList.get(identityId).scheduleTask(new Thread(() -> {
+        private void startTimer(final Long defId, final Duration interval) {  // requirement: 3.3.3.c
+            timerList.get(defId).scheduleTask(new Thread(() -> {
                 if (active) {
-                    if (identityId == -1) {
+                    if (defId == -1) {
                         return;
                     }
-                    if (manager.getParameterDefinition(identityId).getReportingEnabled()) {
-                        publishPeriodicParameterUpdate(identityId);
+                    if (manager.getParameterDefinition(defId).getReportingEnabled()) {
+                        publishPeriodicParameterUpdate(defId);
                     }
                 }
             }), 0, (int) (interval.getInSeconds() * 1000), TimeUnit.MILLISECONDS, true);
             // the time has to be converted to milliseconds by multiplying by 1000
         }
 
-        private void stopTimer(final Long identityId) {
-            timerList.get(identityId).stopLast();
+        private void stopTimer(final Long defId) {
+            timerList.get(defId).stopLast();
         }
 
     }
@@ -975,28 +975,28 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     /**
      * publishes a periodic parameter update for the given parameter
      *
-     * @param identityId the id of the parameter identity
+     * @param defId the id of the parameter definition
      */
-    private void publishPeriodicParameterUpdate(final Long identityId) {
-        publishPeriodicParameterUpdate(identityId, storeParametersInCOMArchive);
+    private void publishPeriodicParameterUpdate(final Long defId) {
+        publishPeriodicParameterUpdate(defId, storeParametersInCOMArchive);
     }
 
     /**
      * publishes a periodic parameter update for the given parameter
      *
-     * @param identityId the id of the parameter identity
+     * @param defId the id of the parameter definition
      * @param storeInCOMArchive flag indicating whether or not the parameter
      * should be stored in the archive
      */
-    private void publishPeriodicParameterUpdate(final Long identityId, boolean storeInCOMArchive) {
+    private void publishPeriodicParameterUpdate(final Long defId, boolean storeInCOMArchive) {
         try {
             /*
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.INFO,
-                    "start publishing periodic parameter update with identityId: {0} at {1}",
-                    new Object[]{identityId, System.currentTimeMillis()});
+                    "start publishing periodic parameter update with defId: {0} at {1}",
+                    new Object[]{defId, System.currentTimeMillis()});
              */
-            final ParameterValue parameterValue = manager.getParameterValue(identityId);
-            final Identifier name = manager.getName(identityId);
+            final ParameterValue parameterValue = manager.getParameterValue(defId);
+            final Identifier name = manager.getName(defId);
 
             ArrayList<ParameterInstance> parameters = new ArrayList<>(1);
             parameters.add(new ParameterInstance(name, parameterValue, null, Time.now()));

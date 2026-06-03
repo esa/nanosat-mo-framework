@@ -150,7 +150,7 @@ public class MCRegistration {
      *
      * @param definitions The aggregation definitions
      * @return The aggregation object instance identifiers of the
-     * AggregationIdentity objects.
+     * AggregationDefinition objects.
      */
     public LongList registerAggregations(final AggregationDefinitionList definitions) {
         // Some validation

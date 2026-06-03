@@ -278,14 +278,14 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
         for (int index = 0; index < alertObjInstIds.size(); index++) {
             //requirement: 3.4.11.2.a
-            final Long identityId = alertObjInstIds.get(index);
-            if (identityId == null || identityId == 0 //requirement: 3.4.11.2.c: id is Null or 0?
+            final Long defId = alertObjInstIds.get(index);
+            if (defId == null || defId == 0 //requirement: 3.4.11.2.c: id is Null or 0?
                     || alertObjInstIds.size() != newAlertDefDetails.size()) { //requirement: 3.4.11.2.f
                 invIndexList.add(new UInteger(index));
                 continue;
             }
             //requirement: 3.4.11.2.b: The object instance identifier could not be found?
-            if (!manager.existsDef(identityId)) {
+            if (!manager.existsDef(defId)) {
                 unkIndexList.add(new UInteger(index));
                 continue;
             }
@@ -313,29 +313,29 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
     }
 
-    public void removeAlert(LongList alertIdentityIds,
+    public void removeAlert(LongList alertDefIds,
             MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         LongList removalLst = new LongList();
 
-        if (alertIdentityIds == null) { // Is the input null?
+        if (alertDefIds == null) { // Is the input null?
             throw new IllegalArgumentException("LongList argument must not be null");
         }
 
-        for (int index = 0; index < alertIdentityIds.size(); index++) {
+        for (int index = 0; index < alertDefIds.size(); index++) {
             //requirement: 3.4.12.2.a
-            Long identityId = alertIdentityIds.get(index);
-            if (identityId == 0) {  // Is it the wildcard '0'? requirement: 3.4.12.2.b
+            Long defId = alertDefIds.get(index);
+            if (defId == 0) {  // Is it the wildcard '0'? requirement: 3.4.12.2.b
                 removalLst.clear();  // if the wildcard is in the middle of the input list, we clear the output list and...
                 removalLst.addAll(manager.listAllDefinitions()); // ... add all in a row
                 unkIndexList.clear();
                 break;
             }
 
-            if (!manager.existsDef(identityId)) { // Does it match an existing definition? requirement: 3.4.12.2.c
+            if (!manager.existsDef(defId)) { // Does it match an existing definition? requirement: 3.4.12.2.c
                 unkIndexList.add(new UInteger(index)); // requirement: 3.4.12.2.c
             } else {
-                removalLst.add(identityId);
+                removalLst.add(defId);
             }
         }
 
@@ -484,11 +484,11 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
      * @param argumentValues
      * @param alertDefinitionName
      * @param interaction
-     * @param identityId
+     * @param defId
      * @return
      */
     private Long generateAlertDefinition(final AttributeValueList argumentValues,
-            final Identifier alertDefinitionName, final MALInteraction interaction, Long identityId) {
+            final Identifier alertDefinitionName, final MALInteraction interaction, Long defId) {
         ArgumentDefinitionList args = new ArgumentDefinitionList();
 
         if (argumentValues != null) {
@@ -527,7 +527,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
         try {
             LongList returnedObjIds = this.addAlert(defs, interaction);
-            identityId = returnedObjIds.get(0);
+            defId = returnedObjIds.get(0);
 
             // Enable the Alert reporting!
             //            LongList ids = new LongList();
@@ -536,7 +536,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         } catch (MALInteractionException | MALException ex) {
             Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return identityId;
+        return defId;
     }
 
     @Override

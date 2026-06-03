@@ -179,7 +179,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             }
 
             Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.FINER,
-                    "Generating Aggregation update for the Aggregation Identity objId: {0} (Identifier: {1})",
+                    "Generating Aggregation update for the Aggregation Definition objId: {0} (Identifier: {1})",
                     new Object[]{id, new Identifier(manager.getName(id).toString())});
 
             Time time = timestamp;
@@ -257,9 +257,9 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
 
         for (int index = 0; index < inIdentityIds.size(); index++) {
-            Long tempIdentityId = inIdentityIds.get(index);
+            Long tempDefId = inIdentityIds.get(index);
 
-            if (tempIdentityId == 0) {  // Is it the wildcard '0'? requirement: 3.7.8.2.b
+            if (tempDefId == 0) {  // Is it the wildcard '0'? requirement: 3.7.8.2.b
                 inIdentityIds.clear();  // if the wildcard is in the middle of the input list, we clear the output list and...
                 inIdentityIds.addAll(manager.listAllDefinitions()); // ... add all in a row
                 //as it should be checked for a wildcard first, dont return found errors; requirement: 3.7.8.2.c
@@ -267,7 +267,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                 break;
             }
 
-            if (!manager.existsDef(tempIdentityId)) { // Is the requested aggregation unknown?
+            if (!manager.existsDef(tempDefId)) { // Is the requested aggregation unknown?
                 unkIndexList.add(new UInteger(index)); // requirement: 3.7.8.2.d
                 continue;
             }
@@ -689,37 +689,36 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * to push Attribute values through the monitorValue operation of the
      * Aggregation service.
      *
-     * @param identityId The id of the Aggregation as set in the aggregation
-     * definition
+     * @param defId The id of the aggregation definition
      * @param aSetVal The list of aggregation set values to be pushed
      * @param source The source of the aggregation. Can be null
      * @param timestamp The timestamp of the aggregation. If null, the method
      * will automatically use the System's time
      * @return Returns true if the push was successful. False otherwise.
      */
-    public Boolean pushAggregationSetValue(final Long identityId, final AggregationSetValueList aSetVal,
+    public Boolean pushAggregationSetValue(final Long defId, final AggregationSetValueList aSetVal,
             final ObjectKey source, final Time timestamp) { //requirement: 3.7.4.i
 
         //check that the given aggregationSetValueList has the right amount of entries
-        final AggregationDefinition aggrDef = manager.getAggregationDefinition(identityId);
+        final AggregationDefinition aggrDef = manager.getAggregationDefinition(defId);
         if (aSetVal.size() != aggrDef.getParameterSets().size()) {
             return false;
         }
         //check the filter and sample
-        if (!checkFilterAndSampleParams(identityId, false, aSetVal)) {
+        if (!checkFilterAndSampleParams(defId, false, aSetVal)) {
             return false;
         }
         //publish! requirement: 3.7.3.j
-        if (!publishAggregationUpdate(identityId, manager.getAggregationValue(identityId, GenerationMode.ADHOC), source,
+        if (!publishAggregationUpdate(defId, manager.getAggregationValue(defId, GenerationMode.ADHOC), source,
                 timestamp, storeAggregationsInCOMArchive)) {
             return false;
         }
         //if the push value was published during a periodic update reset the timers //not standarized, impl. specific
-        if (manager.getAggregationDefinition(identityId).getReportInterval().getInSeconds() != 0) {
-            periodicReportingManager.refresh(identityId);// then, refresh the Periodic updates and samplings
-            periodicSamplingManager.refresh(identityId);
+        if (manager.getAggregationDefinition(defId).getReportInterval().getInSeconds() != 0) {
+            periodicReportingManager.refresh(defId);// then, refresh the Periodic updates and samplings
+            periodicSamplingManager.refresh(defId);
         } else {
-            manager.resetAggregationSampleHelperVariables(identityId);
+            manager.resetAggregationSampleHelperVariables(defId);
         }
         return true;
     }
@@ -1068,18 +1067,18 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             }
         }
 
-        public void refreshList(LongList identityIds) {
-            if (identityIds == null) {
+        public void refreshList(LongList defIds) {
+            if (defIds == null) {
                 return;
             }
 
-            for (Long identityId : identityIds) {
-                refresh(identityId);
+            for (Long defId : defIds) {
+                refresh(defId);
             }
         }
 
-        private void addPeriodicSampling(Long identityId) {
-            final AggregationDefinition aggrDef = manager.getAggregationDefinition(identityId);
+        private void addPeriodicSampling(Long defId) {
+            final AggregationDefinition aggrDef = manager.getAggregationDefinition(defId);
             if (!aggrDef.getReportingEnabled()) {
                 return; // Periodic Sampling shall not occur if the generation is not enabled at the definition level
             }
@@ -1095,7 +1094,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                 }
                 // Add to the Periodic Sampling Manager only if there's a sampleInterval selected for the parameterSet
                 if (sampleInterval.getInSeconds() != 0) {
-                    aggregationObjIdList.add(index, identityId);
+                    aggregationObjIdList.add(index, defId);
                     parameterSetIndexList.add(index, indexOfParameterSet);
                     TaskScheduler timer = new TaskScheduler(1);  // Take care of adding a new timer
                     sampleTimerList.add(index, timer);
@@ -1117,7 +1116,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
 
         private void startTimer(final int index, Duration interval) {  // requirement: 3.7.2.11
-            final Long identityId = aggregationObjIdList.get(index);
+            final Long defId = aggregationObjIdList.get(index);
             final int indexOfparameterSet = parameterSetIndexList.get(index);
 
             sampleTimerList.get(index).scheduleTask(new Thread(() -> {
@@ -1125,7 +1124,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                     // To prevent race conditions with the other timer
                     synchronized (lock) {
                         //create the new paraemtersamples and set them if filter triggered or not enabled
-                        manager.sampleAndFilterParam(identityId, indexOfparameterSet);
+                        manager.sampleAndFilterParam(defId, indexOfparameterSet);
                     }
                 }
             }), 0, (int) (interval.getInSeconds() * 1000), TimeUnit.MILLISECONDS, true); // the time has to be converted to milliseconds by multiplying by 1000

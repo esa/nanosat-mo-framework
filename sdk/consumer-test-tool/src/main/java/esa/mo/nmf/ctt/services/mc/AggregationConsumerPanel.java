@@ -252,8 +252,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
 
             StringBuilder str = new StringBuilder("Object instance identifiers on the provider: \n");
             for (Long id : ids) {
-                str.append("ObjId Def: ").append(id.toString())
-                        .append(" Identity: ").append(id.toString()).append("\n");
+                str.append("ObjId Def: ").append(id.toString()).append("\n");
             }
 
             JOptionPane.showMessageDialog(null, str.toString(),

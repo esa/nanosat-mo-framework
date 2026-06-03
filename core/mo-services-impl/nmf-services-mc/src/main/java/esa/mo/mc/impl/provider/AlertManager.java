@@ -114,10 +114,10 @@ public final class AlertManager extends MCManager {
         }
     }
 
-    public void setReportingEnabled(final Long identityId, final Boolean bool,
+    public void setReportingEnabled(final Long defId, final Boolean bool,
             final ObjectKey source, final SingleConnectionDetails connectionDetails) {
         // requirement: 3.3.2.5
-        AlertDefinition def = this.getAlertDefinitionFromDefId(identityId);
+        AlertDefinition def = this.getAlertDefinitionFromDefId(defId);
         if (def == null) {
             return;
         }
@@ -130,20 +130,20 @@ public final class AlertManager extends MCManager {
         AlertDefinition newDef = new AlertDefinition(def.getName(),
                 def.getDescription(), def.getSeverity(), bool, def.getArguments());
 
-        this.update(identityId, newDef, source, connectionDetails);
+        this.update(defId, newDef, source, connectionDetails);
     }
 
     public void setReportingEnabledAll(final Boolean bool, final ObjectKey source,
             final SingleConnectionDetails connectionDetails) {
-        LongList identityIds = new LongList();
-        identityIds.addAll(this.listAllDefinitions());
+        LongList defIds = new LongList();
+        defIds.addAll(this.listAllDefinitions());
 
-        for (Long identityId : identityIds) {
-            AlertDefinition def = this.getAlertDefinitionFromDefId(identityId);
+        for (Long defId : defIds) {
+            AlertDefinition def = this.getAlertDefinitionFromDefId(defId);
             AlertDefinition newDef = new AlertDefinition(def.getName(),
                     def.getDescription(), def.getSeverity(), bool, def.getArguments());
 
-            this.update(identityId, newDef, source, connectionDetails);
+            this.update(defId, newDef, source, connectionDetails);
         }
     }
 
