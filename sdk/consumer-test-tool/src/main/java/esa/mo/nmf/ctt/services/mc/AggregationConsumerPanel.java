@@ -372,12 +372,14 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                 @Override
                 public void listDefinitionResponseReceived(MALMessageHeader msgHeader,
                         LongList objInstIds, Map qosProperties) {
-                    aggregationTable.refreshTableWithIdsPairs(objInstIds,
-                            serviceMCAggregation.getConnectionDetails().getDomain(),
-                            AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE);
-                    LOGGER.log(Level.INFO,
-                            "listDefinition(\"*\") returned {0} object instance identifiers",
-                            objInstIds.size());
+                    javax.swing.SwingUtilities.invokeLater(() -> {
+                        aggregationTable.refreshTableWithIdsPairs(objInstIds,
+                                serviceMCAggregation.getConnectionDetails().getDomain(),
+                                AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE);
+                        LOGGER.log(Level.INFO,
+                                "listDefinition(\"*\") returned {0} object instance identifiers",
+                                objInstIds.size());
+                    });
                 }
 
                 @Override

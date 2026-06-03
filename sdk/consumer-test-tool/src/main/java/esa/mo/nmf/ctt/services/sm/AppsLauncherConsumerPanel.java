@@ -224,17 +224,19 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                 @Override
                 public void listAppResponseReceived(MALMessageHeader msgHeader, LongList appInstIds,
                         BooleanList running, Map qosProperties) {
-                    appsTable.refreshTableWithIds(appInstIds,
-                            serviceSMAppsLauncher.getConnectionDetails().getDomain(),
-                            AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE);
+                    javax.swing.SwingUtilities.invokeLater(() -> {
+                        appsTable.refreshTableWithIds(appInstIds,
+                                serviceSMAppsLauncher.getConnectionDetails().getDomain(),
+                                AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE);
 
-                    for (int i = 0; i < appInstIds.size(); i++) {
-                        Long objId = appInstIds.get(i);
-                        outputBuffers.computeIfAbsent(objId, k -> new StringBuffer());
-                    }
+                        for (int i = 0; i < appInstIds.size(); i++) {
+                            Long objId = appInstIds.get(i);
+                            outputBuffers.computeIfAbsent(objId, k -> new StringBuffer());
+                        }
 
-                    LOGGER.log(Level.INFO, "listApp(\"*\") returned {0} object instance identifiers",
-                            appInstIds.size());
+                        LOGGER.log(Level.INFO, "listApp(\"*\") returned {0} object instance identifiers",
+                                appInstIds.size());
+                    });
                 }
 
                 @Override

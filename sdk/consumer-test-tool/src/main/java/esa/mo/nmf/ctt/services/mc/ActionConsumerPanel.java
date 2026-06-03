@@ -279,12 +279,14 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                 @Override
                 public void listDefinitionResponseReceived(MALMessageHeader msgHeader,
                         LongList definitionIds, Map qosProperties) {
-                    actionTable.refreshTableWithIdsPairs(definitionIds,
-                            serviceMCAction.getConnectionDetails().getDomain(),
-                            ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE);
-                    Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.INFO,
-                            "listDefinition(\"*\") returned {0} ids",
-                            definitionIds.size());
+                    javax.swing.SwingUtilities.invokeLater(() -> {
+                        actionTable.refreshTableWithIdsPairs(definitionIds,
+                                serviceMCAction.getConnectionDetails().getDomain(),
+                                ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE);
+                        Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.INFO,
+                                "listDefinition(\"*\") returned {0} ids",
+                                definitionIds.size());
+                    });
                 }
 
                 @Override
