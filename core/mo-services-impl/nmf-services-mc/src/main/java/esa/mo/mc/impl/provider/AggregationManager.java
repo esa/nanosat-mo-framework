@@ -427,26 +427,6 @@ public final class AggregationManager extends MCManager {
         return newParameterValueSamples;
     }
 
-    /**
-     * Returns the current aggregation value from the internal list. if the
-     * update is not periodically so adhoc or filtered, or the sampleInterval is
-     * greater or equal to the updateinterval, then this method sets the
-     * time-intervals at the returned samples.
-     *
-     * @param defIds The identity Ids.
-     * @param generationMode the mode of the generation (PERIODIC, ADHOC,
-     * FILTEREDTIMEOUT)
-     * @return the most recent values
-     */
-    public AggregationValueList getAggregationValuesList(LongList defIds, GenerationMode generationMode) {
-        AggregationValueList aValList = new AggregationValueList();
-        for (Long defId : defIds) {
-
-            aValList.add(getAggregationValue(defId, generationMode));
-        }
-
-        return aValList;
-    }
 
     /**
      * creates new samples and returns its values. no filter, no sendUnchanged
