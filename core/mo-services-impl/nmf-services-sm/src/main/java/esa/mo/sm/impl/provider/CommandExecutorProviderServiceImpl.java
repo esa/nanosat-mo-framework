@@ -48,7 +48,9 @@ import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorHelper;
 import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorServiceInfo;
 import org.ccsds.moims.mo.sm.commandexecutor.provider.CommandExecutorInheritanceSkeleton;
+import org.ccsds.moims.mo.sm.commandexecutor.provider.MonitorOutputPublisher;
 import org.ccsds.moims.mo.sm.structures.Command;
+import org.ccsds.moims.mo.sm.structures.CommandOutputType;
 
 /**
  * Command Executor service Provider.
@@ -62,6 +64,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
     private boolean initialiased = false;
     private EventProviderServiceImpl eventService;
     private ArchiveProviderServiceImpl archiveService;
+    private MonitorOutputPublisher publisher;
     private final OSValidator osValidator = new OSValidator();
     private final Map<Long, Command> cachedCommandDetails = new HashMap<>();
 
@@ -87,6 +90,20 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         }
 
         commandExecutorServiceProvider = connection.startService(CommandExecutorHelper.COMMANDEXECUTOR_SERVICE, true, this);
+
+        publisher = createMonitorOutputPublisher(
+                ConfigurationProviderSingleton.getDomain(),
+                null,
+                SessionType.LIVE,
+                ConfigurationProviderSingleton.getSourceSessionName(),
+                QoSLevel.BESTEFFORT,
+                null,
+                new UInteger(0));
+        try {
+            publisher.registerWithDefaultKeys(new PublishInteractionListener());
+        } catch (MALInteractionException ex) {
+            LOGGER.log(Level.SEVERE, "Could not register monitorOutput publisher", ex);
+        }
 
         initialiased = true;
         timestamp = System.currentTimeMillis() - timestamp;
@@ -164,53 +181,79 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         return storedCommandObject;
     }
 
-    private void commandOutputEvent(final Long objId, final String outputText,
-            final ObjectType objType) {
+    private void publishOutput(final Long commandId, final CommandOutputType outputType,
+            final String data, final Integer exitCode) {
+        // Archive the output chunk/exit event via the COM Event service (for historical queries).
         IdentifierList domain = connection.getPrimaryConnectionDetails().getDomain();
-        URI sourceURI = connection.getPrimaryConnectionDetails().getProviderURI();
-        ObjectKey source = new ObjectKey(CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE, domain, objId);
-        Element eventBody = new Union(outputText);
-        StringList eventBodyList = new StringList(1);
-        eventBodyList.add(outputText);
-        final Long eventObjId = eventService.generateAndStoreEvent(objType, domain, eventBody, null,
+        ObjectKey source = new ObjectKey(CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE, domain, commandId);
+        ObjectType archiveObjType = (outputType == CommandOutputType.STDOUT)
+                ? CommandExecutorServiceInfo.STANDARDOUTPUT_OBJECT_TYPE
+                : (outputType == CommandOutputType.STDERR)
+                ? CommandExecutorServiceInfo.STANDARDERROR_OBJECT_TYPE
+                : CommandExecutorServiceInfo.EXECUTIONFINISHED_OBJECT_TYPE;
+        Element archiveBody = (outputType == CommandOutputType.FINISHED)
+                ? new Union(exitCode) : new Union(data);
+        eventService.generateAndStoreEvent(archiveObjType, domain, archiveBody, null,
                 source, connection.getPrimaryConnectionDetails().getProviderURI(), null);
-        if (eventObjId != null) {
+
+        // Publish live notification via monitorOutput PUBSUB.
+        if (publisher != null) {
             try {
-                eventService.publishEvent(sourceURI, eventObjId, objType, null, source, eventBodyList);
-            } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, "Could not publish command output event", ex);
+                AttributeList keyValues = new AttributeList();
+                keyValues.add(new Union(commandId));
+                UpdateHeader updateHeader = new UpdateHeader(
+                        new Identifier(connection.getPrimaryConnectionDetails().getProviderURI().getValue()),
+                        connection.getPrimaryConnectionDetails().getDomain(),
+                        keyValues.getAsNullableAttributeList());
+                publisher.publish(updateHeader, outputType, data, exitCode);
+            } catch (MALException | MALInteractionException ex) {
+                LOGGER.log(Level.SEVERE, "Could not publish monitorOutput notification", ex);
             }
-        } else {
-            LOGGER.log(Level.SEVERE, "generateAndStoreEvent returned null object ID");
         }
     }
 
     private void commandExitEvent(final Long objId, final int exitCode) {
-        IdentifierList domain = connection.getPrimaryConnectionDetails().getDomain();
-        URI sourceURI = connection.getPrimaryConnectionDetails().getProviderURI();
-        ObjectKey source = new ObjectKey(CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE, domain, objId);
-        Element eventBody = new Union(exitCode);
-        final Long eventObjId = eventService.generateAndStoreEvent(
-                CommandExecutorServiceInfo.EXECUTIONFINISHED_OBJECT_TYPE,
-                domain, eventBody, null, source,
-                connection.getPrimaryConnectionDetails().getProviderURI(), null);
-        if (eventObjId != null) {
-            try {
-                eventService.publishEvent(sourceURI, eventObjId,
-                        CommandExecutorServiceInfo.EXECUTIONFINISHED_OBJECT_TYPE,
-                        null, source, eventBody);
-            } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, "Could not publish command exit event", ex);
-            }
-        } else {
-            LOGGER.log(Level.SEVERE, "generateAndStoreEvent returned null object ID");
-        }
+        publishOutput(objId, CommandOutputType.FINISHED, null, exitCode);
         try {
             Command command = getCommandDetails(objId);
             Command newDetails = new Command(command.getCommand(), command.getPid(), exitCode);
             updateCommandDetails(objId, newDetails);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "Cannot update COM Command object", ex);
+        }
+    }
+
+    public static final class PublishInteractionListener
+            implements org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener {
+
+        @Override
+        public void publishDeregisterAckReceived(
+                org.ccsds.moims.mo.mal.transport.MALMessageHeader header,
+                java.util.Map qosProperties) throws MALException {
+            LOGGER.fine("PublishInteractionListener::publishDeregisterAckReceived");
+        }
+
+        @Override
+        public void publishErrorReceived(
+                org.ccsds.moims.mo.mal.transport.MALMessageHeader header,
+                org.ccsds.moims.mo.mal.transport.MALErrorBody body,
+                java.util.Map qosProperties) throws MALException {
+            LOGGER.warning("PublishInteractionListener::publishErrorReceived");
+        }
+
+        @Override
+        public void publishRegisterAckReceived(
+                org.ccsds.moims.mo.mal.transport.MALMessageHeader header,
+                java.util.Map qosProperties) throws MALException {
+            LOGGER.fine("PublishInteractionListener::publishRegisterAckReceived");
+        }
+
+        @Override
+        public void publishRegisterErrorReceived(
+                org.ccsds.moims.mo.mal.transport.MALMessageHeader header,
+                org.ccsds.moims.mo.mal.transport.MALErrorBody body,
+                java.util.Map qosProperties) throws MALException {
+            LOGGER.warning("PublishInteractionListener::publishRegisterErrorReceived");
         }
     }
 
@@ -251,12 +294,12 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
 
         @Override
         public void flushStdout(Long objId, String data) {
-            commandOutputEvent(objId, data, CommandExecutorServiceInfo.STANDARDOUTPUT_OBJECT_TYPE);
+            publishOutput(objId, CommandOutputType.STDOUT, data, null);
         }
 
         @Override
         public void flushStderr(Long objId, String data) {
-            commandOutputEvent(objId, data, CommandExecutorServiceInfo.STANDARDERROR_OBJECT_TYPE);
+            publishOutput(objId, CommandOutputType.STDERR, data, null);
         }
 
         @Override

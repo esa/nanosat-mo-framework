@@ -265,6 +265,37 @@
                     </mal:messages>
                 </mal:requestIP>
             </mal:capabilitySet>
+            <mal:capabilitySet number="2" comment="">
+                <mal:pubsubIP name="monitorOutput" number="2" comment="The monitorOutput operation allows a consumer to subscribe to the stdout, stderr, and termination of a running command.">
+                    <mal:documentation name="Requirement" order="1">
+                        The timestamp of the NOTIFY message shall be the on-board time at which it is published.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the outputType field is STDOUT or STDERR, then the data field shall contain the corresponding output chunk and the exitCode field shall be NULL.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        If the outputType field is FINISHED, then the exitCode field shall contain the process exit code and the data field shall be NULL.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:subscriptionKeys>
+                            <mal:field name="commandId" canBeNull="false" comment="The COM id of the Command object whose output is being monitored.">
+                                <mal:type area="MAL" list="false" name="Long"/>
+                            </mal:field>
+                        </mal:subscriptionKeys>
+                        <mal:publishNotify>
+                            <mal:field name="outputType" canBeNull="false" comment="The kind of this output notification.">
+                                <mal:type area="SM" list="false" name="CommandOutputType"/>
+                            </mal:field>
+                            <mal:field name="data" canBeNull="true" comment="A chunk of stdout or stderr. NULL when outputType is FINISHED.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:field>
+                            <mal:field name="exitCode" canBeNull="true" comment="The process exit code. NULL unless outputType is FINISHED.">
+                                <mal:type area="MAL" list="false" name="Integer"/>
+                            </mal:field>
+                        </mal:publishNotify>
+                    </mal:messages>
+                </mal:pubsubIP>
+            </mal:capabilitySet>
             <com:features>
                 <com:objects comment="The Command COM object used by the Command Executor service.">
                     <com:object comment="" number="1" name="Command">
@@ -669,6 +700,11 @@
                     <mal:type area="MAL" list="false" name="String"/>
                 </mal:field>
             </mal:composite>
+            <mal:enumeration name="CommandOutputType" shortFormPart="8" comment="The CommandOutputType enumeration identifies the kind of a command output notification.">
+                <mal:item nvalue="1" value="STDOUT"   comment="A chunk of the command's standard output stream."/>
+                <mal:item nvalue="2" value="STDERR"   comment="A chunk of the command's standard error stream."/>
+                <mal:item nvalue="3" value="FINISHED" comment="The command finished executing; the exit code is provided."/>
+            </mal:enumeration>
         </mal:dataTypes>
     </mal:area>
 </mal:specification>
