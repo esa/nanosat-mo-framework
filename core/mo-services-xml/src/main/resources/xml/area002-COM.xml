@@ -827,7 +827,7 @@
                 <com:archiveUsage comment="The Login service COM archive usage."/>
             </com:features>
         </mal:service>
-        <mal:service name="Configuration" number="7" xsi:type="com:ExtendedServiceType" comment="The Configuration service allows a service consumer to activate pre-defined configurations of a provider. The service uses COM objects to represent the configurations allowed by a provider. Changes in state are distributed via the COM Event service.">
+        <mal:service name="Configuration" number="7" xsi:type="com:ExtendedServiceType" comment="The Configuration service allows a service consumer to activate pre-defined configurations of a provider. The service uses COM objects to represent the configurations allowed by a provider.">
             <mal:documentation name="Service-level Requirement" order="1">
                 The object body of the ServiceConfiguration COM object shall hold the service key that identifies the service it is a configuration of.
             </mal:documentation>
@@ -853,25 +853,10 @@
                 The service provider shall set the ConfigurationSet COM object related link to NULL.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="9">
-                If a configuration is stored, then the service provider shall raise a ConfigurationStored COM event.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
-                If the store was successful, then the ConfigurationStored COM event body shall contain the ObjectKey of the new Configuration object.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="11">
-                If the store failed, then the ConfigurationStored COM event body shall be NULL.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="12">
-                The service provider shall set the ConfigurationStored COM event source link to NULL.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="13">
                 If the implementation of the Configuration service uses a COM archive, then the provider of the Configuration service shall store configuration definition objects (ServiceConfiguration, ProviderConfiguration, ConfigurationSet) in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="14">
+            <mal:documentation name="Service-level Requirement" order="10">
                 If the implementation of the Configuration service uses a COM archive, then the provider of the relevant service shall store the COM objects that form the actual configuration definition details in the COM archive.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="15">
-                If a ConfigurationStored event is published, then the event object should be stored in the COM archive.
             </mal:documentation>
             <com:features>
                 <com:objects comment="The ConfigurationSet, ServiceConfiguration, and ProviderConfiguration COM objects used by the Configuration service.">
@@ -897,13 +882,7 @@
                         </com:relatedObject>
                     </com:object>
                 </com:objects>
-                <com:events comment="The ConfigurationStored event used by the Configuration service.">
-                    <com:event name="ConfigurationStored" number="9">
-                        <com:objectType>
-                            <mal:type area="COM" list="false" name="ObjectKey"/>
-                        </com:objectType>
-                    </com:event>
-                </com:events>
+                <com:events comment=""/>
                 <com:archiveUsage comment="The Configuration service COM archive usage."/>
             </com:features>
         </mal:service>
