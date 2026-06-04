@@ -21,7 +21,6 @@
 package esa.mo.sm.impl.provider;
 
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
-import esa.mo.com.impl.provider.EventProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.helpertools.misc.OSValidator;
@@ -62,7 +61,6 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
     private final ConnectionProvider connection = new ConnectionProvider();
     private MALProvider commandExecutorServiceProvider;
     private boolean initialiased = false;
-    private EventProviderServiceImpl eventService;
     private ArchiveProviderServiceImpl archiveService;
     private MonitorOutputPublisher publisher;
     private final OSValidator osValidator = new OSValidator();
@@ -79,10 +77,6 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         archiveService = comServices.getArchiveService();
         if (archiveService == null) {
             throw new MALException("Cannot access the COM Archive Service.");
-        }
-        eventService = comServices.getEventService();
-        if (eventService == null) {
-            throw new MALException("Cannot access the COM Event Service.");
         }
         // Shut down old service transport
         if (null != commandExecutorServiceProvider) {
@@ -183,18 +177,20 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
 
     private void publishOutput(final Long commandId, final CommandOutputType outputType,
             final String data, final Integer exitCode) {
-        // Archive the output chunk/exit event via the COM Event service (for historical queries).
+        // Archive the output chunk as a CommandOutput COM object (for historical queries).
         IdentifierList domain = connection.getPrimaryConnectionDetails().getDomain();
-        ObjectKey source = new ObjectKey(CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE, domain, commandId);
-        ObjectType archiveObjType = (outputType == CommandOutputType.STDOUT)
-                ? CommandExecutorServiceInfo.STANDARDOUTPUT_OBJECT_TYPE
-                : (outputType == CommandOutputType.STDERR)
-                ? CommandExecutorServiceInfo.STANDARDERROR_OBJECT_TYPE
-                : CommandExecutorServiceInfo.EXECUTIONFINISHED_OBJECT_TYPE;
-        Element archiveBody = (outputType == CommandOutputType.FINISHED)
-                ? new Union(exitCode) : new Union(data);
-        eventService.generateAndStoreEvent(archiveObjType, domain, archiveBody, null,
-                source, connection.getPrimaryConnectionDetails().getProviderURI(), null);
+        try {
+            org.ccsds.moims.mo.sm.structures.CommandOutput cmdOutput =
+                    new org.ccsds.moims.mo.sm.structures.CommandOutput(outputType, data, exitCode);
+            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null,
+                    connection.getPrimaryConnectionDetails().getProviderURI(), commandId);
+            HeterogeneousList objBodies = new HeterogeneousList();
+            objBodies.add(cmdOutput);
+            archiveService.store(true, CommandExecutorServiceInfo.COMMANDOUTPUT_OBJECT_TYPE,
+                    domain, archDetails, objBodies, null);
+        } catch (MALException | MALInteractionException ex) {
+            LOGGER.log(Level.SEVERE, "Could not archive CommandOutput", ex);
+        }
 
         // Publish live notification via monitorOutput PUBSUB.
         if (publisher != null) {

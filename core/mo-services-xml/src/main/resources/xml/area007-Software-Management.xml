@@ -297,7 +297,7 @@
                 </mal:pubsubIP>
             </mal:capabilitySet>
             <com:features>
-                <com:objects comment="The Command COM object used by the Command Executor service.">
+                <com:objects comment="The Command and CommandOutput COM objects used by the Command Executor service.">
                     <com:object comment="" number="1" name="Command">
                         <com:objectType>
                             <mal:type area="SM" list="false" name="Command"/>
@@ -305,36 +305,17 @@
                         <com:relatedObject comment=""/>
                         <com:sourceObject comment=""/>
                     </com:object>
+                    <com:object comment="" number="2" name="CommandOutput">
+                        <com:objectType>
+                            <mal:type area="SM" list="false" name="CommandOutput"/>
+                        </com:objectType>
+                        <com:relatedObject comment="Related link to the Command object.">
+                            <com:objectType number="1" service="CommandExecutor"/>
+                        </com:relatedObject>
+                        <com:sourceObject comment=""/>
+                    </com:object>
                 </com:objects>
-                <com:events comment="">
-                    <com:event comment="This event is produced to allow monitoring of the command stdout output. It contains a buffer of an arbitrary size with a chunk of stdout output." name="StandardOutput" number="2">
-                        <com:objectType>
-                            <mal:type area="MAL" list="false" name="String"/>
-                        </com:objectType>
-                        <com:relatedObject comment=""/>
-                        <com:sourceObject comment="">
-                            <com:objectType area="SM" number="1" service="CommandExecutor"/>
-                        </com:sourceObject>
-                    </com:event>
-                    <com:event comment="This event is produced to allow monitoring of the command stderr output. It contains a buffer of an arbitrary size with a chunk of stderr output." name="StandardError" number="3">
-                        <com:objectType>
-                            <mal:type area="MAL" list="false" name="String"/>
-                        </com:objectType>
-                        <com:relatedObject comment=""/>
-                        <com:sourceObject comment="">
-                            <com:objectType area="SM" number="1" service="CommandExecutor"/>
-                        </com:sourceObject>
-                    </com:event>
-                    <com:event comment="This event is produced to indicate that the command has finished its execution. Contains an exit code." name="ExecutionFinished" number="4">
-                        <com:objectType>
-                            <mal:type area="MAL" list="false" name="Integer"/>
-                        </com:objectType>
-                        <com:relatedObject comment=""/>
-                        <com:sourceObject comment="">
-                            <com:objectType area="SM" number="1" service="CommandExecutor"/>
-                        </com:sourceObject>
-                    </com:event>
-                </com:events>
+                <com:events comment=""/>
             </com:features>
         </mal:service>
         <mal:service name="AppsLauncher" number="5" xsi:type="com:ExtendedServiceType" comment="The Apps Launcher service provides the ability to monitor the execution, run, stop, kill and list applications software on-board of a spacecraft. The apps can be organized in categories.&#10;The service is independent from any particular Operating System or platform.">
@@ -669,7 +650,21 @@
                     <mal:type area="MAL" list="false" name="Integer"/>
                 </mal:field>
             </mal:composite>
-            <mal:enumeration name="AppEventType" shortFormPart="5" comment="The AppEventType enumeration identifies the lifecycle event of an NMF app.">
+            <mal:composite name="CommandOutput" shortFormPart="5" comment="The body of a CommandOutput COM object, stored in the archive when command output is captured.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="outputType" canBeNull="false" comment="The kind of this output.">
+                    <mal:type area="SM" list="false" name="CommandOutputType"/>
+                </mal:field>
+                <mal:field name="data" canBeNull="true" comment="A chunk of stdout or stderr. NULL when outputType is FINISHED.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="exitCode" canBeNull="true" comment="The process exit code. NULL unless outputType is FINISHED.">
+                    <mal:type area="MAL" list="false" name="Integer"/>
+                </mal:field>
+            </mal:composite>
+            <mal:enumeration name="AppEventType" shortFormPart="6" comment="The AppEventType enumeration identifies the lifecycle event of an NMF app.">
                 <mal:item nvalue="1" value="START_REQUESTED" comment="A request to start the app was received."/>
                 <mal:item nvalue="2" value="STARTED"         comment="The app process started running."/>
                 <mal:item nvalue="3" value="STOP_REQUESTED"  comment="A request to stop the app gracefully was received."/>
@@ -678,7 +673,7 @@
                 <mal:item nvalue="6" value="EXITED"          comment="The app terminated on its own with exit code 0."/>
                 <mal:item nvalue="7" value="CRASHED"         comment="The app terminated on its own with a non-zero exit code."/>
             </mal:enumeration>
-            <mal:composite name="AppStarted" shortFormPart="6" comment="The body of an AppStarted COM object, stored in the archive when an app process is successfully spawned.">
+            <mal:composite name="AppStarted" shortFormPart="7" comment="The body of an AppStarted COM object, stored in the archive when an app process is successfully spawned.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
@@ -686,7 +681,7 @@
                     <mal:type area="MAL" list="false" name="URI"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="AppStopped" shortFormPart="7" comment="The body of an AppStopped COM object, stored in the archive when an app process exits for any reason.">
+            <mal:composite name="AppStopped" shortFormPart="8" comment="The body of an AppStopped COM object, stored in the archive when an app process exits for any reason.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
@@ -700,7 +695,7 @@
                     <mal:type area="MAL" list="false" name="String"/>
                 </mal:field>
             </mal:composite>
-            <mal:enumeration name="CommandOutputType" shortFormPart="8" comment="The CommandOutputType enumeration identifies the kind of a command output notification.">
+            <mal:enumeration name="CommandOutputType" shortFormPart="9" comment="The CommandOutputType enumeration identifies the kind of a command output notification.">
                 <mal:item nvalue="1" value="STDOUT"   comment="A chunk of the command's standard output stream."/>
                 <mal:item nvalue="2" value="STDERR"   comment="A chunk of the command's standard error stream."/>
                 <mal:item nvalue="3" value="FINISHED" comment="The command finished executing; the exit code is provided."/>

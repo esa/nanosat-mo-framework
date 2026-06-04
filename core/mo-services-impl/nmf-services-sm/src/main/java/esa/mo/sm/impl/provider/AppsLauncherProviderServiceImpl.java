@@ -57,7 +57,6 @@ import org.ccsds.moims.mo.sm.appslauncher.provider.AppsLauncherInheritanceSkelet
 import org.ccsds.moims.mo.sm.appslauncher.provider.MonitorEventsPublisher;
 import org.ccsds.moims.mo.sm.appslauncher.provider.MonitorExecutionPublisher;
 import org.ccsds.moims.mo.sm.appslauncher.provider.StopAppInteraction;
-import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorServiceInfo;
 import org.ccsds.moims.mo.sm.structures.AppDetails;
 import org.ccsds.moims.mo.sm.structures.AppEventType;
 import org.ccsds.moims.mo.sm.structures.AppStarted;
@@ -217,8 +216,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
     }
 
-    private void publishExecutionMonitoring(final Long appObjId,
-            final String outputText, ObjectType objType) {
+    private void publishExecutionMonitoring(final Long appObjId, final String outputText) {
         try {
             synchronized (lock) {
                 if (!isRegistered) {
@@ -243,7 +241,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             URI sourceURI = connection.getConnectionDetails().getProviderURI();
             UpdateHeader updateHeader = new UpdateHeader(new Identifier(sourceURI.getValue()),
                     connection.getConnectionDetails().getDomain(), keyValues.getAsNullableAttributeList());
-            EventProviderServiceImpl eventService = this.comServices.getEventService();
 
             int length = outputText.length();
             for (int i = 0; i < length; i += MAX_SEGMENT_SIZE) {
@@ -256,26 +253,14 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                 if (storeInArchive) {
                     // Store in COM archive if the option is enabled and below limit
                     int currentStd = stdQuota.retrieve(appObjId);
-                    IdentifierList domain = connection.getPrimaryConnectionDetails().getDomain();
 
                     if (currentStd + segment.length() <= stdLimit) {
                         Element eventBody = new Union(segment);
                         stdQuota.increase(appObjId, segment.length());
-                        ObjectKey source = new ObjectKey(AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE,
-                                domain, appObjId);
-                        eventService.generateAndStoreEvent(
-                                objType,
-                                domain, eventBody, appObjId, source, null);
                     } else {
                         String errorString
                                 = "Your logging is too verbose and reached the limit.\nPlease reduce verbosity.";
-                        Element eventBody = new Union(errorString);
                         outputList = outputList + errorString;
-                        ObjectKey source = new ObjectKey(AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE,
-                                domain, appObjId);
-                        eventService.generateAndStoreEvent(
-                                objType,
-                                domain, eventBody, appObjId, source, null);
                     }
                 }
             }
@@ -288,8 +273,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
 
     @Override
-    public void runApp(LongList appInstIds, MALInteraction interaction)
-            throws MALInteractionException, MALException {
+    public void runApp(LongList appInstIds, MALInteraction interaction) throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -339,12 +323,13 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         for (int i = 0; i < appInstIds.size(); i++) {
             try {
                 SingleConnectionDetails details;
+                ConnectionProvider con = directoryService.getConnection();
 
-                if (directoryService.getConnection().getSecondaryConnectionDetails() != null) {
+                if (con.getSecondaryConnectionDetails() != null) {
                     // For applications in space, the primary URI is MALSPP, and secondary a MALTCP
-                    details = directoryService.getConnection().getSecondaryConnectionDetails();
+                    details = con.getSecondaryConnectionDetails();
                 } else {
-                    details = directoryService.getConnection().getConnectionDetails();
+                    details = con.getConnectionDetails();
                 }
                 String directoryServiceURI = details.getProviderURI().toString();
                 Long appId = appInstIds.get(i);
@@ -538,8 +523,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
 
     @Override
-    public void setOnConfigurationChangeListener(
-            final ConfigurationChangeListener configurationAdapter) {
+    public void setOnConfigurationChangeListener(final ConfigurationChangeListener configurationAdapter) {
         this.configurationAdapter = configurationAdapter;
     }
 
@@ -658,18 +642,17 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         @Override
         public void flushStdout(Long objId, String data) {
-            publishExecutionMonitoring(objId, data, CommandExecutorServiceInfo.STANDARDOUTPUT_OBJECT_TYPE);
+            publishExecutionMonitoring(objId, data);
         }
 
         @Override
         public void flushStderr(Long objId, String data) {
-            publishExecutionMonitoring(objId, data, CommandExecutorServiceInfo.STANDARDERROR_OBJECT_TYPE);
+            publishExecutionMonitoring(objId, data);
         }
 
         @Override
         public void processStopped(Long objId, int exitCode) {
-            LOGGER.log(Level.INFO,
-                    "The process exited with code {0} and objId: {1}",
+            LOGGER.log(Level.INFO, "The process exited with code {0} and objId: {1}",
                     new Object[]{exitCode, objId});
             String appName = manager.get(objId).getName().toString();
             AppEventType stopReason;

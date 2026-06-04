@@ -83,8 +83,7 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
         this.addTimestamps = addTimestamps;
         this.logFilePath = logFilePath;
 
-        objectTypes.put(CommandExecutorServiceInfo.STANDARDOUTPUT_OBJECT_TYPE, null);
-        objectTypes.put(CommandExecutorServiceInfo.STANDARDERROR_OBJECT_TYPE, null);
+        objectTypes.put(CommandExecutorServiceInfo.COMMANDOUTPUT_OBJECT_TYPE, null);
     }
 
     /**

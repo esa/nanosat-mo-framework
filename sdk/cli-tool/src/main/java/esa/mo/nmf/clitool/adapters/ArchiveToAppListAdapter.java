@@ -54,14 +54,9 @@ public class ArchiveToAppListAdapter extends ArchiveAdapter implements QueryStat
     private boolean isQueryOver = false;
 
     /**
-     * SoftwareManagement.CommandExecutor.StandardOutput object type
+     * SoftwareManagement.CommandExecutor.CommandOutput object type
      */
-    private ObjectType stdOutputType = CommandExecutorServiceInfo.STANDARDOUTPUT_OBJECT_TYPE;
-
-    /**
-     * SoftwareManagement.CommandExecutor.StandardError object type
-     */
-    private ObjectType stdErrorType = CommandExecutorServiceInfo.STANDARDERROR_OBJECT_TYPE;
+    private ObjectType cmdOutputType = CommandExecutorServiceInfo.COMMANDOUTPUT_OBJECT_TYPE;
 
     /**
      * List of App instance ids that are the source of logs object
@@ -97,8 +92,8 @@ public class ArchiveToAppListAdapter extends ArchiveAdapter implements QueryStat
             return;
         }
 
-        // we got StandardOutput or StandardError events
-        if (comType.equals(stdOutputType) || comType.equals(stdErrorType)) {
+        // we got CommandOutput objects
+        if (comType.equals(cmdOutputType)) {
             for (ArchiveDetails archiveDetails : archiveObjectOutput.getArchiveDetailsList()) {
                 ObjectLinks objectLinks = archiveDetails.getLinks();
                 ObjectKey source = objectLinks == null ? null : objectLinks.getSource();
