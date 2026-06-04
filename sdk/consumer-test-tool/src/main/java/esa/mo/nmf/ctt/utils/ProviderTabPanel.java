@@ -25,7 +25,6 @@ import esa.mo.helpertools.clock.PlatformClockCallback;
 import esa.mo.helpertools.clock.SystemClock;
 import esa.mo.mc.impl.util.MCServicesConsumer;
 import esa.mo.nmf.ctt.services.com.ArchiveConsumerManagerPanel;
-import esa.mo.nmf.ctt.services.com.EventConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.ActionConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.AggregationConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.AlertConsumerPanel;
@@ -165,11 +164,6 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                 serviceTabs.insertTab("ArchiveSync service", null, panel, "ArchiveSync Tab", count);
             }
              */
-            if (com.getEventService() != null) {
-                EventConsumerPanel panel = new EventConsumerPanel(com.getEventService(), com.getArchiveService());
-                insertServiceTab("Event service", panel, "Event Tab");
-                panel.init();
-            }
         }
 
         // MC

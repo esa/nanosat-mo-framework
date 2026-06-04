@@ -19,75 +19,7 @@
         </mal:documentation>
         <mal:documentation name="Area-level Requirement" order="6">If the MAL data type specification is being used, then the body of an object shall not be a list.
         </mal:documentation>
-        <mal:service name="Event" number="1" xsi:type="com:ExtendedServiceType" comment="The Event service provides a generic mechanism for the publication and subscription of events generated within the system. An event is a special type of COM object representing something that happens in the system at a given point in time.">
-            <mal:documentation name="Service-level Requirement" order="1">The event service may be used for the publishing and monitoring of COM events.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="2">The identification of the event shall follow the COM object rules.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="3">The COM object source link shall point to the object that caused the event to be generated unless stated otherwise by the defining service specification.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="4">The COM object related link shall be service and event type specific.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="5">If an event is published using the monitorEvent operation, then the service provider shall publish it with a MAL update type of DELETED.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="6">If an event is published, then the publisher shall populate the COM object id.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="7">The id should be unique for a domain and object type.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="8">An event may have an associated body that is published with it.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">The defining service specification shall specify the type and contents of the body of an event.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">Each type of event is a separate COM object type and therefore may be stored in a COM archive.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="11">If a service implementation requires that the events it generates be persisted, then the service implementation shall store each event upon emission.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="12">The related link is service specific and shall always be NULL if not explicitly used by a service.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="13">The source link shall point to the source object of the event.
-            </mal:documentation>
-            <mal:capabilitySet number="1" comment="">
-                <mal:pubsubIP name="monitorEvent" number="1" comment="The monitorEvent operation allows a consumer to subscribe for events.">
-                    <mal:documentation name="Requirement" order="1">The areaServiceVersion subscription key shall contain the area, service, and version ObjectType fields as a MAL::Long populated as (in hex) 0xAAAASSSSVVXXXXXX where AAAA is the area (16 bits), SSSS is the service (16 bits), VV is the version (8 bits), and XXXXXX is unused and set to zero (24 bits). For example, for an area of '1', and a service of '2', and a version of '3' the field would contain (in hex) 0x0001000203000000.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">The sourceObjectType subscription key shall contain the area, service, version and number fields of the event source ObjectType using the same methodology as given for the areaServiceVersion key but replacing the XXXXXX part with the number field.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">The service provider shall populate the Event timestamp from the PUBLISH message timestamp.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">The domain of the event may differ from the domain of the event source.
-                    </mal:documentation>
-                    <mal:messages>
-                        <mal:subscriptionKeys>
-                            <mal:field name="eventObjectNumber" canBeNull="false" comment="The event object number.">
-                                <mal:type area="MAL" list="false" name="Long"/>
-                            </mal:field>
-                            <mal:field name="areaServiceVersion" canBeNull="false" comment="The area, service and version fields of the event object type.">
-                                <mal:type area="MAL" list="false" name="Long"/>
-                            </mal:field>
-                            <mal:field name="sourceObjectType" canBeNull="false" comment="The area, service, version and number fields of the event source object type.">
-                                <mal:type area="MAL" list="false" name="Long"/>
-                            </mal:field>
-                        </mal:subscriptionKeys>
-                        <mal:publishNotify>
-                            <mal:field name="eventLinks" canBeNull="true" comment="The object links of the event.">
-                                <mal:type area="COM" list="false" name="ObjectLinks"/>
-                            </mal:field>
-                            <mal:field name="eventId" canBeNull="false" comment="The id of the event.">
-                                <mal:type area="MAL" list="false" name="Long"/>
-                            </mal:field>
-                            <mal:field name="eventBody" canBeNull="true" comment="The body of the event.">
-                                <mal:type area="MAL" list="false" name="Element"/>
-                            </mal:field>
-                        </mal:publishNotify>
-                    </mal:messages>
-                </mal:pubsubIP>
-            </mal:capabilitySet>
-            <com:features>
-                <com:objects comment="The COM Event object type."/>
-                <com:archiveUsage comment="The events may be persisted in a COM archive."/>
-            </com:features>
-        </mal:service>
-        <mal:service name="Archive" number="2" xsi:type="com:ExtendedServiceType" comment="The Archive service provides a basic CRUD interface to a standard archiving function. It allows objects to be stored, retrieved, updated, deleted, and queried.">
+        <mal:service name="Archive" number="1" xsi:type="com:ExtendedServiceType" comment="The Archive service provides a basic CRUD interface to a standard archiving function. It allows objects to be stored, retrieved, updated, deleted, and queried.">
             <mal:capabilitySet number="1" comment="">
                 <mal:invokeIP name="retrieve" number="1" comment="The retrieve operation retrieves a set of objects identified by their id.">
                     <mal:documentation name="Requirement" order="1">
@@ -430,7 +362,7 @@
                 </mal:requestIP>
             </mal:capabilitySet>
         </mal:service>
-        <mal:service name="ArchiveSync" number="4" xsi:type="com:ExtendedServiceType" comment="The ArchiveSync service allows a service consumer to synchronize the COM Archive with a service provider.">
+        <mal:service name="ArchiveSync" number="2" xsi:type="com:ExtendedServiceType" comment="The ArchiveSync service allows a service consumer to synchronize the COM Archive with a service provider.">
             <mal:capabilitySet number="1" comment="">
                 <mal:requestIP name="getTime" number="1" comment="The getTime operation allows a consumer to retrieve the current time and the time of the last synchronization from the provider.">
                     <mal:messages>
@@ -555,7 +487,7 @@
                 </com:objects>
             </com:features>
         </mal:service>
-        <mal:service name="Directory" number="5" xsi:type="com:ExtendedServiceType"
+        <mal:service name="Directory" number="3" xsi:type="com:ExtendedServiceType"
                      comment="The Directory service allows providers to publish information about which services they provide and consumers to discover provider address and capability information.&#xA;Service provider information is made available using the Directory service add operation and removed using the remove operation.&#xA;The lookup operation provides the ability for consumers to query the directory service based on a filter such as required service capability.&#xA;Finally, a provider may supply its set of service specification XML files when publishing its capabilities. This allows consumers that are able to process MO service XML files obtain the files for further processing. It is expected that this would be used to either ensure that no modifications have been made by a provider to a standard service or, in the case of a consumer that is able to dynamically interact with new service specifications, obtain the service specification to allow interaction with that new service.">
             <mal:documentation name="Service-level Requirement" order="1">The directory service shall provide the capability to:
 &lt;ol&gt;
@@ -760,7 +692,7 @@
                 <com:archiveUsage comment="The Directory service COM archive usage."/>
             </com:features>
         </mal:service>
-        <mal:service name="Login" number="6" xsi:type="com:ExtendedServiceType" comment="The Login service defines the primary mechanism for the submission of authentication credentials to a deployment-specific security system. It supports operations to allow a user to log in and log out. The returned authentication identifiers are used in the MAL message header to authenticate and authorise messages via Access Control.">
+        <mal:service name="Login" number="4" xsi:type="com:ExtendedServiceType" comment="The Login service defines the primary mechanism for the submission of authentication credentials to a deployment-specific security system. It supports operations to allow a user to log in and log out. The returned authentication identifiers are used in the MAL message header to authenticate and authorise messages via Access Control.">
             <mal:documentation name="Service-level Requirement" order="1">The login service shall provide the capability:
 &lt;ol&gt;
  &lt;li&gt;log in;&lt;/li&gt;
@@ -827,7 +759,7 @@
                 <com:archiveUsage comment="The Login service COM archive usage."/>
             </com:features>
         </mal:service>
-        <mal:service name="Configuration" number="7" xsi:type="com:ExtendedServiceType" comment="The Configuration service allows a service consumer to activate pre-defined configurations of a provider. The service uses COM objects to represent the configurations allowed by a provider.">
+        <mal:service name="Configuration" number="5" xsi:type="com:ExtendedServiceType" comment="The Configuration service allows a service consumer to activate pre-defined configurations of a provider. The service uses COM objects to represent the configurations allowed by a provider.">
             <mal:documentation name="Service-level Requirement" order="1">
                 The object body of the ServiceConfiguration COM object shall hold the service key that identifies the service it is a configuration of.
             </mal:documentation>

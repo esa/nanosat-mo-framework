@@ -21,14 +21,12 @@
 package esa.mo.nmf.ctt.utils;
 
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
-import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.AggregationConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.AlertConsumerServiceImpl;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.nmf.ctt.services.com.ArchiveConsumerManagerPanel;
-import esa.mo.nmf.ctt.services.com.EventConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.ActionConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.AggregationConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.AlertConsumerPanel;
@@ -41,7 +39,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import org.ccsds.moims.mo.com.archive.ArchiveServiceInfo;
-import org.ccsds.moims.mo.com.event.EventServiceInfo;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
@@ -390,16 +387,6 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         });
         servicesPanel.add(find_replace);
 
-        checkBoxEvent.setSelected(true);
-        checkBoxEvent.setText("Event Service");
-        checkBoxEvent.setPreferredSize(new java.awt.Dimension(160, 23));
-        checkBoxEvent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkBoxEventActionPerformed(evt);
-            }
-        });
-        servicesPanel.add(checkBoxEvent);
-
         checkBoxArchive.setSelected(true);
         checkBoxArchive.setText("Archive Service");
         checkBoxArchive.setPreferredSize(new java.awt.Dimension(160, 23));
@@ -539,26 +526,8 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
             }
         }
 
-        EventConsumerServiceImpl eventService = null;
-        if (checkBoxEvent.isSelected()) {
-            try {
-                details = connectionConsumer.getServicesDetails().get(EventServiceInfo.EVENT_SERVICE_NAME);
-                eventService = new EventConsumerServiceImpl(details);
-                this.tabs.insertTab("Event service", null, new EventConsumerPanel(eventService, archiveService), "Event Tab", tabs.getTabCount());
-            } catch (MALInteractionException ex) {
-                errorConnectionProvider("Event");
-                return;
-            } catch (MALException ex) {
-                errorConnectionProvider("Event");
-                return;
-            } catch (MalformedURLException ex) {
-                errorConnectionProvider("Event");
-                return;
-            }
-        }
-
         COMServicesConsumer comServices = new COMServicesConsumer();
-        comServices.setServices(eventService, archiveService);
+        comServices.setServices(archiveService);
 
         ParameterConsumerServiceImpl parameterService = null;
 
@@ -849,12 +818,6 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         SingleConnectionDetails details;
 
         // COM services
-        details = connectionConsumer.getServicesDetails().get(EventServiceInfo.EVENT_SERVICE_NAME);
-        if (details != null) {
-            this.connectionConsumer.getServicesDetails().get(EventServiceInfo.EVENT_SERVICE_NAME).setProviderURI(uriServiceEvent.getText());
-            this.connectionConsumer.getServicesDetails().get(EventServiceInfo.EVENT_SERVICE_NAME).setBrokerURI(uriBrokerEvent.getText());
-        }
-
         details = connectionConsumer.getServicesDetails().get(ArchiveServiceInfo.ARCHIVE_SERVICE_NAME);
         if (details != null) {
             this.connectionConsumer.getServicesDetails().get(ArchiveServiceInfo.ARCHIVE_SERVICE_NAME).setProviderURI(uriServiceArchive.getText());
@@ -904,12 +867,6 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         SingleConnectionDetails details;
 
         // COM services
-        details = connectionConsumer.getServicesDetails().get(EventServiceInfo.EVENT_SERVICE_NAME);
-        if (details != null) {
-            this.uriServiceEvent.setText(details.getProviderURI().toString());
-            this.uriBrokerEvent.setText(details.getBrokerURI().toString());
-        }
-
         details = connectionConsumer.getServicesDetails().get(ArchiveServiceInfo.ARCHIVE_SERVICE_NAME);
         if (details != null) {
             this.uriServiceArchive.setText(details.getProviderURI().toString());

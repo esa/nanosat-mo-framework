@@ -21,7 +21,6 @@
 package esa.mo.sm.impl.provider;
 
 import esa.mo.com.impl.provider.DirectoryProviderServiceImpl;
-import esa.mo.com.impl.provider.EventProviderServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.Quota;

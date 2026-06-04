@@ -21,7 +21,6 @@
 package esa.mo.com.impl.util;
 
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
-import esa.mo.com.impl.provider.EventProviderServiceImpl;
 import java.util.HashMap;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.ElementList;
@@ -37,7 +36,6 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 public abstract class DefinitionsManager {
 
     private final HashMap<Long, Element> defs;
-    private final EventProviderServiceImpl eventService;
     private final ArchiveProviderServiceImpl archiveService;
     private final COMServicesProvider comServices;
 
@@ -45,18 +43,12 @@ public abstract class DefinitionsManager {
         this.defs = new HashMap<>();
 
         if (comServices != null) {
-            this.eventService = comServices.getEventService();
             this.archiveService = comServices.getArchiveService();
             this.comServices = comServices;
         } else {
-            this.eventService = null;
             this.archiveService = null;
             this.comServices = null;
         }
-    }
-
-    public EventProviderServiceImpl getEventService() {
-        return this.eventService;
     }
 
     public ArchiveProviderServiceImpl getArchiveService() {

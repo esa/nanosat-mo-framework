@@ -23,7 +23,6 @@ package esa.mo.com.impl.util;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.com.impl.provider.ArchiveSyncProviderServiceImpl;
 import esa.mo.com.impl.provider.DirectoryProviderServiceImpl;
-import esa.mo.com.impl.provider.EventProviderServiceImpl;
 import org.ccsds.moims.mo.mal.MALException;
 
 /**
@@ -33,7 +32,6 @@ import org.ccsds.moims.mo.mal.MALException;
 public class COMServicesProvider {
 
     private ArchiveProviderServiceImpl archiveService;
-    private EventProviderServiceImpl eventService;
     private ArchiveSyncProviderServiceImpl archiveSyncService;
     private final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
 
@@ -45,22 +43,10 @@ public class COMServicesProvider {
     public void init() throws MALException {
         // Initialize the Archive service
         archiveService = new ArchiveProviderServiceImpl();
-        archiveService.init(null);
-
-        eventService = new EventProviderServiceImpl();
-
-        // Initialize the Event service (without an Archive)
-        eventService.init(archiveService);
-
-        // Set the Archive service in the Event service
-        eventService.setArchiveService(archiveService);
+        archiveService.init();
 
         // Initialize the Directory service
         directoryService.init(this);
-    }
-
-    public EventProviderServiceImpl getEventService() {
-        return this.eventService;
     }
 
     public ArchiveProviderServiceImpl getArchiveService() {
@@ -81,15 +67,6 @@ public class COMServicesProvider {
     }
 
     /**
-     * Sets the Event service provider
-     *
-     * @param eventService Event service provider
-     */
-    public void setEventService(EventProviderServiceImpl eventService) {
-        this.eventService = eventService;
-    }
-
-    /**
      * Sets the Archive service provider
      *
      * @param archiveService Archive service provider
@@ -100,6 +77,5 @@ public class COMServicesProvider {
 
     public void closeAll() {
         this.archiveService.close();
-        this.eventService.close();
     }
 }

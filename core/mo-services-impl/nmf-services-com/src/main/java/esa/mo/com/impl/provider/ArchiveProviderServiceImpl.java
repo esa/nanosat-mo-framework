@@ -66,7 +66,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     /**
      * @throws MALException On initialization error.
      */
-    public synchronized void init(EventProviderServiceImpl eventService) throws MALException {
+    public synchronized void init() throws MALException {
         long timestamp = System.currentTimeMillis();
 
         manager.init();

@@ -23,7 +23,6 @@ package esa.mo.com.impl.util;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.consumer.ArchiveSyncConsumerServiceImpl;
 import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
-import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.consumer.LoginConsumerServiceImpl;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
@@ -31,7 +30,6 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.ArchiveServiceInfo;
 import org.ccsds.moims.mo.com.archivesync.ArchiveSyncServiceInfo;
 import org.ccsds.moims.mo.com.directory.DirectoryServiceInfo;
-import org.ccsds.moims.mo.com.event.EventServiceInfo;
 import org.ccsds.moims.mo.com.login.LoginServiceInfo;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -45,7 +43,6 @@ import org.ccsds.moims.mo.mal.structures.Blob;
  */
 public class COMServicesConsumer {
 
-    private EventConsumerServiceImpl eventService;
     private ArchiveConsumerServiceImpl archiveService;
     private ArchiveSyncConsumerServiceImpl archiveSyncService;
     private DirectoryConsumerServiceImpl directoryService;
@@ -80,12 +77,6 @@ public class COMServicesConsumer {
                 archiveService = new ArchiveConsumerServiceImpl(details, authenticationId, localNamePrefix);
             }
 
-            // Initialize the Event service
-            details = connectionConsumer.getServicesDetails().get(EventServiceInfo.EVENT_SERVICE_NAME);
-            if (details != null) {
-                eventService = new EventConsumerServiceImpl(details, authenticationId, localNamePrefix);
-            }
-
             // Initialize the ArchiveSync service
             details = connectionConsumer.getServicesDetails().get(ArchiveSyncServiceInfo.ARCHIVESYNC_SERVICE_NAME);
             if (details != null) {
@@ -109,10 +100,6 @@ public class COMServicesConsumer {
         }
     }
 
-    public EventConsumerServiceImpl getEventService() {
-        return this.eventService;
-    }
-
     public ArchiveConsumerServiceImpl getArchiveService() {
         return this.archiveService;
     }
@@ -130,13 +117,11 @@ public class COMServicesConsumer {
     }
 
     /**
-     * Sets manually all the COM consumer services
+     * Sets manually the Archive consumer service
      *
-     * @param eventService Event service consumer
      * @param archiveService Archive service consumer
      */
-    public void setServices(EventConsumerServiceImpl eventService, ArchiveConsumerServiceImpl archiveService) {
-        this.eventService = eventService;
+    public void setServices(ArchiveConsumerServiceImpl archiveService) {
         this.archiveService = archiveService;
     }
 
@@ -153,10 +138,6 @@ public class COMServicesConsumer {
      *
      */
     public void closeConnections() {
-        if (this.eventService != null) {
-            this.eventService.closeConnection();
-        }
-
         if (this.archiveService != null) {
             this.archiveService.closeConnection();
         }
@@ -175,10 +156,6 @@ public class COMServicesConsumer {
     }
 
     public void setAuthenticationId(Blob authenticationId) {
-        if (this.eventService != null) {
-            this.eventService.setAuthenticationId(authenticationId);
-        }
-
         if (this.archiveService != null) {
             this.archiveService.setAuthenticationId(authenticationId);
         }

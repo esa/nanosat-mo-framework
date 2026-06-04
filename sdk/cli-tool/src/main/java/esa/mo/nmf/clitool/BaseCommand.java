@@ -80,7 +80,7 @@ public abstract class BaseCommand {
 
         localArchiveProvider = new ArchiveProviderServiceImpl();
         try {
-            localArchiveProvider.init(null);
+            localArchiveProvider.init();
             LOGGER.log(Level.INFO, String.format("ArchiveProvider initialized at %s with file %s",
                     localArchiveProvider.getConnection().getConnectionDetails().getProviderURI(), databaseFile));
         } catch (MALException e) {
