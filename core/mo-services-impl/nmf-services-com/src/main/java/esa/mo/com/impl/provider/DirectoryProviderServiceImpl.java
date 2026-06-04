@@ -242,7 +242,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
             // It passed all the tests!
             outputList.add(new Provider(keys.get(i),
-                    provider.getProviderName(), provider.getDomain(), outCap, provider.getProviderAddresses()));
+                    provider.getProviderName(), provider.getDomain(), outCap,
+                    provider.getProviderAddresses(), provider.getProviderType()));
         }
 
         // Errors
@@ -378,7 +379,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 new Identifier(providerName),
                 ConfigurationProviderSingleton.getDomain(),
                 capabilities,
-                new AddressDetailsList());
+                new AddressDetailsList(),
+                null);
 
         try {
             this.add(newProviderDetails, null);
@@ -388,6 +390,14 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         }
 
         return null;
+    }
+
+    public Provider loadURIs(final String providerName, final NMFProviderType providerType) {
+        Provider provider = loadURIs(providerName);
+        if (provider != null) {
+            provider.setProviderType(providerType);
+        }
+        return provider;
     }
 
     @Override

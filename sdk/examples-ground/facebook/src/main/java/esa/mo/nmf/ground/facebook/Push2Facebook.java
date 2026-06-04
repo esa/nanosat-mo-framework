@@ -46,7 +46,6 @@ import org.ccsds.moims.mo.mal.structures.URI;
 public class Push2Facebook {
 
     private static final Logger LOGGER = Logger.getLogger(Push2Facebook.class.getName());
-    private static final String APP_PREFIX = "App: ";
     private static final String TOKEN_FILENAME = "token.properties";
     private final String ACCESS_TOKEN;
 
@@ -100,7 +99,7 @@ public class Push2Facebook {
         GroundMOAdapterImpl gma = null;
         if (!providers.isEmpty()) {
             for (Provider provider : providers) {
-                if (provider.getProviderName().toString().equals(APP_PREFIX + providerName)) {
+                if (provider.getProviderName().toString().equals(providerName)) {
                     gma = new GroundMOAdapterImpl(provider);
                     gma.addDataReceivedListener(new DataReceivedAdapter());
                     break;

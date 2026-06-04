@@ -35,7 +35,6 @@ import esa.mo.nmf.OneInstanceLock;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
 import esa.mo.sm.impl.provider.AppsLauncherManager;
-import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -98,7 +97,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             LOGGER.log(Level.SEVERE, "The NMF App name could not be established.");
         }
 
-        this.providerName = AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME + appName;
+        this.providerName = appName;
         OneInstanceLock lock = new OneInstanceLock();
 
         // Configure the property to select the database file in the right directory
@@ -174,7 +173,8 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                             AppsLauncherManager.getSingleConnectionDetailsFromProviderList(appsLauncherProviderList);
                     supervisorAppsLauncher = new AppsLauncherConsumerServiceImpl(alConnection, null);
                     shutdownSubscription = ConnectionConsumer.subscriptionWildcardRandom();
-                    final String myName = this.providerName;
+                    // The monitorEvents notification carries the app name (e.g. "all-mc-services").
+                    final String bareAppName = appName;
                     final NanoSatMOConnectorImpl connector = this;
                     supervisorAppsLauncher.getAppsLauncherStub().monitorEventsRegister(
                             shutdownSubscription,
@@ -188,14 +188,22 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                                     if (keyValues == null || keyValues.isEmpty()) {
                                         return;
                                     }
-                                    Identifier appName = (Identifier) keyValues.get(0).getValue();
+                                    Identifier receivedAppName = (Identifier) keyValues.get(0).getValue();
+                                    LOGGER.log(Level.FINE,
+                                            "monitorEvents NOTIFY received: eventType={0}, app={1} (listening for ''{2}'')",
+                                            new Object[]{eventType, receivedAppName.getValue(), bareAppName});
                                     if (AppEventType.STOP_REQUESTED == eventType
-                                            && myName.equals(appName.getValue())) {
+                                            && bareAppName.equals(receivedAppName.getValue())) {
+                                        LOGGER.log(Level.INFO,
+                                                "STOP_REQUESTED received for this app (''{0}''). Initiating graceful shutdown.",
+                                                bareAppName);
                                         connector.closeGracefully(null);
                                     }
                                 }
                             });
-                    LOGGER.log(Level.INFO, "Subscribed to monitorEvents on Supervisor AppsLauncher for shutdown notifications.");
+                    LOGGER.log(Level.INFO,
+                            "Subscribed to monitorEvents on Supervisor AppsLauncher for shutdown notifications (listening for app=''{0}'').",
+                            bareAppName);
                 } catch (IOException | MALException | MALInteractionException ex) {
                     LOGGER.log(Level.SEVERE,
                             "Could not subscribe to monitorEvents on Supervisor AppsLauncher service.", ex);
@@ -254,7 +262,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
         // Populate the local Directory service with the entries from the URIs File
         LOGGER.log(Level.INFO, "Populating local Directory service...");
-        Provider publishDetails = directoryService.loadURIs(this.providerName);
+        Provider publishDetails = directoryService.loadURIs(this.providerName, NMFProviderType.APP);
 
         // Populate the provider list of services in the Central Directory service
         if (centralDirectoryURI != null) {
@@ -338,9 +346,12 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             AppShutdownGuard.start();
             long time = System.currentTimeMillis();
 
+            LOGGER.log(Level.INFO, "closeGracefully() called. Initiating shutdown sequence...");
+
             // Close the monitorEvents subscription to the Supervisor
             if (supervisorAppsLauncher != null) {
                 supervisorAppsLauncher.closeConnection();
+                LOGGER.log(Level.FINE, "Closed monitorEvents subscription to Supervisor.");
             }
 
             // Close the app...

@@ -38,7 +38,6 @@ import org.ccsds.moims.mo.mal.structures.URI;
  */
 public class SimpleGround {
 
-    private static final String APP_PREFIX = "App: ";
     private final Logger LOGGER = Logger.getLogger(SimpleGround.class.getName());
 
     public SimpleGround(String directoryURI, String providerName) {
@@ -48,7 +47,7 @@ public class SimpleGround {
             GroundMOAdapterImpl gma = null;
             if (!providers.isEmpty()) {
                 for (Provider provider : providers) {
-                    if (provider.getProviderName().toString().equals(APP_PREFIX + providerName)) {
+                    if (provider.getProviderName().toString().equals(providerName)) {
                         gma = new GroundMOAdapterImpl(provider);
                         gma.addDataReceivedListener(new DataReceivedAdapter());
                         break;

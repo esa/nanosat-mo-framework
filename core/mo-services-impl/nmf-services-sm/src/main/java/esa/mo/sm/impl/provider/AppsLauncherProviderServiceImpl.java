@@ -68,7 +68,6 @@ import org.ccsds.moims.mo.sm.structures.AppStopped;
  */
 public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkeleton implements ReconfigurableService {
 
-    public final static String PROVIDER_PREFIX_NAME = "App: ";
     private static final Logger LOGGER = Logger.getLogger(
             AppsLauncherProviderServiceImpl.class.getName());
     // Maximum length of a stderr/stdout chunk to be persisted - allows downlinking it via SPP without issues
@@ -471,9 +470,12 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         for (int i = 0; i < appInstIds.size(); i++) {
             Long appId = appInstIds.get(i);
+            String name = this.manager.get(appId).getName().toString();
             stopPendingApps.add(appId);
-            publishAppEvent(this.manager.get(appId).getName().toString(), appId,
-                    AppEventType.STOP_REQUESTED, null, null);
+            LOGGER.log(Level.INFO,
+                    "Publishing STOP_REQUESTED monitorEvents notification for app ''{0}'' (id={1}).",
+                    new Object[]{name, appId});
+            publishAppEvent(name, appId, AppEventType.STOP_REQUESTED, null, null);
         }
 
         manager.stopApps(appInstIds, interaction);
@@ -680,6 +682,9 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             } else {
                 stopReason = AppEventType.CRASHED;
             }
+            LOGGER.log(Level.INFO,
+                    "App ''{0}'' (id={1}) process exited with code {2}, classified as {3}.",
+                    new Object[]{appName, objId, exitCode, stopReason});
             publishAppEvent(appName, objId, stopReason, exitCode, null);
             storeAppStopped(objId, stopReason, exitCode);
             manager.setRunning(objId, false, null);

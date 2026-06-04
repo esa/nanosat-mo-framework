@@ -77,12 +77,13 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                     provider.getProviderName(),
                     provider.getDomain(),
                     provider.getServiceCapabilities(),
-                    provider.getProviderAddresses());
+                    provider.getProviderAddresses(),
+                    provider.getProviderType());
             this.add(pub, null);
         }
 
         // Make the Ground MO Proxy (itself) also available in the list of providers
-        this.loadURIs(Const.NANOSAT_MO_GROUND_PROXY_NAME);
+        this.loadURIs(Const.NANOSAT_MO_GROUND_PROXY_NAME, NMFProviderType.PROXY);
         return updatedProviders;
     }
 
@@ -129,7 +130,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
                         newDets));
             }
             updatedProviders.add(new Provider(in.getId(), in.getProviderName(), in.getDomain(),
-                    newCapabilities, in.getProviderAddresses()));
+                    newCapabilities, in.getProviderAddresses(), in.getProviderType()));
         }
 
         return updatedProviders;

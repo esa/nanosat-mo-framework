@@ -38,6 +38,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ArchiveQuery;
+import org.ccsds.moims.mo.com.structures.NMFProviderType;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.com.structures.Provider;
 import org.ccsds.moims.mo.com.structures.ProviderList;
@@ -109,6 +110,20 @@ public class AppHarness {
      * within the timeout.
      */
     public void setUp() throws IOException {
+        connect();
+        runApp();
+    }
+
+    /**
+     * Connects to the Supervisor's AppsLauncher service and resolves this app's
+     * COM object id, without starting the app. Safe to call before
+     * {@link #runApp()} so a consumer can subscribe to monitorEvents in time to
+     * observe the START_REQUESTED / STARTED notifications.
+     *
+     * @throws IOException if the Supervisor could not be reached or the app is
+     * not registered.
+     */
+    public void connect() throws IOException {
         String directoryURIStr = supervisorHarness.getDirectoryURI();
         LOGGER.info("Connecting to Directory service at: " + directoryURIStr);
 
@@ -118,7 +133,7 @@ public class AppHarness {
 
             Provider supervisorProvider = findSupervisorProvider(providers);
             if (supervisorProvider == null) {
-                throw new IOException("No provider with AppsLauncher found at " + directoryURIStr);
+                throw new IOException("No Supervisor provider found at " + directoryURIStr);
             }
 
             adapter = new GroundMOAdapterImpl(supervisorProvider);
@@ -126,7 +141,32 @@ public class AppHarness {
 
             appId = resolveAppId();
             LOGGER.info("Found app '" + appName + "' with id=" + appId);
+        } catch (MALException | MALInteractionException | java.net.MalformedURLException e) {
+            throw new IOException("Failed to connect for app '" + appName + "': " + e.getMessage(), e);
+        }
+    }
 
+    /**
+     * Requests the Supervisor to start the app and waits until it has
+     * registered itself in the Directory service. Connects first if not
+     * already connected.
+     *
+     * <p>
+     * Checking the Directory (rather than the AppsLauncher running flag) is the
+     * definitive proof of a successful start: the supervisor sets the running
+     * flag as soon as it spawns the process, before the JVM loads any classes.
+     * Registration with the Directory only happens inside
+     * {@code NanoSatMOConnectorImpl.init()}, so a JVM that crashes on startup
+     * (e.g. {@code NoClassDefFoundError}) will never appear there.
+     *
+     * @throws IOException if the app could not be started or did not register
+     * within the timeout.
+     */
+    public void runApp() throws IOException {
+        if (stub == null || appId == null) {
+            connect();
+        }
+        try {
             LongList ids = new LongList();
             ids.add(appId);
             stub.runApp(ids);
@@ -134,7 +174,7 @@ public class AppHarness {
 
             waitUntilRunning();
             LOGGER.info("App '" + appName + "' is running.");
-        } catch (MALException | MALInteractionException | java.net.MalformedURLException e) {
+        } catch (MALException | MALInteractionException e) {
             throw new IOException("Failed to start app '" + appName + "': " + e.getMessage(), e);
         }
     }
@@ -147,6 +187,65 @@ public class AppHarness {
      */
     public void start() throws IOException {
         setUp();
+    }
+
+    /**
+     * Polls {@link #isProcessGone()} until it returns true or the timeout
+     * expires. After a kill, the parent shell exits (and the KILLED event
+     * fires) slightly before the JVM descendant finishes its forced shutdown,
+     * so an instantaneous check can race; this gives the process tree time to
+     * be fully reaped.
+     *
+     * @param timeoutMs maximum time to wait in milliseconds.
+     * @return true if the process became gone within the timeout.
+     */
+    public boolean waitProcessGone(long timeoutMs) {
+        long deadline = System.currentTimeMillis() + timeoutMs;
+        while (System.currentTimeMillis() < deadline) {
+            if (isProcessGone()) {
+                return true;
+            }
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        }
+        return isProcessGone();
+    }
+
+    /**
+     * Connects directly to this app's own provider in the Directory and invokes
+     * one of its MC actions. Used to drive app-initiated behaviour such as
+     * self-termination. The app must already be running and registered.
+     *
+     * @param actionName the action name as registered by the app.
+     * @param args the action arguments.
+     * @throws IOException if the app provider could not be found or reached.
+     */
+    public void launchAppAction(String actionName, java.io.Serializable... args) throws IOException {
+        try {
+            ProviderList providers = NMFConsumer.retrieveProvidersFromDirectory(
+                    new URI(supervisorHarness.getDirectoryURI()));
+            Provider appProvider = null;
+            for (Provider p : providers) {
+                if (NMFProviderType.APP.equals(p.getProviderType())
+                        && p.getProviderName() != null
+                        && appName.equals(p.getProviderName().getValue())) {
+                    appProvider = p;
+                    break;
+                }
+            }
+            if (appProvider == null) {
+                throw new IOException("App provider '" + appName + "' not found in Directory.");
+            }
+            GroundMOAdapterImpl appAdapter = new GroundMOAdapterImpl(appProvider);
+            appAdapter.launchAction(actionName, args);
+            LOGGER.info("launchAction('" + actionName + "') on app '" + appName + "' submitted.");
+        } catch (MALException | MALInteractionException | java.net.MalformedURLException e) {
+            throw new IOException("Failed to invoke action on app '" + appName + "': " + e.getMessage(), e);
+        }
     }
 
     /**
@@ -447,10 +546,9 @@ public class AppHarness {
     }
 
     private Provider findSupervisorProvider(ProviderList providers) {
-        // App providers are prefixed with "App: "; skip them
+        // Select the provider classified as the Supervisor
         for (Provider p : providers) {
-            String id = p.getProviderName() != null ? p.getProviderName().getValue() : "";
-            if (!id.startsWith("App: ")) {
+            if (NMFProviderType.SUPERVISOR.equals(p.getProviderType())) {
                 return p;
             }
         }

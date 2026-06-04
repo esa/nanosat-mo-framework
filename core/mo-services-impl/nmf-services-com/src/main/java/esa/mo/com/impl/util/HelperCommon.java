@@ -143,7 +143,8 @@ public class HelperCommon {
         }
 
         return new Provider(provider.getId(), provider.getProviderName(),
-                provider.getDomain(), newCapabilities, provider.getProviderAddresses());
+                provider.getDomain(), newCapabilities, provider.getProviderAddresses(),
+                provider.getProviderType());
     }
 
     /**

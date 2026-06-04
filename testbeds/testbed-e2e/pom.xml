@@ -70,6 +70,13 @@
             <version>${esa.nmf.version}</version>
             <type>nmfpack</type>
         </dependency>
+        <!-- App with a self-exit action, used to test exit-code propagation -->
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>benchmark</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

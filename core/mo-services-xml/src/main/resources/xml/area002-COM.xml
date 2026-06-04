@@ -1178,6 +1178,9 @@
                 <mal:field name="providerAddresses" canBeNull="false" comment="List of addresses for all services of this provider unless service specific addresses are supplied in the serviceCapabilities field. If all address information is supplied in the serviceCapabilities field this list should be zero length.">
                     <mal:type area="COM" list="true" name="AddressDetails"/>
                 </mal:field>
+                <mal:field name="providerType" canBeNull="true" comment="The type of this provider. NULL if the provider type is unknown or not set.">
+                    <mal:type area="COM" list="false" name="NMFProviderType"/>
+                </mal:field>
             </mal:composite>
 
             <mal:composite name="ServiceFilter" shortFormPart="26" comment="The ServiceFilter structure specifies all criteria required by the Directory service for a service lookup. The field filters are AND'd together.">
@@ -1206,6 +1209,12 @@
                     <mal:type area="COM" list="true" name="ObjectKeys"/>
                 </mal:field>
             </mal:composite>
+            <mal:enumeration name="NMFProviderType" shortFormPart="30" comment="The NMFProviderType enumeration classifies the role of a provider registered in the Directory service.">
+                <mal:item nvalue="1" value="APP"        comment="An NMF App running under a Supervisor."/>
+                <mal:item nvalue="2" value="SUPERVISOR" comment="An NMF Supervisor managing a set of apps."/>
+                <mal:item nvalue="3" value="MONOLITHIC"  comment="A self-contained NMF Monolithic provider not running under a Supervisor."/>
+                <mal:item nvalue="4" value="PROXY"       comment="A Ground MO Proxy bridging the space and ground networks."/>
+            </mal:enumeration>
         </mal:dataTypes>
         <mal:errors>
             <mal:error number="1" name="INVALID" comment="A field in the message contains an invalid value. If there are multiple errors, the first invalid field is reported."/>

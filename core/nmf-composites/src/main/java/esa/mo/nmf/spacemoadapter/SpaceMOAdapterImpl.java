@@ -112,8 +112,7 @@ public class SpaceMOAdapterImpl extends MOAdapterImpl {
      * @return The SpaceMOAdapter instance.
      */
     public static SpaceMOAdapterImpl forNMFApp(URI centralDirectoryServiceURI, String appName) {
-        return new SpaceMOAdapterImpl(getNMFProvider(centralDirectoryServiceURI,
-                Const.NANOSAT_MO_APP_IDENTIFIER_PREFIX + appName));
+        return new SpaceMOAdapterImpl(getNMFProvider(centralDirectoryServiceURI, appName));
     }
 
     /**

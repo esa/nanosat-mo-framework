@@ -118,7 +118,7 @@ public class AppLifecycleNominalTest {
         Assert.assertTrue("KILLED event must be received after killApp",
                 events.contains(AppEventType.KILLED));
         Assert.assertFalse("App must not be running after killApp", app.isRunning());
-        Assert.assertTrue("OS process must be gone after killApp", app.isProcessGone());
+        Assert.assertTrue("OS process must be gone after killApp", app.waitProcessGone(10_000));
         System.out.flush();
     }
 
@@ -130,13 +130,14 @@ public class AppLifecycleNominalTest {
     public void testMonitorEventsOnStart() throws Exception {
         System.out.println("Running: testMonitorEventsOnStart()");
 
-        // Subscribe before starting so we don't miss the events.
-        // waitForMonitorEvents subscribes, then we start the app, then it returns.
+        // Connect to the Supervisor first (without starting the app) so we can
+        // subscribe to monitorEvents before runApp triggers START_REQUESTED/STARTED.
+        app.connect();
         CollectorThread collector = new CollectorThread(app, EVENT_TIMEOUT_MS, 2);
         collector.start();
         Thread.sleep(200); // give subscription time to register
 
-        app.start();
+        app.runApp();
         List<AppEventType> events = collector.join();
 
         Assert.assertTrue("START_REQUESTED must be received",
@@ -162,7 +163,7 @@ public class AppLifecycleNominalTest {
                 events.contains(AppEventType.STOP_REQUESTED));
         Assert.assertTrue("STOPPED must be received",
                 events.contains(AppEventType.STOPPED));
-        Assert.assertTrue("OS process must be gone after stop", app.isProcessGone());
+        Assert.assertTrue("OS process must be gone after stop", app.waitProcessGone(10_000));
         System.out.flush();
     }
 
@@ -179,7 +180,7 @@ public class AppLifecycleNominalTest {
                 () -> app.kill(), EVENT_TIMEOUT_MS, 1);
 
         Assert.assertTrue("KILLED must be received", events.contains(AppEventType.KILLED));
-        Assert.assertTrue("OS process must be gone after kill", app.isProcessGone());
+        Assert.assertTrue("OS process must be gone after kill", app.waitProcessGone(10_000));
         System.out.flush();
     }
 
@@ -217,6 +218,60 @@ public class AppLifecycleNominalTest {
         AppStopped body = (AppStopped) records.get(0).getObject();
         Assert.assertEquals("AppStopped.stopReason must be STOPPED",
                 AppEventType.STOPPED, body.getStopReason());
+        System.out.flush();
+    }
+
+    // -------------------------------------------------------------------------
+    // Test 9 — Self-exit with code 0 is classified as EXITED (control)
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void testSelfExitZeroIsExited() throws Exception {
+        System.out.println("Running: testSelfExitZeroIsExited()");
+        AppHarness benchmark = new AppHarness("benchmark", supervisorHarness);
+        benchmark.start();
+
+        benchmark.launchAppAction("shutdown.system.exit.0");
+
+        Assert.assertTrue("OS process must be gone after self-exit",
+                benchmark.waitProcessGone(10_000));
+
+        List<ArchivePersistenceObject> records = benchmark.queryAppStopped();
+        boolean foundExited0 = records.stream().anyMatch(r -> {
+            AppStopped b = (AppStopped) r.getObject();
+            return AppEventType.EXITED.equals(b.getStopReason())
+                    && Integer.valueOf(0).equals(b.getExitCode());
+        });
+        Assert.assertTrue("An AppStopped record with EXITED and exitCode 0 must exist", foundExited0);
+        System.out.flush();
+    }
+
+    // -------------------------------------------------------------------------
+    // Test 10 — Self-exit with a non-zero code is classified as CRASHED and the
+    // exit code is propagated. Captures the bug where the exit code arrives as 0.
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void testSelfExitNonZeroIsCrashed() throws Exception {
+        System.out.println("Running: testSelfExitNonZeroIsCrashed()");
+        AppHarness benchmark = new AppHarness("benchmark", supervisorHarness);
+        benchmark.start();
+
+        benchmark.launchAppAction("shutdown.system.exit.x", 18);
+
+        Assert.assertTrue("OS process must be gone after self-exit",
+                benchmark.waitProcessGone(10_000));
+
+        List<ArchivePersistenceObject> records = benchmark.queryAppStopped();
+        Assert.assertFalse("An AppStopped record must exist", records.isEmpty());
+
+        boolean foundCrashed18 = records.stream().anyMatch(r -> {
+            AppStopped b = (AppStopped) r.getObject();
+            return AppEventType.CRASHED.equals(b.getStopReason())
+                    && Integer.valueOf(18).equals(b.getExitCode());
+        });
+        Assert.assertTrue("Self-exit with code 18 must be recorded as CRASHED with exitCode 18 "
+                + "(the Apps Launcher currently receives exit code 0)", foundCrashed18);
         System.out.flush();
     }
 

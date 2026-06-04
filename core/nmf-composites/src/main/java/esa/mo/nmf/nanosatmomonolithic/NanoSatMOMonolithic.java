@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.configuration.ConfigurationServiceInfo;
+import org.ccsds.moims.mo.com.structures.NMFProviderType;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
@@ -51,7 +52,6 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 public abstract class NanoSatMOMonolithic extends NMFProvider {
 
     private static final Logger LOGGER = Logger.getLogger(NanoSatMOMonolithic.class.getName());
-    private final static String PROVIDER_SUFFIX_NAME = " over NanoSat MO Monolithic";
 
     /**
      * Initializes the NanoSat MO Monolithic. The MonitorAndControlAdapter
@@ -81,7 +81,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
             LOGGER.log(Level.SEVERE, "The NMF App name could not be established.");
         }
 
-        super.providerName = appName + PROVIDER_SUFFIX_NAME;
+        super.providerName = appName;
         OneInstanceLock lock = new OneInstanceLock();
 
         // Configure the property to select the database file in the right directory
@@ -108,7 +108,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
 
         // Populate the Directory service with the entries from the URIs File
         Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Populating Directory service...");
-        directoryService.loadURIs(this.providerName);
+        directoryService.loadURIs(this.providerName, NMFProviderType.MONOLITHIC);
 
         // Are the dynamic changes enabled?
         if ("true".equals(System.getProperty(Const.DYNAMIC_CHANGES_PROPERTY))) {

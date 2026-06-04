@@ -484,26 +484,35 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
 
     protected void stopNMFAppGracefully(final Long appInstId, final StopAppInteraction interaction)
             throws MALException, MALInteractionException {
+        Identifier appName = this.get(appInstId).getName();
         Process process = handlers.get(appInstId).getProcess();
         MALInteraction malInt = (interaction != null) ? interaction.getInteraction() : null;
         // The STOP_REQUESTED monitorEvents notification was already published by stopApp().
         // Wait for the process to exit within the timeout.
+        LOGGER.log(Level.INFO,
+                "Waiting up to {0} ms for app ''{1}'' (id={2}) to exit after STOP_REQUESTED.",
+                new Object[]{APP_STOP_TIMEOUT, appName, appInstId});
         try {
             boolean terminated = process.waitFor(APP_STOP_TIMEOUT, TimeUnit.MILLISECONDS);
             if (terminated) {
-                LOGGER.log(Level.INFO, "The App was closed successfully: {0}", appInstId);
+                LOGGER.log(Level.INFO,
+                        "App ''{0}'' (id={1}) exited successfully.",
+                        new Object[]{appName, appInstId});
                 this.setRunning(appInstId, false, malInt);
                 if (interaction != null) {
                     interaction.sendUpdate(appInstId);
                 }
             } else {
-                LOGGER.log(Level.SEVERE, "The App did not stop within the timeout: {0}", appInstId);
+                LOGGER.log(Level.SEVERE,
+                        "App ''{0}'' (id={1}) did not exit within {2} ms timeout after STOP_REQUESTED.",
+                        new Object[]{appName, appInstId, APP_STOP_TIMEOUT});
                 if (interaction != null) {
                     interaction.sendUpdateError(new InvalidException(appInstId));
                 }
             }
         } catch (InterruptedException ex) {
-            LOGGER.log(Level.WARNING, "Interrupted while waiting for app to stop", ex);
+            LOGGER.log(Level.WARNING,
+                    "Interrupted while waiting for app ''{0}'' to stop.", appName);
         }
     }
 

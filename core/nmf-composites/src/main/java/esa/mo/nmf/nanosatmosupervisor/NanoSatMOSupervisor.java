@@ -43,6 +43,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.com.configuration.ConfigurationServiceInfo;
+import org.ccsds.moims.mo.com.structures.NMFProviderType;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
@@ -207,7 +208,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
 
         // Populate the Directory service with the entries from the URIs File
         LOGGER.log(Level.INFO, "Populating Directory service...");
-        directoryService.loadURIs(Const.NANOSAT_MO_SUPERVISOR_NAME);
+        directoryService.loadURIs(Const.NANOSAT_MO_SUPERVISOR_NAME, NMFProviderType.SUPERVISOR);
 
         String primaryURI
                 = directoryService.getConnection().getPrimaryConnectionDetails().getProviderURI().toString();

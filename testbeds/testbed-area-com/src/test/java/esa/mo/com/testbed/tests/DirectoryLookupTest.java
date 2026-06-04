@@ -158,7 +158,8 @@ public class DirectoryLookupTest {
                 new Identifier(PROVIDER_NAME),
                 domain,
                 capabilities,
-                new AddressDetailsList());
+                new AddressDetailsList(),
+                null);
 
         harness.getCOMServicesProvider().getDirectoryService().add(pub, null);
     }
