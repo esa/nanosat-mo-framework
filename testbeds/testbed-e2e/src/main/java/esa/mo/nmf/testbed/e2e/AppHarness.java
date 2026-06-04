@@ -20,25 +20,44 @@
  */
 package esa.mo.nmf.testbed.e2e;
 
+import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
+import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.structures.ArchiveQuery;
+import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.com.structures.Provider;
 import org.ccsds.moims.mo.com.structures.ProviderList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.NullableAttributeList;
+import org.ccsds.moims.mo.mal.structures.Subscription;
+import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.UpdateHeader;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.sm.appslauncher.body.ListAppResponse;
 import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherAdapter;
 import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherStub;
+import org.ccsds.moims.mo.sm.structures.AppEventType;
 
 /**
  * Manages the lifecycle of a named NMF App for end-to-end tests.
@@ -118,6 +137,222 @@ public class AppHarness {
         } catch (MALException | MALInteractionException | java.net.MalformedURLException e) {
             throw new IOException("Failed to start app '" + appName + "': " + e.getMessage(), e);
         }
+    }
+
+    /**
+     * Requests the Supervisor to start the app, same as setUp but usable
+     * within individual test methods.
+     *
+     * @throws IOException if the app could not be started.
+     */
+    public void start() throws IOException {
+        setUp();
+    }
+
+    /**
+     * Sends stopApp and blocks until the PROGRESS RESPONSE is received or the
+     * timeout expires.
+     *
+     * @param timeoutMs maximum time to wait in milliseconds.
+     * @return true if the app stopped cleanly (UPDATE received, not an error);
+     * false if an update error was received or the timeout expired.
+     * @throws IOException if the call itself fails.
+     */
+    public boolean stop(long timeoutMs) throws IOException {
+        if (stub == null || appId == null) {
+            return false;
+        }
+        CountDownLatch latch = new CountDownLatch(1);
+        AtomicBoolean updateError = new AtomicBoolean(false);
+        LongList ids = new LongList();
+        ids.add(appId);
+        try {
+            stub.stopApp(ids, new AppsLauncherAdapter() {
+                @Override
+                public void stopAppUpdateReceived(MALMessageHeader msgHeader,
+                        Long appClosing, java.util.Map qosProperties) {
+                    latch.countDown();
+                }
+
+                @Override
+                public void stopAppAckErrorReceived(MALMessageHeader msgHeader,
+                        MOErrorException error, java.util.Map qosProperties) {
+                    updateError.set(true);
+                    latch.countDown();
+                }
+
+                @Override
+                public void stopAppUpdateErrorReceived(MALMessageHeader msgHeader,
+                        MOErrorException error, java.util.Map qosProperties) {
+                    updateError.set(true);
+                    latch.countDown();
+                }
+            });
+        } catch (MALException | MALInteractionException e) {
+            throw new IOException("stopApp call failed: " + e.getMessage(), e);
+        }
+        try {
+            latch.await(timeoutMs, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IOException("Interrupted while waiting for stopApp", e);
+        }
+        return !updateError.get() && latch.getCount() == 0;
+    }
+
+    /**
+     * Sends killApp (SUBMIT — fire and forget with ack).
+     *
+     * @throws IOException if the call fails.
+     */
+    public void kill() throws IOException {
+        if (stub == null || appId == null) {
+            return;
+        }
+        try {
+            LongList ids = new LongList();
+            ids.add(appId);
+            stub.killApp(ids);
+        } catch (MALException | MALInteractionException e) {
+            throw new IOException("killApp call failed: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Subscribes to monitorEvents and collects notifications for this app
+     * until {@code count} events have been received or {@code timeoutMs}
+     * elapses.
+     *
+     * @param timeoutMs maximum time to wait in milliseconds.
+     * @param count number of events to collect before returning early.
+     * @return the collected AppEventType values (may be fewer than count on
+     * timeout).
+     * @throws IOException if the subscription fails.
+     */
+    public List<AppEventType> waitForMonitorEvents(long timeoutMs, int count) throws IOException {
+        List<AppEventType> collected = Collections.synchronizedList(new ArrayList<>());
+        CountDownLatch latch = new CountDownLatch(count);
+        Subscription sub = org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer
+                .subscriptionWildcardRandom();
+        try {
+            stub.monitorEventsRegister(sub, new AppsLauncherAdapter() {
+                @Override
+                public void monitorEventsNotifyReceived(MALMessageHeader msgHeader,
+                        Identifier subscriptionId, UpdateHeader updateHeader,
+                        AppEventType eventType, Integer exitCode, String extraInfo,
+                        java.util.Map qosProperties) {
+                    NullableAttributeList keyValues = updateHeader.getKeyValues();
+                    if (keyValues == null || keyValues.isEmpty()) {
+                        return;
+                    }
+                    Identifier name = (Identifier) keyValues.get(0).getValue();
+                    if (appName.equals(name.getValue())) {
+                        collected.add(eventType);
+                        latch.countDown();
+                    }
+                }
+            });
+        } catch (MALException | MALInteractionException e) {
+            throw new IOException("monitorEventsRegister failed: " + e.getMessage(), e);
+        }
+        try {
+            latch.await(timeoutMs, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } finally {
+            IdentifierList subIds = new IdentifierList();
+            subIds.add(sub.getSubscriptionId());
+            try {
+                stub.monitorEventsDeregister(subIds);
+            } catch (MALException | MALInteractionException ignored) {
+            }
+        }
+        return new ArrayList<>(collected);
+    }
+
+    /**
+     * Returns true if no OS process with this app's name is detectable via
+     * ProcessHandle.
+     *
+     * @return true if the process is gone.
+     */
+    public boolean isProcessGone() {
+        return ProcessHandle.allProcesses()
+                .noneMatch(ph -> ph.info().commandLine()
+                .map(cmd -> cmd.contains(appName))
+                .orElse(false));
+    }
+
+    /**
+     * Queries the archive for AppStarted COM objects whose related link points
+     * to this app's AppDetails object.
+     *
+     * @return list of matching archive objects, never null.
+     * @throws IOException if the query fails.
+     */
+    public List<ArchivePersistenceObject> queryAppStarted() throws IOException {
+        return queryByRelated(AppsLauncherServiceInfo.APPSTARTED_OBJECT_TYPE);
+    }
+
+    /**
+     * Queries the archive for AppStopped COM objects whose related link points
+     * to this app's AppDetails object.
+     *
+     * @return list of matching archive objects, never null.
+     * @throws IOException if the query fails.
+     */
+    public List<ArchivePersistenceObject> queryAppStopped() throws IOException {
+        return queryByRelated(AppsLauncherServiceInfo.APPSTOPPED_OBJECT_TYPE);
+    }
+
+    private List<ArchivePersistenceObject> queryByRelated(ObjectType objType) throws IOException {
+        List<ArchivePersistenceObject> results = Collections.synchronizedList(new ArrayList<>());
+        CountDownLatch latch = new CountDownLatch(1);
+
+        try {
+            adapter.getCOMServices().getArchiveService().getArchiveStub().query(
+                    Boolean.TRUE, objType, new ArchiveQuery(appId), null,
+                    new ArchiveAdapter() {
+                        @Override
+                        public void queryUpdateReceived(MALMessageHeader msgHeader,
+                                ObjectType receivedObjType, IdentifierList domain,
+                                ArchiveDetailsList details,
+                                org.ccsds.moims.mo.mal.structures.HeterogeneousList bodies,
+                                java.util.Map qosProperties) {
+                            if (details != null) {
+                                for (int i = 0; i < details.size(); i++) {
+                                    org.ccsds.moims.mo.mal.structures.Element body =
+                                            (bodies != null && i < bodies.size())
+                                            ? (org.ccsds.moims.mo.mal.structures.Element) bodies.get(i)
+                                            : null;
+                                    results.add(new ArchivePersistenceObject(
+                                            receivedObjType, domain,
+                                            details.get(i).getId(), details.get(i), body));
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void queryResponseReceived(MALMessageHeader msgHeader,
+                                java.util.Map qosProperties) {
+                            latch.countDown();
+                        }
+
+                        @Override
+                        public void queryAckErrorReceived(MALMessageHeader msgHeader,
+                                MOErrorException error, java.util.Map qosProperties) {
+                            latch.countDown();
+                        }
+                    });
+        } catch (MALException | MALInteractionException e) {
+            throw new IOException("Archive query failed: " + e.getMessage(), e);
+        }
+        try {
+            latch.await(10, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        return new ArrayList<>(results);
     }
 
     /**

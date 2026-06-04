@@ -50,7 +50,7 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mal.transport.MALTransmitErrorException;
-import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
+
 import org.ccsds.moims.mo.sm.heartbeat.HeartbeatHelper;
 
 /**
@@ -248,12 +248,6 @@ public abstract class GroundMOProxy {
                     // Use the count operation from the Archive for Common.Directory.Provider
                     archiveService.getArchiveStub().count(
                             DirectoryServiceInfo.PROVIDER_OBJECT_TYPE,
-                            archiveQuery,
-                            null, adapter);
-
-                    // use the count operation from the Archive for SoftwareManagement.AppsLauncher.StopApp
-                    archiveService.getArchiveStub().count(
-                            AppsLauncherServiceInfo.STOPAPP_OBJECT_TYPE,
                             archiveQuery,
                             null, adapter);
 

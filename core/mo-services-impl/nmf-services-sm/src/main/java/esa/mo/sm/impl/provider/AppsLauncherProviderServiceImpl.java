@@ -36,7 +36,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.InvalidException;
-import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.InternalException;
 import org.ccsds.moims.mo.mal.MALException;
@@ -61,6 +60,8 @@ import org.ccsds.moims.mo.sm.appslauncher.provider.StopAppInteraction;
 import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorServiceInfo;
 import org.ccsds.moims.mo.sm.structures.AppDetails;
 import org.ccsds.moims.mo.sm.structures.AppEventType;
+import org.ccsds.moims.mo.sm.structures.AppStarted;
+import org.ccsds.moims.mo.sm.structures.AppStopped;
 
 /**
  * Apps Launcher service Provider.
@@ -158,6 +159,42 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
      */
     public void setStdQuotaPerApp(Quota q) {
         this.stdQuota = q;
+    }
+
+    private void storeAppStarted(Long appId, MALInteraction interaction) {
+        if (this.manager.getCOMServices().getArchiveService() == null) {
+            return;
+        }
+        try {
+            URI triggeredBy = (interaction != null)
+                    ? interaction.getMessageHeader().getFromURI() : null;
+            HeterogeneousList bodies = new HeterogeneousList();
+            bodies.add(new AppStarted(triggeredBy));
+            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
+                    appId, null, connection.getPrimaryConnectionDetails().getProviderURI());
+            this.manager.getCOMServices().getArchiveService().store(
+                    true, AppsLauncherServiceInfo.APPSTARTED_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(), archDetails, bodies, null);
+        } catch (MALException | MALInteractionException ex) {
+            LOGGER.log(Level.WARNING, "Could not store AppStarted in archive", ex);
+        }
+    }
+
+    private void storeAppStopped(Long appId, AppEventType stopReason, int exitCode) {
+        if (this.manager.getCOMServices().getArchiveService() == null) {
+            return;
+        }
+        try {
+            HeterogeneousList bodies = new HeterogeneousList();
+            bodies.add(new AppStopped(stopReason, exitCode, null));
+            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
+                    appId, null, connection.getPrimaryConnectionDetails().getProviderURI());
+            this.manager.getCOMServices().getArchiveService().store(
+                    true, AppsLauncherServiceInfo.APPSTOPPED_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(), archDetails, bodies, null);
+        } catch (MALException | MALInteractionException ex) {
+            LOGGER.log(Level.WARNING, "Could not store AppStopped in archive", ex);
+        }
     }
 
     private void publishAppEvent(String appName, Long appId, AppEventType eventType, Integer exitCode, String extraInfo) {
@@ -313,19 +350,12 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                 String directoryServiceURI = details.getProviderURI().toString();
                 Long appId = appInstIds.get(i);
                 AppDetails app = this.manager.get(appId);
-                ObjectType objType = AppsLauncherServiceInfo.STARTAPP_OBJECT_TYPE;
-                Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
-                        "Generating StartApp event for app: {0} (Name: ''{1}'')",
-                        new Object[]{appId, app.getName()});
-                this.manager.getCOMServices().getEventService().generateAndStoreEvent(
-                        objType, ConfigurationProviderSingleton.getDomain(),
-                        app.getName(), appId, null, interaction);
-
                 publishAppEvent(app.getName().toString(), appId, AppEventType.START_REQUESTED, null, null);
                 CallbacksImpl calback = new CallbacksImpl();
                 ProcessExecutionHandler pHandler = new ProcessExecutionHandler(calback, appId);
                 manager.startAppProcess(pHandler, interaction, directoryServiceURI);
                 publishAppEvent(app.getName().toString(), appId, AppEventType.STARTED, null, null);
+                storeAppStarted(appId, interaction);
             } catch (IOException ex) {
                 UIntegerList intIndexList = new UIntegerList();
                 intIndexList.add(new UInteger(i));
@@ -396,8 +426,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             throws MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
-        UIntegerList intIndexList = new UIntegerList();
-        ArrayList<SingleConnectionDetails> appConnections = new ArrayList<>();
 
         if (appInstIds == null) { // Is the input null?
             throw new IllegalArgumentException("appInstIds argument must not be null");
@@ -415,62 +443,16 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             }
         }
 
-        IdentifierList appDirectoryServiceNames = new IdentifierList();
         for (int i = 0; i < appInstIds.size(); i++) {
-            // Get it from the list of available apps
             Long appId = appInstIds.get(i);
             AppDetails app = this.manager.get(appId);
 
             if (app == null) {
-                // The app id could not be identified
-                unkIndexList.add(new UInteger(i)); // Throw an UNKNOWN error
+                unkIndexList.add(new UInteger(i));
                 LOGGER.log(Level.WARNING, "App with id {0} unknown", new Object[]{appId});
-                continue;
             } else if (!manager.isAppRunning(appId)) {
-                // The app is not running
-                invIndexList.add(new UInteger(i)); // Throw an INVALID error
+                invIndexList.add(new UInteger(i));
                 LOGGER.log(Level.WARNING, "App with id {0} not running", new Object[]{appId});
-                continue;
-            }
-
-            // Define the filter in order to get the Event service URI of the app
-            final Identifier serviceProviderName = new Identifier(PROVIDER_PREFIX_NAME + app.getName());
-            final IdentifierList domain = new IdentifierList();
-            domain.add(new Identifier("*"));
-            final COMService eventCOM = EventHelper.EVENT_SERVICE;
-            ServiceId serviceId = new ServiceId(eventCOM.getAreaNumber(),
-                    eventCOM.getServiceNumber(), eventCOM.getServiceVersion());
-            ServiceFilter sf = new ServiceFilter(serviceProviderName, domain,
-                    serviceId, null);
-
-            if (app.getCategory().getValue().equalsIgnoreCase("NMF_App")) {
-                // Do a lookup on the Central Drectory service for the app that we want
-                MALInteraction malInt = (interaction != null) ? interaction.getInteraction() : null;
-                ProviderList providersList = this.directoryService.lookup(sf, malInt);
-                LOGGER.log(Level.FINER, "providersList object: {0}", providersList);
-
-                try {
-                    // Add here the filtering for the best IPC!!!
-                    final SingleConnectionDetails connectionDetails
-                            = AppsLauncherManager.getSingleConnectionDetailsFromProviderList(providersList);
-                    appConnections.add(connectionDetails);
-
-                    // Add to the list of Directory service Obj Ids
-                    if (!providersList.isEmpty()) {
-                        appDirectoryServiceNames.add(providersList.get(0).getProviderName());
-                    } else {
-                        appDirectoryServiceNames.add(null);
-                    }
-                } catch (IOException ex) {
-                    LOGGER.log(Level.WARNING, "Exception while obtaining connection details", ex);
-                    appConnections.add(null);
-                    // Ensure the indices of the lists are in-line
-                    appDirectoryServiceNames.add(null);
-                }
-            } else {
-                // Ensure the indices of the lists are in-line
-                appConnections.add(null);
-                appDirectoryServiceNames.add(null);
             }
         }
 
@@ -481,10 +463,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         if (!invIndexList.isEmpty()) {
             throw new MALInteractionException(new InvalidException(invIndexList));
-        }
-
-        if (!intIndexList.isEmpty()) {
-            throw new MALInteractionException(new InternalException(intIndexList));
         }
 
         if (interaction != null) {
@@ -498,7 +476,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                     AppEventType.STOP_REQUESTED, null, null);
         }
 
-        manager.stopApps(appInstIds, appDirectoryServiceNames, appConnections, interaction);
+        manager.stopApps(appInstIds, interaction);
 
         if (interaction != null) {
             interaction.sendResponse();
@@ -692,15 +670,18 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                     "The process exited with code {0} and objId: {1}",
                     new Object[]{exitCode, objId});
             String appName = manager.get(objId).getName().toString();
+            AppEventType stopReason;
             if (killPendingApps.remove(objId)) {
-                publishAppEvent(appName, objId, AppEventType.KILLED, exitCode, null);
+                stopReason = AppEventType.KILLED;
             } else if (stopPendingApps.remove(objId)) {
-                publishAppEvent(appName, objId, AppEventType.STOPPED, exitCode, null);
+                stopReason = AppEventType.STOPPED;
             } else if (exitCode == 0) {
-                publishAppEvent(appName, objId, AppEventType.EXITED, exitCode, null);
+                stopReason = AppEventType.EXITED;
             } else {
-                publishAppEvent(appName, objId, AppEventType.CRASHED, exitCode, null);
+                stopReason = AppEventType.CRASHED;
             }
+            publishAppEvent(appName, objId, stopReason, exitCode, null);
+            storeAppStopped(objId, stopReason, exitCode);
             manager.setRunning(objId, false, null);
         }
     }

@@ -243,46 +243,12 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             AppShutdownGuard.start();
             long timestamp = System.currentTimeMillis();
 
-            // Acknowledge the reception of the request to close (Closing...)
-            Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
-                    AppsLauncherServiceInfo.STOPPING_OBJECT_TYPE,
-                    ConfigurationProviderSingleton.getDomain(),
-                    null,
-                    null,
-                    source,
-                    null);
-
-            final URI uri
-                    = this.getCOMServices().getEventService().getConnectionProvider().getConnectionDetails().getProviderURI();
-
-            try {
-                this.getCOMServices().getEventService().publishEvent(uri, eventId,
-                        AppsLauncherServiceInfo.STOPPING_OBJECT_TYPE, null, source, null);
-            } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
-            }
-
             // Close the app...
             // Make a call on the app layer to close nicely...
             if (this.closeAppAdapter != null) {
                 LOGGER.log(Level.INFO,
                         "Triggering the closeAppAdapter of the app business logic...");
                 this.closeAppAdapter.onClose(); // Time to sleep, boy!
-            }
-
-            Long eventId2 = this.getCOMServices().getEventService().generateAndStoreEvent(
-                    AppsLauncherServiceInfo.STOPPED_OBJECT_TYPE,
-                    ConfigurationProviderSingleton.getDomain(),
-                    null,
-                    null,
-                    source,
-                    null);
-
-            try {
-                this.getCOMServices().getEventService().publishEvent(uri, eventId2,
-                        AppsLauncherServiceInfo.STOPPED_OBJECT_TYPE, null, source, null);
-            } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
             }
 
             // Should close them safely as well...

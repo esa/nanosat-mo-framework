@@ -21,10 +21,9 @@
 package esa.mo.nmf.nanosatmoconnector;
 
 import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
-import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesConsumer;
-import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.com.impl.util.HelperCommon;
+import esa.mo.sm.impl.consumer.AppsLauncherConsumerServiceImpl;
 import esa.mo.helpertools.clock.PlatformClockCallback;
 import esa.mo.helpertools.clock.SystemClock;
 import esa.mo.helpertools.misc.AppShutdownGuard;
@@ -40,11 +39,10 @@ import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.configuration.ConfigurationServiceInfo;
-import org.ccsds.moims.mo.com.event.EventHelper;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -52,8 +50,11 @@ import org.ccsds.moims.mo.mal.helpertools.connections.*;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.helpertools.misc.Const;
 import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.PlatformHelper;
-import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
+import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherHelper;
+import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherAdapter;
+import org.ccsds.moims.mo.sm.structures.AppEventType;
 
 /**
  * The implementation of the NanoSat MO Connector.
@@ -66,8 +67,8 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
     private static final boolean FAST = false; // To be enabled in a future NMF version
 
     private Long appDirectoryServiceId;
-    private EventConsumerServiceImpl serviceCOMEvent;
-    private Subscription subscription;
+    private AppsLauncherConsumerServiceImpl supervisorAppsLauncher;
+    private Subscription shutdownSubscription;
 
     /**
      * Initializes the NanoSat MO Connector. The MonitorAndControlAdapter
@@ -156,37 +157,48 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
                 IdentifierList domain = new IdentifierList();
                 domain.add(new Identifier("*"));
-                COMService eventCOM = EventHelper.EVENT_SERVICE; // Filter for the Event service of the Supervisor
-                final ServiceId serviceId = new ServiceId(eventCOM.getAreaNumber(),
-                        eventCOM.getServiceNumber(), eventCOM.getServiceVersion());
-                final ServiceFilter sf = new ServiceFilter(
-                        new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME),
-                        domain, serviceId, null);
-                final ProviderList supervisorEventServiceConnectionDetails
-                        = centralDirectory.getDirectoryStub().lookup(sf);
 
                 LOGGER.log(Level.INFO, "The Central Directory service is operational!");
 
-                // Register for CloseApp Events...
+                // Subscribe to monitorEvents on the Supervisor's AppsLauncher service to receive shutdown signals
+                final org.ccsds.moims.mo.com.COMService alService = AppsLauncherHelper.APPSLAUNCHER_SERVICE;
+                final ServiceId alServiceId = new ServiceId(alService.getAreaNumber(),
+                        alService.getServiceNumber(), alService.getServiceVersion());
+                final ServiceFilter sfAppsLauncher = new ServiceFilter(
+                        new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME),
+                        domain, alServiceId, null);
+                final ProviderList appsLauncherProviderList =
+                        centralDirectory.getDirectoryStub().lookup(sfAppsLauncher);
                 try {
-                    // Convert provider to connectionDetails...
-                    final SingleConnectionDetails connectionDetails =
-                            AppsLauncherManager.getSingleConnectionDetailsFromProviderList(
-                                    supervisorEventServiceConnectionDetails);
-                    serviceCOMEvent = new EventConsumerServiceImpl(connectionDetails);
+                    final SingleConnectionDetails alConnection =
+                            AppsLauncherManager.getSingleConnectionDetailsFromProviderList(appsLauncherProviderList);
+                    supervisorAppsLauncher = new AppsLauncherConsumerServiceImpl(alConnection, null);
+                    shutdownSubscription = ConnectionConsumer.subscriptionWildcardRandom();
+                    final String myName = this.providerName;
+                    final NanoSatMOConnectorImpl connector = this;
+                    supervisorAppsLauncher.getAppsLauncherStub().monitorEventsRegister(
+                            shutdownSubscription,
+                            new AppsLauncherAdapter() {
+                                @Override
+                                public void monitorEventsNotifyReceived(MALMessageHeader msgHeader,
+                                        Identifier subscriptionId, UpdateHeader updateHeader,
+                                        AppEventType eventType, Integer exitCode, String extraInfo,
+                                        Map qosProperties) {
+                                    NullableAttributeList keyValues = updateHeader.getKeyValues();
+                                    if (keyValues == null || keyValues.isEmpty()) {
+                                        return;
+                                    }
+                                    Identifier appName = (Identifier) keyValues.get(0).getValue();
+                                    if (AppEventType.STOP_REQUESTED == eventType
+                                            && myName.equals(appName.getValue())) {
+                                        connector.closeGracefully(null);
+                                    }
+                                }
+                            });
+                    LOGGER.log(Level.INFO, "Subscribed to monitorEvents on Supervisor AppsLauncher for shutdown notifications.");
                 } catch (IOException | MALException | MALInteractionException ex) {
                     LOGGER.log(Level.SEVERE,
-                            "Could not retrieve supervisor COM Event service details from the Central Directory.", ex);
-                }
-                if (serviceCOMEvent != null) {
-                    // Subscribe to all Events
-                    // Select all object numbers from the Apps Launcher service Events
-                    subscription = HelperCOM.generateSubscriptionCOMEvent(
-                            "CloseAppEventListener",
-                            AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE);
-
-                    // Register with the subscription key provided
-                    serviceCOMEvent.addEventReceivedListener(subscription, new CloseAppEventListener(this));
+                            "Could not subscribe to monitorEvents on Supervisor AppsLauncher service.", ex);
                 }
 
                 // Lookup for the Platform services on the NanoSat MO Supervisor
@@ -326,27 +338,9 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             AppShutdownGuard.start();
             long time = System.currentTimeMillis();
 
-            // We can close the connection to the Supervisor
-            this.serviceCOMEvent.closeConnection();
-
-            // Acknowledge the reception of the request to close (Closing...)
-            Long eventId = this.getCOMServices().getEventService().generateAndStoreEvent(
-                    AppsLauncherServiceInfo.STOPPING_OBJECT_TYPE,
-                    ConfigurationProviderSingleton.getDomain(),
-                    null,
-                    null,
-                    source,
-                    null);
-
-            final URI uri = this.getCOMServices().getEventService().getConnectionProvider().getIPCConnectionDetails().getProviderURI();
-
-            LOGGER.log(Level.INFO, "Publishing event to uri: {0}", uri);
-
-            try {
-                this.getCOMServices().getEventService().publishEvent(uri, eventId,
-                        AppsLauncherServiceInfo.STOPPING_OBJECT_TYPE, null, source, null);
-            } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
+            // Close the monitorEvents subscription to the Supervisor
+            if (supervisorAppsLauncher != null) {
+                supervisorAppsLauncher.closeConnection();
             }
 
             // Close the app...
@@ -371,21 +365,6 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                             "There was a problem while connecting to the Central Directory service on URI: {0}"
                             + "\nException: {1}", new Object[]{centralDirectoryURI.getValue(), ex});
                 }
-            }
-
-            Long eventId2 = this.getCOMServices().getEventService().generateAndStoreEvent(
-                    AppsLauncherServiceInfo.STOPPED_OBJECT_TYPE,
-                    ConfigurationProviderSingleton.getDomain(),
-                    null,
-                    null,
-                    source,
-                    null);
-
-            try {
-                this.getCOMServices().getEventService().publishEvent(uri, eventId2,
-                        AppsLauncherServiceInfo.STOPPED_OBJECT_TYPE, null, source, null);
-            } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
             }
 
             // Should close them safely as well...

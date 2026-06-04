@@ -37,7 +37,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
+
 import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorServiceInfo;
 
 /**
@@ -85,10 +85,6 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
 
         objectTypes.put(CommandExecutorServiceInfo.STANDARDOUTPUT_OBJECT_TYPE, null);
         objectTypes.put(CommandExecutorServiceInfo.STANDARDERROR_OBJECT_TYPE, null);
-        objectTypes.put(AppsLauncherServiceInfo.STARTAPP_OBJECT_TYPE, "Event StartApp, body: ");
-        objectTypes.put(AppsLauncherServiceInfo.STOPAPP_OBJECT_TYPE, "Event StopApp, body: ");
-        objectTypes.put(AppsLauncherServiceInfo.STOPPING_OBJECT_TYPE, "Event Stopping, body: ");
-        objectTypes.put(AppsLauncherServiceInfo.STOPPED_OBJECT_TYPE, "Event Stopped, body: ");
     }
 
     /**

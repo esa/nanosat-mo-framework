@@ -20,13 +20,10 @@
  */
 package esa.mo.sm.impl.provider;
 
-import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.com.impl.util.HelperCommon;
-import esa.mo.sm.impl.util.ClosingAppListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -485,72 +482,28 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         return killAppProcess(appInstId, interaction.getInteraction());
     }
 
-    protected void stopNMFAppGracefully(final Long appInstId, final Identifier appDirectoryServiceName,
-            final SingleConnectionDetails appConnection, final StopAppInteraction interaction)
+    protected void stopNMFAppGracefully(final Long appInstId, final StopAppInteraction interaction)
             throws MALException, MALInteractionException {
-        ClosingAppListener listener = null;
         Process process = handlers.get(appInstId).getProcess();
-        // Register on the Event service of the respective apps
-        // Select all object numbers from the Apps Launcher service Events
-        Subscription eventSub = HelperCOM.generateSubscriptionCOMEvent("ClosingAppEvents",
-                AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE);
-        try {
-            // Subscribe to events
-            EventConsumerServiceImpl eventServiceConsumer = new EventConsumerServiceImpl(appConnection);
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(
-                    Level.FINE, "Connected to: {0}", appConnection.toString());
-            listener = new ClosingAppListener(interaction, eventServiceConsumer, appInstId);
-            eventServiceConsumer.addEventReceivedListener(eventSub, listener);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(AppsLauncherManager.class.getName()).log(
-                    Level.SEVERE, "Could not connect to the App!");
-        }
-
-        // Send Event to stop the app...
-        ObjectType objType = AppsLauncherServiceInfo.STOPAPP_OBJECT_TYPE;
-        Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
-                "Sending event to App: {0} (Name: ''{1}'')",
-                new Object[]{appInstId, appDirectoryServiceName});
         MALInteraction malInt = (interaction != null) ? interaction.getInteraction() : null;
-        COMServicesProvider com = super.getCOMServices();
-
-        // Generate, store and publish the events to stop the App...
-        Long objId = com.getEventService().generateAndStoreEvent(
-                objType, ConfigurationProviderSingleton.getDomain(),
-                appDirectoryServiceName, appInstId, null, malInt);
-
-        URI uri = (malInt != null) ? malInt.getMessageHeader().getFromURI() : new URI("");
-
-        if (appDirectoryServiceName != null) {
-            try {
-                com.getEventService().publishEvent(uri, objId, objType,
-                        appInstId, null, appDirectoryServiceName);
-            } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, "Something went wrong...", ex);
-            }
-        }
-
-        if (listener != null) {
-            try {
-                listener.waitForAppClosing(APP_STOP_TIMEOUT);
-                // Note that the Process may still be running even after the above line!
-                // The code must actually wait for completion of the Process itself:
-                boolean terminated = process.waitFor(1, TimeUnit.SECONDS);
-                if (listener.isAppClosed() && terminated) {
-                    LOGGER.log(Level.INFO,
-                            "The App was closed successfully: {0}", appDirectoryServiceName);
-                    this.setRunning(appInstId, false, malInt);
-                } else {
-                    LOGGER.log(Level.SEVERE,
-                            "The App was not stopped: {0}", appDirectoryServiceName);
-                    if (interaction != null) {
-                        MOErrorException error = new InvalidException(appDirectoryServiceName);
-                        interaction.sendUpdateError(error);
-                    }
+        // The STOP_REQUESTED monitorEvents notification was already published by stopApp().
+        // Wait for the process to exit within the timeout.
+        try {
+            boolean terminated = process.waitFor(APP_STOP_TIMEOUT, TimeUnit.MILLISECONDS);
+            if (terminated) {
+                LOGGER.log(Level.INFO, "The App was closed successfully: {0}", appInstId);
+                this.setRunning(appInstId, false, malInt);
+                if (interaction != null) {
+                    interaction.sendUpdate(appInstId);
                 }
-            } catch (InterruptedException ex) {
-                LOGGER.log(Level.WARNING, "The listener timedout!", ex);
+            } else {
+                LOGGER.log(Level.SEVERE, "The App did not stop within the timeout: {0}", appInstId);
+                if (interaction != null) {
+                    interaction.sendUpdateError(new InvalidException(appInstId));
+                }
             }
+        } catch (InterruptedException ex) {
+            LOGGER.log(Level.WARNING, "Interrupted while waiting for app to stop", ex);
         }
     }
 
@@ -559,16 +512,12 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
      * them times out.
      *
      * @param appInstIds Applications IDs.
-     * @param appDirectoryServiceNames Directory service app name.
-     * @param appConnections Application connection handlers (for NMF apps
-     * only).
      * @param interaction Source interaction.
      * @throws MALException If the App could not be stopped.
      * @throws MALInteractionException If the Event service could not be
      * reached.
      */
-    protected void stopApps(final LongList appInstIds, final IdentifierList appDirectoryServiceNames,
-            final ArrayList<SingleConnectionDetails> appConnections,
+    protected void stopApps(final LongList appInstIds,
             final StopAppInteraction interaction) throws MALException, MALInteractionException {
         for (int i = 0; i < appInstIds.size(); i++) {
             long appInstId = appInstIds.get(i);
@@ -579,20 +528,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
                     + File.separator + "stop_app" + fileExt);
             boolean stopScriptExists = stopScript.exists();
             if (curr.getCategory().getValue().equalsIgnoreCase("NMF_App")) {
-                if (appDirectoryServiceNames.get(i) == null) {
-                    LOGGER.log(Level.WARNING,
-                            "appDirectoryServiceName null for ''{0}'' App, falling back to kill",
-                            new Object[]{curr.getName().getValue()});
-                    this.killAppProcess(appInstId, interaction.getInteraction());
-                } else if (appConnections.get(i) == null) {
-                    LOGGER.log(Level.WARNING,
-                            "appConnection null for ''{0}'' App, falling back to kill",
-                            new Object[]{curr.getName().getValue()});
-                    this.killAppProcess(appInstId, interaction.getInteraction());
-                } else {
-                    this.stopNMFAppGracefully(appInstId, appDirectoryServiceNames.get(i),
-                            appConnections.get(i), interaction);
-                }
+                this.stopNMFAppGracefully(appInstId, interaction);
                 if (stopScriptExists) {
                     Map<String, String> env = assembleAppLauncherEnvironment("");
                     File appFolder = new File(appsFolderPath + File.separator + curr.getName().getValue());
