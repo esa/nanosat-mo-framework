@@ -116,7 +116,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
 
             // Activate the previous configuration
             final ObjectKey confId = new ObjectKey(
-                    ConfigurationServiceInfo.PROVIDERCONFIGURATION_OBJECT_TYPE,
+                    ConfigurationServiceInfo.CONFIGURATIONPROVIDER_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     DEFAULT_PROVIDER_CONFIGURATION_OBJID
             );

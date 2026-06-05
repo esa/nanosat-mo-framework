@@ -67,7 +67,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
             if (configObjectsObjId == null) {
                 // Retrieve the COM object of the service
                 ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(archiveService,
-                        ConfigurationServiceInfo.SERVICECONFIGURATION_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
+                        ConfigurationServiceInfo.CONFIGURATIONSERVICE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
                         serviceConfigObjId);
 
                 if (comObject == null) {
@@ -125,7 +125,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
 
             archiveService.store(
                     false,
-                    ConfigurationServiceInfo.SERVICECONFIGURATION_OBJECT_TYPE,
+                    ConfigurationServiceInfo.CONFIGURATIONSERVICE_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     HelperArchive.generateArchiveDetailsList(objIds1.get(0), null, new URI(""), defaultObjId),
                     serviceKeyList,

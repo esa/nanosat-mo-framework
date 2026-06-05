@@ -71,7 +71,7 @@ public class PersistProviderConfiguration {
 
         final ArchivePersistenceObject comObjectProvider = HelperArchive.getArchiveCOMObject(
                 archiveService,
-                ConfigurationServiceInfo.PROVIDERCONFIGURATION_OBJECT_TYPE,
+                ConfigurationServiceInfo.CONFIGURATIONPROVIDER_OBJECT_TYPE,
                 confId.getDomain(),
                 confId.getId());
 
@@ -106,7 +106,7 @@ public class PersistProviderConfiguration {
             HeterogeneousList archObj = new HeterogeneousList();
             ObjectKeysList setList = new ObjectKeysList(1);
             ObjectKeys set = new ObjectKeys(
-                    ConfigurationServiceInfo.SERVICECONFIGURATION_OBJECT_TYPE,
+                    ConfigurationServiceInfo.CONFIGURATIONSERVICE_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     objIds);
 
@@ -132,7 +132,7 @@ public class PersistProviderConfiguration {
 
             this.archiveService.store(
                     false,
-                    ConfigurationServiceInfo.PROVIDERCONFIGURATION_OBJECT_TYPE,
+                    ConfigurationServiceInfo.CONFIGURATIONPROVIDER_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     details,
                     providerNameList,
@@ -171,7 +171,7 @@ public class PersistProviderConfiguration {
             final LongList objIds) throws IOException {
         // Retrieve the COM object of the service
         List<ArchivePersistenceObject> comObjects = HelperArchive.getArchiveCOMObjectList(archiveService,
-                ConfigurationServiceInfo.SERVICECONFIGURATION_OBJECT_TYPE,
+                ConfigurationServiceInfo.CONFIGURATIONSERVICE_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(), objIds);
 
         if (comObjects == null) { // Could not be found, return

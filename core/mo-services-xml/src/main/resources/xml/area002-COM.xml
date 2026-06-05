@@ -761,22 +761,22 @@
         </mal:service>
         <mal:service name="Configuration" number="5" xsi:type="com:ExtendedServiceType" comment="The Configuration service allows a service consumer to activate pre-defined configurations of a provider. The service uses COM objects to represent the configurations allowed by a provider.">
             <mal:documentation name="Service-level Requirement" order="1">
-                The object body of the ServiceConfiguration COM object shall hold the service key that identifies the service it is a configuration of.
+                The object body of the ConfigurationService COM object shall hold the service key that identifies the service it is a configuration of.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="2">
-                The ServiceConfiguration COM object related link shall link to the ConfigurationSet COM object that contains the objects that form the service configuration.
+                The ConfigurationService COM object related link shall link to the ConfigurationSet COM object that contains the objects that form the service configuration.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="3">
-                If the ServiceConfiguration represents a hard-coded configuration for a single service, then the service provider shall set the related link to NULL.
+                If the ConfigurationService represents a hard-coded configuration for a single service, then the service provider shall set the related link to NULL.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="4">
-                The object body of the ProviderConfiguration COM object shall hold an identifier to identify the provider configuration.
+                The object body of the ConfigurationProvider COM object shall hold an identifier to identify the provider configuration.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="5">
-                The ProviderConfiguration COM object related link shall link to the ConfigurationSet COM object that contains the objects that form the provider configuration.
+                The ConfigurationProvider COM object related link shall link to the ConfigurationSet COM object that contains the objects that form the provider configuration.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="6">
-                If the ProviderConfiguration represents a hard-coded configuration for a provider, then the service provider shall set the related link to NULL.
+                If the ConfigurationProvider represents a hard-coded configuration for a provider, then the service provider shall set the related link to NULL.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="7">
                 The object body of the ConfigurationSet COM object shall hold a configuration object details structure that links to the objects that form the configuration.
@@ -785,19 +785,19 @@
                 The service provider shall set the ConfigurationSet COM object related link to NULL.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="9">
-                If the implementation of the Configuration service uses a COM archive, then the provider of the Configuration service shall store configuration definition objects (ServiceConfiguration, ProviderConfiguration, ConfigurationSet) in the COM archive.
+                If the implementation of the Configuration service uses a COM archive, then the provider of the Configuration service shall store configuration definition objects (ConfigurationService, ConfigurationProvider, ConfigurationSet) in the COM archive.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="10">
                 If the implementation of the Configuration service uses a COM archive, then the provider of the relevant service shall store the COM objects that form the actual configuration definition details in the COM archive.
             </mal:documentation>
             <com:features>
-                <com:objects comment="The ConfigurationSet, ServiceConfiguration, and ProviderConfiguration COM objects used by the Configuration service.">
+                <com:objects comment="The ConfigurationSet, ConfigurationService, and ConfigurationProvider COM objects used by the Configuration service.">
                     <com:object number="1" name="ConfigurationSet">
                         <com:objectType>
                             <mal:type area="COM" list="false" name="ConfigurationSet"/>
                         </com:objectType>
                     </com:object>
-                    <com:object number="2" name="ServiceConfiguration">
+                    <com:object number="2" name="ConfigurationService">
                         <com:objectType>
                             <mal:type area="MAL" list="false" name="ServiceId"/>
                         </com:objectType>
@@ -805,7 +805,7 @@
                             <com:objectType number="1" service="Configuration" area="COM"/>
                         </com:relatedObject>
                     </com:object>
-                    <com:object number="3" name="ProviderConfiguration">
+                    <com:object number="3" name="ConfigurationProvider">
                         <com:objectType>
                             <mal:type area="MAL" list="false" name="Identifier"/>
                         </com:objectType>

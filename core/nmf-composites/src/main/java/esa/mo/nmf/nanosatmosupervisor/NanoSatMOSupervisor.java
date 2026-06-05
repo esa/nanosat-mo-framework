@@ -184,7 +184,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(ConfigurationHelper.CONFIGURATION_SERVICE);
 
             // Activate the previous configuration
-            final ObjectKey confId = new ObjectKey(ConfigurationServiceInfo.PROVIDERCONFIGURATION_OBJECT_TYPE,
+            final ObjectKey confId = new ObjectKey(ConfigurationServiceInfo.CONFIGURATIONPROVIDER_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     DEFAULT_PROVIDER_CONFIGURATION_OBJID);
 

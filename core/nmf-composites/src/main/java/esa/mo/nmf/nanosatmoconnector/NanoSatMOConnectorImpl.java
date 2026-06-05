@@ -291,7 +291,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             LOGGER.log(Level.INFO, "Loading previous configurations...");
 
             // Activate the previous configuration
-            final ObjectKey confId = new ObjectKey(ConfigurationServiceInfo.PROVIDERCONFIGURATION_OBJECT_TYPE,
+            final ObjectKey confId = new ObjectKey(ConfigurationServiceInfo.CONFIGURATIONPROVIDER_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID);
 
             super.providerConfiguration = new PersistProviderConfiguration(this, confId, comServices.getArchiveService());
