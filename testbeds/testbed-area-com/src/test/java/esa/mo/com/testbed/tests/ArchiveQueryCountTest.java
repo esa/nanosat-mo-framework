@@ -134,7 +134,7 @@ public class ArchiveQueryCountTest {
         ObjectKeysList keysList = new ObjectKeysList();
         keysList.add(new ObjectKeys(QUERY_BODY_TYPE, domain, new LongList()));
         HeterogeneousList bodies = new HeterogeneousList();
-        bodies.add(new ConfigurationSet(keysList));
+        bodies.add(new ObjectKeysList(keysList));
         stub.store(true, QUERY_BODY_TYPE, domain,
                 HelperArchive.generateArchiveDetailsList(null, null, providerURI),
                 bodies);
@@ -357,7 +357,7 @@ public class ArchiveQueryCountTest {
     private static void storeEmpty(ArchiveStub stub, ObjectType type,
             IdentifierList domain, URI providerURI) throws MALInteractionException, MALException {
         HeterogeneousList bodies = new HeterogeneousList();
-        bodies.add(new ConfigurationSet(new ObjectKeysList()));
+        bodies.add(new ObjectKeysList(new ObjectKeysList()));
         stub.store(true, type, domain,
                 HelperArchive.generateArchiveDetailsList(null, null, providerURI),
                 bodies);

@@ -63,9 +63,8 @@ public class ArchiveTest {
         URI providerURI = harness.getCOMServicesProvider()
                 .getArchiveService().getConnection().getConnectionDetails().getProviderURI();
 
-        ObjectKeysList keysList = new ObjectKeysList();
-        keysList.add(new ObjectKeys(TEST_OBJECT_TYPE, domain, new LongList()));
-        ConfigurationSet storedBody = new ConfigurationSet(keysList);
+        ObjectKeysList storedBody = new ObjectKeysList();
+        storedBody.add(new ObjectKeys(TEST_OBJECT_TYPE, domain, new LongList()));
         HeterogeneousList bodies = new HeterogeneousList();
         bodies.add(storedBody);
 
@@ -78,15 +77,15 @@ public class ArchiveTest {
         Assert.assertNotNull("Returned instance ID must not be null", instId);
         System.out.println("The returned instance ID is: " + instId);
 
-        ConfigurationSet retrieved = (ConfigurationSet) HelperArchive.getObjectBodyFromArchive(
+        ObjectKeysList retrieved = (ObjectKeysList) HelperArchive.getObjectBodyFromArchive(
                 stub, TEST_OBJECT_TYPE, domain, instId);
 
         Assert.assertNotNull("Retrieved object must not be null", retrieved);
-        Assert.assertEquals("ConfigurationSet must contain the same number of entries",
-                storedBody.getConfigObjects().size(), retrieved.getConfigObjects().size());
+        Assert.assertEquals("ObjectKeysList must contain the same number of entries",
+                storedBody.size(), retrieved.size());
         Assert.assertEquals("ObjectType in entry must match",
-                storedBody.getConfigObjects().get(0).getObjType(),
-                retrieved.getConfigObjects().get(0).getObjType());
+                storedBody.get(0).getObjType(),
+                retrieved.get(0).getObjType());
         System.out.flush();
     }
 
