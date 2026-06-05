@@ -31,7 +31,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.InvalidException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.archivesync.ArchiveSyncHelper;
 import org.ccsds.moims.mo.com.archivesync.body.GetTimeResponse;
 import org.ccsds.moims.mo.com.archivesync.provider.ArchiveSyncInheritanceSkeleton;
@@ -208,7 +208,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         final Dispatcher dispatcher = dispatchers.get(transactionTicket);
 
         if (dispatcher == null) {
-            throw new MALInteractionException(new InvalidException(null));
+            throw new MALInteractionException(new InvalidArgumentException(null));
         }
 
         TimerTask timerTask = timerTasks.get(transactionTicket);

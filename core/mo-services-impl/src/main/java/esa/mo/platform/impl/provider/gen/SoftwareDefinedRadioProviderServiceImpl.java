@@ -26,7 +26,7 @@ import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.InvalidException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mal.InternalException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -165,7 +165,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
                 throw new MALInteractionException(new DeviceNotAvailableException(null));
             }
             if (!adapter.setConfiguration(initialConfiguration)) {
-                throw new MALInteractionException(new InvalidException(null));
+                throw new MALInteractionException(new InvalidArgumentException(null));
             }
             sdrInUse = true;
             int period = (int) (publishingPeriod.getInSeconds() * 1000); // In milliseconds
@@ -194,7 +194,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
             throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
         if (!adapter.setConfiguration(sdrConfiguration)) {
-            throw new MALInteractionException(new InvalidException(null));
+            throw new MALInteractionException(new InvalidArgumentException(null));
         }
     }
 

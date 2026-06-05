@@ -22,7 +22,7 @@ package esa.mo.platform.impl.provider.gen;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.InvalidException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
@@ -100,7 +100,7 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
             return;
         }
         if (recordingDuration.getInSeconds() > MAX_RECORDING_DURATION) {
-            interaction.sendError(new InvalidException(new Duration(MAX_RECORDING_DURATION)));
+            interaction.sendError(new InvalidArgumentException(new Duration(MAX_RECORDING_DURATION)));
             return;
         }
         interaction.sendAcknowledgement();

@@ -245,7 +245,7 @@ public class ArchiveQueryCountTest {
                 "Provider must return an error for an invalid CompositeFilter", error);
         System.out.println("Error number returned: " + error.getErrorNumber());
         Assert.assertEquals(
-                "Error must be INVALID", COMHelper.INVALID_ERROR_NUMBER,
+                "Error must be INVALID", COMHelper.INVALID_ARGUMENT_ERROR_NUMBER,
                 error.getErrorNumber());
         System.out.flush();
     }
@@ -281,7 +281,7 @@ public class ArchiveQueryCountTest {
         Assert.assertNotNull("Provider must return an error for an unknown sort field", error);
         System.out.println("Error number returned: " + error.getErrorNumber());
         Assert.assertEquals("Error must be INVALID",
-                COMHelper.INVALID_ERROR_NUMBER, error.getErrorNumber());
+                COMHelper.INVALID_ARGUMENT_ERROR_NUMBER, error.getErrorNumber());
         System.out.flush();
     }
 
@@ -311,7 +311,7 @@ public class ArchiveQueryCountTest {
         Assert.assertNotNull("Provider must return an error for an invalid CompositeFilter", error);
         System.out.println("Error number returned: " + error.getErrorNumber());
         Assert.assertEquals("Error must be INVALID",
-                COMHelper.INVALID_ERROR_NUMBER, error.getErrorNumber());
+                COMHelper.INVALID_ARGUMENT_ERROR_NUMBER, error.getErrorNumber());
         System.out.flush();
     }
 
@@ -344,7 +344,7 @@ public class ArchiveQueryCountTest {
         Assert.assertNotNull("Provider must return an error for an unknown sort field", error);
         System.out.println("Error number returned: " + error.getErrorNumber());
         Assert.assertEquals("Error must be INVALID",
-                COMHelper.INVALID_ERROR_NUMBER, error.getErrorNumber());
+                COMHelper.INVALID_ARGUMENT_ERROR_NUMBER, error.getErrorNumber());
         System.out.flush();
     }
 

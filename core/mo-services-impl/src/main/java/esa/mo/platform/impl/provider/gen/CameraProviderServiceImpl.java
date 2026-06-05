@@ -27,11 +27,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.COMHelper;
-import org.ccsds.moims.mo.com.InvalidException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
@@ -189,7 +187,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
             // If not, then send the available resolutions to the consumer so they can pick...
             if (!isResolutionAvailable) {
-                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, availableResolutions));
+                throw new MALInteractionException(new InvalidArgumentException(availableResolutions));
             }
         }
 
@@ -203,7 +201,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
         // If not, then send the available formats to the consumer so they can pick...
         if (!isFormatsAvailable) {
-            throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, availableFormats));
+            throw new MALInteractionException(new InvalidArgumentException(availableFormats));
         }
     }
 
@@ -221,13 +219,13 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
             // Is the requested streaming rate less than the minimum period?
             if (streamingRate.getInSeconds() < minimumPeriod.getInSeconds()) {
-                throw new MALInteractionException(new MOErrorException(COMHelper.INVALID_ERROR_NUMBER, minimumPeriod));
+                throw new MALInteractionException(new InvalidArgumentException(minimumPeriod));
             }
 
             // Is the requested streaming rate less than the service lowest minimum period?
             if (streamingRate.getInSeconds() < serviceLowestMinimumPeriod.getInSeconds()) {
                 // This is a protection to avoid having crazy implementations with super low streaming rates!
-                throw new MALInteractionException(new InvalidException(serviceLowestMinimumPeriod));
+                throw new MALInteractionException(new InvalidArgumentException(serviceLowestMinimumPeriod));
             }
 
             isCapturePossible(settings);
@@ -235,7 +233,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             if (tag.getValue() == null
                     || "*".equals(tag.getValue())
                     || "".equals(tag.getValue())) {
-                throw new MALInteractionException(new InvalidException(null));
+                throw new MALInteractionException(new InvalidArgumentException(null));
             }
 
             cameraInUse = true;

@@ -152,7 +152,7 @@ public class PlatformCommands {
                 }
             } catch (MALInteractionException e) {
                 MOErrorException error = e.getStandardError();
-                if (error.getErrorNumber().equals(COMHelper.INVALID_ERROR_NUMBER)) {
+                if (error.getErrorNumber().equals(COMHelper.INVALID_ARGUMENT_ERROR_NUMBER)) {
                     if (error.getExtraInformation() instanceof PixelResolutionList) {
                         System.out.println("Provided resolution is not supported!");
                         System.out.println("Supported resolutions: " + error.getExtraInformation());

@@ -34,7 +34,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.DuplicateException;
-import org.ccsds.moims.mo.com.InvalidException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -274,7 +274,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         // requirement: 3.3.9.2.g: before changes are made, possible errors are thrown
         // Errors
         if (!invIndexList.isEmpty()) { // requirement: 3.3.9.3.2 
-            throw new MALInteractionException(new InvalidException(invIndexList));
+            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
         }
         if (!unkIndexList.isEmpty()) { // requirement: 3.3.9.3.1 (error: a and b)
             throw new MALInteractionException(new UnknownException(unkIndexList));
@@ -401,7 +401,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         // Errors
         if (!invIndexList.isEmpty()) { // requirement: 3.3.12.2.b
-            throw new MALInteractionException(new InvalidException(invIndexList));
+            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
         }
 
         if (!dupIndexList.isEmpty()) { // requirement: 3.3.12.2.c
@@ -470,7 +470,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         // Errors
         if (!invIndexList.isEmpty()) // requirement: 3.3.13.3.1 (error: a)
         {
-            throw new MALInteractionException(new InvalidException(invIndexList));
+            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
         }
 
         if (!unkIndexList.isEmpty()) // requirement: 3.3.13.3.2 (error: b)

@@ -126,7 +126,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the argumentValues list size does not match the argument list in the matched ActionDefinition, or the argumentIds list does not match the ActionDefinition argument identifiers, or one or more argument values do not match the declared attribute type, or a deployment-specific check fails.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -377,7 +377,7 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the supplied raw value does not match the defined attribute type for the referenced ParameterDefinition.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -493,7 +493,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the ids list contains NULL or '0', or the ids and definitions lists are not the same length, or a supplied reportInterval value is not supported by the provider.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -688,7 +688,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the definitionIds list contains NULL or '0', or the definitionIds and alertDefDetails lists are not the same length, or one of the supplied AlertDefinition objects contains an invalid value.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -1021,13 +1021,13 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one or more of the supplied aggregation names is already in use in the domain.">
-                            <mal:type area="COM" list="false" name="DUPLICATE"/>
+                            <mal:type area="COM" list="false" name="Duplicate"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When one or more of the supplied aggregation objects contains an invalid name or a supplied interval is not supported by the provider.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -1065,7 +1065,7 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the definitionIds list contains a NULL or '0', the two supplied lists are not the same size, or a supplied interval is not supported by the provider.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>

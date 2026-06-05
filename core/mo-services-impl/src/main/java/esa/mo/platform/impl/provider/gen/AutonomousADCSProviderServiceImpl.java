@@ -26,11 +26,10 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.InvalidException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.UnsupportedOperationException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.misc.Const;
@@ -90,7 +89,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     public synchronized void init(COMServicesProvider comServices,
             AutonomousADCSAdapterInterface adapter) throws MALException {
         long timestamp = System.currentTimeMillis();
-        
+
         resultCacheValidityMs = Integer.parseInt(System.getProperty(Const.PLATFORM_IADCS_CACHING_PERIOD, "1000"));
 
         publisher = createMonitorAttitudePublisher(ConfigurationProviderSingleton.getDomain(),
@@ -108,8 +107,8 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
         this.adapter = adapter;
         autonomousADCSServiceProvider = connection.startService(
-            AutonomousADCSServiceInfo.AUTONOMOUSADCS_SERVICE_NAME.toString(),
-            AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE, true, this);
+                AutonomousADCSServiceInfo.AUTONOMOUSADCS_SERVICE_NAME.toString(),
+                AutonomousADCSHelper.AUTONOMOUSADCS_SERVICE, true, this);
 
         initialiased = true;
         timestamp = System.currentTimeMillis() - timestamp;
@@ -130,7 +129,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         } catch (MALException ex) {
             LOGGER.log(Level.WARNING, "Exception during close down of the provider.", ex);
         }
-  }
+    }
 
     private void publishCurrentAttitude() {
         if (!adapter.isUnitAvailable()) {
@@ -157,14 +156,14 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             final AttitudeMode activeAttitudeMode = adapter.getActiveAttitudeMode();
 
             Duration duration = getAttitudeControlRemainingDuration();
-            AttributeList keys = new AttributeList(); 
+            AttributeList keys = new AttributeList();
             keys.add(new NamedValueList());
             //final UpdateHeaderList hdrlst = new UpdateHeaderList();
             URI source = connection.getConnectionDetails().getProviderURI();
-            UpdateHeader updateHeader = new UpdateHeader(new Identifier(source.getValue()), 
+            UpdateHeader updateHeader = new UpdateHeader(new Identifier(source.getValue()),
                     connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
 
-            publisher.publish(updateHeader, attitudeTelemetry, 
+            publisher.publish(updateHeader, attitudeTelemetry,
                     actuatorsTelemetry, duration, activeAttitudeMode);
         } catch (IOException | IllegalArgumentException | MALException | MALInteractionException ex) {
             LOGGER.log(Level.SEVERE, "Error when trying to publish data!", ex);
@@ -183,7 +182,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         }
         // Is the requested streaming rate less than the minimum period?
         if (monitoringInterval == null || monitoringInterval.getInSeconds() < MINIMUM_MONITORING_PERIOD.getInSeconds()) {
-            throw new MALInteractionException(new InvalidException(MINIMUM_MONITORING_PERIOD));
+            throw new MALInteractionException(new InvalidArgumentException(MINIMUM_MONITORING_PERIOD));
         }
 
         monitoringPeriod = (int) (monitoringInterval.getInSeconds() * 1000); // In milliseconds
@@ -204,7 +203,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
                     generationEnabled, new Duration(monitoringPeriod / 1000.f), activeAttitudeMode);
         } catch (IOException ex) {
             Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE,
-                "Error when producing getStatus response", ex);
+                    "Error when producing getStatus response", ex);
             throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
 
@@ -280,7 +279,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             String validationResult = adapter.validateAttitudeDescriptor(desiredAttitude);
 
             if (validationResult != null) {
-                throw new MALInteractionException(new InvalidException(
+                throw new MALInteractionException(new InvalidArgumentException(
                         Attribute.javaType2Attribute(validationResult)));
             }
 
@@ -290,8 +289,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, "Error when setting desired attitude.", ex);
                 // Operation not supported by the implementation...
-                throw new MALInteractionException(new MOErrorException(MALHelper.UNSUPPORTED_OPERATION_ERROR_NUMBER,
-                    null));
+                throw new MALInteractionException(new UnsupportedOperationException());
             }
             adcsInUse = true;
 

@@ -35,7 +35,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.DuplicateException;
-import org.ccsds.moims.mo.com.InvalidException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -501,7 +501,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         // requirement: 3.7.10.2.e is met because the errors will be thrown before something changes
         // Errors
         if (!invIndexList.isEmpty()) { // requirement: 3.7.10.2.2
-            throw new MALInteractionException(new InvalidException(invIndexList));
+            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
         }
 
         if (!dupIndexList.isEmpty()) { // requirement: 3.7.10.2.3
@@ -581,7 +581,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
 
         if (!invIndexList.isEmpty()) { // requirement: 3.7.13.3.2
-            throw new MALInteractionException(new InvalidException(invIndexList));
+            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
         }
 
         for (int index = 0; index < ids.size(); index++) { // requirement: 3.7.13.2.e, k (implicitly by cycling through list)

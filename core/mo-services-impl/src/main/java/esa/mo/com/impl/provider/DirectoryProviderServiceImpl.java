@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.InvalidException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.directory.DirectoryHelper;
 import org.ccsds.moims.mo.com.directory.DirectoryServiceInfo;
 import org.ccsds.moims.mo.com.directory.provider.DirectoryInheritanceSkeleton;
@@ -149,7 +149,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             Identifier domainPart = inputDomain.get(i);
 
             if (domainPart.toString().equals("*") && i != (inputDomain.size() - 1)) {
-                throw new MALInteractionException(new InvalidException(null));
+                throw new MALInteractionException(new InvalidArgumentException(null));
             }
         }
 
@@ -278,12 +278,12 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
             // Check if there are comServices...
             if (comServices == null) {
-                throw new MALInteractionException(new InvalidException(null));
+                throw new MALInteractionException(new InvalidArgumentException(null));
             }
 
             // Check if the archive is available...
             if (comServices.getArchiveService() == null) {
-                throw new MALInteractionException(new InvalidException(null));
+                throw new MALInteractionException(new InvalidArgumentException(null));
             }
 
             HeterogeneousList body = new HeterogeneousList();
@@ -295,7 +295,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                     archDetails, body, null);
 
             if (returnedProvObjIds.isEmpty()) {
-                throw new MALInteractionException(new InvalidException(null));
+                throw new MALInteractionException(new InvalidArgumentException(null));
             }
 
             Long provObjId = returnedProvObjIds.get(0);

@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.InvalidException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
@@ -132,7 +132,7 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
 
         if (!inputTiles.exists()) {
             String msg = "The inputTilesPath does not exist in path: " + inputTilesPath;
-            throw new MALInteractionException(new InvalidException(msg));
+            throw new MALInteractionException(new InvalidArgumentException(msg));
         }
 
         String modelPath = modelPaths.get((int) (modelId - TIMESTAMP));
@@ -183,7 +183,7 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
 
         if (!path.exists()) {
             String msg = "The file does not exist in path: " + path;
-            throw new MALInteractionException(new InvalidException(msg));
+            throw new MALInteractionException(new InvalidArgumentException(msg));
         }
 
         if (interaction != null) {

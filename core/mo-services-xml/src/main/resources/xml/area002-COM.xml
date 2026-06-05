@@ -65,7 +65,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When any field of the object type contains the wildcard value '0', or the domain contains the wildcard value '*'.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                         </mal:errorRef>
                         <mal:errorRef comment="When one or more of the requested objects specified in the operation do not exist in the archive.">
                             <mal:type area="MAL" list="false" name="UNKNOWN"/>
@@ -172,7 +172,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the archiveQuery or queryFilter field contains an invalid value, such as when the sortFieldName does not reference a defined field.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="A description of the invalid value.">
                                 <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
@@ -208,7 +208,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the archiveQuery or queryFilter field contains an invalid value, such as when the sortFieldName does not reference a defined field.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="A description of the invalid value.">
                                 <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
@@ -265,13 +265,13 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one or more of the objects being stored has supplied an id that is already in use in the archive.">
-                            <mal:type area="COM" list="false" name="DUPLICATE"/>
+                            <mal:type area="COM" list="false" name="Duplicate"/>
                             <mal:extraInformation comment="A list of the indexes of the erroneous values from the originating request list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When one or more of the objects being stored contains an invalid value: a wildcard value of '0' in the object type, a wildcard value of '*' in the domain, a value of '0', '*', or NULL in the timestamp or provider fields of the archive details, or mismatched objDetails and objBodies list sizes.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="A list of the indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -311,7 +311,7 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When one or more of the objects being updated contains a wildcard value in the object type, domain, or id fields.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="A list of the indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -356,7 +356,7 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the objType field or the domain field contains a wildcard value.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
@@ -584,7 +584,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the domain field contains a wildcard value in any position other than the final identifier.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
@@ -629,7 +629,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When any submitted field value is invalid.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
@@ -652,7 +652,7 @@
                             <mal:type area="MAL" list="false" name="UNKNOWN"/>
                         </mal:errorRef>
                         <mal:errorRef comment="When the supplied providerId is '0'.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:submitIP>
@@ -673,7 +673,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the supplied filename is invalid.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                         </mal:errorRef>
                         <mal:errorRef comment="When the requested XML file is not found.">
                             <mal:type area="MAL" list="false" name="UNKNOWN"/>
@@ -729,10 +729,10 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the username is currently in use by another active session.">
-                            <mal:type area="COM" list="false" name="DUPLICATE"/>
+                            <mal:type area="COM" list="false" name="Duplicate"/>
                         </mal:errorRef>
                         <mal:errorRef comment="When the submitted username contains invalid values. No further information is provided as it may compromise security.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                         </mal:errorRef>
                         <mal:errorRef comment="When the concurrent session limit for the username is exceeded.">
                             <mal:type area="MAL" list="false" name="TOO_MANY"/>
@@ -1128,8 +1128,8 @@
             </mal:enumeration>
         </mal:dataTypes>
         <mal:errors>
-            <mal:error number="1" name="INVALID" comment="A field in the message contains an invalid value. If there are multiple errors, the first invalid field is reported."/>
-            <mal:error number="2" name="DUPLICATE" comment="An attempt was made to create or store an object using an identifier that is already in use."/>
+            <mal:error number="1" name="Invalid Argument" comment="A field in the message contains an invalid value. If there are multiple errors, the first invalid field is reported."/>
+            <mal:error number="2" name="Duplicate" comment="An attempt was made to create or store an object using an identifier that is already in use."/>
         </mal:errors>
     </mal:area>
 </mal:specification>

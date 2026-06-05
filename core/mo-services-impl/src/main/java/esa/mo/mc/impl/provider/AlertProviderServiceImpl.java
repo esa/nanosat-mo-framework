@@ -29,7 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.DuplicateException;
-import org.ccsds.moims.mo.com.InvalidException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
@@ -245,7 +245,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         // Errors
         //requirement: 3.4.10.2.d -> returning errors before adding definitions assures that
         if (!invIndexList.isEmpty()) { // requirement: 3.4.10.3.2
-            throw new MALInteractionException(new InvalidException(invIndexList));
+            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
         }
         if (!dupIndexList.isEmpty()) { // requirement: 3.4.10.3.1
             throw new MALInteractionException(new DuplicateException(dupIndexList));
@@ -294,7 +294,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         // Errors
         //requirement: 3.4.11.2.g -> returning errors before adding definitions assures that
         if (!invIndexList.isEmpty()) { // requirement: 3.4.11.3.1
-            throw new MALInteractionException(new InvalidException(invIndexList));
+            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
         }
 
         if (!unkIndexList.isEmpty()) { // requirement: 3.4.11.3.2

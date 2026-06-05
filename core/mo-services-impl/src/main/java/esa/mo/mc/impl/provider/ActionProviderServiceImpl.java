@@ -31,7 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.DuplicateException;
-import org.ccsds.moims.mo.com.InvalidException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -144,11 +144,11 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         boolean accepted = manager.checkExecutionRequest(executionRequest, invIndexList);
 
         if (!invIndexList.isEmpty()) {
-            throw new MALInteractionException(new InvalidException(invIndexList));
+            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
         }
 
         if (!accepted) {
-            throw new MALInteractionException(new InvalidException(invIndexList));
+            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
         }
 
         Long executionId = manager.storeAndGenerateExecReqId(executionRequest,
@@ -232,7 +232,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         // Errors
         // returning errors before creating the object -> requirement: 3.2.12.2.d
         if (!invIndexList.isEmpty()) { // requirement: 3.2.12.3.1
-            throw new MALInteractionException(new InvalidException(invIndexList));
+            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
         }
         if (!dupIndexList.isEmpty()) { // requirement: 3.2.12.3.2
             throw new MALInteractionException(new DuplicateException(dupIndexList));
@@ -279,7 +279,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         // Errors
         // returning errors before creating the object -> requirement: 3.2.13.2.g
         if (!invIndexList.isEmpty()) { // requirement: 3.2.13.2.1 (error: a)
-            throw new MALInteractionException(new InvalidException(invIndexList));
+            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
         }
 
         if (!unkIndexList.isEmpty()) { // requirement: 3.2.13.2.2 (error: b)

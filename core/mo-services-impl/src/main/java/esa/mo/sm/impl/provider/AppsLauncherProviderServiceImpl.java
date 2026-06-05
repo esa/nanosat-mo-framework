@@ -34,7 +34,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
-import org.ccsds.moims.mo.com.InvalidException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.InternalException;
 import org.ccsds.moims.mo.mal.MALException;
@@ -311,7 +311,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         // Errors
         if (!invIndexList.isEmpty()) {
-            throw new MALInteractionException(new InvalidException(invIndexList));
+            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
         }
 
         if (!unkIndexList.isEmpty()) {
@@ -390,7 +390,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         // Errors
         if (!invIndexList.isEmpty()) {
-            throw new MALInteractionException(new InvalidException(invIndexList));
+            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
         }
 
         if (!unkIndexList.isEmpty()) {
@@ -445,7 +445,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
 
         if (!invIndexList.isEmpty()) {
-            throw new MALInteractionException(new InvalidException(invIndexList));
+            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
         }
 
         if (interaction != null) {

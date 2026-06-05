@@ -25,7 +25,7 @@ import esa.mo.sm.impl.util.PMBackend;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.InvalidException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.UnknownException;
@@ -210,7 +210,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         }
 
         if (!invIndexList.isEmpty()) {
-            throw new MALInteractionException(new InvalidException(invIndexList));
+            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
         }
 
         for (Identifier packageName : names) {
@@ -275,7 +275,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         }
 
         if (!invIndexList.isEmpty()) {
-            throw new MALInteractionException(new InvalidException(invIndexList));
+            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
         }
 
         for (int i = 0; i < names.size(); i++) {
@@ -332,7 +332,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         }
 
         if (!invIndexList.isEmpty()) {
-            throw new MALInteractionException(new InvalidException(invIndexList));
+            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
         }
 
         for (Identifier packageName : names) {
@@ -385,7 +385,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         }
 
         if (!invIndexList.isEmpty()) {
-            throw new MALInteractionException(new InvalidException(invIndexList));
+            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
         }
 
         final BooleanList integrities = new BooleanList();

@@ -69,26 +69,26 @@
                             <mal:type area="Platform" list="false" name="Device Not Available" />
                         </mal:errorRef>
                         <mal:errorRef comment="When the requested streaming period is not supported.">
-                            <mal:type area="COM" list="false" name="INVALID" />
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
                             <mal:extraInformation
                                 comment="The minimum duration that can be selected.">
                                 <mal:type area="MAL" list="false" name="Duration" />
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the requested resolution is not supported.">
-                            <mal:type area="COM" list="false" name="INVALID" />
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
                             <mal:extraInformation comment="The list of available resolutions.">
                                 <mal:type area="Platform" list="true" name="PixelResolution" />
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the requested format is not supported.">
-                            <mal:type area="COM" list="false" name="INVALID" />
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
                             <mal:extraInformation comment="The list of available formats.">
                                 <mal:type area="Platform" list="true" name="PictureFormat" />
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the enable field is TRUE and the tag field is NULL, empty, or a wildcard.">
-                            <mal:type area="COM" list="false" name="INVALID" />
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
                         </mal:errorRef>
                     </mal:errors>
                 </mal:submitIP>
@@ -135,13 +135,13 @@
                             <mal:type area="Platform" list="false" name="Device Not Available" />
                         </mal:errorRef>
                         <mal:errorRef comment="When the requested resolution is not supported.">
-                            <mal:type area="COM" list="false" name="INVALID" />
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
                             <mal:extraInformation comment="The list of available resolutions.">
                                 <mal:type area="Platform" list="true" name="PixelResolution" />
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the requested format is not supported.">
-                            <mal:type area="COM" list="false" name="INVALID" />
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
                             <mal:extraInformation comment="The list of available formats.">
                                 <mal:type area="Platform" list="true" name="PictureFormat" />
                             </mal:extraInformation>
@@ -173,13 +173,13 @@
                             <mal:type area="Platform" list="false" name="Device Not Available" />
                         </mal:errorRef>
                         <mal:errorRef comment="When the requested resolution is not supported.">
-                            <mal:type area="COM" list="false" name="INVALID" />
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
                             <mal:extraInformation comment="The list of available resolutions.">
                                 <mal:type area="Platform" list="true" name="PixelResolution" />
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the requested format is not supported.">
-                            <mal:type area="COM" list="false" name="INVALID" />
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
                             <mal:extraInformation comment="The list of available formats.">
                                 <mal:type area="Platform" list="true" name="PictureFormat" />
                             </mal:extraInformation>
@@ -227,7 +227,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the inputPicture or the settings field contains an invalid value.">
-                            <mal:type area="COM" list="false" name="INVALID" />
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
                             <mal:extraInformation comment="The name of the first invalid field.">
                                 <mal:type area="MAL" list="false" name="String" />
                             </mal:extraInformation>
@@ -278,7 +278,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the requested sentence identifier is invalid.">
-                            <mal:type area="COM" list="false" name="INVALID" />
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
                         </mal:errorRef>
                         <mal:errorRef comment="When the GPS unit is not available.">
                             <mal:type area="Platform" list="false" name="Device Not Available" />
@@ -388,14 +388,14 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one of the supplied NearbyPosition objects contains an invalid name.">
-                            <mal:type area="COM" list="false" name="INVALID" />
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
                             <mal:extraInformation
                                 comment="The indexes of the erroneous entries in the nearbyPositionDefinitions list.">
                                 <mal:type area="MAL" list="true" name="UInteger" />
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When one or more of the nearbyPositionDefinitions entries has a name that is already in use in the domain.">
-                            <mal:type area="COM" list="false" name="DUPLICATE" />
+                            <mal:type area="COM" list="false" name="Duplicate" />
                             <mal:extraInformation
                                 comment="The indexes of the duplicate entries in the nearbyPositionDefinitions list.">
                                 <mal:type area="MAL" list="true" name="UInteger" />
@@ -734,7 +734,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the monitoringInterval field is too short or was not provided.">
-                            <mal:type area="COM" list="false" name="INVALID" />
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
                             <mal:extraInformation comment="The minimum allowed publishing period.">
                                 <mal:type area="MAL" list="false" name="Duration" />
                             </mal:extraInformation>
@@ -798,7 +798,7 @@
                             <mal:type area="Platform" list="false" name="Device Not Available" />
                         </mal:errorRef>
                         <mal:errorRef comment="When the desiredAttitude field contains an invalid argument.">
-                            <mal:type area="COM" list="false" name="INVALID" />
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
                             <mal:extraInformation comment="The name of the first field in the attitude mode that failed validation.">
                                 <mal:type area="MAL" list="false" name="String" />
                             </mal:extraInformation>
@@ -958,7 +958,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the initialConfiguration field contains an invalid value.">
-                            <mal:type area="COM" list="false" name="INVALID" />
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
                         </mal:errorRef>
                         <mal:errorRef comment="When the Software-defined Radio could not be enabled.">
                             <mal:type area="MAL" list="false" name="INTERNAL" />
@@ -977,7 +977,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the configuration field contains an invalid value.">
-                            <mal:type area="COM" list="false" name="INVALID" />
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
                         </mal:errorRef>
                     </mal:errors>
                 </mal:submitIP>
@@ -1003,7 +1003,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the recordingDuration field exceeds the maximum allowed recording duration.">
-                            <mal:type area="COM" list="false" name="INVALID" />
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
                             <mal:extraInformation comment="The maximum allowed recording duration.">
                                 <mal:type area="MAL" list="false" name="Duration" />
                             </mal:extraInformation>
@@ -1135,7 +1135,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the inputTilesPath field does not refer to an existing folder.">
-                            <mal:type area="COM" list="false" name="INVALID" />
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
@@ -1158,7 +1158,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the execution could not be completed successfully.">
-                            <mal:type area="COM" list="false" name="INVALID" />
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
                             <mal:extraInformation comment="A description of the error.">
                                 <mal:type area="MAL" list="false" name="String" />
                             </mal:extraInformation>

@@ -65,7 +65,7 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When one or more of the requested packages is already installed.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="Integer"/>
                             </mal:extraInformation>
@@ -95,7 +95,7 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When one or more of the requested packages is not installed.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="Integer"/>
                             </mal:extraInformation>
@@ -124,7 +124,7 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When one or more of the requested packages is not installed.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="Integer"/>
                             </mal:extraInformation>
@@ -379,7 +379,7 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When one or more of the requested apps is already running.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -408,7 +408,7 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When one or more of the requested apps is not running.">
-                            <mal:type area="COM" list="false" name="INVALID"/>
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>

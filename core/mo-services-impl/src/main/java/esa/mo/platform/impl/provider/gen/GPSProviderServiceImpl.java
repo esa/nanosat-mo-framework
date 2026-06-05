@@ -33,7 +33,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.DuplicateException;
-import org.ccsds.moims.mo.com.InvalidException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -204,7 +204,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             interaction.sendResponse(nmeaSentence);
         } catch (IOException ex) {
             LOGGER.log(Level.FINE, "getNMEASentence error", ex);
-            throw new MALInteractionException(new InvalidException(null));
+            throw new MALInteractionException(new InvalidArgumentException(null));
         }
     }
 
@@ -325,7 +325,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         }
 
         if (!invIndexList.isEmpty()) { // requirement: 3.4.10.3.2
-            throw new MALInteractionException(new InvalidException(invIndexList));
+            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
         }
 
         if (configurationAdapter != null) {

@@ -38,7 +38,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.exec.environment.EnvironmentUtils;
-import org.ccsds.moims.mo.com.InvalidException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -507,7 +507,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
                         "App ''{0}'' (id={1}) did not exit within {2} ms timeout after STOP_REQUESTED.",
                         new Object[]{appName, appInstId, APP_STOP_TIMEOUT});
                 if (interaction != null) {
-                    interaction.sendUpdateError(new InvalidException(appInstId));
+                    interaction.sendUpdateError(new InvalidArgumentException(appInstId));
                 }
             }
         } catch (InterruptedException ex) {
