@@ -471,23 +471,23 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     }
 
     @Override
-    public Boolean reloadConfiguration(ConfigurationSet configurationObjectDetails) {
+    public Boolean reloadConfiguration(ObjectKeysList configurationObjectDetails) {
         // Validate the returned configuration...
         if (configurationObjectDetails == null) {
             return false;
         }
 
-        if (configurationObjectDetails.getConfigObjects() == null) {
+        if (configurationObjectDetails == null) {
             return false;
         }
 
         // 1 because we just have NearbyPosition as configuration objects in this
         // service
-        if (configurationObjectDetails.getConfigObjects().size() != 1) {
+        if (configurationObjectDetails.size() != 1) {
             return false;
         }
 
-        ObjectKeys confSet = configurationObjectDetails.getConfigObjects().get(0);
+        ObjectKeys confSet = configurationObjectDetails.get(0);
 
         // Confirm the objType
         if (!confSet.getObjType().equals(GPSServiceInfo.NEARBYPOSITION_OBJECT_TYPE)) {
@@ -518,7 +518,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     }
 
     @Override
-    public ConfigurationSet getCurrentConfiguration() {
+    public ObjectKeysList getCurrentConfiguration() {
         // Get all the current objIds in the serviceImpl
         // Create a Configuration Object with all the objs of the provider
         HashMap<Long, Element> defObjs = manager.getCurrentDefinitionsConfiguration();
@@ -535,7 +535,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         list.add(objsSet);
 
         // Needs the Common API here!
-        return new ConfigurationSet(list);
+        return new ObjectKeysList(list);
     }
 
     @Override

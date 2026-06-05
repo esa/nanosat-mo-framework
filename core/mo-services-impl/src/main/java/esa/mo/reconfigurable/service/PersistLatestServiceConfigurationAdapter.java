@@ -28,6 +28,8 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.provider.ArchiveInheritanceSkeleton;
 import org.ccsds.moims.mo.com.configuration.ConfigurationServiceInfo;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.structures.ConfigurationService;
+import org.ccsds.moims.mo.com.structures.ObjectKeysList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
@@ -75,23 +77,24 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
                             serviceImpl.getCOMService().getName()
                             + " service: The service configuration object could not be found! objectId: "
                             + serviceConfigObjId);
-
-                    // Todo: Maybe we can use storeDefaultServiceConfiguration() here!? To handle better the error...
                     return;
                 }
-
-                configObjectsObjId = comObject.getArchiveDetails().getLinks().getRelated();
             }
 
-            // Stuff to feed the update operation from the Archive...
-            ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null,
-                    new URI(""), configObjectsObjId);
-            HeterogeneousList confObjsList = new HeterogeneousList();
-            confObjsList.add(serviceImpl.getCurrentConfiguration());
+            // Update the service configuration with embedded config objects
+            HeterogeneousList serviceConfigList = new HeterogeneousList();
+            ConfigurationService serviceConfig = new ConfigurationService(
+                    new ServiceId(serviceImpl.getCOMService().getAreaNumber(),
+                            serviceImpl.getCOMService().getServiceNumber(),
+                            serviceImpl.getCOMService().getServiceVersion()),
+                    serviceImpl.getCurrentConfiguration());
+            serviceConfigList.add(serviceConfig);
 
             try {
-                archiveService.update(ConfigurationServiceInfo.CONFIGURATIONSET_OBJECT_TYPE,
-                        ConfigurationProviderSingleton.getDomain(), details, confObjsList, null);
+                archiveService.update(ConfigurationServiceInfo.CONFIGURATIONSERVICE_OBJECT_TYPE,
+                        ConfigurationProviderSingleton.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(null, null, new URI(""), serviceConfigObjId),
+                        serviceConfigList, null);
             } catch (MALException ex) {
                 Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
@@ -106,29 +109,21 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
 
     public final void storeDefaultServiceConfiguration(final Long defaultObjId, final ReconfigurableService service) {
         try {
-            // Store the Service Configuration objects
-            HeterogeneousList archObj1 = new HeterogeneousList();
-            archObj1.add(service.getCurrentConfiguration());
-
-            LongList objIds1 = archiveService.store(
-                    true,
-                    ConfigurationServiceInfo.CONFIGURATIONSET_OBJECT_TYPE,
-                    ConfigurationProviderSingleton.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(null, null, new URI("")),
-                    archObj1,
-                    null);
-
-            // Store the Service Configuration
-            HeterogeneousList serviceKeyList = new HeterogeneousList();
-            serviceKeyList.add(new ServiceId(service.getCOMService().getAreaNumber(),
-                    service.getCOMService().getServiceNumber(), service.getCOMService().getServiceVersion()));
+            // Store the Service Configuration with embedded config objects
+            HeterogeneousList serviceConfigList = new HeterogeneousList();
+            ConfigurationService serviceConfig = new ConfigurationService(
+                    new ServiceId(service.getCOMService().getAreaNumber(),
+                            service.getCOMService().getServiceNumber(),
+                            service.getCOMService().getServiceVersion()),
+                    service.getCurrentConfiguration());
+            serviceConfigList.add(serviceConfig);
 
             archiveService.store(
                     false,
                     ConfigurationServiceInfo.CONFIGURATIONSERVICE_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(objIds1.get(0), null, new URI(""), defaultObjId),
-                    serviceKeyList,
+                    HelperArchive.generateArchiveDetailsList(null, null, new URI(""), defaultObjId),
+                    serviceConfigList,
                     null);
         } catch (MALException ex) {
             Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);

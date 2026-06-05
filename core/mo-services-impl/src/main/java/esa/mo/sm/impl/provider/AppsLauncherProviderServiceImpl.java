@@ -527,23 +527,23 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
 
     @Override
-    public Boolean reloadConfiguration(ConfigurationSet configurationObjectDetails) {
+    public Boolean reloadConfiguration(ObjectKeysList configurationObjectDetails) {
         // Validate the configuration...
         if (configurationObjectDetails == null) {
             return false;
         }
 
-        if (configurationObjectDetails.getConfigObjects() == null) {
+        if (configurationObjectDetails == null) {
             return false;
         }
 
         // Is the size 1?
         // 1 because we just have Apps as configuration objects in this service
-        if (configurationObjectDetails.getConfigObjects().size() != 1) {
+        if (configurationObjectDetails.size() != 1) {
             return false;
         }
 
-        ObjectKeys confSet = configurationObjectDetails.getConfigObjects().get(0);
+        ObjectKeys confSet = configurationObjectDetails.get(0);
 
         // Confirm the objType
         if (!confSet.getObjType().equals(AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE)) {
@@ -579,7 +579,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
 
     @Override
-    public ConfigurationSet getCurrentConfiguration() {
+    public ObjectKeysList getCurrentConfiguration() {
         // Get all the current objIds in the serviceImpl
         // Create a Configuration Object with all the objs of the provider
         final HashMap<Long, Element> defObjs = manager.getCurrentDefinitionsConfiguration();
@@ -594,7 +594,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         list.add(objsSet);
 
         // Needs the Common API here!
-        return new ConfigurationSet(list);
+        return new ObjectKeysList(list);
     }
 
     @Override

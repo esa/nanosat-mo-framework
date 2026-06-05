@@ -77,12 +77,8 @@ public class PersistProviderConfiguration {
 
         // Does the providerConfiguration object exists?
         if (comObjectProvider != null) {
-            final ArchivePersistenceObject comObjectConfs = HelperArchive.getArchiveCOMObject(
-                    archiveService,
-                    ConfigurationServiceInfo.CONFIGURATIONSET_OBJECT_TYPE,
-                    confId.getDomain(),
-                    comObjectProvider.getArchiveDetails().getLinks().getRelated());
-            objIds = ((ConfigurationSet) comObjectConfs.getObject()).getConfigObjects().get(0).getIds();
+            final ConfigurationProvider providerConfig = (ConfigurationProvider) comObjectProvider.getObject();
+            objIds = providerConfig.getConfigObjects().get(0).getIds();
             return;
         }
 
@@ -102,40 +98,25 @@ public class PersistProviderConfiguration {
                 objIds.add(confObjId); // Will work for now
             }
 
-            // Store the provider configuration objects
-            HeterogeneousList archObj = new HeterogeneousList();
+            // Store the provider configuration
             ObjectKeysList setList = new ObjectKeysList(1);
             ObjectKeys set = new ObjectKeys(
                     ConfigurationServiceInfo.CONFIGURATIONSERVICE_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     objIds);
-
             setList.add(set);
-            ConfigurationSet providerObjects = new ConfigurationSet(setList);
-            archObj.add(providerObjects);
 
-            LongList objIds3 = this.archiveService.store(
-                    true,
-                    ConfigurationServiceInfo.CONFIGURATIONSET_OBJECT_TYPE,
-                    ConfigurationProviderSingleton.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(null, null, new URI("")),
-                    archObj,
-                    null);
-
-            // Store the provider configuration
-            // Related points to the Provider's Configuration Object
-            ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(objIds3.get(0),
-                    null, new URI(""), confId.getId());
-
-            HeterogeneousList providerNameList = new HeterogeneousList();
-            providerNameList.add(provider.getProviderName());
+            HeterogeneousList providerConfigList = new HeterogeneousList();
+            ConfigurationProvider providerConfig = new ConfigurationProvider(
+                    provider.getProviderName(), setList);
+            providerConfigList.add(providerConfig);
 
             this.archiveService.store(
                     false,
                     ConfigurationServiceInfo.CONFIGURATIONPROVIDER_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
-                    details,
-                    providerNameList,
+                    HelperArchive.generateArchiveDetailsList(null, null, new URI(""), confId.getId()),
+                    providerConfigList,
                     null);
         } catch (MALException ex) {
             Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.SEVERE, null, ex);
@@ -169,7 +150,7 @@ public class PersistProviderConfiguration {
 
     private void reloadServiceConfigurations(final ArrayList<ReconfigurableService> services,
             final LongList objIds) throws IOException {
-        // Retrieve the COM object of the service
+        // Retrieve the COM objects of the services (now with embedded configuration data)
         List<ArchivePersistenceObject> comObjects = HelperArchive.getArchiveCOMObjectList(archiveService,
                 ConfigurationServiceInfo.CONFIGURATIONSERVICE_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(), objIds);
@@ -180,30 +161,16 @@ public class PersistProviderConfiguration {
             return;
         }
 
-        final LongList relateds = new LongList();
+        for (int i = 0; i < comObjects.size(); i++) {
+            final ConfigurationService serviceConfig = (ConfigurationService) comObjects.get(i).getObject();
 
-        // Get all of the related links to retrieve from the archive
-        for (ArchivePersistenceObject comObject : comObjects) {
-            relateds.add(comObject.getArchiveDetails().getLinks().getRelated());
-        }
-
-        // Retrieve it from the Archive
-        List<ArchivePersistenceObject> confObjs = HelperArchive.getArchiveCOMObjectList(
-                archiveService, ConfigurationServiceInfo.CONFIGURATIONSET_OBJECT_TYPE,
-                ConfigurationProviderSingleton.getDomain(), relateds);
-
-        for (int i = 0; i < confObjs.size(); i++) {
-            ConfigurationSet configurationObjectDetails
-                    = (ConfigurationSet) confObjs.get(i).getObject();
-
-            if (configurationObjectDetails == null) { // Could not be found, throw error!
-                // If the object above exists, this one should also!
+            if (serviceConfig == null) { // Could not be found, throw error!
                 throw new IOException("An error happened while reloading the service "
                         + "configuration: " + services.get(i).getCOMService().getName());
             }
 
-            // Reload the previous Configuration
-            services.get(i).reloadConfiguration(configurationObjectDetails);
+            // Reload the previous configuration (now directly from the service configuration object)
+            services.get(i).reloadConfiguration(serviceConfig.getConfigObjects());
         }
     }
 

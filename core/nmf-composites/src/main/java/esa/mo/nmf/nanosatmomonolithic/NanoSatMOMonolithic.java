@@ -110,8 +110,8 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
         Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Populating Directory service...");
         directoryService.loadURIs(this.providerName, NMFProviderType.MONOLITHIC);
 
-        // Are the dynamic changes enabled?
-        if ("true".equals(System.getProperty(Const.DYNAMIC_CHANGES_PROPERTY))) {
+        // Are the dynamic changes enabled? (defaults to true)
+        if ("true".equals(System.getProperty(Const.DYNAMIC_CHANGES_PROPERTY, "true"))) {
             Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Loading previous configurations...");
 
             // Activate the previous configuration

@@ -178,8 +178,8 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             }
         });
 
-        // Are the dynamic changes enabled?
-        if ("true".equals(System.getProperty(Const.DYNAMIC_CHANGES_PROPERTY))) {
+        // Are the dynamic changes enabled? (defaults to true)
+        if ("true".equals(System.getProperty(Const.DYNAMIC_CHANGES_PROPERTY, "true"))) {
             LOGGER.log(Level.INFO, "Loading previous configurations...");
             MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(ConfigurationHelper.CONFIGURATION_SERVICE);
 

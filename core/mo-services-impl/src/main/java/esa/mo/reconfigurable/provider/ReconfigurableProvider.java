@@ -23,7 +23,7 @@ package esa.mo.reconfigurable.provider;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.util.ArrayList;
-import org.ccsds.moims.mo.com.structures.ConfigurationSet;
+import org.ccsds.moims.mo.com.structures.ObjectKeysList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 
 /**
@@ -45,14 +45,14 @@ public interface ReconfigurableProvider {
      * @param configurationObjectDetails The configuration
      * @return True if successfully reloaded, false otherwise.
      */
-    Boolean reloadConfiguration(ConfigurationSet configurationObjectDetails);
+    Boolean reloadConfiguration(ObjectKeysList configurationObjectDetails);
 
     /**
      * Retrieves the current configuration set in the provider
      *
      * @return The configuration of the service
      */
-    ConfigurationSet getCurrentConfiguration();
+    ObjectKeysList getCurrentConfiguration();
 
     /**
      * Get list of services available

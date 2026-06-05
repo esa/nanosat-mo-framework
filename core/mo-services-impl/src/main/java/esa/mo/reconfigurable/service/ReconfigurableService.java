@@ -21,7 +21,7 @@
 package esa.mo.reconfigurable.service;
 
 import org.ccsds.moims.mo.com.COMService;
-import org.ccsds.moims.mo.com.structures.ConfigurationSet;
+import org.ccsds.moims.mo.com.structures.ObjectKeysList;
 
 /**
  * An interface to make a service implementation reconfigurable
@@ -42,14 +42,14 @@ public interface ReconfigurableService {
      * @param configurationObjectDetails The configuration
      * @return True if successfully reloaded, false otherwise.
      */
-    Boolean reloadConfiguration(ConfigurationSet configurationObjectDetails);
+    Boolean reloadConfiguration(ObjectKeysList configurationObjectDetails);
 
     /**
      * Retrieves the current configuration set in the service
      *
      * @return The configuration of the service
      */
-    ConfigurationSet getCurrentConfiguration();
+    ObjectKeysList getCurrentConfiguration();
 
     /**
      * Retrieves the COMService object

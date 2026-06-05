@@ -791,27 +791,16 @@
                 If the implementation of the Configuration service uses a COM archive, then the provider of the relevant service shall store the COM objects that form the actual configuration definition details in the COM archive.
             </mal:documentation>
             <com:features>
-                <com:objects comment="The ConfigurationSet, ConfigurationService, and ConfigurationProvider COM objects used by the Configuration service.">
-                    <com:object number="1" name="ConfigurationSet">
+                <com:objects comment="The ConfigurationService and ConfigurationProvider COM objects used by the Configuration service.">
+                    <com:object number="1" name="ConfigurationService">
                         <com:objectType>
-                            <mal:type area="COM" list="false" name="ConfigurationSet"/>
+                            <mal:type area="COM" list="false" name="ConfigurationService"/>
                         </com:objectType>
                     </com:object>
-                    <com:object number="2" name="ConfigurationService">
+                    <com:object number="2" name="ConfigurationProvider">
                         <com:objectType>
-                            <mal:type area="MAL" list="false" name="ServiceId"/>
+                            <mal:type area="COM" list="false" name="ConfigurationProvider"/>
                         </com:objectType>
-                        <com:relatedObject>
-                            <com:objectType number="1" service="Configuration" area="COM"/>
-                        </com:relatedObject>
-                    </com:object>
-                    <com:object number="3" name="ConfigurationProvider">
-                        <com:objectType>
-                            <mal:type area="MAL" list="false" name="Identifier"/>
-                        </com:objectType>
-                        <com:relatedObject>
-                            <com:objectType number="1" service="Configuration" area="COM"/>
-                        </com:relatedObject>
                     </com:object>
                 </com:objects>
                 <com:events comment=""/>
@@ -1112,15 +1101,29 @@
                 </mal:field>
             </mal:composite>
 
-            <mal:composite name="ConfigurationSet" shortFormPart="29" comment="The ConfigurationSet composite groups zero to many ObjectKeys structures. It allows a configuration to reference COM objects from more than one domain or of more than one COM object type.">
+            <mal:composite name="ConfigurationService" shortFormPart="29" comment="The ConfigurationService composite holds service identification and its complete configuration data.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
+                <mal:field name="serviceIdentifier" canBeNull="false" comment="Identifier of the service.">
+                    <mal:type area="MAL" list="false" name="ServiceId"/>
+                </mal:field>
                 <mal:field name="configObjects" canBeNull="false" comment="The list of configuration objects.">
                     <mal:type area="COM" list="true" name="ObjectKeys"/>
                 </mal:field>
             </mal:composite>
-            <mal:enumeration name="NMFProviderType" shortFormPart="30" comment="The NMFProviderType enumeration classifies the role of a provider registered in the Directory service.">
+            <mal:composite name="ConfigurationProvider" shortFormPart="30" comment="The ConfigurationProvider composite holds provider identification and its complete configuration data.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="providerIdentifier" canBeNull="false" comment="Identifier of the provider.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="configObjects" canBeNull="false" comment="The list of configuration objects.">
+                    <mal:type area="COM" list="true" name="ObjectKeys"/>
+                </mal:field>
+            </mal:composite>
+            <mal:enumeration name="NMFProviderType" shortFormPart="32" comment="The NMFProviderType enumeration classifies the role of a provider registered in the Directory service.">
                 <mal:item nvalue="1" value="APP"        comment="An NMF App running under a Supervisor."/>
                 <mal:item nvalue="2" value="SUPERVISOR" comment="An NMF Supervisor managing a set of apps."/>
                 <mal:item nvalue="3" value="MONOLITHIC"  comment="A self-contained NMF Monolithic provider not running under a Supervisor."/>

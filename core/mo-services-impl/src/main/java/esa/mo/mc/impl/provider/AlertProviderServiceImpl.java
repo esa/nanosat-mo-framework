@@ -540,22 +540,22 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     }
 
     @Override
-    public Boolean reloadConfiguration(ConfigurationSet configurationObjectDetails) {
+    public Boolean reloadConfiguration(ObjectKeysList configurationObjectDetails) {
         // Validate the returned configuration...
         if (configurationObjectDetails == null) {
             return false;
         }
 
-        if (configurationObjectDetails.getConfigObjects() == null) {
+        if (configurationObjectDetails == null) {
             return false;
         }
 
         // Is the size 1?
-        if (configurationObjectDetails.getConfigObjects().size() != 1) {
+        if (configurationObjectDetails.size() != 1) {
             return false;
         }
 
-        ObjectKeys confSetDefs = configurationObjectDetails.getConfigObjects().get(0);
+        ObjectKeys confSetDefs = configurationObjectDetails.get(0);
 
         // Confirm the objTypes
         if (!confSetDefs.getObjType().equals(AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE)) {
@@ -592,14 +592,14 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     }
 
     @Override
-    public ConfigurationSet getCurrentConfiguration() {
+    public ObjectKeysList getCurrentConfiguration() {
         // Create a Configuration Object with all the objs of the provider
         ObjectKeysList list = manager.getCurrentConfiguration(
                 AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE
         );
 
         // Needs the Common API here!
-        return new ConfigurationSet(list);
+        return new ObjectKeysList(list);
     }
 
     @Override
