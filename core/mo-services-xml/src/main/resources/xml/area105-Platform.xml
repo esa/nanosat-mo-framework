@@ -678,9 +678,9 @@
                         </com:sourceObject>
                     </com:object>
                     <com:object number="2" name="NearbyPositionAlert"
-                                comment="A boolean value indicating whether the spacecraft is entering or exiting the nearby position boundary." >
+                                comment="Alert state indicating whether the spacecraft is entering or exiting the nearby position boundary." >
                         <com:objectType>
-                            <mal:type area="MAL" list="false" name="Boolean" />
+                            <mal:type area="COM" list="false" name="NearbyPositionAlert" />
                         </com:objectType>
                         <com:relatedObject comment="">
                             <com:objectType area="Platform" number="1" service="GPS" />

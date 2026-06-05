@@ -1129,6 +1129,14 @@
                 <mal:item nvalue="3" value="MONOLITHIC"  comment="A self-contained NMF Monolithic provider not running under a Supervisor."/>
                 <mal:item nvalue="4" value="PROXY"       comment="A Ground MO Proxy bridging the space and ground networks."/>
             </mal:enumeration>
+            <mal:composite name="NearbyPositionAlert" shortFormPart="31" comment="Alert state for spacecraft entering/exiting nearby position boundary.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="enteredBoundary" canBeNull="false" comment="True if entering boundary, false if exiting.">
+                    <mal:type area="MAL" list="false" name="Boolean"/>
+                </mal:field>
+            </mal:composite>
         </mal:dataTypes>
         <mal:errors>
             <mal:error number="1" name="Invalid Argument" comment="A field in the message contains an invalid value. If there are multiple errors, the first invalid field is reported."/>
