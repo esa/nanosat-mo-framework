@@ -174,20 +174,12 @@
                                 <svg:path d="M0,0 V10 L15,5 Z" fill="rgb(0,0,0)"/>
                             </svg:marker>
                         </svg:defs>
-                        <svg:path d="M135,90 L240,90 L345,90" end="PackageDefinition" fill="none" marker-mid="url(#relatedArrow)" start="Installation" stroke="rgb(0,0,0)" stroke-width="1"/>
                         <svg:g id="PackageDefinition" transform="translate(280,50)">
                             <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="130" x="4" y="4"/>
                             <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="130"/>
                             <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="65" y="25">PackageDefinition</svg:text>
                             <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="65" y="45">1</svg:text>
                             <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="65" y="65">PackageDefinition</svg:text>
-                        </svg:g>
-                        <svg:g id="Installation" transform="translate(70,50)">
-                            <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="130" x="4" y="4"/>
-                            <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="130"/>
-                            <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="65" y="25">Installation</svg:text>
-                            <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="65" y="45">2</svg:text>
-                            <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="65" y="65">MAL::Identifier</svg:text>
                         </svg:g>
                     </svg:svg>
                 </mal:diagram>
@@ -197,15 +189,6 @@
                             <mal:type area="SM" list="false" name="PackageDefinition"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
-                        <com:sourceObject comment=""/>
-                    </com:object>
-                    <com:object comment="" number="2" name="Installation">
-                        <com:objectType>
-                            <mal:type area="MAL" list="false" name="Identifier"/>
-                        </com:objectType>
-                        <com:relatedObject comment="">
-                            <com:objectType area="SM" number="1" service="PackageManagement"/>
-                        </com:relatedObject>
                         <com:sourceObject comment=""/>
                     </com:object>
                 </com:objects>
@@ -513,7 +496,6 @@
                             </svg:marker>
                         </svg:defs>
 
-                        <svg:path d="M383,187 L507,187 L631,188" end="PackageManagement::Installation" fill="none" marker-mid="url(#sourceArrow)" start="AppDetails" stroke="rgb(255,0,0)" stroke-width="1"/>
                         <svg:g id="COM::ActivityTracking::OperationActivity" transform="translate(85,10)">
                             <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="270" x="4" y="4"/>
                             <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="270"/>
@@ -527,13 +509,6 @@
                             <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="50" y="25">AppDetails</svg:text>
                             <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="50" y="45">1</svg:text>
                             <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="50" y="65">AppDetails</svg:text>
-                        </svg:g>
-                        <svg:g id="PackageManagement::Installation" transform="translate(519,148)">
-                            <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="225" x="4" y="4"/>
-                            <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="225"/>
-                            <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="112" y="25">PackageManagement::Installation</svg:text>
-                            <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="112" y="45">2</svg:text>
-                            <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="112" y="65">MAL::Identifier</svg:text>
                         </svg:g>
                     </svg:svg>
                 </mal:diagram>
