@@ -45,8 +45,7 @@ import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
  * object and puts it inside a MAL Blob type (a byte container).
  *
  */
-public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNMFAdapter implements
-        SimpleMonitorAndControlListener {
+public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNMFAdapter implements SimpleMonitorAndControlListener {
 
     @Override
     public UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues,
