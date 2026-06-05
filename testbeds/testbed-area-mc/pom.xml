@@ -63,16 +63,7 @@
         <dependency>
             <groupId>int.esa.nmf.core</groupId>
             <artifactId>api-nmf-com</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nmf-services-com</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nmf-services-mc</artifactId>
-        </dependency>
-        <dependency>
+        </dependency>        <dependency>
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>mal-impl</artifactId>
         </dependency>
@@ -84,12 +75,16 @@
             <groupId>int.esa.ccsds.mo</groupId>
             <artifactId>transport-rmi</artifactId>
         </dependency>
+                <dependency>
+            <groupId>int.esa.nmf.core</groupId>
+            <artifactId>nmf-services-impl</artifactId>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-    </dependencies>
+</dependencies>
 
     <build>
         <testResources>

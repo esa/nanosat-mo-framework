@@ -47,16 +47,7 @@ under the License. -->
             <url>https://github.com/CesarCoelho</url>
         </developer>
     </developers>
-    <dependencies>
-        <dependency>
-            <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nmf-services-platform-generic</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nmf-services-mc</artifactId>
-        </dependency>
-        <dependency>
+    <dependencies>        <dependency>
             <groupId>int.esa.nmf.simulator</groupId>
             <artifactId>spacecraft-simulator</artifactId>
             <version>5.0-SNAPSHOT</version>
@@ -71,12 +62,16 @@ under the License. -->
             <artifactId>orekit-resources</artifactId>
             <version>${project.version}</version>
         </dependency>
+                <dependency>
+            <groupId>int.esa.nmf.core</groupId>
+            <artifactId>nmf-services-impl</artifactId>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-    </dependencies>
+</dependencies>
     <build>
         <resources></resources>
         <plugins>

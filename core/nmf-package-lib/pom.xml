@@ -52,17 +52,16 @@
         </developer>
     </developers>
     <dependencies>
-        <dependency>
+                <dependency>
             <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nmf-services-sm</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.xerial</groupId>
-                    <artifactId>sqlite-jdbc</artifactId>
-                </exclusion>
-            </exclusions>
+            <artifactId>nmf-services-impl</artifactId>
         </dependency>
-    </dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+</dependencies>
     <build>
         <resources></resources>
         <plugins>
