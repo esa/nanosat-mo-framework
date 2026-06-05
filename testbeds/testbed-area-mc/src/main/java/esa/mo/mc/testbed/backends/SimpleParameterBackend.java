@@ -69,9 +69,4 @@ public class SimpleParameterBackend extends Backend {
         return null;
     }
 
-    @Override
-    public boolean preCheck(ActionDefinition defDetails, ExecutionRequest instDetails, UIntegerList errorList) {
-        return true;
-    }
-
 }

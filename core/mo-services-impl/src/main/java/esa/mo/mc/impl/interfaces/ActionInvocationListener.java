@@ -23,9 +23,6 @@ package esa.mo.mc.impl.interfaces;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mc.structures.ActionDefinition;
-import org.ccsds.moims.mo.mc.structures.ExecutionRequest;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
 /**
@@ -49,15 +46,5 @@ public interface ActionInvocationListener {
      */
     UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues,
             Long executionId, boolean reportProgress, MALInteraction interaction);
-
-    /**
-     * The user must implement this interface in order to pre-check actions.
-     *
-     * @param defDetails The Action definition.
-     * @param execReqDetails The ExecutionRequest details.
-     * @param errorList The list of errors.
-     * @return True if passes, false otherwise.
-     */
-    boolean preCheck(ActionDefinition defDetails, ExecutionRequest execReqDetails, UIntegerList errorList);
 
 }

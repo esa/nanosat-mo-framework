@@ -23,7 +23,7 @@
     <groupId>int.esa.nmf.core</groupId>
     <artifactId>nmf-services-impl</artifactId>
     <packaging>jar</packaging>
-    <name>ESA NMF Core MO Services - Unified Implementation</name>
+    <name>ESA NMF Core MO Services</name>
     <description>Unified implementation of CCSDS Mission Operations services (COM, MC, SM, Platform)</description>
     <url>http://www.esa.int</url>
     <organization>

@@ -304,11 +304,7 @@ public final class ActionManager extends MCManager {
                 }
             }
         }
-        boolean preCheckResult = actions.preCheck(actionDef, execReq, errorList);
-        if (!errorList.isEmpty()) {
-            return false;
-        }
-        return preCheckResult;
+        return errorList.isEmpty();
     }
 
     protected void forward(final Long executionId, final ExecutionRequest executionRequest,

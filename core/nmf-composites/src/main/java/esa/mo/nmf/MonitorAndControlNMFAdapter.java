@@ -511,12 +511,6 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
     }
 
     @Override
-    public boolean preCheck(ActionDefinition defDetails,
-            ExecutionRequest instDetails, UIntegerList errorList) {
-        return true;
-    }
-
-    @Override
     public ParameterValue getValueWithCustomValidityState(Attribute rawValue, ParameterDefinition pDef) {
         return null; // Return null to work normally...
     }
