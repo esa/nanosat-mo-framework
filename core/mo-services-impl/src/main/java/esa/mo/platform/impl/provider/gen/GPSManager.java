@@ -36,6 +36,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.Union;
+import org.ccsds.moims.mo.com.structures.NearbyPositionAlert;
 import org.ccsds.moims.mo.platform.gps.GPSServiceInfo;
 import org.ccsds.moims.mo.platform.structures.*;
 
@@ -125,8 +126,9 @@ public final class GPSManager extends DefinitionsManager {
     protected Long storeAndGenerateNearbyPositionAlertId(final Boolean inside,
             final Long objId, final URI uri) {
         if (super.getArchiveService() != null) {
-            HeterogeneousList isEnteringList = new HeterogeneousList();
-            isEnteringList.add(new Union(inside));
+            HeterogeneousList alertList = new HeterogeneousList();
+            NearbyPositionAlert alert = new NearbyPositionAlert(inside);
+            alertList.add(alert);
 
             try {  // requirement: 3.3.4.2
                 LongList objIds = super.getArchiveService().store(
@@ -134,7 +136,7 @@ public final class GPSManager extends DefinitionsManager {
                         GPSServiceInfo.NEARBYPOSITIONALERT_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
                         HelperArchive.generateArchiveDetailsList(objId, null, uri),
-                        isEnteringList,
+                        alertList,
                         null);
 
                 if (objIds.size() == 1) {
