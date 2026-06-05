@@ -21,8 +21,8 @@
 package esa.mo.nmf.ctt.utils;
 
 import esa.mo.com.impl.util.COMServicesConsumer;
-import esa.mo.helpertools.clock.PlatformClockCallback;
-import esa.mo.helpertools.clock.SystemClock;
+import esa.mo.platform.impl.util.PlatformClockCallback;
+import esa.mo.platform.impl.util.SystemClock;
 import esa.mo.mc.impl.util.MCServicesConsumer;
 import esa.mo.nmf.ctt.services.com.ArchiveConsumerManagerPanel;
 import esa.mo.nmf.ctt.services.mc.ActionConsumerPanel;

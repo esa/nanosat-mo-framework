@@ -18,7 +18,7 @@
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-package esa.mo.helpertools.clock;
+package esa.mo.platform.impl.util;
 
 import java.util.Objects;
 import java.util.logging.Logger;
