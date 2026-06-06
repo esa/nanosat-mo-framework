@@ -27,7 +27,6 @@ import esa.mo.com.impl.util.HelperCommon;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -42,7 +41,6 @@ import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
@@ -404,8 +402,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         pb.environment().putAll(env);
 
         pb.directory(appFolder);
-        LOGGER.log(Level.INFO,
-                "Initializing ''{0}'' App!\nIn directory: {1}\nUsing launcher command: {2}",
+        LOGGER.log(Level.INFO, "Initializing ''{0}'' App!\nIn directory: {1}\nUsing launcher command: {2}",
                 new Object[]{appName, appFolder.getAbsolutePath(), Arrays.toString(appLauncherCommand)});
         final Process proc = pb.start();
         handler.monitorProcess(proc);
@@ -421,16 +418,14 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         ProcessExecutionHandler handler = handlers.get(appInstId);
 
         if (handler == null) {
-            LOGGER.log(Level.INFO,
-                    "Handler of {0} app is null, setting running = false.", appName);
+            LOGGER.log(Level.INFO, "Handler of {0} app is null, setting running = false.", appName);
             //app.setRunning(false);
             setRunning(appInstId, false, interaction);
             return false;
         }
 
         if (handler.getProcess() == null) {
-            LOGGER.log(Level.INFO,
-                    "Process of {0} app is null, setting running = false.", appName);
+            LOGGER.log(Level.INFO, "Process of {0} app is null, setting running = false.", appName);
             //app.setRunning(false);
             setRunning(appInstId, false, interaction);
             return true;
@@ -489,8 +484,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         MALInteraction malInt = (interaction != null) ? interaction.getInteraction() : null;
         // The STOP_REQUESTED monitorEvents notification was already published by stopApp().
         // Wait for the process to exit within the timeout.
-        LOGGER.log(Level.INFO,
-                "Waiting up to {0} ms for app ''{1}'' (id={2}) to exit after STOP_REQUESTED.",
+        LOGGER.log(Level.INFO, "Waiting up to {0} ms for app ''{1}'' (id={2}) to exit after STOP_REQUESTED.",
                 new Object[]{APP_STOP_TIMEOUT, appName, appInstId});
         try {
             boolean terminated = process.waitFor(APP_STOP_TIMEOUT, TimeUnit.MILLISECONDS);
@@ -640,33 +634,31 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         }
 
         AddressDetailsList addresses = capabilities.get(0).getServiceAddresses();
-
         int bestIndex = HelperCommon.getBestIPCServiceAddressIndex(addresses);
-        return new SingleConnectionDetails(
-                addresses.get(bestIndex).getServiceURI(),
-                addresses.get(bestIndex).getBrokerURI(),
+        AddressDetails best = addresses.get(bestIndex);
+
+        return new SingleConnectionDetails(best.getServiceURI(), best.getBrokerURI(),
                 providersList.get(0).getDomain());
     }
 
-    private static boolean isJustRunningStatusChange(final AppDetails previousAppDetails,
+    private static boolean isJustRunningStatusChange(final AppDetails previous,
             final AppDetails single_app) {
-        if (!previousAppDetails.getCategory().equals(single_app.getCategory())
-                || !previousAppDetails.getDescription().equals(single_app.getDescription())
-                || !previousAppDetails.getName().equals(single_app.getName())
-                || previousAppDetails.getRunAtStartup().booleanValue() != single_app.getRunAtStartup().
-                booleanValue()
-                || !previousAppDetails.getVersion().equals(single_app.getVersion())) {
+        if (!previous.getCategory().equals(single_app.getCategory())
+                || !previous.getDescription().equals(single_app.getDescription())
+                || !previous.getName().equals(single_app.getName())
+                || previous.getRunAtStartup().booleanValue() != single_app.getRunAtStartup().booleanValue()
+                || !previous.getVersion().equals(single_app.getVersion())) {
             return false;
         }
 
         // extraInfo field can be null according to the API
-        if (previousAppDetails.getExtraInfo() != null && single_app.getExtraInfo() != null) {
-            if (!previousAppDetails.getExtraInfo().equals(single_app.getExtraInfo())) {
+        if (previous.getExtraInfo() != null && single_app.getExtraInfo() != null) {
+            if (!previous.getExtraInfo().equals(single_app.getExtraInfo())) {
                 return false;
             }
         }
 
-        return previousAppDetails.getRunning().booleanValue() != single_app.getRunning().booleanValue();
+        return previous.getRunning().booleanValue() != single_app.getRunning().booleanValue();
     }
 
     private AppDetails readAppDescriptor(final String appName, final File propertiesFile) {
