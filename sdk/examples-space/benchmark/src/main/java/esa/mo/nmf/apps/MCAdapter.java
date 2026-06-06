@@ -29,6 +29,7 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mc.structures.*;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
 
 /**
  *
@@ -135,8 +136,8 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long executionId, boolean reportProgress, MALInteraction interaction) {
+    public void actionArrived(Identifier name, AttributeValueList attributeValues,
+            Long executionId, boolean reportProgress, MALInteraction interaction)  throws ExecutionFailedException {
         if (ACTION_STORE_AGGS.equals(name.getValue())) {
             StoreAggregations.storeAggregations(NUMBER_OF_OBJS, connector);
         }
@@ -158,8 +159,6 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
                     attributeValues.get(0).getValue());
             new Thread(() -> System.exit(exitCode)).start();
         }
-
-        return null;  // Action service not integrated
     }
 
 }

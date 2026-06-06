@@ -40,6 +40,7 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.structures.*;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
 import org.ccsds.moims.mo.platform.structures.*;
 
@@ -122,7 +123,6 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         if (PARAMETER_SNAPS_TAKEN.equals(identifier.getValue())) {
             return (Attribute) HelperAttributes.javaType2Attribute(snapsTaken.get());
         }
-
         return null;
     }
 
@@ -132,10 +132,10 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long executionId, boolean reportProgress, MALInteraction interaction) {
+    public void actionArrived(Identifier name, AttributeValueList attributeValues,
+            Long executionId, boolean reportProgress, MALInteraction interaction)  throws ExecutionFailedException {
         if (connector == null) {
-            return new UInteger(0);
+            throw new ExecutionFailedException("Action execution failed");
         }
 
         PixelResolution resolution = new PixelResolution(new UInteger(width), new UInteger(height));
@@ -148,7 +148,6 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
                                 DEFAULT_GAIN_R, DEFAULT_GAIN_G, DEFAULT_GAIN_B, null),
                         adapter
                 );
-                return null; // Success!
             } catch (MALInteractionException | MALException | IOException | NMFException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -162,13 +161,12 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
                                 DEFAULT_GAIN_R, DEFAULT_GAIN_G, DEFAULT_GAIN_B, null),
                         adapter
                 );
-                return null; // Success!
             } catch (MALInteractionException | MALException | IOException | NMFException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
-        return new UInteger(0);  // Action service not integrated
+        throw new ExecutionFailedException("Action execution failed");  // Action service not integrated
     }
 
     public class DataReceivedAdapter extends CameraAdapter {

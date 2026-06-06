@@ -29,6 +29,8 @@ import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mc.structures.ActionDefinition;
 import org.ccsds.moims.mo.mc.structures.ExecutionRequest;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
+
 import org.ccsds.moims.mo.mc.structures.ParameterDefinition;
 import org.ccsds.moims.mo.mc.structures.ParameterValue;
 
@@ -64,9 +66,9 @@ public class SimpleParameterBackend extends Backend {
     }
 
     @Override
-    public UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues,
-            Long executionId, boolean reportProgress, MALInteraction interaction) {
-        return null;
+    public void actionArrived(Identifier identifier, AttributeValueList attributeValues,
+            Long executionId, boolean reportProgress, MALInteraction interaction) throws ExecutionFailedException {
+        // Test backend - actions always succeed
     }
 
 }

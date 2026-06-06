@@ -31,8 +31,8 @@ import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
 
@@ -48,8 +48,8 @@ import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
 public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNMFAdapter implements SimpleMonitorAndControlListener {
 
     @Override
-    public UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues,
-            Long executionId, boolean reportProgress, MALInteraction interaction) {
+    public void actionArrived(Identifier identifier, AttributeValueList attributeValues,
+            Long executionId, boolean reportProgress, MALInteraction interaction) throws ExecutionFailedException {
         Serializable[] values = new Serializable[attributeValues.size()];
 
         for (int i = 0; i < attributeValues.size(); i++) {
@@ -67,7 +67,9 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
         }
 
         final boolean success = this.actionArrivedSimple(identifier.getValue(), values, executionId);
-        return success ? new UInteger(0) : new UInteger(1);
+        if (!success) {
+            throw new ExecutionFailedException("Action execution failed");
+        }
     }
 
     @Override

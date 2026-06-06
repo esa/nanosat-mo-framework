@@ -41,6 +41,7 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.structures.*;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.platform.autonomousadcs.body.GetStatusResponse;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
@@ -396,14 +397,13 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
      * execution.
      * @param interaction The interaction object progress of the action.
      *
-     * @return Returns null if the Action was successful. If not null, then the
-     * returned value should hold the error number.
+     * @throws ExecutionFailedException if the action execution fails
      */
     @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long executionId, boolean reportProgress, MALInteraction interaction) {
+    public void actionArrived(Identifier name, AttributeValueList attributeValues,
+            Long executionId, boolean reportProgress, MALInteraction interaction) throws ExecutionFailedException {
         if (nmf == null) {
-            return new UInteger(0);
+            throw new ExecutionFailedException("NMF not initialized");
         }
         LOGGER.log(Level.INFO, "Action {0} with parameters '{'{1}'}' arrived.",
                 new Object[]{
@@ -415,34 +415,38 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         if (name.getValue() != null) {
             switch (name.getValue()) {
                 case ACTION_SUN_POINTING_MODE:
-                    return executeAdcsModeAction(
+                    executeAdcsModeAction(
                             (Duration) attributeValues.get(0).getValue(),
                             new AttitudeModeSunPointing());
+                    return;
                 case ACTION_NADIR_POINTING_MODE:
-                    return executeAdcsModeAction(
+                    executeAdcsModeAction(
                             (Duration) attributeValues.get(0).getValue(),
                             new AttitudeModeNadirPointing());
+                    return;
                 case ACTION_UNSET:
-                    return executeAdcsModeAction(null, null);
+                    executeAdcsModeAction(null, null);
+                    return;
                 case ACTION_5_STAGES:
                     try {
-                        return multiStageAction(executionId, 5);
+                        multiStageAction(executionId, 5);
+                        return;
                     } catch (NMFException ex) {
                         LOGGER.log(Level.SEVERE, null, ex);
-                        return new UInteger(4);
+                        throw new ExecutionFailedException("Multi-stage action failed: " + ex.getMessage());
                     }
                 default:
                     break;
             }
         }
-        return null; // Action successful
+        throw new ExecutionFailedException("Unknown action");
     }
 
-    private UInteger executeAdcsModeAction(Duration duration, AttitudeMode attitudeMode) {
+    private void executeAdcsModeAction(Duration duration, AttitudeMode attitudeMode) throws ExecutionFailedException {
         if (duration != null) {
             // Negative Durations are not allowed!
             if (duration.getInSeconds() < 0) {
-                return new UInteger(1);
+                throw new ExecutionFailedException("Duration must be non-negative");
             }
             if (duration.getInSeconds() == 0) {
                 // Adhere to the ADCS Service interface
@@ -453,12 +457,11 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
             nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(duration, attitudeMode);
         } catch (MALInteractionException | MALException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
-            return new UInteger(3);
+            throw new ExecutionFailedException("Failed to set ADCS attitude: " + ex.getMessage());
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
-            return new UInteger(4);
+            throw new ExecutionFailedException("IO error setting ADCS attitude: " + ex.getMessage());
         }
-        return null; // Success
     }
 
     public void startAdcsAttitudeMonitoring() {

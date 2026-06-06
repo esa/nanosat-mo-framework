@@ -1549,6 +1549,7 @@
         <mal:errors>
             <mal:error number="1" name="Read Only" comment="The referenced parameter is read only and cannot be modified."/>
             <mal:error number="2" name="Referenced" comment="The referenced object is referenced by another object and cannot be removed."/>
+            <mal:error number="3" name="Execution Failed" comment="The action execution failed at runtime."/>
         </mal:errors>
     </mal:area>
 </mal:specification>

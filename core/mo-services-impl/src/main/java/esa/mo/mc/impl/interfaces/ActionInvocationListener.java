@@ -22,7 +22,7 @@ package esa.mo.mc.impl.interfaces;
 
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 
 /**
@@ -33,18 +33,20 @@ public interface ActionInvocationListener {
 
     /**
      * The user must implement this interface in order to link a certain action
-     * Identifier to the method on the application
+     * Identifier to the method on the application.
      *
-     * @param identifier Name of the Parameter.
-     * @param attributeValues The attribute values for the action.
-     * @param executionId The id of the execution of an action.
-     * @param reportProgress Determines if it is necessary to report the
-     * execution.
-     * @param interaction The interaction object progress of the action
-     * @return Returns null if the Action was successful. If not null, then the
-     * returned value should hold the error number
+     * @param identifier Name of the action
+     * @param attributeValues The attribute values for the action arguments
+     * @param executionId The unique id of the action execution
+     * @param reportProgress Determines if execution progress should be reported
+     * @param interaction The MAL interaction context
+     *
+     * @throws ExecutionFailedException if the action execution fails. The exception message is
+     * automatically captured and used as the comment field in both ExecutionProgress
+     * (sent to ground systems in real-time) and ExecutionStatus (stored in archive
+     * for historical tracking)
      */
-    UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues,
-            Long executionId, boolean reportProgress, MALInteraction interaction);
+    void actionArrived(Identifier identifier, AttributeValueList attributeValues,
+            Long executionId, boolean reportProgress, MALInteraction interaction) throws ExecutionFailedException;
 
 }

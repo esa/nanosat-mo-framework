@@ -29,6 +29,7 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
@@ -49,9 +50,9 @@ public class CameraAcquisitorSystemGPSHandler extends GPSAdapter {
         this.casMCAdapter = casMCAdapter;
     }
 
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long executionId, boolean reportProgress, MALInteraction interaction) {
-        return new UInteger(0); // error code 0 - unknown error
+    public void actionArrived(Identifier name, AttributeValueList attributeValues,
+            Long executionId, boolean reportProgress, MALInteraction interaction)  throws ExecutionFailedException {
+        throw new ExecutionFailedException("Action service not integrated");
     }
 
     /**

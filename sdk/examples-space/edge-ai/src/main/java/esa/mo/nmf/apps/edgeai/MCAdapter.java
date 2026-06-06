@@ -37,6 +37,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mc.structures.*;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.platform.artificialintelligence.consumer.ArtificialIntelligenceStub;
 
 /**
@@ -87,19 +88,17 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long executionId, boolean reportProgress, MALInteraction interaction) {
+    public void actionArrived(Identifier name, AttributeValueList attributeValues,
+            Long executionId, boolean reportProgress, MALInteraction interaction)  throws ExecutionFailedException {
         LOG.log(Level.INFO, "Action arrived, with name: {0}", name.getValue());
         
         if (ACTION_START_AI.equals(name.getValue())) {
             triggerAIInference(executionId, attributeValues);
-            return null; // Success!
         } else if (ACTION_CANCEL_AI.equals(name.getValue())) {
             destroyProcess(attributeValues);
-            return null;
         }
 
-        return new UInteger(0); // Action service not integrated
+        throw new ExecutionFailedException("Action execution failed"); // Action service not integrated
     }
 
     public void onProcessCompleted(Long id, int exitCode) {

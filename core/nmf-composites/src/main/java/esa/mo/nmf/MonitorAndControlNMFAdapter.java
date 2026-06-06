@@ -24,6 +24,7 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import esa.mo.mc.impl.provider.ParameterProviderServiceImpl;
 import esa.mo.nmf.annotations.Action;
 import esa.mo.nmf.annotations.ActionParameter;
@@ -386,8 +387,8 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
     }
 
     @Override
-    public UInteger actionArrived(Identifier identifier, AttributeValueList attributeValues,
-            Long executionId, boolean reportProgress, MALInteraction interaction) {
+    public void actionArrived(Identifier identifier, AttributeValueList attributeValues,
+            Long executionId, boolean reportProgress, MALInteraction interaction) throws ExecutionFailedException {
         Method actionMethod = actionMapping.get(actionNameMapping.get(identifier.getValue()));
         try {
             // add default arguments
@@ -410,17 +411,19 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 i++;
             }
 
-            Object result = actionMethod.invoke(this, arguments);
-            return (result == null) ? null : (UInteger) result;
+            actionMethod.invoke(this, arguments);
         } catch (IllegalAccessException ex) {
-            LOGGER.log(Level.SEVERE, "Cannot access Method! {0}", ex.getMessage());
+            throw new ExecutionFailedException("Cannot access action method: " + ex.getMessage());
         } catch (IllegalArgumentException ex) {
-            LOGGER.log(Level.SEVERE, "Arguments for action are incorrect! {0}", ex.getMessage());
+            throw new ExecutionFailedException("Action arguments are incorrect: " + ex.getMessage());
         } catch (InvocationTargetException ex) {
-            LOGGER.log(Level.SEVERE, "The action Method threw an invocation exception! {0}",
-                    (ex.getMessage() != null ? ex.getMessage() : ex.getTargetException().getMessage()));
+            Throwable cause = ex.getTargetException();
+            if (cause instanceof ExecutionFailedException) {
+                throw (ExecutionFailedException) cause;
+            }
+            throw new ExecutionFailedException("Action method threw an exception: " +
+                    (cause.getMessage() != null ? cause.getMessage() : cause.toString()));
         }
-        return new UInteger(0);
     }
 
     @Override

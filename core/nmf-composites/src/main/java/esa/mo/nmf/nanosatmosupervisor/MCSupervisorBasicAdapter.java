@@ -41,6 +41,7 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.*;
 import org.ccsds.moims.mo.platform.autonomousadcs.body.GetStatusResponse;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
@@ -294,26 +295,32 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long executionId, boolean reportProgress, MALInteraction interaction) {
+    public void actionArrived(Identifier name, AttributeValueList attributeValues,
+            Long executionId, boolean reportProgress, MALInteraction interaction) throws ExecutionFailedException {
         if (name == null || name.getValue() == null) {
-            return new UInteger(0);
+            throw new ExecutionFailedException("Action name is null");
         }
         switch (name.getValue()) {
             case ACTION_ADCS_CONFIGURE_MONITORING:
-                return configureMonitoringAction();
+                configureMonitoringAction();
+                break;
             case ACTION_NMEA_SENTENCE:
-                return nmeaAction((String) HelperAttributes.attribute2JavaType(attributeValues.get(0).getValue()));
+                nmeaAction((String) HelperAttributes.attribute2JavaType(attributeValues.get(0).getValue()));
+                break;
             case ACTION_CLOCK_SET_TIME:
-                return setTimeUsingDeltaMilliseconds((Long) HelperAttributes.attribute2JavaType(attributeValues.get(0).getValue()));
+                setTimeUsingDeltaMilliseconds((Long) HelperAttributes.attribute2JavaType(attributeValues.get(0).getValue()));
+                break;
             case ACTION_ADCS_SUN_POINTING:
-                return adcsSunPointing();
+                adcsSunPointing();
+                break;
             case ACTION_ADCS_NADIR_POINTING:
-                return adcsNadirPointing((Duration) HelperAttributes.attribute2JavaType(attributeValues.get(0).getValue()));
+                adcsNadirPointing((Duration) HelperAttributes.attribute2JavaType(attributeValues.get(0).getValue()));
+                break;
             case ACTION_ADCS_UNSET_ATTITUDE:
-                return adcsUnsetAttitude();
+                adcsUnsetAttitude();
+                break;
             default:
-                return new UInteger(0);
+                throw new ExecutionFailedException("Unknown action: " + name.getValue());
         }
     }
 

@@ -28,7 +28,7 @@ import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
 
@@ -70,9 +70,9 @@ public class BlankApp {
         }
 
         @Override
-        public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long executionId,
-            boolean reportProgress, MALInteraction interaction) {
-            return null;
+        public void actionArrived(Identifier name, AttributeValueList attributeValues, Long executionId,
+            boolean reportProgress, MALInteraction interaction)  throws ExecutionFailedException {
+            throw new ExecutionFailedException("Action service not integrated");
         }
     }
 }

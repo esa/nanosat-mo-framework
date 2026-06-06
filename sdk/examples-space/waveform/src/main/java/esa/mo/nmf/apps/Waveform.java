@@ -34,6 +34,7 @@ import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mc.structures.*;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
 
 /**
  * This NMF App is a simple clock. It pushes the day of the week, the hours, the
@@ -156,8 +157,8 @@ public class Waveform {
         }
 
         @Override
-        public UInteger actionArrived(Identifier idntfr, AttributeValueList avl, Long l, boolean bln,
-                MALInteraction mali) {
+        public void actionArrived(Identifier idntfr, AttributeValueList avl, Long l, boolean bln,
+                MALInteraction mali)  throws ExecutionFailedException {
             if (idntfr.getValue().equals("start")) {
                 Logger.getLogger(Waveform.class.getName()).log(Level.FINER, "Started wave");
                 startWave();
@@ -167,38 +168,38 @@ public class Waveform {
                     sb.append("- " + loggers.nextElement() + "\n");
                 }
                 Logger.getLogger(Waveform.class.getName()).log(Level.INFO, sb.toString());
-                return new UInteger(0);
+                throw new ExecutionFailedException("Action execution failed");
             }
             if (idntfr.getValue().equals("stop")) {
                 Logger.getLogger(Waveform.class.getName()).log(Level.FINER, "Stopped wave");
                 stopWave();
-                return new UInteger(0);
+                throw new ExecutionFailedException("Action execution failed");
             }
             if (idntfr.getValue().equals("updateAmplitude")) {
                 if (avl == null) {
-                    return new UInteger(1);
+                    throw new ExecutionFailedException("Action execution failed");
                 }
                 if (avl.isEmpty()) {
-                    return new UInteger(0);
+                    throw new ExecutionFailedException("Action execution failed");
                 }
                 if (avl.size() >= 1) {
                     amplitude = HelperAttributes.attribute2double(avl.get(0).getValue());
-                    return new UInteger(0);
+                    throw new ExecutionFailedException("Action execution failed");
                 }
             }
             if (idntfr.getValue().equals("updateFrequency")) {
                 if (avl == null) {
-                    return new UInteger(1);
+                    throw new ExecutionFailedException("Action execution failed");
                 }
                 if (avl.isEmpty()) {
-                    return new UInteger(0);
+                    throw new ExecutionFailedException("Action execution failed");
                 }
                 if (avl.size() >= 1) {
                     frequency = HelperAttributes.attribute2double(avl.get(0).getValue());
-                    return new UInteger(0);
+                    throw new ExecutionFailedException("Action execution failed");
                 }
             }
-            return new UInteger(1);
+            throw new ExecutionFailedException("Action execution failed");
         }
 
         @Override

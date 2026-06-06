@@ -313,8 +313,14 @@ public final class ActionManager extends MCManager {
 
         actionsExecutor.execute(() -> {
             if (actions != null) {
-                actions.actionArrived(name, executionRequest.getArgumentValues(),
-                        executionId, true, interaction);
+                try {
+                    actions.actionArrived(name, executionRequest.getArgumentValues(),
+                            executionId, true, interaction);
+                } catch (Exception ex) {
+                    // Exception handled silently in forward path (no progress publisher)
+                    Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE,
+                            "Action execution failed: " + (ex.getMessage() != null ? ex.getMessage() : ex.toString()), ex);
+                }
             }
         });
     }
@@ -332,16 +338,21 @@ public final class ActionManager extends MCManager {
                         ExecutionStageType.START, true, null, null);
             }
 
-            UInteger errorNumber;
-            if (actions != null) {
-                errorNumber = actions.actionArrived(name, executionRequest.getArgumentValues(),
-                        executionId, true, interaction);
-            } else {
-                errorNumber = new UInteger(0);
-            }
+            boolean success = false;
+            String comment = null;
 
-            final boolean success = (errorNumber == null);
-            final String comment = success ? null : "Error code: " + errorNumber;
+            if (actions != null) {
+                try {
+                    actions.actionArrived(name, executionRequest.getArgumentValues(),
+                            executionId, true, interaction);
+                    success = true;
+                } catch (Exception ex) {
+                    success = false;
+                    comment = ex.getMessage() != null ? ex.getMessage() : ex.toString();
+                }
+            } else {
+                success = true;
+            }
 
             if (progressPublisher != null) {
                 progressPublisher.publishExecutionProgress(definitionId, executionId,

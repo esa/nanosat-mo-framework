@@ -38,6 +38,7 @@ import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
 
@@ -115,9 +116,9 @@ public class PushClock {
         }
 
         @Override
-        public UInteger actionArrived(Identifier idntfr, AttributeValueList avl, Long l, boolean bln,
-            MALInteraction mali) {
-            throw new UnsupportedOperationException("Not supported.");
+        public void actionArrived(Identifier idntfr, AttributeValueList avl, Long l, boolean bln,
+            MALInteraction mali)  throws ExecutionFailedException {
+            throw new ExecutionFailedException("Action service not integrated");
         }
 
         @Override

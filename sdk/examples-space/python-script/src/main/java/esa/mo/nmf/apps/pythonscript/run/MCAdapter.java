@@ -33,8 +33,8 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.*;
 
 /**
@@ -70,18 +70,16 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long executionId, boolean reportProgress, MALInteraction interaction) {
+    public void actionArrived(Identifier name, AttributeValueList attributeValues,
+            Long executionId, boolean reportProgress, MALInteraction interaction)  throws ExecutionFailedException {
 
         if (ACTION_RUN_PYTHON_SCRIPT.equals(name.getValue())) {
             runPythonScript(executionId, attributeValues);
-            return null; // Success!
         } else if (ACTION_DESTROY_PROCESS.equals(name.getValue())) {
             destroyProcess(attributeValues);
-            return null;
         }
 
-        return new UInteger(0); // Action service not integrated
+        throw new ExecutionFailedException("Action execution failed"); // Action service not integrated
     }
 
     public void onProcessCompleted(Long id, int exitCode) {

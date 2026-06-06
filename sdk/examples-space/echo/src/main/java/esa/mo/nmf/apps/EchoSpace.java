@@ -37,6 +37,7 @@ import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ParameterDefinition;
 import org.ccsds.moims.mo.mc.structures.ParameterDefinitionList;
@@ -88,9 +89,9 @@ public class EchoSpace {
         }
 
         @Override
-        public UInteger actionArrived(Identifier idntfr, AttributeValueList avl,
-                Long l, boolean bln, MALInteraction mali) {
-            throw new UnsupportedOperationException("Not supported.");
+        public void actionArrived(Identifier idntfr, AttributeValueList avl,
+                Long l, boolean bln, MALInteraction mali)  throws ExecutionFailedException {
+            throw new ExecutionFailedException("Action service not integrated");
         }
 
         @Override
