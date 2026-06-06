@@ -116,12 +116,10 @@ are interchangeable; pick either.
              private String greeting = "Hello, world";
 
              @Action(description = "Uppercase the greeting")
-             public UInteger shout(
+             public void shout(
                      Long actionInstanceObjId,
-                     boolean reportProgress,
                      MALInteraction interaction) {
                  greeting = greeting.toUpperCase();
-                 return null;  // success
              }
          }
 

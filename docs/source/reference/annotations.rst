@@ -80,21 +80,19 @@ Applied to a method. Registers the method as an MC Action.
    * - ``stepCount``
      - ``0``
      - Number of progress stages reported; ``0`` for single-shot.
-   * - ``rawUnit``
-     - ``""``
-     - Unit string for the action's raw value, if applicable.
 
 The annotated method must have this signature:
 
 .. code-block:: java
 
-   public UInteger <name>(
+   public void <name>(
        Long actionInstanceObjId,
-       boolean reportProgress,
        MALInteraction interaction,
-       <optional @ActionParameter arguments>);
+       <optional @ActionParameter arguments>) throws ExecutionFailedException;
 
-Return ``null`` on success or a ``UInteger`` error code on failure.
+The method returns nothing on success. Throw ``ExecutionFailedException`` with a descriptive message to
+signal a failure — the message is captured in the ``ExecutionProgress`` update and the archived
+``ExecutionStatus``.
 
 ``@ActionParameter``
 --------------------

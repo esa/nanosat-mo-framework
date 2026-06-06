@@ -152,7 +152,8 @@ Handling action invocations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When a consumer invokes an action, ``actionArrivedSimple(String name, Serializable[] values, Long
-executionId)`` is called. Return ``true`` on success, ``false`` on failure:
+executionId)`` is called. Return ``true`` on success, ``false`` on failure. To report a descriptive error
+message to the ground operator, throw an ``ExecutionFailedException`` instead of returning ``false``:
 
 .. code-block:: java
 
@@ -160,11 +161,18 @@ executionId)`` is called. Return ``true`` on success, ``false`` on failure:
    public boolean actionArrivedSimple(String name, Serializable[] values, Long executionId) {
        if ("reset".equals(name)) {
            double setpoint = ((Number) values[0]).doubleValue();
+           if (setpoint < 0) {
+               throw new ExecutionFailedException("Setpoint must be non-negative");
+           }
            applyReset(setpoint);
            return true;
        }
        return false;
    }
+
+When an ``ExecutionFailedException`` is thrown (from either API), its message is automatically captured in
+the ``comment`` field of the ``ExecutionProgress`` update sent to the ground in real time and in the
+``ExecutionStatus`` record stored in the archive for historical tracking.
 
 Multi-stage actions
 ~~~~~~~~~~~~~~~~~~~
@@ -208,7 +216,7 @@ Adapter skeleton
    import esa.mo.nmf.annotations.ActionParameter;
    import esa.mo.nmf.annotations.Parameter;
    import org.ccsds.moims.mo.mal.MALInteraction;
-   import org.ccsds.moims.mo.mal.structures.UInteger;
+   import org.ccsds.moims.mo.mc.ExecutionFailedException;
 
    public class MyAppAdapter extends MonitorAndControlNMFAdapter {
        // fields with @Parameter
@@ -253,24 +261,24 @@ Apply ``@Action`` to a method. The annotation accepts:
 - ``name`` — the action name. Defaults to the method name when empty.
 - ``description`` — text shown to the consumer.
 - ``stepCount`` — number of progress stages reported by the action. ``0`` for single-shot actions.
-- ``rawUnit`` — unit string for the action's raw value, if applicable.
 
 The method signature must be:
 
 .. code-block:: java
 
-   public UInteger <name>(
+   public void <name>(
        Long actionInstanceObjId,
-       boolean reportProgress,
        MALInteraction interaction,
-       <optional @ActionParameter arguments>);
+       <optional @ActionParameter arguments>) throws ExecutionFailedException;
 
-Return ``null`` on success or a ``UInteger`` error code on failure.
+The method returns nothing on success. To signal a failure, throw an ``ExecutionFailedException`` with a
+descriptive message. The message is automatically captured in the ``comment`` field of both the
+``ExecutionProgress`` update sent to the ground and the ``ExecutionStatus`` record stored in the archive.
 
 ``@ActionParameter``
 ~~~~~~~~~~~~~~~~~~~~
 
-Each argument after the three required ones must be annotated with ``@ActionParameter``:
+Each argument after the two required ones must be annotated with ``@ActionParameter``:
 
 - ``name`` (required) — the parameter's display name.
 - ``description`` — text shown to the consumer.
@@ -282,13 +290,15 @@ Example:
 .. code-block:: java
 
    @Action(description = "Reset the sensor", stepCount = 0)
-   public UInteger reset(
+   public void reset(
            Long actionInstanceObjId,
-           boolean reportProgress,
            MALInteraction interaction,
-           @ActionParameter(name = "setpoint") Double setpoint) {
+           @ActionParameter(name = "setpoint") Double setpoint)
+               throws ExecutionFailedException {
+       if (setpoint < 0) {
+           throw new ExecutionFailedException("Setpoint must be non-negative");
+       }
        applyReset(setpoint);
-       return null;  // success
    }
 
 Multi-stage actions
