@@ -20,7 +20,6 @@
  */
 package esa.mo.reconfigurable.service;
 
-import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
 import java.util.concurrent.ExecutorService;
 import java.util.logging.Level;
@@ -49,8 +48,6 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
 
     private final ExecutorService executor;
 
-    private Long configObjectsObjId = null;
-
     public PersistLatestServiceConfigurationAdapter(final ReconfigurableService service, final Long serviceConfigObjId,
             final ArchiveInheritanceSkeleton archiveService, final ExecutorService executor) {
         this.archiveService = archiveService;
@@ -66,21 +63,6 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
     public void onConfigurationChanged(final ReconfigurableService serviceImpl) {
         // Submit the task to update the configuration in the COM Archive
         executor.execute(() -> {
-            if (configObjectsObjId == null) {
-                // Retrieve the COM object of the service
-                ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(archiveService,
-                        ConfigurationServiceInfo.CONFIGURATIONSERVICE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
-                        serviceConfigObjId);
-
-                if (comObject == null) {
-                    Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE,
-                            serviceImpl.getCOMService().getName()
-                            + " service: The service configuration object could not be found! objectId: "
-                            + serviceConfigObjId);
-                    return;
-                }
-            }
-
             // Update the service configuration with embedded config objects
             HeterogeneousList serviceConfigList = new HeterogeneousList();
             ConfigurationService serviceConfig = new ConfigurationService(

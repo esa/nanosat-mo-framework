@@ -25,12 +25,11 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mal.UnsupportedOperationException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.platform.DeviceNotAvailableException;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.OpticalDataReceiverHelper;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.OpticalDataReceiverServiceInfo;
@@ -95,8 +94,7 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
             throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
         if (recordingDuration == null || recordingDuration.getInSeconds() == 0.0) {
-            // TODO Add error code to the service spec
-            interaction.sendError(new MOErrorException(new UInteger(0), null));
+            interaction.sendError(new InvalidArgumentException(recordingDuration));
             return;
         }
         if (recordingDuration.getInSeconds() > MAX_RECORDING_DURATION) {
@@ -106,8 +104,7 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
         interaction.sendAcknowledgement();
         byte[] data = adapter.recordOpticalReceiverData(recordingDuration);
         if (data == null) {
-            // TODO Add error code to the service spec
-            interaction.sendError(new MOErrorException(new UInteger(0), null));
+            interaction.sendError(new UnsupportedOperationException());
             return;
         }
 
