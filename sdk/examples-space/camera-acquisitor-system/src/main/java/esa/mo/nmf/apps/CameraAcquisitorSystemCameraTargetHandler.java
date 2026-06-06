@@ -37,7 +37,6 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mal.transport.MALMessage;
@@ -72,17 +71,17 @@ public class CameraAcquisitorSystemCameraTargetHandler {
         this.casMCAdapter = casMCAdapter;
     }
 
-    private UInteger photographLocation(AttributeValueList attributeValues,
+    private void photographLocation(AttributeValueList attributeValues,
             Long executionId, MALInteraction interaction) {
         // get parameters
         Double latitude = HelperAttributes.attribute2double(attributeValues.get(0).getValue());
         Double longitude = HelperAttributes.attribute2double(attributeValues.get(1).getValue());
         String timeStamp = HelperAttributes.attribute2JavaType(attributeValues.get(2).getValue()).toString();
         //
-        return photographLocation(latitude, longitude, timeStamp, executionId, interaction);
+        photographLocation(latitude, longitude, timeStamp, executionId, interaction);
     }
 
-    public UInteger photographLocation(double latitude, double longitude, String timeStamp,
+    public void photographLocation(double latitude, double longitude, String timeStamp,
             Long executionId, MALInteraction interaction) {
         AbsoluteDate targetDate = new AbsoluteDate(timeStamp, TimeScalesFactory.getUTC());
 
@@ -152,8 +151,6 @@ public class CameraAcquisitorSystemCameraTargetHandler {
                 ((long) seconds) * 1000 - this.casMCAdapter.getWorstCaseRotationTimeMS() //conversion to milliseconds
         );
         LOGGER.log(Level.INFO, "Starting Timer for Photograph, Number of Seconds: {0}", seconds);
-
-        return null; //Null (action successful) is returned before the action is performed
     }
 
     /**

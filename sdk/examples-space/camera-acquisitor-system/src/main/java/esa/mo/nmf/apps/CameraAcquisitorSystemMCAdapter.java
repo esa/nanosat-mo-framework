@@ -32,7 +32,7 @@ import java.time.ZoneId;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.platform.structures.PictureFormat;
 import org.orekit.data.DataContext;
 import org.orekit.data.DataProvidersManager;
@@ -179,19 +179,19 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
     @Action(description = "queues a new photograph target at the Specified Timestamp",
             stepCount = CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_STAGES,
             name = CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION)
-    public UInteger photographLocation(Long executionId, MALInteraction interaction,
+    public void photographLocation(Long executionId, MALInteraction interaction,
         @ActionParameter(name = "targetLatitude", rawUnit = "degree") Double targetLatitude,
         @ActionParameter(name = "targetLongitude", rawUnit = "degree") Double targetLongitude,
         @ActionParameter(name = "timeStamp") String timeStamp) {
         LOGGER.log(Level.SEVERE, "" + targetLatitude + " " + targetLongitude + " " + timeStamp);
-        return this.cameraTargetHandler.photographLocation(targetLatitude, targetLongitude, timeStamp,
+        this.cameraTargetHandler.photographLocation(targetLatitude, targetLongitude, timeStamp,
             executionId, interaction);
     }
 
     @Action(description = "takes a photograph immediately",
             stepCount = CameraAcquisitorSystemCameraHandler.PHOTOGRAPH_NOW_STAGES)
-    public UInteger photographNow(Long executionId, MALInteraction interaction) {
-        return this.cameraHandler.photographNow(executionId, interaction);
+    public void photographNow(Long executionId, MALInteraction interaction) throws ExecutionFailedException {
+        this.cameraHandler.photographNow(executionId, interaction);
     }
 
     /**

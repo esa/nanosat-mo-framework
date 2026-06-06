@@ -33,6 +33,7 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.platform.structures.*;
 
 /**
@@ -59,12 +60,12 @@ public class PayloadsTestActionsHandler {
         this.payloadsTestMCAdapter = payloadsTestMCAdapter;
     }
 
-    public UInteger executeAdcsModeAction(Duration duration,
-            AttitudeMode attitudeMode, PayloadsTestMCAdapter payloadsTestMCAdapter) {
+    public void executeAdcsModeAction(Duration duration,
+            AttitudeMode attitudeMode, PayloadsTestMCAdapter payloadsTestMCAdapter) throws ExecutionFailedException {
         if (duration != null) {
             // Negative Durations are not allowed!
             if (duration.getInSeconds() < 0) {
-                return new UInteger(1);
+                throw new ExecutionFailedException("Hold duration must be non-negative");
             }
             if (duration.getInSeconds() == 0) {
                 // Adhere to the ADCS Service interface
@@ -75,15 +76,14 @@ public class PayloadsTestActionsHandler {
             payloadsTestMCAdapter.nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(duration, attitudeMode);
         } catch (MALInteractionException | MALException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
-            return new UInteger(3);
+            throw new ExecutionFailedException("Failed to set desired attitude: " + ex.getMessage());
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
-            return new UInteger(4);
+            throw new ExecutionFailedException("IO error setting desired attitude: " + ex.getMessage());
         }
-        return null; // Success
     }
 
-    public UInteger scheduleTakePicture(Long executionId,
+    public void scheduleTakePicture(Long executionId,
             MALInteraction interaction, Duration scheduleDelay, PictureFormat format, boolean autoExposed) {
         Timer timer = new Timer();
         long delay = (long) (scheduleDelay.getInSeconds() * 1000L);
@@ -123,11 +123,10 @@ public class PayloadsTestActionsHandler {
                 payloadsTestMCAdapter.simpleCommandingInterface.launchAction(actionName, new Serializable[]{});
             }
         }, delay);
-        return null; // Success!
     }
 
-    public UInteger takePicture(Long executionId,
-            MALInteraction interaction, PictureFormat format) {
+    public void takePicture(Long executionId,
+            MALInteraction interaction, PictureFormat format) throws ExecutionFailedException {
         try {
             payloadsTestMCAdapter.nmf.getPlatformServices().getCameraService().takePicture(
                     new CameraSettings(
@@ -139,15 +138,14 @@ public class PayloadsTestActionsHandler {
                             payloadsTestMCAdapter.cameraGainB,
                             null),
                     new PayloadsTestCameraDataHandler(executionId, payloadsTestMCAdapter));
-            return null; // Success!
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
-            return new UInteger(1);
+            throw new ExecutionFailedException("Failed to take picture: " + ex.getMessage());
         }
     }
 
-    public UInteger takeAutoExposedPicture(Long executionId,
-            MALInteraction interaction, PictureFormat format) {
+    public void takeAutoExposedPicture(Long executionId,
+            MALInteraction interaction, PictureFormat format) throws ExecutionFailedException {
         try {
             payloadsTestMCAdapter.nmf.getPlatformServices().getCameraService().takeAutoExposedPicture(
                     new CameraSettings(
@@ -159,28 +157,26 @@ public class PayloadsTestActionsHandler {
                             payloadsTestMCAdapter.cameraGainB,
                             null),
                     new PayloadsTestCameraDataHandler(executionId, payloadsTestMCAdapter));
-            return null; // Success!
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
-            return new UInteger(1);
+            throw new ExecutionFailedException("Failed to take auto-exposed picture: " + ex.getMessage());
         }
     }
 
-    public UInteger setDeviceState(Long executionId,
-            MALInteraction interaction, UInteger deviceType, boolean setOn) {
+    public void setDeviceState(Long executionId,
+            MALInteraction interaction, UInteger deviceType, boolean setOn) throws ExecutionFailedException {
         try {
             DeviceList deviceList = new DeviceList();
             DeviceType d = new DeviceType((int) deviceType.getValue());
             deviceList.add(new Device(setOn, null, null, d));
             payloadsTestMCAdapter.nmf.getPlatformServices().getPowerControlService().enableDevices(deviceList);
-            return null; // Success!
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
-            return new UInteger(1);
+            throw new ExecutionFailedException("Failed to set device state: " + ex.getMessage());
         }
     }
 
-    public UInteger recordSDRData(Long executionId, MALInteraction interaction) {
+    public void recordSDRData(Long executionId, MALInteraction interaction) throws ExecutionFailedException {
         try {
             if (!sdrRegistered) {
                 payloadsTestMCAdapter.nmf.getPlatformServices().getSoftwareDefinedRadioService().streamRadioRegister(
@@ -203,10 +199,9 @@ public class PayloadsTestActionsHandler {
                     }
                 }
             }, SDR_RECORDING_DURATION);
-            return null; // Success!
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
-            return new UInteger(1);
+            throw new ExecutionFailedException("Failed to record SDR data: " + ex.getMessage());
         }
     }
 }

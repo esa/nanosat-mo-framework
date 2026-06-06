@@ -32,22 +32,27 @@ import java.lang.annotation.Target;
  * <p>
  * <code>Long executionId, MALInteraction interaction</code>
  * <p>
- * Every argument after these, has to be annotated with ActionParameter
+ * Every argument after these, has to be annotated with ActionParameter.
+ * <p>
+ * The method returns nothing on success; to signal a failure, throw an
+ * ExecutionFailedException with a descriptive message. The message is
+ * automatically captured in the comment field of both the ExecutionProgress
+ * (sent to ground) and the ExecutionStatus (archived).
  *
  * <p>
  * Example:
  * <pre>
  * <b>&#64;Action(name = "Clock.setTimeUsingDeltaMilliseconds",
  *   description = "Sets the clock using a diff between the on-board time and the desired time.")</b>
- * public UInteger setTimeUsingDeltaMilliseconds(
+ * public void setTimeUsingDeltaMilliseconds(
  *     Long executionId,
  *     MALInteraction interaction,
- *     <b>&#64;ActionParameter(name = "delta", rawUnit = "milliseconds") Long delta</b>) {
+ *     <b>&#64;ActionParameter(name = "delta", rawUnit = "milliseconds") Long delta</b>)
+ *         throws ExecutionFailedException {
  *   String str = (new SimpleDateFormat(DATE_PATTERN)).format(new Date(System.currentTimeMillis() + delta));
  *
  *   ShellCommander shell = new ShellCommander();
  *   shell.runCommand("date -s \"" + str + " UTC\" | hwclock --systohc");
- *   return null;
  * }
  * </pre>
  *
@@ -62,6 +67,4 @@ public @interface Action {
     String description() default "";
 
     int stepCount() default 0;
-
-    String rawUnit() default "";
 }

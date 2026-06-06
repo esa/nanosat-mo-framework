@@ -331,7 +331,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 ArgumentDefinitionList arguments = new ArgumentDefinitionList();
 
                 java.lang.reflect.Parameter[] parameters = Arrays.copyOfRange(
-                        method.getParameters(), 3, method.getParameters().length);
+                        method.getParameters(), 2, method.getParameters().length);
                 for (java.lang.reflect.Parameter param : parameters) {
                     Identifier identifier = new Identifier(method.getName() + "_" + param.getName());
                     String description = null;

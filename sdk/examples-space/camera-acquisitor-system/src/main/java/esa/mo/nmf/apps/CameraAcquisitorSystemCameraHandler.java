@@ -37,6 +37,7 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
@@ -89,8 +90,8 @@ public class CameraAcquisitorSystemCameraHandler {
      * @param interaction
      * @return
      */
-    UInteger photographNow(Long executionId,
-            MALInteraction interaction) {
+    void photographNow(Long executionId,
+            MALInteraction interaction) throws ExecutionFailedException {
 
         class AdapterImpl extends GPSAdapter {
 
@@ -116,9 +117,8 @@ public class CameraAcquisitorSystemCameraHandler {
             takePhotograph(executionId, 0, PHOTOGRAPH_NOW_STAGES, "_INSTANT");
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, "[take photograph now]", ex);
-            return new UInteger(0);
+            throw new ExecutionFailedException("Failed to take photograph: " + ex.getMessage());
         }
-        return new UInteger(1);
     }
 
     /**

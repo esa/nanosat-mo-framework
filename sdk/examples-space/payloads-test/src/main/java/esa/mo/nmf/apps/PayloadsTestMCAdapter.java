@@ -47,6 +47,7 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.structures.*;
@@ -999,35 +1000,38 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     //----------------------------------- Actions ---------------------------------------------------
     @Action(description = "Changes the spacecraft's attitude to sun pointing mode.")
-    public UInteger adcs_SunPointingMode(Long executionId,
+    public void adcs_SunPointingMode(Long executionId,
             MALInteraction interaction,
-            @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration) {
-        return actionsHandler.executeAdcsModeAction(
+            @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration)
+            throws ExecutionFailedException {
+        actionsHandler.executeAdcsModeAction(
                 holdDuration, new AttitudeModeSunPointing(), this);
     }
 
     @Action(description = "Changes the spacecraft's attitude to nadir pointing mode.")
-    public UInteger adcs_NadirPointingMode(Long executionId,
+    public void adcs_NadirPointingMode(Long executionId,
             MALInteraction interaction,
-            @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration) {
-        return actionsHandler.executeAdcsModeAction(
+            @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration)
+            throws ExecutionFailedException {
+        actionsHandler.executeAdcsModeAction(
                 holdDuration, new AttitudeModeNadirPointing(), this);
     }
 
     @Action(description = "Changes the spacecraft's attitude to vector pointing mode.")
-    public UInteger adcs_VectorPointingMode(Long executionId,
+    public void adcs_VectorPointingMode(Long executionId,
             MALInteraction interaction,
             @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration,
             @ActionParameter(name = "X", rawUnit = "degree") float x,
             @ActionParameter(name = "Y", rawUnit = "degree") float y,
             @ActionParameter(name = "Z", rawUnit = "degree") float z,
-            @ActionParameter(name = "margin", rawUnit = "degree") float margin) {
-        return actionsHandler.executeAdcsModeAction(holdDuration,
+            @ActionParameter(name = "margin", rawUnit = "degree") float margin)
+            throws ExecutionFailedException {
+        actionsHandler.executeAdcsModeAction(holdDuration,
                 new AttitudeModeVectorPointing(new VectorF3D(x, y, z), margin), this);
     }
 
     @Action(description = "Changes the spacecraft's attitude to inertial pointing mode")
-    public UInteger adcs_InertialPointingMode(Long executionId,
+    public void adcs_InertialPointingMode(Long executionId,
             MALInteraction interaction,
             @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration,
             @ActionParameter(name = "losX", rawUnit = "degree") float losx,
@@ -1039,138 +1043,145 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             @ActionParameter(name = "quatA", rawUnit = "") float quatA,
             @ActionParameter(name = "quatB", rawUnit = "") float quatB,
             @ActionParameter(name = "quatC", rawUnit = "") float quatC,
-            @ActionParameter(name = "quatD", rawUnit = "") float quatD) {
-        return actionsHandler.executeAdcsModeAction(holdDuration, new AttitudeModeInertialPointing(new VectorF3D(losx,
+            @ActionParameter(name = "quatD", rawUnit = "") float quatD)
+            throws ExecutionFailedException {
+        actionsHandler.executeAdcsModeAction(holdDuration, new AttitudeModeInertialPointing(new VectorF3D(losx,
                 losy, losz), new VectorF3D(flightx, flighty, flightz), new Quaternion(quatA, quatB, quatC, quatD)), this);
     }
 
     @Action(description = "Changes the spacecraft's attitude to BDot mode")
-    public UInteger adcs_BDotMode(Long executionId, MALInteraction interaction,
-            @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration) {
-        return actionsHandler.executeAdcsModeAction(holdDuration, new AttitudeModeBDot(), this);
+    public void adcs_BDotMode(Long executionId, MALInteraction interaction,
+            @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration)
+            throws ExecutionFailedException {
+        actionsHandler.executeAdcsModeAction(holdDuration, new AttitudeModeBDot(), this);
     }
 
     @Action(description = "Changes the spacecraft's attitude to target tracking mode")
-    public UInteger adcs_TargetTrackingMode(Long executionId,
+    public void adcs_TargetTrackingMode(Long executionId,
             MALInteraction interaction,
             @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration,
             @ActionParameter(name = "Latitude", rawUnit = "degree") Float latitude,
-            @ActionParameter(name = "Longitude", rawUnit = "degree") Float longitude) {
-        return actionsHandler.executeAdcsModeAction(holdDuration,
+            @ActionParameter(name = "Longitude", rawUnit = "degree") Float longitude)
+            throws ExecutionFailedException {
+        actionsHandler.executeAdcsModeAction(holdDuration,
                 new AttitudeModeTargetTracking(latitude, longitude), this);
     }
 
     @Action(description = "Changes the spacecraft's attitude to single spinning mode")
-    public UInteger adcs_SingleSpinningMode(Long executionId,
+    public void adcs_SingleSpinningMode(Long executionId,
             MALInteraction interaction,
             @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration,
             @ActionParameter(name = "Body Axis X") Float bodyAxisX,
             @ActionParameter(name = "Body Axis Y") Float bodyAxisY,
             @ActionParameter(name = "Body Axis Z") Float bodyAxisZ,
-            @ActionParameter(name = "Angular Velocity") Float angularVelocity) {
-        return actionsHandler.executeAdcsModeAction(holdDuration,
+            @ActionParameter(name = "Angular Velocity") Float angularVelocity)
+            throws ExecutionFailedException {
+        actionsHandler.executeAdcsModeAction(holdDuration,
                 new AttitudeModeSingleSpinning(
                         new VectorF3D(bodyAxisX, bodyAxisY, bodyAxisZ),
                         angularVelocity), this);
     }
 
     @Action(description = "Unsets the spacecraft's attitude.")
-    public UInteger adcs_UnsetAttitude(Long executionId,
-            MALInteraction interaction) {
-        return actionsHandler.executeAdcsModeAction(null, null, this);
+    public void adcs_UnsetAttitude(Long executionId,
+            MALInteraction interaction) throws ExecutionFailedException {
+        actionsHandler.executeAdcsModeAction(null, null, this);
     }
 
     @Action(description = "Schedule JPG picture acquisition.")
-    public UInteger scheduleTakePictureJPG(Long executionId,
+    public void scheduleTakePictureJPG(Long executionId,
             MALInteraction interaction,
             @ActionParameter(name = "Execution delay") Duration acquisitionDelay) {
-        return actionsHandler.scheduleTakePicture(executionId,
+        actionsHandler.scheduleTakePicture(executionId,
                 interaction, acquisitionDelay, PictureFormat.JPG, false);
     }
 
     @Action(description = "Schedule JPG picture acquisition.")
-    public UInteger scheduleTakePictureAutoExposedJPG(Long executionId,
+    public void scheduleTakePictureAutoExposedJPG(Long executionId,
             MALInteraction interaction,
             @ActionParameter(name = "Execution delay") Duration acquisitionDelay) {
-        return actionsHandler.scheduleTakePicture(executionId,
+        actionsHandler.scheduleTakePicture(executionId,
                 interaction, acquisitionDelay, PictureFormat.JPG, true);
     }
 
     @Action(description = "Uses the NMF Camera service to take a picture in RAW format.",
             stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
-    public UInteger takePicture_RAW(Long executionId, MALInteraction interaction) {
-        return actionsHandler.takePicture(executionId, interaction, PictureFormat.RAW);
+    public void takePicture_RAW(Long executionId, MALInteraction interaction)
+            throws ExecutionFailedException {
+        actionsHandler.takePicture(executionId, interaction, PictureFormat.RAW);
     }
 
     @Action(description = "Uses the NMF Camera service to take a picture in JPG format.",
             stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
-    public UInteger takePicture_JPG(Long executionId, MALInteraction interaction) {
-        return actionsHandler.takePicture(executionId, interaction, PictureFormat.JPG);
+    public void takePicture_JPG(Long executionId, MALInteraction interaction)
+            throws ExecutionFailedException {
+        actionsHandler.takePicture(executionId, interaction, PictureFormat.JPG);
     }
 
     @Action(description = "Uses the NMF Camera service to take a picture in BMP format.",
             stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
-    public UInteger takePicture_BMP(Long executionId, MALInteraction interaction) {
-        return actionsHandler.takePicture(executionId, interaction, PictureFormat.BMP);
+    public void takePicture_BMP(Long executionId, MALInteraction interaction)
+            throws ExecutionFailedException {
+        actionsHandler.takePicture(executionId, interaction, PictureFormat.BMP);
     }
 
     @Action(description = "Uses the NMF Camera service to take an auto exposed picture in RAW format.",
             stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
-    public UInteger takeAutoExposedPicture_RAW(Long executionId,
-            MALInteraction interaction) {
-        return actionsHandler.takeAutoExposedPicture(executionId, interaction,
+    public void takeAutoExposedPicture_RAW(Long executionId,
+            MALInteraction interaction) throws ExecutionFailedException {
+        actionsHandler.takeAutoExposedPicture(executionId, interaction,
                 PictureFormat.RAW);
     }
 
     @Action(description = "Uses the NMF Camera service to take an auto exposed picture in JPG format.",
             stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
-    public UInteger takeAutoExposedPicture_JPG(Long executionId,
-            MALInteraction interaction) {
-        return actionsHandler.takeAutoExposedPicture(executionId, interaction,
+    public void takeAutoExposedPicture_JPG(Long executionId,
+            MALInteraction interaction) throws ExecutionFailedException {
+        actionsHandler.takeAutoExposedPicture(executionId, interaction,
                 PictureFormat.JPG);
     }
 
     @Action(description = "Uses the NMF Camera service to take an auto exposed picture in BMP format.",
             stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
-    public UInteger takeAutoExposedPicture_BMP(Long executionId,
-            MALInteraction interaction) {
-        return actionsHandler.takeAutoExposedPicture(executionId, interaction,
+    public void takeAutoExposedPicture_BMP(Long executionId,
+            MALInteraction interaction) throws ExecutionFailedException {
+        actionsHandler.takeAutoExposedPicture(executionId, interaction,
                 PictureFormat.BMP);
     }
 
     @Action(description = "Use NMF PowerControl to switch a device On.")
-    public UInteger powerOnDevice(Long executionId,
+    public void powerOnDevice(Long executionId,
             MALInteraction interaction,
-            @ActionParameter(name = "DeviceType") UInteger deviceType) {
-        return actionsHandler.setDeviceState(executionId,
+            @ActionParameter(name = "DeviceType") UInteger deviceType) throws ExecutionFailedException {
+        actionsHandler.setDeviceState(executionId,
                 interaction, deviceType, true);
     }
 
     @Action(description = "Use NMF PowerControl to switch a device Off.")
-    public UInteger powerOffDevice(Long executionId,
+    public void powerOffDevice(Long executionId,
             MALInteraction interaction,
-            @ActionParameter(name = "DeviceType") UInteger deviceType) {
-        return actionsHandler.setDeviceState(executionId,
+            @ActionParameter(name = "DeviceType") UInteger deviceType) throws ExecutionFailedException {
+        actionsHandler.setDeviceState(executionId,
                 interaction, deviceType, false);
     }
 
     @Action(description = "Record Optical RX samples.")
-    public UInteger recordOptRXData(Long executionId,
-            MALInteraction interaction) {
+    public void recordOptRXData(Long executionId,
+            MALInteraction interaction) throws ExecutionFailedException {
         try {
             nmf.getPlatformServices().getOpticalDataReceiverService()
                     .recordSamples(new Duration(5),
                             new PayloadsTestOpticalDataHandler());
-            return null; // Success!
         } catch (MALInteractionException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
-            return new UInteger(1);
+            throw new ExecutionFailedException("Failed to record optical RX data: " + ex.getMessage());
         }
     }
 
     @Action(description = "Record SDR samples.")
-    public UInteger recordSDRData(Long executionId, MALInteraction interaction) {
-        return actionsHandler.recordSDRData(executionId, interaction);
+    public void recordSDRData(Long executionId, MALInteraction interaction)
+            throws ExecutionFailedException {
+        actionsHandler.recordSDRData(executionId, interaction);
     }
 
     public void startAdcsAttitudeMonitoring() {
