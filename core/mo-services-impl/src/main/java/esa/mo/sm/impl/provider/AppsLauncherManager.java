@@ -498,7 +498,21 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
                 LOGGER.log(Level.INFO,
                         "App ''{0}'' (id={1}) exited successfully.",
                         new Object[]{appName, appInstId});
-                this.setRunning(appInstId, false, malInt);
+                // Wait for the ProcessExecutionHandler monitor thread to call processStopped(),
+                // which enqueues the AppStopped archive insert before clearing the running flag.
+                // The archive store executor is single-threaded FIFO, so once the insert is
+                // enqueued any later query is serialised behind it. Sending the UPDATE before
+                // processStopped() runs would let a consumer's query be enqueued first and find
+                // nothing.
+                long deadline = System.currentTimeMillis() + 5_000;
+                while (isAppRunning(appInstId) && System.currentTimeMillis() < deadline) {
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        break;
+                    }
+                }
                 if (interaction != null) {
                     interaction.sendUpdate(appInstId);
                 }

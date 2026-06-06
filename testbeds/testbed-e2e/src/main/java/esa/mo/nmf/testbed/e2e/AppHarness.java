@@ -212,6 +212,12 @@ public class AppHarness {
                 break;
             }
         }
+        if (!isProcessGone()) {
+            LOGGER.warning("waitProcessGone timed out for app '" + appName
+                    + "' — process still alive after " + timeoutMs + " ms."
+                    + "\nApp log (may include AppShutdownGuard thread dump):"
+                    + "\n" + readAppLog());
+        }
         return isProcessGone();
     }
 
