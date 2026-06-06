@@ -296,7 +296,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
 
     @Override
     public void actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long executionId, boolean reportProgress, MALInteraction interaction) throws ExecutionFailedException {
+            Long executionId, MALInteraction interaction) throws ExecutionFailedException {
         if (name == null || name.getValue() == null) {
             throw new ExecutionFailedException("Action name is null");
         }

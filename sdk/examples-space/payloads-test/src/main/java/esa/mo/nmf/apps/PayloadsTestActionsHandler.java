@@ -83,7 +83,7 @@ public class PayloadsTestActionsHandler {
         return null; // Success
     }
 
-    public UInteger scheduleTakePicture(Long executionId, boolean reportProgress,
+    public UInteger scheduleTakePicture(Long executionId,
             MALInteraction interaction, Duration scheduleDelay, PictureFormat format, boolean autoExposed) {
         Timer timer = new Timer();
         long delay = (long) (scheduleDelay.getInSeconds() * 1000L);
@@ -126,7 +126,7 @@ public class PayloadsTestActionsHandler {
         return null; // Success!
     }
 
-    public UInteger takePicture(Long executionId, boolean reportProgress,
+    public UInteger takePicture(Long executionId,
             MALInteraction interaction, PictureFormat format) {
         try {
             payloadsTestMCAdapter.nmf.getPlatformServices().getCameraService().takePicture(
@@ -147,7 +147,7 @@ public class PayloadsTestActionsHandler {
     }
 
     public UInteger takeAutoExposedPicture(Long executionId,
-            boolean reportProgress, MALInteraction interaction, PictureFormat format) {
+            MALInteraction interaction, PictureFormat format) {
         try {
             payloadsTestMCAdapter.nmf.getPlatformServices().getCameraService().takeAutoExposedPicture(
                     new CameraSettings(
@@ -166,7 +166,7 @@ public class PayloadsTestActionsHandler {
         }
     }
 
-    public UInteger setDeviceState(Long executionId, boolean reportProgress,
+    public UInteger setDeviceState(Long executionId,
             MALInteraction interaction, UInteger deviceType, boolean setOn) {
         try {
             DeviceList deviceList = new DeviceList();
@@ -180,7 +180,7 @@ public class PayloadsTestActionsHandler {
         }
     }
 
-    public UInteger recordSDRData(Long executionId, boolean reportProgress, MALInteraction interaction) {
+    public UInteger recordSDRData(Long executionId, MALInteraction interaction) {
         try {
             if (!sdrRegistered) {
                 payloadsTestMCAdapter.nmf.getPlatformServices().getSoftwareDefinedRadioService().streamRadioRegister(

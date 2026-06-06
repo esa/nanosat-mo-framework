@@ -86,12 +86,11 @@ public class CameraAcquisitorSystemCameraHandler {
      * @see takePhotograph
      * @param attributeValues
      * @param executionId
-     * @param reportProgress
      * @param interaction
      * @return
      */
     UInteger photographNow(Long executionId,
-            boolean reportProgress, MALInteraction interaction) {
+            MALInteraction interaction) {
 
         class AdapterImpl extends GPSAdapter {
 

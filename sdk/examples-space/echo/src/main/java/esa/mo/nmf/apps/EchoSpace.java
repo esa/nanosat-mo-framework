@@ -90,7 +90,7 @@ public class EchoSpace {
 
         @Override
         public void actionArrived(Identifier idntfr, AttributeValueList avl,
-                Long l, boolean bln, MALInteraction mali)  throws ExecutionFailedException {
+                Long l,  MALInteraction mali)  throws ExecutionFailedException {
             throw new ExecutionFailedException("Action service not integrated");
         }
 

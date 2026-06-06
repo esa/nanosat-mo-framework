@@ -58,7 +58,7 @@ public class MCSoftwareSimulatorAdapter extends MonitorAndControlNMFAdapter {
 
     @Override
     public void actionArrived(Identifier name, AttributeValueList attributeValues, Long executionId,
-        boolean reportProgress, MALInteraction interaction) throws ExecutionFailedException {
+        MALInteraction interaction) throws ExecutionFailedException {
         throw new ExecutionFailedException("Action service not integrated");
     }
 

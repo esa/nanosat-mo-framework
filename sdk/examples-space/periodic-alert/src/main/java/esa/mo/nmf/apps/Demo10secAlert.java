@@ -78,7 +78,7 @@ public class Demo10secAlert {
         }
 
         @Override
-        public void actionArrived(Identifier idntfr, AttributeValueList avl, Long l, boolean bln,
+        public void actionArrived(Identifier idntfr, AttributeValueList avl, Long l,
             MALInteraction mali)  throws ExecutionFailedException {
             throw new ExecutionFailedException("Action service not integrated");
         }

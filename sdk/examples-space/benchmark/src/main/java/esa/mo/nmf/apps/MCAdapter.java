@@ -28,8 +28,8 @@ import java.io.IOException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.mc.structures.*;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  *
@@ -137,7 +137,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
     @Override
     public void actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long executionId, boolean reportProgress, MALInteraction interaction)  throws ExecutionFailedException {
+            Long executionId, MALInteraction interaction)  throws ExecutionFailedException {
         if (ACTION_STORE_AGGS.equals(name.getValue())) {
             StoreAggregations.storeAggregations(NUMBER_OF_OBJS, connector);
         }

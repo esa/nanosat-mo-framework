@@ -179,19 +179,19 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
     @Action(description = "queues a new photograph target at the Specified Timestamp",
             stepCount = CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_STAGES,
             name = CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION)
-    public UInteger photographLocation(Long executionId, boolean reportProgress, MALInteraction interaction,
+    public UInteger photographLocation(Long executionId, MALInteraction interaction,
         @ActionParameter(name = "targetLatitude", rawUnit = "degree") Double targetLatitude,
         @ActionParameter(name = "targetLongitude", rawUnit = "degree") Double targetLongitude,
         @ActionParameter(name = "timeStamp") String timeStamp) {
         LOGGER.log(Level.SEVERE, "" + targetLatitude + " " + targetLongitude + " " + timeStamp);
         return this.cameraTargetHandler.photographLocation(targetLatitude, targetLongitude, timeStamp,
-            executionId, reportProgress, interaction);
+            executionId, interaction);
     }
 
     @Action(description = "takes a photograph immediately",
             stepCount = CameraAcquisitorSystemCameraHandler.PHOTOGRAPH_NOW_STAGES)
-    public UInteger photographNow(Long executionId, boolean reportProgress, MALInteraction interaction) {
-        return this.cameraHandler.photographNow(executionId, reportProgress, interaction);
+    public UInteger photographNow(Long executionId, MALInteraction interaction) {
+        return this.cameraHandler.photographNow(executionId, interaction);
     }
 
     /**

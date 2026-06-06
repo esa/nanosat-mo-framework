@@ -33,8 +33,8 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mc.structures.*;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  * A simple NMF App demo that reports 5 stages of an Action every 2 seconds
@@ -95,19 +95,19 @@ public class FiveStagesAction {
 
         @Override
         public void actionArrived(Identifier name, AttributeValueList attributeValues, Long executionId,
-                boolean reportProgress, MALInteraction interaction)  throws ExecutionFailedException {
+                MALInteraction interaction)  throws ExecutionFailedException {
             if (ACTION5STAGES.equals(name.getValue())) {
                 try {
-                    // action1 was called?
                     reportFiveStepsAction(executionId);
+                    return;
                 } catch (NMFException ex) {
                     Logger.getLogger(FiveStagesAction.class.getName()).log(Level.SEVERE,
                             "The action could not report the five steps!", ex);
-                    throw new ExecutionFailedException("Action execution failed");
+                    throw new ExecutionFailedException("Failed to report the five steps: " + ex.getMessage());
                 }
             }
 
-            throw new ExecutionFailedException("Action execution failed");  // Action service not integrated
+            throw new ExecutionFailedException("Unknown action: " + name.getValue());
         }
     }
 

@@ -33,8 +33,8 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.mc.structures.*;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  * This NMF App is a simple clock. It pushes the day of the week, the hours, the
@@ -157,7 +157,7 @@ public class Waveform {
         }
 
         @Override
-        public void actionArrived(Identifier idntfr, AttributeValueList avl, Long l, boolean bln,
+        public void actionArrived(Identifier idntfr, AttributeValueList avl, Long l,
                 MALInteraction mali)  throws ExecutionFailedException {
             if (idntfr.getValue().equals("start")) {
                 Logger.getLogger(Waveform.class.getName()).log(Level.FINER, "Started wave");
@@ -168,38 +168,28 @@ public class Waveform {
                     sb.append("- " + loggers.nextElement() + "\n");
                 }
                 Logger.getLogger(Waveform.class.getName()).log(Level.INFO, sb.toString());
-                throw new ExecutionFailedException("Action execution failed");
+                return;
             }
             if (idntfr.getValue().equals("stop")) {
                 Logger.getLogger(Waveform.class.getName()).log(Level.FINER, "Stopped wave");
                 stopWave();
-                throw new ExecutionFailedException("Action execution failed");
+                return;
             }
             if (idntfr.getValue().equals("updateAmplitude")) {
-                if (avl == null) {
-                    throw new ExecutionFailedException("Action execution failed");
+                if (avl == null || avl.isEmpty()) {
+                    throw new ExecutionFailedException("updateAmplitude requires an amplitude argument");
                 }
-                if (avl.isEmpty()) {
-                    throw new ExecutionFailedException("Action execution failed");
-                }
-                if (avl.size() >= 1) {
-                    amplitude = HelperAttributes.attribute2double(avl.get(0).getValue());
-                    throw new ExecutionFailedException("Action execution failed");
-                }
+                amplitude = HelperAttributes.attribute2double(avl.get(0).getValue());
+                return;
             }
             if (idntfr.getValue().equals("updateFrequency")) {
-                if (avl == null) {
-                    throw new ExecutionFailedException("Action execution failed");
+                if (avl == null || avl.isEmpty()) {
+                    throw new ExecutionFailedException("updateFrequency requires a frequency argument");
                 }
-                if (avl.isEmpty()) {
-                    throw new ExecutionFailedException("Action execution failed");
-                }
-                if (avl.size() >= 1) {
-                    frequency = HelperAttributes.attribute2double(avl.get(0).getValue());
-                    throw new ExecutionFailedException("Action execution failed");
-                }
+                frequency = HelperAttributes.attribute2double(avl.get(0).getValue());
+                return;
             }
-            throw new ExecutionFailedException("Action execution failed");
+            throw new ExecutionFailedException("Unknown action: " + idntfr.getValue());
         }
 
         @Override

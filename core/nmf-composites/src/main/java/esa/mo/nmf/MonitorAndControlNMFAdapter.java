@@ -311,24 +311,18 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
             // if field has Parameter anotation
             if (annotation != null) {
                 method.setAccessible(true);
-                // check if Long executionId, boolean reportProgress,
+                // check if Long executionId,
                 // MALInteraction interaction is implemented. If not, don't parse the action
                 java.lang.reflect.Parameter executionId = method.getParameters()[0];
-                java.lang.reflect.Parameter reportProgress = method.getParameters()[1];
-                java.lang.reflect.Parameter interaction = method.getParameters()[2];
+                java.lang.reflect.Parameter interaction = method.getParameters()[1];
                 if (!executionId.getType().equals(Long.class)) {
                     LOGGER.log(Level.SEVERE,
                             "Unable to parse argument! First argument of action has to be Long executionId!");
                     continue;
                 }
-                if (!reportProgress.getType().equals(boolean.class)) {
-                    LOGGER.log(Level.SEVERE,
-                            "Unable to parse argument! Second argument of action has to be boolean reportProgress!");
-                    continue;
-                }
                 if (!interaction.getType().equals(MALInteraction.class)) {
                     LOGGER.log(Level.SEVERE,
-                            "Unable to parse argument! Third argument of action has to be MALInteraction interaction!");
+                            "Unable to parse argument! Second argument of action has to be MALInteraction interaction!");
                     continue;
                 }
 
@@ -388,17 +382,16 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
     @Override
     public void actionArrived(Identifier identifier, AttributeValueList attributeValues,
-            Long executionId, boolean reportProgress, MALInteraction interaction) throws ExecutionFailedException {
+            Long executionId, MALInteraction interaction) throws ExecutionFailedException {
         Method actionMethod = actionMapping.get(actionNameMapping.get(identifier.getValue()));
         try {
             // add default arguments
-            Object[] arguments = new Object[attributeValues.size() + 3];
+            Object[] arguments = new Object[attributeValues.size() + 2];
             arguments[0] = executionId;
-            arguments[1] = reportProgress;
-            arguments[2] = interaction;
+            arguments[1] = interaction;
 
             // add custom arguments
-            int i = 3;
+            int i = 2;
             for (AttributeValue attribute : attributeValues) {
                 Class type = actionMethod.getParameters()[i].getType();
                 if (type == double.class) {

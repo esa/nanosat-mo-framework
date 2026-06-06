@@ -40,8 +40,8 @@ import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.structures.*;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
+import org.ccsds.moims.mo.mc.structures.*;
 import org.ccsds.moims.mo.platform.autonomousadcs.body.GetStatusResponse;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
@@ -393,15 +393,13 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
      * @param name Name of the Parameter
      * @param attributeValues The attribute values.
      * @param executionId The id of the execution of an action.
-     * @param reportProgress Determines if it is necessary to report the
-     * execution.
      * @param interaction The interaction object progress of the action.
      *
      * @throws ExecutionFailedException if the action execution fails
      */
     @Override
     public void actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long executionId, boolean reportProgress, MALInteraction interaction) throws ExecutionFailedException {
+            Long executionId, MALInteraction interaction) throws ExecutionFailedException {
         if (nmf == null) {
             throw new ExecutionFailedException("NMF not initialized");
         }

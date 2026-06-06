@@ -51,7 +51,7 @@ public class CameraAcquisitorSystemGPSHandler extends GPSAdapter {
     }
 
     public void actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long executionId, boolean reportProgress, MALInteraction interaction)  throws ExecutionFailedException {
+            Long executionId, MALInteraction interaction)  throws ExecutionFailedException {
         throw new ExecutionFailedException("Action service not integrated");
     }
 

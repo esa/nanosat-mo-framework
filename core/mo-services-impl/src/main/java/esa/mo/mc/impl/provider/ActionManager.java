@@ -315,7 +315,7 @@ public final class ActionManager extends MCManager {
             if (actions != null) {
                 try {
                     actions.actionArrived(name, executionRequest.getArgumentValues(),
-                            executionId, true, interaction);
+                            executionId, interaction);
                 } catch (Exception ex) {
                     // Exception handled silently in forward path (no progress publisher)
                     Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE,
@@ -344,7 +344,7 @@ public final class ActionManager extends MCManager {
             if (actions != null) {
                 try {
                     actions.actionArrived(name, executionRequest.getArgumentValues(),
-                            executionId, true, interaction);
+                            executionId, interaction);
                     success = true;
                 } catch (Exception ex) {
                     success = false;

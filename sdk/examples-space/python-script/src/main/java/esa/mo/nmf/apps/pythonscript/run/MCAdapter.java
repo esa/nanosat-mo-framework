@@ -71,15 +71,17 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
     @Override
     public void actionArrived(Identifier name, AttributeValueList attributeValues,
-            Long executionId, boolean reportProgress, MALInteraction interaction)  throws ExecutionFailedException {
+            Long executionId, MALInteraction interaction)  throws ExecutionFailedException {
 
         if (ACTION_RUN_PYTHON_SCRIPT.equals(name.getValue())) {
             runPythonScript(executionId, attributeValues);
+            return;
         } else if (ACTION_DESTROY_PROCESS.equals(name.getValue())) {
             destroyProcess(attributeValues);
+            return;
         }
 
-        throw new ExecutionFailedException("Action execution failed"); // Action service not integrated
+        throw new ExecutionFailedException("Unknown action: " + name.getValue());
     }
 
     public void onProcessCompleted(Long id, int exitCode) {

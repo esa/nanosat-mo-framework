@@ -38,7 +38,6 @@ public interface ActionInvocationListener {
      * @param identifier Name of the action
      * @param attributeValues The attribute values for the action arguments
      * @param executionId The unique id of the action execution
-     * @param reportProgress Determines if execution progress should be reported
      * @param interaction The MAL interaction context
      *
      * @throws ExecutionFailedException if the action execution fails. The exception message is
@@ -47,6 +46,6 @@ public interface ActionInvocationListener {
      * for historical tracking)
      */
     void actionArrived(Identifier identifier, AttributeValueList attributeValues,
-            Long executionId, boolean reportProgress, MALInteraction interaction) throws ExecutionFailedException;
+            Long executionId, MALInteraction interaction) throws ExecutionFailedException;
 
 }

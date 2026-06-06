@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
  * has to have the following arguments before the parameters (not annotated with
  * ActionParameter):
  * <p>
- * <code>Long executionId, boolean reportProgress, MALInteraction interaction</code>
+ * <code>Long executionId, MALInteraction interaction</code>
  * <p>
  * Every argument after these, has to be annotated with ActionParameter
  *
@@ -41,7 +41,6 @@ import java.lang.annotation.Target;
  *   description = "Sets the clock using a diff between the on-board time and the desired time.")</b>
  * public UInteger setTimeUsingDeltaMilliseconds(
  *     Long executionId,
- *     boolean reportProgress,
  *     MALInteraction interaction,
  *     <b>&#64;ActionParameter(name = "delta", rawUnit = "milliseconds") Long delta</b>) {
  *   String str = (new SimpleDateFormat(DATE_PATTERN)).format(new Date(System.currentTimeMillis() + delta));

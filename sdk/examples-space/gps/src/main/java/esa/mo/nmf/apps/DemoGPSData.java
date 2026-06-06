@@ -36,8 +36,8 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.structures.*;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
+import org.ccsds.moims.mo.mc.structures.*;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.structures.SatelliteInfoList;
@@ -210,7 +210,7 @@ public class DemoGPSData {
 
         @Override
         public void actionArrived(Identifier name, AttributeValueList attributeValues,
-                Long executionId, boolean reportProgress, MALInteraction interaction)  throws ExecutionFailedException {
+                Long executionId, MALInteraction interaction)  throws ExecutionFailedException {
         }
     }
 }

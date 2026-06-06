@@ -1000,7 +1000,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
     //----------------------------------- Actions ---------------------------------------------------
     @Action(description = "Changes the spacecraft's attitude to sun pointing mode.")
     public UInteger adcs_SunPointingMode(Long executionId,
-            boolean reportProgress, MALInteraction interaction,
+            MALInteraction interaction,
             @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration) {
         return actionsHandler.executeAdcsModeAction(
                 holdDuration, new AttitudeModeSunPointing(), this);
@@ -1008,14 +1008,14 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     @Action(description = "Changes the spacecraft's attitude to nadir pointing mode.")
     public UInteger adcs_NadirPointingMode(Long executionId,
-            boolean reportProgress, MALInteraction interaction,
+            MALInteraction interaction,
             @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration) {
         return actionsHandler.executeAdcsModeAction(
                 holdDuration, new AttitudeModeNadirPointing(), this);
     }
 
     @Action(description = "Changes the spacecraft's attitude to vector pointing mode.")
-    public UInteger adcs_VectorPointingMode(Long executionId, boolean reportProgress,
+    public UInteger adcs_VectorPointingMode(Long executionId,
             MALInteraction interaction,
             @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration,
             @ActionParameter(name = "X", rawUnit = "degree") float x,
@@ -1028,7 +1028,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     @Action(description = "Changes the spacecraft's attitude to inertial pointing mode")
     public UInteger adcs_InertialPointingMode(Long executionId,
-            boolean reportProgress, MALInteraction interaction,
+            MALInteraction interaction,
             @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration,
             @ActionParameter(name = "losX", rawUnit = "degree") float losx,
             @ActionParameter(name = "losY", rawUnit = "degree") float losy,
@@ -1045,14 +1045,14 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Action(description = "Changes the spacecraft's attitude to BDot mode")
-    public UInteger adcs_BDotMode(Long executionId, boolean reportProgress, MALInteraction interaction,
+    public UInteger adcs_BDotMode(Long executionId, MALInteraction interaction,
             @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration) {
         return actionsHandler.executeAdcsModeAction(holdDuration, new AttitudeModeBDot(), this);
     }
 
     @Action(description = "Changes the spacecraft's attitude to target tracking mode")
     public UInteger adcs_TargetTrackingMode(Long executionId,
-            boolean reportProgress, MALInteraction interaction,
+            MALInteraction interaction,
             @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration,
             @ActionParameter(name = "Latitude", rawUnit = "degree") Float latitude,
             @ActionParameter(name = "Longitude", rawUnit = "degree") Float longitude) {
@@ -1062,7 +1062,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     @Action(description = "Changes the spacecraft's attitude to single spinning mode")
     public UInteger adcs_SingleSpinningMode(Long executionId,
-            boolean reportProgress, MALInteraction interaction,
+            MALInteraction interaction,
             @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration,
             @ActionParameter(name = "Body Axis X") Float bodyAxisX,
             @ActionParameter(name = "Body Axis Y") Float bodyAxisY,
@@ -1076,87 +1076,87 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     @Action(description = "Unsets the spacecraft's attitude.")
     public UInteger adcs_UnsetAttitude(Long executionId,
-            boolean reportProgress, MALInteraction interaction) {
+            MALInteraction interaction) {
         return actionsHandler.executeAdcsModeAction(null, null, this);
     }
 
     @Action(description = "Schedule JPG picture acquisition.")
     public UInteger scheduleTakePictureJPG(Long executionId,
-            boolean reportProgress, MALInteraction interaction,
+            MALInteraction interaction,
             @ActionParameter(name = "Execution delay") Duration acquisitionDelay) {
-        return actionsHandler.scheduleTakePicture(executionId, reportProgress,
+        return actionsHandler.scheduleTakePicture(executionId,
                 interaction, acquisitionDelay, PictureFormat.JPG, false);
     }
 
     @Action(description = "Schedule JPG picture acquisition.")
     public UInteger scheduleTakePictureAutoExposedJPG(Long executionId,
-            boolean reportProgress, MALInteraction interaction,
+            MALInteraction interaction,
             @ActionParameter(name = "Execution delay") Duration acquisitionDelay) {
-        return actionsHandler.scheduleTakePicture(executionId, reportProgress,
+        return actionsHandler.scheduleTakePicture(executionId,
                 interaction, acquisitionDelay, PictureFormat.JPG, true);
     }
 
     @Action(description = "Uses the NMF Camera service to take a picture in RAW format.",
             stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
-    public UInteger takePicture_RAW(Long executionId, boolean reportProgress, MALInteraction interaction) {
-        return actionsHandler.takePicture(executionId, reportProgress, interaction, PictureFormat.RAW);
+    public UInteger takePicture_RAW(Long executionId, MALInteraction interaction) {
+        return actionsHandler.takePicture(executionId, interaction, PictureFormat.RAW);
     }
 
     @Action(description = "Uses the NMF Camera service to take a picture in JPG format.",
             stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
-    public UInteger takePicture_JPG(Long executionId, boolean reportProgress, MALInteraction interaction) {
-        return actionsHandler.takePicture(executionId, reportProgress, interaction, PictureFormat.JPG);
+    public UInteger takePicture_JPG(Long executionId, MALInteraction interaction) {
+        return actionsHandler.takePicture(executionId, interaction, PictureFormat.JPG);
     }
 
     @Action(description = "Uses the NMF Camera service to take a picture in BMP format.",
             stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
-    public UInteger takePicture_BMP(Long executionId, boolean reportProgress, MALInteraction interaction) {
-        return actionsHandler.takePicture(executionId, reportProgress, interaction, PictureFormat.BMP);
+    public UInteger takePicture_BMP(Long executionId, MALInteraction interaction) {
+        return actionsHandler.takePicture(executionId, interaction, PictureFormat.BMP);
     }
 
     @Action(description = "Uses the NMF Camera service to take an auto exposed picture in RAW format.",
             stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
-    public UInteger takeAutoExposedPicture_RAW(Long executionId, boolean reportProgress,
+    public UInteger takeAutoExposedPicture_RAW(Long executionId,
             MALInteraction interaction) {
-        return actionsHandler.takeAutoExposedPicture(executionId, reportProgress, interaction,
+        return actionsHandler.takeAutoExposedPicture(executionId, interaction,
                 PictureFormat.RAW);
     }
 
     @Action(description = "Uses the NMF Camera service to take an auto exposed picture in JPG format.",
             stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
-    public UInteger takeAutoExposedPicture_JPG(Long executionId, boolean reportProgress,
+    public UInteger takeAutoExposedPicture_JPG(Long executionId,
             MALInteraction interaction) {
-        return actionsHandler.takeAutoExposedPicture(executionId, reportProgress, interaction,
+        return actionsHandler.takeAutoExposedPicture(executionId, interaction,
                 PictureFormat.JPG);
     }
 
     @Action(description = "Uses the NMF Camera service to take an auto exposed picture in BMP format.",
             stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
-    public UInteger takeAutoExposedPicture_BMP(Long executionId, boolean reportProgress,
+    public UInteger takeAutoExposedPicture_BMP(Long executionId,
             MALInteraction interaction) {
-        return actionsHandler.takeAutoExposedPicture(executionId, reportProgress, interaction,
+        return actionsHandler.takeAutoExposedPicture(executionId, interaction,
                 PictureFormat.BMP);
     }
 
     @Action(description = "Use NMF PowerControl to switch a device On.")
     public UInteger powerOnDevice(Long executionId,
-            boolean reportProgress, MALInteraction interaction,
+            MALInteraction interaction,
             @ActionParameter(name = "DeviceType") UInteger deviceType) {
-        return actionsHandler.setDeviceState(executionId, reportProgress,
+        return actionsHandler.setDeviceState(executionId,
                 interaction, deviceType, true);
     }
 
     @Action(description = "Use NMF PowerControl to switch a device Off.")
     public UInteger powerOffDevice(Long executionId,
-            boolean reportProgress, MALInteraction interaction,
+            MALInteraction interaction,
             @ActionParameter(name = "DeviceType") UInteger deviceType) {
-        return actionsHandler.setDeviceState(executionId, reportProgress,
+        return actionsHandler.setDeviceState(executionId,
                 interaction, deviceType, false);
     }
 
     @Action(description = "Record Optical RX samples.")
     public UInteger recordOptRXData(Long executionId,
-            boolean reportProgress, MALInteraction interaction) {
+            MALInteraction interaction) {
         try {
             nmf.getPlatformServices().getOpticalDataReceiverService()
                     .recordSamples(new Duration(5),
@@ -1169,8 +1169,8 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Action(description = "Record SDR samples.")
-    public UInteger recordSDRData(Long executionId, boolean reportProgress, MALInteraction interaction) {
-        return actionsHandler.recordSDRData(executionId, reportProgress, interaction);
+    public UInteger recordSDRData(Long executionId, MALInteraction interaction) {
+        return actionsHandler.recordSDRData(executionId, interaction);
     }
 
     public void startAdcsAttitudeMonitoring() {

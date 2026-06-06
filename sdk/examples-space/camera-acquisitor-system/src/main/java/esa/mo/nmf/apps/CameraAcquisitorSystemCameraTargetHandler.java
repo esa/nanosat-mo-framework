@@ -73,17 +73,17 @@ public class CameraAcquisitorSystemCameraTargetHandler {
     }
 
     private UInteger photographLocation(AttributeValueList attributeValues,
-            Long executionId, boolean reportProgress, MALInteraction interaction) {
+            Long executionId, MALInteraction interaction) {
         // get parameters
         Double latitude = HelperAttributes.attribute2double(attributeValues.get(0).getValue());
         Double longitude = HelperAttributes.attribute2double(attributeValues.get(1).getValue());
         String timeStamp = HelperAttributes.attribute2JavaType(attributeValues.get(2).getValue()).toString();
         //
-        return photographLocation(latitude, longitude, timeStamp, executionId, reportProgress, interaction);
+        return photographLocation(latitude, longitude, timeStamp, executionId, interaction);
     }
 
     public UInteger photographLocation(double latitude, double longitude, String timeStamp,
-            Long executionId, boolean reportProgress, MALInteraction interaction) {
+            Long executionId, MALInteraction interaction) {
         AbsoluteDate targetDate = new AbsoluteDate(timeStamp, TimeScalesFactory.getUTC());
 
         double seconds = targetDate.durationFrom(CameraAcquisitorSystemMCAdapter.getNow());
@@ -218,7 +218,7 @@ public class CameraAcquisitorSystemCameraTargetHandler {
 
                                 if (targetDate.compareTo(CameraAcquisitorSystemMCAdapter.getNow()) > 0) {
                                     photographLocation(execReq.getArgumentValues(), objDetails.get(
-                                            i).getId(), true,
+                                            i).getId(),
                                             null);
                                     LOGGER.log(Level.INFO, "recovered action: {0} latitude:{1} longitude:{2}",
                                             new Object[]{

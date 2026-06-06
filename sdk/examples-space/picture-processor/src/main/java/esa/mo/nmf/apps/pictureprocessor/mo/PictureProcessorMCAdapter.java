@@ -45,8 +45,8 @@ import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UShort;
-import org.ccsds.moims.mo.mc.structures.*;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
+import org.ccsds.moims.mo.mc.structures.*;
 import org.ccsds.moims.mo.platform.structures.CameraSettings;
 import org.ccsds.moims.mo.platform.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.structures.PixelResolution;
@@ -85,15 +85,17 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
 
     @Override
     public void actionArrived(Identifier name, AttributeValueList attributeValues, Long executionId,
-            boolean reportProgress, MALInteraction interaction)  throws ExecutionFailedException {
+            MALInteraction interaction)  throws ExecutionFailedException {
 
         if (ACTION_TAKE_AND_PROCESS_PICTURE.equals(name.getValue())) {
             takeAndProcessPicture(executionId, attributeValues);
+            return;
         } else if (ACTION_DESTROY_PROCESS.equals(name.getValue())) {
             destroyProcess(attributeValues);
+            return;
         }
 
-        throw new ExecutionFailedException("Action execution failed"); // Action service not integrated
+        throw new ExecutionFailedException("Unknown action: " + name.getValue());
     }
 
     @Override
