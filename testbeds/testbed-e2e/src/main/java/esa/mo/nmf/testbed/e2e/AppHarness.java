@@ -530,6 +530,23 @@ public class AppHarness {
     }
 
     /**
+     * Returns a diagnostic string containing the app log and the supervisor
+     * log, suitable for embedding directly in a JUnit assertion failure message
+     * so the full context is visible in CI output without having to fetch
+     * separate artefacts.
+     */
+    public String getDiagnostics() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n=== App log (").append(appName).append(") ===\n");
+        sb.append(readAppLog());
+        sb.append("\n=== Supervisor log (last 100 lines) ===\n");
+        List<String> supervisorLines = supervisorHarness.getProviderLog();
+        int from = Math.max(0, supervisorLines.size() - 100);
+        supervisorLines.subList(from, supervisorLines.size()).forEach(l -> sb.append(l).append('\n'));
+        return sb.toString();
+    }
+
+    /**
      * Reads the most recent log file written by the app's start script, or
      * returns a fallback message.
      */

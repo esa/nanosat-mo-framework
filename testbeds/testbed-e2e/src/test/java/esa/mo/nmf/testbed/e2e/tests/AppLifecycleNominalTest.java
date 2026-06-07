@@ -195,7 +195,8 @@ public class AppLifecycleNominalTest {
 
         List<ArchivePersistenceObject> records = app.queryAppStarted();
 
-        Assert.assertFalse("At least one AppStarted record must exist in archive",
+        Assert.assertFalse("At least one AppStarted record must exist in archive"
+                + (records.isEmpty() ? app.getDiagnostics() : ""),
                 records.isEmpty());
         System.out.flush();
     }
@@ -212,7 +213,8 @@ public class AppLifecycleNominalTest {
 
         List<ArchivePersistenceObject> records = app.queryAppStopped();
 
-        Assert.assertFalse("At least one AppStopped record must exist in archive",
+        Assert.assertFalse("At least one AppStopped record must exist in archive"
+                + (records.isEmpty() ? app.getDiagnostics() : ""),
                 records.isEmpty());
 
         AppStopped body = (AppStopped) records.get(0).getObject();
@@ -233,7 +235,7 @@ public class AppLifecycleNominalTest {
 
         benchmark.launchAppAction("shutdown.system.exit.0");
 
-        Assert.assertTrue("OS process must be gone after self-exit",
+        Assert.assertTrue("OS process must be gone after self-exit" + benchmark.getDiagnostics(),
                 benchmark.waitProcessGone(10_000));
 
         List<ArchivePersistenceObject> records = benchmark.queryAppStopped();
@@ -242,7 +244,8 @@ public class AppLifecycleNominalTest {
             return AppEventType.EXITED.equals(b.getStopReason())
                     && Integer.valueOf(0).equals(b.getExitCode());
         });
-        Assert.assertTrue("An AppStopped record with EXITED and exitCode 0 must exist", foundExited0);
+        Assert.assertTrue("An AppStopped record with EXITED and exitCode 0 must exist"
+                + (!foundExited0 ? benchmark.getDiagnostics() : ""), foundExited0);
         System.out.flush();
     }
 
@@ -259,11 +262,12 @@ public class AppLifecycleNominalTest {
 
         benchmark.launchAppAction("shutdown.system.exit.x", 18);
 
-        Assert.assertTrue("OS process must be gone after self-exit",
+        Assert.assertTrue("OS process must be gone after self-exit" + benchmark.getDiagnostics(),
                 benchmark.waitProcessGone(10_000));
 
         List<ArchivePersistenceObject> records = benchmark.queryAppStopped();
-        Assert.assertFalse("An AppStopped record must exist", records.isEmpty());
+        Assert.assertFalse("An AppStopped record must exist"
+                + (records.isEmpty() ? benchmark.getDiagnostics() : ""), records.isEmpty());
 
         boolean foundCrashed18 = records.stream().anyMatch(r -> {
             AppStopped b = (AppStopped) r.getObject();
@@ -271,7 +275,8 @@ public class AppLifecycleNominalTest {
                     && Integer.valueOf(18).equals(b.getExitCode());
         });
         Assert.assertTrue("Self-exit with code 18 must be recorded as CRASHED with exitCode 18 "
-                + "(the Apps Launcher currently receives exit code 0)", foundCrashed18);
+                + "(the Apps Launcher currently receives exit code 0)"
+                + (!foundCrashed18 ? benchmark.getDiagnostics() : ""), foundCrashed18);
         System.out.flush();
     }
 
