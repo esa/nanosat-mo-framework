@@ -20,13 +20,11 @@
  */
 package esa.mo.com.impl.provider;
 
-import esa.mo.com.impl.provider.ArchiveManager;
-import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
@@ -402,6 +400,19 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
     @Override
     public FileList getAreaXML(String filename, MALInteraction interaction) throws MALInteractionException, MALException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (filename == null || filename.isEmpty()) {
+            throw new MALInteractionException(new InvalidArgumentException(null));
+        }
+        try {
+            FileList result = AreaXMLExtractor.loadAreaXML(filename);
+            if (result == null && !"*".equals(filename)) {
+                throw new MALInteractionException(new UnknownException(null));
+            }
+            return result;
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "Failed to load XML resources from classpath", ex);
+            throw new MALException("Failed to load XML resources: " + ex.getMessage(), ex);
+        }
     }
+
 }
