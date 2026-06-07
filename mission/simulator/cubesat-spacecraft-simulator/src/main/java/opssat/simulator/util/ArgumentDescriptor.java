@@ -23,6 +23,8 @@ package opssat.simulator.util;
 
 import java.io.Serializable;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -207,6 +209,11 @@ public class ArgumentDescriptor implements Serializable {
         }
         if (type instanceof Double) {
             formattedArgs = formattedArgs + "double " + name + "={" + String.format(Locale.ROOT, "%.17f", type) + "}";
+        }
+        if (formattedArgs.isEmpty()) {
+            Logger.getLogger(ArgumentDescriptor.class.getName()).log(Level.WARNING,
+                "ArgumentDescriptor.toString(): unrecognized or null type [{0}] for name [{1}]",
+                new Object[]{type == null ? "null" : type.getClass().getName(), name});
         }
         return formattedArgs;
     }
