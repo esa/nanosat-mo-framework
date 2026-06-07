@@ -114,19 +114,19 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
                 AttributeType.STRING, "", false, new Duration(0), null, null));
         paramDefs.add(new ParameterDefinition(new Identifier(PARAM_OS_PARTITION),
                 "The current partition where the OS is running. Only works for Linux.",
-                AttributeType.STRING, "", false, new Duration(0), null, null));
+                AttributeType.STRING, "", false, new Duration(5), null, null));
         paramDefs.add(new ParameterDefinition(new Identifier(PARAM_ATTITUDE_QUAT_A),
                 "Attitude quaternion component A.",
-                AttributeType.FLOAT, "", false, new Duration(0), null, null));
+                AttributeType.FLOAT, "", false, new Duration(5), null, null));
         paramDefs.add(new ParameterDefinition(new Identifier(PARAM_ATTITUDE_QUAT_B),
                 "Attitude quaternion component B.",
-                AttributeType.FLOAT, "", false, new Duration(0), null, null));
+                AttributeType.FLOAT, "", false, new Duration(5), null, null));
         paramDefs.add(new ParameterDefinition(new Identifier(PARAM_ATTITUDE_QUAT_C),
                 "Attitude quaternion component C.",
-                AttributeType.FLOAT, "", false, new Duration(0), null, null));
+                AttributeType.FLOAT, "", false, new Duration(5), null, null));
         paramDefs.add(new ParameterDefinition(new Identifier(PARAM_ATTITUDE_QUAT_D),
                 "Attitude quaternion component D.",
-                AttributeType.FLOAT, "", false, new Duration(0), null, null));
+                AttributeType.FLOAT, "", false, new Duration(5), null, null));
         paramDefs.add(new ParameterDefinition(new Identifier(PARAM_ATTITUDE_MONITORING_INTERVAL),
                 "The ADCS attitude monitoring interval.",
                 AttributeType.DURATION, "seconds", false, new Duration(0), null, null));
@@ -341,7 +341,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
                 final Identifier lIdentifier, final UpdateHeader lUpdateHeader,
                 AttitudeTelemetry attitudeTm, ActuatorsTelemetry actuatorsTelemetry,
                 Duration controlDuration, AttitudeMode attitudeMode, final Map qosp) {
-            LOGGER.log(Level.FINE, "Received monitorAttitude notify");
+            LOGGER.log(Level.INFO, "Received monitorAttitude notify");
             Quaternion attitude = attitudeTm.getAttitude();
             attitudeQuatA = attitude.getA();
             attitudeQuatB = attitude.getB();
