@@ -45,7 +45,7 @@ import org.ccsds.moims.mo.com.structures.ProviderList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
-import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -337,8 +337,7 @@ public class AppHarness {
     public List<AppEventType> waitForMonitorEvents(long timeoutMs, int count) throws IOException {
         List<AppEventType> collected = Collections.synchronizedList(new ArrayList<>());
         CountDownLatch latch = new CountDownLatch(count);
-        Subscription sub = org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer
-                .subscriptionWildcardRandom();
+        Subscription sub = ConnectionConsumer.subscriptionWildcardRandom();
         try {
             stub.monitorEventsRegister(sub, new AppsLauncherAdapter() {
                 @Override

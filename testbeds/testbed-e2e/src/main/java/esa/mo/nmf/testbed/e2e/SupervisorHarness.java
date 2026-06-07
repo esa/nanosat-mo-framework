@@ -228,6 +228,8 @@ public class SupervisorHarness {
                 throw new IOException("Supervisor process exited unexpectedly during startup. "
                         + "Log:\n" + String.join("\n", getProviderLog()));
             }
+
+            // Scan for the Directory URI (usually the last message when Supervisor is ready!
             String uri = scanForDirectoryURI();
             if (uri != null) {
                 directoryURI = uri;
