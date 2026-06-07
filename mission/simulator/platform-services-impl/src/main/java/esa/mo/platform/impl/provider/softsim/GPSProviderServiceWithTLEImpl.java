@@ -37,6 +37,7 @@ import org.hipparchus.geometry.euclidean.threed.Vector3D;
 import org.hipparchus.util.FastMath;
 import org.orekit.bodies.GeodeticPoint;
 import org.orekit.bodies.OneAxisEllipsoid;
+import org.orekit.data.DataProvider;
 import org.orekit.data.DataProvidersManager;
 import org.orekit.frames.Frame;
 import org.orekit.frames.FramesFactory;
@@ -169,7 +170,8 @@ public class GPSProviderServiceWithTLEImpl extends GPSProviderServiceImpl {
             //DataProvidersManager manager = DataProvidersManager.getInstance();
             DataProvidersManager manager = new DataProvidersManager();
             if (manager.getProviders().isEmpty()) {
-                manager.addProvider(OrekitResources.getOrekitData());
+                DataProvider dataProvider = OrekitResources.getOrekitData();
+                manager.addProvider(dataProvider);
             }
             isOrekitDataInitialized = true;
         }

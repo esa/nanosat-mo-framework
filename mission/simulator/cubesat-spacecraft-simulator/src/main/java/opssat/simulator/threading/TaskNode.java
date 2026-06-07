@@ -166,8 +166,12 @@ public abstract class TaskNode implements Runnable {
             if (data != null) {
                 dataIn(data);
             }
-            coreRun();
-            data = dataOut();
+            try {
+                coreRun();
+                data = dataOut();
+            } catch (Exception ex) {
+                logObject.log(Level.SEVERE, "Unhandled exception in node [" + name + "] — coreRun/dataOut cycle", ex);
+            }
             if (data != null) {
                 queueOut.offer(data);
             }

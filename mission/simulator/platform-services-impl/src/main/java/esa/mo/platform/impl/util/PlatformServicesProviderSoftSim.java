@@ -43,8 +43,7 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefined
  *
  *
  */
-public class PlatformServicesProviderSoftSim
-        implements PlatformServicesProviderInterface {
+public class PlatformServicesProviderSoftSim implements PlatformServicesProviderInterface {
 
     private static final Logger LOGGER = Logger.getLogger(PlatformServicesProviderSoftSim.class.getName());
 
