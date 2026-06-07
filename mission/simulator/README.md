@@ -15,7 +15,7 @@ The simulator platform is based on the classic CubeSat missions.
 
 Lightweight simulator of the basic orbital parameters, using an analytical solution.
 
-#### [CubeSat Spacecraft Simulator](opssat-spacecraft-simulator)
+#### [CubeSat Spacecraft Simulator](cubesat-spacecraft-simulator)
 
 Simulates most of the spacecraft functionalities available through the NMF.
 

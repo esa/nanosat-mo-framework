@@ -53,7 +53,7 @@
         <module>image-debayer</module>
         <module>orekit-resources</module>
         <module>cubesat-gps-simulator</module>
-        <module>opssat-spacecraft-simulator</module>
+        <module>cubesat-spacecraft-simulator</module>
         <module>platform-services-impl</module>
         <module>nanosat-mo-supervisor-sim</module>
         <module>nanosat-monolithic</module>
