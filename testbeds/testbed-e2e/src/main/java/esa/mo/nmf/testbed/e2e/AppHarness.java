@@ -573,27 +573,71 @@ public class AppHarness {
     }
 
     /**
-     * Waits 1 second after {@code runApp()} and checks whether the app is still
-     * running. A JVM that crashes on startup (e.g. classpath error,
-     * {@code NoClassDefFoundError}) exits in well under a second; the
-     * supervisor detects the process exit and flips the running flag to false,
-     * so this check reliably catches startup failures.
+     * Polls the Supervisor's Directory service until the app's own provider
+     * entry appears, which only happens after {@code NanoSatMOConnectorImpl.init()}
+     * completes. This is the definitive "app is fully initialised" signal:
+     * the supervisor's running flag and the STARTED monitorEvent both fire
+     * when the process is merely spawned, before the JVM has loaded any
+     * classes, so checking either of those can race with the first action or
+     * stop request.
+     *
+     * <p>Uses the already-open Directory stub from {@link #adapter} to avoid
+     * opening a new MAL connection on every poll.
      */
     private void waitUntilRunning() throws IOException {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new IOException("Interrupted while waiting for app '" + appName + "' to start.");
+        IdentifierList domainWildcard = new IdentifierList();
+        domainWildcard.add(new Identifier("*"));
+        org.ccsds.moims.mo.com.structures.ServiceFilter wildcardFilter =
+                new org.ccsds.moims.mo.com.structures.ServiceFilter(
+                        new Identifier("*"),
+                        domainWildcard,
+                        new org.ccsds.moims.mo.mal.structures.ServiceId(
+                                new org.ccsds.moims.mo.mal.structures.UShort((short) 0),
+                                new org.ccsds.moims.mo.mal.structures.UShort((short) 0),
+                                new org.ccsds.moims.mo.mal.structures.UOctet((short) 0)),
+                        null);
+
+        long deadline = System.currentTimeMillis() + STARTUP_TIMEOUT_SECONDS * 1000L;
+        while (System.currentTimeMillis() < deadline) {
+            try {
+                ProviderList providers = adapter.getCOMServices()
+                        .getDirectoryService().getDirectoryStub().lookup(wildcardFilter);
+                for (Provider p : providers) {
+                    if (NMFProviderType.APP.equals(p.getProviderType())
+                            && p.getProviderName() != null
+                            && appName.equals(p.getProviderName().getValue())) {
+                        // App registered in Directory — give the archive (H2) a moment
+                        // to finish initialising before returning. Without this buffer a
+                        // System.exit() triggered immediately after registration can catch
+                        // H2 mid-recovery on a reused database, making its shutdown hook
+                        // take many seconds and causing waitProcessGone to time out.
+                        Thread.sleep(500);
+                        return;
+                    }
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new IOException("Interrupted while waiting for app '" + appName + "' to start.");
+            } catch (Exception ignored) {
+            }
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new IOException("Interrupted while waiting for app '" + appName + "' to start.");
+            }
         }
+        // Timeout: check whether the process at least started (crash detection)
         if (!isRunning()) {
-            throw new IOException("App '" + appName + "' is not running 1 second after runApp() — "
+            throw new IOException("App '" + appName + "' is not running after runApp() — "
                     + "it likely crashed on startup."
                     + "\n---------------------------"
                     + "\nApp log:"
                     + "\n" + readAppLog()
                     + "\n---------------------------");
         }
+        throw new IOException("App '" + appName + "' did not register in Directory within "
+                + STARTUP_TIMEOUT_SECONDS + "s — startup too slow or init failed silently.");
     }
 
 }
