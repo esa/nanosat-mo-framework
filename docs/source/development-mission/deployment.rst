@@ -32,7 +32,7 @@ Testing progression
 
 The recommended path from development to flight is:
 
-1. **SDK environment.** Develop and validate the mission Supervisor against the generic simulator on a
+1. **SDK Playground environment.** Develop and validate the mission Supervisor against the generic simulator on a
    developer workstation. All Platform service calls are handled by ``PlatformServicesProviderSoftSim``.
 
 2. **Mission Supervisor with simulated hardware.** Replace the generic Supervisor with the mission's own
