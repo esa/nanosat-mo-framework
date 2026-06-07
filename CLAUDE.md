@@ -30,10 +30,10 @@ mvn install -pl core/nmf-composites
 mvn test
 
 # Run tests for a single module
-mvn test -pl sdk/examples-space/all-mc-services
+mvn test -pl sdk/examples-apps/all-mc-services
 
 # Run a specific test class
-mvn test -pl sdk/examples-space/all-mc-services -Dtest=APIsTest
+mvn test -pl sdk/examples-apps/all-mc-services -Dtest=APIsTest
 ```
 
 Javadoc generation produces expected (non-breaking) warnings about missing module descriptors.
@@ -46,7 +46,7 @@ core/
   mo-services-xml/          # CCSDS MO XML service definitions (source of truth for APIs)
   mo-services-apis/         # Generated API jars: api-nmf-com, api-nmf-mc,
                             #   api-nmf-sm, api-nmf-platform
-  mo-services-impl/         # Single unified module: all service implementations (COM, MC, SM,
+  nmf-services-impl/        # Single unified module: all service implementations (COM, MC, SM,
                             #   Platform) plus helper utilities (clock, misc, environment)
   nmf-package-lib/          # NMF package management (install/uninstall apps on satellite)
   nmf-package-maven-plugin/ # Maven plugin: builds .nmfpackage files
@@ -57,7 +57,7 @@ mission/simulator/          # OPS-SAT spacecraft simulator (platform services im
 sdk/
   consumer-test-tool/       # GUI tool for consuming all NMF services (CTT)
   cli-tool/                 # CLI interface to NMF
-  examples-space/           # Space app examples
+  examples-apps/            # Space app examples
   examples-ground/          # Ground app examples
   sdk-playground-environment/ # Local SDK execution environment; run scripts + generated NMF
                             #   filesystem in target/space-filesystem/ (replaces the old
@@ -109,7 +109,7 @@ Float sensorValue = 0.0f;
 public void reset(Long actionInstanceObjId, MALInteraction interaction) throws ExecutionFailedException { ... }
 ```
 
-See `sdk/examples-space/all-mc-services` for the full annotation-based example and `sdk/examples-space/hello-world-simple` for the simple API.
+See `sdk/examples-apps/all-mc-services` for the full annotation-based example and `sdk/examples-apps/hello-world-simple` for the simple API.
 
 ## Running the Playground Environment
 

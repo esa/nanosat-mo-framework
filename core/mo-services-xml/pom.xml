@@ -20,7 +20,7 @@
         <relativePath>../../parent/pom.xml</relativePath>
     </parent>
     <groupId>int.esa.nmf.core</groupId>
-    <artifactId>nmf-xmls</artifactId>
+    <artifactId>mo-services-xml</artifactId>
     <packaging>jar</packaging>
     <name>ESA NMF Core - MO Services XMLs</name>
     <description>NMF CCSDS Mission Operations Services XML files, including tailored COM specification</description>

@@ -65,7 +65,7 @@
     </properties>
 
     <modules>
-        <module>examples-space</module>
+        <module>examples-apps</module>
         <module>examples-ground</module>
         <module>all-mc-services-with-sim</module>
         <module>consumer-test-tool</module>
