@@ -48,19 +48,6 @@ In ``sdk/sdk-playground-environment/pom.xml``, add the app as an ``nmfpack`` dep
 Rebuild with ``mvn install``. The plugin automatically installs the package into the playground filesystem
 under ``target/space-filesystem/nanosat-mo-framework/apps/my-app/``.
 
-Alternative: Monolithic providers (not an App pattern)
-------------------------------------------------------
-
-For cases that do not require the multi-App model, a **Monolithic provider** (``NanoSatMOMonolithic``) offers
-an alternative. A Monolithic provider is a self-contained process that exposes Supervisor-level services and a
-custom MC adapter directly, without being managed by an Apps Launcher. It is **not** an NMF App; see
-:doc:`../concepts/apps-and-supervisor` for the distinction.
-
-This pattern is useful for self-contained demonstrations and standalone examples (such as
-``sdk/all-mc-services-with-sim``) but is not appropriate when the goal is to develop and deploy a real NMF App
-that will coexist with others on a spacecraft. If your code needs to run under a Supervisor in flight, develop
-it as an App from the start.
-
 Ground-side automation
 ----------------------
 
