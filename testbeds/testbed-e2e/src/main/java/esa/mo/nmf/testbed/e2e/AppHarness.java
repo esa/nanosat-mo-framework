@@ -24,6 +24,7 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,23 +37,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
-import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ArchiveQuery;
-import org.ccsds.moims.mo.com.structures.NMFProviderType;
-import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.com.structures.Provider;
-import org.ccsds.moims.mo.com.structures.ProviderList;
+import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.NullableAttributeList;
-import org.ccsds.moims.mo.mal.structures.Subscription;
-import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.mal.structures.UpdateHeader;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.sm.appslauncher.body.ListAppResponse;
@@ -169,10 +159,17 @@ public class AppHarness {
         try {
             LongList ids = new LongList();
             ids.add(appId);
+
+            // Snapshot the log file state before launching so waitUntilRunning()
+            // only scans output produced by this run, not a stale URI from a
+            // previous killed instance that never deregistered from the Directory.
+            java.io.File prevLog = findNewestAppLog();
+            long prevLogSize = (prevLog != null) ? prevLog.length() : 0L;
+
             stub.runApp(ids);
             LOGGER.info("runApp('" + appName + "') submitted.");
 
-            waitUntilRunning();
+            waitUntilRunning(prevLog, prevLogSize);
             LOGGER.info("App '" + appName + "' is running.");
         } catch (MALException | MALInteractionException e) {
             throw new IOException("Failed to start app '" + appName + "': " + e.getMessage(), e);
@@ -589,61 +586,38 @@ public class AppHarness {
     }
 
     /**
-     * Polls the Supervisor's Directory service until the app's own provider
-     * entry appears, which only happens after {@code NanoSatMOConnectorImpl.init()}
-     * completes. This is the definitive "app is fully initialised" signal:
-     * the supervisor's running flag and the STARTED monitorEvent both fire
-     * when the process is merely spawned, before the JVM has loaded any
-     * classes, so checking either of those can race with the first action or
-     * stop request.
-     *
-     * <p>Uses the already-open Directory stub from {@link #adapter} to avoid
-     * opening a new MAL connection on every poll.
+     * Scans the app's log file for the {@code URI: ...‑Directory} line that
+     * {@code NanoSatMOConnectorImpl.init()} emits once the app has fully
+     * registered with the Directory service. Only content written after the
+     * pre-launch snapshot ({@code prevLog}/{@code prevLogSize}) is considered,
+     * so a stale URI left in the log by a previously killed instance (which
+     * never deregistered from the Directory) cannot produce a false positive.
      */
-    private void waitUntilRunning() throws IOException {
-        IdentifierList domainWildcard = new IdentifierList();
-        domainWildcard.add(new Identifier("*"));
-        org.ccsds.moims.mo.com.structures.ServiceFilter wildcardFilter =
-                new org.ccsds.moims.mo.com.structures.ServiceFilter(
-                        new Identifier("*"),
-                        domainWildcard,
-                        new org.ccsds.moims.mo.mal.structures.ServiceId(
-                                new org.ccsds.moims.mo.mal.structures.UShort((short) 0),
-                                new org.ccsds.moims.mo.mal.structures.UShort((short) 0),
-                                new org.ccsds.moims.mo.mal.structures.UOctet((short) 0)),
-                        null);
-
+    private void waitUntilRunning(java.io.File prevLog, long prevLogSize) throws IOException {
         long deadline = System.currentTimeMillis() + STARTUP_TIMEOUT_SECONDS * 1000L;
         while (System.currentTimeMillis() < deadline) {
-            try {
-                ProviderList providers = adapter.getCOMServices()
-                        .getDirectoryService().getDirectoryStub().lookup(wildcardFilter);
-                for (Provider p : providers) {
-                    if (NMFProviderType.APP.equals(p.getProviderType())
-                            && p.getProviderName() != null
-                            && appName.equals(p.getProviderName().getValue())) {
-                        // App registered in Directory — give the archive (H2) a moment
-                        // to finish initialising before returning. Without this buffer a
-                        // System.exit() triggered immediately after registration can catch
-                        // H2 mid-recovery on a reused database, making its shutdown hook
-                        // take many seconds and causing waitProcessGone to time out.
-                        Thread.sleep(500);
-                        return;
-                    }
+            String uri = scanAppLogForURI(prevLog, prevLogSize);
+            if (uri != null) {
+                LOGGER.info("App '" + appName + "' registered with URI: " + uri);
+                // Give the archive (H2) a moment to finish initialising before
+                // returning. Without this buffer a System.exit() triggered
+                // immediately after registration can catch H2 mid-recovery on a
+                // reused database, making its shutdown hook take many seconds
+                // and causing waitProcessGone to time out.
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                 }
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new IOException("Interrupted while waiting for app '" + appName + "' to start.");
-            } catch (Exception ignored) {
+                return;
             }
             try {
-                Thread.sleep(50);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 throw new IOException("Interrupted while waiting for app '" + appName + "' to start.");
             }
         }
-        // Timeout: check whether the process at least started (crash detection)
         if (!isRunning()) {
             throw new IOException("App '" + appName + "' is not running after runApp() — "
                     + "it likely crashed on startup."
@@ -652,8 +626,50 @@ public class AppHarness {
                     + "\n" + readAppLog()
                     + "\n---------------------------");
         }
-        throw new IOException("App '" + appName + "' did not register in Directory within "
+        throw new IOException("App '" + appName + "' did not log its URI within "
                 + STARTUP_TIMEOUT_SECONDS + "s — startup too slow or init failed silently.");
+    }
+
+    private java.io.File findNewestAppLog() {
+        java.io.File logDir = new java.io.File(supervisorHarness.getNmfDir(), "logs/app_" + appName);
+        if (!logDir.isDirectory()) {
+            return null;
+        }
+        java.io.File[] logs = logDir.listFiles(f -> f.getName().endsWith(".log"));
+        if (logs == null || logs.length == 0) {
+            return null;
+        }
+        return Arrays.stream(logs).max(Comparator.comparingLong(java.io.File::lastModified)).orElse(null);
+    }
+
+    private String scanAppLogForURI(java.io.File prevLog, long prevLogSize) {
+        java.io.File currentLog = findNewestAppLog();
+        if (currentLog == null) {
+            return null;
+        }
+        // If the run reused the same file, read only the bytes appended after
+        // the snapshot. If a new file was created, read from the beginning.
+        long readFrom = currentLog.equals(prevLog) ? prevLogSize : 0L;
+        long fileLen = currentLog.length();
+        if (fileLen <= readFrom) {
+            return null;
+        }
+        try {
+            byte[] bytes = Files.readAllBytes(currentLog.toPath());
+            int from = (int) Math.min(readFrom, bytes.length);
+            String content = new String(bytes, from, bytes.length - from, StandardCharsets.UTF_8);
+            for (String line : content.split("\\R", -1)) {
+                int idx = line.indexOf("URI: ");
+                if (idx >= 0) {
+                    String candidate = line.substring(idx + 5).trim();
+                    if (candidate.contains("-Directory")) {
+                        return candidate;
+                    }
+                }
+            }
+        } catch (IOException ignored) {
+        }
+        return null;
     }
 
 }
