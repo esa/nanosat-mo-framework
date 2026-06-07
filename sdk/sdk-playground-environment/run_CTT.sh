@@ -17,4 +17,4 @@ if [ -z "$CTT_JAR" ]; then
     exit 1
 fi
 cd "$CTT_DIR" || exit 1
-exec java -jar "$CTT_JAR" "$@"
+exec java -Djava.util.logging.config.file="$NMF_HOME/etc/logging.properties" -jar "$CTT_JAR" "$@"

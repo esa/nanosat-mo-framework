@@ -13,4 +13,4 @@ if [ ! -d "$NMF_HOME" ]; then
 fi
 JARS_NMF=$(ls -d "$NMF_HOME"/jars-nmf/*/ 2>/dev/null | head -1)
 JARS_MISSION=$(ls -d "$NMF_HOME"/jars-mission/*/ 2>/dev/null | head -1)
-exec java -classpath "$JARS_MISSION*:$JARS_NMF*" opssat.simulator.main.MainClient "$@"
+exec java -Djava.util.logging.config.file="$NMF_HOME/etc/logging.properties" -classpath "$JARS_MISSION*:$JARS_NMF*" opssat.simulator.main.MainClient "$@"

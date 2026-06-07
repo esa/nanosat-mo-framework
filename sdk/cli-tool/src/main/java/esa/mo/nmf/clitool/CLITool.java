@@ -35,6 +35,7 @@ public class CLITool {
         int exitCode = Dispatcher.dispatch(args);
         long startupTime = System.currentTimeMillis() - startTime;
         System.out.println("(3) The CLI Tool was executed in: " + startupTime + " ms");
+        System.out.flush();
         System.exit(exitCode);
     }
 }
