@@ -193,7 +193,6 @@
                     </com:object>
                 </com:objects>
                 <com:events comment=""/>
-                <com:activityUsage comment="Add the activity tracking for the progress of installation. Also for the Software Image service"/>
             </com:features>
         </mal:service>
         <mal:service name="Heartbeat" number="2" xsi:type="com:ExtendedServiceType" comment="The Heartbeat service provides the ability to periodically publish a heartbeat message. Additionally it is possible to get the period of the beat.">
@@ -496,13 +495,6 @@
                             </svg:marker>
                         </svg:defs>
 
-                        <svg:g id="COM::ActivityTracking::OperationActivity" transform="translate(85,10)">
-                            <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="270" x="4" y="4"/>
-                            <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="270"/>
-                            <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="135" y="25">COM::ActivityTracking::OperationActivity</svg:text>
-                            <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="135" y="45">6</svg:text>
-                            <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="135" y="65">COM::ActivityTracking::OperationActivity</svg:text>
-                        </svg:g>
                         <svg:g id="AppDetails" transform="translate(333,147)">
                             <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="100" x="4" y="4"/>
                             <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="100"/>
