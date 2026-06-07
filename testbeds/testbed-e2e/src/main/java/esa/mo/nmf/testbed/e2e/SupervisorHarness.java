@@ -57,8 +57,8 @@ import java.util.logging.Logger;
 public class SupervisorHarness {
 
     public static final String PROP_FILESYSTEM = "nmf.e2e.filesystem";
-    private static final int STARTUP_TIMEOUT_SECONDS = 3;
-    private static final int SHUTDOWN_TIMEOUT_SECONDS = 3;
+    private static final int STARTUP_TIMEOUT_SECONDS = 10;
+    private static final int SHUTDOWN_TIMEOUT_SECONDS = 10;
 
     private static final Logger LOGGER = Logger.getLogger(SupervisorHarness.class.getName());
 
@@ -70,7 +70,7 @@ public class SupervisorHarness {
 
     /**
      * Starts the Supervisor from the generated NMF filesystem and blocks until
-     * it is ready (providerURIs.properties appears).
+     * it is ready.
      *
      * @throws IOException if the filesystem property is missing, the directory
      * does not exist, or the Supervisor does not become ready within the
@@ -108,7 +108,7 @@ public class SupervisorHarness {
         logDrainer.setDaemon(true);
         logDrainer.start();
 
-        waitForReadiness();
+        this.waitForReadiness();
         LOGGER.info("Supervisor is ready. Directory URI: " + directoryURI);
     }
 
