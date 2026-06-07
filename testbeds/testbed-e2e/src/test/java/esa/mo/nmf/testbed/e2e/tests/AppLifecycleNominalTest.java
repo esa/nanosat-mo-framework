@@ -39,7 +39,7 @@ import org.junit.Test;
  * Each test manages its own start/stop cycle independently. The Supervisor is
  * started once for the whole class and torn down at the end.
  */
-public class AppLifecycleNominalTest {
+public class AppLifecycleNominalTest extends NMFTest {
 
     private static final long STOP_TIMEOUT_MS = 20_000;
     private static final long EVENT_TIMEOUT_MS = 20_000;
@@ -50,6 +50,10 @@ public class AppLifecycleNominalTest {
 
     @BeforeClass
     public static void startSupervisor() throws IOException {
+        System.out.println(SETUP_CLASS_SEP);
+        System.out.println(SETUP_CLASS_MSG);
+        System.out.println(SETUP_CLASS_SEP);
+        System.out.flush();
         supervisorHarness.setUp();
     }
 
@@ -77,7 +81,10 @@ public class AppLifecycleNominalTest {
 
     @Test
     public void testStartApp() throws Exception {
+        System.out.println(SEP);
         System.out.println("Running: testStartApp()");
+        System.out.println(SEP);
+        System.out.flush();
         app.start();
 
         Assert.assertTrue("App must be running after runApp", app.isRunning());
@@ -90,7 +97,10 @@ public class AppLifecycleNominalTest {
 
     @Test
     public void testStopApp() throws Exception {
+        System.out.println(SEP);
         System.out.println("Running: testStopApp()");
+        System.out.println(SEP);
+        System.out.flush();
         app.start();
 
         boolean cleanStop = app.stop(STOP_TIMEOUT_MS);
@@ -107,7 +117,10 @@ public class AppLifecycleNominalTest {
 
     @Test
     public void testKillApp() throws Exception {
+        System.out.println(SEP);
         System.out.println("Running: testKillApp()");
+        System.out.println(SEP);
+        System.out.flush();
         app.start();
 
         // killApp is SUBMIT (fire and forget); wait for the KILLED monitorEvent
@@ -128,7 +141,10 @@ public class AppLifecycleNominalTest {
 
     @Test
     public void testMonitorEventsOnStart() throws Exception {
+        System.out.println(SEP);
         System.out.println("Running: testMonitorEventsOnStart()");
+        System.out.println(SEP);
+        System.out.flush();
 
         // Connect to the Supervisor first (without starting the app) so we can
         // subscribe to monitorEvents before runApp triggers START_REQUESTED/STARTED.
@@ -153,7 +169,10 @@ public class AppLifecycleNominalTest {
 
     @Test
     public void testMonitorEventsOnStop() throws Exception {
+        System.out.println(SEP);
         System.out.println("Running: testMonitorEventsOnStop()");
+        System.out.println(SEP);
+        System.out.flush();
         app.start();
 
         List<AppEventType> events = collectEventsAroundAction(
@@ -173,7 +192,10 @@ public class AppLifecycleNominalTest {
 
     @Test
     public void testMonitorEventsOnKill() throws Exception {
+        System.out.println(SEP);
         System.out.println("Running: testMonitorEventsOnKill()");
+        System.out.println(SEP);
+        System.out.flush();
         app.start();
 
         List<AppEventType> events = collectEventsAroundAction(
@@ -190,7 +212,10 @@ public class AppLifecycleNominalTest {
 
     @Test
     public void testAppStartedInArchive() throws Exception {
+        System.out.println(SEP);
         System.out.println("Running: testAppStartedInArchive()");
+        System.out.println(SEP);
+        System.out.flush();
         app.start();
 
         List<ArchivePersistenceObject> records = app.queryAppStarted();
@@ -207,7 +232,10 @@ public class AppLifecycleNominalTest {
 
     @Test
     public void testAppStoppedInArchive() throws Exception {
+        System.out.println(SEP);
         System.out.println("Running: testAppStoppedInArchive()");
+        System.out.println(SEP);
+        System.out.flush();
         app.start();
         app.stop(STOP_TIMEOUT_MS);
 
@@ -229,7 +257,10 @@ public class AppLifecycleNominalTest {
 
     @Test
     public void testSelfExitZeroIsExited() throws Exception {
+        System.out.println(SEP);
         System.out.println("Running: testSelfExitZeroIsExited()");
+        System.out.println(SEP);
+        System.out.flush();
         AppHarness benchmark = new AppHarness("benchmark", supervisorHarness);
         benchmark.start();
 
@@ -256,7 +287,10 @@ public class AppLifecycleNominalTest {
 
     @Test
     public void testSelfExitNonZeroIsCrashed() throws Exception {
+        System.out.println(SEP);
         System.out.println("Running: testSelfExitNonZeroIsCrashed()");
+        System.out.println(SEP);
+        System.out.flush();
         AppHarness benchmark = new AppHarness("benchmark", supervisorHarness);
         benchmark.start();
 
