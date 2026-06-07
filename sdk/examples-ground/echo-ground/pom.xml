@@ -24,11 +24,11 @@
     </parent>
 
     <groupId>int.esa.nmf.sdk</groupId>
-    <artifactId>EchoSpace</artifactId>
+    <artifactId>echo-ground</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK App - Echo</name>
-    <description>An app that periodically publishes (pushes) the local clock to the subscribers (ground).</description>
+    <name>ESA NMF SDK Ground - Echo</name>
+    <description>Ground application using Directory Service to resolve the connection details of the Provider.</description>
     <url>http://www.esa.int</url>
 
     <organization>
@@ -61,10 +61,6 @@
             <url>https://github.com/yannickl96</url>
         </developer>
     </developers>
-
-    <properties>
-        <assembly.mainClass>esa.mo.nmf.apps.PushClock</assembly.mainClass>
-    </properties>
 
     <dependencies>
         <dependency>

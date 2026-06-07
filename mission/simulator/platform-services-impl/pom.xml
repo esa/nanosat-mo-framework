@@ -49,7 +49,7 @@ under the License. -->
     </developers>
     <dependencies>        <dependency>
             <groupId>int.esa.nmf.simulator</groupId>
-            <artifactId>spacecraft-simulator</artifactId>
+            <artifactId>cubesat-spacecraft-simulator</artifactId>
             <version>5.0-SNAPSHOT</version>
         </dependency>
         <dependency>

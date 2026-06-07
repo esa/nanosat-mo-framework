@@ -18,7 +18,7 @@ under the License. -->
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
     <groupId>int.esa.nmf.simulator</groupId>
-    <artifactId>gps-simulator</artifactId>
+    <artifactId>cubesat-gps-simulator</artifactId>
     <packaging>jar</packaging>
     <name>ESA NMF Sim - GPS Simulator</name>
     <description>A simple simulator providing analitical solution for GPS and attitude measurement instruments on a CubeSat</description>

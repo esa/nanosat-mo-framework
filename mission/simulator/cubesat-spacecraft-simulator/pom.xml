@@ -16,7 +16,7 @@ the License. -->
         <relativePath>../../../parent/pom.xml</relativePath>
     </parent>
     <groupId>int.esa.nmf.simulator</groupId>
-    <artifactId>spacecraft-simulator</artifactId>
+    <artifactId>cubesat-spacecraft-simulator</artifactId>
     <packaging>jar</packaging>
     <name>ESA NMF Sim - Spacecraft Simulator</name>
     <description>A simple software simulator of OPS-SAT</description>
@@ -52,7 +52,7 @@ the License. -->
     <dependencies>
         <dependency>
             <groupId>int.esa.nmf.simulator</groupId>
-            <artifactId>gps-simulator</artifactId>
+            <artifactId>cubesat-gps-simulator</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
