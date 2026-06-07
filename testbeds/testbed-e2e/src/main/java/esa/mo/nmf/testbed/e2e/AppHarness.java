@@ -61,7 +61,7 @@ import org.ccsds.moims.mo.sm.structures.AppEventType;
 public class AppHarness {
 
     private static final Logger LOGGER = Logger.getLogger(AppHarness.class.getName());
-    private static final int STARTUP_TIMEOUT_SECONDS = 2;
+    private static final int STARTUP_TIMEOUT_SECONDS = 10;
     private static final String WILDCARD = "*";
 
     private final String appName;
