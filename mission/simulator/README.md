@@ -11,7 +11,7 @@ The simulator platform is based on the classic CubeSat missions.
 
 ### Repository content
 
-#### [CubeSat GPS Simulator](opssat-gps-simulator)
+#### [CubeSat GPS Simulator](cubesat-gps-simulator)
 
 Lightweight simulator of the basic orbital parameters, using an analytical solution.
 
