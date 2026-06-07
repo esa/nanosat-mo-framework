@@ -75,7 +75,6 @@
         <module>gps</module>
         <module>hello-world-full</module>
         <module>hello-world-simple</module>
-        <module>multistage-action</module>
         <module>payloads-test</module>
         <module>periodic-alert</module>
         <module>picture-processor</module>

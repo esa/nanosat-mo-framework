@@ -28,7 +28,7 @@
     <packaging>jar</packaging>
 
     <name>ESA NMF SDK App - Echo</name>
-    <description>An app that periodically publishes (pushes) the local clock to the subscribers (ground).</description>
+    <description>An NMF App that echoes back parameter values and actions from space to ground.</description>
     <url>http://www.esa.int</url>
 
     <organization>
@@ -63,7 +63,7 @@
     </developers>
 
     <properties>
-        <assembly.mainClass>esa.mo.nmf.apps.PushClock</assembly.mainClass>
+        <assembly.mainClass>esa.mo.nmf.apps.EchoSpace</assembly.mainClass>
     </properties>
 
     <dependencies>

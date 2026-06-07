@@ -22,9 +22,12 @@ package esa.mo.nmf.apps;
 
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
+import esa.mo.nmf.NMFException;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
@@ -47,6 +50,9 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     private static final String ACTION_SHUTDOWN_GRACEFULLY = "shutdown.gracefully";
     private static final String ACTION_SHUTDOWN_EXIT_0 = "shutdown.system.exit.0";
     private static final String ACTION_SHUTDOWN_EXIT_X = "shutdown.system.exit.x";
+    private static final String ACTION_GO = "Go";
+    private static final int TOTAL_N_OF_STAGES = 5;
+    private static final int SLEEP_TIME = 2;
 
     MCAdapter(NanoSatMOConnectorImpl connector) {
         this.connector = connector;
@@ -112,6 +118,13 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
                 "Shuts down the app immediately with the specified exit code.",
                 new UShort(0), exitCodeArgs));
 
+        ArgumentDefinitionList goArgs = new ArgumentDefinitionList();
+        goArgs.add(new ArgumentDefinition(new Identifier("1"), null, AttributeType.DURATION, "seconds"));
+        actionDefs.add(new ActionDefinition(
+                new Identifier(ACTION_GO),
+                "Example of an Action with " + TOTAL_N_OF_STAGES + " stages.",
+                new UShort(TOTAL_N_OF_STAGES), goArgs));
+
         LongList actionObjIds = registration.registerActions(actionDefs);
     }
 
@@ -158,6 +171,27 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
             int exitCode = (Integer) HelperAttributes.attribute2JavaType(
                     attributeValues.get(0).getValue());
             new Thread(() -> System.exit(exitCode)).start();
+        }
+
+        if (ACTION_GO.equals(name.getValue())) {
+            try {
+                reportFiveStagesAction(executionId);
+            } catch (NMFException ex) {
+                Logger.getLogger(MCAdapter.class.getName()).log(Level.SEVERE,
+                        "The action could not report the five stages!", ex);
+                throw new ExecutionFailedException("Failed to report the five stages: " + ex.getMessage());
+            }
+        }
+    }
+
+    private void reportFiveStagesAction(Long executionId) throws NMFException {
+        for (int stage = 1; stage <= TOTAL_N_OF_STAGES; stage++) {
+            connector.reportExecutionProgress(true, 0, stage, TOTAL_N_OF_STAGES, executionId);
+            try {
+                Thread.sleep(SLEEP_TIME * 1000L);
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 
