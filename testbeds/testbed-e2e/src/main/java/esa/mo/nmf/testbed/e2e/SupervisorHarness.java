@@ -258,13 +258,9 @@ public class SupervisorHarness {
     private String scanForDirectoryURI() {
         synchronized (logLines) {
             for (String line : logLines) {
-                // Supervisor logs: "INFO: URI: maltcp://host:port/name-Directory"
-                int idx = line.indexOf("URI: ");
-                if (idx >= 0) {
-                    String candidate = line.substring(idx + 5).trim();
-                    if (candidate.contains("-Directory")) {
-                        return candidate;
-                    }
+                String uri = LogScanner.extractDirectoryURI(line);
+                if (uri != null) {
+                    return uri;
                 }
             }
         }

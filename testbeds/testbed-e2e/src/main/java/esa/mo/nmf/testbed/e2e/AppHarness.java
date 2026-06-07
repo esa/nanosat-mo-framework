@@ -36,7 +36,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -44,7 +43,6 @@ import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.sm.appslauncher.body.ListAppResponse;
 import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherAdapter;
 import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherStub;
@@ -181,14 +179,11 @@ public class AppHarness {
                         return;
                     }
                     for (String line : outputStream.split("\\R", -1)) {
-                        int idx = line.indexOf("URI: ");
-                        if (idx >= 0) {
-                            String candidate = line.substring(idx + 5).trim();
-                            if (candidate.contains("-Directory")) {
-                                foundURI.set(candidate);
-                                uriLatch.countDown();
-                                return;
-                            }
+                        String uri = LogScanner.extractDirectoryURI(line);
+                        if (uri != null) {
+                            foundURI.set(uri);
+                            uriLatch.countDown();
+                            return;
                         }
                     }
                 }
@@ -422,7 +417,7 @@ public class AppHarness {
      * @throws IOException if the query fails.
      */
     public List<ArchivePersistenceObject> queryAppStarted() throws IOException {
-        return queryByRelated(AppsLauncherServiceInfo.APPSTARTED_OBJECT_TYPE);
+        return new AppArchiveQueries(adapter, appId).queryAppStarted();
     }
 
     /**
@@ -433,57 +428,7 @@ public class AppHarness {
      * @throws IOException if the query fails.
      */
     public List<ArchivePersistenceObject> queryAppStopped() throws IOException {
-        return queryByRelated(AppsLauncherServiceInfo.APPSTOPPED_OBJECT_TYPE);
-    }
-
-    private List<ArchivePersistenceObject> queryByRelated(ObjectType objType) throws IOException {
-        List<ArchivePersistenceObject> results = Collections.synchronizedList(new ArrayList<>());
-        CountDownLatch latch = new CountDownLatch(1);
-
-        try {
-            adapter.getCOMServices().getArchiveService().getArchiveStub().query(
-                    Boolean.TRUE, objType, new ArchiveQuery(appId), null,
-                    new ArchiveAdapter() {
-                        @Override
-                        public void queryUpdateReceived(MALMessageHeader msgHeader,
-                                ObjectType receivedObjType, IdentifierList domain,
-                                ArchiveDetailsList details,
-                                org.ccsds.moims.mo.mal.structures.HeterogeneousList bodies,
-                                java.util.Map qosProperties) {
-                            if (details != null) {
-                                for (int i = 0; i < details.size(); i++) {
-                                    org.ccsds.moims.mo.mal.structures.Element body =
-                                            (bodies != null && i < bodies.size())
-                                            ? (org.ccsds.moims.mo.mal.structures.Element) bodies.get(i)
-                                            : null;
-                                    results.add(new ArchivePersistenceObject(
-                                            receivedObjType, domain,
-                                            details.get(i).getId(), details.get(i), body));
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void queryResponseReceived(MALMessageHeader msgHeader,
-                                java.util.Map qosProperties) {
-                            latch.countDown();
-                        }
-
-                        @Override
-                        public void queryAckErrorReceived(MALMessageHeader msgHeader,
-                                MOErrorException error, java.util.Map qosProperties) {
-                            latch.countDown();
-                        }
-                    });
-        } catch (MALException | MALInteractionException e) {
-            throw new IOException("Archive query failed: " + e.getMessage(), e);
-        }
-        try {
-            latch.await(10, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-        return new ArrayList<>(results);
+        return new AppArchiveQueries(adapter, appId).queryAppStopped();
     }
 
     /**
