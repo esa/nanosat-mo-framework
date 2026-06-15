@@ -33,6 +33,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.NullableAttributeList;
@@ -98,9 +99,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
 
     public void init() {
         // Subscribe to monitorOutput PUBSUB to receive command output in real-time.
-        final Subscription subscription = new Subscription();
-        subscription.setDomain(serviceSMCommandExecutor.getConnectionDetails().getDomain());
-        subscription.setSubscriptionId(new Identifier("SUB_CMD_OUTPUT"));
+        final Subscription subscription = ConnectionConsumer.subscriptionWildcardRandom();
 
         try {
             serviceSMCommandExecutor.getCommandExecutorStub().monitorOutputRegister(
