@@ -24,6 +24,7 @@ import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.nmf.testbed.e2e.SupervisorHarness;
 import java.io.IOException;
+import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.Provider;
 import org.ccsds.moims.mo.com.structures.ProviderList;
 import org.ccsds.moims.mo.mal.structures.*;
@@ -38,6 +39,7 @@ import org.junit.Test;
  */
 public class SupervisorTest {
 
+    private static final Logger LOGGER = Logger.getLogger(SupervisorTest.class.getName());
     private static final SupervisorHarness harness = new SupervisorHarness();
 
     @BeforeClass
@@ -63,16 +65,15 @@ public class SupervisorTest {
 
     @Test
     public void testNoErrors() {
-        System.out.println("Running: testNoErrors()");
+        LOGGER.info("Running: testNoErrors()");
         Assert.assertFalse(
                 "Supervisor log must not contain SEVERE lines",
                 harness.hasErrors());
-        System.out.flush();
     }
 
     @Test
     public void testListApps() throws Exception {
-        System.out.println("Running: testListApps()");
+        LOGGER.info("Running: testListApps()");
         String directoryURI = harness.getDirectoryURI();
         ProviderList providers = NMFConsumer.retrieveProvidersFromDirectory(new URI(directoryURI));
         Assert.assertFalse("Directory must return at least one provider", providers.isEmpty());
@@ -88,11 +89,10 @@ public class SupervisorTest {
                     .listApp(wildcard, new Identifier("*"));
             Assert.assertNotNull("listApp must return a response", response);
             Assert.assertNotNull("listApp must return app IDs", response.getAppIds());
-            System.out.println("The provider returned the ids: " + response.getAppIds());
+            LOGGER.info("The provider returned the ids: " + response.getAppIds());
         } finally {
             adapter.closeConnections();
         }
-        System.out.flush();
     }
 
 }

@@ -50,10 +50,7 @@ public class AppLifecycleNominalTest extends NMFTest {
 
     @BeforeClass
     public static void startSupervisor() throws IOException {
-        System.out.println(SETUP_CLASS_SEP);
-        System.out.println(SETUP_CLASS_MSG);
-        System.out.println(SETUP_CLASS_SEP);
-        System.out.flush();
+        LOGGER.info(SETUP_CLASS_SEP + "\n" + SETUP_CLASS_MSG + "\n" + SETUP_CLASS_SEP);
         supervisorHarness.setUp();
     }
 
@@ -81,14 +78,10 @@ public class AppLifecycleNominalTest extends NMFTest {
 
     @Test
     public void testStartApp() throws Exception {
-        System.out.println(SEP);
-        System.out.println("Running: testStartApp()");
-        System.out.println(SEP);
-        System.out.flush();
+        LOGGER.info(SEP + "\nRunning: testStartApp()\n" + SEP);
         app.start();
 
         Assert.assertTrue("App must be running after runApp", app.isRunning());
-        System.out.flush();
     }
 
     // -------------------------------------------------------------------------
@@ -97,10 +90,7 @@ public class AppLifecycleNominalTest extends NMFTest {
 
     @Test
     public void testStopApp() throws Exception {
-        System.out.println(SEP);
-        System.out.println("Running: testStopApp()");
-        System.out.println(SEP);
-        System.out.flush();
+        LOGGER.info(SEP + "\nRunning: testStopApp()\n" + SEP);
         app.start();
 
         boolean cleanStop = app.stop(STOP_TIMEOUT_MS);
@@ -108,7 +98,6 @@ public class AppLifecycleNominalTest extends NMFTest {
         Assert.assertTrue("stopApp must complete without an update error", cleanStop);
         Assert.assertFalse("App must not be running after stopApp", app.isRunning());
         Assert.assertTrue("OS process must be gone after stopApp", app.isProcessGone());
-        System.out.flush();
     }
 
     // -------------------------------------------------------------------------
@@ -117,10 +106,7 @@ public class AppLifecycleNominalTest extends NMFTest {
 
     @Test
     public void testKillApp() throws Exception {
-        System.out.println(SEP);
-        System.out.println("Running: testKillApp()");
-        System.out.println(SEP);
-        System.out.flush();
+        LOGGER.info(SEP + "\nRunning: testKillApp()\n" + SEP);
         app.start();
 
         // killApp is SUBMIT (fire and forget); wait for the KILLED monitorEvent
@@ -132,7 +118,6 @@ public class AppLifecycleNominalTest extends NMFTest {
                 events.contains(AppEventType.KILLED));
         Assert.assertFalse("App must not be running after killApp", app.isRunning());
         Assert.assertTrue("OS process must be gone after killApp", app.waitProcessGone(10_000));
-        System.out.flush();
     }
 
     // -------------------------------------------------------------------------
@@ -141,10 +126,7 @@ public class AppLifecycleNominalTest extends NMFTest {
 
     @Test
     public void testMonitorEventsOnStart() throws Exception {
-        System.out.println(SEP);
-        System.out.println("Running: testMonitorEventsOnStart()");
-        System.out.println(SEP);
-        System.out.flush();
+        LOGGER.info(SEP + "\nRunning: testMonitorEventsOnStart()\n" + SEP);
 
         // Connect to the Supervisor first (without starting the app) so we can
         // subscribe to monitorEvents before runApp triggers START_REQUESTED/STARTED.
@@ -160,7 +142,6 @@ public class AppLifecycleNominalTest extends NMFTest {
                 events.contains(AppEventType.START_REQUESTED));
         Assert.assertTrue("STARTED must be received",
                 events.contains(AppEventType.STARTED));
-        System.out.flush();
     }
 
     // -------------------------------------------------------------------------
@@ -169,10 +150,7 @@ public class AppLifecycleNominalTest extends NMFTest {
 
     @Test
     public void testMonitorEventsOnStop() throws Exception {
-        System.out.println(SEP);
-        System.out.println("Running: testMonitorEventsOnStop()");
-        System.out.println(SEP);
-        System.out.flush();
+        LOGGER.info(SEP + "\nRunning: testMonitorEventsOnStop()\n" + SEP);
         app.start();
 
         List<AppEventType> events = collectEventsAroundAction(
@@ -183,7 +161,6 @@ public class AppLifecycleNominalTest extends NMFTest {
         Assert.assertTrue("STOPPED must be received",
                 events.contains(AppEventType.STOPPED));
         Assert.assertTrue("OS process must be gone after stop", app.waitProcessGone(10_000));
-        System.out.flush();
     }
 
     // -------------------------------------------------------------------------
@@ -192,10 +169,7 @@ public class AppLifecycleNominalTest extends NMFTest {
 
     @Test
     public void testMonitorEventsOnKill() throws Exception {
-        System.out.println(SEP);
-        System.out.println("Running: testMonitorEventsOnKill()");
-        System.out.println(SEP);
-        System.out.flush();
+        LOGGER.info(SEP + "\nRunning: testMonitorEventsOnKill()\n" + SEP);
         app.start();
 
         List<AppEventType> events = collectEventsAroundAction(
@@ -203,7 +177,6 @@ public class AppLifecycleNominalTest extends NMFTest {
 
         Assert.assertTrue("KILLED must be received", events.contains(AppEventType.KILLED));
         Assert.assertTrue("OS process must be gone after kill", app.waitProcessGone(10_000));
-        System.out.flush();
     }
 
     // -------------------------------------------------------------------------
@@ -212,10 +185,7 @@ public class AppLifecycleNominalTest extends NMFTest {
 
     @Test
     public void testAppStartedInArchive() throws Exception {
-        System.out.println(SEP);
-        System.out.println("Running: testAppStartedInArchive()");
-        System.out.println(SEP);
-        System.out.flush();
+        LOGGER.info(SEP + "\nRunning: testAppStartedInArchive()\n" + SEP);
         app.start();
 
         List<ArchivePersistenceObject> records = app.queryAppStarted();
@@ -223,7 +193,6 @@ public class AppLifecycleNominalTest extends NMFTest {
         Assert.assertFalse("At least one AppStarted record must exist in archive"
                 + (records.isEmpty() ? app.getDiagnostics() : ""),
                 records.isEmpty());
-        System.out.flush();
     }
 
     // -------------------------------------------------------------------------
@@ -232,10 +201,7 @@ public class AppLifecycleNominalTest extends NMFTest {
 
     @Test
     public void testAppStoppedInArchive() throws Exception {
-        System.out.println(SEP);
-        System.out.println("Running: testAppStoppedInArchive()");
-        System.out.println(SEP);
-        System.out.flush();
+        LOGGER.info(SEP + "\nRunning: testAppStoppedInArchive()\n" + SEP);
         app.start();
         app.stop(STOP_TIMEOUT_MS);
 
@@ -248,7 +214,6 @@ public class AppLifecycleNominalTest extends NMFTest {
         AppStopped body = (AppStopped) records.get(0).getObject();
         Assert.assertEquals("AppStopped.stopReason must be STOPPED",
                 AppEventType.STOPPED, body.getStopReason());
-        System.out.flush();
     }
 
     // -------------------------------------------------------------------------
@@ -257,10 +222,7 @@ public class AppLifecycleNominalTest extends NMFTest {
 
     @Test
     public void testSelfExitZeroIsExited() throws Exception {
-        System.out.println(SEP);
-        System.out.println("Running: testSelfExitZeroIsExited()");
-        System.out.println(SEP);
-        System.out.flush();
+        LOGGER.info(SEP + "\nRunning: testSelfExitZeroIsExited()\n" + SEP);
         AppHarness benchmark = new AppHarness("benchmark", supervisorHarness);
         benchmark.start();
 
@@ -277,7 +239,6 @@ public class AppLifecycleNominalTest extends NMFTest {
         });
         Assert.assertTrue("An AppStopped record with EXITED and exitCode 0 must exist"
                 + (!foundExited0 ? benchmark.getDiagnostics() : ""), foundExited0);
-        System.out.flush();
     }
 
     // -------------------------------------------------------------------------
@@ -287,10 +248,7 @@ public class AppLifecycleNominalTest extends NMFTest {
 
     @Test
     public void testSelfExitNonZeroIsCrashed() throws Exception {
-        System.out.println(SEP);
-        System.out.println("Running: testSelfExitNonZeroIsCrashed()");
-        System.out.println(SEP);
-        System.out.flush();
+        LOGGER.info(SEP + "\nRunning: testSelfExitNonZeroIsCrashed()\n" + SEP);
         AppHarness benchmark = new AppHarness("benchmark", supervisorHarness);
         benchmark.start();
 
@@ -311,7 +269,6 @@ public class AppLifecycleNominalTest extends NMFTest {
         Assert.assertTrue("Self-exit with code 18 must be recorded as CRASHED with exitCode 18 "
                 + "(the Apps Launcher currently receives exit code 0)"
                 + (!foundCrashed18 ? benchmark.getDiagnostics() : ""), foundCrashed18);
-        System.out.flush();
     }
 
     // -------------------------------------------------------------------------

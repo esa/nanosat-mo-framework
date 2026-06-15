@@ -23,6 +23,7 @@ package esa.mo.com.testbed.tests;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.testbed.SetUpCOMServices;
 import java.io.IOException;
+import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
@@ -39,6 +40,7 @@ import org.junit.Test;
  */
 public class ArchiveTest {
 
+    private static final Logger LOGGER = Logger.getLogger(ArchiveTest.class.getName());
     private static final SetUpCOMServices harness = new SetUpCOMServices();
 
     private static final ObjectType TEST_OBJECT_TYPE = new ObjectType(
@@ -57,7 +59,7 @@ public class ArchiveTest {
 
     @Test
     public void testStoreAndRetrieve() throws MALInteractionException, MALException {
-        System.out.println("Running: testStoreAndRetrieve()");
+        LOGGER.info("Running: testStoreAndRetrieve()");
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
         URI providerURI = harness.getCOMServicesProvider()
@@ -75,7 +77,7 @@ public class ArchiveTest {
         Assert.assertEquals("One ID must be returned", 1, ids.size());
         Long instId = ids.get(0);
         Assert.assertNotNull("Returned instance ID must not be null", instId);
-        System.out.println("The returned instance ID is: " + instId);
+        LOGGER.info("The returned instance ID is: " + instId);
 
         ObjectKeysList retrieved = (ObjectKeysList) HelperArchive.getObjectBodyFromArchive(
                 stub, TEST_OBJECT_TYPE, domain, instId);
@@ -86,7 +88,6 @@ public class ArchiveTest {
         Assert.assertEquals("ObjectType in entry must match",
                 storedBody.get(0).getObjType(),
                 retrieved.get(0).getObjType());
-        System.out.flush();
     }
 
 }

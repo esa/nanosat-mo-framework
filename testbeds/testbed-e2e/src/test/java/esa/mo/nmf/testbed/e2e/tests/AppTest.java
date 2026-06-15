@@ -23,6 +23,7 @@ package esa.mo.nmf.testbed.e2e.tests;
 import esa.mo.nmf.testbed.e2e.AppHarness;
 import esa.mo.nmf.testbed.e2e.SupervisorHarness;
 import java.io.IOException;
+import java.util.logging.Logger;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -33,6 +34,7 @@ import org.junit.Test;
  */
 public class AppTest {
 
+    private static final Logger LOGGER = Logger.getLogger(AppTest.class.getName());
     private static final SupervisorHarness supervisorHarness = new SupervisorHarness();
     private static final AppHarness appHarness = new AppHarness("all-mc-services", supervisorHarness);
 
@@ -50,10 +52,9 @@ public class AppTest {
 
     @Test
     public void testAppIsRunning() throws Exception {
-        System.out.println("Running: testAppIsRunning()");
-        System.out.println("The app ID is: " + appHarness.getAppId());
+        LOGGER.info("Running: testAppIsRunning()");
+        LOGGER.info("The app ID is: " + appHarness.getAppId());
         Assert.assertTrue("App must be running after setUp", appHarness.isRunning());
-        System.out.flush();
     }
 
 }

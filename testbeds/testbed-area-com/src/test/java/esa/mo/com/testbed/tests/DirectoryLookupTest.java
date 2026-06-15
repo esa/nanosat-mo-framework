@@ -24,6 +24,7 @@ import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.com.testbed.SetUpCOMServices;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -44,6 +45,7 @@ import org.junit.Test;
  */
 public class DirectoryLookupTest {
 
+    private static final Logger LOGGER = Logger.getLogger(DirectoryLookupTest.class.getName());
     private static final String PROVIDER_NAME = "test-scheme-filter-provider";
 
     private static final SetUpCOMServices harness = new SetUpCOMServices();
@@ -77,15 +79,14 @@ public class DirectoryLookupTest {
     @Test
     public void testNullSchemeFilterReturnsAllAddresses()
             throws MALInteractionException, MALException {
-        System.out.println("Running: testNullSchemeFilterReturnsAllAddresses()");
+        LOGGER.info("Running: testNullSchemeFilterReturnsAllAddresses()");
         ServiceFilter filter = makeFilter(null);
         ProviderList results = directoryConsumer.getDirectoryStub().lookup(filter);
 
         Assert.assertEquals("Lookup must return exactly one provider", 1, results.size());
         int addressCount = countAddresses(results.get(0));
-        System.out.println("Number of addresses returned: " + addressCount);
+        LOGGER.info("Number of addresses returned: " + addressCount);
         Assert.assertEquals("NULL schemeFilter must return all 2 addresses", 2, addressCount);
-        System.out.flush();
     }
 
     /**
@@ -96,7 +97,7 @@ public class DirectoryLookupTest {
     @Test
     public void testSchemeFilterReturnsMalSppAddressOnly()
             throws MALInteractionException, MALException {
-        System.out.println("Running: testSchemeFilterReturnsMalSppAddressOnly()");
+        LOGGER.info("Running: testSchemeFilterReturnsMalSppAddressOnly()");
         IdentifierList schemeFilter = new IdentifierList();
         schemeFilter.add(new Identifier("malspp"));
 
@@ -105,15 +106,14 @@ public class DirectoryLookupTest {
 
         Assert.assertEquals("Lookup must return exactly one provider", 1, results.size());
         int addressCount = countAddresses(results.get(0));
-        System.out.println("Number of addresses returned: " + addressCount);
+        LOGGER.info("Number of addresses returned: " + addressCount);
         Assert.assertEquals("malspp schemeFilter must return exactly 1 address", 1, addressCount);
 
         URI returnedURI = getFirstAddress(results.get(0));
         Assert.assertNotNull("Returned address URI must not be null", returnedURI);
-        System.out.println("The returned address URI is: " + returnedURI);
+        LOGGER.info("The returned address URI is: " + returnedURI);
         Assert.assertTrue("Returned address URI must start with 'malspp'",
                 returnedURI.getValue().startsWith("malspp"));
-        System.out.flush();
     }
 
     /**
@@ -124,7 +124,7 @@ public class DirectoryLookupTest {
     @Test
     public void testNonMatchingSchemeFilterReturnsNoAddresses()
             throws MALInteractionException, MALException {
-        System.out.println("Running: testNonMatchingSchemeFilterReturnsNoAddresses()");
+        LOGGER.info("Running: testNonMatchingSchemeFilterReturnsNoAddresses()");
         IdentifierList schemeFilter = new IdentifierList();
         schemeFilter.add(new Identifier("xyz-transport"));
 
@@ -134,9 +134,8 @@ public class DirectoryLookupTest {
         Assert.assertEquals("Provider must still appear even when no addresses match",
                 1, results.size());
         int addressCount = countAddresses(results.get(0));
-        System.out.println("Number of addresses returned: " + addressCount);
+        LOGGER.info("Number of addresses returned: " + addressCount);
         Assert.assertEquals("Non-matching schemeFilter must yield 0 addresses", 0, addressCount);
-        System.out.flush();
     }
 
     // --- Helpers ---

@@ -20,12 +20,15 @@
  */
 package esa.mo.nmf.testbed.e2e.tests;
 
+import java.util.logging.Logger;
+
 /**
  * Base class for NMF end-to-end tests. Provides shared constants for
  * test output formatting.
  */
 public abstract class NMFTest {
 
+    protected static final Logger LOGGER = Logger.getLogger(NMFTest.class.getName());
     protected static final String SEP = "-----------------------------------------------";
     protected static final String SETUP_CLASS_SEP = "-----------------------------------------------------------------------";
     protected static final String SETUP_CLASS_MSG = "Entered: setUpClass() - The Supervisor will be started here!";

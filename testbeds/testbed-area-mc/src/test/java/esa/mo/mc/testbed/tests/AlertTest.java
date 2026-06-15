@@ -24,6 +24,7 @@ import esa.mo.mc.impl.consumer.AlertConsumerServiceImpl;
 import esa.mo.mc.testbed.SetUpProvidersAndConsumers;
 import java.io.IOException;
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -56,6 +57,7 @@ import org.junit.Test;
  */
 public class AlertTest {
 
+    private static final Logger LOGGER = Logger.getLogger(AlertTest.class.getName());
     private static final SetUpProvidersAndConsumers harness = new SetUpProvidersAndConsumers();
 
     @BeforeClass
@@ -71,7 +73,7 @@ public class AlertTest {
     @Test
     public void testPublishAlertEventIsReceived() throws MALException, MALInteractionException,
             java.net.MalformedURLException, InterruptedException {
-        System.out.println("Running: testPublishAlertEventIsReceived()");
+        LOGGER.info("Running: testPublishAlertEventIsReceived()");
 
         AlertConsumerServiceImpl alertConsumer = harness.getAlertConsumerStub();
 
@@ -106,7 +108,7 @@ public class AlertTest {
                 null, new Identifier("TestAlert"), args, null, null);
 
         Assert.assertNotNull("publishAlertEvent must return a non-null event object ID", eventObjId);
-        System.out.println("The returned event object ID is: " + eventObjId);
+        LOGGER.info("The returned event object ID is: " + eventObjId);
 
         boolean delivered = latch.await(5, TimeUnit.SECONDS);
         Assert.assertTrue("Alert must be received by the consumer within 5 seconds", delivered);
@@ -122,7 +124,7 @@ public class AlertTest {
         Assert.assertEquals("Must have exactly one argument", 1, receivedArgs.size());
 
         Union receivedValue = (Union) receivedArgs.get(0).getValue();
-        System.out.println("The received argument value is: " + receivedValue.getIntegerValue());
+        LOGGER.info("The received argument value is: " + receivedValue.getIntegerValue());
         Assert.assertEquals("Argument value must match the published value",
                 Integer.valueOf(42), receivedValue.getIntegerValue());
 
@@ -130,8 +132,6 @@ public class AlertTest {
         IdentifierList ids = new IdentifierList();
         ids.add(sub.getSubscriptionId());
         alertConsumer.getAlertStub().monitorAlertDeregister(ids);
-
-        System.out.flush();
     }
 
 }

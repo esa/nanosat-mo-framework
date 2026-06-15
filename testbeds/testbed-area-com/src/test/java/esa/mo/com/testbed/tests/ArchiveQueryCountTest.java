@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
@@ -60,6 +61,7 @@ import org.junit.Test;
  */
 public class ArchiveQueryCountTest {
 
+    private static final Logger LOGGER = Logger.getLogger(ArchiveQueryCountTest.class.getName());
     private static final SetUpCOMServices harness = new SetUpCOMServices();
 
     // Unique area numbers per test method to avoid cross-test contamination within the shared
@@ -101,7 +103,7 @@ public class ArchiveQueryCountTest {
      */
     @Test
     public void testQueryReturnsStoredObjects() throws MALInteractionException, MALException, InterruptedException {
-        System.out.println("Running: testQueryReturnsStoredObjects()");
+        LOGGER.info("Running: testQueryReturnsStoredObjects()");
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
         URI providerURI = harness.getCOMServicesProvider()
@@ -113,9 +115,8 @@ public class ArchiveQueryCountTest {
         QueryResult result = runQuery(stub, QUERY_BASIC_TYPE, false);
 
         int objectCount = countObjects(result);
-        System.out.println("Number of objects returned by query: " + objectCount);
+        LOGGER.info("Number of objects returned by query: " + objectCount);
         Assert.assertEquals("Query must return exactly 2 objects", 2, objectCount);
-        System.out.flush();
     }
 
     /**
@@ -125,7 +126,7 @@ public class ArchiveQueryCountTest {
      */
     @Test
     public void testQueryReturnBody() throws MALInteractionException, MALException, InterruptedException {
-        System.out.println("Running: testQueryReturnBody()");
+        LOGGER.info("Running: testQueryReturnBody()");
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
         URI providerURI = harness.getCOMServicesProvider()
@@ -149,9 +150,8 @@ public class ArchiveQueryCountTest {
                 break;
             }
         }
-        System.out.println("Body found in query results: " + bodyFound);
+        LOGGER.info("Body found in query results: " + bodyFound);
         Assert.assertTrue("Query with returnBody=true must include at least one body", bodyFound);
-        System.out.flush();
     }
 
     /**
@@ -160,15 +160,14 @@ public class ArchiveQueryCountTest {
      */
     @Test
     public void testQueryNoMatch() throws MALInteractionException, MALException, InterruptedException {
-        System.out.println("Running: testQueryNoMatch()");
+        LOGGER.info("Running: testQueryNoMatch()");
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
 
         QueryResult result = runQuery(stub, UNMATCH_TYPE, false);
 
         int objectCount = countObjects(result);
-        System.out.println("Number of objects returned for non-matching query: " + objectCount);
+        LOGGER.info("Number of objects returned for non-matching query: " + objectCount);
         Assert.assertEquals("Query for a never-stored type must return 0 objects", 0, objectCount);
-        System.out.flush();
     }
 
     /**
@@ -177,7 +176,7 @@ public class ArchiveQueryCountTest {
      */
     @Test
     public void testCountMatchingObjects() throws MALInteractionException, MALException, InterruptedException {
-        System.out.println("Running: testCountMatchingObjects()");
+        LOGGER.info("Running: testCountMatchingObjects()");
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
         URI providerURI = harness.getCOMServicesProvider()
@@ -189,9 +188,8 @@ public class ArchiveQueryCountTest {
 
         long count = runCount(stub, COUNT_TYPE);
 
-        System.out.println("Number of objects counted: " + count);
+        LOGGER.info("Number of objects counted: " + count);
         Assert.assertEquals("Count must equal the number of stored objects", 3L, count);
-        System.out.flush();
     }
 
     /**
@@ -200,14 +198,13 @@ public class ArchiveQueryCountTest {
      */
     @Test
     public void testCountNoMatch() throws MALInteractionException, MALException, InterruptedException {
-        System.out.println("Running: testCountNoMatch()");
+        LOGGER.info("Running: testCountNoMatch()");
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
 
         long count = runCount(stub, UNMATCH_TYPE);
 
-        System.out.println("Count for non-matching type: " + count);
+        LOGGER.info("Count for non-matching type: " + count);
         Assert.assertEquals("Count for a never-stored type must be 0", 0L, count);
-        System.out.flush();
     }
 
     // --- Error / non-nominal tests ---
@@ -226,7 +223,7 @@ public class ArchiveQueryCountTest {
     @Test
     public void testQueryInvalidOnBadFilter()
             throws MALInteractionException, MALException, InterruptedException {
-        System.out.println("Running: testQueryInvalidOnBadFilter()");
+        LOGGER.info("Running: testQueryInvalidOnBadFilter()");
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
         URI providerURI = harness.getCOMServicesProvider()
@@ -243,11 +240,10 @@ public class ArchiveQueryCountTest {
 
         Assert.assertNotNull(
                 "Provider must return an error for an invalid CompositeFilter", error);
-        System.out.println("Error number returned: " + error.getErrorNumber());
+        LOGGER.info("Error number returned: " + error.getErrorNumber());
         Assert.assertEquals(
                 "Error must be INVALID", COMHelper.INVALID_ARGUMENT_ERROR_NUMBER,
                 error.getErrorNumber());
-        System.out.flush();
     }
 
     /**
@@ -264,7 +260,7 @@ public class ArchiveQueryCountTest {
     @Test
     public void testQueryInvalidOnUnknownSortField()
             throws MALInteractionException, MALException, InterruptedException {
-        System.out.println("Running: testQueryInvalidOnUnknownSortField()");
+        LOGGER.info("Running: testQueryInvalidOnUnknownSortField()");
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
         URI providerURI = harness.getCOMServicesProvider()
@@ -279,10 +275,9 @@ public class ArchiveQueryCountTest {
         MOErrorException error = runQueryExpectError(stub, SORT_ERROR_TYPE, archiveQuery, null);
 
         Assert.assertNotNull("Provider must return an error for an unknown sort field", error);
-        System.out.println("Error number returned: " + error.getErrorNumber());
+        LOGGER.info("Error number returned: " + error.getErrorNumber());
         Assert.assertEquals("Error must be INVALID",
                 COMHelper.INVALID_ARGUMENT_ERROR_NUMBER, error.getErrorNumber());
-        System.out.flush();
     }
 
     /**
@@ -293,7 +288,7 @@ public class ArchiveQueryCountTest {
     @Test
     public void testCountInvalidOnBadFilter()
             throws MALInteractionException, MALException, InterruptedException {
-        System.out.println("Running: testCountInvalidOnBadFilter()");
+        LOGGER.info("Running: testCountInvalidOnBadFilter()");
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
         URI providerURI = harness.getCOMServicesProvider()
@@ -309,10 +304,9 @@ public class ArchiveQueryCountTest {
                 stub, FILTER_ERROR_TYPE, new ArchiveQuery(0L), filterSet);
 
         Assert.assertNotNull("Provider must return an error for an invalid CompositeFilter", error);
-        System.out.println("Error number returned: " + error.getErrorNumber());
+        LOGGER.info("Error number returned: " + error.getErrorNumber());
         Assert.assertEquals("Error must be INVALID",
                 COMHelper.INVALID_ARGUMENT_ERROR_NUMBER, error.getErrorNumber());
-        System.out.flush();
     }
 
     /**
@@ -328,7 +322,7 @@ public class ArchiveQueryCountTest {
     @Test
     public void testCountInvalidOnUnknownSortField()
             throws MALInteractionException, MALException, InterruptedException {
-        System.out.println("Running: testCountInvalidOnUnknownSortField()");
+        LOGGER.info("Running: testCountInvalidOnUnknownSortField()");
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
         URI providerURI = harness.getCOMServicesProvider()
@@ -342,10 +336,9 @@ public class ArchiveQueryCountTest {
         MOErrorException error = runCountExpectError(stub, SORT_ERROR_TYPE, archiveQuery, null);
 
         Assert.assertNotNull("Provider must return an error for an unknown sort field", error);
-        System.out.println("Error number returned: " + error.getErrorNumber());
+        LOGGER.info("Error number returned: " + error.getErrorNumber());
         Assert.assertEquals("Error must be INVALID",
                 COMHelper.INVALID_ARGUMENT_ERROR_NUMBER, error.getErrorNumber());
-        System.out.flush();
     }
 
     // --- Helpers ---

@@ -23,6 +23,7 @@ package esa.mo.mc.testbed.tests;
 import esa.mo.mc.testbed.SetUpProvidersAndConsumers;
 import esa.mo.mc.testbed.backends.SimpleParameterBackend;
 import java.io.IOException;
+import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.AttributeType;
@@ -45,6 +46,7 @@ import org.junit.Test;
  */
 public class ParameterTest {
 
+    private static final Logger LOGGER = Logger.getLogger(ParameterTest.class.getName());
     private static final SetUpProvidersAndConsumers harness = new SetUpProvidersAndConsumers();
 
     private static final SimpleParameterBackend BACKEND = new SimpleParameterBackend(42);
@@ -61,7 +63,7 @@ public class ParameterTest {
 
     @Test
     public void testGetValue() throws MALInteractionException, MALException {
-        System.out.println("Running: testGetValue()");
+        LOGGER.info("Running: testGetValue()");
         ParameterDefinition def = new ParameterDefinition(
                 new Identifier("TestParam"),
                 "A simple integer test parameter",
@@ -75,7 +77,7 @@ public class ParameterTest {
 
         Assert.assertNotNull("addParameters must return a non-null ID list", ids);
         Assert.assertEquals("One ID must be returned", 1, ids.size());
-        System.out.println("Number of parameters added: " + ids.size());
+        LOGGER.info("Number of parameters added: " + ids.size());
 
         ParameterStub stub = harness.getParameterConsumerStub().getParameterStub();
         ParameterValueDetailsList result = stub.getValue(ids);
@@ -87,10 +89,9 @@ public class ParameterTest {
         Assert.assertNotNull("ParameterValueDetails must not be null", details);
 
         Union rawValue = (Union) details.getValue().getRawValue();
-        System.out.println("The raw value returned is: " + rawValue.getIntegerValue());
+        LOGGER.info("The raw value returned is: " + rawValue.getIntegerValue());
         Assert.assertEquals("Raw value must match the listener's fixed return value",
                 Integer.valueOf(42), rawValue.getIntegerValue());
-        System.out.flush();
     }
 
 }
