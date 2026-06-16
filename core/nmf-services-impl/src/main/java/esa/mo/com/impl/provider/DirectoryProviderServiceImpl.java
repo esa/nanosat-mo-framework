@@ -393,7 +393,9 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     public Provider loadURIs(final String providerName, final NMFProviderType providerType) {
         Provider provider = loadURIs(providerName);
         if (provider != null) {
-            provider.setProviderType(providerType);
+            provider = new Provider(provider.getId(), provider.getProviderName(),
+                    provider.getDomain(), provider.getServiceCapabilities(),
+                    provider.getProviderAddresses(), providerType);
         }
         return provider;
     }
