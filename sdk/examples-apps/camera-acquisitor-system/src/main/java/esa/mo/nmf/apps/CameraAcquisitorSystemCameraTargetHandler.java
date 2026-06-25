@@ -32,7 +32,7 @@ import org.ccsds.moims.mo.com.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
+import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
@@ -74,9 +74,9 @@ public class CameraAcquisitorSystemCameraTargetHandler {
     private void photographLocation(AttributeValueList attributeValues,
             Long executionId, MALInteraction interaction) {
         // get parameters
-        Double latitude = HelperAttributes.attribute2double(attributeValues.get(0).getValue());
-        Double longitude = HelperAttributes.attribute2double(attributeValues.get(1).getValue());
-        String timeStamp = HelperAttributes.attribute2JavaType(attributeValues.get(2).getValue()).toString();
+        Double latitude = attributeValues.get(0).getValue().attribute2double();
+        Double longitude = attributeValues.get(1).getValue().attribute2double();
+        String timeStamp = attributeValues.get(2).getValue().attribute2JavaType().toString();
         //
         photographLocation(latitude, longitude, timeStamp, executionId, interaction);
     }

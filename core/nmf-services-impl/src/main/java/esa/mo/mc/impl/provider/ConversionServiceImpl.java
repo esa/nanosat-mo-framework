@@ -26,7 +26,6 @@ import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.UnknownException;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Pair;
@@ -205,9 +204,9 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
 
         double convertedValue = 0;
         for (Pair point : points) {
-            double midStep = Math.pow(HelperAttributes.attribute2double(value),
+            double midStep = Math.pow(value.attribute2double(),
                     ((Union) point.getFirst()).getIntegerValue());
-            convertedValue += HelperAttributes.attribute2double(point.getSecond()) * midStep;
+            convertedValue += point.getSecond().attribute2double() * midStep;
         }
 
         return new Union(convertedValue);
@@ -237,11 +236,11 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
 
     private Union linearInterpolation(final Attribute value, final Pair top, final Pair bottom) {
 
-        double x = HelperAttributes.attribute2double(value);
-        double x_0 = HelperAttributes.attribute2double(bottom.getFirst());
-        double y_0 = HelperAttributes.attribute2double(bottom.getSecond());
-        double x_1 = HelperAttributes.attribute2double(top.getFirst());
-        double y_1 = HelperAttributes.attribute2double(top.getSecond());
+        double x = value.attribute2double();
+        double x_0 = bottom.getFirst().attribute2double();
+        double y_0 = bottom.getSecond().attribute2double();
+        double x_1 = top.getFirst().attribute2double();
+        double y_1 = top.getSecond().attribute2double();
 
         return new Union(this.linearInterpolation(x, x_0, y_0, x_1, y_1));
     }

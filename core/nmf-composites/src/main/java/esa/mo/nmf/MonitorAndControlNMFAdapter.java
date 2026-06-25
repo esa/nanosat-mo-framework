@@ -43,6 +43,7 @@ import org.ccsds.moims.mo.com.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.structures.PaginationFilter;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
@@ -106,7 +107,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
             int rawType;
             if (annotation.malType().equals("")) {
                 try {
-                    Object att = HelperAttributes.javaType2Attribute(field.get(this));
+                    Object att = Attribute.javaType2Attribute(field.get(this));
                     rawType = (Integer) ((Attribute) att).getTypeId().getSFP();
                 } catch (IllegalArgumentException | IllegalAccessException ex) {
                     LOGGER.log(Level.SEVERE, "Unable to register parameter! "
@@ -279,11 +280,11 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                         Attribute rawValue = ((ParameterValue) newestParameter.getObject()).getRawValue();
                         Object value;
                         if (field.getType() == double.class) {
-                            value = HelperAttributes.attribute2double(rawValue);
+                            value = rawValue.attribute2double();
                         } else if (field.getType() == String.class) {
-                            value = HelperAttributes.attribute2string(rawValue);
+                            value = rawValue.attribute2string();
                         } else {
-                            value = HelperAttributes.attribute2JavaType(rawValue);
+                            value = rawValue.attribute2JavaType();
                         }
                         field.set(this, value);
                     }
@@ -395,11 +396,11 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
             for (AttributeValue attribute : attributeValues) {
                 Class type = actionMethod.getParameters()[i].getType();
                 if (type == double.class) {
-                    arguments[i] = HelperAttributes.attribute2double(attribute.getValue());
+                    arguments[i] = attribute.getValue().attribute2double();
                 } else if (type == String.class) {
-                    arguments[i] = HelperAttributes.attribute2string(attribute.getValue());
+                    arguments[i] = attribute.getValue().attribute2string();
                 } else {
-                    arguments[i] = HelperAttributes.attribute2JavaType(attribute.getValue());
+                    arguments[i] = attribute.getValue().attribute2JavaType();
                 }
                 i++;
             }
@@ -441,7 +442,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 onGetMethod.setAccessible(true);
                 onGetMethod.invoke(this);
             }
-            return (Attribute) HelperAttributes.javaType2Attribute(field.get(this));
+            return (Attribute) Attribute.javaType2Attribute(field.get(this));
         } catch (IllegalArgumentException | IllegalAccessException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             throw new IOException("Unable to get Parameter Mapping");
@@ -476,11 +477,11 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
         }
 
         if (param.getType() == double.class) {
-            value = HelperAttributes.attribute2double(newRawValue.getRawValue());
+            value = newRawValue.getRawValue().attribute2double();
         } else if (param.getType() == String.class) {
-            value = HelperAttributes.attribute2string(newRawValue.getRawValue());
+            value = newRawValue.getRawValue().attribute2string();
         } else {
-            value = HelperAttributes.attribute2JavaType(newRawValue.getRawValue());
+            value = newRawValue.getRawValue().attribute2JavaType();
         }
         try {
             param.set(this, value);

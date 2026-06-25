@@ -29,7 +29,7 @@ import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
+import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.NullableAttributeList;
@@ -112,8 +112,8 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
                     Level.FINE, "Received update parameter value!");
 
             final NullableAttributeList keyValues = updateHeader.getKeyValues();
-            final String name = HelperAttributes.attribute2string(keyValues.get(0).getValue());
-            final Long second = (Long) HelperAttributes.attribute2JavaType(keyValues.get(1).getValue());
+            final String name = keyValues.get(0).getValue().attribute2string();
+            final Long second = (Long) keyValues.get(1).getValue().attribute2JavaType();
             //final String name = updateHeader.getKey().getFirstSubKey().getValue();
 
             try {
@@ -125,9 +125,9 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
                     String nameId = "(" + String.valueOf(objId) + ") " + name;
                     ValidityState validityState = parameterValue.getValidityState();
                     String validity = validityState.toString();
-                    String rawValueStr = HelperAttributes.attribute2string(parameterValue.getRawValue());
+                    String rawValueStr = parameterValue.getRawValue().attribute2string();
                     final String rawValue = rawValueStr.isEmpty() ? "\"\"" : rawValueStr;
-                    String convertedValue = HelperAttributes.attribute2string(parameterValue.getConvertedValue());
+                    String convertedValue = parameterValue.getConvertedValue().attribute2string();
 
                     boolean isNotValid = ((int) validityState.getValue() != ValidityState.VALID_VALUE);
                     javax.swing.SwingUtilities.invokeLater(() -> {

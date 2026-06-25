@@ -29,7 +29,6 @@ import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALArea;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.ServiceInfo;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.*;
 
 /**
@@ -93,11 +92,11 @@ public class HelperCOM {
         Double leftHandSideDouble = null;
 
         if (stringComparison) {
-            rightHandSideString = HelperAttributes.attribute2string(rightHandSide);
-            leftHandSideString = HelperAttributes.attribute2string(leftHandSide);
+            rightHandSideString = rightHandSide.attribute2string();
+            leftHandSideString = leftHandSide.attribute2string();
         } else {
-            rightHandSideDouble = HelperAttributes.attribute2double(rightHandSide);
-            leftHandSideDouble = HelperAttributes.attribute2double((Attribute) leftHandSide);
+            rightHandSideDouble = rightHandSide.attribute2double();
+            leftHandSideDouble = leftHandSide.attribute2double();
         }
 
         // Verify all the possible validity expression operators
