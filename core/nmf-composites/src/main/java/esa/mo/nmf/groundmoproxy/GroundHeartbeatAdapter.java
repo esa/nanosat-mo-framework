@@ -68,7 +68,7 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
     @Override
     public synchronized void beatNotifyReceived(
             org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
-            org.ccsds.moims.mo.mal.structures.Identifier _Identifier0,
+            org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
             org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
             java.util.Map qosProperties) {
         synchronized (timer) {
