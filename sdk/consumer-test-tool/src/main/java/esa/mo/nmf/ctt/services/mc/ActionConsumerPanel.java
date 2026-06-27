@@ -312,7 +312,6 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                 Identifier subscriptionId,
                 UpdateHeader updateHeader,
                 MonitorExecutionSubscriptionKeys subscriptionKeys,
-                ExecutionStageType stageType,
                 Boolean success,
                 UShort step,
                 String comment,
@@ -324,6 +323,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             final String timestamp = HelperTime.time2readableString(msgHeader.getTimestamp());
             final Long finalDefinitionId = definitionId;
             final Long finalExecutionId = executionId;
+            final ExecutionStageType stageType = subscriptionKeys.getStageType();
             final String finalStageType = stageType != null ? stageType.toString() : "";
 
             SwingUtilities.invokeLater(() -> executionLogModel.addRow(new Object[]{

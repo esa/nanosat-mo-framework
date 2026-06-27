@@ -502,7 +502,7 @@ public class CameraAcquisitorGround {
         public void monitorExecutionNotifyReceived(MALMessageHeader msgHeader,
                 Identifier subscriptionId, UpdateHeader updateHeader,
                 MonitorExecutionSubscriptionKeys subscriptionKeys,
-                ExecutionStageType stageType, Boolean success, UShort step,
+                Boolean success, UShort step,
                 String comment, java.util.Map qosProperties) {
             NullableAttributeList keys = updateHeader.getKeyValues();
             if (keys == null || keys.size() < 2) {
@@ -515,7 +515,7 @@ public class CameraAcquisitorGround {
             if (executionId == null) {
                 return;
             }
-            updateExecutionStatus(executionId, stageType, success, step);
+            updateExecutionStatus(executionId, subscriptionKeys.getStageType(), success, step);
         }
     }
 

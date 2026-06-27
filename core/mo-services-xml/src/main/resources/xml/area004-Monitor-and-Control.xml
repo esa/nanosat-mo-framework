@@ -80,11 +80,11 @@
                             <mal:field name="executionId" canBeNull="false" comment="The id of the ExecutionRequest being executed.">
                                 <mal:type area="MAL" list="false" name="Long"/>
                             </mal:field>
-                        </mal:subscriptionKeys>
-                        <mal:publishNotify>
                             <mal:field name="stageType" canBeNull="false" comment="The lifecycle stage of the execution update.">
                                 <mal:type area="MC" list="false" name="ExecutionStageType"/>
                             </mal:field>
+                        </mal:subscriptionKeys>
+                        <mal:publishNotify>
                             <mal:field name="success" canBeNull="false" comment="Indicates whether the execution stage completed successfully.">
                                 <mal:type area="MAL" list="false" name="Boolean"/>
                             </mal:field>

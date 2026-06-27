@@ -419,12 +419,13 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             AttributeList keys = new AttributeList();
             keys.add(new Union(definitionId));
             keys.add(new Union(executionId));
+            keys.add(new UShort(stageType.getValue()));
 
             URI source = connection.getConnectionDetails().getProviderURI();
             UpdateHeader updateHeader = new UpdateHeader(new Identifier(source.getValue()),
                     connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
 
-            publisher.publish(updateHeader, stageType, success, step, comment);
+            publisher.publish(updateHeader, success, step, comment);
             manager.storeExecutionStatus(executionId, stageType, success, step, comment,
                     connection.getPrimaryConnectionDetails().getProviderURI());
         } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
