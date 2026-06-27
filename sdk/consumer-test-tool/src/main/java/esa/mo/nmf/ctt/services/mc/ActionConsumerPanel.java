@@ -44,6 +44,7 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
+import org.ccsds.moims.mo.mc.action.consumer.MonitorExecutionSubscriptionKeys;
 import org.ccsds.moims.mo.mc.structures.*;
 
 /**
@@ -310,24 +311,15 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         public void monitorExecutionNotifyReceived(MALMessageHeader msgHeader,
                 Identifier subscriptionId,
                 UpdateHeader updateHeader,
+                MonitorExecutionSubscriptionKeys subscriptionKeys,
                 ExecutionStageType stageType,
                 Boolean success,
                 UShort step,
                 String comment,
                 Map qosProperties) {
 
-            final NullableAttributeList keys = updateHeader.getKeyValues();
-            Long definitionId = null;
-            Long executionId = null;
-
-            if (keys != null && keys.size() >= 2) {
-                if (keys.get(0) != null && keys.get(0).getValue() != null) {
-                    definitionId = ((Union) keys.get(0).getValue()).getLongValue();
-                }
-                if (keys.get(1) != null && keys.get(1).getValue() != null) {
-                    executionId = ((Union) keys.get(1).getValue()).getLongValue();
-                }
-            }
+            final Long definitionId = subscriptionKeys.getDefinitionId();
+            final Long executionId = subscriptionKeys.getExecutionId();
 
             final String timestamp = HelperTime.time2readableString(msgHeader.getTimestamp());
             final Long finalDefinitionId = definitionId;

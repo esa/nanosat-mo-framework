@@ -33,16 +33,16 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
+import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.NullableAttributeList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
 import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationAdapter;
+import org.ccsds.moims.mo.mc.aggregation.consumer.MonitorValueSubscriptionKeys;
 import org.ccsds.moims.mo.mc.structures.*;
 
 /**
@@ -638,19 +638,14 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                 org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                 org.ccsds.moims.mo.mal.structures.Identifier identifier,
                 org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+                MonitorValueSubscriptionKeys keys,
                 org.ccsds.moims.mo.com.structures.ObjectKey objectKey,
                 org.ccsds.moims.mo.mc.structures.AggregationValue aggregationValue,
                 java.util.Map qosProperties) {
             final long iDiff = System.currentTimeMillis() - msgHeader.getTimestamp().getValue();
 
-            final NullableAttributeList keyValues = updateHeader.getKeyValues();
-            final String Aggname = keyValues.get(0).getValue().attribute2string();
-            final Long objId
-                    = (Long) HelperAttributes.attribute2JavaType(keyValues.get(1).getValue());
-            /*
-            final String Aggname = updateHeader.getKey().getFirstSubKey().getValue();
-            final int objId = updateHeader.getKey().getSecondSubKey().intValue();
-             */
+            final String aggregationName = Attribute.attribute2string(keys.getAggregationName());
+            final Long definitionId = keys.getDefinitionId();
 
             try {
                 if (!msgBoxOn.isSelected()) {
@@ -661,7 +656,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                         + aggregationValue.getGenerationMode().toString()
                         + " (filtered: " + aggregationValue.getFiltered().toString() + ")" + "\n");
 
-                str.append("Aggregation objId ").append(objId).append(" (name: ").append(Aggname).append("):")
+                str.append("Aggregation definitionId ").append(definitionId).append(" (name: ").append(aggregationName).append("):")
                         .append("\n");
 
                 for (int i = 0; i < aggregationValue.getParameterSetValues().size(); i++) {  // Cycle through parameterSetValues

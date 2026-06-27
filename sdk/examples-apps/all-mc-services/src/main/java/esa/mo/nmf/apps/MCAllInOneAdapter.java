@@ -44,6 +44,7 @@ import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.*;
 import org.ccsds.moims.mo.platform.autonomousadcs.body.GetStatusResponse;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
+import org.ccsds.moims.mo.platform.autonomousadcs.consumer.MonitorAttitudeSubscriptionKeys;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.structures.*;
@@ -506,6 +507,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         @Override
         public void monitorAttitudeNotifyReceived(final MALMessageHeader msgHeader,
                 final Identifier lIdentifier, final UpdateHeader lUpdateHeaderList,
+                MonitorAttitudeSubscriptionKeys keys,
                 AttitudeTelemetry attitudeTm, ActuatorsTelemetry actuatorsTm,
                 Duration remainingDuration, AttitudeMode attitudeMode, final Map qosp) {
             try {

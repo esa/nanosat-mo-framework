@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.clitool.mc;
 
+import org.ccsds.moims.mo.mc.aggregation.consumer.MonitorValueSubscriptionKeys;
 import static esa.mo.nmf.clitool.BaseCommand.consumer;
 import esa.mo.nmf.clitool.Args;
 import esa.mo.nmf.clitool.BaseCommand;
@@ -278,10 +279,11 @@ public class AggregationCommands {
                             org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                             org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                             org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+                            MonitorValueSubscriptionKeys keys,
                             org.ccsds.moims.mo.com.structures.ObjectKey objKey,
                             org.ccsds.moims.mo.mc.structures.AggregationValue newValue,
                             java.util.Map qosProperties) {
-                        String aggregationName = ((Identifier) updateHeader.getKeyValues().get(0).getValue()).getValue();
+                        String aggregationName = keys.getAggregationName().getValue();
                         AggregationParameterValueList values = newValue.getParameterSetValues().get(0).getValues();
                         System.out.println(aggregationName + ": ");
                         int index = 1;

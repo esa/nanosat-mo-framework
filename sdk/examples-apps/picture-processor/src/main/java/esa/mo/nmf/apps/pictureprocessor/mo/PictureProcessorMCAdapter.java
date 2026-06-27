@@ -38,7 +38,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
+import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Duration;
@@ -209,7 +209,7 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         if (attributeValue == null) {
             return null;
         }
-        return (T) HelperAttributes.attribute2JavaType(attributeValue.getValue());
+        return (T) Attribute.attribute2JavaType(attributeValue.getValue());
     }
 
 }

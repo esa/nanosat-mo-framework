@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.clitool.sm;
 
+import org.ccsds.moims.mo.sm.appslauncher.consumer.MonitorExecutionSubscriptionKeys;
 import static esa.mo.nmf.clitool.BaseCommand.consumer;
 import static esa.mo.nmf.clitool.sm.SoftwareManagementCommands.outputSubscription;
 import esa.mo.nmf.clitool.Args;
@@ -87,9 +88,10 @@ public class AppsLauncherCommands {
                     public void monitorExecutionNotifyReceived(MALMessageHeader msgHeader,
                             org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                             org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+                            MonitorExecutionSubscriptionKeys keys,
                             String outputStream,
                             java.util.Map qosProperties) {
-                        String providerName = ((Identifier) updateHeader.getKeyValues().get(0).getValue()).getValue();
+                        String providerName = keys.getAppName().getValue();
                         String[] lines = outputStream.split("\n");
                         for (String line : lines) {
                             System.out.println("[" + providerName + "]: " + line);

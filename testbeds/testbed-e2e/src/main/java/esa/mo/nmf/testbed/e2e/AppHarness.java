@@ -46,6 +46,8 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.appslauncher.body.ListAppResponse;
 import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherAdapter;
 import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherStub;
+import org.ccsds.moims.mo.sm.appslauncher.consumer.MonitorEventsSubscriptionKeys;
+import org.ccsds.moims.mo.sm.appslauncher.consumer.MonitorExecutionSubscriptionKeys;
 import org.ccsds.moims.mo.sm.structures.AppEventType;
 
 /**
@@ -169,13 +171,13 @@ public class AppHarness {
                 @Override
                 public void monitorExecutionNotifyReceived(MALMessageHeader msgHeader,
                         Identifier subscriptionId, UpdateHeader updateHeader,
+                        MonitorExecutionSubscriptionKeys keys,
                         String outputStream, java.util.Map qosProperties) {
-                    NullableAttributeList keyValues = updateHeader.getKeyValues();
-                    if (keyValues == null || keyValues.isEmpty()) {
+                    Identifier receivedAppName = keys.getAppName();
+                    if (receivedAppName == null) {
                         return;
                     }
-                    Identifier name = (Identifier) keyValues.get(0).getValue();
-                    if (!appName.equals(name.getValue())) {
+                    if (!appName.equals(receivedAppName.getValue())) {
                         return;
                     }
                     for (String line : outputStream.split("\\R", -1)) {
@@ -365,14 +367,14 @@ public class AppHarness {
                 @Override
                 public void monitorEventsNotifyReceived(MALMessageHeader msgHeader,
                         Identifier subscriptionId, UpdateHeader updateHeader,
+                        MonitorEventsSubscriptionKeys keys,
                         AppEventType eventType, Integer exitCode, String extraInfo,
                         java.util.Map qosProperties) {
-                    NullableAttributeList keyValues = updateHeader.getKeyValues();
-                    if (keyValues == null || keyValues.isEmpty()) {
+                    Identifier receivedAppName = keys.getAppName();
+                    if (receivedAppName == null) {
                         return;
                     }
-                    Identifier name = (Identifier) keyValues.get(0).getValue();
-                    if (appName.equals(name.getValue())) {
+                    if (appName.equals(receivedAppName.getValue())) {
                         collected.add(eventType);
                         latch.countDown();
                     }

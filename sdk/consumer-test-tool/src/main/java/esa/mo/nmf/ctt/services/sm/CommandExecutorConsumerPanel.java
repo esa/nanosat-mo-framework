@@ -36,12 +36,12 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.NullableAttributeList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorServiceInfo;
 import org.ccsds.moims.mo.sm.commandexecutor.consumer.CommandExecutorAdapter;
+import org.ccsds.moims.mo.sm.commandexecutor.consumer.MonitorOutputSubscriptionKeys;
 import org.ccsds.moims.mo.sm.structures.Command;
 import org.ccsds.moims.mo.sm.structures.CommandOutputType;
 
@@ -220,27 +220,12 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
         @Override
         public synchronized void monitorOutputNotifyReceived(MALMessageHeader msgHeader,
                 Identifier subscriptionId, UpdateHeader updateHeader,
+                MonitorOutputSubscriptionKeys keys,
                 CommandOutputType outputType, String data, Integer exitCode, Map qosProperties) {
-            if (updateHeader == null || updateHeader.getKeyValues() == null
-                    || updateHeader.getKeyValues().isEmpty()) {
-                LOGGER.log(Level.WARNING, "Received monitorOutput notification with empty keyValues");
-                return;
-            }
-
-            // Extract commandId from subscription key (first key value in updateHeader).
-            Long commandId = null;
-            try {
-                Object keyValue = updateHeader.getKeyValues().get(0).getValue();
-                if (keyValue instanceof Long) {
-                    commandId = (Long) keyValue;
-                } else if (keyValue instanceof org.ccsds.moims.mo.mal.structures.Union) {
-                    commandId = ((org.ccsds.moims.mo.mal.structures.Union) keyValue).getLongValue();
-                } else {
-                    LOGGER.log(Level.WARNING, "Unexpected keyValue type: {0}", keyValue.getClass().getName());
-                    return;
-                }
-            } catch (Exception ex) {
-                LOGGER.log(Level.WARNING, "Could not extract commandId from updateHeader", ex);
+            // Extract commandId from the typed subscription key.
+            Long commandId = keys.getCommandId();
+            if (commandId == null) {
+                LOGGER.log(Level.WARNING, "Received monitorOutput notification without a commandId");
                 return;
             }
 

@@ -39,6 +39,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.alert.consumer.AlertAdapter;
+import org.ccsds.moims.mo.mc.alert.consumer.MonitorAlertSubscriptionKeys;
 import org.ccsds.moims.mo.mc.structures.AlertEvent;
 import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
@@ -87,14 +88,12 @@ public class AlertTest {
             public void monitorAlertNotifyReceived(MALMessageHeader msgHeader,
                     Identifier subscriptionId,
                     UpdateHeader updateHeader,
+                    MonitorAlertSubscriptionKeys keys,
                     AlertEvent alertEvent,
                     ObjectKey source,
                     Map qosProperties) {
-                if (updateHeader.getKeyValues() != null && !updateHeader.getKeyValues().isEmpty()
-                        && updateHeader.getKeyValues().get(0) != null
-                        && updateHeader.getKeyValues().get(0).getValue() != null) {
-                    receivedDefinitionId.set(
-                            ((Union) updateHeader.getKeyValues().get(0).getValue()).getLongValue());
+                if (keys.getDefinitionId() != null) {
+                    receivedDefinitionId.set(keys.getDefinitionId());
                 }
                 receivedAlert.set(alertEvent);
                 latch.countDown();

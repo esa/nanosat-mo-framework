@@ -179,14 +179,14 @@ public class Waveform {
                 if (avl == null || avl.isEmpty()) {
                     throw new ExecutionFailedException("updateAmplitude requires an amplitude argument");
                 }
-                amplitude = avl.get(0).getValue().attribute2double();
+                amplitude = Attribute.attribute2double(avl.get(0).getValue());
                 return;
             }
             if (idntfr.getValue().equals("updateFrequency")) {
                 if (avl == null || avl.isEmpty()) {
                     throw new ExecutionFailedException("updateFrequency requires a frequency argument");
                 }
-                frequency = avl.get(0).getValue().attribute2double();
+                frequency = Attribute.attribute2double(avl.get(0).getValue());
                 return;
             }
             throw new ExecutionFailedException("Unknown action: " + idntfr.getValue());
@@ -210,15 +210,15 @@ public class Waveform {
         @Override
         public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
             if (identifiers.get(0).getValue().equals("Amplitude")) {
-                amplitude = values.get(0).getRawValue().attribute2double();
+                amplitude = Attribute.attribute2double(values.get(0).getRawValue());
                 return true;
             }
             if (identifiers.get(0).getValue().equals("Frequency")) {
-                frequency = values.get(0).getRawValue().attribute2double();
+                frequency = Attribute.attribute2double(values.get(0).getRawValue());
                 return true;
             }
             if (identifiers.get(0).getValue().equals("Refresh")) {
-                refresh = (long) values.get(0).getRawValue().attribute2JavaType();
+                refresh = (long) Attribute.attribute2JavaType(values.get(0).getRawValue());
                 return true;
             } else {
                 return false;

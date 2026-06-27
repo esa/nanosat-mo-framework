@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
@@ -168,8 +169,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         }
 
         if (ACTION_SHUTDOWN_EXIT_X.equals(name.getValue())) {
-            int exitCode = (Integer) HelperAttributes.attribute2JavaType(
-                    attributeValues.get(0).getValue());
+            int exitCode = (Integer) Attribute.attribute2JavaType(attributeValues.get(0).getValue());
             new Thread(() -> System.exit(exitCode)).start();
         }
 

@@ -187,10 +187,11 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
             public void monitorValueNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                     org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                     org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+                    org.ccsds.moims.mo.mc.parameter.consumer.MonitorValueSubscriptionKeys keys,
                     org.ccsds.moims.mo.com.structures.ObjectKey objKey,
                     org.ccsds.moims.mo.mc.structures.ParameterValue newValue,
                     java.util.Map qosProperties) {
-                String parameterName = updateHeader.getKeyValues().get(0).getValue().toString();
+                String parameterName = keys.getName().toString();
                 Attribute parameterValue = newValue.getRawValue();
                 Serializable object;
 
@@ -234,6 +235,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
             public void monitorValueNotifyReceived(MALMessageHeader msgHeader,
                     org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                     org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+                    org.ccsds.moims.mo.mc.aggregation.consumer.MonitorValueSubscriptionKeys keys,
                     org.ccsds.moims.mo.com.structures.ObjectKey objKey,
                     org.ccsds.moims.mo.mc.structures.AggregationValue newValue,
                     java.util.Map qosProperties) {
@@ -257,7 +259,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                 if (listener instanceof CompleteAggregationReceivedListener) {
                     ObjectKey source = objKey;
                     Time timestamp = Time.now();
-                    String aggregationName = updateHeader.getKeyValues().get(0).getValue().toString();
+                    String aggregationName = keys.getAggregationName().toString();
                     AggregationValue aggregationValue = newValue;
 
                     AggregationInstance aggregationInstance = new AggregationInstance(new Identifier(

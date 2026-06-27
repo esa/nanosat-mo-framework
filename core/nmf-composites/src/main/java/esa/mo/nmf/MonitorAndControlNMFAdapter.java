@@ -280,11 +280,11 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                         Attribute rawValue = ((ParameterValue) newestParameter.getObject()).getRawValue();
                         Object value;
                         if (field.getType() == double.class) {
-                            value = rawValue.attribute2double();
+                            value = Attribute.attribute2double(rawValue);
                         } else if (field.getType() == String.class) {
-                            value = rawValue.attribute2string();
+                            value = Attribute.attribute2string(rawValue);
                         } else {
-                            value = rawValue.attribute2JavaType();
+                            value = Attribute.attribute2JavaType(rawValue);
                         }
                         field.set(this, value);
                     }
@@ -396,11 +396,11 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
             for (AttributeValue attribute : attributeValues) {
                 Class type = actionMethod.getParameters()[i].getType();
                 if (type == double.class) {
-                    arguments[i] = attribute.getValue().attribute2double();
+                    arguments[i] = Attribute.attribute2double(attribute.getValue());
                 } else if (type == String.class) {
-                    arguments[i] = attribute.getValue().attribute2string();
+                    arguments[i] = Attribute.attribute2string(attribute.getValue());
                 } else {
-                    arguments[i] = attribute.getValue().attribute2JavaType();
+                    arguments[i] = Attribute.attribute2JavaType(attribute.getValue());
                 }
                 i++;
             }
@@ -477,11 +477,11 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
         }
 
         if (param.getType() == double.class) {
-            value = newRawValue.getRawValue().attribute2double();
+            value = Attribute.attribute2double(newRawValue.getRawValue());
         } else if (param.getType() == String.class) {
-            value = newRawValue.getRawValue().attribute2string();
+            value = Attribute.attribute2string(newRawValue.getRawValue());
         } else {
-            value = newRawValue.getRawValue().attribute2JavaType();
+            value = Attribute.attribute2JavaType(newRawValue.getRawValue());
         }
         try {
             param.set(this, value);

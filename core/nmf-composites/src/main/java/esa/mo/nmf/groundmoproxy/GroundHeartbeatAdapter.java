@@ -29,6 +29,7 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 import org.ccsds.moims.mo.mal.structures.Time;
+import org.ccsds.moims.mo.sm.heartbeat.consumer.BeatSubscriptionKeys;
 import org.ccsds.moims.mo.sm.heartbeat.consumer.HeartbeatAdapter;
 
 public class GroundHeartbeatAdapter extends HeartbeatAdapter {
@@ -70,6 +71,7 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
             org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
             org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
             org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+            BeatSubscriptionKeys keys,
             java.util.Map qosProperties) {
         synchronized (timer) {
             lastBeatAt = Time.now();

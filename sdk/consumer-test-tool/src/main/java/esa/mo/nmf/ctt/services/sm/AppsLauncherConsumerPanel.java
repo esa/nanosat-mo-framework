@@ -36,13 +36,14 @@ import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.NullableAttributeList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherAdapter;
+import org.ccsds.moims.mo.sm.appslauncher.consumer.MonitorEventsSubscriptionKeys;
+import org.ccsds.moims.mo.sm.appslauncher.consumer.MonitorExecutionSubscriptionKeys;
 import org.ccsds.moims.mo.sm.structures.AppEventType;
 
 /**
@@ -329,17 +330,17 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         @Override
         public void monitorExecutionNotifyReceived(MALMessageHeader msgHeader,
                 Identifier subscriptionId, UpdateHeader updateHeader,
+                MonitorExecutionSubscriptionKeys keys,
                 String outputStream, java.util.Map qosProperties) {
 
             final String out = outputStream;
-            NullableAttributeList keyValues = updateHeader.getKeyValues();
-            Identifier appName = (Identifier) keyValues.get(0).getValue();
-            Union appObjId = (Union) keyValues.get(1).getValue();
+            Identifier appName = keys.getAppName();
+            Long appId = keys.getAppId();
             LOGGER.log(Level.WARNING,
-                    "Received output for App Name: {0} (appObjId: {1})",
-                    new Object[]{appName.getValue(), appObjId.getLongValue()});
+                    "Received output for App Name: {0} (appId: {1})",
+                    new Object[]{appName.getValue(), appId});
 
-            StringBuffer stringBuf = outputBuffers.get(appObjId.getLongValue());
+            StringBuffer stringBuf = outputBuffers.get(appId);
             stringBuf.append(out);
             javax.swing.SwingUtilities.invokeLater(() -> {
                 appVerboseTextArea.append(out);
@@ -406,11 +407,11 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         @Override
         public void monitorEventsNotifyReceived(MALMessageHeader msgHeader,
                 Identifier subscriptionId, UpdateHeader updateHeader,
+                MonitorEventsSubscriptionKeys keys,
                 AppEventType eventType, Integer exitCode, String extraInfo,
                 Map qosProperties) {
-            NullableAttributeList keyValues = updateHeader.getKeyValues();
-            Identifier appName = (Identifier) keyValues.get(0).getValue();
-            Long appId = ((Union) keyValues.get(1).getValue()).getLongValue();
+            Identifier appName = keys.getAppName();
+            Long appId = keys.getAppId();
             LOGGER.log(Level.INFO, "App lifecycle event for {0}: {1}",
                     new Object[]{appName, eventType});
             String statusText = formatEventStatus(eventType, exitCode);

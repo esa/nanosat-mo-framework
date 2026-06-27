@@ -74,9 +74,9 @@ public class CameraAcquisitorSystemCameraTargetHandler {
     private void photographLocation(AttributeValueList attributeValues,
             Long executionId, MALInteraction interaction) {
         // get parameters
-        Double latitude = attributeValues.get(0).getValue().attribute2double();
-        Double longitude = attributeValues.get(1).getValue().attribute2double();
-        String timeStamp = attributeValues.get(2).getValue().attribute2JavaType().toString();
+        Double latitude = Attribute.attribute2double(attributeValues.get(0).getValue());
+        Double longitude = Attribute.attribute2double(attributeValues.get(1).getValue());
+        String timeStamp = Attribute.attribute2JavaType(attributeValues.get(2).getValue()).toString();
         //
         photographLocation(latitude, longitude, timeStamp, executionId, interaction);
     }

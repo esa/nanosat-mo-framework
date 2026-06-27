@@ -23,6 +23,7 @@ package esa.mo.nmf.apps;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefinedRadioAdapter;
+import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.StreamRadioSubscriptionKeys;
 
 class PayloadsTestSDRDataHandler extends SoftwareDefinedRadioAdapter {
 
@@ -32,6 +33,7 @@ class PayloadsTestSDRDataHandler extends SoftwareDefinedRadioAdapter {
     public void streamRadioNotifyReceived(org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
             org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
             org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+            StreamRadioSubscriptionKeys keys,
             org.ccsds.moims.mo.platform.structures.IQComponents iqComponents,
             java.util.Map qosProperties) {
         if (iqComponents == null) {

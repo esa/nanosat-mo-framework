@@ -43,6 +43,7 @@ import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
 import org.ccsds.moims.mo.mc.alert.consumer.AlertAdapter;
+import org.ccsds.moims.mo.mc.alert.consumer.MonitorAlertSubscriptionKeys;
 import org.ccsds.moims.mo.mc.structures.AlertDefinition;
 import org.ccsds.moims.mo.mc.structures.AlertDefinitionList;
 import org.ccsds.moims.mo.mc.structures.AlertEvent;
@@ -302,18 +303,12 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         public void monitorAlertNotifyReceived(MALMessageHeader msgHeader,
                 Identifier subscriptionId,
                 UpdateHeader updateHeader,
+                MonitorAlertSubscriptionKeys subscriptionKeys,
                 AlertEvent alertEvent,
                 ObjectKey source,
                 Map qosProperties) {
 
-            final NullableAttributeList keys = updateHeader.getKeyValues();
-            Long definitionId = null;
-
-            if (keys != null && !keys.isEmpty()) {
-                if (keys.get(0) != null && keys.get(0).getValue() != null) {
-                    definitionId = ((Union) keys.get(0).getValue()).getLongValue();
-                }
-            }
+            final Long definitionId = subscriptionKeys.getDefinitionId();
 
             final String timestamp = HelperTime.time2readableString(msgHeader.getTimestamp());
             final Long finalDefinitionId = definitionId;

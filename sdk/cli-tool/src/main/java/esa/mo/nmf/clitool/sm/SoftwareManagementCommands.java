@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.clitool.sm;
 
+import org.ccsds.moims.mo.sm.heartbeat.consumer.BeatSubscriptionKeys;
 import static esa.mo.nmf.clitool.BaseCommand.consumer;
 import esa.mo.nmf.clitool.Args;
 import esa.mo.nmf.clitool.BaseCommand;
@@ -71,6 +72,7 @@ public class SoftwareManagementCommands {
                     public void beatNotifyReceived(MALMessageHeader msgHeader,
                             org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                             org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+                            BeatSubscriptionKeys keys,
                             java.util.Map qosProperties) {
                         long timestamp = msgHeader.getTimestamp().getValue();
                         System.out.println("[" + timestamp + "] - Heartbeat received");

@@ -37,7 +37,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
+import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
@@ -45,6 +45,7 @@ import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.*;
 import org.ccsds.moims.mo.platform.autonomousadcs.body.GetStatusResponse;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
+import org.ccsds.moims.mo.platform.autonomousadcs.consumer.MonitorAttitudeSubscriptionKeys;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.structures.*;
 
@@ -285,7 +286,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
         for (int i = 0; i < identifiers.size(); i++) {
             if (PARAM_ATTITUDE_MONITORING_INTERVAL.equals(identifiers.get(i).getValue())) {
-                Object val = HelperAttributes.attribute2JavaType(values.get(i).getRawValue());
+                Object val = Attribute.attribute2JavaType(values.get(i).getRawValue());
                 if (val instanceof Duration) {
                     attitudeMonitoringInterval = (Duration) val;
                 }
@@ -305,16 +306,16 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
                 configureMonitoringAction();
                 break;
             case ACTION_NMEA_SENTENCE:
-                nmeaAction((String) HelperAttributes.attribute2JavaType(attributeValues.get(0).getValue()));
+                nmeaAction((String) Attribute.attribute2JavaType(attributeValues.get(0).getValue()));
                 break;
             case ACTION_CLOCK_SET_TIME:
-                setTimeUsingDeltaMilliseconds((Long) HelperAttributes.attribute2JavaType(attributeValues.get(0).getValue()));
+                setTimeUsingDeltaMilliseconds((Long) Attribute.attribute2JavaType(attributeValues.get(0).getValue()));
                 break;
             case ACTION_ADCS_SUN_POINTING:
                 adcsSunPointing();
                 break;
             case ACTION_ADCS_NADIR_POINTING:
-                adcsNadirPointing((Duration) HelperAttributes.attribute2JavaType(attributeValues.get(0).getValue()));
+                adcsNadirPointing((Duration) Attribute.attribute2JavaType(attributeValues.get(0).getValue()));
                 break;
             case ACTION_ADCS_UNSET_ATTITUDE:
                 adcsUnsetAttitude();
@@ -339,6 +340,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
         @Override
         public void monitorAttitudeNotifyReceived(final MALMessageHeader msgHeader,
                 final Identifier lIdentifier, final UpdateHeader lUpdateHeader,
+                MonitorAttitudeSubscriptionKeys keys,
                 AttitudeTelemetry attitudeTm, ActuatorsTelemetry actuatorsTelemetry,
                 Duration controlDuration, AttitudeMode attitudeMode, final Map qosp) {
             LOGGER.log(Level.INFO, "Received monitorAttitude notify");

@@ -53,6 +53,7 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherAdapter;
+import org.ccsds.moims.mo.sm.appslauncher.consumer.MonitorEventsSubscriptionKeys;
 import org.ccsds.moims.mo.sm.structures.AppEventType;
 
 /**
@@ -182,13 +183,13 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                                 @Override
                                 public void monitorEventsNotifyReceived(MALMessageHeader msgHeader,
                                         Identifier subscriptionId, UpdateHeader updateHeader,
+                                        MonitorEventsSubscriptionKeys keys,
                                         AppEventType eventType, Integer exitCode, String extraInfo,
                                         Map qosProperties) {
-                                    NullableAttributeList keyValues = updateHeader.getKeyValues();
-                                    if (keyValues == null || keyValues.isEmpty()) {
+                                    Identifier receivedAppName = keys.getAppName();
+                                    if (receivedAppName == null) {
                                         return;
                                     }
-                                    Identifier receivedAppName = (Identifier) keyValues.get(0).getValue();
                                     LOGGER.log(Level.FINE,
                                             "monitorEvents NOTIFY received: eventType={0}, app={1} (listening for ''{2}'')",
                                             new Object[]{eventType, receivedAppName.getValue(), bareAppName});

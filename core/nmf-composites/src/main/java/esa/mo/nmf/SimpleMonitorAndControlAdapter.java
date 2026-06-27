@@ -118,7 +118,7 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
         }
 
         // Convert it to java type
-        obj = (Serializable) HelperAttributes.attribute2JavaType(value);
+        obj = (Serializable) Attribute.attribute2JavaType(value);
 
         return this.onSetValueSimple(identifier.getValue(), obj);
 
@@ -147,7 +147,7 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
             }
         
             // Convert it to java type
-            obj = (Serializable) HelperAttributes.attribute2JavaType(value);
+            obj = (Serializable) Attribute.attribute2JavaType(value);
         
             boolean success = this.onSetValueSimple(identifier.getValue(), obj);
             output.add(success);

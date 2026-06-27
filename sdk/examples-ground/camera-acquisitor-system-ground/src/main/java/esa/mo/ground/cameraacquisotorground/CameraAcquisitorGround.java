@@ -54,6 +54,7 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.mc.action.consumer.MonitorExecutionSubscriptionKeys;
 import org.ccsds.moims.mo.mc.structures.*;
 import org.ccsds.moims.mo.platform.structures.PictureFormat;
 import org.orekit.bodies.GeodeticPoint;
@@ -500,6 +501,7 @@ public class CameraAcquisitorGround {
         @Override
         public void monitorExecutionNotifyReceived(MALMessageHeader msgHeader,
                 Identifier subscriptionId, UpdateHeader updateHeader,
+                MonitorExecutionSubscriptionKeys subscriptionKeys,
                 ExecutionStageType stageType, Boolean success, UShort step,
                 String comment, java.util.Map qosProperties) {
             NullableAttributeList keys = updateHeader.getKeyValues();

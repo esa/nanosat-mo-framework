@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
+import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -176,7 +176,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         if (attributeValue == null) {
             return null;
         }
-        return (T) HelperAttributes.attribute2JavaType(attributeValue.getValue());
+        return (T) Attribute.attribute2JavaType(attributeValue.getValue());
     }
 
 }

@@ -32,10 +32,10 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.NullableAttributeList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.mc.parameter.consumer.MonitorValueSubscriptionKeys;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.structures.ValidityState;
@@ -106,18 +106,17 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
         @Override
         public void monitorValueNotifyReceived(final MALMessageHeader msgHeader,
                 final Identifier lIdentifier, final UpdateHeader updateHeader,
+                final MonitorValueSubscriptionKeys keys,
                 final ObjectKey objectKey, final ParameterValue parameterValue,
                 final Map qosp) {
             Logger.getLogger(ParameterPublishedValues.class.getName()).log(
                     Level.FINE, "Received update parameter value!");
 
-            final NullableAttributeList keyValues = updateHeader.getKeyValues();
-            final String name = keyValues.get(0).getValue().attribute2string();
-            final Long second = (Long) keyValues.get(1).getValue().attribute2JavaType();
-            //final String name = updateHeader.getKey().getFirstSubKey().getValue();
+            final String name = Attribute.attribute2string(keys.getName());
+            final Long parameterId = keys.getParameterId();
 
             try {
-                final int objId = second.intValue();
+                final int objId = parameterId.intValue();
 
                 final int index = (int) ((5 * numberOfColumns) * Math.floor(objId / (5)) + objId % numberOfColumns);
 
@@ -125,9 +124,9 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
                     String nameId = "(" + String.valueOf(objId) + ") " + name;
                     ValidityState validityState = parameterValue.getValidityState();
                     String validity = validityState.toString();
-                    String rawValueStr = parameterValue.getRawValue().attribute2string();
+                    String rawValueStr = Attribute.attribute2string(parameterValue.getRawValue());
                     final String rawValue = rawValueStr.isEmpty() ? "\"\"" : rawValueStr;
-                    String convertedValue = parameterValue.getConvertedValue().attribute2string();
+                    String convertedValue = Attribute.attribute2string(parameterValue.getConvertedValue());
 
                     boolean isNotValid = ((int) validityState.getValue() != ValidityState.VALID_VALUE);
                     javax.swing.SwingUtilities.invokeLater(() -> {

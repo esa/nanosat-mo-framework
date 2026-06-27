@@ -52,6 +52,7 @@ import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.clock.consumer.ClockStub;
+import org.ccsds.moims.mo.sm.heartbeat.consumer.BeatSubscriptionKeys;
 import org.ccsds.moims.mo.sm.heartbeat.consumer.HeartbeatAdapter;
 
 /**
@@ -360,6 +361,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         public synchronized void beatNotifyReceived(MALMessageHeader msgHeader,
                 org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                 org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+                BeatSubscriptionKeys keys,
                 java.util.Map qosProperties) {
             lastBeatAt = Time.now();
             final Time onboardTime = msgHeader.getTimestamp();

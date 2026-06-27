@@ -113,11 +113,11 @@ public class ParameterTest {
         setList.add(new ParameterRawValue(ID4, (Attribute) attribute));
         test.onSetValue(setList);
 
-        Object v1 = Attribute.attribute2JavaType(test.onGetValue(ID1));
-        Object v2 = Attribute.attribute2JavaType(test.onGetValue(ID2));
-        Object v3 = Attribute.attribute2JavaType(test.onGetValue(ID3));
-        Object v4 = Attribute.attribute2JavaType(test.onGetValue(ID4));
-        Object v5 = Attribute.attribute2JavaType(test.onGetValue(ID5));
+        Object v1 = test.onGetValue(ID1).attribute2JavaType();
+        Object v2 = test.onGetValue(ID2).attribute2JavaType();
+        Object v3 = test.onGetValue(ID3).attribute2JavaType();
+        Object v4 = test.onGetValue(ID4).attribute2JavaType();
+        Object v5 = test.onGetValue(ID5).attribute2JavaType();
 
         org.junit.Assert.assertTrue("'" + v1 + "' != '" + 42 + "'", v1.equals(42));
         org.junit.Assert.assertTrue("'" + v2 + "' != '" + 0.8f + "'", v2.equals(0.8f));

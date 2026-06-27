@@ -49,10 +49,12 @@ import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
+import org.ccsds.moims.mo.mc.parameter.consumer.MonitorValueSubscriptionKeys;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.structures.*;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSAdapter;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSStub;
+import org.ccsds.moims.mo.platform.autonomousadcs.consumer.MonitorAttitudeSubscriptionKeys;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
 import org.ccsds.moims.mo.platform.structures.*;
@@ -646,12 +648,12 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                             MALMessageHeader msgHeader,
                             Identifier subscriptionId,
                             UpdateHeader updateHeader,
+                            MonitorValueSubscriptionKeys keys,
                             ObjectKey objectKey,
                             ParameterValue parameterValue,
                             Map qosProperties) {
 
-                        String parameterName = updateHeader.getKeyValues()
-                                .get(0).getValue().toString();
+                        String parameterName = keys.getName().toString();
                         Attribute value = parameterValue.getRawValue();
                         Long id = nameToId.get(parameterName);
                         if (id != null) {
@@ -1207,6 +1209,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 final MALMessageHeader msgHeader,
                 final Identifier lIdentifier,
                 final UpdateHeader lUpdateHeader,
+                MonitorAttitudeSubscriptionKeys keys,
                 org.ccsds.moims.mo.platform.structures.AttitudeTelemetry attitudeTm,
                 org.ccsds.moims.mo.platform.structures.ActuatorsTelemetry actuatorsTm,
                 org.ccsds.moims.mo.mal.structures.Duration remainingDuration,

@@ -50,6 +50,7 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
+import org.ccsds.moims.mo.mc.parameter.consumer.MonitorValueSubscriptionKeys;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
 import org.ccsds.moims.mo.mc.structures.*;
@@ -101,11 +102,11 @@ public class ParameterCommands {
                             org.ccsds.moims.mo.mal.transport.MALMessageHeader msgHeader,
                             org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                             org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+                            MonitorValueSubscriptionKeys keys,
                             org.ccsds.moims.mo.com.structures.ObjectKey objKey,
                             org.ccsds.moims.mo.mc.structures.ParameterValue newValue,
                             java.util.Map qosProperties) {
-                        String parameterName = ((Identifier) updateHeader
-                                .getKeyValues().get(0).getValue()).getValue();
+                        String parameterName = keys.getName().getValue();
                         long timestamp = msgHeader.getTimestamp().getValue();
                         String value = newValue.getRawValue() == null
                                 ? "null" : newValue.getRawValue().toString();
