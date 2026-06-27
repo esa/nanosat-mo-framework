@@ -70,6 +70,7 @@
         <module>all-mc-services-with-sim</module>
         <module>consumer-test-tool</module>
         <module>cli-tool</module>
+        <module>mcp-adapter</module>
         <module>sdk-playground-environment</module>
     </modules>
 </project>
