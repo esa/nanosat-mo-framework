@@ -127,7 +127,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
     @Override
     public Long executeAction(ExecutionRequest executionRequest, MALInteraction interaction)
-            throws MALInteractionException, MALException {
+            throws InvalidArgumentException, UnknownException, MALInteractionException, MALException {
         UIntegerList invIndexList = new UIntegerList();
 
         if ("true".equals(System.getProperty(IS_INTERMEDIATE_RELAY_PROPERTY))) {
@@ -138,17 +138,17 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         }
 
         if (!manager.existsDef(executionRequest.getDefinitionId())) {
-            throw new MALInteractionException(new UnknownException(null));
+            throw new UnknownException(null);
         }
 
         boolean accepted = manager.checkExecutionRequest(executionRequest, invIndexList);
 
         if (!invIndexList.isEmpty()) {
-            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
+            throw new InvalidArgumentException(invIndexList);
         }
 
         if (!accepted) {
-            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
+            throw new InvalidArgumentException(invIndexList);
         }
 
         Long executionId = manager.storeAndGenerateExecReqId(executionRequest,
@@ -162,8 +162,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     }
 
     @Override
-    public LongList listDefinition(final IdentifierList actionNames,
-            final MALInteraction interaction) throws MALException, MALInteractionException {
+    public LongList listDefinition(final IdentifierList actionNames, final MALInteraction interaction)
+            throws UnknownException, MALException, MALInteractionException {
         LongList outPairLst = new LongList();
 
         if (actionNames == null) { // Is the input null?
@@ -195,15 +195,15 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
             // Errors
             if (!unkIndexList.isEmpty()) { // requirement: 3.2.11.3.1 (error: a and b)
-                throw new MALInteractionException(new UnknownException(unkIndexList));
+                throw new UnknownException(unkIndexList);
             }
         }
 
         return outPairLst;  // requirement: 3.4.9.2.d
     }
 
-    public LongList addAction(ActionDefinitionList defsList,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+    public LongList addAction(ActionDefinitionList defsList, MALInteraction interaction)
+            throws InvalidArgumentException, DuplicateException, MALInteractionException, MALException {
         LongList newObjInstIds = new LongList();
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
@@ -232,10 +232,10 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         // Errors
         // returning errors before creating the object -> requirement: 3.2.12.2.d
         if (!invIndexList.isEmpty()) { // requirement: 3.2.12.3.1
-            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
+            throw new InvalidArgumentException(invIndexList);
         }
         if (!dupIndexList.isEmpty()) { // requirement: 3.2.12.3.2
-            throw new MALInteractionException(new DuplicateException(dupIndexList));
+            throw new DuplicateException(dupIndexList);
         }
 
         //add the definition
@@ -252,7 +252,8 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     }
 
     public LongList updateDefinition(LongList ids, ActionDefinitionList actionDefDetails,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+            MALInteraction interaction) throws InvalidArgumentException,
+            UnknownException, MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -279,11 +280,11 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         // Errors
         // returning errors before creating the object -> requirement: 3.2.13.2.g
         if (!invIndexList.isEmpty()) { // requirement: 3.2.13.2.1 (error: a)
-            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
+            throw new InvalidArgumentException(invIndexList);
         }
 
         if (!unkIndexList.isEmpty()) { // requirement: 3.2.13.2.2 (error: b)
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
         LongList newDefIds = new LongList();
         for (int index = 0; index < ids.size(); index++) { // requirement: 3.2.13.2.e, k (incremental "for cycle" guarantees that)
@@ -300,7 +301,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     }
 
     public void removeAction(final LongList definitionIds, final MALInteraction interaction)
-            throws MALException, MALInteractionException { // requirement: 3.7.12.2.1
+            throws UnknownException, MALException, MALInteractionException { // requirement: 3.7.12.2.1
         UIntegerList unkIndexList = new UIntegerList();
         Long tempIdentity;
         LongList tempIdentityLst = new LongList();
@@ -329,7 +330,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         // Errors
         // returning errors before removing the object -> requirement: 3.2.14.2.g
         if (!unkIndexList.isEmpty()) { // requirement: 3.2.14.3.1 (error: a, b)
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
 
         for (Long tempIdentity2 : tempIdentityLst) {

@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.DuplicateException;
 import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.directory.DirectoryHelper;
 import org.ccsds.moims.mo.com.directory.DirectoryServiceInfo;
@@ -134,8 +135,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     }
 
     @Override
-    public ProviderList lookup(final ServiceFilter filter,
-            final MALInteraction interaction) throws MALInteractionException, MALException {
+    public ProviderList lookup(final ServiceFilter filter, final MALInteraction interaction)
+            throws InvalidArgumentException, MALInteractionException, MALException {
         if (filter == null) { // Is the input null?
             throw new IllegalArgumentException("filter argument must not be null");
         }
@@ -147,7 +148,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             Identifier domainPart = inputDomain.get(i);
 
             if (domainPart.toString().equals("*") && i != (inputDomain.size() - 1)) {
-                throw new MALInteractionException(new InvalidArgumentException(null));
+                throw new InvalidArgumentException(null);
             }
         }
 
@@ -250,8 +251,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     }
 
     @Override
-    public Long add(final Provider newProviderDetails,
-            final MALInteraction interaction) throws MALInteractionException, MALException {
+    public Long add(final Provider newProviderDetails, final MALInteraction interaction)
+            throws InvalidArgumentException, MALInteractionException, MALException {
         Identifier serviceProviderName = newProviderDetails.getProviderName();
 
         synchronized (MUTEX) {
@@ -265,7 +266,11 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                     // It is repeated!!
                     LOGGER.warning("There was already a provider with the same name in the "
                             + "Directory service. Removing the old one and adding the new one...");
-                    remove(key, null);
+                    try {
+                        remove(key, null);
+                    } catch (UnknownException ex) {
+                        LOGGER.warning("Unexpected UnknownException removing duplicate provider: " + ex.getMessage());
+                    }
                 }
             }
 
@@ -276,24 +281,29 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
             // Check if there are comServices...
             if (comServices == null) {
-                throw new MALInteractionException(new InvalidArgumentException(null));
+                throw new InvalidArgumentException(null);
             }
 
             // Check if the archive is available...
             if (comServices.getArchiveService() == null) {
-                throw new MALInteractionException(new InvalidArgumentException(null));
+                throw new InvalidArgumentException(null);
             }
 
             HeterogeneousList body = new HeterogeneousList();
             body.add(newProviderDetails);
 
             // Store the Provider COM object in the Archive and get an object instance identifier
-            final LongList returnedProvObjIds = comServices.getArchiveService().store(true,
-                    DirectoryServiceInfo.PROVIDER_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
-                    archDetails, body, null);
+            final LongList returnedProvObjIds;
+            try {
+                returnedProvObjIds = comServices.getArchiveService().store(true,
+                        DirectoryServiceInfo.PROVIDER_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
+                        archDetails, body, null);
+            } catch (DuplicateException ex) {
+                throw new MALInteractionException(ex);
+            }
 
             if (returnedProvObjIds.isEmpty()) {
-                throw new MALInteractionException(new InvalidArgumentException(null));
+                throw new InvalidArgumentException(null);
             }
 
             Long provObjId = returnedProvObjIds.get(0);
@@ -304,10 +314,10 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
     @Override
     public void remove(Long providerObjectKey,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+            MALInteraction interaction) throws UnknownException, InvalidArgumentException, MALInteractionException, MALException {
         synchronized (MUTEX) {
             if (!this.providersAvailable.containsKey(providerObjectKey)) { // The requested provider does not exist
-                throw new MALInteractionException(new UnknownException(null));
+                throw new UnknownException(null);
             }
 
             ArchiveManager manager = comServices.getArchiveService().getArchiveManager();
@@ -320,7 +330,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         }
     }
 
-    public void withdrawAllProviders() throws MALInteractionException, MALException {
+    public void withdrawAllProviders() throws UnknownException, InvalidArgumentException, MALInteractionException, MALException {
         synchronized (MUTEX) {
             for (Long key : providersAvailable.keySet()) {
                 remove(key, null);
@@ -387,7 +397,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         try {
             this.add(newProviderDetails, null);
             return newProviderDetails;
-        } catch (MALInteractionException | MALException ex) {
+        } catch (InvalidArgumentException | MALInteractionException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -395,14 +405,15 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     }
 
     @Override
-    public FileList getAreaXML(String filename, MALInteraction interaction) throws MALInteractionException, MALException {
+    public FileList getAreaXML(String filename, MALInteraction interaction)
+            throws InvalidArgumentException, UnknownException, MALInteractionException, MALException {
         if (filename == null || filename.isEmpty()) {
-            throw new MALInteractionException(new InvalidArgumentException(null));
+            throw new InvalidArgumentException(null);
         }
         try {
             FileList result = AreaXMLExtractor.loadAreaXML(filename);
             if (result == null && !"*".equals(filename)) {
-                throw new MALInteractionException(new UnknownException(null));
+                throw new UnknownException(null);
             }
             return result;
         } catch (IOException ex) {

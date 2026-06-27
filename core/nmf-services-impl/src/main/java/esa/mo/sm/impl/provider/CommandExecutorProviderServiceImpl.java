@@ -132,8 +132,13 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
                 null, connection.getPrimaryConnectionDetails().getProviderURI());
         final HeterogeneousList objBodies = new HeterogeneousList();
         objBodies.add(command);
-        LongList objIds = archiveService.store(true, CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE,
-                connection.getPrimaryConnectionDetails().getDomain(), archDetails, objBodies, null);
+        LongList objIds;
+        try {
+            objIds = archiveService.store(true, CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE,
+                    connection.getPrimaryConnectionDetails().getDomain(), archDetails, objBodies, null);
+        } catch (org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException ex) {
+            throw new MALInteractionException(ex);
+        }
 
         if (objIds.size() == 1) {
             storedCommandObject = objIds.get(0);
@@ -188,7 +193,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
             objBodies.add(cmdOutput);
             archiveService.store(true, CommandExecutorServiceInfo.COMMANDOUTPUT_OBJECT_TYPE,
                     domain, archDetails, objBodies, null);
-        } catch (MALException | MALInteractionException ex) {
+        } catch (org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
             LOGGER.log(Level.SEVERE, "Could not archive CommandOutput", ex);
         }
 
@@ -280,7 +285,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
             archiveService.update(CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE,
                     connection.getPrimaryConnectionDetails().getDomain(),
                     archDetails, objBodies, null);
-        } catch (MALException | MALInteractionException ex) {
+        } catch (org.ccsds.moims.mo.mal.UnknownException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
             Logger.getLogger(CommandExecutorProviderServiceImpl.class.getName()).log(Level.SEVERE,
                     "Could not update COM Command object", ex);
         }

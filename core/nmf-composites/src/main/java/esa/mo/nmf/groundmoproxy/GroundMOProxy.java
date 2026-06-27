@@ -37,6 +37,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.archive.ArchiveHelper;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.directory.DirectoryServiceInfo;
@@ -44,6 +45,7 @@ import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.ServiceKey;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
@@ -111,20 +113,20 @@ public abstract class GroundMOProxy {
                 return null;
             }
             return AppsLauncherManager.getSingleConnectionDetailsFromProviderList(list);
-        } catch (MALInteractionException | MALException | IOException ex) {
+        } catch (InvalidArgumentException | MALInteractionException | MALException | IOException ex) {
             LOGGER.log(Level.SEVERE, "Cannot produce Connection Details for the service", ex);
         }
         return null;
     }
 
-    public ProviderList getRemoteNMSProvider() throws MALInteractionException, MALException {
+    public ProviderList getRemoteNMSProvider() throws org.ccsds.moims.mo.com.InvalidArgumentException, MALInteractionException, MALException {
         return getRemoteNMSProviderSpecificService(
                 new ServiceId(new UShort((short) 0), new UShort((short) 0), new UOctet((short) 0))
         );
     }
 
     public ProviderList getRemoteNMSProviderSpecificService(ServiceId key)
-            throws MALInteractionException, MALException {
+            throws org.ccsds.moims.mo.com.InvalidArgumentException, MALInteractionException, MALException {
         IdentifierList wildcardList = new IdentifierList();
         wildcardList.add(new Identifier("*"));
 
@@ -216,7 +218,7 @@ public abstract class GroundMOProxy {
                 } catch (MALTransmitErrorException e) {
                     LOGGER.log(Level.WARNING,
                             "Failed to start directory service sync. Check the link to the spacecraft.");
-                } catch (MALException | MalformedURLException | MALInteractionException e) {
+                } catch (UnknownException | InvalidArgumentException | MALException | MalformedURLException | MALInteractionException e) {
                     LOGGER.log(Level.SEVERE, "Error when initialising link to the NMS.", e);
                 }
             } else if (getNmsAliveStatus() && cdRemoteArchive != null) {
@@ -259,7 +261,7 @@ public abstract class GroundMOProxy {
                             localDirectoryService.syncLocalDirectoryServiceWithCentral(
                                     centralDirectoryServiceURI, routedURI);
                             additionalHandling();
-                        } catch (MALException | MALInteractionException | MalformedURLException ex) {
+                        } catch (UnknownException | InvalidArgumentException | MALException | MALInteractionException | MalformedURLException ex) {
                             LOGGER.log(Level.SEVERE, null, ex);
                         }
                     }

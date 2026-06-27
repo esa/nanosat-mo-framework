@@ -25,10 +25,13 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.DuplicateException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.structures.*;
@@ -82,7 +85,7 @@ public final class AlertManager extends MCManager {
 
                 //add to providers local list
                 newIdPair = defIds.get(0);
-            } catch (MALException | MALInteractionException ex) {
+            } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -107,7 +110,7 @@ public final class AlertManager extends MCManager {
                         ConfigurationProviderSingleton.getDomain(),
                         metadata,
                         defs, null);
-            } catch (MALException | MALInteractionException ex) {
+            } catch (UnknownException | InvalidArgumentException | MALException | MALInteractionException ex) {
                 Logger.getLogger(AlertManager.class.getName()).log(Level.SEVERE, null, ex);
             }
             this.updateDef(id, definition);

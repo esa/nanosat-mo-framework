@@ -155,7 +155,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
     @Override
     public synchronized void enableSDR(final Boolean enable,
             final SDRConfiguration initialConfiguration, final Duration publishingPeriod,
-            final MALInteraction interaction) throws MALInteractionException, MALException {
+            final MALInteraction interaction) throws InvalidArgumentException, InternalException, MALInteractionException, MALException {
         publishTimer.cancel();
 
         if (!enable) {
@@ -165,7 +165,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
                 throw new MALInteractionException(new DeviceNotAvailableException(null));
             }
             if (!adapter.setConfiguration(initialConfiguration)) {
-                throw new MALInteractionException(new InvalidArgumentException(null));
+                throw new InvalidArgumentException(null);
             }
             sdrInUse = true;
             int period = (int) (publishingPeriod.getInSeconds() * 1000); // In milliseconds
@@ -183,18 +183,18 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
             }, period, period);
         }
         if (!adapter.enableSDR(enable)) {
-            throw new MALInteractionException(new InternalException(null));
+            throw new InternalException(null);
         }
     }
 
     @Override
     public synchronized void updateConfiguration(final SDRConfiguration sdrConfiguration,
-            final MALInteraction interaction) throws MALInteractionException, MALException {
+            final MALInteraction interaction) throws InvalidArgumentException, MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
             throw new MALInteractionException(new DeviceNotAvailableException(null));
         }
         if (!adapter.setConfiguration(sdrConfiguration)) {
-            throw new MALInteractionException(new InvalidArgumentException(null));
+            throw new InvalidArgumentException(null);
         }
     }
 

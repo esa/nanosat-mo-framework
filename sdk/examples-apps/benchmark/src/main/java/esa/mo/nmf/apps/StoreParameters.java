@@ -75,7 +75,7 @@ public class StoreParameters {
                             xxx, yyy, null);
 
                 }
-            } catch (MALException | MALInteractionException ex) {
+            } catch (MALException | MALInteractionException | org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
             long estimatedTime = System.nanoTime() - startTime;

@@ -106,7 +106,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public FindPackageResponse findPackage(IdentifierList names, MALInteraction interaction)
-            throws MALInteractionException, MALException {
+            throws UnknownException, MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         FindPackageResponse outList;
 
@@ -161,7 +161,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
         // Errors
         if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
 
         return outList;
@@ -169,7 +169,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public void install(final IdentifierList names, final InstallInteraction interaction)
-            throws MALInteractionException, MALException {
+            throws UnknownException, InvalidArgumentException, MALInteractionException, MALException {
         interaction.sendAcknowledgement(null);
 
         UIntegerList unkIndexList = new UIntegerList();
@@ -206,11 +206,11 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
         // Errors
         if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
 
         if (!invIndexList.isEmpty()) {
-            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
+            throw new InvalidArgumentException(invIndexList);
         }
 
         for (Identifier packageName : names) {
@@ -225,7 +225,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public void uninstall(final IdentifierList names, final BooleanList keepConfigurations,
-            final UninstallInteraction interaction) throws MALInteractionException, MALException {
+            final UninstallInteraction interaction) throws UnknownException, InvalidArgumentException, MALInteractionException, MALException {
         interaction.sendAcknowledgement();
 
         UIntegerList unkIndexList = new UIntegerList();
@@ -271,11 +271,11 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
         // Errors
         if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
 
         if (!invIndexList.isEmpty()) {
-            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
+            throw new InvalidArgumentException(invIndexList);
         }
 
         for (int i = 0; i < names.size(); i++) {
@@ -292,7 +292,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public void upgrade(final IdentifierList names,
-            final UpgradeInteraction interaction) throws MALInteractionException, MALException {
+            final UpgradeInteraction interaction) throws UnknownException, InvalidArgumentException, MALInteractionException, MALException {
         interaction.sendAcknowledgement();
 
         UIntegerList unkIndexList = new UIntegerList();
@@ -328,11 +328,11 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
         // Errors
         if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
 
         if (!invIndexList.isEmpty()) {
-            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
+            throw new InvalidArgumentException(invIndexList);
         }
 
         for (Identifier packageName : names) {
@@ -347,7 +347,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public CheckPackageIntegrityResponse checkPackageIntegrity(IdentifierList names,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+            MALInteraction interaction) throws UnknownException, MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -381,7 +381,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
         // Errors
         if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
 
         if (!invIndexList.isEmpty()) {

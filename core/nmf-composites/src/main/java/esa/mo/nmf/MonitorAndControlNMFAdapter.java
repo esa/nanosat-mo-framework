@@ -43,6 +43,7 @@ import org.ccsds.moims.mo.com.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.structures.PaginationFilter;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
@@ -288,7 +289,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                         }
                         field.set(this, value);
                     }
-                } catch (MALException | MALInteractionException | IllegalAccessException e) {
+                } catch (UnknownException | MALException | MALInteractionException | IllegalAccessException e) {
                     LOGGER.log(Level.SEVERE, "Error during restoring parameter value!", e);
                 }
             }
@@ -415,8 +416,8 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
             if (cause instanceof ExecutionFailedException) {
                 throw (ExecutionFailedException) cause;
             }
-            throw new ExecutionFailedException("Action method threw an exception: " +
-                    (cause.getMessage() != null ? cause.getMessage() : cause.toString()));
+            throw new ExecutionFailedException("Action method threw an exception: "
+                    + (cause.getMessage() != null ? cause.getMessage() : cause.toString()));
         }
     }
 

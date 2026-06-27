@@ -27,8 +27,11 @@ import esa.mo.mc.impl.provider.AlertProviderServiceImpl;
 import esa.mo.mc.impl.provider.ParameterProviderServiceImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.DuplicateException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mc.structures.*;
 
@@ -135,7 +138,7 @@ public class MCRegistration {
             }
 
             return parameterService.listDefinition(names, null);
-        } catch (MALException | MALInteractionException ex1) {
+        } catch (UnknownException | InvalidArgumentException | DuplicateException | MALException | MALInteractionException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE,
                     "The Parameters could not be registered!", ex1);
         }
@@ -207,7 +210,7 @@ public class MCRegistration {
             }
 
             return aggregationService.listDefinition(names, null);
-        } catch (MALException | MALInteractionException ex1) {
+        } catch (UnknownException | InvalidArgumentException | DuplicateException | MALException | MALInteractionException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
         }
 
@@ -277,7 +280,7 @@ public class MCRegistration {
             }
 
             return alertService.listDefinition(names, null);
-        } catch (MALException | MALInteractionException ex1) {
+        } catch (UnknownException | InvalidArgumentException | DuplicateException | MALException | MALInteractionException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
         }
 
@@ -347,7 +350,7 @@ public class MCRegistration {
             }
 
             return actionService.listDefinition(names, null);
-        } catch (MALException | MALInteractionException ex1) {
+        } catch (UnknownException | InvalidArgumentException | DuplicateException | MALException | MALInteractionException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
         }
 
@@ -355,4 +358,3 @@ public class MCRegistration {
     }
 
 }
-

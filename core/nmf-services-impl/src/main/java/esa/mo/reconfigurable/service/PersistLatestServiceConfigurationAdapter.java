@@ -29,8 +29,11 @@ import org.ccsds.moims.mo.com.configuration.ConfigurationServiceInfo;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ConfigurationService;
 import org.ccsds.moims.mo.com.structures.ObjectKeysList;
+import org.ccsds.moims.mo.com.DuplicateException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.structures.*;
 
@@ -79,6 +82,8 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
                         serviceConfigList, null);
             } catch (MALException ex) {
                 Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnknownException | InvalidArgumentException ex) {
+                Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MALInteractionException ex) {
                 Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(
                         Level.SEVERE,
@@ -108,6 +113,8 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
                     serviceConfigList,
                     null);
         } catch (MALException ex) {
+            Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DuplicateException | InvalidArgumentException ex) {
             Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALInteractionException ex) {
             Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);

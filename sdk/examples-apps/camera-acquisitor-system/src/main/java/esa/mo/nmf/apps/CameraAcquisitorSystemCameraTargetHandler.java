@@ -175,7 +175,7 @@ public class CameraAcquisitorSystemCameraTargetHandler {
             } else {
                 LOGGER.log(Level.INFO, "NO Archive Service found!");
             }
-        } catch (NMFException | MALException | MALInteractionException ex) {
+        } catch (NMFException | MALException | MALInteractionException | org.ccsds.moims.mo.com.InvalidArgumentException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }

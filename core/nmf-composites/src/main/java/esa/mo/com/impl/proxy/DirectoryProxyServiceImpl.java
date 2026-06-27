@@ -60,7 +60,7 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
      * reach the Directory service.
      */
     public ProviderList syncLocalDirectoryServiceWithCentral(final URI centralDirectoryServiceURI,
-            final URI routedURI) throws MALException, MalformedURLException, MALInteractionException {
+            final URI routedURI) throws org.ccsds.moims.mo.mal.UnknownException, org.ccsds.moims.mo.com.InvalidArgumentException, MALException, MalformedURLException, MALInteractionException {
         IdentifierList schemeFilter = new IdentifierList();
         schemeFilter.add(new Identifier("malspp"));
         ProviderList providers = NMFConsumer.retrieveProvidersFromDirectory(

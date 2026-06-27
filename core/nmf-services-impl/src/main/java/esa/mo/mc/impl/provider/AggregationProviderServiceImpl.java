@@ -248,7 +248,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public AggregationValueDetailsList getValue(final LongList inIdentityIds,
-            final MALInteraction interaction) throws MALException, MALInteractionException {
+            final MALInteraction interaction) throws UnknownException, MALException, MALInteractionException {
         // requirement 3.7.6.2.1
         UIntegerList unkIndexList = new UIntegerList();
 
@@ -275,7 +275,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.7.8.3.1 a, b
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
 
         // requirement: 3.7.8.2.e
@@ -291,7 +291,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public void enableReporting(final Boolean enable, final LongList ids,
-            final MALInteraction interaction) throws MALException, MALInteractionException {
+            final MALInteraction interaction) throws UnknownException, MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
 
         LongList objIdToBeEnabled = new LongList();
@@ -329,7 +329,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.7.9.3.1
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
 
         // requirement: 3.7.9.2.i (This part of the code is not reached if an error is thrown)
@@ -348,7 +348,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public void enableFilter(final Boolean enable, final LongList ids,
-            final MALInteraction interaction) throws MALException, MALInteractionException { // requirement: 3.7.10.2.a
+            final MALInteraction interaction) throws UnknownException, MALException, MALInteractionException { // requirement: 3.7.10.2.a
         UIntegerList unkIndexList = new UIntegerList();
 
         LongList objIdToBeEnabled = new LongList();
@@ -385,7 +385,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.7.10.3.1
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
 
         // requirement: 3.7.10.2.i (This part of the code is not reached if an error is thrown)
@@ -407,7 +407,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public LongList listDefinition(final IdentifierList nameList, final MALInteraction interaction)
-            throws MALException, MALInteractionException { // requirement: 3.7.9.2.1
+            throws UnknownException, MALException, MALInteractionException { // requirement: 3.7.9.2.1
         LongList outLongLst = new LongList();
         UIntegerList unkIndexList = new UIntegerList();
 
@@ -438,7 +438,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         // Errors
         //if there is one name unknown, fail with an unknown error and dont return the found entries.
         if (!unkIndexList.isEmpty()) { // requirement: 3.7.11.3.1
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
 
         return outLongLst;
@@ -446,7 +446,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public LongList addAggregation(final AggregationDefinitionList defsList,
-            final MALInteraction interaction) throws MALException, MALInteractionException {
+            final MALInteraction interaction) throws DuplicateException, InvalidArgumentException, MALException, MALInteractionException {
         LongList out = new LongList();
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
@@ -501,11 +501,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         // requirement: 3.7.10.2.e is met because the errors will be thrown before something changes
         // Errors
         if (!invIndexList.isEmpty()) { // requirement: 3.7.10.2.2
-            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
+            throw new InvalidArgumentException(invIndexList);
         }
 
         if (!dupIndexList.isEmpty()) { // requirement: 3.7.10.2.3
-            throw new MALInteractionException(new DuplicateException(dupIndexList));
+            throw new DuplicateException(dupIndexList);
         }
 
         for (AggregationDefinition def : defsList) { // requirement: 3.7.12.2.i ( "for each cycle" guarantees that)
@@ -526,7 +526,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public void updateDefinition(LongList ids, AggregationDefinitionList aDefs,
-            MALInteraction interaction) throws MALInteractionException, MALException { // requirement: 3.7.13.2.a, 3.7.13.2.d
+            MALInteraction interaction) throws UnknownException, InvalidArgumentException, MALInteractionException, MALException { // requirement: 3.7.13.2.a, 3.7.13.2.d
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -577,11 +577,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         // requirement: 3.7.13.2.g is met because errors will be thrown before changes are made
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.7.13.3.1
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
 
         if (!invIndexList.isEmpty()) { // requirement: 3.7.13.3.2
-            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
+            throw new InvalidArgumentException(invIndexList);
         }
 
         for (int index = 0; index < ids.size(); index++) { // requirement: 3.7.13.2.e, k (implicitly by cycling through list)
@@ -599,7 +599,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public void removeAggregation(final LongList ids, final MALInteraction interaction)
-            throws MALException, MALInteractionException { // requirement: 3.7.12.2.1
+            throws UnknownException, MALException, MALInteractionException { // requirement: 3.7.12.2.1
         UIntegerList unkIndexList = new UIntegerList();
         Long id;
         LongList removalLst = new LongList();
@@ -628,7 +628,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.3.14.3.1 (error: a, b)
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
         // requirement: 3.7.14.2.f (Inserting the errors before this line guarantees that the requirement is met)
         for (Long removalItem : removalLst) {

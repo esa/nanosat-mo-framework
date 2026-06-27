@@ -94,7 +94,7 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
 
     @Override
     public DeviceList listDevices(IdentifierList names, MALInteraction interaction)
-            throws MALInteractionException, MALException {
+            throws UnknownException, MALInteractionException, MALException {
         if (names == null) {
             throw new MALException("IdentifierList cannot be empty.");
         }
@@ -115,19 +115,19 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
             }
         }
         if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
         return ret;
     }
 
     @Override
     public void enableDevices(DeviceList devices, MALInteraction interaction)
-            throws MALInteractionException, MALException {
+            throws DeviceNotAvailableException, MALInteractionException, MALException {
         try {
             adapter.enableDevices(devices);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "adapter.enableDevices failed", ex);
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
     }
 

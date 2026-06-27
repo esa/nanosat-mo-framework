@@ -111,7 +111,7 @@ public final class GPSManager extends DefinitionsManager {
                     return objIds.get(0);
                 }
 
-            } catch (MALException | MALInteractionException ex) {
+            } catch (org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
                 Logger.getLogger(GPSManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -143,7 +143,7 @@ public final class GPSManager extends DefinitionsManager {
                     return objIds.get(0);
                 }
 
-            } catch (MALException | MALInteractionException ex) {
+            } catch (org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
                 Logger.getLogger(GPSManager.class.getName()).log(Level.SEVERE, null, ex);
             }
 

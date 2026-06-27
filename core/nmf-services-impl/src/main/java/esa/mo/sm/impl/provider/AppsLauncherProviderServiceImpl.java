@@ -172,7 +172,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             this.manager.getCOMServices().getArchiveService().store(
                     true, AppsLauncherServiceInfo.APPSTARTED_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(), archDetails, bodies, null);
-        } catch (MALException | MALInteractionException ex) {
+        } catch (org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
             LOGGER.log(Level.WARNING, "Could not store AppStarted in archive", ex);
         }
     }
@@ -189,7 +189,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             this.manager.getCOMServices().getArchiveService().store(
                     true, AppsLauncherServiceInfo.APPSTOPPED_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(), archDetails, bodies, null);
-        } catch (MALException | MALInteractionException ex) {
+        } catch (org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
             LOGGER.log(Level.WARNING, "Could not store AppStopped in archive", ex);
         }
     }
@@ -272,7 +272,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
 
     @Override
-    public void runApp(LongList appInstIds, MALInteraction interaction) throws MALInteractionException, MALException {
+    public void runApp(LongList appInstIds, MALInteraction interaction) throws UnknownException, InvalidArgumentException, InternalException, MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -311,11 +311,11 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         // Errors
         if (!invIndexList.isEmpty()) {
-            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
+            throw new InvalidArgumentException(invIndexList);
         }
 
         if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
 
         // Run the apps!
@@ -344,14 +344,14 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                 intIndexList.add(new UInteger(i));
                 Logger.getLogger(AppsLauncherManager.class.getName()).log(Level.INFO,
                         "Not able to start the application process...", ex);
-                throw new MALInteractionException(new InternalException(intIndexList));
+                throw new InternalException(intIndexList);
             }
         }
     }
 
     @Override
     public void killApp(LongList appInstIds, MALInteraction interaction)
-            throws MALInteractionException, MALException {
+            throws UnknownException, InvalidArgumentException, MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -390,11 +390,11 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
         // Errors
         if (!invIndexList.isEmpty()) {
-            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
+            throw new InvalidArgumentException(invIndexList);
         }
 
         if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
 
         // Kill the apps!
@@ -471,7 +471,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     @Override
     public ListAppResponse listApp(final IdentifierList appNames, final Identifier category,
-            final MALInteraction interaction) throws MALInteractionException, MALException {
+            final MALInteraction interaction) throws UnknownException, MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
 
         if (appNames == null) { // Is the input null?
@@ -511,7 +511,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         }
 
         if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
 
         for (Long id : matchedIds) { // Is the app running?

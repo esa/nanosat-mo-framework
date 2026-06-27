@@ -53,7 +53,7 @@ public class DirectoryLookupTest {
 
     @BeforeClass
     public static void setUpClass() throws IOException, MALException,
-            MalformedURLException, MALInteractionException {
+            MalformedURLException, MALInteractionException, org.ccsds.moims.mo.com.InvalidArgumentException {
         System.setProperty("esa.nmf.archive.persistence.jdbc.url", "jdbc:sqlite::memory:");
         harness.setUp();
 
@@ -140,7 +140,7 @@ public class DirectoryLookupTest {
 
     // --- Helpers ---
 
-    private static void registerTestProvider() throws MALInteractionException, MALException {
+    private static void registerTestProvider() throws org.ccsds.moims.mo.com.InvalidArgumentException, MALInteractionException, MALException {
         AddressDetailsList addresses = new AddressDetailsList();
         addresses.add(makeAddress("maltcp://test-host:1024/test-service"));
         addresses.add(makeAddress("malspp://test-host:2048/test-service"));

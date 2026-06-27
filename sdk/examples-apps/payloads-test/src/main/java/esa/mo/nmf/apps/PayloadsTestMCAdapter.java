@@ -665,7 +665,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 };
                 supervisorParameterService.getParameterStub()
                         .monitorValueRegister(subscription, adapter);
-            } catch (IOException | MALException | MALInteractionException ex) {
+            } catch (IOException | MALException | MALInteractionException | org.ccsds.moims.mo.mal.UnknownException ex) {
                 LOGGER.log(Level.SEVERE,
                         "Could not retrieve supervisor COM Parameter service"
                         + " details from the Central Directory.", ex);

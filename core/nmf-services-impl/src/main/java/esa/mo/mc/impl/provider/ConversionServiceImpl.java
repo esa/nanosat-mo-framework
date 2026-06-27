@@ -89,7 +89,12 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         if (expression == null) {
             return true;  // No test is required
         }
-        ParameterValue parameterValue = manager.getParameterValue(expression.getParameterId());
+        ParameterValue parameterValue;
+        try {
+            parameterValue = manager.getParameterValue(expression.getParameterId());
+        } catch (UnknownException ex) {
+            throw new MALInteractionException(ex);
+        }
         Attribute param = expression.getUseConverted() ?
                 parameterValue.getConvertedValue() : parameterValue.getRawValue();
 

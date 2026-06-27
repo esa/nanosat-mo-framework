@@ -165,12 +165,12 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
         }
     }
 
-    private void isCapturePossible(final CameraSettings settings) throws MALInteractionException {
+    private void isCapturePossible(final CameraSettings settings) throws DeviceNotAvailableException, DeviceInUseException, InvalidArgumentException, MALInteractionException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
         if (cameraInUse) { // Is the Camera unit in use?
-            throw new MALInteractionException(new DeviceInUseException(null));
+            throw new DeviceInUseException(null);
         }
         final PixelResolutionList availableResolutions = adapter.getAvailableResolutions();
 
@@ -187,7 +187,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
             // If not, then send the available resolutions to the consumer so they can pick...
             if (!isResolutionAvailable) {
-                throw new MALInteractionException(new InvalidArgumentException(availableResolutions));
+                throw new InvalidArgumentException(availableResolutions);
             }
         }
 
@@ -201,14 +201,14 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
         // If not, then send the available formats to the consumer so they can pick...
         if (!isFormatsAvailable) {
-            throw new MALInteractionException(new InvalidArgumentException(availableFormats));
+            throw new InvalidArgumentException(availableFormats);
         }
     }
 
     @Override
     public void enableStream(Boolean enable, final Duration streamingRate,
             final Identifier tag, final CameraSettings settings,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+            MALInteraction interaction) throws DeviceInUseException, DeviceNotAvailableException, InvalidArgumentException, MALInteractionException, MALException {
         if (!enable) {
             cameraInUse = false;
             publishTimer.stopLast();
@@ -219,13 +219,13 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
             // Is the requested streaming rate less than the minimum period?
             if (streamingRate.getInSeconds() < minimumPeriod.getInSeconds()) {
-                throw new MALInteractionException(new InvalidArgumentException(minimumPeriod));
+                throw new InvalidArgumentException(minimumPeriod);
             }
 
             // Is the requested streaming rate less than the service lowest minimum period?
             if (streamingRate.getInSeconds() < serviceLowestMinimumPeriod.getInSeconds()) {
                 // This is a protection to avoid having crazy implementations with super low streaming rates!
-                throw new MALInteractionException(new InvalidArgumentException(serviceLowestMinimumPeriod));
+                throw new InvalidArgumentException(serviceLowestMinimumPeriod);
             }
 
             isCapturePossible(settings);
@@ -233,7 +233,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             if (tag.getValue() == null
                     || "*".equals(tag.getValue())
                     || "".equals(tag.getValue())) {
-                throw new MALInteractionException(new InvalidArgumentException(null));
+                throw new InvalidArgumentException(null);
             }
 
             cameraInUse = true;
@@ -253,23 +253,23 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
     @Override
     public Picture previewPicture(MALInteraction interaction)
-            throws MALInteractionException, MALException {
+            throws DeviceNotAvailableException, MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
         // Get some preview Picture from the camera...
         synchronized (lock) {
             try {
                 return adapter.getPicturePreview();
             } catch (IOException ex) {
-                throw new MALInteractionException(new DeviceNotAvailableException(null));
+                throw new DeviceNotAvailableException(null);
             }
         }
     }
 
     @Override
     public void takePicture(final CameraSettings settings, TakePictureInteraction interaction)
-            throws MALInteractionException, MALException {
+            throws DeviceInUseException, DeviceNotAvailableException, InvalidArgumentException, MALInteractionException, MALException {
         isCapturePossible(settings);
         interaction.sendAcknowledgement();
 
@@ -287,7 +287,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
     @Override
     public void takeAutoExposedPicture(CameraSettings settings,
-            TakeAutoExposedPictureInteraction interaction) throws MALInteractionException, MALException {
+            TakeAutoExposedPictureInteraction interaction) throws DeviceInUseException, DeviceNotAvailableException, InvalidArgumentException, MALInteractionException, MALException {
         isCapturePossible(settings);
         interaction.sendAcknowledgement();
         synchronized (lock) {

@@ -70,7 +70,7 @@ public class ArchiveToBackupAdapter extends ArchiveAdapter implements QueryStatu
                         objects.getDomain(),
                         objects.getArchiveDetailsList(),
                         objects.getObjectBodies(), null);
-            } catch (MALException | MALInteractionException e) {
+            } catch (MALException | MALInteractionException | org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException e) {
                 LOGGER.log(Level.SEVERE, "Failed to store objects of type: " + objects.getObjectType(), e);
                 result = false;
             }

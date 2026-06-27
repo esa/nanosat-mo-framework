@@ -30,6 +30,8 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.platform.DeviceInUseException;
+import org.ccsds.moims.mo.platform.DeviceNotAvailableException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
@@ -118,7 +120,7 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
 
     @Override
     public String doInference(Long modelId, String inputTilesPath,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+            MALInteraction interaction) throws InvalidArgumentException, MALInteractionException, MALException {
         if (modelId == null) {
             throw new MALException("The modelId is null!");
         }
@@ -132,7 +134,7 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
 
         if (!inputTiles.exists()) {
             String msg = "The inputTilesPath does not exist in path: " + inputTilesPath;
-            throw new MALInteractionException(new InvalidArgumentException(msg));
+            throw new InvalidArgumentException(msg);
         }
 
         String modelPath = modelPaths.get((int) (modelId - TIMESTAMP));
@@ -170,7 +172,7 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
 
     @Override
     public void doComputerVision(String jsonPath,
-            DoComputerVisionInteraction interaction) throws MALInteractionException, MALException {
+            DoComputerVisionInteraction interaction) throws InvalidArgumentException, DeviceNotAvailableException, DeviceInUseException, MALInteractionException, MALException {
         if (jsonPath == null) {
             throw new MALException("The jsonPath cannot be null!");
         }
@@ -183,7 +185,7 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
 
         if (!path.exists()) {
             String msg = "The file does not exist in path: " + path;
-            throw new MALInteractionException(new InvalidArgumentException(msg));
+            throw new InvalidArgumentException(msg);
         }
 
         if (interaction != null) {

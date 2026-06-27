@@ -124,7 +124,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
     @Override
     public void enableReporting(final Boolean enable, final LongList ids,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+            MALInteraction interaction) throws UnknownException, MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
 
         LongList objIdToBeEnabled = new LongList();
@@ -160,7 +160,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.4.8.3.1
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
 
         // requirement: 3.4.8.2.i (This part of the code is only reached if no error was raised)
@@ -177,7 +177,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
     @Override
     public LongList listDefinition(IdentifierList alertNames, MALInteraction interaction)
-            throws MALInteractionException, MALException {
+            throws UnknownException, MALInteractionException, MALException {
         LongList outPairLst = new LongList();
 
         if (alertNames == null) { // Is the input null?
@@ -209,15 +209,15 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
             // Errors
             if (!unkIndexList.isEmpty()) { // requirement: 3.4.9.3.1 (error: a and b)
-                throw new MALInteractionException(new UnknownException(unkIndexList));
+                throw new UnknownException(unkIndexList);
             }
         }
 
         return outPairLst;  // requirement: 3.4.9.2.d
     }
 
-    public LongList addAlert(AlertDefinitionList alertDefs,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+    public LongList addAlert(AlertDefinitionList alertDefs, MALInteraction interaction)
+            throws InvalidArgumentException, DuplicateException, MALInteractionException, MALException {
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
 
@@ -245,10 +245,10 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         // Errors
         //requirement: 3.4.10.2.d -> returning errors before adding definitions assures that
         if (!invIndexList.isEmpty()) { // requirement: 3.4.10.3.2
-            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
+            throw new InvalidArgumentException(invIndexList);
         }
         if (!dupIndexList.isEmpty()) { // requirement: 3.4.10.3.1
-            throw new MALInteractionException(new DuplicateException(dupIndexList));
+            throw new DuplicateException(dupIndexList);
         }
 
         LongList outPairLst = new LongList();
@@ -268,7 +268,8 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
     @Override
     public void updateDefinition(LongList alertObjInstIds, AlertDefinitionList newAlertDefDetails,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+            MALInteraction interaction) throws InvalidArgumentException,
+            UnknownException, MALInteractionException, MALException {
 
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
@@ -294,11 +295,11 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         // Errors
         //requirement: 3.4.11.2.g -> returning errors before adding definitions assures that
         if (!invIndexList.isEmpty()) { // requirement: 3.4.11.3.1
-            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
+            throw new InvalidArgumentException(invIndexList);
         }
 
         if (!unkIndexList.isEmpty()) { // requirement: 3.4.11.3.2
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
 
         // requirement: 3.4.11.2.e
@@ -313,8 +314,8 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
     }
 
-    public void removeAlert(LongList alertDefIds,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+    public void removeAlert(LongList alertDefIds, MALInteraction interaction)
+            throws UnknownException, MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         LongList removalLst = new LongList();
 
@@ -341,7 +342,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
         // Errors
         if (!unkIndexList.isEmpty()) { // requirement: 3.4.12.3.1
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
 
         // requirement: 3.4.12.2.e (Inserting the errors before this line guarantees that the requirement is met)
@@ -417,7 +418,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
                 if (ids != null && !ids.isEmpty()) {
                     alertEventObjId = ids.get(0);
                 }
-            } catch (MALException | MALInteractionException ex) {
+            } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
                 Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.WARNING,
                         "Failed to store AlertEvent in archive", ex);
             }
@@ -533,7 +534,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             //            LongList ids = new LongList();
             //            ids.add(identityId);
             //            this.enableReporting(true, ids, interaction); // Enable the reporting for this Alert Definition
-        } catch (MALInteractionException | MALException ex) {
+        } catch (InvalidArgumentException | DuplicateException | MALInteractionException | MALException ex) {
             Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return defId;

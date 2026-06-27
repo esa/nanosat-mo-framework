@@ -33,6 +33,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.DuplicateException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
@@ -104,7 +106,7 @@ public final class ActionManager extends MCManager {
                 if (objIds.size() == 1) {
                     return objIds.get(0);
                 }
-            } catch (MALException | MALInteractionException ex) {
+            } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -134,7 +136,7 @@ public final class ActionManager extends MCManager {
                         null);
 
                 newId = defIds.get(0);
-            } catch (MALException | MALInteractionException ex) {
+            } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -163,7 +165,7 @@ public final class ActionManager extends MCManager {
                         metadata,
                         defs,
                         null);
-            } catch (MALException | MALInteractionException ex) {
+            } catch (org.ccsds.moims.mo.mal.UnknownException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -384,7 +386,7 @@ public final class ActionManager extends MCManager {
                     HelperArchive.generateArchiveDetailsList(executionId, null, uri),
                     bodies,
                     null);
-        } catch (MALException | MALInteractionException ex) {
+        } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
             Logger.getLogger(ActionManager.class.getName()).log(Level.WARNING,
                     "Failed to store ExecutionStatus", ex);
         }

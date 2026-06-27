@@ -172,7 +172,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
     @Override
     public void enableMonitoring(Boolean enableGeneration, Duration monitoringInterval,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+            MALInteraction interaction) throws InvalidArgumentException, MALInteractionException, MALException {
         if (!enableGeneration) {
             stopGeneration();
             return;
@@ -182,7 +182,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         }
         // Is the requested streaming rate less than the minimum period?
         if (monitoringInterval == null || monitoringInterval.getInSeconds() < MINIMUM_MONITORING_PERIOD.getInSeconds()) {
-            throw new MALInteractionException(new InvalidArgumentException(MINIMUM_MONITORING_PERIOD));
+            throw new InvalidArgumentException(MINIMUM_MONITORING_PERIOD);
         }
 
         monitoringPeriod = (int) (monitoringInterval.getInSeconds() * 1000); // In milliseconds
@@ -190,9 +190,9 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     }
 
     @Override
-    public GetStatusResponse getStatus(MALInteraction interaction) throws MALInteractionException {
+    public GetStatusResponse getStatus(MALInteraction interaction) throws DeviceNotAvailableException, MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
         try {
             final AttitudeTelemetry attitudeTelemetry = getAttitudeTelemetry();
@@ -204,7 +204,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         } catch (IOException ex) {
             Logger.getLogger(AutonomousADCSProviderServiceImpl.class.getName()).log(Level.SEVERE,
                     "Error when producing getStatus response", ex);
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
 
     }
@@ -258,9 +258,9 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
     @Override
     public synchronized void setDesiredAttitude(final Duration duration, AttitudeMode desiredAttitude,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+            MALInteraction interaction) throws DeviceNotAvailableException, InvalidArgumentException, DeviceInUseException, UnsupportedOperationException, MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
 
         if (desiredAttitude == null) {
@@ -272,15 +272,14 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             unsetAttitude();
         } else {
             if (adcsInUse) { // Is the ADCS unit in use?
-                throw new MALInteractionException(new DeviceInUseException(getAttitudeControlRemainingDuration()));
+                throw new DeviceInUseException(getAttitudeControlRemainingDuration());
             }
 
             // Validate the attitude definition...
             String validationResult = adapter.validateAttitudeDescriptor(desiredAttitude);
 
             if (validationResult != null) {
-                throw new MALInteractionException(new InvalidArgumentException(
-                        Attribute.javaType2Attribute(validationResult)));
+                throw new InvalidArgumentException(Attribute.javaType2Attribute(validationResult));
             }
 
             try {
@@ -289,7 +288,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, "Error when setting desired attitude.", ex);
                 // Operation not supported by the implementation...
-                throw new MALInteractionException(new UnsupportedOperationException());
+                throw new UnsupportedOperationException();
             }
             adcsInUse = true;
 
@@ -362,9 +361,9 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
     @Override
     public void setReactionWheelSpeed(ReactionWheelIdentifier wheel, Float speed,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+            MALInteraction interaction) throws DeviceNotAvailableException, MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
 
         adapter.setReactionWheelSpeed(wheel, speed);
@@ -373,34 +372,34 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
     @Override
     public void setAllReactionWheelSpeeds(Float speedX, Float speedY, Float speedZ, Float speedU,
-            Float speedV, Float speedW, MALInteraction interaction) throws MALInteractionException,
-            MALException {
+            Float speedV, Float speedW, MALInteraction interaction) throws DeviceNotAvailableException,
+            MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
         adapter.setAllReactionWheelSpeeds(speedX, speedY, speedZ, speedU, speedV, speedW);
     }
 
     @Override
     public void setAllReactionWheelParameters(ReactionWheelParameters parameters,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+            MALInteraction interaction) throws DeviceNotAvailableException, MALInteractionException, MALException {
         adapter.setAllReactionWheelParameters(parameters);
     }
 
     @Override
     public void setAllMagnetorquersDipoleMoments(Float dipoleX, Float dipoleY, Float dipoleZ,
-            MALInteraction interaction) throws MALInteractionException, MALException {
+            MALInteraction interaction) throws DeviceNotAvailableException, MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
         adapter.setAllMagnetorquersDipoleMoments(dipoleX, dipoleY, dipoleZ);
     }
 
     @Override
     public ReactionWheelParameters getAllReactionWheelParameters(MALInteraction interaction) throws
-            MALInteractionException, MALException {
+            DeviceNotAvailableException, MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
         return adapter.getAllReactionWheelParameters();
     }

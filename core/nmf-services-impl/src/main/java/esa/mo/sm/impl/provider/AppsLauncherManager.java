@@ -144,7 +144,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
                     updateAppInArchive(objId, definition, null);
                     this.addDef(objId, definition);
                     return objId;
-                } catch (MALException | MALInteractionException ex) {
+                } catch (org.ccsds.moims.mo.mal.UnknownException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
                     // No previous object - fail silently and proceed to creating one
                 }
             }
@@ -159,7 +159,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
                     this.addDef(objIds.get(0), definition);
                     return objIds.get(0);
                 }
-            } catch (MALException | MALInteractionException ex) {
+            } catch (org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
                 LOGGER.log(Level.SEVERE, "Something went wrong...", ex);
             }
         }
@@ -196,7 +196,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
     }
 
     private LongList addAppToArchive(final AppDetails definition, final ObjectKey source,
-            final URI uri, Long objId, Long related) throws MALException, MALInteractionException {
+            final URI uri, Long objId, Long related) throws org.ccsds.moims.mo.com.DuplicateException, org.ccsds.moims.mo.com.InvalidArgumentException, MALException, MALInteractionException {
         HeterogeneousList defs = new HeterogeneousList();
         defs.add(definition);
         ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
@@ -213,7 +213,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         if (super.getArchiveService() != null) {  // It should also update on the COM Archive
             try {
                 updateAppInArchive(objId, definition, interaction);
-            } catch (MALException | MALInteractionException ex) {
+            } catch (org.ccsds.moims.mo.mal.UnknownException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
                 LOGGER.log(Level.SEVERE, "Something went wrong...", ex);
                 return false;
             }
@@ -223,7 +223,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
     }
 
     private void updateAppInArchive(final Long objId, final AppDetails definition,
-            final MALInteraction interaction) throws MALException, MALInteractionException {
+            final MALInteraction interaction) throws org.ccsds.moims.mo.mal.UnknownException, org.ccsds.moims.mo.com.InvalidArgumentException, MALException, MALInteractionException {
         HeterogeneousList defs = new HeterogeneousList();
         defs.add(definition);
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();

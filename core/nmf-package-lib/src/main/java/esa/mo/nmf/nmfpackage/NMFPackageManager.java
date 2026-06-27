@@ -595,6 +595,9 @@ public class NMFPackageManager {
 
                 appsLauncher.stopApp(runningApp, null);
             }
+        } catch (org.ccsds.moims.mo.mal.UnknownException ex) {
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
+                    "The " + name + " App was not found in the Directory service!");
         } catch (MALInteractionException ex) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                     "The " + name + " App was not found in the Directory service!");

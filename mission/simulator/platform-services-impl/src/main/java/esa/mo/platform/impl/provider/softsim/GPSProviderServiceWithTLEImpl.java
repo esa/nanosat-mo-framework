@@ -128,9 +128,9 @@ public class GPSProviderServiceWithTLEImpl extends GPSProviderServiceImpl {
     }
 
     @Override
-    public void getTLE(GetTLEInteraction interaction) throws MALInteractionException, MALException {
+    public void getTLE(GetTLEInteraction interaction) throws DeviceNotAvailableException, MALInteractionException, MALException {
         if (!adapter.isUnitAvailable() && isTLEFallbackEnabled == false) { // Is the unit available?
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
         interaction.sendAcknowledgement();
         TLE tle = adapterCast.getTLE();

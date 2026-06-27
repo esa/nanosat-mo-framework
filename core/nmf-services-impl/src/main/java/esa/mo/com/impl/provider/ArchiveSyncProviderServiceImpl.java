@@ -284,11 +284,12 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
     }
 
     @Override
-    public void free(Long transactionTicket, MALInteraction interaction) throws MALInteractionException, MALException {
+    public void free(Long transactionTicket, MALInteraction interaction)
+            throws UnknownException, MALInteractionException, MALException {
         final Dispatcher dispatcher = dispatchers.get(transactionTicket);
 
         if (dispatcher == null) {
-            throw new MALInteractionException(new UnknownException("Can't find a dispatcher!"));
+            throw new UnknownException("Can't find a dispatcher!");
         }
 
         final TimerTask timerTask = timerTasks.get(transactionTicket);
@@ -303,7 +304,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         Long lastSyncTime = syncTimes.get(transactionTicket);
 
         if (lastSyncTime == null) {
-            throw new MALInteractionException(new UnknownException("Can't find a last sync time!"));
+            throw new UnknownException("Can't find a last sync time!");
         }
 
         lastSync.set(lastSyncTime);

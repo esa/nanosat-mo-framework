@@ -26,9 +26,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.DuplicateException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.structures.*;
@@ -195,7 +198,7 @@ public final class AggregationManager extends MCManager {
                 if (objIds.size() == 1) {
                     return objIds.get(0);
                 }
-            } catch (MALException | MALInteractionException ex) {
+            } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -216,7 +219,7 @@ public final class AggregationManager extends MCManager {
     private ParameterValue sampleParameter(Long paramIdentityId, boolean aggrExpired) {
         try {
             return parameterManager.getParameterValue(paramIdentityId, aggrExpired);
-        } catch (MALInteractionException ex) {
+        } catch (org.ccsds.moims.mo.mal.UnknownException | MALInteractionException ex) {
             return new ParameterValue(ValidityState.INVALID_RAW, null, null);
         }
     }
@@ -402,8 +405,8 @@ public final class AggregationManager extends MCManager {
      */
     private AggregationParameterValueList checkForExpiredValues(Long defId, int indexOfparameterSet,
             AggregationParameterSet aggrParamSet, AggregationParameterValueList newParameterValueSamples) {
-        final AggregationParameterValueList currentParamValues =
-                this.aggValuesCurrent.get(defId).getParameterSetValues().get(indexOfparameterSet).getValues();
+        final AggregationParameterValueList currentParamValues
+                = this.aggValuesCurrent.get(defId).getParameterSetValues().get(indexOfparameterSet).getValues();
         //requirement: 3.3.3.i (ParameterService-requirement)
         //if sendUnchanged is true: replace validity-state with an EXPIRED state
         //todo: try to let the ParameterService set the EXPIRED state and not the AggregationService
@@ -426,7 +429,6 @@ public final class AggregationManager extends MCManager {
         }
         return newParameterValueSamples;
     }
-
 
     /**
      * creates new samples and returns its values. no filter, no sendUnchanged
@@ -729,8 +731,8 @@ public final class AggregationManager extends MCManager {
      */
     private AggregationParameterValueList setParameterSamplesInternally(Long defId,
             int indexOfparameterSet, AggregationParameterValueList newParamSample) {
-        final AggregationParameterValueList currentParamValues =
-                this.aggValuesCurrent.get(defId).getParameterSetValues().get(indexOfparameterSet).getValues();
+        final AggregationParameterValueList currentParamValues
+                = this.aggValuesCurrent.get(defId).getParameterSetValues().get(indexOfparameterSet).getValues();
 
         AggregationSetValueList agg1 = this.aggValuesLast.get(defId).getParameterSetValues();
         AggregationSetValue set1 = agg1.get(indexOfparameterSet);
@@ -780,7 +782,7 @@ public final class AggregationManager extends MCManager {
 
                 //add to providers local list
                 newId = defIds.get(0);
-            } catch (MALException | MALInteractionException ex) {
+            } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }
@@ -804,7 +806,6 @@ public final class AggregationManager extends MCManager {
      * @param source The ObjectKey of the source-object that cause the update to
      * be created
      * @param connectionDetails The connection details.
-     * @return The id of the new definition.
      */
     public void update(Long defId, AggregationDefinition definition, ObjectKey source,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
@@ -822,7 +823,7 @@ public final class AggregationManager extends MCManager {
                         HelperArchive.generateArchiveDetailsList(null, source, null, defId),
                         defs,
                         null);
-            } catch (MALException | MALInteractionException ex) {
+            } catch (UnknownException | InvalidArgumentException | MALException | MALInteractionException ex) {
                 Logger.getLogger(AggregationManager.class.getName()).log(Level.SEVERE, null, ex);
             }
             this.updateDef(defId, definition);

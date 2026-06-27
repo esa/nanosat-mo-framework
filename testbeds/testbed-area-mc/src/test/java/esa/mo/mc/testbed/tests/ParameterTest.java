@@ -62,7 +62,7 @@ public class ParameterTest {
     }
 
     @Test
-    public void testGetValue() throws MALInteractionException, MALException {
+    public void testGetValue() throws MALInteractionException, MALException, org.ccsds.moims.mo.com.InvalidArgumentException, org.ccsds.moims.mo.com.DuplicateException {
         LOGGER.info("Running: testGetValue()");
         ParameterDefinition def = new ParameterDefinition(
                 new Identifier("TestParam"),

@@ -192,9 +192,9 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
     @Override
     public void getNMEASentence(String sentenceIdentifier, GetNMEASentenceInteraction interaction)
-            throws MALInteractionException, MALException {
+            throws InvalidArgumentException, DeviceNotAvailableException, MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) { // Is the unit available?
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
 
         interaction.sendAcknowledgement();
@@ -204,13 +204,13 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             interaction.sendResponse(nmeaSentence);
         } catch (IOException ex) {
             LOGGER.log(Level.FINE, "getNMEASentence error", ex);
-            throw new MALInteractionException(new InvalidArgumentException(null));
+            throw new InvalidArgumentException(null);
         }
     }
 
     @Override
     public GetLastKnownPositionResponse getLastKnownPosition(MALInteraction interaction)
-            throws MALInteractionException, MALException {
+            throws UnknownException, MALInteractionException, MALException {
         final Position pos;
         final long startTime;
 
@@ -220,7 +220,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         }
 
         if (pos == null) { // We never got a position! So we don't know the position!
-            throw new MALInteractionException(new UnknownException(null));
+            throw new UnknownException(null);
         }
 
         double elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // convert from milli to
@@ -229,26 +229,26 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
     @Override
     public void getPosition(GetPositionInteraction interaction)
-            throws MALInteractionException, MALException {
+            throws DeviceNotAvailableException, UnknownException, MALInteractionException, MALException {
         boolean useTLEpropagation = false;
         try {
             useTLEpropagation = useTLEPropagation();
         } catch (MALException | MALInteractionException e) {
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
 
         interaction.sendAcknowledgement();
 
         Position position = updateCurrentPosition(useTLEpropagation);
         if (position == null) {
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
         interaction.sendResponse(position);
     }
 
     @Override
-    public void getSatellitesInfo(GetSatellitesInfoInteraction interaction) throws MALInteractionException,
-            MALException {
+    public void getSatellitesInfo(GetSatellitesInfoInteraction interaction) throws DeviceNotAvailableException,
+            MALInteractionException, MALException {
         SatelliteInfoList infoList;
         // The useTLE check can throw a DEVICE_NOT_AVAILABLE
         if (useTLEPropagation()) {
@@ -259,7 +259,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             interaction.sendAcknowledgement();
             infoList = adapter.getSatelliteInfoList();
             if (infoList == null) {
-                throw new MALInteractionException(new DeviceNotAvailableException(null));
+                throw new DeviceNotAvailableException(null);
             }
         }
         interaction.sendResponse(infoList);
@@ -293,7 +293,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
     @Override
     public LongList addNearbyPosition(final NearbyPositionList nearbyPositionDefinitions,
-            final MALInteraction interaction) throws MALInteractionException, MALException {
+            final MALInteraction interaction) throws InvalidArgumentException, DuplicateException, MALInteractionException, MALException {
         LongList outLongLst = new LongList();
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
@@ -321,11 +321,11 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
         // Errors
         if (!dupIndexList.isEmpty()) { // requirement: 3.4.10.3.1
-            throw new MALInteractionException(new DuplicateException(dupIndexList));
+            throw new DuplicateException(dupIndexList);
         }
 
         if (!invIndexList.isEmpty()) { // requirement: 3.4.10.3.2
-            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
+            throw new InvalidArgumentException(invIndexList);
         }
 
         if (configurationAdapter != null) {
@@ -337,7 +337,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
     @Override
     public void removeNearbyPosition(LongList objInstIds, MALInteraction interaction)
-            throws MALInteractionException, MALException {
+            throws UnknownException, MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         Long tempLong;
         LongList tempLongLst = new LongList();
@@ -365,7 +365,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
         // Errors
         if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
 
         for (Long tempLong2 : tempLongLst) {
@@ -379,7 +379,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
     @Override
     public GetLastKnownPositionAndVelocityResponse getLastKnownPositionAndVelocity(
-            MALInteraction interaction) throws MALInteractionException, MALException {
+            MALInteraction interaction) throws UnknownException, MALInteractionException, MALException {
         final VectorD3D position;
         final VectorF3D positionDeviation;
         final VectorD3D velocity;
@@ -395,7 +395,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         }
 
         if (position == null && positionDeviation == null && velocity == null && velocityDeviation == null) { // We never got the data! So we don't know the data!
-            throw new MALInteractionException(new UnknownException(null));
+            throw new UnknownException(null);
         }
 
         double elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // convert from milli to sec
@@ -406,12 +406,12 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
     @Override
     public void getPositionAndVelocity(GetPositionAndVelocityInteraction interaction) throws
-            MALInteractionException, MALException {
+            DeviceNotAvailableException, UnknownException, MALInteractionException, MALException {
         boolean useTLEpropagation = false;
         try {
             useTLEpropagation = useTLEPropagation();
         } catch (MALException | MALInteractionException e) {
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
         interaction.sendAcknowledgement();
         try {
@@ -434,7 +434,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     }
 
     @Override
-    public void getTLE(GetTLEInteraction interaction) throws MALInteractionException, MALException {
+    public void getTLE(GetTLEInteraction interaction) throws DeviceNotAvailableException, UnknownException, MALInteractionException, MALException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -618,9 +618,9 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
     @Override
     public void getBestXYZSentence(GetBestXYZSentenceInteraction interaction)
-            throws MALInteractionException, MALException {
+            throws DeviceNotAvailableException, MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) { // Is the unit available?
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
         interaction.sendAcknowledgement();
         try {
@@ -633,9 +633,9 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
     @Override
     public void getTIMEASentence(GetTIMEASentenceInteraction interaction)
-            throws MALInteractionException, MALException {
+            throws DeviceNotAvailableException, MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) { // Is the unit available?
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
         interaction.sendAcknowledgement();
         try {

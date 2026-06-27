@@ -21,7 +21,6 @@
 package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.misc.Const;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.util.ArrayList;
@@ -133,8 +132,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     }
 
     @Override
-    public ParameterValueDetailsList getValue(final LongList ids,
-            final MALInteraction interaction) throws MALException, MALInteractionException { // requirement 3.3.6.2.1
+    public ParameterValueDetailsList getValue(final LongList ids, final MALInteraction interaction)
+            throws UnknownException, MALException, MALInteractionException { // requirement 3.3.6.2.1
         if (ids == null) { // Is the input null?
             throw new IllegalArgumentException("LongList argument must not be null");
         }
@@ -161,7 +160,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             }
             // Errors
             if (!unkIndexList.isEmpty()) { // requirement: 3.3.8.2.d
-                throw new MALInteractionException(new UnknownException(unkIndexList));
+                throw new UnknownException(unkIndexList);
             }
         }
 
@@ -179,7 +178,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     @Override
     public void enableReporting(final Boolean enable, final LongList ids,
-            final MALInteraction interaction) throws MALException, MALInteractionException {
+            final MALInteraction interaction) throws UnknownException, MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
 
         LongList objIdToBeEnabled = new LongList();
@@ -215,7 +214,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         // Errors
         if (!unkIndexList.isEmpty()) {
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
 
         // requirement: 3.3.10.2.i (This part of the code is only reached if no error was raised)
@@ -233,7 +232,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     @Override
     public void setValue(final ParameterRawValueList rawValueList,
-            final MALInteraction interaction) throws MALException, MALInteractionException {
+            final MALInteraction interaction) throws UnknownException, ReadOnlyException, InvalidArgumentException, MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList readOnlyIndexList = new UIntegerList();
@@ -274,13 +273,13 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         // requirement: 3.3.9.2.g: before changes are made, possible errors are thrown
         // Errors
         if (!invIndexList.isEmpty()) { // requirement: 3.3.9.3.2 
-            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
+            throw new InvalidArgumentException(invIndexList);
         }
         if (!unkIndexList.isEmpty()) { // requirement: 3.3.9.3.1 (error: a and b)
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
         if (!readOnlyIndexList.isEmpty()) { // requirement: 3.3.9.3.3 
-            throw new MALInteractionException(new ReadOnlyException(readOnlyIndexList));
+            throw new ReadOnlyException(readOnlyIndexList);
         }
 
         //atomic behaviour while setting the values. So let all values have the same timestamp for creation
@@ -323,7 +322,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     @Override
     public LongList listDefinition(final IdentifierList paramNames, final MALInteraction interaction)
-            throws MALException, MALInteractionException { // requirement: 3.3.11.2.a
+            throws UnknownException, MALException, MALInteractionException { // requirement: 3.3.11.2.a
         LongList retDefinitions = new LongList();
 
         if (paramNames == null) { // Is the input null?
@@ -357,14 +356,14 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
             // Errors
             if (!unkIndexList.isEmpty()) { // requirement: 3.3.11.3.1 (error: a and b)
-                throw new MALInteractionException(new UnknownException(unkIndexList));
+                throw new UnknownException(unkIndexList);
             }
         }
         return retDefinitions;
     }
 
     public LongList addParameters(final ParameterDefinitionList defsList,
-            final MALInteraction interaction) throws MALException, MALInteractionException {
+            final MALInteraction interaction) throws InvalidArgumentException, DuplicateException, MALException, MALInteractionException {
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
 
@@ -401,11 +400,11 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         // Errors
         if (!invIndexList.isEmpty()) { // requirement: 3.3.12.2.b
-            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
+            throw new InvalidArgumentException(invIndexList);
         }
 
         if (!dupIndexList.isEmpty()) { // requirement: 3.3.12.2.c
-            throw new MALInteractionException(new DuplicateException(dupIndexList));
+            throw new DuplicateException(dupIndexList);
         }
 
         //requirement: 3.3.12.2.e: only if no error was raised, the new definitions should be stored
@@ -437,7 +436,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     @Override
     public void updateDefinition(LongList ids, ParameterDefinitionList paramDefDetails,
-            MALInteraction interaction) throws MALInteractionException, MALException { // requirement: 3.3.13.2.a
+            MALInteraction interaction) throws InvalidArgumentException, UnknownException, MALInteractionException, MALException { // requirement: 3.3.13.2.a
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -470,12 +469,12 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         // Errors
         if (!invIndexList.isEmpty()) // requirement: 3.3.13.3.1 (error: a)
         {
-            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
+            throw new InvalidArgumentException(invIndexList);
         }
 
         if (!unkIndexList.isEmpty()) // requirement: 3.3.13.3.2 (error: b)
         {
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
 
         //requirment 3.3.13.2.g: parameters shall only be updated if no error was raised
@@ -490,8 +489,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
     }
 
-    public void removeParameter(final LongList defIds, final MALInteraction interaction) throws MALException,
-            MALInteractionException { // requirement: 3.3.11.2.1
+    public void removeParameter(final LongList defIds, final MALInteraction interaction) throws UnknownException,
+            MALException, MALInteractionException { // requirement: 3.3.11.2.1
         UIntegerList unkIndexList = new UIntegerList();
         LongList removalLst = new LongList();
 
@@ -519,7 +518,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         // Errors
         if (!unkIndexList.isEmpty()) // requirement: 3.3.14.3.1 (error: a, b)
         {
-            throw new MALInteractionException(new UnknownException(unkIndexList));
+            throw new UnknownException(unkIndexList);
         }
 
         // requirement: 3.3.14.2.f (Inserting the errors before this line guarantees that the requirement is met)
@@ -879,7 +878,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                         // Enable the reporting for this Alert Definition
                         LongList returnedObjIds = this.addParameters(pDefs, null);
                         id = returnedObjIds.get(0);
-                    } catch (MALInteractionException | MALException ex) {
+                    } catch (InvalidArgumentException | DuplicateException | MALInteractionException | MALException ex) {
                         Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                         return false;
                     }
@@ -1001,7 +1000,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             ArrayList<ParameterInstance> parameters = new ArrayList<>(1);
             parameters.add(new ParameterInstance(name, parameterValue, null, Time.now()));
             this.pushMultipleParameterValues(parameters, storeInCOMArchive);
-        } catch (IllegalArgumentException | MALInteractionException ex) {
+        } catch (UnknownException | IllegalArgumentException | MALInteractionException ex) {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider {0}", ex);
         }

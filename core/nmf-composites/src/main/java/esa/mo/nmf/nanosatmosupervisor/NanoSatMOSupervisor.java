@@ -48,12 +48,12 @@ import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.sm.appslauncher.body.ListAppResponse;
 
 /**
@@ -165,6 +165,9 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                             Level.SEVERE, "Stopping {0} App(s)!", runningApps.size());
 
                     appsLauncherService.stopApp(runningApps, null);
+                } catch (UnknownException ex) {
+                    Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(
+                            Level.SEVERE, "(0) Something went wrong...", ex);
                 } catch (MALInteractionException ex) {
                     Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(
                             Level.SEVERE, "(1) Something went wrong...", ex);

@@ -27,11 +27,13 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
 import org.ccsds.moims.mo.com.archive.provider.ArchiveHandler;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.structures.*;
 
@@ -325,6 +327,14 @@ public class HelperArchive {
                         archiveService.getClass().toString());
                 return null;
             }
+        } catch (InvalidArgumentException ex) {
+            LOGGER.log(Level.INFO,
+                    "(InvalidArgumentException) The object could not be retrieved from the Archive! A null will be returned! {0}", ex);
+            return null;
+        } catch (UnknownException ex) {
+            LOGGER.log(Level.INFO,
+                    "(UnknownException) The object could not be retrieved from the Archive! A null will be returned! {0}", ex);
+            return null;
         } catch (MALInteractionException ex) {
             LOGGER.log(Level.INFO,
                     "(MALInteractionException) The object {0}, domain = {1}, objIds = {2} "
