@@ -329,6 +329,10 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     }
 
     public Provider loadURIs(final String providerName) {
+        return loadURIs(providerName, null);
+    }
+
+    public Provider loadURIs(final String providerName, final NMFProviderType providerType) {
         ServicesConnectionDetails primaryConnectionDetails = ConnectionProvider.getGlobalProvidersDetailsPrimary();
         ServicesConnectionDetails secondaryAddresses = ConnectionProvider.getGlobalProvidersDetailsSecondary();
 
@@ -378,7 +382,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 ConfigurationProviderSingleton.getDomain(),
                 capabilities,
                 new AddressDetailsList(),
-                null);
+                providerType);
 
         try {
             this.add(newProviderDetails, null);
@@ -388,16 +392,6 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         }
 
         return null;
-    }
-
-    public Provider loadURIs(final String providerName, final NMFProviderType providerType) {
-        Provider provider = loadURIs(providerName);
-        if (provider != null) {
-            provider = new Provider(provider.getId(), provider.getProviderName(),
-                    provider.getDomain(), provider.getServiceCapabilities(),
-                    provider.getProviderAddresses(), providerType);
-        }
-        return provider;
     }
 
     @Override
