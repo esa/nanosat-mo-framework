@@ -132,7 +132,7 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the definitionId in the executionRequest field does not match a known ActionDefinition object.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
@@ -162,7 +162,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When a supplied identifier does not include a wildcard and does not match an existing ActionDefinition object.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -325,7 +325,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one or more of the requested parameters is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -359,7 +359,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the paramInstId field contains the wildcard value '0', or one or more of the referenced ParameterDefinitions is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -420,7 +420,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one or more of the requested parameters is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -453,7 +453,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When a supplied identifier does not include a wildcard and does not match an existing ParameterDefinition object.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -493,7 +493,7 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When one of the supplied ParameterDefinition ids is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -609,7 +609,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one or more of the requested alerts is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -642,7 +642,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When a supplied identifier does not include a wildcard and does not match an existing AlertDefinition object.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -682,7 +682,7 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When one of the supplied AlertDefinition ids is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -838,7 +838,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one or more of the requested aggregations is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -887,7 +887,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one or more of the requested aggregations is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -934,7 +934,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one or more of the requested AggregationDefinition objects is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -967,7 +967,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one of the supplied identifiers does not match an existing AggregationDefinition object.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -1041,7 +1041,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one or more of the supplied AggregationDefinition ids does not match an existing object.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -1079,7 +1079,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one or more of the supplied AggregationDefinition ids does not match an existing object.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>

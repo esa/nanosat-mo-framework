@@ -302,7 +302,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the position is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN" />
+                            <mal:type area="MAL" list="false" name="Unknown" />
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
@@ -325,7 +325,7 @@
                             <mal:type area="Platform" list="false" name="Device Not Available" />
                         </mal:errorRef>
                         <mal:errorRef comment="When the position is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN" />
+                            <mal:type area="MAL" list="false" name="Unknown" />
                         </mal:errorRef>
                     </mal:errors>
                 </mal:invokeIP>
@@ -413,7 +413,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one of the supplied NearbyPosition ids is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN" />
+                            <mal:type area="MAL" list="false" name="Unknown" />
                             <mal:extraInformation comment="The indexes of the unknown entries in the ids list.">
                                 <mal:type area="MAL" list="true" name="UInteger" />
                             </mal:extraInformation>
@@ -517,7 +517,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the position and velocity are unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN" />
+                            <mal:type area="MAL" list="false" name="Unknown" />
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
@@ -549,7 +549,7 @@
                             <mal:type area="Platform" list="false" name="Device Not Available" />
                         </mal:errorRef>
                         <mal:errorRef comment="When the position and velocity are unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN" />
+                            <mal:type area="MAL" list="false" name="Unknown" />
                         </mal:errorRef>
                     </mal:errors>
                 </mal:invokeIP>
@@ -572,7 +572,7 @@
                             <mal:type area="Platform" list="false" name="Device Not Available" />
                         </mal:errorRef>
                         <mal:errorRef comment="When the TLE is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN" />
+                            <mal:type area="MAL" list="false" name="Unknown" />
                         </mal:errorRef>
                     </mal:errors>
                 </mal:invokeIP>
@@ -1030,7 +1030,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one of the supplied identifiers in the names list is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN" />
+                            <mal:type area="MAL" list="false" name="Unknown" />
                             <mal:extraInformation comment="The indexes of the unknown entries in the names list.">
                                 <mal:type area="MAL" list="true" name="UInteger" />
                             </mal:extraInformation>

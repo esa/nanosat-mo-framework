@@ -38,7 +38,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one or more of the requested packages is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="Integer"/>
                             </mal:extraInformation>
@@ -62,7 +62,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one or more of the requested packages is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="Integer"/>
                             </mal:extraInformation>
@@ -92,7 +92,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one or more of the requested packages is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="Integer"/>
                             </mal:extraInformation>
@@ -121,7 +121,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one or more of the requested packages is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="Integer"/>
                             </mal:extraInformation>
@@ -154,7 +154,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one or more of the requested packages is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="Integer"/>
                             </mal:extraInformation>
@@ -388,7 +388,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one or more of the requested apps to run is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -417,7 +417,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one or more of the requested apps to be killed is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -479,7 +479,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one or more of the requested apps is unknown.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>

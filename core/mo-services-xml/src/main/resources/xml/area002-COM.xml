@@ -68,7 +68,7 @@
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
                         </mal:errorRef>
                         <mal:errorRef comment="When one or more of the requested objects specified in the operation do not exist in the archive.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="A list of the indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -305,7 +305,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one or more of the requested objects do not exist in the archive.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="A list of the indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -350,7 +350,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When one or more of the explicitly requested objects do not exist in the archive.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="A list of the indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -470,7 +470,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the provided transaction ticket does not match a known transaction.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:submitIP>
@@ -649,7 +649,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the supplied providerId does not match an existing Provider COM object.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                         </mal:errorRef>
                         <mal:errorRef comment="When the supplied providerId is '0'.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
@@ -676,7 +676,7 @@
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
                         </mal:errorRef>
                         <mal:errorRef comment="When the requested XML file is not found.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
@@ -738,7 +738,7 @@
                             <mal:type area="MAL" list="false" name="TOO_MANY"/>
                         </mal:errorRef>
                         <mal:errorRef comment="When the username and password combination does not match a known user.">
-                            <mal:type area="MAL" list="false" name="UNKNOWN"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
