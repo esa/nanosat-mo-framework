@@ -161,6 +161,14 @@ public class GenerateFilesystemMojo extends AbstractMojo {
             Artifact artifact = (Artifact) unresolvedArtifact;
             String artifactId = artifact.getGroupId();
 
+            // Only jars belong on the classpath directories; other artifact
+            // types (e.g. nmfpack, handled by install-packages) are skipped
+            File artifactFile = artifact.getFile();
+            if (artifactFile == null || !artifactFile.getName().endsWith(".jar")) {
+                getLog().info("  >> Skipping non-jar artifact: " + artifact.toString());
+                continue;
+            }
+
             boolean isMO = artifactId.contains("int.esa.ccsds.mo");
             boolean isNMFCore = artifactId.contains("int.esa.nmf.core");
 
