@@ -50,12 +50,9 @@ public class AppsLauncherManagerWindows extends AppsLauncherManager {
     protected String[] assembleCommand(final String workDir, final String appName,
             final String runAs, final String prefix, final String[] env) {
         ArrayList<String> ret = new ArrayList<>();
-        String trimmedAppName = appName.replaceAll("space-app-", "");
-
         ret.add("cmd");
         ret.add("/c");
         ret.add(prefix + "app.bat");
-
         return ret.toArray(new String[0]);
     }
 

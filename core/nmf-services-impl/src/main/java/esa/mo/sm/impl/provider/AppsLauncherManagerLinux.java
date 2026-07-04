@@ -67,7 +67,6 @@ public class AppsLauncherManagerLinux extends AppsLauncherManager {
     protected String[] assembleCommand(final String workDir, final String appName,
             final String runAs, final String prefix, final String[] env) {
         ArrayList<String> ret = new ArrayList<>();
-        String trimmedAppName = appName.replaceAll("space-app-", "");
 
         if (runAs != null) {
             if (sudoAvailable) {
