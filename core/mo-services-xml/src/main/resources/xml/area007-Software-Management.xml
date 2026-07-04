@@ -292,7 +292,7 @@
                             <mal:type area="SM" list="false" name="CommandOutput"/>
                         </com:objectType>
                         <com:relatedObject comment="Related link to the Command object.">
-                            <com:objectType number="1" service="CommandExecutor"/>
+                            <com:objectType area="SM" number="1" service="CommandExecutor"/>
                         </com:relatedObject>
                         <com:sourceObject comment=""/>
                     </com:object>
