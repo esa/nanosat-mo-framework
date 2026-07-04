@@ -326,22 +326,23 @@ public class NMFPackageManager {
         newPack.extractFiles(nmfDir);
 
         if (isApp) {
-            File appDir = new File(Deployment.getAppsDir(), packageName);
-            String username = generateUsername(packageName);
+            boolean linuxUserspace = AppsIsolationMode.isLinuxUserspace();
+            String username = linuxUserspace ? generateUsername(packageName) : null;
 
+            File appDir = new File(Deployment.getAppsDir(), packageName);
             MetadataApp appMetadata = newPackMetadata.castToApp();
             AuxFilesGenerator.generateStartScript(appMetadata, appDir, nmfDir);
             createAuxiliaryFiles(appDir, username);
             File logDir = Deployment.getLogsDirForApp(packageName);
             logDir.mkdirs();
 
-            if (OS.isUnix()) { // Change Group owner of the appDir
+            if (OS.isUnix() && linuxUserspace) { // Change Group owner of the appDir
                 changeGroupAndSetPermissions(appDir, username, "750");
 
                 try {
                     changeGroupAndSetPermissions(logDir, username, "770");
                 } catch (IOException ex) {
-                    // The previous log files were created with a user that 
+                    // The previous log files were created with a user that
                     // might no longer exist, so just ignore the exception!
                 }
             }
