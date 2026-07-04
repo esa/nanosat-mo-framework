@@ -188,7 +188,6 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                     org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                     org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
                     org.ccsds.moims.mo.mc.parameter.consumer.MonitorValueSubscriptionKeys keys,
-                    org.ccsds.moims.mo.com.structures.ObjectKey objKey,
                     org.ccsds.moims.mo.mc.structures.ParameterValue newValue,
                     java.util.Map qosProperties) {
                 String parameterName = keys.getName().toString();
@@ -221,7 +220,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                     Time timestamp = Time.now();
 
                     ParameterInstance parameterInstance = new ParameterInstance(new Identifier(parameterName),
-                            newValue, objKey, timestamp);
+                            newValue, null, timestamp);
 
                     ((CompleteDataReceivedListener) listener).onDataReceived(parameterInstance);
                 }

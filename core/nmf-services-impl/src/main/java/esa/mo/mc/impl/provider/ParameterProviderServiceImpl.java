@@ -959,8 +959,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
                 // requirement: 3.3.7.2.g (3.3.5.2.f not necessary) 
                 // requirement: 3.3.7.2.h 
-                publisher.publish(updateHeader, parameterInstances.get(i).getSource(),
-                        parameterInstances.get(i).getParameterValue());
+                publisher.publish(updateHeader, parameterInstances.get(i).getParameterValue());
             }
         } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,

@@ -62,7 +62,7 @@ For continuous updates, subscribe to the Parameter service's PubSub operation:
                public void monitorValueNotifyReceived(
                        MALMessageHeader hdr, Identifier subId,
                        UpdateHeader updateHeader,
-                       ObjectKey objKey,
+                       MonitorValueSubscriptionKeys keys,
                        ParameterValue newValue, Map qos) {
                    // handle the update
                }

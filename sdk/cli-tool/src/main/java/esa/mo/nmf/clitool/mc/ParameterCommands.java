@@ -103,7 +103,6 @@ public class ParameterCommands {
                             org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                             org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
                             MonitorValueSubscriptionKeys keys,
-                            org.ccsds.moims.mo.com.structures.ObjectKey objKey,
                             org.ccsds.moims.mo.mc.structures.ParameterValue newValue,
                             java.util.Map qosProperties) {
                         String parameterName = keys.getName().getValue();

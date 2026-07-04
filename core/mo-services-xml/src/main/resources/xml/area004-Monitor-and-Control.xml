@@ -277,9 +277,6 @@
                     <mal:documentation name="Requirement" order="1">
                         The timestamp of the ParameterValue report shall be the time of the parameter value update, taken from the PUBLISH message.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
-                        If no source link is needed, then the id field of the ObjectKey shall be NULL.
-                    </mal:documentation>
                     <mal:messages>
                         <mal:subscriptionKeys>
                             <mal:field name="name" canBeNull="false" comment="The name of the parameter.">
@@ -293,9 +290,6 @@
                             </mal:field>
                         </mal:subscriptionKeys>
                         <mal:publishNotify>
-                            <mal:field name="objKey" canBeNull="true" comment="The ObjectKey of the source link of the report.">
-                                <mal:type area="COM" list="false" name="ObjectKey"/>
-                            </mal:field>
                             <mal:field name="newValue" canBeNull="false" comment="The ParameterValue object value.">
                                 <mal:type area="MC" list="false" name="ParameterValue"/>
                             </mal:field>

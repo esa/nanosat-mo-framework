@@ -649,7 +649,6 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                             Identifier subscriptionId,
                             UpdateHeader updateHeader,
                             MonitorValueSubscriptionKeys keys,
-                            ObjectKey objectKey,
                             ParameterValue parameterValue,
                             Map qosProperties) {
 
