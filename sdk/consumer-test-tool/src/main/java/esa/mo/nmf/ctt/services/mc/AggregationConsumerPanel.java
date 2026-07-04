@@ -639,7 +639,6 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                 org.ccsds.moims.mo.mal.structures.Identifier identifier,
                 org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
                 MonitorValueSubscriptionKeys keys,
-                org.ccsds.moims.mo.com.structures.ObjectKey objectKey,
                 org.ccsds.moims.mo.mc.structures.AggregationValue aggregationValue,
                 java.util.Map qosProperties) {
             final long iDiff = System.currentTimeMillis() - msgHeader.getTimestamp().getValue();

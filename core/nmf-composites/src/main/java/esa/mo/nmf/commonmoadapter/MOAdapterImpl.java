@@ -235,7 +235,6 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                     org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                     org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
                     org.ccsds.moims.mo.mc.aggregation.consumer.MonitorValueSubscriptionKeys keys,
-                    org.ccsds.moims.mo.com.structures.ObjectKey objKey,
                     org.ccsds.moims.mo.mc.structures.AggregationValue newValue,
                     java.util.Map qosProperties) {
                 if (listener instanceof SimpleAggregationReceivedListener) {
@@ -256,13 +255,12 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                 }
 
                 if (listener instanceof CompleteAggregationReceivedListener) {
-                    ObjectKey source = objKey;
                     Time timestamp = Time.now();
                     String aggregationName = keys.getAggregationName().toString();
                     AggregationValue aggregationValue = newValue;
 
                     AggregationInstance aggregationInstance = new AggregationInstance(new Identifier(
-                            aggregationName), aggregationValue, source, timestamp);
+                            aggregationName), aggregationValue, null, timestamp);
 
                     ((CompleteAggregationReceivedListener) listener).onDataReceived(aggregationInstance);
                 }

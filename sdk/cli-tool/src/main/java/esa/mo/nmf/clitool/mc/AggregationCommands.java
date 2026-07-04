@@ -280,7 +280,6 @@ public class AggregationCommands {
                             org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                             org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
                             MonitorValueSubscriptionKeys keys,
-                            org.ccsds.moims.mo.com.structures.ObjectKey objKey,
                             org.ccsds.moims.mo.mc.structures.AggregationValue newValue,
                             java.util.Map qosProperties) {
                         String aggregationName = keys.getAggregationName().getValue();

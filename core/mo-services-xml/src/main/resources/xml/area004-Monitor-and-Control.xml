@@ -787,9 +787,6 @@
                     <mal:documentation name="Requirement" order="1">
                         The service provider shall take the timestamp of the AggregationValue report from the PUBLISH message.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
-                        If no source link is needed, then the id field of the ObjectKey shall be NULL.
-                    </mal:documentation>
                     <mal:messages>
                         <mal:subscriptionKeys>
                             <mal:field name="aggregationName" canBeNull="false" comment="The name of the aggregation.">
@@ -803,9 +800,6 @@
                             </mal:field>
                         </mal:subscriptionKeys>
                         <mal:publishNotify>
-                            <mal:field name="objKey" canBeNull="true" comment="The ObjectKey of the source link of the report.">
-                                <mal:type area="COM" list="false" name="ObjectKey"/>
-                            </mal:field>
                             <mal:field name="newValue" canBeNull="false" comment="The AggregationValue.">
                                 <mal:type area="MC" list="false" name="AggregationValue"/>
                             </mal:field>

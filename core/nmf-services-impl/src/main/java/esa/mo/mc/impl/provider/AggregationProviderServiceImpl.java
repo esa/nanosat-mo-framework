@@ -208,7 +208,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
                     connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
 
             //requirement 3.7.7.2.h
-            publisher.publish(updateHeader, source, aVal);
+            publisher.publish(updateHeader, aVal);
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider {0}", ex);
