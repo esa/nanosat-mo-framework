@@ -148,6 +148,12 @@ public class NMFPackagePMBackend implements PMBackend {
     }
 
     @Override
+    public String getPackageVersion(final String packageName) {
+        String folderLocation = this.getFolderLocation(packageName);
+        return manager.getInstalledVersion(folderLocation);
+    }
+
+    @Override
     public boolean isPackageInstalled(final String packageName) {
         String folderLocation = this.getFolderLocation(packageName);
         return manager.isPackageInstalled(folderLocation);

@@ -31,18 +31,69 @@ import org.ccsds.moims.mo.mal.structures.StringList;
  */
 public interface PMBackend {
 
+    /**
+     * Returns the list of packages available on the provider.
+     *
+     * @return The names of the available packages.
+     * @throws IOException if the list of packages could not be retrieved.
+     */
     StringList getListOfPackages() throws IOException;
 
+    /**
+     * Installs the content of a package.
+     *
+     * @param packageName The name of the package to install.
+     */
     void install(final String packageName);
 
+    /**
+     * Uninstalls a package.
+     *
+     * @param packageName The name of the package to uninstall.
+     * @param keepUserData Whether the user data of the package is kept.
+     */
     void uninstall(final String packageName, final boolean keepUserData);
 
+    /**
+     * Upgrades an installed package to the version of the supplied package.
+     *
+     * @param packageName The name of the package to upgrade to.
+     */
     void upgrade(final String packageName);
 
+    /**
+     * Checks if a package is currently installed.
+     *
+     * @param packageName The name of the package.
+     * @return True if the package is installed, false otherwise.
+     */
     boolean isPackageInstalled(final String packageName);
 
+    /**
+     * Returns the currently installed version of a package.
+     *
+     * @param packageName The name of the package.
+     * @return The installed version, or null if the package is not installed
+     * or the version cannot be determined.
+     */
+    String getPackageVersion(final String packageName);
+
+    /**
+     * Checks the integrity of a package.
+     *
+     * @param packageName The name of the package.
+     * @return True if the package integrity is good, false otherwise.
+     * @throws UnsupportedOperationException if the backend does not support
+     * integrity checks.
+     */
     boolean checkPackageIntegrity(final String packageName) throws UnsupportedOperationException;
 
-    String getPublicKey(String value);
+    /**
+     * Returns the public key of a package.
+     *
+     * @param packageName The name of the package.
+     * @return The public key.
+     */
+    String getPublicKey(String packageName);
 
 }

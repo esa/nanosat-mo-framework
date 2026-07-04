@@ -21,14 +21,17 @@
 package esa.mo.sm.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
+import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.sm.impl.util.PMBackend;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.InvalidArgumentException;
+import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.UnknownException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
@@ -38,6 +41,9 @@ import org.ccsds.moims.mo.sm.packagemanagement.PackageManagementServiceInfo;
 import org.ccsds.moims.mo.sm.packagemanagement.body.CheckPackageIntegrityResponse;
 import org.ccsds.moims.mo.sm.packagemanagement.body.FindPackageResponse;
 import org.ccsds.moims.mo.sm.packagemanagement.provider.*;
+import org.ccsds.moims.mo.sm.structures.PackageInstalled;
+import org.ccsds.moims.mo.sm.structures.PackageUninstalled;
+import org.ccsds.moims.mo.sm.structures.PackageUpgraded;
 
 /**
  * Package Management service Provider.
@@ -170,14 +176,14 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     @Override
     public void install(final IdentifierList names, final InstallInteraction interaction)
             throws UnknownException, InvalidArgumentException, MALInteractionException, MALException {
-        interaction.sendAcknowledgement(null);
-
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
         if (names == null) { // Is the input null?
             throw new IllegalArgumentException("names argument must not be null");
         }
+
+        BooleanList integrities = new BooleanList(names.size());
 
         StringList availablePackages;
         try {
@@ -188,17 +194,19 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
                 if (index == -1) {
                     unkIndexList.add(new UInteger(i));
+                    integrities.add(Boolean.FALSE);
+                    continue;
                 }
 
-                if (backend.isPackageInstalled(names.get(i).getValue())) {
-                    invIndexList.add(new UInteger(i));
-                }
+                // Before installing, we need to check the package integrity!
+                boolean integrity = backend.checkPackageIntegrity(availablePackages.get(index));
+                integrities.add(integrity);
 
                 // Throw error if already installed!
-                // Before installing, we need to check the package integrity!
-                boolean integrity = backend.checkPackageIntegrity(availablePackages.get(i));
-
                 // The installation cannot go forward here if the integrity is false!
+                if (backend.isPackageInstalled(names.get(i).getValue()) || !integrity) {
+                    invIndexList.add(new UInteger(i));
+                }
             }
         } catch (IOException ex) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -213,11 +221,17 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             throw new InvalidArgumentException(invIndexList);
         }
 
+        interaction.sendAcknowledgement(integrities);
+
         for (Identifier packageName : names) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.INFO, "Installing: {0}",
-                    packageName.getValue());
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
+                    Level.INFO, "Installing: {0}", packageName.getValue());
 
             backend.install(packageName.getValue());
+
+            if (backend.isPackageInstalled(packageName.getValue())) {
+                storePackageInstalled(packageName.getValue(), interaction.getInteraction());
+            }
         }
 
         interaction.sendResponse();
@@ -245,6 +259,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
                 if (index == -1) {
                     unkIndexList.add(new UInteger(i));
+                    continue;
                 }
 
                 if (!backend.isPackageInstalled(names.get(i).getValue())) {
@@ -254,9 +269,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                     continue;
                 }
 
-                // Throw error if already installed!
-                // Before installing, we need to check the package integrity!
-                boolean integrity = backend.checkPackageIntegrity(availablePackages.get(i));
+                // Before uninstalling, we need to check the package integrity!
+                boolean integrity = backend.checkPackageIntegrity(availablePackages.get(index));
 
                 if (!integrity) {
                     invIndexList.add(new UInteger(i));
@@ -284,7 +298,14 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
                     Level.INFO, "Uninstalling: {0}", packageName.getValue());
 
+            // Capture the version before the receipt is removed by the uninstall
+            String version = backend.getPackageVersion(packageName.getValue());
             backend.uninstall(packageName.getValue(), keepConfiguration);
+
+            if (!backend.isPackageInstalled(packageName.getValue())) {
+                storePackageUninstalled(packageName.getValue(), version,
+                        keepConfiguration, interaction.getInteraction());
+            }
         }
 
         interaction.sendResponse();
@@ -312,15 +333,15 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
                 if (index == -1) {
                     unkIndexList.add(new UInteger(i));
+                    continue;
                 }
 
-                // Before installing, we need to check the package integrity!
-                boolean integrity = backend.checkPackageIntegrity(availablePackages.get(i));
+                // Before upgrading, we need to check the package integrity!
+                // The upgrade cannot go forward here if the integrity is false!
+                boolean integrity = backend.checkPackageIntegrity(availablePackages.get(index));
                 if (!integrity) {
                     invIndexList.add(new UInteger(i));
                 }
-
-                // The installation cannot go forward here if the integrity is false!
             }
         } catch (IOException ex) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -339,10 +360,82 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
                     Level.INFO, "Upgrading: {0}", packageName.getValue());
 
+            String fromVersion = backend.getPackageVersion(packageName.getValue());
             backend.upgrade(packageName.getValue());
+            String toVersion = backend.getPackageVersion(packageName.getValue());
+
+            if (toVersion != null) {
+                storePackageUpgraded(packageName.getValue(), fromVersion,
+                        toVersion, interaction.getInteraction());
+            }
         }
 
         interaction.sendResponse();
+    }
+
+    private void storePackageInstalled(String packageName, MALInteraction interaction) {
+        if (comServices == null || comServices.getArchiveService() == null) {
+            return;
+        }
+        try {
+            URI triggeredBy = (interaction != null)
+                    ? interaction.getMessageHeader().getFromURI() : null;
+            String version = backend.getPackageVersion(packageName);
+            HeterogeneousList bodies = new HeterogeneousList();
+            bodies.add(new PackageInstalled(new Identifier(packageName), version, triggeredBy));
+            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
+                    null, null, connection.getPrimaryConnectionDetails().getProviderURI());
+            comServices.getArchiveService().store(
+                    true, PackageManagementServiceInfo.PACKAGEINSTALLED_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(), archDetails, bodies, null);
+        } catch (org.ccsds.moims.mo.com.DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
+                    Level.WARNING, "Could not store PackageInstalled in archive", ex);
+        }
+    }
+
+    private void storePackageUninstalled(String packageName, String version,
+            Boolean keptConfigurations, MALInteraction interaction) {
+        if (comServices == null || comServices.getArchiveService() == null) {
+            return;
+        }
+        try {
+            URI triggeredBy = (interaction != null)
+                    ? interaction.getMessageHeader().getFromURI() : null;
+            HeterogeneousList bodies = new HeterogeneousList();
+            bodies.add(new PackageUninstalled(new Identifier(packageName),
+                    version, keptConfigurations, triggeredBy));
+            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
+                    null, null, connection.getPrimaryConnectionDetails().getProviderURI());
+            comServices.getArchiveService().store(
+                    true, PackageManagementServiceInfo.PACKAGEUNINSTALLED_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(), archDetails, bodies, null);
+        } catch (org.ccsds.moims.mo.com.DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
+                    Level.WARNING, "Could not store PackageUninstalled in archive", ex);
+        }
+    }
+
+    private void storePackageUpgraded(String packageName, String fromVersion,
+            String toVersion, MALInteraction interaction) {
+        if (comServices == null || comServices.getArchiveService() == null) {
+            return;
+        }
+        try {
+            URI triggeredBy = (interaction != null)
+                    ? interaction.getMessageHeader().getFromURI() : null;
+            HeterogeneousList bodies = new HeterogeneousList();
+            bodies.add(new PackageUpgraded(new Identifier(packageName),
+                    fromVersion, toVersion, triggeredBy));
+            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
+                    null, null, connection.getPrimaryConnectionDetails().getProviderURI());
+            comServices.getArchiveService().store(
+                    true, PackageManagementServiceInfo.PACKAGEUPGRADED_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(), archDetails, bodies, null);
+        } catch (org.ccsds.moims.mo.com.DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
+                    Level.WARNING, "Could not store PackageUpgraded in archive", ex);
+        }
     }
 
     @Override

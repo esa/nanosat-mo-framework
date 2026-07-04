@@ -16,6 +16,9 @@
 &lt;li&gt;the capability for checking the integrity of a package.&lt;/li&gt;
 &lt;/ol&gt;
             </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="2">
+                When a package is successfully installed, uninstalled, or upgraded, the service provider should store the corresponding PackageInstalled, PackageUninstalled, or PackageUpgraded COM object in the COM archive.
+            </mal:documentation>
             <mal:capabilitySet number="1" comment="">
                 <mal:requestIP name="findPackage" number="1" comment="The findPackage operation allows a consumer to find the available packages on the provider.">
                     <mal:messages>
@@ -183,12 +186,42 @@
                         </svg:g>
                     </svg:svg>
                 </mal:diagram>
-                <com:objects comment="">
+                <com:objects comment="The PackageDefinition, PackageInstalled, PackageUninstalled, and PackageUpgraded COM objects used by the Package Management service.">
                     <com:object comment="" number="1" name="PackageDefinition">
                         <com:objectType>
                             <mal:type area="SM" list="false" name="PackageDefinition"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
+                        <com:sourceObject comment=""/>
+                    </com:object>
+
+                    <com:object comment="Stored in the archive when a package is successfully installed." number="2" name="PackageInstalled">
+                        <com:objectType>
+                            <mal:type area="SM" list="false" name="PackageInstalled"/>
+                        </com:objectType>
+                        <com:relatedObject comment="The related object shall be the PackageDefinition COM object of the installed package.">
+                            <com:objectType area="SM" number="1" service="PackageManagement"/>
+                        </com:relatedObject>
+                        <com:sourceObject comment=""/>
+                    </com:object>
+
+                    <com:object comment="Stored in the archive when a package is successfully uninstalled." number="3" name="PackageUninstalled">
+                        <com:objectType>
+                            <mal:type area="SM" list="false" name="PackageUninstalled"/>
+                        </com:objectType>
+                        <com:relatedObject comment="The related object shall be the PackageDefinition COM object of the uninstalled package.">
+                            <com:objectType area="SM" number="1" service="PackageManagement"/>
+                        </com:relatedObject>
+                        <com:sourceObject comment=""/>
+                    </com:object>
+
+                    <com:object comment="Stored in the archive when a package is successfully upgraded." number="4" name="PackageUpgraded">
+                        <com:objectType>
+                            <mal:type area="SM" list="false" name="PackageUpgraded"/>
+                        </com:objectType>
+                        <com:relatedObject comment="The related object shall be the PackageDefinition COM object of the upgraded package.">
+                            <com:objectType area="SM" number="1" service="PackageManagement"/>
+                        </com:relatedObject>
                         <com:sourceObject comment=""/>
                     </com:object>
                 </com:objects>
@@ -510,9 +543,7 @@
                             <mal:type area="SM" list="false" name="AppDetails"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
-                        <com:sourceObject comment="">
-                            <com:objectType area="SM" number="2" service="PackageManagement"/>
-                        </com:sourceObject>
+                        <com:sourceObject comment=""/>
                     </com:object>
 
                     <com:object comment="Stored in the archive when an app process is successfully spawned." number="2" name="AppStarted">
@@ -667,6 +698,54 @@
                 <mal:item nvalue="2" value="STDERR"   comment="A chunk of the command's standard error stream."/>
                 <mal:item nvalue="3" value="FINISHED" comment="The command finished executing; the exit code is provided."/>
             </mal:enumeration>
+            <mal:composite name="PackageInstalled" shortFormPart="10" comment="The body of a PackageInstalled COM object, stored in the archive when a package is successfully installed.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="packageName" canBeNull="false" comment="The name of the installed package.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="version" canBeNull="true" comment="The version of the installed package. NULL if the backend cannot determine it.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="triggeredBy" canBeNull="true" comment="The URI of the consumer that requested the installation. NULL if unknown.">
+                    <mal:type area="MAL" list="false" name="URI"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="PackageUninstalled" shortFormPart="11" comment="The body of a PackageUninstalled COM object, stored in the archive when a package is successfully uninstalled.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="packageName" canBeNull="false" comment="The name of the uninstalled package.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="version" canBeNull="true" comment="The version of the package that was uninstalled. NULL if the backend cannot determine it.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="keptConfigurations" canBeNull="false" comment="Whether the package configurations were kept on uninstall.">
+                    <mal:type area="MAL" list="false" name="Boolean"/>
+                </mal:field>
+                <mal:field name="triggeredBy" canBeNull="true" comment="The URI of the consumer that requested the uninstallation. NULL if unknown.">
+                    <mal:type area="MAL" list="false" name="URI"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="PackageUpgraded" shortFormPart="12" comment="The body of a PackageUpgraded COM object, stored in the archive when a package is successfully upgraded.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="packageName" canBeNull="false" comment="The name of the upgraded package.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="fromVersion" canBeNull="true" comment="The version of the package before the upgrade. NULL if the backend cannot determine it.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="toVersion" canBeNull="true" comment="The version of the package after the upgrade. NULL if the backend cannot determine it.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="triggeredBy" canBeNull="true" comment="The URI of the consumer that requested the upgrade. NULL if unknown.">
+                    <mal:type area="MAL" list="false" name="URI"/>
+                </mal:field>
+            </mal:composite>
         </mal:dataTypes>
     </mal:area>
 </mal:specification>

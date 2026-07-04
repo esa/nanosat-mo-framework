@@ -426,6 +426,42 @@ public class NMFPackageManager {
         return true;
     }
 
+    /**
+     * Returns the currently installed version of a package, read from its
+     * installation receipt.
+     *
+     * @param packageLocation The location of the package file.
+     * @return The installed version, or null if the package is not installed
+     * or the version cannot be determined.
+     */
+    public String getInstalledVersion(final String packageLocation) {
+        Metadata metadata;
+
+        try {
+            metadata = (new NMFPackage(packageLocation)).getMetadata();
+        } catch (IOException ex) {
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
+                    "There was a problem while reading the NMF Package!", ex);
+            return null;
+        }
+
+        File temp = Deployment.getInstallationsTrackerDir();
+        File receiptFile = new File(temp, metadata.getPackageName() + RECEIPT_ENDING);
+
+        if (!receiptFile.exists()) {
+            return null;
+        }
+
+        try {
+            Metadata installedMetadata = Metadata.load(new FileInputStream(receiptFile));
+            return (installedMetadata != null) ? installedMetadata.getPackageVersion() : null;
+        } catch (IOException ex) {
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
+                    "The receipt file could not be loaded!", ex);
+            return null;
+        }
+    }
+
     private void installDependencies(MetadataApp metadata,
             String packageLocation, File nmfDir) throws IOException {
         if (!metadata.hasDependencies()) {
