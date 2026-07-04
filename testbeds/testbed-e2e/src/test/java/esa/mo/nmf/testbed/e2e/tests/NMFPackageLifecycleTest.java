@@ -52,7 +52,7 @@ import org.junit.runners.MethodSorters;
  * installed at the end.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class PackageLifecycleTest extends NMFTest {
+public class NMFPackageLifecycleTest extends NMFTest {
 
     private static final String UPGRADE_VERSION = "5.1";
     private static final String PACKAGE_PREFIX = "benchmark-";
