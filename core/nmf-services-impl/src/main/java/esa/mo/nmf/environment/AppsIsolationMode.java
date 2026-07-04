@@ -56,12 +56,39 @@ public class AppsIsolationMode {
     }
 
     /**
+     * Returns true if the active isolation mode is {@value #NONE}.
+     *
+     * @return Whether apps run without isolation.
+     */
+    public static boolean isNone() {
+        return NONE.equals(getCurrent());
+    }
+
+    /**
      * Returns true if the active isolation mode is {@value #LINUX_USERSPACE}.
      *
      * @return Whether linux-userspace isolation is active.
      */
     public static boolean isLinuxUserspace() {
         return LINUX_USERSPACE.equals(getCurrent());
+    }
+
+    /**
+     * Returns true if the active isolation mode is {@value #DOCKER_CONTAINERS}.
+     *
+     * @return Whether docker-containers isolation is active.
+     */
+    public static boolean isDockerContainers() {
+        return DOCKER_CONTAINERS.equals(getCurrent());
+    }
+
+    /**
+     * Returns true if the active isolation mode is {@value #BUBBLEWRAP}.
+     *
+     * @return Whether bubblewrap isolation is active.
+     */
+    public static boolean isBubblewrap() {
+        return BUBBLEWRAP.equals(getCurrent());
     }
 
 }

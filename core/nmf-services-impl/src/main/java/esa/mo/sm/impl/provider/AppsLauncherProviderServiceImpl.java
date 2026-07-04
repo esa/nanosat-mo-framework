@@ -130,7 +130,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         OSValidator osValidator = new OSValidator();
         if (osValidator.isWindows()) {
             manager = new AppsLauncherManagerWindows(comServices);
-        } else if (AppsIsolationMode.BUBBLEWRAP.equals(AppsIsolationMode.getCurrent())) {
+        } else if (AppsIsolationMode.isBubblewrap()) {
             manager = new AppsLauncherManagerBubblewrap(comServices);
         } else {
             manager = new AppsLauncherManagerLinux(comServices);
