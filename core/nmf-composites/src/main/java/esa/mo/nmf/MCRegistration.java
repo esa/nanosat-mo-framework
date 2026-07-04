@@ -107,9 +107,9 @@ public class MCRegistration {
                 duplicateIds = parameterService.listDefinition(names, null);
             } catch (MALException ex1) {
                 Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
-            } catch (MALInteractionException ex1) {
+            } catch (UnknownException ex1) {
                 // There are some new ones!
-                final UIntegerList extraInfo = (UIntegerList) ex1.getStandardError().getExtraInformation();
+                final UIntegerList extraInfo = (UIntegerList) ex1.getExtraInformation();
 
                 //-------------New Definitions-------------
                 ParameterDefinitionList newDefs = new ParameterDefinitionList();
@@ -179,9 +179,9 @@ public class MCRegistration {
                 duplicateIds = aggregationService.listDefinition(names, null);
             } catch (MALException ex1) {
                 Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
-            } catch (MALInteractionException ex1) {
+            } catch (UnknownException ex1) {
                 // There are some new ones!
-                final UIntegerList extraInfo = (UIntegerList) ex1.getStandardError().getExtraInformation();
+                final UIntegerList extraInfo = (UIntegerList) ex1.getExtraInformation();
 
                 //-------------New Definitions-------------
                 AggregationDefinitionList newDefs = new AggregationDefinitionList();
@@ -249,9 +249,9 @@ public class MCRegistration {
                 duplicateIds = alertService.listDefinition(names, null);
             } catch (MALException ex1) {
                 Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
-            } catch (MALInteractionException ex1) {
+            } catch (UnknownException ex1) {
                 // There are some new ones!
-                final UIntegerList extraInfo = (UIntegerList) ex1.getStandardError().getExtraInformation();
+                final UIntegerList extraInfo = (UIntegerList) ex1.getExtraInformation();
 
                 //-------------New Definitions-------------
                 AlertDefinitionList newDefs = new AlertDefinitionList();
@@ -319,9 +319,9 @@ public class MCRegistration {
                 duplicateIds = actionService.listDefinition(names, null);
             } catch (MALException ex1) {
                 Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
-            } catch (MALInteractionException ex1) {
+            } catch (UnknownException ex1) {
                 // There are some new ones!
-                final UIntegerList extraInfo = (UIntegerList) ex1.getStandardError().getExtraInformation();
+                final UIntegerList extraInfo = (UIntegerList) ex1.getExtraInformation();
 
                 //-------------New Definitions-------------
                 ActionDefinitionList newDefs = new ActionDefinitionList();
