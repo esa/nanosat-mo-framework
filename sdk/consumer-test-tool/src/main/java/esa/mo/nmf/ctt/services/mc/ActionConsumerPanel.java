@@ -173,7 +173,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         JTable executionLogTable = new JTable(executionLogModel);
         executionLogTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         executionLogModel.addTableModelListener(
-                e -> SwingUtilities.invokeLater(() -> TableUtils.packColumns(executionLogTable)));
+                e -> TableUtils.packColumnsLater(executionLogTable));
 
         JLabel executionLogLabel = new JLabel("Execution Progress");
         executionLogLabel.setFont(executionLogLabel.getFont().deriveFont(Font.BOLD, 14f));

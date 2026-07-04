@@ -155,7 +155,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         JTable alertLogTable = new JTable(alertLogModel);
         alertLogTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         alertLogModel.addTableModelListener(
-                e -> SwingUtilities.invokeLater(() -> TableUtils.packColumns(alertLogTable)));
+                e -> TableUtils.packColumnsLater(alertLogTable));
 
         JLabel alertLogLabel = new JLabel("Incoming Alerts");
         alertLogLabel.setFont(alertLogLabel.getFont().deriveFont(Font.BOLD, 14f));

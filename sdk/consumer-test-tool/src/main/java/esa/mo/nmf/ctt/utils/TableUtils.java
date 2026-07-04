@@ -22,6 +22,7 @@ package esa.mo.nmf.ctt.utils;
 
 import java.awt.Component;
 import javax.swing.JTable;
+import javax.swing.Timer;
 import javax.swing.table.TableCellRenderer;
 
 /**
@@ -29,7 +30,33 @@ import javax.swing.table.TableCellRenderer;
  */
 public final class TableUtils {
 
+    private static final String PACK_TIMER_KEY = "TableUtils.packTimer";
+    private static final int PACK_DELAY_MS = 150;
+
     private TableUtils() {
+    }
+
+    /**
+     * Schedules a packColumns call, coalescing bursts of requests into a
+     * single pack. Use this from a TableModelListener: packing on every model
+     * event is quadratic when rows are streamed in one by one (each pack
+     * iterates all rows), which freezes the GUI on large tables. This method
+     * restarts a per-table timer instead, so the columns are packed once,
+     * shortly after the last model change.
+     *
+     * @param table The table whose columns should be packed.
+     */
+    public static void packColumnsLater(final JTable table) {
+        Object existing = table.getClientProperty(PACK_TIMER_KEY);
+        Timer timer;
+        if (existing instanceof Timer) {
+            timer = (Timer) existing;
+        } else {
+            timer = new Timer(PACK_DELAY_MS, e -> packColumns(table));
+            timer.setRepeats(false);
+            table.putClientProperty(PACK_TIMER_KEY, timer);
+        }
+        timer.restart();
     }
 
     /**

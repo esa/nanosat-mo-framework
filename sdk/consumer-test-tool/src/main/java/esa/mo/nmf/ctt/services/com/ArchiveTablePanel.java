@@ -110,7 +110,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         TableRowSorter<TableModel> sorter = new TableRowSorter<>(archiveTable.getModel());
         archiveTable.setRowSorter(sorter);
         archiveTableData.addTableModelListener(
-                e -> SwingUtilities.invokeLater(() -> TableUtils.packColumns(archiveTable)));
+                e -> TableUtils.packColumnsLater(archiveTable));
         this.addEntries(archiveObjectOutput);
     }
 

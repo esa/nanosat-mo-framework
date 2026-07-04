@@ -106,7 +106,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
         jTable1.setModel(tableData);
         tableData.addTableModelListener(
-                e -> SwingUtilities.invokeLater(() -> TableUtils.packColumns(jTable1)));
+                e -> TableUtils.packColumnsLater(jTable1));
 
         ListSelectionListener listSelectionListener = listSelectionEvent -> {
             // Update the jTable according to the selection of the index
