@@ -550,12 +550,9 @@
                 When an alert is generated, the service provider shall publish it via the monitorAlert operation.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="7">
-                The source field of the monitorAlert notification shall be the object that caused the alert to be generated.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="8">
                 The service provider should store AlertDefinition objects in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">
+            <mal:documentation name="Service-level Requirement" order="8">
                 When an alert is published, the service provider should store the AlertEvent object in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1" comment="">
@@ -578,9 +575,6 @@
                         <mal:publishNotify>
                             <mal:field name="alertEvent" canBeNull="false" comment="The alert event data.">
                                 <mal:type area="MC" list="false" name="AlertEvent"/>
-                            </mal:field>
-                            <mal:field name="source" canBeNull="true" comment="The object that caused the alert to be generated.">
-                                <mal:type area="COM" list="false" name="ObjectKey"/>
                             </mal:field>
                         </mal:publishNotify>
                     </mal:messages>

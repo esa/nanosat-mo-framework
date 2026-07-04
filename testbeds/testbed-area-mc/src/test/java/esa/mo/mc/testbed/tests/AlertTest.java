@@ -28,7 +28,6 @@ import java.util.logging.Logger;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
@@ -90,7 +89,6 @@ public class AlertTest {
                     UpdateHeader updateHeader,
                     MonitorAlertSubscriptionKeys keys,
                     AlertEvent alertEvent,
-                    ObjectKey source,
                     Map qosProperties) {
                 if (keys.getDefinitionId() != null) {
                     receivedDefinitionId.set(keys.getDefinitionId());

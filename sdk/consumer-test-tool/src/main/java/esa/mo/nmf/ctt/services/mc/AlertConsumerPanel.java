@@ -33,7 +33,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
@@ -145,7 +144,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         leftPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         // Right: incoming alerts log
-        String[] cols = {"Time", "Definition ID", "Source", "Severity", "Arguments"};
+        String[] cols = {"Time", "Definition ID", "Severity", "Arguments"};
         alertLogModel = new DefaultTableModel(new Object[][]{}, cols) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -305,14 +304,12 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
                 UpdateHeader updateHeader,
                 MonitorAlertSubscriptionKeys subscriptionKeys,
                 AlertEvent alertEvent,
-                ObjectKey source,
                 Map qosProperties) {
 
             final Long definitionId = subscriptionKeys.getDefinitionId();
 
             final String timestamp = HelperTime.time2readableString(msgHeader.getTimestamp());
             final Long finalDefinitionId = definitionId;
-            final String sourceStr = source != null ? source.toString() : "";
             final String severity = alertEvent != null
                     ? resolveAlertSeverity(finalDefinitionId) : "";
             final String arguments = alertEvent != null && alertEvent.getArgumentValues() != null
@@ -321,7 +318,6 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
             SwingUtilities.invokeLater(() -> alertLogModel.addRow(new Object[]{
                 timestamp,
                 finalDefinitionId,
-                sourceStr,
                 severity,
                 arguments
             }));

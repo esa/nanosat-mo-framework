@@ -439,7 +439,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             UpdateHeader updateHeader = new UpdateHeader(new Identifier(providerURI.getValue()),
                     connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
 
-            publisher.publish(updateHeader, alertEvent, source);
+            publisher.publish(updateHeader, alertEvent);
         } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
             Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing of alert event", ex);
