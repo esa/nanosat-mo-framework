@@ -12,6 +12,22 @@ themselves are PDFs in the repository; this page is the index.
    The PDFs are preserved for users who need the formal documents
    produced under ESA's ECSS-E-ST-40C software lifecycle.
 
+.. toctree::
+   :maxdepth: 1
+   :caption: Specifications
+
+   bootloader-specification
+   savoir-gs-002-mapping
+
+ESA standards
+-------------
+
+Located under ``docs/reference-documents/``:
+
+- **SAVOIR Flight Computer Initialisation Sequence Generic Specification** (SAVOIR-GS-002, Issue 2 Rev 2) —
+  ``04-savoir-gs-002_SAVOIR_Flight_Computer_Initialisation_Sequence_Generic_Specification.pdf``. The basis
+  for the :doc:`bootloader-specification`; the tailoring is documented in :doc:`savoir-gs-002-mapping`.
+
 ECSS deliverables
 -----------------
 
