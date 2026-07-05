@@ -59,6 +59,20 @@ public class BootloaderTest extends NMFTest {
                     Deployment.FILE_BOOTLOADER_STATE).isFile();
         }
         harness.setUp();
+
+        // The harness returns at the readiness message, up to one poll cycle
+        // before the bootloader records the confirmation and closes the
+        // report section: wait for the completion marker
+        try {
+            for (int i = 0; i < 20; i++) {
+                if (contains(readTodaysReport(), "=== BOOT REPORT END ===")) {
+                    return;
+                }
+                Thread.sleep(500);
+            }
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     @AfterClass
@@ -77,9 +91,11 @@ public class BootloaderTest extends NMFTest {
         Assert.assertTrue("Missing report start marker",
                 contains(report, "=== BOOT REPORT START"));
         for (String step : new String[]{"INITIALISATION", "SELF-TESTS",
-            "BASELINE-SELECTION", "INTEGRITY-TEST", "EXECUTION"}) {
+            "BASELINE-SELECTION", "INTEGRITY-TEST", "EXECUTION", "CONFIRMATION"}) {
             Assert.assertTrue("Missing step entry: " + step, contains(report, step));
         }
+        Assert.assertTrue("The boot must be confirmed by the Supervisor",
+                contains(report, "CONFIRMATION confirmed"));
         Assert.assertTrue("Missing report completion marker",
                 contains(report, "=== BOOT REPORT END ==="));
     }

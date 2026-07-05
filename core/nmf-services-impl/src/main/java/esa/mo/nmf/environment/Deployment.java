@@ -57,6 +57,7 @@ public class Deployment {
     public static final String FILE_BASELINE_FACTORY = "baseline-factory.properties";
     public static final String FILE_BOOTLOADER_CONFIG = "config.properties";
     public static final String FILE_BOOTLOADER_STATE = "state.properties";
+    public static final String FILE_BOOT_CONFIRMED = "boot-confirmed";
 
     private static final String DIR_INSTALLATIONS_TRACKER = "installations-tracker";
 

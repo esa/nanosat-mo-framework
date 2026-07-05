@@ -9,6 +9,12 @@
 #   3. Baseline selection  — choose the software baseline to run
 #   4. Integrity test      — JAR checksums + Java runtime launch check
 #   5. Execution           — start the Supervisor from the selected baseline
+#   6. Confirmation        — wait for the Supervisor's confirmation marker
+#
+# One boot attempt per invocation: on a failed attempt the fallback state is
+# updated (primary -> secondary -> factory after boot-max-attempts failures)
+# and the script exits non-zero. Restart policy belongs to the caller (e.g. a
+# systemd service with Restart=); a confirmed boot resets the fallback state.
 #
 # This script is static: it carries no version, mission or configuration
 # values. All variability lives in the bootloader/ directory:
@@ -23,6 +29,8 @@
 # --- Built-in defaults (overridden by bootloader/config.properties) ----------
 MAX_REPORT_FILE_SIZE_KB=100
 MIN_FREE_DISK_KB=10240
+BOOT_CONFIRM_TIMEOUT_S=60
+BOOT_MAX_ATTEMPTS=2
 APPS_ISOLATION=none
 SCHEMA_VERSION=1
 
@@ -49,6 +57,15 @@ report() {
     fi
 }
 
+# write_state <rung> <failed-attempts> — persists the runtime state atomically
+write_state() {
+    {
+        echo "boot-id=$BOOT_ID"
+        echo "rung=$1"
+        echo "failed-attempts=$2"
+    } > "$STATE_FILE.tmp" 2>/dev/null && mv "$STATE_FILE.tmp" "$STATE_FILE" 2>/dev/null
+}
+
 # =============================================================================
 # Step 1 — Initialisation
 # =============================================================================
@@ -64,6 +81,10 @@ initialisation() {
         [ -n "$_v" ] && MIN_FREE_DISK_KB=$_v
         _v=$(get_prop apps-isolation "$CONFIG_FILE")
         [ -n "$_v" ] && APPS_ISOLATION=$_v
+        _v=$(get_prop boot-confirm-timeout-s "$CONFIG_FILE")
+        [ -n "$_v" ] && BOOT_CONFIRM_TIMEOUT_S=$_v
+        _v=$(get_prop boot-max-attempts "$CONFIG_FILE")
+        [ -n "$_v" ] && BOOT_MAX_ATTEMPTS=$_v
         CONFIG_STATUS="loaded from $CONFIG_FILE"
     fi
 
@@ -94,12 +115,21 @@ initialisation() {
     fi
     report "INITIALISATION restart-type: $RESTART_TYPE"
 
+    # Read the fallback state of the ladder (REC.03)
+    RUNG=$(get_prop rung "$STATE_FILE")
+    case "$RUNG" in
+        primary|secondary|factory) ;;
+        *) RUNG=primary ;;
+    esac
+    ATTEMPTS=$(get_prop failed-attempts "$STATE_FILE")
+    case "$ATTEMPTS" in
+        ''|*[!0-9]*) ATTEMPTS=0 ;;
+    esac
+    report "INITIALISATION fallback-state: rung=$RUNG failed-attempts=$ATTEMPTS"
+
     # Persist the state (write to a temporary file, then atomic rename)
-    if mkdir -p "$BOOT_DIR" 2>/dev/null \
-            && echo "boot-id=$BOOT_ID" > "$STATE_FILE.tmp" 2>/dev/null \
-            && mv "$STATE_FILE.tmp" "$STATE_FILE" 2>/dev/null; then
-        :
-    else
+    mkdir -p "$BOOT_DIR" 2>/dev/null
+    if ! write_state "$RUNG" "$ATTEMPTS"; then
         report "INITIALISATION state: FAIL - could not persist $STATE_FILE"
     fi
 }
@@ -135,7 +165,9 @@ self_tests() {
 # =============================================================================
 baseline_selection() {
     SELECTED_ROLE=""
+    _at_rung=""
     for _role in primary secondary factory; do
+        [ "$_role" = "$RUNG" ] && _at_rung=yes
         _file=$BOOT_DIR/baseline-$_role.properties
         _nmf=$(get_prop nmf-version "$_file")
         _mission=$(get_prop mission-version "$_file")
@@ -148,8 +180,8 @@ baseline_selection() {
             report "BASELINE-SELECTION $_role: FAIL - unreadable or incomplete: $_file"
         fi
 
-        if [ -z "$SELECTED_ROLE" ] && [ -n "$_nmf" ] && [ -n "$_mission" ] \
-                && [ -n "$_java" ] && [ -n "$_main" ]; then
+        if [ -n "$_at_rung" ] && [ -z "$SELECTED_ROLE" ] && [ -n "$_nmf" ] \
+                && [ -n "$_mission" ] && [ -n "$_java" ] && [ -n "$_main" ]; then
             SELECTED_ROLE=$_role
             NMF_VERSION=$_nmf
             MISSION_VERSION=$_mission
@@ -205,6 +237,8 @@ execution() {
     SUPERVISOR_LOG=$NMF_HOME/logs/supervisor/supervisor_$(date +%F).log
     CLASSPATH="$NMF_HOME/jars-mission/$MISSION_VERSION/*:$NMF_HOME/jars-nmf/$NMF_VERSION/*"
 
+    rm -f "$MARKER_FILE"
+
     : >> "$SUPERVISOR_LOG"
     "$JAVA_CMD" \
         -Xms16M \
@@ -215,11 +249,61 @@ execution() {
         >> "$SUPERVISOR_LOG" 2>&1 &
     JVM_PID=$!
     report "EXECUTION supervisor started: pid=$JVM_PID main-class=$MAIN_CLASS"
-    report "=== BOOT REPORT END ==="
 
     # Non-critical console duplication of the supervisor log (BAA.02)
     tail -n 0 -f "$SUPERVISOR_LOG" &
     TAIL_PID=$!
+}
+
+# =============================================================================
+# Step 6 — Confirmation (REC.01-03): wait for the Supervisor's confirmation
+# marker. On failure, update the fallback state and exit non-zero; the next
+# invocation of this script applies the ladder.
+# =============================================================================
+
+# Record a failed boot attempt and terminate this invocation
+boot_attempt_failed() {
+    kill "$TAIL_PID" 2>/dev/null
+    ATTEMPTS=$((ATTEMPTS + 1))
+    if [ "$ATTEMPTS" -ge "$BOOT_MAX_ATTEMPTS" ] && [ "$RUNG" != "factory" ]; then
+        case "$RUNG" in
+            primary)   RUNG=secondary ;;
+            secondary) RUNG=factory ;;
+        esac
+        ATTEMPTS=0
+        report "CONFIRMATION fallback: rung advanced to $RUNG"
+    fi
+    write_state "$RUNG" "$ATTEMPTS"
+    report "CONFIRMATION fallback-state: rung=$RUNG failed-attempts=$ATTEMPTS"
+    report "=== BOOT REPORT END ==="
+    exit 1
+}
+
+confirmation() {
+    _elapsed=0
+    while [ "$_elapsed" -lt "$BOOT_CONFIRM_TIMEOUT_S" ]; do
+        if [ -f "$MARKER_FILE" ]; then
+            report "CONFIRMATION confirmed after ${_elapsed}s"
+            # A confirmed boot resets the fallback state: the next start
+            # tries the primary baseline again (self-healing)
+            write_state primary 0
+            report "=== BOOT REPORT END ==="
+            return 0
+        fi
+        if ! kill -0 "$JVM_PID" 2>/dev/null; then
+            wait "$JVM_PID" 2>/dev/null
+            _code=$?
+            report "CONFIRMATION FAIL - supervisor exited (code $_code) before confirming"
+            boot_attempt_failed
+        fi
+        sleep 1
+        _elapsed=$((_elapsed + 1))
+    done
+
+    report "CONFIRMATION FAIL - no confirmation within ${BOOT_CONFIRM_TIMEOUT_S}s"
+    kill "$JVM_PID" 2>/dev/null
+    wait "$JVM_PID" 2>/dev/null
+    boot_attempt_failed
 }
 
 # =============================================================================
@@ -238,16 +322,11 @@ fi
 BOOT_DIR=$NMF_HOME/bootloader
 CONFIG_FILE=$BOOT_DIR/config.properties
 STATE_FILE=$BOOT_DIR/state.properties
+MARKER_FILE=$BOOT_DIR/boot-confirmed
 REPORT_DIR=$NMF_HOME/logs/bootloader
 REPORT_FILE=$REPORT_DIR/bootloader_$(date +%F).log
 JVM_PID=""
 TAIL_PID=""
-
-initialisation
-self_tests
-baseline_selection
-integrity_test
-execution
 
 # Terminate the Supervisor and the log duplication when this script is stopped
 cleanup() {
@@ -260,6 +339,13 @@ cleanup() {
     exit 143
 }
 trap cleanup TERM INT
+
+initialisation
+self_tests
+baseline_selection
+integrity_test
+execution
+confirmation
 
 wait "$JVM_PID"
 JVM_EXIT=$?

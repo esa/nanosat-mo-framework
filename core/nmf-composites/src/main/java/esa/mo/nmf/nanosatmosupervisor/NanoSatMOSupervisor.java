@@ -38,6 +38,7 @@ import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import esa.mo.sm.impl.provider.CommandExecutorProviderServiceImpl;
 import esa.mo.sm.impl.provider.PackageManagementProviderServiceImpl;
 import esa.mo.sm.impl.util.PMBackend;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -220,11 +221,37 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                 = directoryService.getConnection().getSecondaryConnectionDetails();
         String secondaryURI = (det != null) ? det.getProviderURI().toString() : null;
         writeCentralDirectoryServiceURI(primaryURI, secondaryURI);
+        this.writeBootConfirmation();
 
         LOGGER.log(Level.INFO, "NanoSat MO Supervisor initialized in "
                 + (((float) (System.currentTimeMillis() - super.startTime)) / 1000)
                 + " seconds!");
         LOGGER.log(Level.INFO, "URI: {0}\n", primaryURI);
+    }
+
+    /**
+     * Confirms a successful start-up to the NMF Bootloader by writing the
+     * boot confirmation marker (NMF Bootloader Specification, REC.01). Only
+     * meaningful when started through the bootloader script; best-effort and
+     * harmless otherwise (e.g. IDE runs outside an NMF filesystem).
+     */
+    private void writeBootConfirmation() {
+        File bootloaderDir = Deployment.getBootloaderDir();
+        if (!bootloaderDir.isDirectory()) {
+            return; // Not started through the bootloader
+        }
+
+        File marker = new File(bootloaderDir, Deployment.FILE_BOOT_CONFIRMED);
+        try {
+            java.nio.file.Files.write(marker.toPath(),
+                    ("confirmed-at=" + System.currentTimeMillis() + "\n")
+                            .getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            LOGGER.log(Level.INFO, "Boot confirmation marker written: {0}",
+                    marker.getAbsolutePath());
+        } catch (IOException ex) {
+            LOGGER.log(Level.WARNING,
+                    "The boot confirmation marker could not be written!", ex);
+        }
     }
 
     public AppsLauncherProviderServiceImpl getAppsLauncherService() {

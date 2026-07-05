@@ -119,9 +119,8 @@ public class SupervisorHarness {
      */
     public void tearDown() throws IOException {
         if (process != null) {
-            // start_supervisor.sh pipes through tee, so destroy() only kills the shell.
-            // Terminate descendants (the supervisor JVM + tee) first to avoid orphans.
-            process.descendants().forEach(ProcessHandle::destroy);
+            // TERM the bootloader script first: its trap kills the supervisor
+            // JVM and the log duplication (this also exercises the trap path).
             process.destroy();
             try {
                 if (!process.waitFor(SHUTDOWN_TIMEOUT_SECONDS, TimeUnit.SECONDS)) {
@@ -131,6 +130,8 @@ public class SupervisorHarness {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
+            // Fallback: no descendants may survive the script
+            process.descendants().forEach(ProcessHandle::destroyForcibly);
             process = null;
         }
         if (logDrainer != null) {

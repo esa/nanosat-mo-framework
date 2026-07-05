@@ -61,6 +61,8 @@ public class BootloaderGenerator {
 
     private static final String DEFAULT_MAX_REPORT_FILE_SIZE_KB = "100";
     private static final String DEFAULT_MIN_FREE_DISK_KB = "10240";
+    private static final String DEFAULT_BOOT_CONFIRM_TIMEOUT_S = "60";
+    private static final String DEFAULT_BOOT_MAX_ATTEMPTS = "2";
 
     private final File nmfRootDir;
 
@@ -104,7 +106,9 @@ public class BootloaderGenerator {
         String config = "# NMF Bootloader configuration\n"
                 + "apps-isolation=" + appsIsolation + "\n"
                 + "max-report-file-size-kb=" + DEFAULT_MAX_REPORT_FILE_SIZE_KB + "\n"
-                + "min-free-disk-kb=" + DEFAULT_MIN_FREE_DISK_KB + "\n";
+                + "min-free-disk-kb=" + DEFAULT_MIN_FREE_DISK_KB + "\n"
+                + "boot-confirm-timeout-s=" + DEFAULT_BOOT_CONFIRM_TIMEOUT_S + "\n"
+                + "boot-max-attempts=" + DEFAULT_BOOT_MAX_ATTEMPTS + "\n";
         writeFile(new File(bootloaderDir, Deployment.FILE_BOOTLOADER_CONFIG), config);
 
         // The Boot Report directory

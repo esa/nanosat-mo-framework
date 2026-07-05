@@ -104,6 +104,29 @@ integrations. Until that feature is complete, the existing missions — :doc:`..
 and :doc:`../mission-integration/phi-sat-2` — are the working references for how to lay out a mission Maven
 project.
 
+Running as a service
+---------------------
+
+The bootloader performs one boot attempt per invocation: on a failed attempt it records the fallback
+state and exits non-zero, and the *next* invocation applies the fallback ladder. The restart loop belongs
+to the service manager. A minimal systemd unit:
+
+.. code-block:: ini
+
+    [Unit]
+    Description=NanoSat MO Framework Supervisor
+
+    [Service]
+    ExecStart=/nanosat-mo-framework/start_supervisor.sh
+    Restart=always
+    RestartSec=5
+
+    [Install]
+    WantedBy=multi-user.target
+
+Stopping the service stops the NMF: the bootloader traps the termination signal and shuts the Supervisor
+JVM down with it.
+
 Barebone reference
 -------------------
 

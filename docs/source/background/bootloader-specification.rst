@@ -14,10 +14,9 @@ mapping, compliance matrix and deviations — is documented separately in :doc:`
 
 .. note::
 
-   Implementation status: steps 1–5 of the Nominal Sequence, the baseline files and the Boot Report are
-   implemented (Phase 1). The Confirmation step with the fallback ladder (Phase 2) and the ASW-side
-   integration — Parameter service commanding, baseline rotation, factory rejection (Phase 3) — are not
-   implemented yet.
+   Implementation status: the Nominal Sequence including the Confirmation step and the fallback ladder is
+   implemented (Phases 1–2). The ASW-side integration — Parameter service commanding, baseline rotation,
+   factory rejection, install-time checksum generation (Phase 3) — is not implemented yet.
 
 Design overview
 ---------------
@@ -73,8 +72,8 @@ executes the Nominal Sequence:
 5. **Execution** — start the Supervisor from the selected baseline, capturing its output to the supervisor
    log;
 6. **Confirmation** — wait for the Supervisor's boot confirmation marker; on failure, record the failed
-   attempt and restart the sequence, where Baseline selection applies the fallback ladder
-   (primary → secondary → factory).
+   attempt in the fallback state and terminate. The next invocation applies the fallback ladder
+   (primary → secondary → factory) in its Baseline selection step.
 
 Self-test and integrity-test failures do not stop the sequence: they are recorded in the Boot Report and
 the boot proceeds, because a degraded environment or a checksum mismatch does not necessarily prevent the
@@ -88,10 +87,14 @@ After launching the JVM, the bootloader waits for the Supervisor to confirm a su
 writing a *boot confirmation marker* once its services are up. A boot attempt is declared failed when the
 JVM process exits before confirming, or when the marker has not appeared within ``BootConfirmTimeout``.
 An exit after a confirmed start-up — a commanded shutdown, or a crash long after boot — is not a boot
-failure: it simply triggers a new run of the sequence.
+failure: the bootloader exits with the Supervisor's exit code, and the service manager decides whether to
+start it again.
 
-Failed attempts are counted in the runtime state (separate from the baseline files); a confirmed
-boot resets the counting. The fallback ladder is: after ``BootMaxAttempts`` consecutive failures of the
+The bootloader performs one boot attempt per invocation and then terminates; the restart loop — and its
+pacing — belongs to the platform's service manager (e.g. a systemd unit with ``Restart=``), consistent
+with NMF.BOOT.BEF.01, which names "restart after failure" as one of the ways the entry point is executed.
+Failed attempts are counted in the runtime state (separate from the baseline files), which carries the
+ladder across invocations; a confirmed boot resets the counting. The fallback ladder is: after ``BootMaxAttempts`` consecutive failures of the
 **primary** baseline, the bootloader boots the **secondary** baseline; after ``BootMaxAttempts``
 consecutive failures of the secondary baseline, it boots the **factory** baseline. If the factory baseline
 also keeps failing, the bootloader keeps retrying it: recovery beyond this point belongs to the platform
@@ -192,7 +195,8 @@ Supervisor, executed on every start: OS boot, manual start, and restart after fa
 4. **Integrity test** — verify the selected baseline (NMF.BOOT.BTE.02, BTE.03);
 5. **Execution** — start the Supervisor from the selected baseline;
 6. **Confirmation** — wait for the Supervisor's boot confirmation (NMF.BOOT.REC.01, REC.02); on failure
-   the sequence restarts and the Baseline selection step applies the fallback ladder (NMF.BOOT.REC.03).
+   the fallback state is updated (NMF.BOOT.REC.03) and the invocation terminates, so that the next start
+   applies the fallback ladder in its Baseline selection step.
 
   :Traces to: SAVOIR.BOOTSW.BEF.20
   :Note: SAVOIR step 1 (Processor Module Initialisation) is owned by the operating system; what remains
