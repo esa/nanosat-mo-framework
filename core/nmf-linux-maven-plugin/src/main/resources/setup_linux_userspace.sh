@@ -110,9 +110,19 @@ create_dir 700 $user_nmf_admin $user_nmf_admin packages
 create_dir 770 $user_nmf_admin $group_nmf_apps public_square
 create_dir 700 $user_nmf_admin $user_nmf_admin nmf_updates
 
+###############################################################################
+# Lock the bootloader domain (baseline files + runtime state):
+#   - The directory is only accessible to the NMF Admin; the NMF Apps are
+#     locked out of it (the baseline files decide what code runs at boot).
+#   - The factory baseline file is immutable in flight: owned by root and
+#     read-only, beyond the reach of in-flight software maintenance.
+###############################################################################
+chown -R $user_nmf_admin:$user_nmf_admin bootloader
+chmod 700 bootloader
+chown root:root bootloader/baseline-factory.properties
+chmod 444 bootloader/baseline-factory.properties
 
-
-echo "Success! The NanoSat MO Framework was installed!"
+echo "Success! The NanoSat MO Framework was set up for linux-userspace isolation!"
 
 ###############################################################################
 # Create Directories

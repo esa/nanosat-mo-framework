@@ -55,7 +55,7 @@ public class NMFPackageManager {
 
     private static final String RECEIPT_ENDING = ".receipt";
 
-    // This must match the group_nmf_apps value in the fresh_install.sh file
+    // This must match the group_nmf_apps value in the setup_linux_userspace.sh file
     private static final String GROUP_NMF_APPS = "nmf-apps";
 
     // The groups will be disbled in the current state of the NMF because there

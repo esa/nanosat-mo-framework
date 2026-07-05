@@ -24,9 +24,7 @@ import esa.mo.nmf.environment.Deployment;
 import esa.mo.nmf.environment.AppsIsolationMode;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
@@ -131,21 +129,6 @@ public class GenerateFilesystemMojo extends AbstractMojo {
             String file_logging = "logging.properties";
             getLog().info("  >> Adding DIR_ETC: " + file_logging);
             filesystem.addResource(Deployment.DIR_ETC, file_logging);
-
-            // Add the fresh_install.sh file
-            String file_install = "fresh_install.sh";
-            getLog().info("  >> Adding: " + file_install);
-            filesystem.addResource("", file_install);
-
-            // Generate the start_supervisor.sh script from template
-            String file_start_script = "start_supervisor.sh";
-            getLog().info("  >> Generating: " + file_start_script);
-            Map<String, String> replacements = new HashMap<>();
-            replacements.put("@SUPERVISOR_MAIN_CLASS@", supervisorMainClass);
-            replacements.put("@NMF_VERSION@", nmfVersion);
-            replacements.put("@MISSION_VERSION@", missionVersion);
-            replacements.put("@APPS_ISOLATION@", appsIsolation);
-            filesystem.generateScript("", file_start_script, replacements);
         } catch (IOException ex) {
             throw new MojoExecutionException(ex);
         }
@@ -199,6 +182,18 @@ public class GenerateFilesystemMojo extends AbstractMojo {
                 getLog().info("  >> Adding DIR_JARS_MISSION: " + artifact.toString());
                 filesystem.addArtifactMission(artifact, missionVersion);
             }
+        }
+
+        // Generate the bootloader script and its domain (baseline files,
+        // config, checksum manifests). Must run after the jars are in place,
+        // because the checksum manifests cover the final directory contents.
+        getLog().info("  >> Generating the bootloader: script, baselines, checksums");
+        try {
+            File nmfRootDir = new File(outputDir, Deployment.DIR_NMF);
+            BootloaderGenerator bootloader = new BootloaderGenerator(nmfRootDir);
+            bootloader.generate(nmfVersion, missionVersion, supervisorMainClass, appsIsolation);
+        } catch (IOException ex) {
+            throw new MojoExecutionException(ex);
         }
     }
 }

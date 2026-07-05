@@ -41,6 +41,7 @@ public class Deployment {
     public static final String DIR_NMF = "nanosat-mo-framework";
 
     public static final String DIR_APPS = "apps";
+    public static final String DIR_BOOTLOADER = "bootloader";
     public static final String DIR_DRIVERS = "drivers";
     public static final String DIR_ETC = "etc";
     public static final String DIR_JARS_MISSION = "jars-mission";
@@ -50,6 +51,12 @@ public class Deployment {
     public static final String DIR_LOGS = "logs";
     public static final String DIR_PACKAGES = "packages";
     public static final String DIR_PUBLIC = "public";
+
+    public static final String FILE_BASELINE_PRIMARY = "baseline-primary.properties";
+    public static final String FILE_BASELINE_SECONDARY = "baseline-secondary.properties";
+    public static final String FILE_BASELINE_FACTORY = "baseline-factory.properties";
+    public static final String FILE_BOOTLOADER_CONFIG = "config.properties";
+    public static final String FILE_BOOTLOADER_STATE = "state.properties";
 
     private static final String DIR_INSTALLATIONS_TRACKER = "installations-tracker";
 
@@ -88,6 +95,25 @@ public class Deployment {
      */
     public static File getAppsDir() {
         return new File(getNMFRootDir(), DIR_APPS);
+    }
+
+    /**
+     * Returns the bootloader domain directory, holding the software baseline
+     * files and the bootloader runtime state.
+     *
+     * @return The bootloader directory.
+     */
+    public static File getBootloaderDir() {
+        return new File(getNMFRootDir(), DIR_BOOTLOADER);
+    }
+
+    /**
+     * Returns the directory for the Boot Reports written by the bootloader.
+     *
+     * @return The bootloader logs directory.
+     */
+    public static File getBootloaderLogsDir() {
+        return new File(getLogsDir(), DIR_BOOTLOADER);
     }
 
     /**

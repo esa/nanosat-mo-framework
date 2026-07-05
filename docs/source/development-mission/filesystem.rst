@@ -6,8 +6,10 @@ On-board Filesystem Layout
    :local:
 
 The NMF expects a specific directory structure on the spacecraft's file system. The ``nmf-linux-maven-plugin``
-generates this layout automatically from the mission's Maven project and produces a ``fresh_install.sh``
-script for the initial hardware deployment.
+generates this layout automatically from the mission's Maven project, including the NMF Bootloader
+(``start_supervisor.sh``) and its ``bootloader/`` domain. When the ``linux-userspace`` apps isolation mode
+is selected it also produces a ``setup_linux_userspace.sh`` provisioning script for the initial hardware
+deployment.
 
 Standard directory layout
 --------------------------
@@ -17,20 +19,22 @@ After generation the output tree looks like::
     space-filesystem/
     └── nanosat-mo-framework/
         ├── apps/                    ← Installed NMF Apps, one subdirectory per app
+        ├── bootloader/              ← software baseline files + bootloader config and state
         ├── drivers/                 ← native driver binaries for Platform services
         ├── etc/                     ← configuration files (logging.properties, …)
-        ├── jars-nmf/                ← NMF Core and MO service jars
-        ├── jars-mission/            ← mission-specific jars
+        ├── jars-nmf/                ← NMF Core and MO service jars (+ SHA256SUMS per version)
+        ├── jars-mission/            ← mission-specific jars (+ SHA256SUMS per version)
         ├── jars-shared-libraries/   ← dependency-type NMF Packages shared by apps
         ├── java/                    ← bundled JRE installations
-        ├── logs/                    ← Logs of the Supervisor and all NMF Apps
+        ├── logs/                    ← Logs of the Bootloader, the Supervisor and all NMF Apps
         ├── packages/                ← Stored NMF Packages, one .nmfpackage per app
         └── public/                  ← arbitrary shared resources
 
 The constants for each directory name live in ``esa.mo.nmf.environment.Deployment``; helper getters such as
 ``Deployment.getAppsDir()`` and ``Deployment.getDriversDir()`` return absolute paths under ``NMF_HOME``.
 
-The Supervisor startup script is placed at the root of the output alongside ``fresh_install.sh``.
+The Supervisor startup script — the NMF Bootloader, see the
+:doc:`../background/bootloader-specification` — is placed at the root of the output.
 
 Maven plugin configuration
 ---------------------------
@@ -84,12 +88,13 @@ explicitly:
       <esa.nmf.version>5.0-SNAPSHOT</esa.nmf.version>
     </properties>
 
-``fresh_install.sh``
-----------------------
+``setup_linux_userspace.sh``
+-----------------------------
 
-The generated ``fresh_install.sh`` script copies the filesystem tree to the correct locations on a freshly
-provisioned spacecraft. It is executed once during initial hardware bring-up and should be run by the same
-non-root user that will operate the Supervisor at runtime.
+When the ``linux-userspace`` apps isolation mode is selected, the generated ``setup_linux_userspace.sh``
+script provisions the Linux users and groups of that mode and locks the ``bootloader/`` domain (the
+factory baseline file becomes root-owned and read-only). It is executed once as root during initial
+hardware bring-up. In the default ``none`` mode no provisioning script is generated.
 
 Mission project structure
 --------------------------

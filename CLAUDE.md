@@ -50,7 +50,7 @@ core/
                             #   Platform) plus helper utilities (clock, misc, environment)
   nmf-package-lib/          # NMF package management (install/uninstall apps on satellite)
   nmf-package-maven-plugin/ # Maven plugin: builds .nmfpackage files
-  nmf-linux-maven-plugin/   # Maven plugin: generates Linux filesystem layout + fresh_install.sh
+  nmf-linux-maven-plugin/   # Maven plugin: generates Linux filesystem layout + bootloader files
   nmf-composites/           # Key composites and the NMF app-facing API (see below)
 nmf-mission-barebone/       # Minimal mission impl for testing NMF features at runtime
 mission/simulator/          # OPS-SAT spacecraft simulator (platform services impl)
@@ -146,7 +146,7 @@ Service XML definitions in `core/mo-services-xml/` are the authoritative source;
 
 ## NMF Package System
 
-Space apps are deployed as `.nmfpackage` files (ZIP archives) built by the `nmf-package-maven-plugin`. The Supervisor's `PackageManagement` service installs/uninstalls them and verifies their integrity via the CRC checksums in the bundled `package-metadata.properties`. Six package types are supported (`app`, `dependency`, `java`, `mission`, `nmf`, `delta`); most code deals with `app`. The `nmf-linux-maven-plugin` generates the Linux filesystem layout and `fresh_install.sh` for initial hardware deployment; it is being extended to also generate the project structure for new mission integrations.
+Space apps are deployed as `.nmfpackage` files (ZIP archives) built by the `nmf-package-maven-plugin`. The Supervisor's `PackageManagement` service installs/uninstalls them and verifies their integrity via the CRC checksums in the bundled `package-metadata.properties`. Six package types are supported (`app`, `dependency`, `java`, `mission`, `nmf`, `delta`); most code deals with `app`. The `nmf-linux-maven-plugin` generates the Linux filesystem layout, the bootloader baseline files, and `setup_linux_userspace.sh` (linux-userspace isolation only) for initial hardware deployment; it is being extended to also generate the project structure for new mission integrations.
 
 ## Architectural patterns
 

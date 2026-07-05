@@ -13,8 +13,7 @@ operating-system image. That layer is mission scope, out of the NMF's hands. The
 the SAVOIR pattern one layer up, at the application software layer: in strict SAVOIR terms it is not the
 Boot SW (see IMP.460 in the compliance matrix) but the first component of the ASW, reproducing the Boot
 SW's functions for the NMF's own updatable unit, the software baseline. The mapping below is therefore an
-analogy, expressed within that application-layer reading; see the "Boot chain and layering" section of the
-:doc:`bootloader-specification`.
+analogy, expressed within that application-layer reading.
 
 The mapping follows the tailoring method defined in section 9 of the SAVOIR document: requirements whose
 hardware *Assumptions* are not featured by the NMF execution environment are marked Not Applicable with a
@@ -64,10 +63,10 @@ within the application-layer reading described above.
    * - Warm restart
      - Supervisor restart without an OS reboot
    * - Safeguard Memory (SGM)
-     - Persistent state directory on disk
+     - The bootloader runtime state (``bootloader/state.properties``)
    * - Configuration data set by Ground (HPC-1)
-     - The baseline manifest file, updated automatically by the Package Management service on upgrade and
-       commandable directly through the Parameter service
+     - The baseline files (``bootloader/baseline-*.properties``), updated automatically by the Package
+       Management service on upgrade and commandable directly through the Parameter service
    * - Standby mode
      - Not applicable as a boot mode; in-flight SW maintenance is provided at ASW level by the
        Package Management service
@@ -83,8 +82,8 @@ Assumptions that hold in the NMF environment:
 
 - **Application storage memory** — the filesystem stores multiple software baselines side by side.
 - **Working memory** — provided by the OS/JVM.
-- **Select ASW image from ground** — the baseline manifest is updated by the Package Management service on
-  upgrade, and its fields are commandable directly through the Parameter service.
+- **Select ASW image from ground** — the baseline files are updated by the Package Management service on
+  upgrade, and are commandable directly through the Parameter service.
 - **Protected resource retaining data when fault or power loss** — approximated by persistent disk storage
   (without the radiation-hardening guarantees of a true SGM).
 

@@ -79,6 +79,6 @@ Linux deployment artefacts
 --------------------------
 
 For initial hardware deployment, the ``nmf-linux-maven-plugin`` generates a Linux filesystem layout and a
-``fresh_install.sh`` script. This is used to seed a new spacecraft host with an NMF installation before any
+``setup_linux_userspace.sh`` script. This is used to seed a new spacecraft host with an NMF installation before any
 apps are installed via ``PackageManagement``. The plugin is configured similarly to the package plugin; see
 the mission-specific deployment pages for examples.
