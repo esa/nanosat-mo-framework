@@ -53,7 +53,8 @@ within the application-layer reading described above.
    * - Boot memory
      - The bootloader installation location, outside the versioned baseline directories
    * - Boot Report
-     - Boot report file written step-by-step by the bootloader at each start
+     - Timestamped report section appended step-by-step by the bootloader to a daily report file at each
+       boot attempt
    * - Reconfiguration function
      - The bootloader's own fallback logic (software; see Deviations)
    * - Watchdog kick
@@ -115,9 +116,10 @@ environment), **N/A** = Not Applicable (SAVOIR Assumption not featured; per SAVO
      - Status
      - NMF requirement / justification
    * - BEF.05 (modes)
-     - A
-     - Collapses to the Nominal Sequence (NMF.BOOT.BEF.02): Fast Boot Path, Standby and Monitor are N/A,
-       leaving a single mode and therefore no mode support to require.
+     - N/A
+     - Assumptions *Activate Standby from ground* and *Monitor interface* not featured, and the Fast Boot
+       Path is not supported; the only surviving mode, the Nominal Sequence, is already required by BEF.20
+       (NMF.BOOT.BEF.02), leaving no mode support to require.
    * - BEF.10 (execution on reset)
      - A
      - NMF.BOOT.BEF.01. Executed on every Supervisor start instead of processor reset.
@@ -202,7 +204,8 @@ environment), **N/A** = Not Applicable (SAVOIR Assumption not featured; per SAVO
      - Assumption *Essential telemetry* not featured.
    * - BAA.385 (boot report content)
      - A
-     - NMF.BOOT.BAA.04.
+     - NMF.BOOT.BAA.04. The "fast boot path selection" content element is void (Fast Boot Path not
+       supported).
    * - BAA.410 (aligned copies)
      - N/A
      - Single Boot Report storage area.
@@ -218,16 +221,17 @@ environment), **N/A** = Not Applicable (SAVOIR Assumption not featured; per SAVO
      - NMF.BOOT.BAA.06: reports keyed by boot timestamp instead of SGM slot driven by the reconfiguration
        count.
    * - BPF.450 (WCET)
-     - A
-     - Bootloader overhead (self-tests + SHA-256 over the baseline) shall remain a small fraction of the
-       mission boot-time budget. The Supervisor is not in the spacecraft's reconfiguration chain, so the
-       budget is soft.
+     - N/A
+     - No reconfiguration-time system requirement exists at the application layer: the Supervisor is not
+       in the spacecraft's reconfiguration chain. Bootloader overhead (self-tests + SHA-256 over the
+       baseline) is in any case marginal against the JVM start-up time.
    * - IF.610–700 (PUS services in Standby)
      - N/A
      - No Standby mode. Equivalent maintenance functions are provided by the MO services at ASW level.
    * - BMM.100, BMM.110 (boot SW storage)
      - A
-     - NMF.BOOT.BMM.01.
+     - NMF.BOOT.BMM.01; the in-flight write protection of BMM.110 is also carried by NMF.BOOT.BMM.03 for
+       the factory baseline.
    * - BMM.120 (image independence)
      - C
      - NMF.BOOT.BMM.04.

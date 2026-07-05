@@ -23,7 +23,7 @@ Design overview
 NMF Software baselines
 ~~~~~~~~~~~~~~~~~~~~~~
 
-A *NMF Software Baseline* is the combination of a framework version, a mission software version and a Java
+An *NMF Software Baseline* is the combination of a framework version, a mission software version and a Java
 runtime, materialised as versioned directories: ``jars-nmf/<nmf-version>/`` (the framework JARs) and
 ``jars-mission/<mission-version>/`` (the mission-specific JARs, including the Supervisor implementation)
 — each accompanied by a checksum manifest of its files — plus ``java/<jre-version>/`` (or the system Java
@@ -38,9 +38,9 @@ manifest* file:
 - **factory** — the baseline the mission was deployed with at integration time, immutable in flight.
 
 The baseline manifest is the single source of boot configuration. It is written by three actors: the
-Package Management service rotates primary/secondary automatically on a confirmed upgrade; ground can set the
-*primary* and *secondary* fields directly through the Parameter service (validated before acceptance); the
-*factory* field is written once at integration time. The bootloader itself only reads it.
+Package Management service rotates primary/secondary automatically on a confirmed upgrade; ground can set
+the *primary* and *secondary* fields directly through the Parameter service (validated before acceptance);
+the *factory* field is written once at integration time. The bootloader itself only reads it.
 
 The Java runtime is itself upgradeable in flight: the NMF Package format defines the ``java`` package type
 for delivering JREs, installed under ``java/<jre-version>/``.
@@ -76,13 +76,18 @@ Fail-safe mechanism: Failure detection and fallback
 
 After launching the JVM, the bootloader waits for the Supervisor to confirm a successful start-up by
 writing a *boot confirmation marker* once its services are up. A boot attempt is declared failed when the
-JVM process exits, or when the marker has not appeared within ``BootConfirmTimeout``.
+JVM process exits before confirming, or when the marker has not appeared within ``BootConfirmTimeout``.
+An exit after a confirmed start-up — a commanded shutdown, or a crash long after boot — is not a boot
+failure: it simply triggers a new run of the sequence.
 
-Failed attempts are counted in a runtime state area (separate from the baseline manifest). The fallback
-ladder is: after ``BootMaxAttempts`` consecutive failures of the **primary** baseline, the bootloader boots
-the **secondary** baseline; after ``BootMaxAttempts`` consecutive failures of the secondary baseline, it boots the
-**factory** baseline. Every fallback decision is recorded in the Boot Report. Right after deployment the
-three roles point at the same baseline and the ladder degenerates gracefully.
+Failed attempts are counted in a runtime state area (separate from the baseline manifest); a confirmed
+boot resets the counting. The fallback ladder is: after ``BootMaxAttempts`` consecutive failures of the
+**primary** baseline, the bootloader boots the **secondary** baseline; after ``BootMaxAttempts``
+consecutive failures of the secondary baseline, it boots the **factory** baseline. If the factory baseline
+also keeps failing, the bootloader keeps retrying it: recovery beyond this point belongs to the platform
+layer. If the baseline manifest itself is unreadable, no baseline can be selected and the ladder cannot be
+applied: the attempt is recorded and retried. Every fallback decision is recorded in the Boot Report.
+Right after deployment the three roles point at the same baseline and the ladder degenerates gracefully.
 
 Boot Report
 ~~~~~~~~~~~
@@ -130,9 +135,9 @@ section 9.3 (see :doc:`savoir-gs-002-mapping`); the ones marked *(NMF extension)
        test seconds, and the dominant cost (JVM start-up) cannot be skipped at all.
    * - ``NumberASWimages``
      - Three named baselines, a baseline being the combination {framework version, mission version, Java
-       runtime}: *primary* (the baseline designated to run), *secondary* (the last confirmed-good baseline, rotated
-       automatically on upgrade) and *factory* (the baseline the mission was deployed with at integration
-       time, immutable in flight). Additional versions may be present on disk.
+       runtime}: *primary* (the baseline designated to run), *secondary* (the last confirmed-good
+       baseline, rotated automatically on upgrade) and *factory* (the baseline the mission was deployed
+       with at integration time, immutable in flight). Additional versions may be present on disk.
    * - ``IntegrityCheck``
      - SHA-256 checksums over every file of the baseline's two JAR directories, stored as a ``SHA256SUMS``
        file (``sha256sum -c`` format) inside each versioned directory. The Java runtime is verified
@@ -143,7 +148,7 @@ section 9.3 (see :doc:`savoir-gs-002-mapping`); the ones marked *(NMF extension)
        day.
    * - ``CriticalPMfunctions``
      - Critical: Java runtime, baseline manifest readability. Non-critical: log duplication to file
-       (``tee``), disk-space check.
+       (``tee``).
    * - ``BootConfirmTimeout`` *(NMF extension)*
      - Time the bootloader waits for the Supervisor's boot confirmation marker before declaring the boot
        attempt failed. Default: 60 s.
@@ -249,14 +254,15 @@ Actions after tests (BAA)
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **NMF.BOOT.BAA.01 — Critical functions.** The bootloader shall use critical functions (Java runtime,
-baseline manifest) independently from the result of the related self-test; if a critical function fails,
-the boot attempt fails and the reconfiguration logic (REC) applies.
+baseline manifest) independently from the result of the related tests (e.g. a failed Java runtime test,
+NMF.BOOT.BTE.03); if a critical function fails in use, the boot attempt fails and the reconfiguration
+logic (REC) applies.
 
   :Traces to: SAVOIR.BOOTSW.BAA.350
 
-**NMF.BOOT.BAA.02 — Non-critical functions.** The bootloader shall use non-critical functions (log
-duplication, disk-space check) only if the related self-test succeeded; a non-critical failure shall never
-prevent the execution of the Supervisor.
+**NMF.BOOT.BAA.02 — Non-critical functions.** The bootloader shall use non-critical functions (e.g. log
+duplication) only if the related self-test succeeded (e.g. log directory writable, NMF.BOOT.BTE.01); a
+non-critical failure shall never prevent the execution of the Supervisor.
 
   :Traces to: SAVOIR.BOOTSW.BAA.360
 
@@ -268,9 +274,9 @@ the Boot Report immediately after the execution of that step.
      allowing the failure to be correlated to the sequence step.
 
 **NMF.BOOT.BAA.04 — Boot Report content.** As a minimum, the Boot Report shall include: timestamp,
-cold/warm restart indication, the selected baseline and its
-framework, mission and Java runtime versions, the secondary and factory baseline versions, the result of each
-self-test and integrity test, any reconfiguration decision, and any error detected.
+cold/warm restart indication, the selected baseline and its framework, mission and Java runtime versions,
+the primary, secondary and factory baseline versions, the result of each self-test and integrity test, any
+reconfiguration decision, and any error detected.
 
   :Traces to: SAVOIR.BOOTSW.BAA.385
 
@@ -300,12 +306,14 @@ boot confirmation marker once its services are up. This is the software equivale
 described in SAVOIR-GS-002 section 4.1.1.
 
 **NMF.BOOT.REC.02 — Failure detection.** The bootloader shall declare a boot attempt failed when the JVM
-process exits, or when the boot confirmation marker has not appeared within ``BootConfirmTimeout``.
+process exits before the boot confirmation, or when the boot confirmation marker has not appeared within
+``BootConfirmTimeout``. An exit after a confirmed start-up is not a failed boot attempt: it leads to a new
+run of the Nominal Sequence (NMF.BOOT.BEF.01), with the failure counting starting afresh.
 
 **NMF.BOOT.REC.03 — Fallback ladder.** After ``BootMaxAttempts`` consecutive failed boot attempts of the
 primary baseline, the bootloader shall select the secondary baseline for the subsequent attempt; after
-``BootMaxAttempts`` consecutive failed boot attempts of the secondary baseline, the bootloader shall select the
-factory baseline.
+``BootMaxAttempts`` consecutive failed boot attempts of the secondary baseline, the bootloader shall
+select the factory baseline.
 
 **NMF.BOOT.REC.04 — Baseline rotation.** On the first confirmed boot of a newly installed baseline, the
 previously primary baseline shall become the secondary baseline and the manifest updated accordingly.
