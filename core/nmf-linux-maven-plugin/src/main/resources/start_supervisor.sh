@@ -130,7 +130,7 @@ initialisation() {
     # Persist the state (write to a temporary file, then atomic rename)
     mkdir -p "$BOOT_DIR" 2>/dev/null
     if ! write_state "$RUNG" "$ATTEMPTS"; then
-        report "INITIALISATION state: FAIL - could not persist $STATE_FILE"
+        report "INITIALISATION FAIL state - could not persist $STATE_FILE"
     fi
 }
 
@@ -140,22 +140,22 @@ initialisation() {
 self_tests() {
     for _dir in bootloader etc jars-nmf jars-mission logs; do
         if [ -d "$NMF_HOME/$_dir" ]; then
-            report "SELF-TESTS directory $_dir: OK"
+            report "SELF-TESTS OK directory $_dir"
         else
-            report "SELF-TESTS directory $_dir: FAIL - not found"
+            report "SELF-TESTS FAIL directory $_dir - not found"
         fi
     done
     if [ -w "$NMF_HOME/logs" ]; then
-        report "SELF-TESTS logs writable: OK"
+        report "SELF-TESTS OK logs writable"
     else
-        report "SELF-TESTS logs writable: FAIL"
+        report "SELF-TESTS FAIL logs writable"
     fi
 
     _free_kb=$(df -kP "$NMF_HOME" 2>/dev/null | awk 'NR==2 {print $4}')
     if [ -n "$_free_kb" ] && [ "$_free_kb" -ge "$MIN_FREE_DISK_KB" ]; then
-        report "SELF-TESTS free-disk: OK (${_free_kb} KB)"
+        report "SELF-TESTS OK free-disk (${_free_kb} KB)"
     else
-        report "SELF-TESTS free-disk: FAIL (${_free_kb:-unknown} KB < ${MIN_FREE_DISK_KB} KB)"
+        report "SELF-TESTS FAIL free-disk (${_free_kb:-unknown} KB < ${MIN_FREE_DISK_KB} KB)"
     fi
 }
 
@@ -177,7 +177,7 @@ baseline_selection() {
         if [ -n "$_nmf" ] && [ -n "$_mission" ]; then
             report "BASELINE-SELECTION $_role: nmf=$_nmf mission=$_mission java=${_java:-?}"
         else
-            report "BASELINE-SELECTION $_role: FAIL - unreadable or incomplete: $_file"
+            report "BASELINE-SELECTION FAIL $_role - unreadable or incomplete: $_file"
         fi
 
         if [ -n "$_at_rung" ] && [ -z "$SELECTED_ROLE" ] && [ -n "$_nmf" ] \
@@ -196,7 +196,7 @@ baseline_selection() {
     done
 
     if [ -z "$SELECTED_ROLE" ]; then
-        report "BASELINE-SELECTION selected: FAIL - no usable baseline file"
+        report "BASELINE-SELECTION FAIL - no usable baseline file"
         report "=== BOOT ABORTED ==="
         exit 1
     fi
@@ -209,11 +209,11 @@ baseline_selection() {
 integrity_test() {
     for _jardir in "jars-nmf/$NMF_VERSION" "jars-mission/$MISSION_VERSION"; do
         if [ ! -f "$NMF_HOME/$_jardir/SHA256SUMS" ]; then
-            report "INTEGRITY-TEST $_jardir: FAIL - SHA256SUMS missing"
+            report "INTEGRITY-TEST FAIL $_jardir - SHA256SUMS missing"
         elif (cd "$NMF_HOME/$_jardir" && sha256sum -c SHA256SUMS > /dev/null 2>&1); then
-            report "INTEGRITY-TEST $_jardir: OK"
+            report "INTEGRITY-TEST OK $_jardir"
         else
-            report "INTEGRITY-TEST $_jardir: FAIL - checksum mismatch"
+            report "INTEGRITY-TEST FAIL $_jardir - checksum mismatch"
         fi
     done
 
@@ -224,9 +224,9 @@ integrity_test() {
         *)      JAVA_CMD=$NMF_HOME/$JAVA_SPEC ;;
     esac
     if "$JAVA_CMD" -version > /dev/null 2>&1; then
-        report "INTEGRITY-TEST java-runtime ($JAVA_CMD): OK"
+        report "INTEGRITY-TEST OK java-runtime ($JAVA_CMD)"
     else
-        report "INTEGRITY-TEST java-runtime ($JAVA_CMD): FAIL - does not execute"
+        report "INTEGRITY-TEST FAIL java-runtime ($JAVA_CMD) - does not execute"
     fi
 }
 
