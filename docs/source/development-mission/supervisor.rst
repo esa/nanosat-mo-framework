@@ -94,6 +94,45 @@ This is a valid, runnable Supervisor. Apps deployed on top of it can use MC serv
 Alerts, Aggregations) but will get a ``null`` platform service stub if they call
 ``getNMFProvider().getPlatformServices()``.
 
+Default MC set
+--------------
+
+Every NMF Supervisor exposes a **default set** of Monitor & Control parameters and actions, present
+regardless of the mission. This is a contract: ground tooling and cross-mission software can rely on these
+existing on any Supervisor. The mission's own ``MonitorAndControlNMFAdapter`` is composed *on top* of the
+default set — both coexist.
+
+The composition is transparent: ``NanoSatMOSupervisor.init`` wraps the mission adapter together with the
+default adapters (from ``DefaultSupervisorAdapters``) in a ``CompositeMCAdapter``, which the MC services see
+as a single listener and which forwards each callback to its children. Missions write their adapter as
+usual; nothing extra is required, and the default set appears even when no mission adapter is supplied.
+
+The current default parameters (both read-only) are:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Parameter
+     - Meaning
+   * - ``nmf.version``
+     - The version of the NMF framework the Supervisor runs.
+   * - ``nmf.uptime``
+     - The uptime of the Supervisor process, in seconds.
+   * - ``memory.ram.*``, ``memory.swap.*``
+     - Host RAM and swap totals, usage and percentages.
+   * - ``memory.ram.errors.corrected`` / ``.uncorrected``
+     - EDAC ECC memory error counts (0 where EDAC is unavailable).
+   * - ``memory.pressure``, ``memory.page_faults``
+     - PSI memory pressure and cumulative page faults.
+
+These are sourced from Linux ``/proc`` and ``/sys``; values unavailable on the host default to zero.
+
+Default parameter and action names follow a **dotted hierarchy** (``domain.group.leaf``), lowercase
+segments — for example ``nmf.version`` or ``bootloader.primary.nmf-version``. A default capability is added
+by writing a small name-based adapter and registering it in ``DefaultSupervisorAdapters.create()``; it then
+appears on every Supervisor automatically.
+
 ``main`` class and startup script
 ------------------------------------
 

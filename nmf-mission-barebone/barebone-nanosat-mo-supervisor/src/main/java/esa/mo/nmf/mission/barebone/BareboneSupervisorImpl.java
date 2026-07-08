@@ -22,7 +22,7 @@ package esa.mo.nmf.mission.barebone;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
-import esa.mo.nmf.nanosatmosupervisor.MCSupervisorBasicAdapter;
+import esa.mo.nmf.mcadapters.MCSupervisorBasicAdapter;
 import esa.mo.nmf.nanosatmosupervisor.NanoSatMOSupervisor;
 import esa.mo.nmf.nmfpackage.NMFPackagePMBackend;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;

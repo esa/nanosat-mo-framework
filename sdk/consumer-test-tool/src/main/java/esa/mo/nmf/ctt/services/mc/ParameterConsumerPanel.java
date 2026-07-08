@@ -72,6 +72,27 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         this.addDefinitionButton.setVisible(false);
         this.removeDefinitionButton.setVisible(false);
         this.removeDefinitionAllButton.setVisible(false);
+
+        // The setValue button is only enabled for writable (non read-only)
+        // parameters, and only when a row is selected.
+        setValueButton.setEnabled(false);
+        parameterTable.getTable().getSelectionModel().addListSelectionListener(
+                e -> setValueButton.setEnabled(!isSelectedParameterReadOnly()));
+    }
+
+    /**
+     * Returns true if no row is selected or the selected parameter is
+     * read-only (so its value cannot be set).
+     */
+    private boolean isSelectedParameterReadOnly() {
+        if (parameterTable.getSelectedRow() == -1) {
+            return true;
+        }
+        ArchivePersistenceObject obj = parameterTable.getSelectedCOMObject();
+        if (obj == null || !(obj.getObject() instanceof ParameterDefinition)) {
+            return true;
+        }
+        return Boolean.TRUE.equals(((ParameterDefinition) obj.getObject()).getReadOnly());
     }
 
     public void init() {
@@ -367,7 +388,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_getValueButtonActionPerformed
 
     private void setValueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setValueButtonActionPerformed
-        if (parameterTable.getSelectedRow() == -1) { // The row is not selected?
+        if (isSelectedParameterReadOnly()) { // No selection, or a read-only parameter
             return;  // Well, then nothing to be done here folks!
         }
 

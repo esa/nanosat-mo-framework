@@ -66,7 +66,8 @@ public class ParameterTablePanel extends SharedTablePanel {
             HelperAttributes.typeShortForm2attributeName(pDef.getRawType().getValue()),
             pDef.getRawUnit(),
             pDef.getReportingEnabled(),
-            pDef.getReportInterval().getInSeconds()});
+            pDef.getReportInterval().getInSeconds(),
+            pDef.getReadOnly()});
 
         comObjects.add(comObject);
         semaphore.release();
@@ -118,7 +119,8 @@ public class ParameterTablePanel extends SharedTablePanel {
                 generation,
                 def.getReportInterval(),
                 def.getValidityExpression(),
-                def.getConversion(), false);
+                def.getConversion(),
+                def.getReadOnly());
     }
 
     @Override
@@ -129,7 +131,7 @@ public class ParameterTablePanel extends SharedTablePanel {
             "description",
             "rawType",
             "rawUnit",
-            "reportingEnabled", "updateInterval"};
+            "reportingEnabled", "updateInterval", "readOnly"};
 
         tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
             Class[] types = new Class[]{
@@ -139,7 +141,8 @@ public class ParameterTablePanel extends SharedTablePanel {
                 java.lang.Object.class,
                 java.lang.String.class,
                 java.lang.Boolean.class,
-                java.lang.Float.class};
+                java.lang.Float.class,
+                java.lang.Boolean.class};
 
             @Override               //all cells false
             public boolean isCellEditable(int row, int column) {

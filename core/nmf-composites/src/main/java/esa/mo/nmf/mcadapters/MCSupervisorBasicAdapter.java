@@ -18,7 +18,7 @@
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.nanosatmosupervisor;
+package esa.mo.nmf.mcadapters;
 
 import esa.mo.helpertools.misc.OSValidator;
 import esa.mo.helpertools.misc.ShellCommander;
@@ -26,6 +26,7 @@ import esa.mo.mc.impl.interfaces.ActionNotFoundException;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
+import esa.mo.nmf.nanosatmosupervisor.NanoSatMOSupervisor;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

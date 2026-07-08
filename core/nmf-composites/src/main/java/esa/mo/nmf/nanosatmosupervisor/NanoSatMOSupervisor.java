@@ -25,6 +25,8 @@ import esa.mo.com.impl.util.Quota;
 import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.CloseAppListener;
+import esa.mo.nmf.mcadapters.CompositeMCAdapter;
+import esa.mo.nmf.mcadapters.DefaultSupervisorAdapters;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
@@ -40,6 +42,7 @@ import esa.mo.sm.impl.provider.PackageManagementProviderServiceImpl;
 import esa.mo.sm.impl.util.PMBackend;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.configuration.ConfigurationHelper;
@@ -91,6 +94,14 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             PMBackend packageManagementBackend) {
         super.startTime = System.currentTimeMillis();
         LOGGER.log(Level.INFO, this.generateStartBanner());
+
+        // Always expose the default Supervisor MC set, with the mission
+        // adapter (if any) composed on top of it.
+        List<MonitorAndControlNMFAdapter> mcAdapters = DefaultSupervisorAdapters.create();
+        if (mcAdapter != null) {
+            mcAdapters.add(mcAdapter);
+        }
+        mcAdapter = new CompositeMCAdapter(mcAdapters);
 
         // Loads: provider.properties; settings.properties; transport.properties
         NMFProvider.loadMOElements();
