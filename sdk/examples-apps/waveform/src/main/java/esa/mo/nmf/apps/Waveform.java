@@ -106,16 +106,16 @@ public class Waveform {
 
             defs.add(new ParameterDefinition(new Identifier("Amplitude"),
                     "Amplitude of the wave", AttributeType.DOUBLE, "",
-                    true, new Duration(3), null, null));
+                    true, new Duration(3), null, null, false));
             defs.add(new ParameterDefinition(new Identifier("Frequency"),
                     "Frequency of the wave", AttributeType.DOUBLE, "",
-                    true, new Duration(3), null, null));
+                    true, new Duration(3), null, null, false));
             defs.add(new ParameterDefinition(new Identifier("Sine"),
                     "Result of the wave", AttributeType.DOUBLE, "", true,
-                    new Duration(), null, null));
+                    new Duration(), null, null, false));
             defs.add(new ParameterDefinition(new Identifier("Refresh"),
                     "Refreshrate for publishing the result",
-                    AttributeType.LONG, "us", true, new Duration(), null, null));
+                    AttributeType.LONG, "us", true, new Duration(), null, null, false));
 
             registrationObject.registerParameters(defs);
 

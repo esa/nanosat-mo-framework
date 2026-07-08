@@ -103,23 +103,4 @@ public interface ParameterStatusListener {
      */
     ParameterValue getValueWithCustomValidityState(Attribute rawValue, ParameterDefinition pDef);
 
-    /**
-     * Checks if a Parameter is read-only
-     *
-     * @param name The name of the parameter
-     * @return True, if it is read-only. False, if you can set it.
-     */
-    @Deprecated
-    boolean isReadOnly(Identifier name);
-
-    /**
-     * Checks if a Parameter is read-only
-     *
-     * @param parameterID id of the parameter
-     * @return True, if it is read-only. False, if you can set it.
-     */
-    default boolean isReadOnly(Long parameterID) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
 }

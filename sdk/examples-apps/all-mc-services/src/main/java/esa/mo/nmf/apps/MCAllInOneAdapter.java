@@ -165,41 +165,41 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
 
         defsOther.add(new ParameterDefinition(new Identifier(PARAMETER_ADCS_MODE),
                 "The ADCS mode of operation", AttributeType.UOCTET,
-                "", false, new Duration(0), null, paramConversion));
+                "", false, new Duration(0), null, paramConversion, true));
 
         defsOther.add(new ParameterDefinition(new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW),
                 "The number of satellites in view of GPS receiver.",
-                AttributeType.INTEGER, "sats", false, new Duration(4), null, null));
+                AttributeType.INTEGER, "sats", false, new Duration(4), null, null, true));
 
         // Create the GPS.Latitude
         defsGPS.add(new ParameterDefinition(new Identifier(PARAMETER_GPS_LATITUDE),
                 "The GPS Latitude", AttributeType.DOUBLE, "degrees",
-                false, new Duration(2), null, null));
+                false, new Duration(2), null, null, true));
 
         // Create the GPS.Longitude
         defsGPS.add(new ParameterDefinition(new Identifier(PARAMETER_GPS_LONGITUDE),
                 "The GPS Longitude", AttributeType.DOUBLE, "degrees",
-                false, new Duration(2), null, null));
+                false, new Duration(2), null, null, true));
 
         // Create the GPS.Altitude
         defsGPS.add(new ParameterDefinition(new Identifier(PARAMETER_GPS_ALTITUDE),
                 "The GPS Altitude", AttributeType.DOUBLE, "meters",
-                false, new Duration(2), null, null));
+                false, new Duration(2), null, null, true));
 
         // Create the Magnetometer.X
         defsMag.add(new ParameterDefinition(new Identifier(PARAMETER_MAG_X),
                 "The Magnetometer X component", AttributeType.DOUBLE, "microTesla",
-                false, new Duration(2), null, null));
+                false, new Duration(2), null, null, true));
 
         // Create the Magnetometer.Y
         defsMag.add(new ParameterDefinition(new Identifier(PARAMETER_MAG_Y),
                 "The Magnetometer Y component", AttributeType.DOUBLE, "microTesla",
-                false, new Duration(2), null, null));
+                false, new Duration(2), null, null, true));
 
         // Create the Magnetometer.Z
         defsMag.add(new ParameterDefinition(new Identifier(PARAMETER_MAG_Z),
                 "The Magnetometer Z component", AttributeType.DOUBLE, "microTesla",
-                false, new Duration(2), null, null));
+                false, new Duration(2), null, null, true));
 
         registration.registerParameters(defsOther);
         LongList parameterObjIdsGPS = registration.registerParameters(defsGPS);
@@ -380,11 +380,6 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
     @Override
     public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
         return false; // Parameter has not been set
-    }
-
-    @Override
-    public boolean isReadOnly(Identifier name) {
-        return true; // No parameter is directly writable
     }
 
     /**

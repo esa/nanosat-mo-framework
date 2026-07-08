@@ -495,7 +495,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
                 rawUnitTF.getText(),
                 reportingEnabledCB.isSelected(),
                 new Duration(Float.parseFloat(updateIntervalTF.getText())),
-                PExp, pConv);
+                PExp, pConv, false);
         
         ParameterDefinitionList pDefs = new ParameterDefinitionList();
         pDefs.add(pDef);

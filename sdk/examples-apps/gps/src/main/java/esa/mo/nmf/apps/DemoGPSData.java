@@ -102,24 +102,24 @@ public class DemoGPSData {
             parDef.add(new ParameterDefinition(
                     new Identifier(PARAMETER_GPS_LATITUDE),
                     "The GPS Latitude", AttributeType.DOUBLE,
-                    "degrees", false, new Duration(2), null, null));
+                    "degrees", false, new Duration(2), null, null, false));
 
             // Create the GPS.Longitude
             parDef.add(new ParameterDefinition(
                     new Identifier(PARAMETER_GPS_LONGITUDE),
                     "The GPS Longitude", AttributeType.DOUBLE,
-                    "degrees", false, new Duration(2), null, null));
+                    "degrees", false, new Duration(2), null, null, false));
 
             // Create the GPS.Altitude
             parDef.add(new ParameterDefinition(
                     new Identifier(PARAMETER_GPS_ALTITUDE),
                     "The GPS Altitude", AttributeType.DOUBLE,
-                    "meters", false, new Duration(2), null, null));
+                    "meters", false, new Duration(2), null, null, false));
 
             parDef.add(new ParameterDefinition(
                     new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW),
                     "The number of satellites in view of GPS receiver.",
-                    AttributeType.INTEGER, "sats", false, new Duration(4), null, null));
+                    AttributeType.INTEGER, "sats", false, new Duration(4), null, null, false));
 
             LongList parameterObjIdsGPS = registrationObject.registerParameters(parDef);
 

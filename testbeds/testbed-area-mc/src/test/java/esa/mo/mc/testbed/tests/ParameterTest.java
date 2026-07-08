@@ -31,9 +31,12 @@ import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Union;
+import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
 import org.ccsds.moims.mo.mc.structures.ParameterDefinition;
 import org.ccsds.moims.mo.mc.structures.ParameterDefinitionList;
+import org.ccsds.moims.mo.mc.structures.ParameterRawValue;
+import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.ParameterValueDetails;
 import org.ccsds.moims.mo.mc.structures.ParameterValueDetailsList;
 import org.junit.AfterClass;
@@ -69,7 +72,7 @@ public class ParameterTest {
                 "A simple integer test parameter",
                 AttributeType.INTEGER,
                 false,
-                new Duration(0));
+                new Duration(0), false);
 
         ParameterDefinitionList defs = new ParameterDefinitionList();
         defs.add(def);
@@ -92,6 +95,77 @@ public class ParameterTest {
         LOGGER.info("The raw value returned is: " + rawValue.getIntegerValue());
         Assert.assertEquals("Raw value must match the listener's fixed return value",
                 Integer.valueOf(42), rawValue.getIntegerValue());
+    }
+
+    /**
+     * Registers a single parameter and returns its id.
+     */
+    private static Long addParameter(String name, boolean readOnly) throws Exception {
+        ParameterDefinition def = new ParameterDefinition(new Identifier(name),
+                "A test parameter", AttributeType.INTEGER, true, new Duration(0), readOnly);
+        ParameterDefinitionList defs = new ParameterDefinitionList();
+        defs.add(def);
+        LongList ids = harness.getParameterProvider().addParameters(defs, null);
+        Assert.assertEquals("One id must be returned", 1, ids.size());
+        return ids.get(0);
+    }
+
+    private static ParameterRawValueList rawValue(Long id, int value) {
+        ParameterRawValueList list = new ParameterRawValueList();
+        list.add(new ParameterRawValue(id, new Union(value)));
+        return list;
+    }
+
+    // Test — Setting a read-write parameter succeeds
+
+    @Test
+    public void testSetReadWriteParameterSucceeds() throws Exception {
+        LOGGER.info("Running: testSetReadWriteParameterSucceeds()");
+        Long id = addParameter("WritableParam", false);
+        ParameterStub stub = harness.getParameterConsumerStub().getParameterStub();
+
+        stub.setValue(rawValue(id, 7)); // Must not throw
+    }
+
+    // Test — Setting a read-only parameter is rejected with a Read Only error
+
+    @Test
+    public void testSetReadOnlyParameterReturnsError() throws Exception {
+        LOGGER.info("Running: testSetReadOnlyParameterReturnsError()");
+        Long id = addParameter("ReadOnlyParam", true);
+        ParameterStub stub = harness.getParameterConsumerStub().getParameterStub();
+
+        try {
+            stub.setValue(rawValue(id, 7));
+            Assert.fail("setValue on a read-only parameter must throw");
+        } catch (MALInteractionException ex) {
+            Assert.assertEquals("The error must be a Read Only error",
+                    MCHelper.READ_ONLY_ERROR_NUMBER,
+                    ex.getStandardError().getErrorNumber());
+        }
+    }
+
+    // Test — In a mixed batch, one read-only parameter rejects the whole set
+
+    @Test
+    public void testSetMixedBatchRejectedWhenOneIsReadOnly() throws Exception {
+        LOGGER.info("Running: testSetMixedBatchRejectedWhenOneIsReadOnly()");
+        Long writable = addParameter("WritableInBatch", false);
+        Long readOnly = addParameter("ReadOnlyInBatch", true);
+        ParameterStub stub = harness.getParameterConsumerStub().getParameterStub();
+
+        ParameterRawValueList values = new ParameterRawValueList();
+        values.add(new ParameterRawValue(writable, new Union(1)));
+        values.add(new ParameterRawValue(readOnly, new Union(2)));
+
+        try {
+            stub.setValue(values);
+            Assert.fail("A batch containing a read-only parameter must be rejected");
+        } catch (MALInteractionException ex) {
+            Assert.assertEquals("The error must be a Read Only error",
+                    MCHelper.READ_ONLY_ERROR_NUMBER,
+                    ex.getStandardError().getErrorNumber());
+        }
     }
 
 }

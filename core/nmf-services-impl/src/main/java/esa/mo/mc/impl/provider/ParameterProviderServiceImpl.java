@@ -869,7 +869,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                             true, // Auto enable the generation
                             new Duration(0),
                             null,
-                            null);
+                            null, false);
 
                     ParameterDefinitionList pDefs = new ParameterDefinitionList(1);
                     pDefs.add(pDef);

@@ -23,6 +23,7 @@ package esa.mo.nmf;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
+import esa.mo.mc.impl.interfaces.ActionNotFoundException;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import esa.mo.mc.impl.provider.ParameterProviderServiceImpl;
@@ -154,9 +155,11 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 }
             }
 
+            boolean readOnly = annotation.readOnly()
+                    || (field.getModifiers() & Modifier.FINAL) == Modifier.FINAL;
             definitions.add(new ParameterDefinition(new Identifier(name),
                     description, new AttributeType(rawType), rawUnit,
-                    reportingEnabled, reportInterval, validityExpression, conversion));
+                    reportingEnabled, reportInterval, validityExpression, conversion, readOnly));
         }
 
         if (!definitions.isEmpty()) {
@@ -384,8 +387,12 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
     @Override
     public void actionArrived(Identifier identifier, AttributeValueList attributeValues,
-            Long executionId, MALInteraction interaction) throws ExecutionFailedException {
+            Long executionId, MALInteraction interaction)
+            throws ExecutionFailedException, ActionNotFoundException {
         Method actionMethod = actionMapping.get(actionNameMapping.get(identifier.getValue()));
+        if (actionMethod == null) {
+            throw new ActionNotFoundException(identifier.getValue());
+        }
         try {
             // add default arguments
             Object[] arguments = new Object[attributeValues.size() + 2];
@@ -468,9 +475,6 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
     public Boolean onSetValue(ParameterRawValue newRawValue) {
         Object value;
-        if (isReadOnly(newRawValue.getParameterId())) {
-            return false;
-        }
         Field param = parameterMapping.get(newRawValue.getParameterId());
 
         if (param == null) {
@@ -491,21 +495,6 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
             return false;
         }
         return true;
-    }
-
-    @Override
-    public boolean isReadOnly(Long parameterID) {
-        Field field = parameterMapping.get(parameterID);
-        if (field == null) {
-            return false;
-        }
-        return field.getAnnotation(Parameter.class).readOnly()
-                || (field.getModifiers() & Modifier.FINAL) == Modifier.FINAL;
-    }
-
-    @Override
-    public boolean isReadOnly(Identifier name) {
-        return false;
     }
 
     @Override

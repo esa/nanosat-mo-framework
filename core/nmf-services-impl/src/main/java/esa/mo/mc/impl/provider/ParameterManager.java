@@ -76,24 +76,14 @@ public class ParameterManager extends MCManager {
     }
 
     /**
-     * checks in the application if a parameter is read-only
+     * Checks whether a parameter is read-only, from its definition.
      *
      * @param id the id of the parameter to be checked
-     * @return true, if it is readonly. false, if you can set it.
+     * @return true, if it is read-only. false, if you can set it.
      */
     public boolean isReadOnly(Long id) {
-        Class cla;
-        try {
-            cla = parametersMonitoring.getClass()
-                    .getMethod("onGetValue", Identifier.class, AttributeType.class).getDeclaringClass();
-            if (cla == ParameterStatusListener.class) {
-                return parametersMonitoring.isReadOnly(id);
-            }
-        } catch (NoSuchMethodException | SecurityException ex) {
-            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return parametersMonitoring.isReadOnly(getName(id));
+        ParameterDefinition def = (ParameterDefinition) this.getDefinition(id);
+        return def != null && Boolean.TRUE.equals(def.getReadOnly());
     }
 
     /**
@@ -528,7 +518,7 @@ public class ParameterManager extends MCManager {
         ParameterDefinition newDef = new ParameterDefinition(def.getName(),
                 def.getDescription(), def.getRawType(), def.getRawUnit(),
                 bool, def.getReportInterval(),
-                def.getValidityExpression(), def.getConversion());
+                def.getValidityExpression(), def.getConversion(), def.getReadOnly());
 
         //requirement: 3.3.10.2.k
         this.update(id, newDef, source, connectionDetails);
@@ -586,7 +576,7 @@ public class ParameterManager extends MCManager {
             ParameterDefinition newDef = new ParameterDefinition(def.getName(),
                     def.getDescription(), def.getRawType(), def.getRawUnit(),
                     bool, def.getReportInterval(),
-                    def.getValidityExpression(), def.getConversion());
+                    def.getValidityExpression(), def.getConversion(), def.getReadOnly());
 
             this.update(defId, newDef, source, connectionDetails);
         }

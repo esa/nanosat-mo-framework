@@ -83,7 +83,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
                 new Duration(10),
                 null,
                 null
-        ));
+        , false));
         registration.registerParameters(defs);
 
         // ------------------ Actions ------------------

@@ -118,7 +118,7 @@ public class ParameterTablePanel extends SharedTablePanel {
                 generation,
                 def.getReportInterval(),
                 def.getValidityExpression(),
-                def.getConversion());
+                def.getConversion(), false);
     }
 
     @Override

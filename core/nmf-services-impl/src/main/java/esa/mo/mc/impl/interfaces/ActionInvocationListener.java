@@ -44,8 +44,11 @@ public interface ActionInvocationListener {
      * automatically captured and used as the comment field in both ExecutionProgress
      * (sent to ground systems in real-time) and ExecutionStatus (stored in archive
      * for historical tracking)
+     * @throws ActionNotFoundException if the listener does not recognise the action. A composite
+     * listener uses this to forward the action to the next listener instead of failing.
      */
     void actionArrived(Identifier identifier, AttributeValueList attributeValues,
-            Long executionId, MALInteraction interaction) throws ExecutionFailedException;
+            Long executionId, MALInteraction interaction)
+            throws ExecutionFailedException, ActionNotFoundException;
 
 }

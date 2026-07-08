@@ -23,15 +23,12 @@ package esa.mo.mc.testbed.backends;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UIntegerList;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
-import org.ccsds.moims.mo.mc.structures.ActionDefinition;
-import org.ccsds.moims.mo.mc.structures.ExecutionRequest;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-
 import org.ccsds.moims.mo.mc.structures.ParameterDefinition;
+import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.ParameterValue;
 
 /**
@@ -51,18 +48,13 @@ public class SimpleParameterBackend extends Backend {
     }
 
     @Override
+    public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
+        return true; // Test backend - writable parameters accept any value
+    }
+
+    @Override
     public ParameterValue getValueWithCustomValidityState(Attribute rawValue, ParameterDefinition pDef) {
         return null;
-    }
-
-    @Override
-    public boolean isReadOnly(Identifier name) {
-        return false;
-    }
-
-    @Override
-    public boolean isReadOnly(Long parameterID) {
-        return false;
     }
 
     @Override

@@ -154,7 +154,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                         false,
                         new Duration(0),
                         null,
-                        null);
+                        null, false);
 
                 ParameterCreationRequestList request = new ParameterCreationRequestList(1);
                 request.add(new ParameterCreationRequest(new Identifier(parameterName), parameterDefinition));

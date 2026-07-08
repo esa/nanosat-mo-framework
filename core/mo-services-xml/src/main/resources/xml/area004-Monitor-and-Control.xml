@@ -1275,6 +1275,9 @@
                 <mal:field name="conversion" canBeNull="true" comment="If present then parameter has a converted type.">
                     <mal:type area="MC" list="false" name="ParameterConversion"/>
                 </mal:field>
+                <mal:field name="readOnly" canBeNull="false" comment="If TRUE the parameter cannot be set by a consumer; setValue on it shall be rejected.">
+                    <mal:type area="MAL" list="false" name="Boolean"/>
+                </mal:field>
             </mal:composite>
             <mal:composite name="ParameterValue" shortFormPart="13" comment="A specific value of a parameter, including its validity state, raw value, and converted value. The type of the value shall match that specified in the parameter definition.">
                 <mal:extends>

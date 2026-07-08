@@ -75,7 +75,7 @@ public class DemoHelloWorldFull {
             defs.add(new ParameterDefinition(
                     new Identifier(PARAMETER_NAME),
                     PARAMETER_DESCRIPTION, AttributeType.STRING, "",
-                    false, new Duration(3), null, null));
+                    false, new Duration(3), null, null, false));
             registrationObject.registerParameters(defs);
         }
 

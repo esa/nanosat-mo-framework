@@ -498,7 +498,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         defsOther.add(new ParameterDefinition(
                 new Identifier(PARAMETER_ADCS_MODE),
                 "The ADCS mode of operation",
-                AttributeType.UOCTET, "", false, new Duration(0), null, paramConversion));
+                AttributeType.UOCTET, "", false, new Duration(0), null, paramConversion, false));
 
         registration.registerParameters(defsOther);
     }

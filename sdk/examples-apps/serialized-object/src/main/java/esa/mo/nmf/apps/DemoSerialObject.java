@@ -66,7 +66,7 @@ public class DemoSerialObject {
 
             defsOther.add(new ParameterDefinition(new Identifier(PARAMETER),
                     "A single parameter.", AttributeType.STRING, "",
-                true, new Duration(0), null, null));
+                true, new Duration(0), null, null, false));
 
             registrationObject.registerParameters(defsOther);
         }
