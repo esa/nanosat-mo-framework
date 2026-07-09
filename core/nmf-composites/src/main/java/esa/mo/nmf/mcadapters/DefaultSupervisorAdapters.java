@@ -21,6 +21,7 @@
 package esa.mo.nmf.mcadapters;
 
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
+import esa.mo.nmf.NMFProvider;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,12 +47,15 @@ public final class DefaultSupervisorAdapters {
     /**
      * Creates the list of default Supervisor MC adapters.
      *
+     * @param provider The Supervisor provider, used by adapters that report
+     * action execution progress (e.g. the bootloader baseline commanding).
      * @return The default adapters, in registration order.
      */
-    public static List<MonitorAndControlNMFAdapter> create() {
+    public static List<MonitorAndControlNMFAdapter> create(NMFProvider provider) {
         List<MonitorAndControlNMFAdapter> adapters = new ArrayList<>();
         adapters.add(new SupervisorInfoMCAdapter());
         adapters.add(new MemoryMCAdapter());
+        adapters.add(new BootloaderMCAdapter(provider));
         return adapters;
     }
 }

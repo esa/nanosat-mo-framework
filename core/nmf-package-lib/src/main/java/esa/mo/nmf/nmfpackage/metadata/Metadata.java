@@ -243,8 +243,29 @@ public class Metadata {
         return TYPE_UPDATE_JAVA.equals(this.getPackageType());
     }
 
+    public boolean isNMF() {
+        return TYPE_UPDATE_NMF.equals(this.getPackageType());
+    }
+
+    public boolean isMission() {
+        return TYPE_UPDATE_MISSION.equals(this.getPackageType());
+    }
+
     public boolean isDependency() {
         return TYPE_DEPENDENCY.equals(this.getPackageType());
+    }
+
+    /**
+     * Whether this package delivers a component of an NMF Software Baseline
+     * (framework JARs, mission JARs or a Java runtime), as opposed to an App or
+     * a shared dependency. Such packages trigger the baseline checksum
+     * regeneration and the primary/secondary rotation in the Package Manager.
+     *
+     * @return {@code true} for {@code nmf}, {@code mission} and {@code java}
+     * package types.
+     */
+    public boolean isBaselineComponent() {
+        return isNMF() || isMission() || isJava();
     }
 
     public boolean sameAs(Metadata other) {

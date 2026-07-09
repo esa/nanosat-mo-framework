@@ -14,9 +14,12 @@ mapping, compliance matrix and deviations — is documented separately in :doc:`
 
 .. note::
 
-   Implementation status: the Nominal Sequence including the Confirmation step and the fallback ladder is
-   implemented (Phases 1–2). The ASW-side integration — Parameter service commanding, baseline rotation,
-   factory rejection, install-time checksum generation (Phase 3) — is not implemented yet.
+   Implementation status: fully implemented. The Nominal Sequence including the Confirmation step and the
+   fallback ladder (Phases 1–2) is complete, as is the ASW-side integration (Phase 3): the baseline files
+   are exposed as read-only Parameters with the *primary* baseline commanded through a validated
+   ``setPrimaryBaseline`` Action, the Package Management service rotates primary→secondary on a confirmed
+   baseline upgrade, rejects operations targeting the factory baseline, and regenerates the ``SHA256SUMS``
+   manifests of any baseline component it installs.
 
 Design overview
 ---------------
@@ -350,20 +353,23 @@ modify the bootloader.
   :Rationale: mirrors the SAVOIR rationale for boot memory: a failed or corrupted update must not be able
      to take down the component that recovers from it.
 
-**NMF.BOOT.BMM.02 — Baseline files control.** The baseline files shall be commandable from ground. The
-*primary* and *secondary* baselines shall be settable, and a set shall be validated before acceptance:
-the requested versions must be installed on disk and pass their integrity tests. The bootloader shall
-only read the baseline files.
+**NMF.BOOT.BMM.02 — Baseline files control.** The *primary* baseline shall be commandable from ground, and
+a set shall be validated before acceptance: the requested framework and mission versions must be installed
+on disk and pass their integrity tests, and the Java runtime must execute. The bootloader shall only read
+the baseline files.
 
   :Traces to: SAVOIR.BOOTSW.BEF.27
-  :Note: in the NMF, the baseline files are updated automatically by the Package Management service on a
-     confirmed upgrade (REC.04), and its fields are exposed through the Parameter service for direct
-     commanding (e.g. a manual rollback to the secondary baseline) — the NMF analogue of the SAVOIR
-     direct-TC/HPC-1 override path: ground must always be able to choose the baseline to be loaded,
-     independently of the package operations.
-  :Note: automatic rotation (REC.04) preserves the invariant that the secondary baseline has booted
-     successfully on the system at least once; a manual override of the secondary takes ownership of that
-     invariant. The read-only factory baseline file is covered by NMF.BOOT.BMM.03.
+  :Note: in the NMF the baseline fields are exposed as read-only Parameters, and the primary baseline is
+     commanded through a validated ``setPrimaryBaseline`` Action (rather than a settable Parameter) so that
+     an invalid request is rejected with an explicit error and the validation runs as reported stages
+     (REC.05). This is the NMF analogue of the SAVOIR direct-TC/HPC-1 override path: ground must always be
+     able to choose the baseline to be loaded, independently of the package operations.
+  :Note: the *secondary* baseline is not operator-settable — it is written only by the Package Management
+     service, which rotates the previously running primary into the secondary on a confirmed upgrade
+     (REC.04). This preserves the invariant that the secondary baseline has booted successfully on the
+     system at least once. A rollback to the secondary is performed by commanding ``setPrimaryBaseline``
+     with the secondary baseline's field values. The read-only factory baseline file is covered by
+     NMF.BOOT.BMM.03.
 
 **NMF.BOOT.BMM.03 — Factory baseline immutability.** The components of the factory baseline, their
 checksum manifests and the factory baseline file shall not be modified in flight; the

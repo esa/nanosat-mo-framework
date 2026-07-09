@@ -97,7 +97,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
 
         // Always expose the default Supervisor MC set, with the mission
         // adapter (if any) composed on top of it.
-        List<MonitorAndControlNMFAdapter> mcAdapters = DefaultSupervisorAdapters.create();
+        List<MonitorAndControlNMFAdapter> mcAdapters = DefaultSupervisorAdapters.create(this);
         if (mcAdapter != null) {
             mcAdapters.add(mcAdapter);
         }

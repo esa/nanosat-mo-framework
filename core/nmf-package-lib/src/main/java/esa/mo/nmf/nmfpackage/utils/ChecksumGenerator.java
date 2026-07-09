@@ -80,6 +80,48 @@ public class ChecksumGenerator {
     }
 
     /**
+     * Verifies a directory against its {@code SHA256SUMS} manifest, the same
+     * check the bootloader performs at boot time (but in Java, without relying
+     * on the {@code sha256sum} tool). Each file listed in the manifest must
+     * exist and match its recorded checksum.
+     *
+     * @param directory The directory holding the {@code SHA256SUMS} manifest.
+     * @return {@code true} if the manifest exists and every listed file matches
+     * its checksum; {@code false} if the manifest is missing or any file is
+     * absent or has a different checksum.
+     * @throws IOException if the manifest or a listed file cannot be read.
+     */
+    public static boolean verifyChecksums(File directory) throws IOException {
+        File checksumsFile = new File(directory, CHECKSUMS_FILENAME);
+        if (!checksumsFile.isFile()) {
+            return false;
+        }
+
+        for (String line : Files.readAllLines(checksumsFile.toPath(), StandardCharsets.UTF_8)) {
+            String entry = line.trim();
+            if (entry.isEmpty()) {
+                continue;
+            }
+            // sha256sum format: "<64-hex-digits>  <filename>" (two spaces)
+            int separator = entry.indexOf(' ');
+            if (separator < 0) {
+                return false;
+            }
+            String expected = entry.substring(0, separator).trim();
+            String name = entry.substring(separator).trim();
+
+            File file = new File(directory, name);
+            if (!file.isFile()) {
+                return false;
+            }
+            if (!expected.equalsIgnoreCase(sha256Hex(file))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Computes the SHA-256 checksum of a file.
      *
      * @param file The file to compute the checksum of.
