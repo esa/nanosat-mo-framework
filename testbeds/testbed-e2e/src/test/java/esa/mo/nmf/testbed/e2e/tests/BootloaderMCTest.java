@@ -28,6 +28,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
 import java.util.Properties;
 import org.ccsds.moims.mo.com.structures.Provider;
 import org.ccsds.moims.mo.com.structures.ProviderList;
@@ -71,11 +72,17 @@ public class BootloaderMCTest extends NMFTest {
 
     private static GroundMOAdapterImpl adapter;
     private static ParameterStub parameterStub;
+    private static byte[] primaryBaselineBackup;
 
     @BeforeClass
     public static void setUpClass() throws IOException, MALInteractionException, MALException {
         LOGGER.info(SETUP_CLASS_SEP + "\n" + SETUP_CLASS_MSG + "\n" + SETUP_CLASS_SEP);
         harness.setUp();
+
+        // These tests command the primary baseline, mutating the shared
+        // filesystem's baseline-primary.properties. Snapshot it so it can be
+        // restored, otherwise a later test class would boot the mutated baseline.
+        primaryBaselineBackup = Files.readAllBytes(baselineFile("primary").toPath());
 
         ProviderList providers = NMFConsumer.retrieveProvidersFromDirectory(
                 new URI(harness.getDirectoryURI()));
@@ -91,6 +98,11 @@ public class BootloaderMCTest extends NMFTest {
             adapter.closeConnections();
         }
         harness.tearDown();
+
+        // Restore the primary baseline so the shared filesystem is left as found
+        if (primaryBaselineBackup != null) {
+            Files.write(baselineFile("primary").toPath(), primaryBaselineBackup);
+        }
     }
 
     // Test — The bootloader parameters mirror the on-disk baseline file
@@ -199,11 +211,14 @@ public class BootloaderMCTest extends NMFTest {
         return expected.equals(readParam(name));
     }
 
-    private static Properties readBaselineFile(String role) throws IOException {
-        File file = new File(new File(harness.getNmfDir(), "bootloader"),
+    private static File baselineFile(String role) {
+        return new File(new File(harness.getNmfDir(), "bootloader"),
                 "baseline-" + role + ".properties");
+    }
+
+    private static Properties readBaselineFile(String role) throws IOException {
         Properties props = new Properties();
-        try (InputStream in = new FileInputStream(file)) {
+        try (InputStream in = new FileInputStream(baselineFile(role))) {
             props.load(in);
         }
         return props;
