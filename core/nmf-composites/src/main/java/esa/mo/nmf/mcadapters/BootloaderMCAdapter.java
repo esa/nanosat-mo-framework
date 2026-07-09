@@ -150,6 +150,9 @@ public class BootloaderMCAdapter extends MonitorAndControlNMFAdapter {
         }
         String role = rest.substring(0, dot);
         String field = rest.substring(dot + 1);
+        if (!isKnownRole(role)) {
+            return null; // Only the registered roles map to a baseline file
+        }
         SoftwareBaseline baseline = loadBaseline(role);
         if (baseline == null) {
             return str("");
@@ -198,6 +201,13 @@ public class BootloaderMCAdapter extends MonitorAndControlNMFAdapter {
         if (isBlank(nmfVersion) || isBlank(missionVersion) || isBlank(java) || isBlank(mainClass)) {
             fail(executionId, 1, "All baseline fields (nmf-version, mission-version, java, main-class) "
                     + "must be provided.");
+        }
+        // No control characters in any field: they would be written verbatim
+        // into the baseline properties file, so a newline could inject extra
+        // "key=value" lines (property injection).
+        if (hasControlChars(nmfVersion) || hasControlChars(missionVersion)
+                || hasControlChars(java) || hasControlChars(mainClass)) {
+            fail(executionId, 1, "Baseline fields must not contain control characters or line breaks.");
         }
         if (isUnsafeSegment(nmfVersion) || isUnsafeSegment(missionVersion)) {
             fail(executionId, 1, "The nmf-version and mission-version must be plain directory names "
@@ -339,5 +349,24 @@ public class BootloaderMCAdapter extends MonitorAndControlNMFAdapter {
 
     private static boolean isUnsafeSegment(String value) {
         return value.contains("..") || value.contains("/") || value.contains("\\");
+    }
+
+    private static boolean hasControlChars(String value) {
+        for (int i = 0; i < value.length(); i++) {
+            char c = value.charAt(i);
+            if (c < 0x20 || c == 0x7f) { // C0 control characters (incl. CR, LF, TAB) and DEL
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean isKnownRole(String role) {
+        for (String known : ROLES) {
+            if (known.equals(role)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -73,4 +73,16 @@ public class ChecksumGeneratorTest {
         Assert.assertFalse("A directory without a manifest must not verify",
                 ChecksumGenerator.verifyChecksums(dir));
     }
+
+    @Test
+    public void testManifestWithPathTraversalFailsVerification() throws Exception {
+        File dir = newDirWithFiles();
+        // A crafted manifest that points outside the directory must be rejected,
+        // not followed, even if the traversed file happens to exist.
+        String hash = ChecksumGenerator.sha256Hex(new File(dir, "a.jar"));
+        Files.write(new File(dir, ChecksumGenerator.CHECKSUMS_FILENAME).toPath(),
+                (hash + "  ../a.jar\n").getBytes(StandardCharsets.UTF_8));
+        Assert.assertFalse("A manifest with path traversal must fail verification",
+                ChecksumGenerator.verifyChecksums(dir));
+    }
 }

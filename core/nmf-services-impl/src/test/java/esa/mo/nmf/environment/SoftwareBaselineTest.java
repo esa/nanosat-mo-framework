@@ -21,6 +21,7 @@
 package esa.mo.nmf.environment;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import org.junit.Assert;
@@ -63,6 +64,23 @@ public class SoftwareBaselineTest {
         Assert.assertEquals("B", loaded.getMainClass());
         // No temporary file must be left behind
         Assert.assertFalse(new File(dir, "baseline-primary.properties.tmp").exists());
+    }
+
+    @Test
+    public void testStoreRejectsLineBreaksInAField() throws Exception {
+        File dir = Files.createTempDirectory("baseline-test").toFile();
+        File file = new File(dir, "baseline-primary.properties");
+
+        // A newline in a field would inject extra "key=value" lines
+        SoftwareBaseline injected = new SoftwareBaseline("5.0", "1.0", "system",
+                "Foo\njava=/tmp/evil");
+        try {
+            injected.store(file);
+            Assert.fail("Storing a field with a line break must throw");
+        } catch (IOException expected) {
+            // The file must not have been created with the injected content
+            Assert.assertFalse("No baseline file must be written on rejection", file.exists());
+        }
     }
 
     @Test

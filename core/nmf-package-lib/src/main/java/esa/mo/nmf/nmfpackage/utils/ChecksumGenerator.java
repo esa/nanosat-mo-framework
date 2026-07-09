@@ -110,6 +110,13 @@ public class ChecksumGenerator {
             String expected = entry.substring(0, separator).trim();
             String name = entry.substring(separator).trim();
 
+            // A manifest entry must name a plain file directly inside the
+            // directory. Reject path separators and traversal so a crafted
+            // manifest cannot make the check read a file outside the directory.
+            if (name.contains("/") || name.contains("\\") || name.contains("..")) {
+                return false;
+            }
+
             File file = new File(directory, name);
             if (!file.isFile()) {
                 return false;

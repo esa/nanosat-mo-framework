@@ -129,12 +129,16 @@ public class SoftwareBaseline {
      * @throws IOException if the file cannot be written.
      */
     public void store(File file) throws IOException {
+        // Reject line breaks in any field: values are written verbatim as
+        // "key=value" lines, so an embedded newline would inject extra
+        // properties into the file (property injection). This is the central
+        // guard for every writer of a baseline file.
         String content = "# NMF Software Baseline\n"
-                + KEY_SCHEMA_VERSION + "=" + nullToEmpty(schemaVersion) + "\n"
-                + KEY_NMF_VERSION + "=" + nullToEmpty(nmfVersion) + "\n"
-                + KEY_MISSION_VERSION + "=" + nullToEmpty(missionVersion) + "\n"
-                + KEY_JAVA + "=" + nullToEmpty(java) + "\n"
-                + KEY_MAIN_CLASS + "=" + nullToEmpty(mainClass) + "\n";
+                + KEY_SCHEMA_VERSION + "=" + requireSingleLine(schemaVersion) + "\n"
+                + KEY_NMF_VERSION + "=" + requireSingleLine(nmfVersion) + "\n"
+                + KEY_MISSION_VERSION + "=" + requireSingleLine(missionVersion) + "\n"
+                + KEY_JAVA + "=" + requireSingleLine(java) + "\n"
+                + KEY_MAIN_CLASS + "=" + requireSingleLine(mainClass) + "\n";
 
         File temp = new File(file.getParentFile(), file.getName() + ".tmp");
         Files.write(temp.toPath(), content.getBytes(StandardCharsets.UTF_8));
@@ -162,7 +166,13 @@ public class SoftwareBaseline {
         return mainClass;
     }
 
-    private static String nullToEmpty(String value) {
-        return (value == null) ? "" : value;
+    private static String requireSingleLine(String value) throws IOException {
+        if (value == null) {
+            return "";
+        }
+        if (value.indexOf('\n') >= 0 || value.indexOf('\r') >= 0) {
+            throw new IOException("A baseline field must not contain line breaks.");
+        }
+        return value;
     }
 }
