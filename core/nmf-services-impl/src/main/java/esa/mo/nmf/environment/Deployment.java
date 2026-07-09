@@ -52,9 +52,16 @@ public class Deployment {
     public static final String DIR_PACKAGES = "packages";
     public static final String DIR_PUBLIC = "public";
 
-    public static final String FILE_BASELINE_PRIMARY = "baseline-primary.properties";
-    public static final String FILE_BASELINE_SECONDARY = "baseline-secondary.properties";
-    public static final String FILE_BASELINE_FACTORY = "baseline-factory.properties";
+    public static final String ROLE_PRIMARY = "primary";
+    public static final String ROLE_SECONDARY = "secondary";
+    public static final String ROLE_FACTORY = "factory";
+
+    private static final String BASELINE_FILE_PREFIX = "baseline-";
+    private static final String BASELINE_FILE_SUFFIX = ".properties";
+
+    public static final String FILE_BASELINE_PRIMARY = BASELINE_FILE_PREFIX + ROLE_PRIMARY + BASELINE_FILE_SUFFIX;
+    public static final String FILE_BASELINE_SECONDARY = BASELINE_FILE_PREFIX + ROLE_SECONDARY + BASELINE_FILE_SUFFIX;
+    public static final String FILE_BASELINE_FACTORY = BASELINE_FILE_PREFIX + ROLE_FACTORY + BASELINE_FILE_SUFFIX;
     public static final String FILE_BOOTLOADER_CONFIG = "config.properties";
     public static final String FILE_BOOTLOADER_STATE = "state.properties";
     public static final String FILE_BOOT_CONFIRMED = "boot-confirmed";
@@ -106,6 +113,28 @@ public class Deployment {
      */
     public static File getBootloaderDir() {
         return new File(getNMFRootDir(), DIR_BOOTLOADER);
+    }
+
+    /**
+     * Returns the file name of the baseline file for a given role.
+     *
+     * @param role The baseline role ({@link #ROLE_PRIMARY},
+     * {@link #ROLE_SECONDARY} or {@link #ROLE_FACTORY}).
+     * @return The baseline file name, e.g. {@code baseline-primary.properties}.
+     */
+    public static String baselineFileName(String role) {
+        return BASELINE_FILE_PREFIX + role + BASELINE_FILE_SUFFIX;
+    }
+
+    /**
+     * Returns the baseline file for a given role, in the bootloader directory.
+     *
+     * @param role The baseline role ({@link #ROLE_PRIMARY},
+     * {@link #ROLE_SECONDARY} or {@link #ROLE_FACTORY}).
+     * @return The baseline file.
+     */
+    public static File getBaselineFile(String role) {
+        return new File(getBootloaderDir(), baselineFileName(role));
     }
 
     /**

@@ -21,6 +21,7 @@
 package esa.mo.nmf.testbed.e2e.tests;
 
 import esa.mo.nmf.NMFConsumer;
+import esa.mo.nmf.environment.Deployment;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.nmf.testbed.e2e.SupervisorHarness;
 import java.io.File;
@@ -82,7 +83,7 @@ public class BootloaderMCTest extends NMFTest {
         // These tests command the primary baseline, mutating the shared
         // filesystem's baseline-primary.properties. Snapshot it so it can be
         // restored, otherwise a later test class would boot the mutated baseline.
-        primaryBaselineBackup = Files.readAllBytes(baselineFile("primary").toPath());
+        primaryBaselineBackup = Files.readAllBytes(baselineFile(Deployment.ROLE_PRIMARY).toPath());
 
         ProviderList providers = NMFConsumer.retrieveProvidersFromDirectory(
                 new URI(harness.getDirectoryURI()));
@@ -101,7 +102,7 @@ public class BootloaderMCTest extends NMFTest {
 
         // Restore the primary baseline so the shared filesystem is left as found
         if (primaryBaselineBackup != null) {
-            Files.write(baselineFile("primary").toPath(), primaryBaselineBackup);
+            Files.write(baselineFile(Deployment.ROLE_PRIMARY).toPath(), primaryBaselineBackup);
         }
     }
 
@@ -110,7 +111,7 @@ public class BootloaderMCTest extends NMFTest {
     @Test
     public void testBootloaderParamsMatchBaselineFile() throws Exception {
         LOGGER.info(SEP + "\nRunning: testBootloaderParamsMatchBaselineFile()\n" + SEP);
-        Properties primary = readBaselineFile("primary");
+        Properties primary = readBaselineFile(Deployment.ROLE_PRIMARY);
 
         Assert.assertEquals(primary.getProperty("nmf-version"), readParam(P_NMF));
         Assert.assertEquals(primary.getProperty("mission-version"), readParam(P_MISSION));
@@ -144,7 +145,7 @@ public class BootloaderMCTest extends NMFTest {
     @Test
     public void testSetPrimaryBaselineValidCommits() throws Exception {
         LOGGER.info(SEP + "\nRunning: testSetPrimaryBaselineValidCommits()\n" + SEP);
-        Properties primary = readBaselineFile("primary");
+        Properties primary = readBaselineFile(Deployment.ROLE_PRIMARY);
         String nmf = primary.getProperty("nmf-version");
         String mission = primary.getProperty("mission-version");
         String java = primary.getProperty("java");
@@ -160,7 +161,7 @@ public class BootloaderMCTest extends NMFTest {
         Assert.assertTrue("The primary main-class must be updated on disk",
                 waitForParam(P_MAIN_CLASS, sentinel));
         Assert.assertEquals("The on-disk baseline file must carry the new main-class",
-                sentinel, readBaselineFile("primary").getProperty("main-class"));
+                sentinel, readBaselineFile(Deployment.ROLE_PRIMARY).getProperty("main-class"));
         // The validated version fields must be preserved
         Assert.assertEquals(nmf, readParam(P_NMF));
         Assert.assertEquals(mission, readParam(P_MISSION));
@@ -171,7 +172,7 @@ public class BootloaderMCTest extends NMFTest {
     @Test
     public void testSetPrimaryBaselineInvalidRejected() throws Exception {
         LOGGER.info(SEP + "\nRunning: testSetPrimaryBaselineInvalidRejected()\n" + SEP);
-        Properties before = readBaselineFile("primary");
+        Properties before = readBaselineFile(Deployment.ROLE_PRIMARY);
         String mission = before.getProperty("mission-version");
         String java = before.getProperty("java");
         String mainClass = before.getProperty("main-class");
@@ -186,7 +187,7 @@ public class BootloaderMCTest extends NMFTest {
                 bogusNmf, readParam(P_NMF));
         Assert.assertEquals("The on-disk baseline file must be unchanged",
                 before.getProperty("nmf-version"),
-                readBaselineFile("primary").getProperty("nmf-version"));
+                readBaselineFile(Deployment.ROLE_PRIMARY).getProperty("nmf-version"));
     }
 
     // Helpers
@@ -212,8 +213,8 @@ public class BootloaderMCTest extends NMFTest {
     }
 
     private static File baselineFile(String role) {
-        return new File(new File(harness.getNmfDir(), "bootloader"),
-                "baseline-" + role + ".properties");
+        return new File(new File(harness.getNmfDir(), Deployment.DIR_BOOTLOADER),
+                Deployment.baselineFileName(role));
     }
 
     private static Properties readBaselineFile(String role) throws IOException {

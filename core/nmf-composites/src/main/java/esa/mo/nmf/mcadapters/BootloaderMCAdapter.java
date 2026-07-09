@@ -70,7 +70,9 @@ public class BootloaderMCAdapter extends MonitorAndControlNMFAdapter {
     private static final String PREFIX = "bootloader.";
     private static final String ACTION_SET_PRIMARY = "bootloader.setPrimaryBaseline";
 
-    private static final String[] ROLES = {"primary", "secondary", "factory"};
+    private static final String[] ROLES = {
+        Deployment.ROLE_PRIMARY, Deployment.ROLE_SECONDARY, Deployment.ROLE_FACTORY
+    };
 
     private static final String FIELD_NMF_VERSION = "nmf-version";
     private static final String FIELD_MISSION_VERSION = "mission-version";
@@ -305,7 +307,7 @@ public class BootloaderMCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     private SoftwareBaseline loadBaseline(String role) {
-        File file = new File(Deployment.getBootloaderDir(), "baseline-" + role + ".properties");
+        File file = Deployment.getBaselineFile(role);
         if (!file.isFile()) {
             return null;
         }
