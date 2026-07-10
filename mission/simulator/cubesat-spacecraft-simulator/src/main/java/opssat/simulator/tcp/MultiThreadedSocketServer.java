@@ -245,7 +245,7 @@ public class MultiThreadedSocketServer extends Thread {
                 in = new ObjectInputStream(myClientSocket.getInputStream());
                 // Restrict deserialization to the expected message types and
                 // bound resource use: the client is untrusted network input.
-                in.setObjectInputFilter(SimulatorSerialFilter.get());
+                in.setObjectInputFilter(SimulatorSerialFilter.serverFilter());
                 // At this point, we can read for input and reply with appropriate output.
 
                 // Run in a loop until m_bRunThread is set to false

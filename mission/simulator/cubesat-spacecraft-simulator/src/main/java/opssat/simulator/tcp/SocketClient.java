@@ -154,9 +154,9 @@ public class SocketClient extends Thread {
                 // Create the streams to send and receive information
 
                 in = new ObjectInputStream(socket.getInputStream());
-                // Restrict deserialization to the expected message types and
+                // Restrict deserialization to the simulator's own DTO types and
                 // bound resource use, in case the server is hostile or MitM'd.
-                in.setObjectInputFilter(SimulatorSerialFilter.get());
+                in.setObjectInputFilter(SimulatorSerialFilter.clientFilter());
 
                 while (true) {
 
@@ -180,8 +180,15 @@ public class SocketClient extends Thread {
             } catch (IOException ioe) {
                 System.out.println("Receiver Exception during communication. Server probably closed connection.");
                 this.parent.getGuiMainWindow().showConnectedInfo(false);
+                // If the deserialization filter rejected a message, report which
+                // one so a blocked (but legitimate) type is diagnosable here.
+                String detail = (ioe instanceof java.io.InvalidClassException
+                        && SimulatorSerialFilter.lastRejection() != null)
+                                ? " [deserialization filter rejected " + SimulatorSerialFilter.lastRejection() + "]"
+                                : "";
                 this.parent.getFromServerQueue().offer(
-                    "Local;Receiver;Exception during communication. Server probably closed connection." + ioe);
+                    "Local;Receiver;Exception during communication. Server probably closed connection."
+                    + ioe + detail);
 
             } finally {
                 try {
