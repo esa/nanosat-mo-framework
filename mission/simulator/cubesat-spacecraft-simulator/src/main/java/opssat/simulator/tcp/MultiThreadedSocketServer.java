@@ -131,8 +131,11 @@ public class MultiThreadedSocketServer extends Thread {
                 InetAddress addr = InetAddress.getByName(listenURL);
                 targetPort = this.listenPort + currentTries;
                 logger.log(Level.FINE, "Create server socket on port [" + targetPort + "].");
-                myServerSocket = new ServerSocket(targetPort, 10);
-                logger.log(Level.INFO, "ServerSocket created on port [" + targetPort + "]");
+                // Bind to the resolved listenURL address (e.g. loopback) rather
+                // than the wildcard 0.0.0.0, so the operator's configured
+                // address actually restricts exposure.
+                myServerSocket = new ServerSocket(targetPort, 10, addr);
+                logger.log(Level.INFO, "ServerSocket created on [" + addr + "] port [" + targetPort + "]");
 
             } catch (IOException ioe) {
                 logger.log(Level.INFO, "Could not create server socket on port [" + targetPort + "].");
@@ -240,6 +243,9 @@ public class MultiThreadedSocketServer extends Thread {
             try {
 
                 in = new ObjectInputStream(myClientSocket.getInputStream());
+                // Restrict deserialization to the expected message types and
+                // bound resource use: the client is untrusted network input.
+                in.setObjectInputFilter(SimulatorSerialFilter.get());
                 // At this point, we can read for input and reply with appropriate output.
 
                 // Run in a loop until m_bRunThread is set to false

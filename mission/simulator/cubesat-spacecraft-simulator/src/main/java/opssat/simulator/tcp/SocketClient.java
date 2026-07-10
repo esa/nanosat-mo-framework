@@ -154,6 +154,9 @@ public class SocketClient extends Thread {
                 // Create the streams to send and receive information
 
                 in = new ObjectInputStream(socket.getInputStream());
+                // Restrict deserialization to the expected message types and
+                // bound resource use, in case the server is hostile or MitM'd.
+                in.setObjectInputFilter(SimulatorSerialFilter.get());
 
                 while (true) {
 
