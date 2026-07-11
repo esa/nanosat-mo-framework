@@ -92,6 +92,13 @@ public class GenerateFilesystemMojo extends AbstractMojo {
     @Parameter(property = "generate-filesystem.libs")
     private List<String> libs;
 
+    /**
+     * The mission and spacecraft designation written into
+     * {@code etc/mission.properties}. See {@link Mission}.
+     */
+    @Parameter
+    private Mission mission;
+
     @Override
     public void execute() throws MojoExecutionException {
         getLog().info("Generating Linux Filesystem...");
@@ -129,6 +136,29 @@ public class GenerateFilesystemMojo extends AbstractMojo {
             String file_logging = "logging.properties";
             getLog().info("  >> Adding DIR_ETC: " + file_logging);
             filesystem.addResource(Deployment.DIR_ETC, file_logging);
+        } catch (IOException ex) {
+            throw new MojoExecutionException(ex);
+        }
+
+        // Add the mission.properties file
+        if (mission == null) {
+            throw new MojoExecutionException("The <mission> configuration is not defined!"
+                    + " Please include in the <configuration> tag:\n"
+                    + "-> \t\t<mission>\n"
+                    + "-> \t\t\t<missionName>...</missionName>\n"
+                    + "-> \t\t\t<spacecraftName>...</spacecraftName>\n"
+                    + "-> \t\t\t<organizationAbbreviation>...</organizationAbbreviation>\n"
+                    + "-> \t\t</mission>\n\n\n");
+        }
+        try {
+            mission.checkRequiredFields();
+        } catch (IllegalArgumentException ex) {
+            throw new MojoExecutionException("Invalid <mission> configuration: " + ex.getMessage());
+        }
+        try {
+            getLog().info("  >> Adding DIR_ETC: " + Deployment.FILE_MISSION_PROPERTIES);
+            filesystem.addGeneratedFile(Deployment.DIR_ETC, Deployment.FILE_MISSION_PROPERTIES,
+                    mission.toPropertiesContent());
         } catch (IOException ex) {
             throw new MojoExecutionException(ex);
         }

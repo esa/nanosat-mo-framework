@@ -93,6 +93,12 @@
                                 </goals>
                                 <configuration>
                                     <supervisorMainClass>esa.mo.nmf.mission.barebone.BareboneSupervisorImpl</supervisorMainClass>
+                                    <mission>
+                                        <missionName>barebone</missionName>
+                                        <spacecraftName>barebone</spacecraftName>
+                                        <organizationAbbreviation>ESA</organizationAbbreviation>
+                                        <organizationName>European Space Agency</organizationName>
+                                    </mission>
                                 </configuration>
                             </execution>
                         </executions>

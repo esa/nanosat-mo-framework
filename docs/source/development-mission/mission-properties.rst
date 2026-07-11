@@ -75,6 +75,33 @@ values that differ from unit to unit.
      - The operating organization's full name as registered in SANA (``European Space Agency``,
        ``Novaradar Ltd``, ``Linkstar Corp.``). Human-readable metadata only.
 
+Generating the file
+-------------------
+
+The file is produced by the ``nmf-linux-maven-plugin`` from a ``<mission>`` block inside the
+``generate-filesystem`` execution's ``<configuration>`` (see :doc:`filesystem` for the rest of the plugin
+setup):
+
+.. code-block:: xml
+
+    <configuration>
+      <supervisorMainClass>...</supervisorMainClass>
+      <mission>
+        <missionName>OPS-SAT</missionName>
+        <spacecraftName>OPS-SAT</spacecraftName>
+        <spacecraftNode>1</spacecraftNode>
+        <spacecraftScid>0x032A</spacecraftScid>
+        <organizationAbbreviation>ESA</organizationAbbreviation>
+        <organizationName>European Space Agency</organizationName>
+      </mission>
+    </configuration>
+
+The configuration elements are camelCase and map onto the dotted property keys of the generated file
+(``missionName`` becomes ``mission.name``, ``spacecraftName`` becomes ``spacecraft.name``,
+``organizationAbbreviation`` becomes ``organization.abbreviation``, and so on). ``missionName``,
+``spacecraftName`` and ``organizationAbbreviation`` are required; ``spacecraftNode`` defaults to ``1``, and
+``spacecraftScid`` and ``organizationName`` are omitted from the file when not set.
+
 .. _mission-properties-ccsds:
 
 Grounding in CCSDS / SANA

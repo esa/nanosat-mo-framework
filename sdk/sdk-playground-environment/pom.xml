@@ -154,6 +154,12 @@
                         </goals>
                         <configuration>
                             <supervisorMainClass>esa.mo.nmf.sim.supervisor.NanosatMOSupervisorBasicImpl</supervisorMainClass>
+                            <mission>
+                                <missionName>sdk</missionName>
+                                <spacecraftName>SDK</spacecraftName>
+                                <organizationAbbreviation>ESA</organizationAbbreviation>
+                                <organizationName>European Space Agency</organizationName>
+                            </mission>
                         </configuration>
                     </execution>
                     <execution>

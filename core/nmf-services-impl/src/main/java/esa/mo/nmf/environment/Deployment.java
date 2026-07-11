@@ -65,6 +65,7 @@ public class Deployment {
     public static final String FILE_BOOTLOADER_CONFIG = "config.properties";
     public static final String FILE_BOOTLOADER_STATE = "state.properties";
     public static final String FILE_BOOT_CONFIRMED = "boot-confirmed";
+    public static final String FILE_MISSION_PROPERTIES = "mission.properties";
 
     private static final String DIR_INSTALLATIONS_TRACKER = "installations-tracker";
 
