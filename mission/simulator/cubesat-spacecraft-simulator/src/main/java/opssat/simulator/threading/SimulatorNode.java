@@ -78,6 +78,11 @@ public class SimulatorNode extends TaskNode {
     private LinkedList<CommandDescriptor> commandsQueue;
     private LinkedList<CommandResult> commandsResults;
     private LinkedList<SimulatorDeviceData> simulatorDevices;
+    // Periodic feeds (SimulatorData / scheduler / device / celestia) whose timer
+    // elapsed in a cycle but that have not been emitted yet. dataOut() drains one
+    // per call so feeds whose timers coincide are not dropped. Accessed only from
+    // the single node thread.
+    private final LinkedList<Object> pendingPeriodicOut = new LinkedList<>();
     SimulatorData simulatorData;
     SimulatorHeader simulatorHeader;
     HashMap<DevDatPBind, ArgumentDescriptor> hMapSDData;
@@ -1011,11 +1016,18 @@ public class SimulatorNode extends TaskNode {
             newDataOut.addAll(simulatorDevices);
             return newDataOut;
         }
+        // Collect every periodic feed whose timer elapsed this cycle and emit one
+        // per call. manageTime() resets all timers each loop regardless of what
+        // dataOut() returned, and DEVICE_DATA (1000 ms) and SCHEDULER_DATA (5000 ms)
+        // are exact multiples of SIMULATOR_DATA (500 ms): returning only the first
+        // elapsed feed let SimulatorData win every time they coincided, so device
+        // and scheduler data were never sent. Queue the extras and drain one per
+        // loop so they all get through.
         if (super.getTimers().get(TIMER_SIMULATOR_DATA).isElapsed()) {
-            return simulatorData;
+            pendingPeriodicOut.add(simulatorData);
         }
         if (super.getTimers().get(TIMER_SCHEDULER_DATA).isElapsed()) {
-            return schedulerData;
+            pendingPeriodicOut.add(schedulerData);
         }
         if (super.getTimers().get(TIMER_CELESTIA_DATA).isElapsed() && simulatorHeader.isUseCelestia() && simulatorHeader
                 .isUseOrekitPropagator()) {
@@ -1029,7 +1041,7 @@ public class SimulatorNode extends TaskNode {
                 celestiaData.setAos(orekitCore.getNextAOS());
                 celestiaData.setLos(orekitCore.getNextLOS());
                 celestiaData.setInfo("Time|x" + this.simulatorData.getTimeFactor() + "|" + orekitCore.getOrekitInfo());
-                return celestiaData;
+                pendingPeriodicOut.add(celestiaData);
             }
         }
         if (super.getTimers().get(TIMER_DEVICE_DATA).isElapsed()) {
@@ -1074,9 +1086,9 @@ public class SimulatorNode extends TaskNode {
             this.hMapSDData.get(DevDatPBind.SDR_OperatingBuffer).setType(this.sdrBuffer.getDataBufferAsString());
             this.hMapSDData.get(DevDatPBind.SDR_OperatingBufferIndex).setType(this.sdrBuffer.getOperatingIndex());
 
-            return simulatorDevices;
+            pendingPeriodicOut.add(simulatorDevices);
         }
-        return null;
+        return pendingPeriodicOut.poll();
     }
 
     public long getSimulatedTime() {
