@@ -57,6 +57,8 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     private final static Logger LOGGER = Logger.getLogger(
             AutonomousADCSProviderServiceImpl.class.getName());
     private final static Duration MINIMUM_MONITORING_PERIOD = new Duration(0.1); // 100 Milliseconds
+    // Reaction wheel safety limit: 10 000 RPM expressed in rad/s (10000 * 2*pi / 60).
+    private final static float MAX_REACTION_WHEEL_SPEED = (float) (10_000 * 2 * Math.PI / 60);
     private int resultCacheValidityMs;
     private MALProvider autonomousADCSServiceProvider;
     private boolean initialiased = false;
@@ -382,7 +384,14 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
     @Override
     public void setAllReactionWheelParameters(ReactionWheelParameters parameters,
-            MALInteraction interaction) throws DeviceNotAvailableException, MALInteractionException, MALException {
+            MALInteraction interaction) throws DeviceNotAvailableException, InvalidArgumentException, MALInteractionException, MALException {
+        if (!adapter.isUnitAvailable()) {
+            throw new DeviceNotAvailableException(null);
+        }
+        Float maxSpeed = parameters.getMaxSpeed();
+        if (maxSpeed != null && maxSpeed > MAX_REACTION_WHEEL_SPEED) {
+            throw new InvalidArgumentException(Attribute.javaType2Attribute(MAX_REACTION_WHEEL_SPEED));
+        }
         adapter.setAllReactionWheelParameters(parameters);
     }
 

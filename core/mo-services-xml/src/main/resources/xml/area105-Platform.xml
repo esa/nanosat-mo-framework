@@ -45,6 +45,12 @@
                     </mal:messages>
                 </mal:pubsubIP>
                 <mal:submitIP name="enableStream" number="2" comment="The enableStream operation allows a consumer to set the rate, dimension and format of the Pictures being streamed.">
+                    <mal:documentation name="Requirement" order="1">
+                        If the enable field is TRUE, then the service provider shall periodically publish pictures through the picturesStream operation at the rate given by the streamingPeriod field.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the enable field is FALSE, then the service provider shall stop publishing pictures through the picturesStream operation.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:submit>
                             <mal:field name="enable" canBeNull="true" comment="Flag to enable or disable the pictures stream from the camera. If set to FALSE, all other fields are ignored and can be NULL.">
@@ -68,10 +74,10 @@
                         <mal:errorRef comment="When the Camera unit is not available.">
                             <mal:type area="Platform" list="false" name="Device Not Available" />
                         </mal:errorRef>
-                        <mal:errorRef comment="When the requested streaming period is not supported.">
+                        <mal:errorRef comment="When the streamingPeriod field is less than the minimum supported streaming period.">
                             <mal:type area="COM" list="false" name="Invalid Argument" />
                             <mal:extraInformation
-                                comment="The minimum duration that can be selected.">
+                                comment="The minimum streaming period that can be selected.">
                                 <mal:type area="MAL" list="false" name="Duration" />
                             </mal:extraInformation>
                         </mal:errorRef>
@@ -95,6 +101,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="2" comment="">
                 <mal:requestIP name="previewPicture" number="4" comment="The previewPicture operation allows a consumer to quickly get a raw picture from the camera with a lower quality. This operation is intended to provide a quick snap of what the camera is observing.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall acquire the preview picture in the RAW picture format.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:request>
                         </mal:request>
@@ -113,6 +122,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="3" comment="">
                 <mal:invokeIP name="takePicture" number="5" comment="The takePicture operation allows a consumer to take a picture from the camera. The appropriate dimension and format of the picture can be selected.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall acquire the picture using the resolution, format and exposureTime given in the settings field.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:invoke>
                             <mal:field name="settings" canBeNull="true" comment="Picture acquisition settings.">
@@ -151,6 +163,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="36" comment="">
                 <mal:invokeIP name="takeAutoExposedPicture" number="15" comment="The takeAutoExposedPicture operation allows a consumer to take a picture from the camera. The appropriate dimension and format of the picture can be selected. The exposure will be auto calculated, but it is slower than using takePicture.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall determine the exposure time automatically, ignoring the exposureTime of the settings field.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:invoke>
                             <mal:field name="settings" canBeNull="true" comment="Picture acquisition settings.">
@@ -189,6 +204,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="4" comment="">
                 <mal:requestIP name="getProperties" number="6" comment="The getProperties operation allows a consumer to request the properties of the service and camera. The service shall provide information about the available resolutions, formats and some extra information.">
+                    <mal:documentation name="Requirement" order="1">
+                        The availableResolutions and availableFormats fields of the RESPONSE message shall enumerate the resolutions and formats that the service accepts for the takePicture and enableStream operations.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:request>
                         </mal:request>
@@ -208,6 +226,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="5" comment="">
                 <mal:invokeIP name="preprocessPicture" number="7" comment="The preprocessPicture operation allows a consumer to preprocess a picture.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the inputPicture after applying the preprocessing selected by the settings field.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:invoke>
                             <mal:field name="inputPicture" canBeNull="true" comment="The input picture to be preprocessed.">
@@ -262,6 +283,9 @@
             </mal:documentation>
             <mal:capabilitySet number="1" comment="">
                 <mal:invokeIP name="getNMEASentence" number="1" comment="The getNMEASentence operation allows a consumer to request a NMEA sentence from a sentence identifier.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the NMEA sentence produced by the GPS unit for the sentenceIdentifier field.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:invoke>
                             <mal:field name="sentenceIdentifier" canBeNull="true" comment="The sentence identifier of the request.">
@@ -288,6 +312,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="2" comment="">
                 <mal:requestIP name="getLastKnownPosition" number="2" comment="The getLastKnownPosition operation allows a consumer to retrieve the last known position that was provided by the GPS unit.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall return the most recent position previously reported by the GPS unit, without triggering a new position acquisition.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:request>
                         </mal:request>
@@ -309,6 +336,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="3" comment="">
                 <mal:invokeIP name="getPosition" number="3" comment="The getPosition operation allows a consumer to obtain a position from the GPS unit.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall return the position determined by the GPS unit at the time of the request.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:invoke>
                         </mal:invoke>
@@ -332,6 +362,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="4" comment="">
                 <mal:invokeIP name="getSatellitesInfo" number="4" comment="The getSatellitesInfo operation allows a consumer to obtain the satellites information from the GPS.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the information of the satellites currently in view of the GPS unit.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:invoke>
                         </mal:invoke>
@@ -353,7 +386,7 @@
             <mal:capabilitySet number="5" comment="">
                 <mal:requestIP name="listNearbyPosition" number="5" comment="The listNearbyPosition operation allows a consumer to request the identifiers of the existing nearby position events in the service. The operation is expected to be used in conjunction with the COM archive for retrieval of the actual nearby position objects.">
                     <mal:documentation name="Requirement" order="1">
-                        A consumer may supply the wildcard value of '*' in the names field to return all supported nearby position events.
+                        If the names field contains the wildcard value of '*', then the service provider shall return the identifiers of all nearby position events.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         If the names field does not include the wildcard value, then the RESPONSE message shall maintain the same ordering as the REQUEST message.
@@ -374,6 +407,12 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="6" comment="">
                 <mal:requestIP name="addNearbyPosition" number="6" comment="The addNearbyPosition operation allows a consumer to define a list of nearby position events in the service. The new NearbyPosition objects are expected to be stored in the COM Archive by the provider of the GPS service.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall create one NearbyPosition object for each entry of the nearbyPositionDefinitions field.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        The ids field of the RESPONSE message shall maintain the same ordering as the nearbyPositionDefinitions field of the REQUEST message.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:request>
                             <mal:field name="nearbyPositionDefinitions" canBeNull="true" comment="The list of nearby position definitions to add.">
@@ -404,6 +443,9 @@
                     </mal:errors>
                 </mal:requestIP>
                 <mal:submitIP name="removeNearbyPosition" number="7" comment="The removeNearbyPosition operation allows a consumer to remove a list of nearby position events set in the service.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall remove each NearbyPosition object identified in the ids field, so that it no longer generates nearby position notifications.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:submit>
                             <mal:field name="ids" canBeNull="true" comment="The list of ids of the NearbyPosition objects to remove.">
@@ -454,6 +496,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="8" comment="">
                 <mal:invokeIP name="getBestXYZSentence" number="9" comment="The getBestXYZSentence operation allows a consumer to request a GNSS BestXYZ sentence returning cartesian x-, y- and z-coordinates of the satellite.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the GNSS BestXYZ sentence reported by the GPS unit at the time of the request.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:invoke>
                         </mal:invoke>
@@ -474,6 +519,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="9" comment="">
                 <mal:invokeIP name="getTIMEASentence" number="10" comment="The getTIMEASentence operation allows a consumer to request a GNSS TIMEA sentence returning information on UTC time of the satellite.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the GNSS TIMEA sentence reported by the GPS unit at the time of the request.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:invoke>
                         </mal:invoke>
@@ -494,6 +542,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="11" comment="">
                 <mal:requestIP name="getLastKnownPositionAndVelocity" number="11" comment="The getLastKnownPositionAndVelocity operation allows a consumer to retrieve the last known Position and Velocity in Cartesian coordinates, and the corresponding standard deviations that were provided by the GPS unit.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall return the most recent position and velocity previously reported by the GPS unit, without triggering a new acquisition.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:request>
                         </mal:request>
@@ -524,6 +575,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="12" comment="">
                 <mal:invokeIP name="getPositionAndVelocity" number="12" comment="The getPositionAndVelocity operation allows a consumer to obtain a position and velocity from the GPS unit.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall return the position and velocity determined by the GPS unit at the time of the request.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:invoke>
                         </mal:invoke>
@@ -556,6 +610,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="13" comment="">
                 <mal:invokeIP name="getTLE" number="13" comment="The getTLE operation allows a consumer to obtain the current TLE.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the current two-line element set for the spacecraft as reported by the GPS unit.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:invoke>
                         </mal:invoke>
@@ -722,6 +779,12 @@
                     </mal:messages>
                 </mal:pubsubIP>
                 <mal:submitIP name="enableMonitoring" number="2" comment="The enableMonitoring operation allows a consumer to enable attitude, actuator and mode telemetry updates published through the monitorAttitude operation.">
+                    <mal:documentation name="Requirement" order="1">
+                        If the enableGeneration field is TRUE, then the service provider shall periodically publish the attitude, actuator and mode telemetry through the monitorAttitude operation at the rate given by the monitoringInterval field.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the enableGeneration field is FALSE, then the service provider shall stop publishing telemetry through the monitorAttitude operation.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:submit>
                             <mal:field name="enableGeneration" canBeNull="true" comment="Flag enabling attitude status generation.">
@@ -744,6 +807,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="2" comment="">
                 <mal:requestIP name="getStatus" number="3" comment="The getStatus operation allows a consumer to request a single dataset of the current spacecraft attitude, ADCS actuators status, attitude control mode, and monitoring settings.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain a single snapshot of the current spacecraft attitude, ADCS actuators status, active attitude mode and monitoring settings.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:request>
                         </mal:request>
@@ -779,9 +845,7 @@
                 <mal:submitIP name="setDesiredAttitude" number="4" comment="The setDesiredAttitude operation allows a consumer to engage or disengage a certain attitude mode using an attitude mode.">
                     <mal:documentation name="Requirement" order="1">
                         If the duration field is NULL, then the service provider shall not automatically disengage the attitude setting.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
-                        If the duration field is NULL, then a consumer should use the setDesiredAttitude operation again to disengage the attitude setting.
+                        Note: The consumer disengages the attitude setting by calling the setDesiredAttitude operation again.
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
@@ -817,9 +881,12 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="20" comment="">
                 <mal:submitIP name="setReactionWheelSpeed" number="20" comment="The setReactionWheelSpeed operation allows a consumer to set a desired speed for the specified Reaction wheel in rad/second.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall set the target speed of the reaction wheel identified by the wheel field to the value of the speed field.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:submit>
-                            <mal:field name="wheel" canBeNull="false" comment="The Reaction wheel indentifier.">
+                            <mal:field name="wheel" canBeNull="false" comment="The Reaction wheel identifier.">
                                 <mal:type area="Platform" list="false" name="ReactionWheelIdentifier" />
                             </mal:field>
                             <mal:field name="speed" canBeNull="false" comment="Desired Speed in rad/second.">
@@ -836,6 +903,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="21" comment="">
                 <mal:submitIP name="setAllReactionWheelSpeeds" number="21" comment="The setAllReactionWheelSpeeds operation allows a consumer to set the desired speed for all Reaction wheels in rad/second.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall set the target speed of each reaction wheel to its corresponding speed field of the SUBMIT message.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:submit>
                             <mal:field name="speedX" canBeNull="false" comment="Desired Speed of wheel x in rad/second.">
@@ -866,10 +936,16 @@
                 </mal:submitIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="22" comment="">
-                <mal:submitIP name="setAllReactionWheelParameters" number="22" comment="The setAllReactionWheelParameters operation allows a consumer to set the desired parameters for all Reaction wheels. All parameters that are set to -1 will not be changed. Note: This will affect all ADCS operation modes; only maximum speed, maximum torque and control mode will be changed.">
+                <mal:submitIP name="setAllReactionWheelParameters" number="22" comment="The setAllReactionWheelParameters operation allows a consumer to set the desired parameters for all Reaction wheels. Any parameter field left NULL is not changed. Note: This will affect all ADCS operation modes; only maximum speed, maximum torque and control mode will be changed.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall apply the controlMode, maxSpeed and maxTorque of the rwParameters field to all reaction wheels.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If a field of the rwParameters composite is NULL, then the service provider shall leave the corresponding reaction wheel parameter unchanged.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:submit>
-                            <mal:field name="parameters" canBeNull="false" comment="Reaction wheel parameters.">
+                            <mal:field name="rwParameters" canBeNull="false" comment="Reaction wheel parameters.">
                                 <mal:type area="Platform" list="false" name="ReactionWheelParameters" />
                             </mal:field>
                         </mal:submit>
@@ -878,11 +954,20 @@
                         <mal:errorRef comment="When the ADCS unit is not available.">
                             <mal:type area="Platform" list="false" name="Device Not Available" />
                         </mal:errorRef>
+                        <mal:errorRef comment="When the maxSpeed field exceeds the maximum supported reaction wheel speed of 1047.197551 rad/second (10 000 RPM).">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="The maximum supported reaction wheel speed in rad/second.">
+                                <mal:type area="MAL" list="false" name="Float" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:submitIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="23" comment="">
                 <mal:submitIP name="setAllMagnetorquersDipoleMoments" number="23" comment="The setAllMagnetorquersDipoleMoments operation allows a consumer to set the desired dipole moments for all Magnetorquers in Am.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall set the dipole moment of each magnetorquer to its corresponding dipoleX, dipoleY or dipoleZ field of the SUBMIT message.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:submit>
                             <mal:field name="dipoleX" canBeNull="false" comment="Desired Dipole moment for Magnetorquer x in Am (in actuator frame).">
@@ -906,11 +991,14 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="24" comment="">
                 <mal:requestIP name="getAllReactionWheelParameters" number="24" comment="The getAllReactionWheelParameters operation allows a consumer to get all parameters that are currently set for the Reaction wheels.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the reaction wheel parameters currently set on the ADCS unit.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:request>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="parameters" canBeNull="false" comment="Reaction wheel parameters.">
+                            <mal:field name="rwParameters" canBeNull="false" comment="Reaction wheel parameters.">
                                 <mal:type area="Platform" list="false" name="ReactionWheelParameters" />
                             </mal:field>
                         </mal:response>
@@ -926,6 +1014,9 @@
         <mal:service name="SoftwareDefinedRadio" number="4" xsi:type="com:ExtendedServiceType" comment="The Software-defined Radio provides a generic mechanism to set, configure and receive data from a Software-defined Radio device.">
             <mal:capabilitySet number="1" comment="">
                 <mal:pubsubIP name="streamRadio" number="1" comment="The streamRadio operation allows a consumer to subscribe for Software-defined Radio data updates.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall publish IQ components through the streamRadio operation only while the Software-defined Radio is enabled, at the publishingPeriod configured through the enableSDR operation.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:publishNotify>
                             <mal:field name="iqComponents" canBeNull="true" comment="The in-phase and quadrature data from the Software-defined Radio unit.">
@@ -968,6 +1059,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="3" comment="">
                 <mal:submitIP name="updateConfiguration" number="3" comment="The updateConfiguration operation allows a consumer to set a configuration on the Software-defined Radio.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall apply the configuration field to the Software-defined Radio unit.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:submit>
                             <mal:field name="configuration" canBeNull="true" comment="The configuration of the SDR.">
@@ -987,6 +1081,9 @@
         <mal:service name="OpticalDataReceiver" number="5" xsi:type="com:ExtendedServiceType" comment="The Optical Data Receiver service provides a mechanism to receive messages from an Optical Data Receiver device.">
             <mal:capabilitySet number="1" comment="">
                 <mal:invokeIP name="recordSamples" number="1" comment="The recordSamples operation allows a consumer to record a sample.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the samples recorded from the Optical Data Receiver over the period given in the recordingDuration field.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:invoke>
                             <mal:field name="recordingDuration" canBeNull="true" comment="The duration of samples acquisition.">
@@ -1016,6 +1113,12 @@
         <mal:service name="PowerControl" number="7" xsi:type="com:ExtendedServiceType" comment="The Power Control service provides a generic mechanism to list the available power units in a spacecraft platform and to enable/disable them.">
             <mal:capabilitySet number="1" comment="">
                 <mal:requestIP name="listDevices" number="1" comment="The listDevices operation allows a consumer to request the list of the units available and their respective status. The request may contain the wildcard value of '*' to return all available devices.">
+                    <mal:documentation name="Requirement" order="1">
+                        The devices field of the RESPONSE message shall report, for each selected unit, its identity and current power state.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the names field contains the wildcard value of '*', then the service provider shall return all units available for power control.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:request>
                             <mal:field name="names" canBeNull="true" comment="The name of the units.">
@@ -1040,6 +1143,12 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="2" comment="">
                 <mal:requestIP name="enableDevices" number="2" comment="The enableDevices operation allows a consumer to enable and disable specific devices. Device can be identified by id and/or unit Type. If id is NULL, then the first device of given type is selected.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall set the power state of each unit in the devices field to the value of its enabled field.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the unitId field of a device is NULL, then the service provider shall select the first available unit of the matching deviceType.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:request>
                             <mal:field name="devices" canBeNull="true" comment="List of devices to be controlled.">
@@ -1061,6 +1170,9 @@
         <mal:service name="Clock" number="8" xsi:type="com:ExtendedServiceType" comment="The Clock service provides system time.">
             <mal:capabilitySet number="1" comment="">
                 <mal:requestIP name="getTime" number="1" comment="The getTime operation allows a consumer to request current system time in milliseconds.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the current on-board time.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:request>
                         </mal:request>
@@ -1074,6 +1186,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="2" comment="">
                 <mal:requestIP name="getTimeFactor" number="2" comment="The getTimeFactor operation allows a consumer to request time factor of the simulation.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the time factor currently applied by the on-board clock.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:request>
                         </mal:request>
@@ -1085,6 +1200,9 @@
                     </mal:messages>
                 </mal:requestIP>
                 <mal:pubsubIP name="monitorTimeFactor" number="3" comment="The monitorTimeFactor operation allows a consumer to subscribe for time factor changes.">
+                    <mal:documentation name="Requirement" order="1">
+                        Upon a change of the time factor, the service provider shall publish the new time factor through the monitorTimeFactor operation.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:publishNotify>
                             <mal:field name="timeFactor" canBeNull="false" comment="The current time factor of the simulation.">
@@ -1096,7 +1214,7 @@
             </mal:capabilitySet>
             <com:features />
         </mal:service>
-        <mal:service name="ArtificialIntelligence" number="9" xsi:type="com:ExtendedServiceType" comment="The Artificial Intelligence service provides a generic mechanism to control a AI device including setting the models and control the inference of images.">
+        <mal:service name="ArtificialIntelligence" number="9" xsi:type="com:ExtendedServiceType" comment="The Artificial Intelligence service provides a generic mechanism to control an AI device including setting the models and controlling the inference of images.">
             <mal:capabilitySet number="1" comment="">
                 <mal:requestIP name="setModel" number="1" comment="The setModel operation allows a consumer to set the Model to be used by the AI device.">
                     <mal:documentation name="Requirement" order="1">
@@ -1118,6 +1236,12 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="2" comment="">
                 <mal:requestIP name="doInference" number="2" comment="The doInference operation allows a consumer to perform inference on the AI device.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall process the tiles in the inputTilesPath folder using the model identified by the modelId field.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        The outputTilesPath field of the RESPONSE message shall reference the folder containing the inferred tiles.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:request>
                             <mal:field name="modelId" canBeNull="false" comment="The id of the model to be used for inference.">
@@ -1142,6 +1266,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="3" comment="">
                 <mal:invokeIP name="doComputerVision" number="3" comment="The doComputerVision operation allows a consumer to invoke the execution of inference with an AI unit.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall execute the computer vision task described by the file referenced in the jsonPath field.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:invoke>
                             <mal:field name="jsonPath" canBeNull="false" comment="The absolute path to a json file with information to be processed.">
@@ -1248,13 +1375,13 @@
                 <mal:field name="exposureTime" canBeNull="false" comment="The exposure time of the camera.">
                     <mal:type area="MAL" list="false" name="Duration" />
                 </mal:field>
-                <mal:field name="gainRed" canBeNull="false" comment="Green channel gain.">
+                <mal:field name="gainRed" canBeNull="false" comment="Red channel gain.">
                     <mal:type area="MAL" list="false" name="Float" />
                 </mal:field>
-                <mal:field name="gainGreen" canBeNull="false" comment="Blue channel gain.">
+                <mal:field name="gainGreen" canBeNull="false" comment="Green channel gain.">
                     <mal:type area="MAL" list="false" name="Float" />
                 </mal:field>
-                <mal:field name="gainBlue" canBeNull="false" comment="Red channel gain.">
+                <mal:field name="gainBlue" canBeNull="false" comment="Blue channel gain.">
                     <mal:type area="MAL" list="false" name="Float" />
                 </mal:field>
                 <mal:field name="extra" canBeNull="true" comment="Extra optional configurations. Shall be empty if no extra configurations are provided.">
@@ -1406,7 +1533,7 @@
                 <mal:field name="raan" canBeNull="true" comment="The right ascension of the ascending node. The unit is in decimal degrees.">
                     <mal:type area="MAL" list="false" name="Double" />
                 </mal:field>
-                <mal:field name="eccentricity" canBeNull="true" comment="The eccentricity. The unit is in decimal degrees.">
+                <mal:field name="eccentricity" canBeNull="true" comment="The eccentricity. This value is dimensionless.">
                     <mal:type area="MAL" list="false" name="Double" />
                 </mal:field>
                 <mal:field name="argumentOfPerigee" canBeNull="true" comment="The argument of perigee. The unit is in decimal degrees.">
@@ -1415,7 +1542,7 @@
                 <mal:field name="meanAnomaly" canBeNull="true" comment="The mean anomaly. The unit is in decimal degrees.">
                     <mal:type area="MAL" list="false" name="Double" />
                 </mal:field>
-                <mal:field name="meanMotion" canBeNull="true" comment="The mean motion. The unit is revolutions per daz.">
+                <mal:field name="meanMotion" canBeNull="true" comment="The mean motion. The unit is revolutions per day.">
                     <mal:type area="MAL" list="false" name="Double" />
                 </mal:field>
                 <mal:field name="numRevolutions" canBeNull="true" comment="The number of completed revolutions at epoch.">
@@ -1508,10 +1635,10 @@
                 <mal:extends>
                     <mal:type area="Platform" list="false" name="AttitudeMode" />
                 </mal:extends>
-                <mal:field name="target" canBeNull="false" comment="Vector the Satelite should point the camera at (in ICRF).">
+                <mal:field name="target" canBeNull="false" comment="Vector the Satellite should point the camera at (in ICRF).">
                     <mal:type area="Platform" list="false" name="VectorF3D"/>
                 </mal:field>
-                <mal:field name="margin" canBeNull="false" comment="margin between target vector and current vector (in degrees).">
+                <mal:field name="margin" canBeNull="false" comment="Margin between target vector and current vector (in degrees).">
                     <mal:type area="MAL" list="false" name="Float" />
                 </mal:field>
             </mal:composite>
@@ -1579,31 +1706,36 @@
                 <mal:item nvalue="2" value="ACTIVE" comment="Magnetorquers operating and powered."/>
                 <mal:item nvalue="3" value="SUSPEND" comment="Magnetorquers operating and automatically suspended."/>
             </mal:enumeration>
-            <mal:enumeration name="ReactionWheelIdentifier" shortFormPart="12" comment="Wheel identifiers.">
+            <mal:enumeration name="ReactionWheelIdentifier" shortFormPart="32" comment="Wheel identifiers.">
                 <mal:item nvalue="1" value="WHEEL_X" comment="Reaction wheel x."/>
                 <mal:item nvalue="2" value="WHEEL_Y" comment="Reaction wheel y."/>
-                <mal:item nvalue="3" value="WHEEL_Z" comment="Reaction wheel Z."/>
+                <mal:item nvalue="3" value="WHEEL_Z" comment="Reaction wheel z."/>
                 <mal:item nvalue="4" value="WHEEL_U" comment="Reaction wheel u."/>
                 <mal:item nvalue="5" value="WHEEL_V" comment="Reaction wheel v."/>
                 <mal:item nvalue="6" value="WHEEL_W" comment="Reaction wheel w."/>
+            </mal:enumeration>
+            <mal:enumeration name="ReactionWheelControlMode" shortFormPart="31" comment="The interpretation of the reaction wheel target value.">
+                <mal:item nvalue="1" value="CURRENT" comment="The target value is a current [A]."/>
+                <mal:item nvalue="2" value="SPEED" comment="The target value is a speed [rad/sec]."/>
+                <mal:item nvalue="3" value="TORQUE" comment="The target value is a torque [Nm]."/>
             </mal:enumeration>
             <mal:composite name="ReactionWheelParameters" shortFormPart="26" comment="Reaction wheel parameters.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite" />
                 </mal:extends>
-                <mal:field name="controlMode" canBeNull="false" comment="Control mode of the Reaction wheels. 0 = Target value is a current value [A]; 1 = Target value is a speed value [rad/sec]; 2 = Target alue is a torgh [Nm].">
-                    <mal:type area="MAL" list="false" name="Integer" />
+                <mal:field name="controlMode" canBeNull="true" comment="The interpretation of the reaction wheel target value.">
+                    <mal:type area="Platform" list="false" name="ReactionWheelControlMode" />
                 </mal:field>
-                <mal:field name="maxSpeed" canBeNull="false" comment="maximum speed of the Reaction wheels in rad/second. For safety reasons, the value for this can not exceed 1047.197551.">
+                <mal:field name="maxSpeed" canBeNull="true" comment="The maximum speed of the reaction wheels, in rad/second.">
                     <mal:type area="MAL" list="false" name="Float" />
                 </mal:field>
-                <mal:field name="maxTorque" canBeNull="false" comment="maximum torque of the Reaction wheels in Nm.">
+                <mal:field name="maxTorque" canBeNull="true" comment="Maximum torque of the Reaction wheels in Nm.">
                     <mal:type area="MAL" list="false" name="Float" />
                 </mal:field>
-                <mal:field name="inertia" canBeNull="false" comment="moment of inertia of the Reaction wheels in kg/m^2.">
+                <mal:field name="inertia" canBeNull="true" comment="Moment of inertia of the Reaction wheels in kg/m^2.">
                     <mal:type area="MAL" list="false" name="Float" />
                 </mal:field>
-                <mal:field name="motorConst" canBeNull="true" comment="motor constant of the Reaction wheels in Nm/A.">
+                <mal:field name="motorConst" canBeNull="true" comment="Motor constant of the Reaction wheels in Nm/A.">
                     <mal:type area="MAL" list="false" name="Float" />
                 </mal:field>
             </mal:composite>
