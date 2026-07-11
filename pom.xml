@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
   Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
   You may not use this file except in compliance with the License.
@@ -11,28 +10,27 @@
 
   See the License for the specific language governing permissions and limitations under the License.
 -->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>int.esa.nmf</groupId>
+        <groupId>int.esa.ccsds.mo</groupId>
         <artifactId>parent</artifactId>
-        <version>5.0-SNAPSHOT</version>
-        <relativePath>parent/pom.xml</relativePath>
+        <version>14.0</version>
+        <relativePath/>
     </parent>
-
     <groupId>int.esa.nmf</groupId>
     <artifactId>nanosat-mo-framework</artifactId>
-    <name>ESA NanoSat MO Framework</name>
     <packaging>pom</packaging>
+    <version>5.0-SNAPSHOT</version>
+    <name>ESA NanoSat MO Framework</name>
     <description>Maven Reactor for ESA Nanosat MO Framework</description>
-
+    <url>https://nanosat-mo-framework.github.io</url>
     <organization>
         <name>ESA</name>
         <url>http://www.esa.int</url>
     </organization>
-
     <licenses>
         <license>
             <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
@@ -40,13 +38,164 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-
+    <issueManagement>
+        <system>Gitlab</system>
+        <url>https://gitlab.com/esa/NMF/nmf-issues/-/issues</url>
+    </issueManagement>
+    <scm>
+        <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
+        <url>https://github.com/esa/nanosat-mo-framework</url>
+    </scm>
+    <developers>
+        <developer>
+            <id>CesarCoelho</id>
+            <name>César Coelho</name>
+            <url>https://github.com/CesarCoelho</url>
+        </developer>
+        <developer>
+            <id>dmarszk</id>
+            <name>Dominik Marszk</name>
+            <email>dominik.marszk@esa.int</email>
+        </developer>
+    </developers>
     <properties>
-        <maven.deploy.skip>true</maven.deploy.skip>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- NMF general properties -->
+        <esa.nmf.version>5.0-SNAPSHOT</esa.nmf.version>
     </properties>
-
+    <dependencyManagement>
+        <dependencies>
+            <!-- MO services XMLs attached to NMF -->
+            <dependency>
+                <groupId>int.esa.nmf.core</groupId>
+                <artifactId>mo-services-xml</artifactId>
+                <version>${esa.nmf.version}</version>
+            </dependency>
+            <!-- MO service APIs specific to NMF -->
+            <dependency>
+                <groupId>int.esa.nmf.core</groupId>
+                <artifactId>api-nmf-com</artifactId>
+                <version>${esa.nmf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>int.esa.nmf.core</groupId>
+                <artifactId>api-nmf-mc</artifactId>
+                <version>${esa.nmf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>int.esa.nmf.core</groupId>
+                <artifactId>api-nmf-sm</artifactId>
+                <version>${esa.nmf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>int.esa.nmf.core</groupId>
+                <artifactId>api-nmf-platform</artifactId>
+                <version>${esa.nmf.version}</version>
+            </dependency>
+            <!-- Services Implementations (Unified) -->
+            <dependency>
+                <groupId>int.esa.nmf.core</groupId>
+                <artifactId>nmf-services-impl</artifactId>
+                <version>${esa.nmf.version}</version>
+            </dependency>
+            <!-- NMF Composites -->
+            <dependency>
+                <groupId>int.esa.nmf.core</groupId>
+                <artifactId>nmf-composites</artifactId>
+                <version>${esa.nmf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>int.esa.nmf.core</groupId>
+                <artifactId>nmf-package-lib</artifactId>
+                <version>${esa.nmf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>int.esa.nmf.core</groupId>
+                <artifactId>nmf-package-maven-plugin</artifactId>
+                <version>${esa.nmf.version}</version>
+            </dependency>
+            <!-- External Dependencies -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.13.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.xerial</groupId>
+                <artifactId>sqlite-jdbc</artifactId>
+                <version>3.49.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven.plugin-tools</groupId>
+                <artifactId>maven-plugin-annotations</artifactId>
+                <version>3.6.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                        <source>11</source>
+                        <target>11</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>int.esa.nmf.core</groupId>
+                    <artifactId>nmf-package-maven-plugin</artifactId>
+                    <version>${esa.nmf.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>int.esa.nmf.core</groupId>
+                    <artifactId>nmf-linux-maven-plugin</artifactId>
+                    <version>${esa.nmf.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.6.0</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <mainClass>${assembly.mainClass}</mainClass>
+                            </manifest>
+                        </archive>
+                        <descriptorRefs>
+                            <descriptorRef>jar-with-dependencies</descriptorRef>
+                        </descriptorRefs>
+                        <finalName>${project.artifactId}-${project.version}</finalName>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>make-assembly</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+    <profiles>
+        <profile>
+            <id>assembly-with-dependencies</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
     <modules>
-        <module>parent</module>
         <module>core</module>
         <module>nmf-mission-barebone</module>
         <module>mission/simulator</module>
