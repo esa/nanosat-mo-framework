@@ -737,7 +737,7 @@
                     <com:object number="2" name="NearbyPositionAlert"
                                 comment="Alert state indicating whether the spacecraft is entering or exiting the nearby position boundary." >
                         <com:objectType>
-                            <mal:type area="COM" list="false" name="NearbyPositionAlert" />
+                            <mal:type area="Platform" list="false" name="NearbyPositionAlert" />
                         </com:objectType>
                         <com:relatedObject comment="">
                             <com:objectType area="Platform" number="1" service="GPS" />
@@ -1795,6 +1795,14 @@
                 <mal:item nvalue="8" value="GNSS" comment="GNSS subsystem."/>
                 <mal:item nvalue="100" value="OTHER" comment="Other device."/>
             </mal:enumeration>
+            <mal:composite name="NearbyPositionAlert" shortFormPart="33" comment="Alert state for spacecraft entering/exiting nearby position boundary.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="enteredBoundary" canBeNull="false" comment="True if entering boundary, false if exiting.">
+                    <mal:type area="MAL" list="false" name="Boolean"/>
+                </mal:field>
+            </mal:composite>
         </mal:dataTypes>
         <mal:errors>
             <mal:error number="1" name="Device In Use" comment="The device is currently in use." />
