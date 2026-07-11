@@ -62,4 +62,8 @@ def setup(app):
     if not os.path.exists("./javadoc-cache"):
         os.makedirs("./javadoc-cache")
     os.system("javasphinx-apidoc -u -c ./javadoc-cache -o ./javadoc --title='NMF Javadoc' ../../")
-    os.system("find . -name '*Test*' -delete")
+    # Scope the cleanup of generated *Test* apidoc stubs to the javadoc output
+    # directory only. A bare "find ." here deletes every *Test* file in whatever
+    # the current working directory happens to be, which wipes the repository's
+    # own test sources when Sphinx is run from the repo root.
+    os.system("find ./javadoc -name '*Test*' -delete")
