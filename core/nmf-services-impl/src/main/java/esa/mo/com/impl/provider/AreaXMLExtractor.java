@@ -56,7 +56,7 @@ public class AreaXMLExtractor {
      * Returns the XML files matching the given filename. Use {@code "*"} as a
      * wildcard to return all XML files found on the classpath.
      *
-     * @param filename the exact filename (e.g. {@code "area002-COM.xml"}) or
+     * @param filename the exact filename (e.g. {@code "area051-COM.xml"}) or
      * {@code "*"}
      * @return a FileList, or {@code null} if no files were found for the
      * wildcard case

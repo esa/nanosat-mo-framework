@@ -7,7 +7,7 @@
     xmlns:com = "http://www.ccsds.org/schema/COMSchema"
     xmlns:svg = "http://www.w3.org/2000/svg"
     xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" comment="">
-    <mal:area name="MC" number="4" version="5" comment="Monitor and Control services">
+    <mal:area name="MC" number="52" version="5" comment="Monitor and Control services">
         <mal:service name="Action" number="1" xsi:type="com:ExtendedServiceType" comment="The action service allows consumers to request execution of actions and to subsequently monitor the execution progress of these actions via the monitorExecution PUB-SUB operation.&#xA;A consumer requests execution by calling the executeAction operation. The provider validates the request, creates and archives the ExecutionRequest object, assigns it a unique executionId, and returns that id in the response. The provider then reports execution progress by publishing monitorExecution notifications and storing ExecutionStatus COM objects in the archive. Once the action execution details have been checked and execution started, the executeAction operation completes whilst the execution of the action possibly continues (depends on the actual action).&#xA;The action service defines three types of objects: ActionDefinition (holds the name, description, and argument list of an action), ExecutionRequest (holds the argument values submitted for a specific execution), and ExecutionStatus (holds the progress status of each stage of an execution).">
             <mal:documentation name="Service-level Requirement" order="1">The action service shall provide:
                 &lt;ol&gt;

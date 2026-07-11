@@ -15,7 +15,7 @@ The Supervisor exposes the spacecraft's platform functions through the **Platfor
    // ... and so on
 
 The full operation list, request/response composites, and error codes for every service on this page are
-defined in ``core/mo-services-xml/src/main/resources/xml/area105-Platform.xml``. Each section below
+defined in ``core/mo-services-xml/src/main/resources/xml/area054-Platform.xml``. Each section below
 summarises what the service does and how to call it.
 
 This page covers the **consumer side** only. For configuring which adapter (simulated or hardware) the

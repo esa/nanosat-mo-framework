@@ -6,7 +6,7 @@
     xmlns:mal = "http://www.ccsds.org/schema/ServiceSchema"
     xmlns:com = "http://www.ccsds.org/schema/COMSchema"
     xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" comment="">
-    <mal:area name="COM" number="2" version="5" comment="Common Object Model services">
+    <mal:area name="COM" number="51" version="5" comment="Common Object Model services">
         <mal:documentation name="Area-level Requirement" order="1">The id of an object shall not use the value of '0' for actual object instances as this is the wildcard value.
         </mal:documentation>
         <mal:documentation name="Area-level Requirement" order="2">The related field of an object shall not use the value of '0' as this is the wildcard value.

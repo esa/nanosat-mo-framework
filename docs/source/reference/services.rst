@@ -8,7 +8,7 @@ data types, and documentation strings.
 
 For where each service sits architecturally, see :doc:`../concepts/mo-architecture`.
 
-COM (``area002-COM.xml``)
+COM (``area051-COM.xml``)
 -------------------------
 
 - **Event** — generic publish/subscribe of COM events.
@@ -20,7 +20,7 @@ COM (``area002-COM.xml``)
 - **Configuration** — persistence of provider configuration (XML-defined; configuration persistence is
   currently handled by ``esa.mo.reconfigurable.provider.PersistProviderConfiguration``).
 
-Monitor & Control (``area004-Monitor-and-Control.xml``)
+Monitor & Control (``area052-Monitor-and-Control.xml``)
 -------------------------------------------------------
 
 - **Parameter** — telemetry parameter definition, generation, and subscription.
@@ -29,7 +29,7 @@ Monitor & Control (``area004-Monitor-and-Control.xml``)
 - **Alert** — operational alert generation and distribution.
 - **Conversion** — declarative raw-to-engineering conversions.
 
-Software Management (``area007-Software-Management.xml``)
+Software Management (``area053-Software-Management.xml``)
 ---------------------------------------------------------
 
 - **AppsLauncher** — run, stop, kill, list, and monitor apps.
@@ -37,7 +37,7 @@ Software Management (``area007-Software-Management.xml``)
 - **Heartbeat** — periodic liveness publication.
 - **CommandExecutor** — execute shell commands on the spacecraft host (where permitted).
 
-Platform (``area105-Platform.xml``)
+Platform (``area054-Platform.xml``)
 -----------------------------------
 
 For consumer-side usage, see :doc:`../development-app/platform-services`.

@@ -48,8 +48,8 @@ public class DirectoryProviderServiceImplTest {
             assertTrue("File content must not be empty", file.getContent().getValue().length > 0);
         }
 
-        // The COM API jar is always on the classpath, so area002-COM.xml must be present
+        // The COM API jar is always on the classpath, so area051-COM.xml must be present
         Set<String> names = result.stream().map(File::getName).collect(Collectors.toSet());
-        assertTrue("area002-COM.xml must be discoverable from the classpath", names.contains("area002-COM.xml"));
+        assertTrue("area051-COM.xml must be discoverable from the classpath", names.contains("area051-COM.xml"));
     }
 }

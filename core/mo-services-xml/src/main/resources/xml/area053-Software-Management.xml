@@ -7,7 +7,7 @@
     xmlns:com = "http://www.ccsds.org/schema/COMSchema"
     xmlns:svg = "http://www.w3.org/2000/svg"
     xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" comment="">
-    <mal:area name="SM" number="7" version="5" comment="Software Management services">
+    <mal:area name="SM" number="53" version="5" comment="Software Management services">
         <mal:service name="PackageManagement" number="1" xsi:type="com:ExtendedServiceType" comment="The Package Management service provides the ability to install, uninstall, upgrade, list, check packages. The service shall optionally support verification of packages, verification of digital signatures, upgrade software, manage dependencies.&#10;Packages can be organized in different categories in order to facilitate the management of software.">
             <mal:documentation name="Service-level Requirement" order="1">The Package Management service shall provide:
 &lt;ol&gt;

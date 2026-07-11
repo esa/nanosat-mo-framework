@@ -43,11 +43,11 @@ The authoritative definitions of every MO service exposed by the NMF live in the
 ``core/mo-services-xml/``:
 
 - ``area001-MAL.xml`` — Message Abstraction Layer.
-- ``area002-COM.xml`` — Common Object Model (Event, Archive, ArchiveSync, Directory, Login, Configuration).
-- ``area004-Monitor-and-Control.xml`` — MC services (Parameter, Action, Aggregation, Alert, Conversion).
-- ``area007-Software-Management.xml`` — SM services (AppsLauncher, PackageManagement, Heartbeat,
+- ``area051-COM.xml`` — Common Object Model (Event, Archive, ArchiveSync, Directory, Login, Configuration).
+- ``area052-Monitor-and-Control.xml`` — MC services (Parameter, Action, Aggregation, Alert, Conversion).
+- ``area053-Software-Management.xml`` — SM services (AppsLauncher, PackageManagement, Heartbeat,
   CommandExecutor).
-- ``area105-Platform.xml`` — Platform services (Camera, GPS, AutonomousADCS, SoftwareDefinedRadio,
+- ``area054-Platform.xml`` — Platform services (Camera, GPS, AutonomousADCS, SoftwareDefinedRadio,
   OpticalDataReceiver, PowerControl, Clock, ArtificialIntelligence).
 
 The Java API JARs in ``core/mo-services-apis/`` are generated from these XML files; the XML is the single
