@@ -46,5 +46,6 @@ find on the spacecraft's file system — is generated automatically by the ``nmf
    supervisor
    platform-services
    filesystem
+   mission-properties
    app-isolation
    deployment
