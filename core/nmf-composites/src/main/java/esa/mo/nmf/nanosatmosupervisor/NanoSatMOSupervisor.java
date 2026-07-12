@@ -27,11 +27,7 @@ import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.CloseAppListener;
 import esa.mo.nmf.mcadapters.CompositeMCAdapter;
 import esa.mo.nmf.mcadapters.DefaultSupervisorAdapters;
-import esa.mo.nmf.MCRegistration;
-import esa.mo.nmf.MonitorAndControlNMFAdapter;
-import esa.mo.nmf.NMFException;
-import esa.mo.nmf.NMFProvider;
-import esa.mo.nmf.OneInstanceLock;
+import esa.mo.nmf.*;
 import esa.mo.nmf.environment.Deployment;
 import esa.mo.nmf.nmfpackage.NMFPackagePMBackend;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
@@ -43,16 +39,14 @@ import esa.mo.sm.impl.util.PMBackend;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.configuration.ConfigurationHelper;
 import org.ccsds.moims.mo.com.configuration.ConfigurationServiceInfo;
 import org.ccsds.moims.mo.com.structures.NMFProviderType;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
-import org.ccsds.moims.mo.mal.MALContextFactory;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.UnknownException;
+import org.ccsds.moims.mo.mal.*;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
@@ -103,9 +97,15 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         }
         mcAdapter = new CompositeMCAdapter(mcAdapters);
 
-        // Loads: provider.properties; transport.properties
+        // The Supervisor has no provider.properties of its own, so it sets the
+        // transport in-process rather than via HelperMisc (which only warned).
+        // A command-line -D wins, hence putIfAbsent.
+        getTransportDefaults().forEach(System.getProperties()::putIfAbsent);
+
+        // "PropertiesLoadedFlag" is HelperMisc's own skip guard: set it so later
+        // loadPropertiesFile() calls skip the file lookup.
+        System.setProperty("PropertiesLoadedFlag", "true");
         NMFProvider.loadMOElements();
-        HelperMisc.loadPropertiesFile();
         ConnectionProvider.resetURILinksFile();
 
         // Check if we are running as root when we have the NMF in Mode 2
@@ -238,6 +238,15 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                 + (((float) (System.currentTimeMillis() - super.startTime)) / 1000)
                 + " seconds!");
         LOGGER.log(Level.INFO, "URI: {0}\n", primaryURI);
+    }
+
+    private static Properties getTransportDefaults() {
+        Properties props = new Properties();
+        props.setProperty("org.ccsds.moims.mo.mal.transport.default.protocol", "maltcp://");
+        props.setProperty("org.ccsds.moims.mo.mal.transport.protocol.maltcp", "esa.mo.mal.transport.tcpip.TCPIPTransportFactoryImpl");
+        props.setProperty("org.ccsds.moims.mo.mal.encoding.protocol.maltcp", "esa.mo.mal.encoder.binary.fixed.FixedBinaryStreamFactory");
+        props.setProperty("org.ccsds.moims.mo.mal.transport.tcpip.autohost", "true");
+        return props;
     }
 
     /**
