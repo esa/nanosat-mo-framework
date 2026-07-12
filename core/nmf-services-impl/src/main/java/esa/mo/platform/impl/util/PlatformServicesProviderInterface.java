@@ -29,6 +29,7 @@ import org.ccsds.moims.mo.platform.fpga.provider.FPGAInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.gps.provider.GPSInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataReceiverInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
+import org.ccsds.moims.mo.platform.softwareimages.provider.SoftwareImagesInheritanceSkeleton;
 
 /**
  * The Platform services provider interface. Allows the retrieval of the default
@@ -94,6 +95,16 @@ public interface PlatformServicesProviderInterface {
      * not provide it.
      */
     default FPGAInheritanceSkeleton getFPGAService() {
+        return null;
+    }
+
+    /**
+     * Returns the Software Images service.
+     *
+     * @return The Software Images service, or null if the platform does not
+     * provide it.
+     */
+    default SoftwareImagesInheritanceSkeleton getSoftwareImagesService() {
         return null;
     }
 

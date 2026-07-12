@@ -82,6 +82,8 @@ Services exposing spacecraft platform hardware to apps:
 - **OpticalDataReceiver** — receive messages from an Optical Data Receiver device.
 - **PowerControl** — list available power units and enable or disable them.
 - **ArtificialIntelligence** — control an AI device, including setting models and running image inference.
+- **FPGA** — load and unload gateware modules into the reconfigurable partitions of the platform FPGA.
+- **SoftwareImages** — start, stop and restart software images in the partitions of the platform hypervisor.
 
 Apps consume these services through the Supervisor; see :doc:`apps-and-supervisor`.
 

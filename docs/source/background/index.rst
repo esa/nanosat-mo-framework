@@ -48,7 +48,7 @@ The authoritative definitions of every MO service exposed by the NMF live in the
 - ``area053-Software-Management.xml`` — SM services (AppsLauncher, PackageManagement, Heartbeat,
   CommandExecutor).
 - ``area054-Platform.xml`` — Platform services (Camera, GPS, AutonomousADCS, SoftwareDefinedRadio,
-  OpticalDataReceiver, PowerControl, ArtificialIntelligence, FPGA).
+  OpticalDataReceiver, PowerControl, ArtificialIntelligence, FPGA, SoftwareImages).
 
 The Java API JARs in ``core/mo-services-apis/`` are generated from these XML files; the XML is the single
 source of truth. For a narrative overview of the service categories, see :doc:`../reference/services` and

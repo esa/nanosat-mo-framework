@@ -78,6 +78,12 @@ adapter class. Property keys follow the service name except for **ADCS, which us
    * - ArtificialIntelligence
      - ``ai.adapter``
      -
+   * - FPGA
+     - (soft-sim only)
+     - Two simulated partitions (``slot-a``, ``slot-b``), shell version ``sim-v1``.
+   * - SoftwareImages
+     - (soft-sim only)
+     - Two simulated hypervisor partitions (``p1``, ``p2``), configuration ``sim-v1``.
 
 The soft-sim Camera adapter also accepts:
 

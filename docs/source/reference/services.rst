@@ -50,3 +50,4 @@ For consumer-side usage, see :doc:`../development-app/platform-services`.
 - **FPGA** (#6)
 - **PowerControl** (#7)
 - **ArtificialIntelligence** (#8)
+- **SoftwareImages** (#9)

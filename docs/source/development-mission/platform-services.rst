@@ -9,6 +9,10 @@ Platform services are the boundary between the NMF and the spacecraft's hardware
 calls into driver or bus commands and route back the responses from the sensor as MO responses. Every Platform service
 the mission exposes must be integrated with a hardware adapter specific to that mission.
 
+Services that load executable content onto a platform compute substrate (the FPGA fabric, hypervisor
+partitions) are Platform services too — operating the substrate is a hardware boundary like any other —
+while managing NMF Apps and NMF Packages belongs to Software Management.
+
 Each Platform service has two contact points:
 
 1. The **frontend** — an MO service callable by NMF Apps and Ground software (see the MO Platform
@@ -69,6 +73,10 @@ The available adapter interfaces are:
      - On-board AI/ML inference
    * - ``PowerControlAdapterInterface``
      - Power line switching
+   * - ``FPGAAdapterInterface``
+     - Gateware module loading into FPGA partitions
+   * - ``SoftwareImagesAdapterInterface``
+     - Software image start/stop in hypervisor partitions
 
 ``PlatformServicesProviderInterface``
 --------------------------------------

@@ -29,6 +29,7 @@ import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.consumer.OpticalDataReceiverStub;
 import org.ccsds.moims.mo.platform.powercontrol.consumer.PowerControlStub;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefinedRadioStub;
+import org.ccsds.moims.mo.platform.softwareimages.consumer.SoftwareImagesStub;
 
 /**
  * The Platform services consumer interface. Allows the retrieval of the default
@@ -52,5 +53,7 @@ public interface PlatformServicesConsumerInterface {
 
 
     FPGAStub getFPGAService() throws IOException;
+
+    SoftwareImagesStub getSoftwareImagesService() throws IOException;
 
 }

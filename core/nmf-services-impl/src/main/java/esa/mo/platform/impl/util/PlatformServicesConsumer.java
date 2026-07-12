@@ -44,6 +44,8 @@ import org.ccsds.moims.mo.platform.opticaldatareceiver.consumer.OpticalDataRecei
 import org.ccsds.moims.mo.platform.powercontrol.PowerControlServiceInfo;
 import org.ccsds.moims.mo.platform.powercontrol.consumer.PowerControlStub;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.SoftwareDefinedRadioServiceInfo;
+import org.ccsds.moims.mo.platform.softwareimages.SoftwareImagesServiceInfo;
+import org.ccsds.moims.mo.platform.softwareimages.consumer.SoftwareImagesStub;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.consumer.SoftwareDefinedRadioStub;
 
 /**
@@ -60,6 +62,7 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
     private SoftwareDefinedRadioConsumerServiceImpl sdrService;
     private PowerControlConsumerServiceImpl powerControlService;
     private FPGAConsumerServiceImpl fpgaService;
+    private SoftwareImagesConsumerServiceImpl softwareImagesService;
 
     public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices) {
         init(connectionConsumer, comServices, null, null);
@@ -132,6 +135,15 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
 
             if (details != null) {
                 fpgaService = new FPGAConsumerServiceImpl(details,
+                        comServices, authenticationID, localNamePrefix);
+            }
+
+            // Initialize the Software Images service
+            details = connectionConsumer.getServicesDetails().get(
+                    SoftwareImagesServiceInfo.SOFTWAREIMAGES_SERVICE_NAME);
+
+            if (details != null) {
+                softwareImagesService = new SoftwareImagesConsumerServiceImpl(details,
                         comServices, authenticationID, localNamePrefix);
             }
         } catch (MALException | MALInteractionException ex) {
@@ -212,6 +224,15 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
         return this.fpgaService.getFPGAStub();
     }
 
+    @Override
+    public SoftwareImagesStub getSoftwareImagesService() throws IOException {
+        if (this.softwareImagesService == null) {
+            throw new IOException("The service consumer is not connected to the provider.");
+        }
+
+        return this.softwareImagesService.getSoftwareImagesStub();
+    }
+
     // Setters
     public void setArtificialIntelligenceService(ArtificialIntelligenceConsumerServiceImpl aiService) {
         this.aiService = aiService;
@@ -244,6 +265,10 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
 
     public void setFPGAService(FPGAConsumerServiceImpl fpgaService) {
         this.fpgaService = fpgaService;
+    }
+
+    public void setSoftwareImagesService(SoftwareImagesConsumerServiceImpl softwareImagesService) {
+        this.softwareImagesService = softwareImagesService;
     }
 
     /**
@@ -282,6 +307,10 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
         if (this.fpgaService != null) {
             this.fpgaService.closeConnection();
         }
+
+        if (this.softwareImagesService != null) {
+            this.softwareImagesService.closeConnection();
+        }
     }
 
     public void setAuthenticationId(Blob authenticationId) {
@@ -316,6 +345,10 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
 
         if (this.fpgaService != null) {
             this.fpgaService.setAuthenticationId(authenticationId);
+        }
+
+        if (this.softwareImagesService != null) {
+            this.softwareImagesService.setAuthenticationId(authenticationId);
         }
     }
 

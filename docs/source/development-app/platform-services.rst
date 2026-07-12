@@ -160,3 +160,44 @@ partition state transitions are published through the ``monitorPartitions`` PUB-
 
 No SDK example consumes this service yet. The simulated adapter provides two partitions (``slot-a``,
 ``slot-b``) with shell version ``sim-v1``.
+
+SoftwareImages
+--------------
+
+Starts, stops and restarts software images (bare-metal binaries or guest operating systems) in the
+partitions of the platform hypervisor, without disturbing the other partitions. Images are compiled on
+ground against the mission's hypervisor configuration and delivered inside an NMF Package together with an
+image manifest that declares the configuration version and one image variant per partition. The service
+selects a free partition, verifies the checksum and the configuration compatibility, and returns the
+allocated partition.
+
+.. code-block:: java
+
+   SoftwareImagesStub images = connector.getPlatformServices().getSoftwareImagesService();
+   images.startImage(new Identifier("payload-os"), null, new SoftwareImagesAdapter() {
+       @Override
+       public void startImageResponseReceived(MALMessageHeader msgHeader,
+               SoftwareImagePartition partition, Map qosProperties) {
+           // the image is running in partition.getPartitionId()
+       }
+   });
+   // and later:
+   images.stopImage(partitionId);       // halt and clear the partition
+   images.restartImage(partitionId);    // warm reset without reloading
+
+The image manifest is a sidecar properties file next to the image files:
+
+.. code-block:: properties
+
+   image.name    = payload-os
+   image.config  = xmcf-v2
+   image.p1.file = payload_os_p1.img
+   image.p1.crc  = 0x5A1EC3D0
+   image.p2.file = payload_os_p2.img
+   image.p2.crc  = 0x7700A4E9
+
+Every start and stop is recorded in the COM Archive (``SoftwareImageStarted`` / ``SoftwareImageStopped``
+objects). The reference hypervisor target is XtratuM, integrated through a mission-provided adapter; the
+simulated adapter provides two partitions (``p1``, ``p2``) with configuration version ``sim-v1``.
+
+No SDK example consumes this service yet.

@@ -1449,6 +1449,203 @@
             </mal:capabilitySet>
             <com:features />
         </mal:service>
+        <mal:service name="SoftwareImages" number="9" xsi:type="com:ExtendedServiceType" comment="The SoftwareImages service allows a consumer to start, stop and restart software images in the partitions of the platform hypervisor. The hypervisor configuration defines the set of partitions; an image is a bare-metal or guest operating system payload compiled on ground against a specific hypervisor configuration version and delivered on board inside an NMF Package together with a manifest that declares its configuration version and its per-partition variants.">
+            <mal:documentation name="Service-level Requirement" order="1">The SoftwareImages service shall provide:
+&lt;ol&gt;
+  &lt;li&gt;the capability to list the partitions of the platform hypervisor;&lt;/li&gt;
+  &lt;li&gt;the capability to start a software image in a free partition, to stop it and to restart it;&lt;/li&gt;
+  &lt;li&gt;the capability to monitor the status of the hypervisor.&lt;/li&gt;
+&lt;/ol&gt;
+            </mal:documentation>
+            <mal:capabilitySet number="1" comment="">
+                <mal:requestIP name="listPartitions" number="1" comment="The listPartitions operation allows a consumer to request the list of partitions of the platform hypervisor.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain one entry in the partitions field for every partition of the hypervisor configuration, regardless of its state.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="partitions" canBeNull="false" comment="The list of partitions of the platform hypervisor.">
+                                <mal:type area="Platform" list="true" name="SoftwareImagePartition"/>
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the platform has no hypervisor.">
+                            <mal:type area="Platform" list="false" name="Device Not Available"/>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="2" comment="">
+                <mal:progressIP name="startImage" number="2" comment="The startImage operation allows a consumer to start a software image in a partition of the platform hypervisor. The image is not carried in the message: the service locates it on board through the image manifest delivered with it.">
+                    <mal:documentation name="Requirement" order="1">
+                        If the preferredPartition field is NULL, then the service provider shall select a free partition for which the image manifest declares a variant.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        The service provider shall verify the checksum of the image file against the value declared in the image manifest before loading it into the partition.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        The service provider shall load the image into the partition while the partition is halted.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="4">
+                        The service provider shall send one UPDATE message at the start of each stage of the start, with the stage field set to the stage being entered.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="5">
+                        Upon successful completion of the start, the service provider shall store a SoftwareImageStarted object in the COM Archive.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:progress>
+                            <mal:field name="imageName" canBeNull="false" comment="The name of the image, as declared in the image manifest.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                            <mal:field name="preferredPartition" canBeNull="true" comment="The partition to start the image in, or NULL to let the service provider select one.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                        </mal:progress>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
+                        <mal:update>
+                            <mal:field name="stage" canBeNull="false" comment="The stage of the start being entered.">
+                                <mal:type area="Platform" list="false" name="SoftwareImageStartStage"/>
+                            </mal:field>
+                        </mal:update>
+                        <mal:response>
+                            <mal:field name="partition" canBeNull="false" comment="The partition in which the image was started.">
+                                <mal:type area="Platform" list="false" name="SoftwareImagePartition"/>
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the imageName is not known to the service provider.">
+                            <mal:type area="MAL" list="false" name="Unknown"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the preferredPartition field references a partition that is not in the FREE state.">
+                            <mal:type area="Platform" list="false" name="Device In Use"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the platform has no hypervisor, or when no free partition has a variant of the requested image.">
+                            <mal:type area="Platform" list="false" name="Device Not Available"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the hypervisor configuration version declared in the image manifest differs from the configuration version running on the hypervisor.">
+                            <mal:type area="Platform" list="false" name="Incompatible"/>
+                            <mal:extraInformation comment="The configuration version running on the hypervisor.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the image file fails its checksum verification.">
+                            <mal:type area="Platform" list="false" name="Verification Failed"/>
+                            <mal:extraInformation comment="A textual description of the verification failure.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:progressIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="3" comment="">
+                <mal:requestIP name="stopImage" number="3" comment="The stopImage operation allows a consumer to stop the image of a partition, returning the partition to the FREE state.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall halt the partition before clearing it.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        The service provider shall set the partition state to FREE after the stop completes.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        If the partition is already in the FREE state, then the service provider shall return without error.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="4">
+                        Upon successful completion of the stop, the service provider shall store a SoftwareImageStopped object in the COM Archive.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                            <mal:field name="partitionId" canBeNull="false" comment="The identifier of the partition to stop.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                        </mal:request>
+                        <mal:response>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the partitionId is not known to the service provider.">
+                            <mal:type area="MAL" list="false" name="Unknown"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the platform has no hypervisor.">
+                            <mal:type area="Platform" list="false" name="Device Not Available"/>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+                <mal:requestIP name="restartImage" number="4" comment="The restartImage operation allows a consumer to reset a partition without reloading its image.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall reset the partition without writing the image to the partition again.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                            <mal:field name="partitionId" canBeNull="false" comment="The identifier of the partition to restart.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                        </mal:request>
+                        <mal:response>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the partitionId is not known to the service provider.">
+                            <mal:type area="MAL" list="false" name="Unknown"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the partition has no image loaded.">
+                            <mal:type area="MAL" list="false" name="Incorrect State"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the platform has no hypervisor.">
+                            <mal:type area="Platform" list="false" name="Device Not Available"/>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="4" comment="">
+                <mal:requestIP name="getStatus" number="5" comment="The getStatus operation allows a consumer to request the status of the platform hypervisor.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the hypervisor version and the version of the hypervisor configuration it is running.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="status" canBeNull="false" comment="The status of the platform hypervisor.">
+                                <mal:type area="Platform" list="false" name="HypervisorStatus"/>
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the platform has no hypervisor.">
+                            <mal:type area="Platform" list="false" name="Device Not Available"/>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <com:features>
+                <com:objects comment="The SoftwareImageStarted and SoftwareImageStopped COM objects form the audit trail of the hypervisor partition occupancy.">
+                    <com:object number="1" name="SoftwareImageStarted"
+                                comment="A record of a software image started in a hypervisor partition.">
+                        <com:objectType>
+                            <mal:type area="Platform" list="false" name="SoftwareImageStarted"/>
+                        </com:objectType>
+                        <com:relatedObject comment=""/>
+                        <com:sourceObject comment=""/>
+                    </com:object>
+                    <com:object number="2" name="SoftwareImageStopped"
+                                comment="A record of a software image stopped in a hypervisor partition.">
+                        <com:objectType>
+                            <mal:type area="Platform" list="false" name="SoftwareImageStopped"/>
+                        </com:objectType>
+                        <com:relatedObject comment="The SoftwareImageStarted COM object of the start that this stop terminates.">
+                            <com:objectType area="Platform" number="1" service="SoftwareImages"/>
+                        </com:relatedObject>
+                        <com:sourceObject comment=""/>
+                    </com:object>
+                </com:objects>
+                <com:archiveUsage
+                    comment="SoftwareImageStarted objects and SoftwareImageStopped objects are stored in the COM archive."/>
+            </com:features>
+        </mal:service>
         <mal:dataTypes>
             <mal:composite name="VectorF3D" shortFormPart="1" comment="A 3D float vector.">
                 <mal:extends>
@@ -2030,6 +2227,70 @@
                 <mal:item nvalue="2" value="DECOUPLING" comment="The partition is being decoupled from the static shell."/>
                 <mal:item nvalue="3" value="WRITING" comment="The bitstream is being written to the fabric."/>
                 <mal:item nvalue="4" value="RESETTING" comment="The module is being reset and coupled back to the static shell."/>
+            </mal:enumeration>
+            <mal:enumeration name="SoftwareImagePartitionState" shortFormPart="40" comment="The state of a hypervisor partition.">
+                <mal:item nvalue="1" value="FREE" comment="No image is loaded; the partition is available."/>
+                <mal:item nvalue="2" value="STARTING" comment="An image start is in progress."/>
+                <mal:item nvalue="3" value="RUNNING" comment="An image is loaded and executing."/>
+                <mal:item nvalue="4" value="FAULTED" comment="The partition is unusable until it is stopped or the platform is reset."/>
+            </mal:enumeration>
+            <mal:composite name="SoftwareImagePartition" shortFormPart="41" comment="A partition of the platform hypervisor.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="partitionId" canBeNull="false" comment="The identifier of the partition.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="description" canBeNull="false" comment="The human-readable description of the partition.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="state" canBeNull="false" comment="The current state of the partition.">
+                    <mal:type area="Platform" list="false" name="SoftwareImagePartitionState"/>
+                </mal:field>
+                <mal:field name="loadedImage" canBeNull="true" comment="The name of the image currently loaded in the partition, or NULL if the partition is FREE.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="resources" canBeNull="true" comment="An informative summary of the resources of the partition, or NULL if not reported.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="HypervisorStatus" shortFormPart="42" comment="The status of the platform hypervisor.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="hypervisorVersion" canBeNull="false" comment="The hypervisor product and version.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="configVersion" canBeNull="false" comment="The version of the hypervisor configuration currently running.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="SoftwareImageStarted" shortFormPart="43" comment="A record of a software image started in a hypervisor partition.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="imageName" canBeNull="false" comment="The name of the started image.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="partitionId" canBeNull="false" comment="The partition in which the image was started.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="SoftwareImageStopped" shortFormPart="44" comment="A record of a software image stopped in a hypervisor partition.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="imageName" canBeNull="false" comment="The name of the stopped image.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="partitionId" canBeNull="false" comment="The partition from which the image was stopped.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+            </mal:composite>
+            <mal:enumeration name="SoftwareImageStartStage" shortFormPart="45" comment="The stage of an image start reported by the startImage operation.">
+                <mal:item nvalue="1" value="VERIFYING" comment="The image checksum and hypervisor configuration compatibility are being verified."/>
+                <mal:item nvalue="2" value="LOADING" comment="The image is being loaded into the halted partition."/>
+                <mal:item nvalue="3" value="STARTING" comment="The partition is being started."/>
             </mal:enumeration>
         </mal:dataTypes>
         <mal:errors>

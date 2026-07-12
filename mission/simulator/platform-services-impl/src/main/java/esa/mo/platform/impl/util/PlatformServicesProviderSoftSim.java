@@ -39,6 +39,7 @@ import org.ccsds.moims.mo.platform.artificialintelligence.provider.ArtificialInt
 import org.ccsds.moims.mo.platform.fpga.provider.FPGAInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataReceiverInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
+import org.ccsds.moims.mo.platform.softwareimages.provider.SoftwareImagesInheritanceSkeleton;
 
 /**
  *
@@ -69,6 +70,8 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
     private PowerControlAdapterInterface pcAdapter;
     private final FPGAProviderServiceImpl fpgaService =
             new FPGAProviderServiceImpl();
+    private final SoftwareImagesProviderServiceImpl softwareImagesService =
+            new SoftwareImagesProviderServiceImpl();
 
     @Override
     public void init(COMServicesProvider comServices) throws MALException {
@@ -248,6 +251,7 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
         sdrService.init(sdrAdapter);
         powerService.init(pcAdapter);
         fpgaService.init(comServices, new FPGASoftSimAdapter());
+        softwareImagesService.init(comServices, new SoftwareImagesSoftSimAdapter());
     }
 
     public void startStatusTracking(ConnectionConsumer connection) {
@@ -298,5 +302,10 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
     @Override
     public FPGAInheritanceSkeleton getFPGAService() {
         return this.fpgaService;
+    }
+
+    @Override
+    public SoftwareImagesInheritanceSkeleton getSoftwareImagesService() {
+        return this.softwareImagesService;
     }
 }
