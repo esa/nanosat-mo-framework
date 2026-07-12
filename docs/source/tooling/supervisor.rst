@@ -32,7 +32,6 @@ The Supervisor's working directory contains:
 
 - ``provider.properties`` — provider-side runtime configuration.
 - ``transport.properties`` — MAL transport selection (typically ``maltcp``).
-- ``settings.properties`` — global NMF settings.
 - ``logging.properties`` — ``java.util.logging`` configuration.
 - ``platformsim.properties`` — per-service Platform adapter selection (sim vs hardware).
 - ``providerURIs.properties`` — written at runtime; lists active provider URIs.

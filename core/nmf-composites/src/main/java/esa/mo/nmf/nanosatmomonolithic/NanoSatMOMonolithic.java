@@ -67,7 +67,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
         super.startTime = System.currentTimeMillis();
         LOGGER.log(Level.INFO, this.generateStartBanner());
 
-        // Loads: provider.properties; settings.properties; transport.properties
+        // Loads: provider.properties; transport.properties
         NMFProvider.loadMOElements();
         HelperMisc.loadPropertiesFile();
         ConnectionProvider.resetURILinksFile();

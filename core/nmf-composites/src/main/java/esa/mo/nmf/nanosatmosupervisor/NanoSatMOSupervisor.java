@@ -103,7 +103,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         }
         mcAdapter = new CompositeMCAdapter(mcAdapters);
 
-        // Loads: provider.properties; settings.properties; transport.properties
+        // Loads: provider.properties; transport.properties
         NMFProvider.loadMOElements();
         HelperMisc.loadPropertiesFile();
         ConnectionProvider.resetURILinksFile();

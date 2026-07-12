@@ -13,7 +13,7 @@ See the App Development Guide FAQ — the mapping is the same on both sides.
 How do I change the transport layer?
 ------------------------------------
 
-The transport is selected through ``transport.properties`` and ``settings.properties`` in the working
+The transport is selected through ``transport.properties`` in the working
 directory. For ground applications, the default is ``maltcp``. To talk to a space provider through SPP, use a
 Ground MO Proxy (see :doc:`ground-mo-proxy`) rather than reconfiguring the ground application to speak SPP
 directly.

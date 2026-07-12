@@ -155,10 +155,6 @@ public class AuxFilesGenerator {
         str.append(transportPath);
         str.append("\n\n");
 
-        str.append("# NanoSat MO Framework Settings\n");
-        str.append("esa.mo.nanosatmoframework.provider.settings=settings.properties");
-        str.append("\n\n");
-
         str.append("# NanoSat MO Framework dynamic configurations\n");
         str.append("esa.mo.nanosatmoframework.provider.dynamicchanges=true");
         str.append("\n\n");

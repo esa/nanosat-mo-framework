@@ -75,7 +75,7 @@ public abstract class GroundMOProxy {
     protected DirectoryScanTask directoryScanTask;
 
     public GroundMOProxy() {
-        // Loads: provider.properties; settings.properties; transport.properties
+        // Loads: provider.properties; transport.properties
         ConnectionProvider.resetURILinksFile();
         HelperMisc.loadPropertiesFile();
         NMFConsumer.initHelpers();
