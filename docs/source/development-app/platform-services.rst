@@ -137,7 +137,7 @@ to its module. MO carries only the control plane.
    fpga.loadModule(new Identifier("fft"), null, new FPGAAdapter() {   // NULL: the service picks the slot
        @Override
        public void loadModuleResponseReceived(MALMessageHeader msgHeader,
-               Partition partition, Map qosProperties) {
+               FPGAPartition partition, Map qosProperties) {
            // ... open partition.getDataPlaneRef(), run the accelerator ...
        }
    });

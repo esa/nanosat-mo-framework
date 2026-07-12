@@ -29,9 +29,9 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.platform.structures.FabricStatus;
 import org.ccsds.moims.mo.platform.structures.ModuleLoadStage;
-import org.ccsds.moims.mo.platform.structures.Partition;
-import org.ccsds.moims.mo.platform.structures.PartitionList;
-import org.ccsds.moims.mo.platform.structures.PartitionState;
+import org.ccsds.moims.mo.platform.structures.FPGAPartition;
+import org.ccsds.moims.mo.platform.structures.FPGAPartitionList;
+import org.ccsds.moims.mo.platform.structures.FPGAPartitionState;
 
 /**
  * Software simulator adapter for the FPGA service. Simulates a
@@ -64,12 +64,12 @@ public class FPGASoftSimAdapter implements FPGAAdapterInterface {
     }
 
     @Override
-    public PartitionList listPartitions() {
-        PartitionList partitions = new PartitionList();
+    public FPGAPartitionList listPartitions() {
+        FPGAPartitionList partitions = new FPGAPartitionList();
         for (int i = 0; i < PARTITION_IDS.length; i++) {
-            partitions.add(new Partition(new Identifier(PARTITION_IDS[i]),
+            partitions.add(new FPGAPartition(new Identifier(PARTITION_IDS[i]),
                     "Simulated reconfigurable partition " + PARTITION_IDS[i],
-                    PartitionState.FREE, null, null,
+                    FPGAPartitionState.FREE, null, null,
                     "/dev/uio" + i, "Simulated fabric slot"));
         }
         return partitions;

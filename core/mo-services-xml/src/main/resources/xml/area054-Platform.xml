@@ -1128,7 +1128,7 @@
                         </mal:request>
                         <mal:response>
                             <mal:field name="partitions" canBeNull="false" comment="The list of reconfigurable partitions of the platform.">
-                                <mal:type area="Platform" list="true" name="Partition"/>
+                                <mal:type area="Platform" list="true" name="FPGAPartition"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -1177,7 +1177,7 @@
                         </mal:update>
                         <mal:response>
                             <mal:field name="partition" canBeNull="false" comment="The partition into which the module was loaded, including the data-plane reference for direct access to the module.">
-                                <mal:type area="Platform" list="false" name="Partition"/>
+                                <mal:type area="Platform" list="false" name="FPGAPartition"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -1274,7 +1274,7 @@
                         </mal:subscriptionKeys>
                         <mal:publishNotify>
                             <mal:field name="partition" canBeNull="false" comment="The partition after the state transition.">
-                                <mal:type area="Platform" list="false" name="Partition"/>
+                                <mal:type area="Platform" list="false" name="FPGAPartition"/>
                             </mal:field>
                         </mal:publishNotify>
                     </mal:messages>
@@ -1951,13 +1951,13 @@
                     <mal:type area="MAL" list="false" name="Boolean"/>
                 </mal:field>
             </mal:composite>
-            <mal:enumeration name="PartitionState" shortFormPart="34" comment="The state of a reconfigurable partition.">
+            <mal:enumeration name="FPGAPartitionState" shortFormPart="34" comment="The state of a reconfigurable partition.">
                 <mal:item nvalue="1" value="FREE" comment="No module is loaded; the partition is available."/>
                 <mal:item nvalue="2" value="LOADING" comment="A module load is in progress."/>
                 <mal:item nvalue="3" value="LOADED" comment="A module is loaded and coupled to the static shell."/>
                 <mal:item nvalue="4" value="FAULTED" comment="The partition is unusable until it is unloaded or the platform is reset."/>
             </mal:enumeration>
-            <mal:composite name="Partition" shortFormPart="35" comment="A reconfigurable partition of the platform FPGA.">
+            <mal:composite name="FPGAPartition" shortFormPart="35" comment="A reconfigurable partition of the platform FPGA.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
@@ -1968,7 +1968,7 @@
                     <mal:type area="MAL" list="false" name="String"/>
                 </mal:field>
                 <mal:field name="state" canBeNull="false" comment="The current state of the partition.">
-                    <mal:type area="Platform" list="false" name="PartitionState"/>
+                    <mal:type area="Platform" list="false" name="FPGAPartitionState"/>
                 </mal:field>
                 <mal:field name="loadedModule" canBeNull="true" comment="The name of the module currently loaded in the partition, or NULL if the partition is FREE.">
                     <mal:type area="MAL" list="false" name="Identifier"/>

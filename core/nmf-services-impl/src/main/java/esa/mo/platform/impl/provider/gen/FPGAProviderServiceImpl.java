@@ -58,9 +58,9 @@ import org.ccsds.moims.mo.platform.structures.FabricStatus;
 import org.ccsds.moims.mo.platform.structures.ModuleLoadStage;
 import org.ccsds.moims.mo.platform.structures.FPGAModuleLoaded;
 import org.ccsds.moims.mo.platform.structures.FPGAModuleUnloaded;
-import org.ccsds.moims.mo.platform.structures.Partition;
-import org.ccsds.moims.mo.platform.structures.PartitionList;
-import org.ccsds.moims.mo.platform.structures.PartitionState;
+import org.ccsds.moims.mo.platform.structures.FPGAPartition;
+import org.ccsds.moims.mo.platform.structures.FPGAPartitionList;
+import org.ccsds.moims.mo.platform.structures.FPGAPartitionState;
 
 /**
  * FPGA service Provider. Loads and unloads gateware modules
@@ -145,13 +145,13 @@ public class FPGAProviderServiceImpl extends FPGAInheritanceSkeleton {
     }
 
     @Override
-    public synchronized PartitionList listPartitions(final MALInteraction interaction)
+    public synchronized FPGAPartitionList listPartitions(final MALInteraction interaction)
             throws DeviceNotAvailableException, MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
             throw new DeviceNotAvailableException(null);
         }
-        PartitionList partitions = new PartitionList();
-        for (Partition partition : adapter.listPartitions()) {
+        FPGAPartitionList partitions = new FPGAPartitionList();
+        for (FPGAPartition partition : adapter.listPartitions()) {
             partitions.add(overlayOccupancy(partition));
         }
         return partitions;
@@ -164,7 +164,7 @@ public class FPGAProviderServiceImpl extends FPGAInheritanceSkeleton {
             VerificationFailedException, MALInteractionException, MALException {
         final ModuleManifest manifest;
         final Identifier partitionId;
-        final Partition partition;
+        final FPGAPartition partition;
         final ModuleManifest.Variant variant;
 
         synchronized (this) {
@@ -236,7 +236,7 @@ public class FPGAProviderServiceImpl extends FPGAInheritanceSkeleton {
             throw new DeviceNotAvailableException(null);
         }
 
-        Partition partition = findPartition(partitionId);
+        FPGAPartition partition = findPartition(partitionId);
         if (partition == null) {
             throw new UnknownException(null);
         }
@@ -273,15 +273,15 @@ public class FPGAProviderServiceImpl extends FPGAInheritanceSkeleton {
      * otherwise the first free partition for which the manifest declares a
      * bitstream variant.
      */
-    private Partition allocatePartition(ModuleManifest manifest, Identifier preferredPartition)
+    private FPGAPartition allocatePartition(ModuleManifest manifest, Identifier preferredPartition)
             throws UnknownException, DeviceInUseException, DeviceNotAvailableException {
         if (preferredPartition != null) {
-            Partition partition = findPartition(preferredPartition);
+            FPGAPartition partition = findPartition(preferredPartition);
             if (partition == null) {
                 throw new UnknownException(null);
             }
             if (occupancies.containsKey(preferredPartition.getValue())
-                    || PartitionState.FAULTED.equals(partition.getState())) {
+                    || FPGAPartitionState.FAULTED.equals(partition.getState())) {
                 throw new DeviceInUseException(null);
             }
             if (manifest.getVariant(preferredPartition.getValue()) == null) {
@@ -292,10 +292,10 @@ public class FPGAProviderServiceImpl extends FPGAInheritanceSkeleton {
             return partition;
         }
 
-        for (Partition partition : adapter.listPartitions()) {
+        for (FPGAPartition partition : adapter.listPartitions()) {
             String id = partition.getPartitionId().getValue();
             if (!occupancies.containsKey(id)
-                    && !PartitionState.FAULTED.equals(partition.getState())
+                    && !FPGAPartitionState.FAULTED.equals(partition.getState())
                     && manifest.getVariant(id) != null) {
                 return partition;
             }
@@ -304,8 +304,8 @@ public class FPGAProviderServiceImpl extends FPGAInheritanceSkeleton {
                 "No free partition has a bitstream variant of the module: " + manifest.getName());
     }
 
-    private Partition findPartition(Identifier partitionId) {
-        for (Partition partition : adapter.listPartitions()) {
+    private FPGAPartition findPartition(Identifier partitionId) {
+        for (FPGAPartition partition : adapter.listPartitions()) {
             if (partition.getPartitionId().equals(partitionId)) {
                 return partition;
             }
@@ -318,28 +318,28 @@ public class FPGAProviderServiceImpl extends FPGAInheritanceSkeleton {
      * bookkeeping (state, loadedModule, ownerAppId) overlaid on the adapter's
      * identity fields.
      */
-    private Partition overlayOccupancy(Partition partition) {
+    private FPGAPartition overlayOccupancy(FPGAPartition partition) {
         Occupancy occupancy = occupancies.get(partition.getPartitionId().getValue());
-        PartitionState state = partition.getState();
+        FPGAPartitionState state = partition.getState();
         Identifier loadedModule = null;
 
         if (occupancy != null) {
-            state = occupancy.loading ? PartitionState.LOADING : PartitionState.LOADED;
+            state = occupancy.loading ? FPGAPartitionState.LOADING : FPGAPartitionState.LOADED;
             loadedModule = occupancy.moduleName;
-        } else if (!PartitionState.FAULTED.equals(state)) {
-            state = PartitionState.FREE;
+        } else if (!FPGAPartitionState.FAULTED.equals(state)) {
+            state = FPGAPartitionState.FREE;
         }
 
-        return new Partition(partition.getPartitionId(), partition.getDescription(),
+        return new FPGAPartition(partition.getPartitionId(), partition.getDescription(),
                 state, loadedModule, null, partition.getDataPlaneRef(),
                 partition.getResources());
     }
 
     private void publishPartition(Identifier partitionId) {
         try {
-            Partition partition;
+            FPGAPartition partition;
             synchronized (this) {
-                Partition raw = findPartition(partitionId);
+                FPGAPartition raw = findPartition(partitionId);
                 if (raw == null) {
                     return;
                 }

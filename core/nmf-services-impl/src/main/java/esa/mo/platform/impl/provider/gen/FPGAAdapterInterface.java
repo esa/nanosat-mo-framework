@@ -25,7 +25,7 @@ import java.io.IOException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.platform.structures.FabricStatus;
 import org.ccsds.moims.mo.platform.structures.ModuleLoadStage;
-import org.ccsds.moims.mo.platform.structures.PartitionList;
+import org.ccsds.moims.mo.platform.structures.FPGAPartitionList;
 
 /**
  * The FPGAAdapterInterface is an interface to create adapters
@@ -65,7 +65,7 @@ public interface FPGAAdapterInterface {
      *
      * @return The list of reconfigurable partitions.
      */
-    PartitionList listPartitions();
+    FPGAPartitionList listPartitions();
 
     /**
      * Loads a partial bitstream into a reconfigurable partition. The adapter
