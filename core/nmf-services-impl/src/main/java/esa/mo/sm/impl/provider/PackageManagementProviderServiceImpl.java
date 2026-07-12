@@ -440,7 +440,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public CheckPackageIntegrityResponse checkPackageIntegrity(IdentifierList names,
-            MALInteraction interaction) throws UnknownException, MALInteractionException, MALException {
+            MALInteraction interaction) throws UnknownException, InvalidArgumentException, MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -478,7 +478,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         }
 
         if (!invIndexList.isEmpty()) {
-            throw new MALInteractionException(new InvalidArgumentException(invIndexList));
+            throw new InvalidArgumentException(invIndexList);
         }
 
         final BooleanList integrities = new BooleanList();

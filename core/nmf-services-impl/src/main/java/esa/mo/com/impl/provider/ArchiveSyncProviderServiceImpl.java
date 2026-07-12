@@ -204,11 +204,11 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
     @Override
     public void retrieveRangeAgain(final Long transactionTicket, final UIntegerList missingIndexes,
             final RetrieveRangeAgainInteraction interaction)
-            throws MALInteractionException, MALException {
+            throws InvalidArgumentException, MALInteractionException, MALException {
         final Dispatcher dispatcher = dispatchers.get(transactionTicket);
 
         if (dispatcher == null) {
-            throw new MALInteractionException(new InvalidArgumentException(null));
+            throw new InvalidArgumentException(null);
         }
 
         TimerTask timerTask = timerTasks.get(transactionTicket);

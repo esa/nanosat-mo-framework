@@ -159,6 +159,12 @@
                                 <mal:type area="MAL" list="true" name="Integer"/>
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When one or more of the requested packages is not installed.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
@@ -474,6 +480,20 @@
                         <mal:response>
                         </mal:response>
                     </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When one or more of the requested apps is unknown.">
+                            <mal:type area="MAL" list="false" name="Unknown"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When one or more of the requested apps is not running.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
                 </mal:progressIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="4" comment="">
