@@ -155,14 +155,14 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
     @Override
     public synchronized void enableSDR(final Boolean enable,
             final SDRConfiguration initialConfiguration, final Duration publishingPeriod,
-            final MALInteraction interaction) throws InvalidArgumentException, InternalException, MALInteractionException, MALException {
+            final MALInteraction interaction) throws InvalidArgumentException, DeviceNotAvailableException, InternalException, MALInteractionException, MALException {
         publishTimer.cancel();
 
         if (!enable) {
             sdrInUse = false;
         } else {
             if (!adapter.isUnitAvailable()) {
-                throw new MALInteractionException(new DeviceNotAvailableException(null));
+                throw new DeviceNotAvailableException(null);
             }
             if (!adapter.setConfiguration(initialConfiguration)) {
                 throw new InvalidArgumentException(null);
@@ -189,9 +189,9 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
 
     @Override
     public synchronized void updateConfiguration(final SDRConfiguration sdrConfiguration,
-            final MALInteraction interaction) throws InvalidArgumentException, MALInteractionException, MALException {
+            final MALInteraction interaction) throws InvalidArgumentException, DeviceNotAvailableException, MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
         if (!adapter.setConfiguration(sdrConfiguration)) {
             throw new InvalidArgumentException(null);

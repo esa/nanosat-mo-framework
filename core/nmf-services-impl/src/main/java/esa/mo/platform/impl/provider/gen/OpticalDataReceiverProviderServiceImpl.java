@@ -87,11 +87,11 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
     }
 
     @Override
-    public void recordSamples(Duration recordingDuration, RecordSamplesInteraction interaction) 
-            throws MALInteractionException, MALException {
+    public void recordSamples(Duration recordingDuration, RecordSamplesInteraction interaction)
+            throws DeviceNotAvailableException, MALInteractionException, MALException {
         if (!adapter.isUnitAvailable()) {
             // TODO Add error code to the service spec
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
         if (recordingDuration == null || recordingDuration.getInSeconds() == 0.0) {
             interaction.sendError(new InvalidArgumentException(recordingDuration));

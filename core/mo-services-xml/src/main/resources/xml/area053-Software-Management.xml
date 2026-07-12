@@ -422,7 +422,7 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the process of the app could not be started.">
-                            <mal:type area="MAL" list="false" name="INTERNAL"/>
+                            <mal:type area="MAL" list="false" name="Internal"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>

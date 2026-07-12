@@ -802,6 +802,9 @@
                                 <mal:type area="MAL" list="false" name="Duration" />
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the ADCS device is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:submitIP>
             </mal:capabilitySet>
@@ -874,7 +877,7 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the selected attitude mode is not supported by the current implementation.">
-                            <mal:type area="MAL" list="false" name="UNSUPPORTED_OPERATION" />
+                            <mal:type area="MAL" list="false" name="Unsupported Operation" />
                         </mal:errorRef>
                     </mal:errors>
                 </mal:submitIP>
@@ -1015,7 +1018,10 @@
             <mal:capabilitySet number="1" comment="">
                 <mal:pubsubIP name="streamRadio" number="1" comment="The streamRadio operation allows a consumer to subscribe for Software-defined Radio data updates.">
                     <mal:documentation name="Requirement" order="1">
-                        The service provider shall publish IQ components through the streamRadio operation only while the Software-defined Radio is enabled, at the publishingPeriod configured through the enableSDR operation.
+                        The service provider shall publish IQ components through the streamRadio operation only while the Software-defined Radio is enabled.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        The service provider shall publish IQ components through the streamRadio operation at the publishingPeriod configured through the enableSDR operation.
                     </mal:documentation>
                     <mal:messages>
                         <mal:publishNotify>
@@ -1034,15 +1040,21 @@
                     <mal:documentation name="Requirement" order="2">
                         If the enable field is FALSE, then the service provider shall disable the Software-defined Radio.
                     </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        If the enable field is TRUE and the initialConfiguration field is not NULL, then the service provider shall apply the initialConfiguration field to the Software-defined Radio unit.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="4">
+                        If the enable field is TRUE, then a consumer shall supply the publishingPeriod field.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:submit>
-                            <mal:field name="enable" canBeNull="true" comment="The flag status to enable or disable the Software-defined Radio.">
+                            <mal:field name="enable" canBeNull="false" comment="TRUE to enable the Software-defined Radio, FALSE to disable it.">
                                 <mal:type area="MAL" list="false" name="Boolean" />
                             </mal:field>
-                            <mal:field name="initialConfiguration" canBeNull="true" comment="The configuration to be set right after the SDR is enabled.">
+                            <mal:field name="initialConfiguration" canBeNull="true" comment="The configuration to apply right after the Software-defined Radio is enabled, or NULL to apply no configuration.">
                                 <mal:type area="Platform" list="false" name="SDRConfiguration" />
                             </mal:field>
-                            <mal:field name="publishingPeriod" canBeNull="true" comment="The period at which the SDR publishes data through the streamRadio operation.">
+                            <mal:field name="publishingPeriod" canBeNull="true" comment="The period at which the Software-defined Radio publishes data through the streamRadio operation; required when the enable field is TRUE.">
                                 <mal:type area="MAL" list="false" name="Duration" />
                             </mal:field>
                         </mal:submit>
@@ -1051,8 +1063,11 @@
                         <mal:errorRef comment="When the initialConfiguration field contains an invalid value.">
                             <mal:type area="COM" list="false" name="Invalid Argument" />
                         </mal:errorRef>
+                        <mal:errorRef comment="When the Software-defined Radio is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
                         <mal:errorRef comment="When the Software-defined Radio could not be enabled.">
-                            <mal:type area="MAL" list="false" name="INTERNAL" />
+                            <mal:type area="MAL" list="false" name="Internal" />
                         </mal:errorRef>
                     </mal:errors>
                 </mal:submitIP>
@@ -1064,7 +1079,7 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
-                            <mal:field name="configuration" canBeNull="true" comment="The configuration of the SDR.">
+                            <mal:field name="configuration" canBeNull="false" comment="The configuration to apply to the Software-defined Radio.">
                                 <mal:type area="Platform" list="false" name="SDRConfiguration" />
                             </mal:field>
                         </mal:submit>
@@ -1072,6 +1087,9 @@
                     <mal:errors>
                         <mal:errorRef comment="When the configuration field contains an invalid value.">
                             <mal:type area="COM" list="false" name="Invalid Argument" />
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the Software-defined Radio is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
                         </mal:errorRef>
                     </mal:errors>
                 </mal:submitIP>
@@ -1104,6 +1122,9 @@
                             <mal:extraInformation comment="The maximum allowed recording duration.">
                                 <mal:type area="MAL" list="false" name="Duration" />
                             </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the Optical Data Receiver is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
                         </mal:errorRef>
                     </mal:errors>
                 </mal:invokeIP>

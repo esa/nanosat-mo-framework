@@ -735,7 +735,7 @@
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
                         </mal:errorRef>
                         <mal:errorRef comment="When the concurrent session limit for the username is exceeded.">
-                            <mal:type area="MAL" list="false" name="TOO_MANY"/>
+                            <mal:type area="MAL" list="false" name="Too Many"/>
                         </mal:errorRef>
                         <mal:errorRef comment="When the username and password combination does not match a known user.">
                             <mal:type area="MAL" list="false" name="Unknown"/>

@@ -174,13 +174,13 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
     @Override
     public void enableMonitoring(Boolean enableGeneration, Duration monitoringInterval,
-            MALInteraction interaction) throws InvalidArgumentException, MALInteractionException, MALException {
+            MALInteraction interaction) throws InvalidArgumentException, DeviceNotAvailableException, MALInteractionException, MALException {
         if (!enableGeneration) {
             stopGeneration();
             return;
         }
         if (!adapter.isUnitAvailable()) {
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
         // Is the requested streaming rate less than the minimum period?
         if (monitoringInterval == null || monitoringInterval.getInSeconds() < MINIMUM_MONITORING_PERIOD.getInSeconds()) {
