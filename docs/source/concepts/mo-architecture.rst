@@ -81,7 +81,6 @@ Services exposing spacecraft platform hardware to apps:
 - **SoftwareDefinedRadio** — configure and receive data from a Software-Defined Radio device.
 - **OpticalDataReceiver** — receive messages from an Optical Data Receiver device.
 - **PowerControl** — list available power units and enable or disable them.
-- **Clock** — read system time from the spacecraft platform.
 - **ArtificialIntelligence** — control an AI device, including setting models and running image inference.
 
 Apps consume these services through the Supervisor; see :doc:`apps-and-supervisor`.

@@ -135,7 +135,7 @@ CCSDS MAL (transport/encoding)
   └─ COM (Archive, ArchiveSync, Directory, Login, Configuration)
        ├─ MC (Parameter, Action, Aggregation, Alert, Conversion)
        ├─ Platform (Camera, GPS, AutonomousADCS, SoftwareDefinedRadio,
-       │            OpticalDataReceiver, PowerControl, Clock,
+       │            OpticalDataReceiver, PowerControl,
        │            ArtificialIntelligence, FPGA)
        └─ SM (AppsLauncher, PackageManagement, Heartbeat, CommandExecutor)
 ```

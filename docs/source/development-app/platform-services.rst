@@ -106,20 +106,6 @@ controllable devices, and switching loads on or off.
    PowerControlStub power = connector.getPlatformServices().getPowerControlService();
    // read bus voltages, switch loads, etc.
 
-Clock
------
-
-Reads the spacecraft's on-board clock; supports commanded time updates where permitted by the mission.
-
-.. code-block:: java
-
-   ClockStub clock = connector.getPlatformServices().getClockService();
-   Time now = clock.getTime();
-
-No SDK example currently consumes the Clock Platform service. ``sdk/examples-space/publish-clock`` and
-``sdk/examples-space/periodic-alert`` are time-related but unrelated to this service — both schedule MC
-publications from the JVM clock via ``TaskScheduler``.
-
 ArtificialIntelligence
 ----------------------
 

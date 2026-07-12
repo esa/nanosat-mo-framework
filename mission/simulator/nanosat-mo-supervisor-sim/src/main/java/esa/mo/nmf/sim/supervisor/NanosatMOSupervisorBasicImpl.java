@@ -54,6 +54,9 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
         try {
             platformServicesProvider = new PlatformServicesProviderSoftSim();
             platformServicesProvider.init(comServices);
+
+            // Report the simulation's acceleration through the Heartbeat getTime operation
+            super.heartbeatService.setTimeFactorSupplier(platformServicesProvider::getTimeFactor);
         } catch (MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }

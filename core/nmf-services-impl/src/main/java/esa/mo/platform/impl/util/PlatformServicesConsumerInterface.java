@@ -24,7 +24,6 @@ import java.io.IOException;
 import org.ccsds.moims.mo.platform.artificialintelligence.consumer.ArtificialIntelligenceStub;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSStub;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
-import org.ccsds.moims.mo.platform.clock.consumer.ClockStub;
 import org.ccsds.moims.mo.platform.fpga.consumer.FPGAStub;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.consumer.OpticalDataReceiverStub;
@@ -51,7 +50,6 @@ public interface PlatformServicesConsumerInterface {
 
     PowerControlStub getPowerControlService() throws IOException;
 
-    ClockStub getClockService() throws IOException;
 
     FPGAStub getFPGAService() throws IOException;
 

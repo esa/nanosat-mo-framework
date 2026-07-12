@@ -23,6 +23,7 @@ package esa.mo.sm.impl.provider;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.function.IntSupplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
@@ -41,10 +42,12 @@ import org.ccsds.moims.mo.mal.structures.QoSLevel;
 import org.ccsds.moims.mo.mal.structures.SessionType;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALErrorBody;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.heartbeat.HeartbeatHelper;
+import org.ccsds.moims.mo.sm.heartbeat.body.GetTimeResponse;
 import org.ccsds.moims.mo.sm.heartbeat.HeartbeatServiceInfo;
 import org.ccsds.moims.mo.sm.heartbeat.provider.BeatPublisher;
 import org.ccsds.moims.mo.sm.heartbeat.provider.HeartbeatInheritanceSkeleton;
@@ -64,6 +67,7 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
     private final ConnectionProvider connection = new ConnectionProvider();
     private Timer timer;
     protected long period = 10000; // 10 seconds
+    private IntSupplier timeFactorSupplier = () -> 1;
 
     /**
      * Creates the MAL objects, the publisher used to create updates and starts
@@ -144,6 +148,23 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
     public Duration getPeriod(MALInteraction interaction) throws MALInteractionException, MALException {
         // Convert to seconds and return the value
         return new Duration(period / 1000);
+    }
+
+    @Override
+    public GetTimeResponse getTime(MALInteraction interaction) throws MALInteractionException, MALException {
+        return new GetTimeResponse(Time.now(), timeFactorSupplier.getAsInt());
+    }
+
+    /**
+     * Sets the supplier of the time factor reported by the getTime operation.
+     * The default supplier returns 1 (the on-board time advances at the
+     * real-time rate); a simulated deployment can inject the simulation's
+     * acceleration factor here.
+     *
+     * @param supplier The time factor supplier.
+     */
+    public void setTimeFactorSupplier(IntSupplier supplier) {
+        this.timeFactorSupplier = supplier;
     }
 
     public static final class PublishInteractionListener implements MALPublishInteractionListener {

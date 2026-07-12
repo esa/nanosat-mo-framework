@@ -35,8 +35,6 @@ import org.ccsds.moims.mo.platform.autonomousadcs.AutonomousADCSServiceInfo;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSStub;
 import org.ccsds.moims.mo.platform.camera.CameraServiceInfo;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
-import org.ccsds.moims.mo.platform.clock.ClockServiceInfo;
-import org.ccsds.moims.mo.platform.clock.consumer.ClockStub;
 import org.ccsds.moims.mo.platform.fpga.FPGAServiceInfo;
 import org.ccsds.moims.mo.platform.fpga.consumer.FPGAStub;
 import org.ccsds.moims.mo.platform.gps.GPSServiceInfo;
@@ -61,7 +59,6 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
     private OpticalDataReceiverConsumerServiceImpl odrService;
     private SoftwareDefinedRadioConsumerServiceImpl sdrService;
     private PowerControlConsumerServiceImpl powerControlService;
-    private ClockConsumerServiceImpl clockService;
     private FPGAConsumerServiceImpl fpgaService;
 
     public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices) {
@@ -128,11 +125,6 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
                         comServices, authenticationID, localNamePrefix);
             }
 
-            // Initialize the Clock service
-            details = connectionConsumer.getServicesDetails().get(ClockServiceInfo.CLOCK_SERVICE_NAME);
-            if (details != null) {
-                clockService = new ClockConsumerServiceImpl(details, comServices);
-            }
 
             // Initialize the FPGA service
             details = connectionConsumer.getServicesDetails().get(
@@ -210,14 +202,6 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
         return this.powerControlService.getPowerControlStub();
     }
 
-    @Override
-    public ClockStub getClockService() throws IOException {
-        if (this.clockService == null) {
-            throw new IOException("The service consumer is not connected to the provider.");
-        }
-
-        return this.clockService.getClockStub();
-    }
 
     @Override
     public FPGAStub getFPGAService() throws IOException {
@@ -257,9 +241,6 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
         this.powerControlService = powerControlService;
     }
 
-    public void setClockService(ClockConsumerServiceImpl clockService) {
-        this.clockService = clockService;
-    }
 
     public void setFPGAService(FPGAConsumerServiceImpl fpgaService) {
         this.fpgaService = fpgaService;
@@ -332,9 +313,6 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
             this.powerControlService.setAuthenticationId(authenticationId);
         }
 
-        if (this.clockService != null) {
-            this.clockService.closeConnection();
-        }
 
         if (this.fpgaService != null) {
             this.fpgaService.setAuthenticationId(authenticationId);

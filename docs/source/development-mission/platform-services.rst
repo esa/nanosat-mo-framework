@@ -67,8 +67,6 @@ The available adapter interfaces are:
      - Optical downlink
    * - ``AIAdapterInterface``
      - On-board AI/ML inference
-   * - ``ClockAdapterInterface``
-     - Spacecraft time source
    * - ``PowerControlAdapterInterface``
      - Power line switching
 

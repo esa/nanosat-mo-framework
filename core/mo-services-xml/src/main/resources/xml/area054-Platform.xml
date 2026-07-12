@@ -1362,54 +1362,7 @@
             </mal:capabilitySet>
             <com:features />
         </mal:service>
-        <mal:service name="Clock" number="8" xsi:type="com:ExtendedServiceType" comment="The Clock service provides system time.">
-            <mal:capabilitySet number="1" comment="">
-                <mal:requestIP name="getTime" number="1" comment="The getTime operation allows a consumer to request current system time in milliseconds.">
-                    <mal:documentation name="Requirement" order="1">
-                        The RESPONSE message shall contain the current on-board time.
-                    </mal:documentation>
-                    <mal:messages>
-                        <mal:request>
-                        </mal:request>
-                        <mal:response>
-                            <mal:field name="time" canBeNull="false" comment="Current time in milliseconds.">
-                                <mal:type area="MAL" list="false" name="Time" />
-                            </mal:field>
-                        </mal:response>
-                    </mal:messages>
-                </mal:requestIP>
-            </mal:capabilitySet>
-            <mal:capabilitySet number="2" comment="">
-                <mal:requestIP name="getTimeFactor" number="2" comment="The getTimeFactor operation allows a consumer to request time factor of the simulation.">
-                    <mal:documentation name="Requirement" order="1">
-                        The RESPONSE message shall contain the time factor currently applied by the on-board clock.
-                    </mal:documentation>
-                    <mal:messages>
-                        <mal:request>
-                        </mal:request>
-                        <mal:response>
-                            <mal:field name="timeFactor" canBeNull="false" comment="Current time factor of the simulation.">
-                                <mal:type area="MAL" list="false" name="Integer" />
-                            </mal:field>
-                        </mal:response>
-                    </mal:messages>
-                </mal:requestIP>
-                <mal:pubsubIP name="monitorTimeFactor" number="3" comment="The monitorTimeFactor operation allows a consumer to subscribe for time factor changes.">
-                    <mal:documentation name="Requirement" order="1">
-                        Upon a change of the time factor, the service provider shall publish the new time factor through the monitorTimeFactor operation.
-                    </mal:documentation>
-                    <mal:messages>
-                        <mal:publishNotify>
-                            <mal:field name="timeFactor" canBeNull="false" comment="The current time factor of the simulation.">
-                                <mal:type area="MAL" list="false" name="Integer" />
-                            </mal:field>
-                        </mal:publishNotify>
-                    </mal:messages>
-                </mal:pubsubIP>
-            </mal:capabilitySet>
-            <com:features />
-        </mal:service>
-        <mal:service name="ArtificialIntelligence" number="9" xsi:type="com:ExtendedServiceType" comment="The Artificial Intelligence service provides a generic mechanism to control an AI device including setting the models and controlling the inference of images.">
+        <mal:service name="ArtificialIntelligence" number="8" xsi:type="com:ExtendedServiceType" comment="The Artificial Intelligence service provides a generic mechanism to control an AI device including setting the models and controlling the inference of images.">
             <mal:capabilitySet number="1" comment="">
                 <mal:requestIP name="setModel" number="1" comment="The setModel operation allows a consumer to set the Model to be used by the AI device.">
                     <mal:documentation name="Requirement" order="1">

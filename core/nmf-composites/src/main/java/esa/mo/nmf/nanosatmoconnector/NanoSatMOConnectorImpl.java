@@ -24,8 +24,6 @@ import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.com.impl.util.HelperCommon;
 import esa.mo.sm.impl.consumer.AppsLauncherConsumerServiceImpl;
-import esa.mo.platform.impl.util.PlatformClockCallback;
-import esa.mo.platform.impl.util.SystemClock;
 import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
@@ -400,30 +398,6 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
      */
     public void initAdditionalServices() {
         // To be overridden
-    }
-
-    private void initClockService() {
-        SystemClock.setPlatformClockCallback(new PlatformClockCallback() {
-            @Override
-            public Time getPlatformTime() {
-                try {
-                    return platformServices.getClockService().getTime();
-                } catch (MALInteractionException | MALException | IOException e) {
-                    LOGGER.log(Level.SEVERE, null, e);
-                }
-                return new Time(System.currentTimeMillis());
-            }
-
-            @Override
-            public int getPlatformTimeFactor() {
-                try {
-                    return platformServices.getClockService().getTimeFactor();
-                } catch (MALInteractionException | MALException | IOException e) {
-                    LOGGER.log(Level.SEVERE, null, e);
-                }
-                return 1;
-            }
-        });
     }
 
 }

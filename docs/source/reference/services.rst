@@ -34,7 +34,7 @@ Software Management (``area053-Software-Management.xml``)
 
 - **AppsLauncher** — run, stop, kill, list, and monitor apps.
 - **PackageManagement** — install, uninstall, upgrade NMF Packages.
-- **Heartbeat** — periodic liveness publication.
+- **Heartbeat** — periodic liveness publication; on-board time and time-factor query.
 - **CommandExecutor** — execute shell commands on the spacecraft host (where permitted).
 
 Platform (``area054-Platform.xml``)
@@ -49,5 +49,4 @@ For consumer-side usage, see :doc:`../development-app/platform-services`.
 - **OpticalDataReceiver** (#5)
 - **FPGA** (#6)
 - **PowerControl** (#7)
-- **Clock** (#8)
-- **ArtificialIntelligence** (#9)
+- **ArtificialIntelligence** (#8)

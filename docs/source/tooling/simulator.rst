@@ -75,9 +75,6 @@ adapter class. Property keys follow the service name except for **ADCS, which us
    * - PowerControl
      - ``power.adapter``
      -
-   * - Clock
-     - ``clock.adapter``
-     - Soft-sim returns modelled time at the configured real-time factor.
    * - ArtificialIntelligence
      - ``ai.adapter``
      -

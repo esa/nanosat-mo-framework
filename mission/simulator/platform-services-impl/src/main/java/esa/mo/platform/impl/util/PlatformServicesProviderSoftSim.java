@@ -67,8 +67,6 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
     private final PowerControlProviderServiceImpl powerService =
             new PowerControlProviderServiceImpl();
     private PowerControlAdapterInterface pcAdapter;
-    private final ClockProviderServiceImpl clockService =
-            new ClockProviderServiceImpl();
     private final FPGAProviderServiceImpl fpgaService =
             new FPGAProviderServiceImpl();
 
@@ -81,7 +79,6 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
         GPSAdapterInterface gpsAdapter;
         OpticalDataReceiverAdapterInterface optRxAdapter;
         SoftwareDefinedRadioAdapterInterface sdrAdapter;
-        ClockAdapterInterface clockAdapter;
 
         Properties platformProperties = new Properties();
         try {
@@ -93,7 +90,6 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
                 String gpsAdapterName = platformProperties.getProperty("gps.adapter");
                 String optRxAdapterName = platformProperties.getProperty("optrx.adapter");
                 String sdrAdapterName = platformProperties.getProperty("sdr.adapter");
-                String clockAdapterName = platformProperties.getProperty("clock.adapter");
 
                 // PowerControl adapter
                 try {
@@ -214,21 +210,6 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
                             sim, pcAdapter);
                 }
 
-                // Clock adapter
-                try {
-                    boolean isSim = Arrays.asList(Class.forName(clockAdapterName).getInterfaces())
-                            .contains(SimulatorAdapter.class);
-                    if (isSim) {
-                        clockAdapter = new ClockSoftSimAdapter(sim);
-                    } else {
-                        clockAdapter = (ClockAdapterInterface) Class.forName(clockAdapterName).newInstance();
-                    }
-                } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-                    LOGGER.log(Level.WARNING,
-                            "Failed to instantiate the clock adapter. "
-                            + "Falling back to default ClockSoftSimAdapter", e);
-                    clockAdapter = new ClockSoftSimAdapter(sim);
-                }
                 aiAdapter = null;
             } else {
                 pcAdapter = new PowerControlSoftSimAdapter();
@@ -238,7 +219,6 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
                 gpsAdapter = new GPSSoftSimAdapter(sim, pcAdapter);
                 optRxAdapter = new OpticalDataReceiverSoftSimAdapter(sim, pcAdapter);
                 sdrAdapter = new SoftwareDefinedRadioSoftSimAdapter(sim, pcAdapter);
-                clockAdapter = new ClockSoftSimAdapter(sim);
             }
         } catch (IOException e) {
             // Assume simulated environment by default
@@ -256,7 +236,6 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
             gpsAdapter = new GPSSoftSimAdapter(sim, pcAdapter);
             optRxAdapter = new OpticalDataReceiverSoftSimAdapter(sim, pcAdapter);
             sdrAdapter = new SoftwareDefinedRadioSoftSimAdapter(sim, pcAdapter);
-            clockAdapter = new ClockSoftSimAdapter(sim);
         }
 
         autonomousADCSService.init(comServices, adcsAdapter);
@@ -268,12 +247,21 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
         opticalDataReceiverService.init(optRxAdapter);
         sdrService.init(sdrAdapter);
         powerService.init(pcAdapter);
-        clockService.init(clockAdapter);
         fpgaService.init(comServices, new FPGASoftSimAdapter());
     }
 
     public void startStatusTracking(ConnectionConsumer connection) {
         pcAdapter.startStatusTracking(connection);
+    }
+
+    /**
+     * Returns the time factor at which the simulated time advances relative
+     * to real time.
+     *
+     * @return The simulation time factor.
+     */
+    public int getTimeFactor() {
+        return sim.getSimulatorNode().getTimeFactor();
     }
 
     @Override

@@ -258,6 +258,28 @@
                     </mal:messages>
                 </mal:requestIP>
             </mal:capabilitySet>
+            <mal:capabilitySet number="3" comment="">
+                <mal:requestIP name="getTime" number="3" comment="The getTime operation allows a consumer to request the provider's current on-board time together with the time factor at which it advances.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the on-board time at the moment the provider processes the REQUEST message.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the on-board time advances at the real-time rate, then the service provider shall set the timeFactor field to 1.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="timestamp" canBeNull="false" comment="The current on-board time.">
+                                <mal:type area="MAL" list="false" name="Time"/>
+                            </mal:field>
+                            <mal:field name="timeFactor" canBeNull="false" comment="The rate of the on-board time relative to real time; 1 unless the deployment runs accelerated (e.g. in a simulation).">
+                                <mal:type area="MAL" list="false" name="Integer"/>
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                </mal:requestIP>
+            </mal:capabilitySet>
             <com:features/>
         </mal:service>
         <mal:service name="CommandExecutor" number="3" xsi:type="com:ExtendedServiceType" comment="The Command Executor service allows executing arbitrary system commands and monitoring their status.">
