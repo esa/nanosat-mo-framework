@@ -1110,198 +1110,7 @@
             </mal:capabilitySet>
             <com:features />
         </mal:service>
-        <mal:service name="PowerControl" number="7" xsi:type="com:ExtendedServiceType" comment="The Power Control service provides a generic mechanism to list the available power units in a spacecraft platform and to enable/disable them.">
-            <mal:capabilitySet number="1" comment="">
-                <mal:requestIP name="listDevices" number="1" comment="The listDevices operation allows a consumer to request the list of the units available and their respective status. The request may contain the wildcard value of '*' to return all available devices.">
-                    <mal:documentation name="Requirement" order="1">
-                        The devices field of the RESPONSE message shall report, for each selected unit, its identity and current power state.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
-                        If the names field contains the wildcard value of '*', then the service provider shall return all units available for power control.
-                    </mal:documentation>
-                    <mal:messages>
-                        <mal:request>
-                            <mal:field name="names" canBeNull="true" comment="The name of the units.">
-                                <mal:type area="MAL" list="true" name="Identifier" />
-                            </mal:field>
-                        </mal:request>
-                        <mal:response>
-                            <mal:field name="devices" canBeNull="true" comment="List of returned devices.">
-                                <mal:type area="Platform" list="true" name="Device" />
-                            </mal:field>
-                        </mal:response>
-                    </mal:messages>
-                    <mal:errors>
-                        <mal:errorRef comment="When one of the supplied identifiers in the names list is unknown.">
-                            <mal:type area="MAL" list="false" name="Unknown" />
-                            <mal:extraInformation comment="The indexes of the unknown entries in the names list.">
-                                <mal:type area="MAL" list="true" name="UInteger" />
-                            </mal:extraInformation>
-                        </mal:errorRef>
-                    </mal:errors>
-                </mal:requestIP>
-            </mal:capabilitySet>
-            <mal:capabilitySet number="2" comment="">
-                <mal:requestIP name="enableDevices" number="2" comment="The enableDevices operation allows a consumer to enable and disable specific devices. Device can be identified by id and/or unit Type. If id is NULL, then the first device of given type is selected.">
-                    <mal:documentation name="Requirement" order="1">
-                        The service provider shall set the power state of each unit in the devices field to the value of its enabled field.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
-                        If the unitId field of a device is NULL, then the service provider shall select the first available unit of the matching deviceType.
-                    </mal:documentation>
-                    <mal:messages>
-                        <mal:request>
-                            <mal:field name="devices" canBeNull="true" comment="List of devices to be controlled.">
-                                <mal:type area="Platform" list="true" name="Device" />
-                            </mal:field>
-                        </mal:request>
-                        <mal:response>
-                        </mal:response>
-                    </mal:messages>
-                    <mal:errors>
-                        <mal:errorRef comment="When at least one of the devices requested is not available for power control.">
-                            <mal:type area="Platform" list="false" name="Device Not Available" />
-                        </mal:errorRef>
-                    </mal:errors>
-                </mal:requestIP>
-            </mal:capabilitySet>
-            <com:features />
-        </mal:service>
-        <mal:service name="Clock" number="8" xsi:type="com:ExtendedServiceType" comment="The Clock service provides system time.">
-            <mal:capabilitySet number="1" comment="">
-                <mal:requestIP name="getTime" number="1" comment="The getTime operation allows a consumer to request current system time in milliseconds.">
-                    <mal:documentation name="Requirement" order="1">
-                        The RESPONSE message shall contain the current on-board time.
-                    </mal:documentation>
-                    <mal:messages>
-                        <mal:request>
-                        </mal:request>
-                        <mal:response>
-                            <mal:field name="time" canBeNull="false" comment="Current time in milliseconds.">
-                                <mal:type area="MAL" list="false" name="Time" />
-                            </mal:field>
-                        </mal:response>
-                    </mal:messages>
-                </mal:requestIP>
-            </mal:capabilitySet>
-            <mal:capabilitySet number="2" comment="">
-                <mal:requestIP name="getTimeFactor" number="2" comment="The getTimeFactor operation allows a consumer to request time factor of the simulation.">
-                    <mal:documentation name="Requirement" order="1">
-                        The RESPONSE message shall contain the time factor currently applied by the on-board clock.
-                    </mal:documentation>
-                    <mal:messages>
-                        <mal:request>
-                        </mal:request>
-                        <mal:response>
-                            <mal:field name="timeFactor" canBeNull="false" comment="Current time factor of the simulation.">
-                                <mal:type area="MAL" list="false" name="Integer" />
-                            </mal:field>
-                        </mal:response>
-                    </mal:messages>
-                </mal:requestIP>
-                <mal:pubsubIP name="monitorTimeFactor" number="3" comment="The monitorTimeFactor operation allows a consumer to subscribe for time factor changes.">
-                    <mal:documentation name="Requirement" order="1">
-                        Upon a change of the time factor, the service provider shall publish the new time factor through the monitorTimeFactor operation.
-                    </mal:documentation>
-                    <mal:messages>
-                        <mal:publishNotify>
-                            <mal:field name="timeFactor" canBeNull="false" comment="The current time factor of the simulation.">
-                                <mal:type area="MAL" list="false" name="Integer" />
-                            </mal:field>
-                        </mal:publishNotify>
-                    </mal:messages>
-                </mal:pubsubIP>
-            </mal:capabilitySet>
-            <com:features />
-        </mal:service>
-        <mal:service name="ArtificialIntelligence" number="9" xsi:type="com:ExtendedServiceType" comment="The Artificial Intelligence service provides a generic mechanism to control an AI device including setting the models and controlling the inference of images.">
-            <mal:capabilitySet number="1" comment="">
-                <mal:requestIP name="setModel" number="1" comment="The setModel operation allows a consumer to set the Model to be used by the AI device.">
-                    <mal:documentation name="Requirement" order="1">
-                        If there is also an associated weights file, then its path and filename shall be the same as the model with the only difference being the file extension (from .xml to .bin).
-                    </mal:documentation>
-                    <mal:messages>
-                        <mal:request>
-                            <mal:field name="modelPath" canBeNull="false" comment="The absolute path to the model file.">
-                                <mal:type area="MAL" list="false" name="String" />
-                            </mal:field>
-                        </mal:request>
-                        <mal:response>
-                            <mal:field name="modelId" canBeNull="false" comment="The id of the model.">
-                                <mal:type area="MAL" list="false" name="Long" />
-                            </mal:field>
-                        </mal:response>
-                    </mal:messages>
-                </mal:requestIP>
-            </mal:capabilitySet>
-            <mal:capabilitySet number="2" comment="">
-                <mal:requestIP name="doInference" number="2" comment="The doInference operation allows a consumer to perform inference on the AI device.">
-                    <mal:documentation name="Requirement" order="1">
-                        The service provider shall process the tiles in the inputTilesPath folder using the model identified by the modelId field.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
-                        The outputTilesPath field of the RESPONSE message shall reference the folder containing the inferred tiles.
-                    </mal:documentation>
-                    <mal:messages>
-                        <mal:request>
-                            <mal:field name="modelId" canBeNull="false" comment="The id of the model to be used for inference.">
-                                <mal:type area="MAL" list="false" name="Long" />
-                            </mal:field>
-                            <mal:field name="inputTilesPath" canBeNull="false" comment="The absolute path to a folder with the tiles to be processed.">
-                                <mal:type area="MAL" list="false" name="String" />
-                            </mal:field>
-                        </mal:request>
-                        <mal:response>
-                            <mal:field name="outputTilesPath" canBeNull="false" comment="The absolute path to a folder with the inferred tiles.">
-                                <mal:type area="MAL" list="false" name="String" />
-                            </mal:field>
-                        </mal:response>
-                    </mal:messages>
-                    <mal:errors>
-                        <mal:errorRef comment="When the inputTilesPath field does not refer to an existing folder.">
-                            <mal:type area="COM" list="false" name="Invalid Argument" />
-                        </mal:errorRef>
-                    </mal:errors>
-                </mal:requestIP>
-            </mal:capabilitySet>
-            <mal:capabilitySet number="3" comment="">
-                <mal:invokeIP name="doComputerVision" number="3" comment="The doComputerVision operation allows a consumer to invoke the execution of inference with an AI unit.">
-                    <mal:documentation name="Requirement" order="1">
-                        The service provider shall execute the computer vision task described by the file referenced in the jsonPath field.
-                    </mal:documentation>
-                    <mal:messages>
-                        <mal:invoke>
-                            <mal:field name="jsonPath" canBeNull="false" comment="The absolute path to a json file with information to be processed.">
-                                <mal:type area="MAL" list="false" name="String" />
-                            </mal:field>
-                        </mal:invoke>
-                        <mal:acknowledgement>
-                        </mal:acknowledgement>
-                        <mal:response>
-                            <mal:field name="success" canBeNull="false" comment="TRUE if the execution of the computer vision was successful; FALSE otherwise.">
-                                <mal:type area="MAL" list="false" name="Boolean" />
-                            </mal:field>
-                        </mal:response>
-                    </mal:messages>
-                    <mal:errors>
-                        <mal:errorRef comment="When the execution could not be completed successfully.">
-                            <mal:type area="COM" list="false" name="Invalid Argument" />
-                            <mal:extraInformation comment="A description of the error.">
-                                <mal:type area="MAL" list="false" name="String" />
-                            </mal:extraInformation>
-                        </mal:errorRef>
-                        <mal:errorRef comment="When the AI device is not available.">
-                            <mal:type area="Platform" list="false" name="Device Not Available" />
-                        </mal:errorRef>
-                        <mal:errorRef comment="When the AI device is currently being used.">
-                            <mal:type area="Platform" list="false" name="Device In Use" />
-                        </mal:errorRef>
-                    </mal:errors>
-                </mal:invokeIP>
-            </mal:capabilitySet>
-            <com:features />
-        </mal:service>
-        <mal:service name="FPGA" number="10" xsi:type="com:ExtendedServiceType" comment="The FPGA service allows a consumer to load and unload gateware modules into the reconfigurable partitions of the platform FPGA at runtime, without disturbing the static shell design. The static shell defines the set of reconfigurable partitions; a module is a partial bitstream compiled on ground against a specific shell version and delivered on board inside an NMF Package together with a manifest that declares its shell version and its per-partition bitstream variants.">
+        <mal:service name="FPGA" number="6" xsi:type="com:ExtendedServiceType" comment="The FPGA service allows a consumer to load and unload gateware modules into the reconfigurable partitions of the platform FPGA at runtime, without disturbing the static shell design. The static shell defines the set of reconfigurable partitions; a module is a partial bitstream compiled on ground against a specific shell version and delivered on board inside an NMF Package together with a manifest that declares its shell version and its per-partition bitstream variants.">
             <mal:documentation name="Service-level Requirement" order="1">The FPGA service shall provide:
 &lt;ol&gt;
   &lt;li&gt;the capability to list the reconfigurable partitions of the platform FPGA;&lt;/li&gt;
@@ -1495,6 +1304,197 @@
                 <com:archiveUsage
                     comment="FPGAModuleLoaded objects and FPGAModuleUnloaded objects are stored in the COM archive."/>
             </com:features>
+        </mal:service>
+        <mal:service name="PowerControl" number="7" xsi:type="com:ExtendedServiceType" comment="The Power Control service provides a generic mechanism to list the available power units in a spacecraft platform and to enable/disable them.">
+            <mal:capabilitySet number="1" comment="">
+                <mal:requestIP name="listDevices" number="1" comment="The listDevices operation allows a consumer to request the list of the units available and their respective status. The request may contain the wildcard value of '*' to return all available devices.">
+                    <mal:documentation name="Requirement" order="1">
+                        The devices field of the RESPONSE message shall report, for each selected unit, its identity and current power state.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the names field contains the wildcard value of '*', then the service provider shall return all units available for power control.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                            <mal:field name="names" canBeNull="true" comment="The name of the units.">
+                                <mal:type area="MAL" list="true" name="Identifier" />
+                            </mal:field>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="devices" canBeNull="true" comment="List of returned devices.">
+                                <mal:type area="Platform" list="true" name="Device" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When one of the supplied identifiers in the names list is unknown.">
+                            <mal:type area="MAL" list="false" name="Unknown" />
+                            <mal:extraInformation comment="The indexes of the unknown entries in the names list.">
+                                <mal:type area="MAL" list="true" name="UInteger" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="2" comment="">
+                <mal:requestIP name="enableDevices" number="2" comment="The enableDevices operation allows a consumer to enable and disable specific devices. Device can be identified by id and/or unit Type. If id is NULL, then the first device of given type is selected.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall set the power state of each unit in the devices field to the value of its enabled field.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the unitId field of a device is NULL, then the service provider shall select the first available unit of the matching deviceType.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                            <mal:field name="devices" canBeNull="true" comment="List of devices to be controlled.">
+                                <mal:type area="Platform" list="true" name="Device" />
+                            </mal:field>
+                        </mal:request>
+                        <mal:response>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When at least one of the devices requested is not available for power control.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <com:features />
+        </mal:service>
+        <mal:service name="Clock" number="8" xsi:type="com:ExtendedServiceType" comment="The Clock service provides system time.">
+            <mal:capabilitySet number="1" comment="">
+                <mal:requestIP name="getTime" number="1" comment="The getTime operation allows a consumer to request current system time in milliseconds.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the current on-board time.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="time" canBeNull="false" comment="Current time in milliseconds.">
+                                <mal:type area="MAL" list="false" name="Time" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="2" comment="">
+                <mal:requestIP name="getTimeFactor" number="2" comment="The getTimeFactor operation allows a consumer to request time factor of the simulation.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the time factor currently applied by the on-board clock.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="timeFactor" canBeNull="false" comment="Current time factor of the simulation.">
+                                <mal:type area="MAL" list="false" name="Integer" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                </mal:requestIP>
+                <mal:pubsubIP name="monitorTimeFactor" number="3" comment="The monitorTimeFactor operation allows a consumer to subscribe for time factor changes.">
+                    <mal:documentation name="Requirement" order="1">
+                        Upon a change of the time factor, the service provider shall publish the new time factor through the monitorTimeFactor operation.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:publishNotify>
+                            <mal:field name="timeFactor" canBeNull="false" comment="The current time factor of the simulation.">
+                                <mal:type area="MAL" list="false" name="Integer" />
+                            </mal:field>
+                        </mal:publishNotify>
+                    </mal:messages>
+                </mal:pubsubIP>
+            </mal:capabilitySet>
+            <com:features />
+        </mal:service>
+        <mal:service name="ArtificialIntelligence" number="9" xsi:type="com:ExtendedServiceType" comment="The Artificial Intelligence service provides a generic mechanism to control an AI device including setting the models and controlling the inference of images.">
+            <mal:capabilitySet number="1" comment="">
+                <mal:requestIP name="setModel" number="1" comment="The setModel operation allows a consumer to set the Model to be used by the AI device.">
+                    <mal:documentation name="Requirement" order="1">
+                        If there is also an associated weights file, then its path and filename shall be the same as the model with the only difference being the file extension (from .xml to .bin).
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                            <mal:field name="modelPath" canBeNull="false" comment="The absolute path to the model file.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:field>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="modelId" canBeNull="false" comment="The id of the model.">
+                                <mal:type area="MAL" list="false" name="Long" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="2" comment="">
+                <mal:requestIP name="doInference" number="2" comment="The doInference operation allows a consumer to perform inference on the AI device.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall process the tiles in the inputTilesPath folder using the model identified by the modelId field.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        The outputTilesPath field of the RESPONSE message shall reference the folder containing the inferred tiles.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                            <mal:field name="modelId" canBeNull="false" comment="The id of the model to be used for inference.">
+                                <mal:type area="MAL" list="false" name="Long" />
+                            </mal:field>
+                            <mal:field name="inputTilesPath" canBeNull="false" comment="The absolute path to a folder with the tiles to be processed.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:field>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="outputTilesPath" canBeNull="false" comment="The absolute path to a folder with the inferred tiles.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the inputTilesPath field does not refer to an existing folder.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="3" comment="">
+                <mal:invokeIP name="doComputerVision" number="3" comment="The doComputerVision operation allows a consumer to invoke the execution of inference with an AI unit.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall execute the computer vision task described by the file referenced in the jsonPath field.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:invoke>
+                            <mal:field name="jsonPath" canBeNull="false" comment="The absolute path to a json file with information to be processed.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:field>
+                        </mal:invoke>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
+                        <mal:response>
+                            <mal:field name="success" canBeNull="false" comment="TRUE if the execution of the computer vision was successful; FALSE otherwise.">
+                                <mal:type area="MAL" list="false" name="Boolean" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the execution could not be completed successfully.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="A description of the error.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the AI device is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the AI device is currently being used.">
+                            <mal:type area="Platform" list="false" name="Device In Use" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:invokeIP>
+            </mal:capabilitySet>
+            <com:features />
         </mal:service>
         <mal:dataTypes>
             <mal:composite name="VectorF3D" shortFormPart="1" comment="A 3D float vector.">
