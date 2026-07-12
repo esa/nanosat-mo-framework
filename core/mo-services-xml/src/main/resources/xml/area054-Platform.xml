@@ -100,7 +100,7 @@
                 </mal:submitIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="2" comment="">
-                <mal:requestIP name="previewPicture" number="4" comment="The previewPicture operation allows a consumer to quickly get a raw picture from the camera with a lower quality. This operation is intended to provide a quick snap of what the camera is observing.">
+                <mal:requestIP name="previewPicture" number="3" comment="The previewPicture operation allows a consumer to quickly get a raw picture from the camera with a lower quality. This operation is intended to provide a quick snap of what the camera is observing.">
                     <mal:documentation name="Requirement" order="1">
                         The service provider shall acquire the preview picture in the RAW picture format.
                     </mal:documentation>
@@ -121,7 +121,7 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="3" comment="">
-                <mal:invokeIP name="takePicture" number="5" comment="The takePicture operation allows a consumer to take a picture from the camera. The appropriate dimension and format of the picture can be selected.">
+                <mal:invokeIP name="takePicture" number="4" comment="The takePicture operation allows a consumer to take a picture from the camera. The appropriate dimension and format of the picture can be selected.">
                     <mal:documentation name="Requirement" order="1">
                         The service provider shall acquire the picture using the resolution, format and exposureTime given in the settings field.
                     </mal:documentation>
@@ -161,8 +161,8 @@
                     </mal:errors>
                 </mal:invokeIP>
             </mal:capabilitySet>
-            <mal:capabilitySet number="36" comment="">
-                <mal:invokeIP name="takeAutoExposedPicture" number="15" comment="The takeAutoExposedPicture operation allows a consumer to take a picture from the camera. The appropriate dimension and format of the picture can be selected. The exposure will be auto calculated, but it is slower than using takePicture.">
+            <mal:capabilitySet number="4" comment="">
+                <mal:invokeIP name="takeAutoExposedPicture" number="5" comment="The takeAutoExposedPicture operation allows a consumer to take a picture from the camera. The appropriate dimension and format of the picture can be selected. The exposure will be auto calculated, but it is slower than using takePicture.">
                     <mal:documentation name="Requirement" order="1">
                         The service provider shall determine the exposure time automatically, ignoring the exposureTime of the settings field.
                     </mal:documentation>
@@ -202,7 +202,7 @@
                     </mal:errors>
                 </mal:invokeIP>
             </mal:capabilitySet>
-            <mal:capabilitySet number="4" comment="">
+            <mal:capabilitySet number="5" comment="">
                 <mal:requestIP name="getProperties" number="6" comment="The getProperties operation allows a consumer to request the properties of the service and camera. The service shall provide information about the available resolutions, formats and some extra information.">
                     <mal:documentation name="Requirement" order="1">
                         The availableResolutions and availableFormats fields of the RESPONSE message shall enumerate the resolutions and formats that the service accepts for the takePicture and enableStream operations.
@@ -224,7 +224,7 @@
                     </mal:messages>
                 </mal:requestIP>
             </mal:capabilitySet>
-            <mal:capabilitySet number="5" comment="">
+            <mal:capabilitySet number="6" comment="">
                 <mal:invokeIP name="preprocessPicture" number="7" comment="The preprocessPicture operation allows a consumer to preprocess a picture.">
                     <mal:documentation name="Requirement" order="1">
                         The RESPONSE message shall contain the inputPicture after applying the preprocessing selected by the settings field.
@@ -540,7 +540,7 @@
                     </mal:errors>
                 </mal:invokeIP>
             </mal:capabilitySet>
-            <mal:capabilitySet number="11" comment="">
+            <mal:capabilitySet number="10" comment="">
                 <mal:requestIP name="getLastKnownPositionAndVelocity" number="11" comment="The getLastKnownPositionAndVelocity operation allows a consumer to retrieve the last known Position and Velocity in Cartesian coordinates, and the corresponding standard deviations that were provided by the GPS unit.">
                     <mal:documentation name="Requirement" order="1">
                         The service provider shall return the most recent position and velocity previously reported by the GPS unit, without triggering a new acquisition.
@@ -573,7 +573,7 @@
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
-            <mal:capabilitySet number="12" comment="">
+            <mal:capabilitySet number="11" comment="">
                 <mal:invokeIP name="getPositionAndVelocity" number="12" comment="The getPositionAndVelocity operation allows a consumer to obtain a position and velocity from the GPS unit.">
                     <mal:documentation name="Requirement" order="1">
                         The service provider shall return the position and velocity determined by the GPS unit at the time of the request.
@@ -608,7 +608,7 @@
                     </mal:errors>
                 </mal:invokeIP>
             </mal:capabilitySet>
-            <mal:capabilitySet number="13" comment="">
+            <mal:capabilitySet number="12" comment="">
                 <mal:invokeIP name="getTLE" number="13" comment="The getTLE operation allows a consumer to obtain the current TLE.">
                     <mal:documentation name="Requirement" order="1">
                         The RESPONSE message shall contain the current two-line element set for the spacecraft as reported by the GPS unit.
@@ -879,8 +879,8 @@
                     </mal:errors>
                 </mal:submitIP>
             </mal:capabilitySet>
-            <mal:capabilitySet number="20" comment="">
-                <mal:submitIP name="setReactionWheelSpeed" number="20" comment="The setReactionWheelSpeed operation allows a consumer to set a desired speed for the specified Reaction wheel in rad/second.">
+            <mal:capabilitySet number="4" comment="">
+                <mal:submitIP name="setReactionWheelSpeed" number="5" comment="The setReactionWheelSpeed operation allows a consumer to set a desired speed for the specified Reaction wheel in rad/second.">
                     <mal:documentation name="Requirement" order="1">
                         The service provider shall set the target speed of the reaction wheel identified by the wheel field to the value of the speed field.
                     </mal:documentation>
@@ -901,8 +901,8 @@
                     </mal:errors>
                 </mal:submitIP>
             </mal:capabilitySet>
-            <mal:capabilitySet number="21" comment="">
-                <mal:submitIP name="setAllReactionWheelSpeeds" number="21" comment="The setAllReactionWheelSpeeds operation allows a consumer to set the desired speed for all Reaction wheels in rad/second.">
+            <mal:capabilitySet number="5" comment="">
+                <mal:submitIP name="setAllReactionWheelSpeeds" number="6" comment="The setAllReactionWheelSpeeds operation allows a consumer to set the desired speed for all Reaction wheels in rad/second.">
                     <mal:documentation name="Requirement" order="1">
                         The service provider shall set the target speed of each reaction wheel to its corresponding speed field of the SUBMIT message.
                     </mal:documentation>
@@ -935,8 +935,8 @@
                     </mal:errors>
                 </mal:submitIP>
             </mal:capabilitySet>
-            <mal:capabilitySet number="22" comment="">
-                <mal:submitIP name="setAllReactionWheelParameters" number="22" comment="The setAllReactionWheelParameters operation allows a consumer to set the desired parameters for all Reaction wheels. Any parameter field left NULL is not changed. Note: This will affect all ADCS operation modes; only maximum speed, maximum torque and control mode will be changed.">
+            <mal:capabilitySet number="6" comment="">
+                <mal:submitIP name="setAllReactionWheelParameters" number="7" comment="The setAllReactionWheelParameters operation allows a consumer to set the desired parameters for all Reaction wheels. Any parameter field left NULL is not changed. Note: This will affect all ADCS operation modes; only maximum speed, maximum torque and control mode will be changed.">
                     <mal:documentation name="Requirement" order="1">
                         The service provider shall apply the controlMode, maxSpeed and maxTorque of the rwParameters field to all reaction wheels.
                     </mal:documentation>
@@ -963,8 +963,8 @@
                     </mal:errors>
                 </mal:submitIP>
             </mal:capabilitySet>
-            <mal:capabilitySet number="23" comment="">
-                <mal:submitIP name="setAllMagnetorquersDipoleMoments" number="23" comment="The setAllMagnetorquersDipoleMoments operation allows a consumer to set the desired dipole moments for all Magnetorquers in Am.">
+            <mal:capabilitySet number="7" comment="">
+                <mal:submitIP name="setAllMagnetorquersDipoleMoments" number="8" comment="The setAllMagnetorquersDipoleMoments operation allows a consumer to set the desired dipole moments for all Magnetorquers in Am.">
                     <mal:documentation name="Requirement" order="1">
                         The service provider shall set the dipole moment of each magnetorquer to its corresponding dipoleX, dipoleY or dipoleZ field of the SUBMIT message.
                     </mal:documentation>
@@ -989,8 +989,8 @@
                     </mal:errors>
                 </mal:submitIP>
             </mal:capabilitySet>
-            <mal:capabilitySet number="24" comment="">
-                <mal:requestIP name="getAllReactionWheelParameters" number="24" comment="The getAllReactionWheelParameters operation allows a consumer to get all parameters that are currently set for the Reaction wheels.">
+            <mal:capabilitySet number="8" comment="">
+                <mal:requestIP name="getAllReactionWheelParameters" number="9" comment="The getAllReactionWheelParameters operation allows a consumer to get all parameters that are currently set for the Reaction wheels.">
                     <mal:documentation name="Requirement" order="1">
                         The RESPONSE message shall contain the reaction wheel parameters currently set on the ADCS unit.
                     </mal:documentation>
