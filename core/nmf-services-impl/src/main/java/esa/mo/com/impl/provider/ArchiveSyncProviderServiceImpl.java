@@ -20,7 +20,7 @@
  */
 package esa.mo.com.impl.provider;
 
-import esa.mo.com.impl.archive.entities.COMObjectEntity;
+import esa.mo.com.impl.archive.db.COMObjectEntity;
 import esa.mo.com.impl.sync.Dictionary;
 import esa.mo.com.impl.sync.EncodeDecode;
 import esa.mo.helpertools.misc.Const;

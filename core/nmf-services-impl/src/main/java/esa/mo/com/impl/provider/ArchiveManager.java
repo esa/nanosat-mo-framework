@@ -23,7 +23,7 @@ package esa.mo.com.impl.provider;
 import esa.mo.com.impl.archive.db.DatabaseBackend;
 import esa.mo.com.impl.archive.db.SourceLinkContainer;
 import esa.mo.com.impl.archive.db.TransactionsProcessor;
-import esa.mo.com.impl.archive.entities.COMObjectEntity;
+import esa.mo.com.impl.archive.db.COMObjectEntity;
 import esa.mo.com.impl.archive.fast.FastDomain;
 import esa.mo.com.impl.archive.fast.FastObjId;
 import esa.mo.com.impl.archive.fast.FastObjectType;

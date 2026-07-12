@@ -18,9 +18,8 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.com.impl.archive.entities;
+package esa.mo.com.impl.archive.db;
 
-import esa.mo.com.impl.archive.db.COMObjectEntityPK;
 import esa.mo.com.impl.archive.db.SourceLinkContainer;
 import esa.mo.com.impl.archive.encoding.BinaryDecoder;
 import esa.mo.com.impl.archive.encoding.BinaryEncoder;

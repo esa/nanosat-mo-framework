@@ -20,7 +20,6 @@
  */
 package esa.mo.com.impl.archive.db;
 
-import esa.mo.com.impl.archive.entities.COMObjectEntity;
 import java.util.ArrayList;
 
 /**

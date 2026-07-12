@@ -22,7 +22,7 @@ package esa.mo.com.impl.sync;
 
 import esa.mo.com.impl.archive.encoding.BinaryDecoder;
 import esa.mo.com.impl.archive.encoding.BinaryEncoder;
-import esa.mo.com.impl.archive.entities.COMObjectEntity;
+import esa.mo.com.impl.archive.db.COMObjectEntity;
 import esa.mo.com.impl.provider.ArchiveManager;
 import esa.mo.com.impl.util.COMObjectStructure;
 import java.io.ByteArrayInputStream;
