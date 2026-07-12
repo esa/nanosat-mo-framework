@@ -54,7 +54,7 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
 
         final String name = System.getProperty("application.name", "CTT: Consumer Test Tool");
         final ConsumerTestToolGUI gui = new ConsumerTestToolGUI(name);
-        gui.setSize(new Dimension(1280, 720));
+        gui.setSize(new Dimension(1380, 720));
         gui.insertDirectoryServiceTab("");
 
         EventQueue.invokeLater(() -> gui.setVisible(true));
