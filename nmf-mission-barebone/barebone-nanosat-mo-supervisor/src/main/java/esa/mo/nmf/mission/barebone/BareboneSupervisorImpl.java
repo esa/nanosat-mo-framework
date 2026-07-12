@@ -46,8 +46,7 @@ public class BareboneSupervisorImpl extends NanoSatMOSupervisor {
      */
     public static void main(final String[] args) throws Exception {
         BareboneSupervisorImpl supervisor = new BareboneSupervisorImpl();
-        MCSupervisorBasicAdapter adapter = new MCSupervisorBasicAdapter();
-        adapter.setNmfSupervisor(supervisor);
+        MCSupervisorBasicAdapter adapter = new MCSupervisorBasicAdapter(supervisor);
         supervisor.init(adapter);
     }
 

@@ -90,8 +90,7 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
      */
     public static void main(final String[] args) throws Exception {
         NanosatMOSupervisorBasicImpl supervisor = new NanosatMOSupervisorBasicImpl();
-        MCSupervisorBasicAdapter adapter = new MCSupervisorBasicAdapter();
-        adapter.setNmfSupervisor(supervisor);
+        MCSupervisorBasicAdapter adapter = new MCSupervisorBasicAdapter(supervisor);
         supervisor.init(adapter);
         adapter.startAdcsAttitudeMonitoring();
     }

@@ -92,7 +92,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
 
     private final ShellCommander shellCommander = new ShellCommander();
     private final OSValidator osValidator = new OSValidator();
-    private NanoSatMOSupervisor nmfSupervisor;
+    private final NanoSatMOSupervisor nmfSupervisor;
 
     private float attitudeQuatA = 0f;
     private float attitudeQuatB = 0f;
@@ -100,10 +100,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     private float attitudeQuatD = 0f;
     private Duration attitudeMonitoringInterval = DEFAULT_MONITORING_INTERVAL;
 
-    public MCSupervisorBasicAdapter() {
-    }
-
-    public void setNmfSupervisor(NanoSatMOSupervisor supervisor) {
+    public MCSupervisorBasicAdapter(NanoSatMOSupervisor supervisor) {
         nmfSupervisor = supervisor;
     }
 
