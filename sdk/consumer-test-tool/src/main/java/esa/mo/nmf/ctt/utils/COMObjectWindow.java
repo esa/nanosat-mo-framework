@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.ctt.windows.com;
+package esa.mo.nmf.ctt.utils;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
@@ -371,11 +371,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(0, 33, Short.MAX_VALUE))
                                     .addComponent(sourceDomain, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(sourceButton,
-                                        javax.swing.GroupLayout.Alignment.TRAILING,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                        Short.MAX_VALUE)
+                                    .addComponent(sourceButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(sourceType)))))
                     .addGroup(componentsPanelLayout.createSequentialGroup()
                         .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
