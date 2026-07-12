@@ -1301,6 +1301,201 @@
             </mal:capabilitySet>
             <com:features />
         </mal:service>
+        <mal:service name="FPGA" number="10" xsi:type="com:ExtendedServiceType" comment="The FPGA service allows a consumer to load and unload gateware modules into the reconfigurable partitions of the platform FPGA at runtime, without disturbing the static shell design. The static shell defines the set of reconfigurable partitions; a module is a partial bitstream compiled on ground against a specific shell version and delivered on board inside an NMF Package together with a manifest that declares its shell version and its per-partition bitstream variants.">
+            <mal:documentation name="Service-level Requirement" order="1">The FPGA service shall provide:
+&lt;ol&gt;
+  &lt;li&gt;the capability to list the reconfigurable partitions of the platform FPGA;&lt;/li&gt;
+  &lt;li&gt;the capability to load a gateware module into a free partition and to unload it;&lt;/li&gt;
+  &lt;li&gt;the capability to monitor the state of the partitions and of the fabric.&lt;/li&gt;
+&lt;/ol&gt;
+            </mal:documentation>
+            <mal:capabilitySet number="1" comment="">
+                <mal:requestIP name="listPartitions" number="1" comment="The listPartitions operation allows a consumer to request the list of reconfigurable partitions of the platform FPGA.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain one entry in the partitions field for every reconfigurable partition of the platform, regardless of its state.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="partitions" canBeNull="false" comment="The list of reconfigurable partitions of the platform.">
+                                <mal:type area="Platform" list="true" name="Partition"/>
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the platform has no reconfigurable fabric.">
+                            <mal:type area="Platform" list="false" name="Device Not Available"/>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="2" comment="">
+                <mal:progressIP name="loadModule" number="2" comment="The loadModule operation allows a consumer to load a gateware module into a reconfigurable partition. The bitstream is not carried in the message: the service locates it on board through the module manifest delivered with the app.">
+                    <mal:documentation name="Requirement" order="1">
+                        If the preferredPartition field is NULL, then the service provider shall select a free partition for which the module manifest declares a bitstream variant.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        The service provider shall verify the checksum of the bitstream file against the value declared in the module manifest before writing it to the fabric.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        The service provider shall decouple the partition from the static shell before writing the bitstream to the fabric.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="4">
+                        The service provider shall couple the partition back to the static shell only after the bitstream write has completed and the module reset has been released.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="5">
+                        The service provider shall send one UPDATE message at the start of each stage of the load, with the stage field set to the stage being entered.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="6">
+                        Upon successful completion of the load, the service provider shall store an FPGAModuleLoaded object in the COM Archive.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:progress>
+                            <mal:field name="moduleName" canBeNull="false" comment="The name of the module, as declared in the module manifest.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                            <mal:field name="preferredPartition" canBeNull="true" comment="The partition to load the module into, or NULL to let the service provider select one.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                        </mal:progress>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
+                        <mal:update>
+                            <mal:field name="stage" canBeNull="false" comment="The stage of the load being entered.">
+                                <mal:type area="Platform" list="false" name="ModuleLoadStage"/>
+                            </mal:field>
+                        </mal:update>
+                        <mal:response>
+                            <mal:field name="partition" canBeNull="false" comment="The partition into which the module was loaded, including the data-plane reference for direct access to the module.">
+                                <mal:type area="Platform" list="false" name="Partition"/>
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the moduleName is not known to the service provider.">
+                            <mal:type area="MAL" list="false" name="Unknown"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the preferredPartition field references a partition that is not in the FREE state.">
+                            <mal:type area="Platform" list="false" name="Device In Use"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the platform has no reconfigurable fabric, or when no free partition has a bitstream variant of the requested module.">
+                            <mal:type area="Platform" list="false" name="Device Not Available"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the shell version declared in the module manifest differs from the shell version running in the fabric.">
+                            <mal:type area="Platform" list="false" name="Incompatible"/>
+                            <mal:extraInformation comment="The shell version running in the fabric.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the bitstream file fails its checksum verification.">
+                            <mal:type area="Platform" list="false" name="Verification Failed"/>
+                            <mal:extraInformation comment="A textual description of the verification failure.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:progressIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="3" comment="">
+                <mal:requestIP name="unloadModule" number="3" comment="The unloadModule operation allows a consumer to unload the module of a reconfigurable partition, returning the partition to the FREE state.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall decouple the partition from the static shell before clearing it.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        The service provider shall set the partition state to FREE after the unload completes.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        If the partition is already in the FREE state, then the service provider shall return without error.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="4">
+                        Upon successful completion of the unload, the service provider shall store an FPGAModuleUnloaded object in the COM Archive.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                            <mal:field name="partitionId" canBeNull="false" comment="The identifier of the partition to unload.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                        </mal:request>
+                        <mal:response>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the partitionId is not known to the service provider.">
+                            <mal:type area="MAL" list="false" name="Unknown"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the platform has no reconfigurable fabric.">
+                            <mal:type area="Platform" list="false" name="Device Not Available"/>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="4" comment="">
+                <mal:requestIP name="getStatus" number="4" comment="The getStatus operation allows a consumer to request the status of the reconfigurable fabric.">
+                    <mal:documentation name="Requirement" order="1">
+                        If the platform cannot report single-event upset statistics, then the service provider shall set the seuCount and scrubCycles fields to NULL.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="status" canBeNull="false" comment="The status of the reconfigurable fabric.">
+                                <mal:type area="Platform" list="false" name="FabricStatus"/>
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the platform has no reconfigurable fabric.">
+                            <mal:type area="Platform" list="false" name="Device Not Available"/>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+                <mal:pubsubIP name="monitorPartitions" number="5" comment="The monitorPartitions operation allows a consumer to subscribe for partition state changes.">
+                    <mal:documentation name="Requirement" order="1">
+                        Upon every partition state transition, the service provider shall publish the new Partition through the monitorPartitions operation.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        A service consumer may subscribe to updates for a specific partition, or for all partitions with the use of the wildcard in the partitionId field.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:subscriptionKeys>
+                            <mal:field name="partitionId" canBeNull="false" comment="The identifier of the partition.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                        </mal:subscriptionKeys>
+                        <mal:publishNotify>
+                            <mal:field name="partition" canBeNull="false" comment="The partition after the state transition.">
+                                <mal:type area="Platform" list="false" name="Partition"/>
+                            </mal:field>
+                        </mal:publishNotify>
+                    </mal:messages>
+                </mal:pubsubIP>
+            </mal:capabilitySet>
+            <com:features>
+                <com:objects comment="The FPGAModuleLoaded and FPGAModuleUnloaded COM objects form the audit trail of the fabric occupancy.">
+                    <com:object number="1" name="FPGAModuleLoaded"
+                                comment="A record of a gateware module loaded into a reconfigurable partition.">
+                        <com:objectType>
+                            <mal:type area="Platform" list="false" name="FPGAModuleLoaded"/>
+                        </com:objectType>
+                        <com:relatedObject comment=""/>
+                        <com:sourceObject comment=""/>
+                    </com:object>
+                    <com:object number="2" name="FPGAModuleUnloaded"
+                                comment="A record of a gateware module unloaded from a reconfigurable partition.">
+                        <com:objectType>
+                            <mal:type area="Platform" list="false" name="FPGAModuleUnloaded"/>
+                        </com:objectType>
+                        <com:relatedObject comment="The FPGAModuleLoaded COM object of the load that this unload terminates.">
+                            <com:objectType area="Platform" number="1" service="FPGA"/>
+                        </com:relatedObject>
+                        <com:sourceObject comment=""/>
+                    </com:object>
+                </com:objects>
+                <com:archiveUsage
+                    comment="FPGAModuleLoaded objects and FPGAModuleUnloaded objects are stored in the COM archive."/>
+            </com:features>
+        </mal:service>
         <mal:dataTypes>
             <mal:composite name="VectorF3D" shortFormPart="1" comment="A 3D float vector.">
                 <mal:extends>
@@ -1803,10 +1998,92 @@
                     <mal:type area="MAL" list="false" name="Boolean"/>
                 </mal:field>
             </mal:composite>
+            <mal:enumeration name="PartitionState" shortFormPart="34" comment="The state of a reconfigurable partition.">
+                <mal:item nvalue="1" value="FREE" comment="No module is loaded; the partition is available."/>
+                <mal:item nvalue="2" value="LOADING" comment="A module load is in progress."/>
+                <mal:item nvalue="3" value="LOADED" comment="A module is loaded and coupled to the static shell."/>
+                <mal:item nvalue="4" value="FAULTED" comment="The partition is unusable until it is unloaded or the platform is reset."/>
+            </mal:enumeration>
+            <mal:composite name="Partition" shortFormPart="35" comment="A reconfigurable partition of the platform FPGA.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="partitionId" canBeNull="false" comment="The identifier of the partition.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="description" canBeNull="false" comment="The human-readable description of the partition.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="state" canBeNull="false" comment="The current state of the partition.">
+                    <mal:type area="Platform" list="false" name="PartitionState"/>
+                </mal:field>
+                <mal:field name="loadedModule" canBeNull="true" comment="The name of the module currently loaded in the partition, or NULL if the partition is FREE.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="ownerAppId" canBeNull="true" comment="The id of the app that loaded the current module, or NULL if the partition is FREE or the module was not loaded by an app.">
+                    <mal:type area="MAL" list="false" name="Long"/>
+                </mal:field>
+                <mal:field name="dataPlaneRef" canBeNull="true" comment="The platform-specific reference for direct data-plane access to the module in this partition (e.g. a Linux UIO device path), or NULL if the platform does not expose one.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="resources" canBeNull="true" comment="An informative summary of the fabric resources of the partition, or NULL if not reported.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="FabricStatus" shortFormPart="36" comment="The status of the reconfigurable fabric.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="shellVersion" canBeNull="false" comment="The version of the static shell design currently loaded in the fabric.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="deviceModel" canBeNull="false" comment="The FPGA device model.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="seuCount" canBeNull="true" comment="The number of single-event upsets detected in the configuration memory since boot, or NULL if the platform cannot report it.">
+                    <mal:type area="MAL" list="false" name="UInteger"/>
+                </mal:field>
+                <mal:field name="scrubCycles" canBeNull="true" comment="The number of configuration scrubbing cycles completed since boot, or NULL if the platform cannot report it.">
+                    <mal:type area="MAL" list="false" name="UInteger"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="FPGAModuleLoaded" shortFormPart="37" comment="A record of a gateware module loaded into a reconfigurable partition.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="moduleName" canBeNull="false" comment="The name of the loaded module.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="partitionId" canBeNull="false" comment="The partition into which the module was loaded.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="ownerAppId" canBeNull="true" comment="The id of the app that requested the load, or NULL if the load was not requested by an app.">
+                    <mal:type area="MAL" list="false" name="Long"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="FPGAModuleUnloaded" shortFormPart="38" comment="A record of a gateware module unloaded from a reconfigurable partition.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="moduleName" canBeNull="false" comment="The name of the unloaded module.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="partitionId" canBeNull="false" comment="The partition from which the module was unloaded.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+            </mal:composite>
+            <mal:enumeration name="ModuleLoadStage" shortFormPart="39" comment="The stage of a module load reported by the loadModule operation.">
+                <mal:item nvalue="1" value="VERIFYING" comment="The bitstream checksum and shell compatibility are being verified."/>
+                <mal:item nvalue="2" value="DECOUPLING" comment="The partition is being decoupled from the static shell."/>
+                <mal:item nvalue="3" value="WRITING" comment="The bitstream is being written to the fabric."/>
+                <mal:item nvalue="4" value="RESETTING" comment="The module is being reset and coupled back to the static shell."/>
+            </mal:enumeration>
         </mal:dataTypes>
         <mal:errors>
             <mal:error number="1" name="Device In Use" comment="The device is currently in use." />
             <mal:error number="2" name="Device Not Available" comment="The device is currently not available." />
+            <mal:error number="3" name="Incompatible" comment="The referenced item was built against a different version of the platform than the one running." />
+            <mal:error number="4" name="Verification Failed" comment="The integrity verification of the referenced item failed." />
         </mal:errors>
     </mal:area>
 </mal:specification>

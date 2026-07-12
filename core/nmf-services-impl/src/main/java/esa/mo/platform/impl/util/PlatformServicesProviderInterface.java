@@ -25,6 +25,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.platform.artificialintelligence.provider.ArtificialIntelligenceInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.autonomousadcs.provider.AutonomousADCSInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.camera.provider.CameraInheritanceSkeleton;
+import org.ccsds.moims.mo.platform.fpga.provider.FPGAInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.gps.provider.GPSInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataReceiverInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
@@ -85,5 +86,15 @@ public interface PlatformServicesProviderInterface {
      * @return The Software Defined Radio service.
      */
     SoftwareDefinedRadioInheritanceSkeleton getSoftwareDefinedRadioService();
+
+    /**
+     * Returns the FPGA service.
+     *
+     * @return The FPGA service, or null if the platform does
+     * not provide it.
+     */
+    default FPGAInheritanceSkeleton getFPGAService() {
+        return null;
+    }
 
 }

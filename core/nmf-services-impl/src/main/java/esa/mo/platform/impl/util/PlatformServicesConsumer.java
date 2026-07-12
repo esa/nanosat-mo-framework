@@ -37,6 +37,8 @@ import org.ccsds.moims.mo.platform.camera.CameraServiceInfo;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
 import org.ccsds.moims.mo.platform.clock.ClockServiceInfo;
 import org.ccsds.moims.mo.platform.clock.consumer.ClockStub;
+import org.ccsds.moims.mo.platform.fpga.FPGAServiceInfo;
+import org.ccsds.moims.mo.platform.fpga.consumer.FPGAStub;
 import org.ccsds.moims.mo.platform.gps.GPSServiceInfo;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.OpticalDataReceiverServiceInfo;
@@ -60,6 +62,7 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
     private SoftwareDefinedRadioConsumerServiceImpl sdrService;
     private PowerControlConsumerServiceImpl powerControlService;
     private ClockConsumerServiceImpl clockService;
+    private FPGAConsumerServiceImpl fpgaService;
 
     public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices) {
         init(connectionConsumer, comServices, null, null);
@@ -129,6 +132,15 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
             details = connectionConsumer.getServicesDetails().get(ClockServiceInfo.CLOCK_SERVICE_NAME);
             if (details != null) {
                 clockService = new ClockConsumerServiceImpl(details, comServices);
+            }
+
+            // Initialize the FPGA service
+            details = connectionConsumer.getServicesDetails().get(
+                    FPGAServiceInfo.FPGA_SERVICE_NAME);
+
+            if (details != null) {
+                fpgaService = new FPGAConsumerServiceImpl(details,
+                        comServices, authenticationID, localNamePrefix);
             }
         } catch (MALException | MALInteractionException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
@@ -207,6 +219,15 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
         return this.clockService.getClockStub();
     }
 
+    @Override
+    public FPGAStub getFPGAService() throws IOException {
+        if (this.fpgaService == null) {
+            throw new IOException("The service consumer is not connected to the provider.");
+        }
+
+        return this.fpgaService.getFPGAStub();
+    }
+
     // Setters
     public void setArtificialIntelligenceService(ArtificialIntelligenceConsumerServiceImpl aiService) {
         this.aiService = aiService;
@@ -238,6 +259,10 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
 
     public void setClockService(ClockConsumerServiceImpl clockService) {
         this.clockService = clockService;
+    }
+
+    public void setFPGAService(FPGAConsumerServiceImpl fpgaService) {
+        this.fpgaService = fpgaService;
     }
 
     /**
@@ -272,6 +297,10 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
         if (this.powerControlService != null) {
             this.powerControlService.closeConnection();
         }
+
+        if (this.fpgaService != null) {
+            this.fpgaService.closeConnection();
+        }
     }
 
     public void setAuthenticationId(Blob authenticationId) {
@@ -305,6 +334,10 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
 
         if (this.clockService != null) {
             this.clockService.closeConnection();
+        }
+
+        if (this.fpgaService != null) {
+            this.fpgaService.setAuthenticationId(authenticationId);
         }
     }
 

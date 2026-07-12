@@ -36,6 +36,7 @@ import opssat.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.platform.artificialintelligence.provider.ArtificialIntelligenceInheritanceSkeleton;
+import org.ccsds.moims.mo.platform.fpga.provider.FPGAInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.provider.OpticalDataReceiverInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefinedRadioInheritanceSkeleton;
 
@@ -68,6 +69,8 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
     private PowerControlAdapterInterface pcAdapter;
     private final ClockProviderServiceImpl clockService =
             new ClockProviderServiceImpl();
+    private final FPGAProviderServiceImpl fpgaService =
+            new FPGAProviderServiceImpl();
 
     @Override
     public void init(COMServicesProvider comServices) throws MALException {
@@ -266,6 +269,7 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
         sdrService.init(sdrAdapter);
         powerService.init(pcAdapter);
         clockService.init(clockAdapter);
+        fpgaService.init(comServices, new FPGASoftSimAdapter());
     }
 
     public void startStatusTracking(ConnectionConsumer connection) {
@@ -301,5 +305,10 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
     @Override
     public ArtificialIntelligenceInheritanceSkeleton getAIService() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public FPGAInheritanceSkeleton getFPGAService() {
+        return this.fpgaService;
     }
 }

@@ -50,5 +50,6 @@ For consumer-side usage, see :doc:`../development-app/platform-services`.
 - **PowerControl** (#7)
 - **Clock** (#8)
 - **ArtificialIntelligence** (#9)
+- **FPGA** (#10)
 
 Numbering gaps reflect services that have been retired since earlier NMF versions.

@@ -133,3 +133,44 @@ model selection, inference invocation, and result retrieval.
 
 Reference example: ``sdk/examples-space/edge-ai`` demonstrates on-board inference. The ɸ-Sat-2 mission used
 this service for image classification — see :doc:`app-chaining` for the cloud-tile filtering chain.
+
+FPGA
+----
+
+Loads and unloads gateware modules (partial bitstreams) into the reconfigurable partitions of the platform
+FPGA at runtime, without disturbing the static shell design. The bitstreams are compiled on ground against
+the mission's shell and delivered inside the app's NMF Package together with a module manifest that declares
+the shell version and one bitstream variant per partition. The service selects a free partition, verifies
+the checksum and the shell compatibility, and returns the allocated partition — including its
+``dataPlaneRef`` (for example a Linux UIO device path), which the app then uses for direct data-plane access
+to its module. MO carries only the control plane.
+
+.. code-block:: java
+
+   FPGAStub fpga = connector.getPlatformServices().getFPGAService();
+   fpga.loadModule(new Identifier("fft"), null, new FPGAAdapter() {   // NULL: the service picks the slot
+       @Override
+       public void loadModuleResponseReceived(MALMessageHeader msgHeader,
+               Partition partition, Map qosProperties) {
+           // ... open partition.getDataPlaneRef(), run the accelerator ...
+       }
+   });
+   // and in the app's stop path:
+   fpga.unloadModule(partitionId);
+
+The module manifest is a sidecar properties file next to the bitstreams:
+
+.. code-block:: properties
+
+   module.name        = fft
+   module.shell       = v3
+   module.slot-a.file = module_fft_a.bin
+   module.slot-a.crc  = 0x8F21C3D0
+   module.slot-b.file = module_fft_b.bin
+   module.slot-b.crc  = 0x11A047E9
+
+Every load and unload is recorded in the COM Archive (``FPGAModuleLoaded`` / ``FPGAModuleUnloaded`` objects), and
+partition state transitions are published through the ``monitorPartitions`` PUB-SUB operation.
+
+No SDK example consumes this service yet. The simulated adapter provides two partitions (``slot-a``,
+``slot-b``) with shell version ``sim-v1``.

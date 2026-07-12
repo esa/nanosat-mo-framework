@@ -25,6 +25,7 @@ import org.ccsds.moims.mo.platform.artificialintelligence.consumer.ArtificialInt
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSStub;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
 import org.ccsds.moims.mo.platform.clock.consumer.ClockStub;
+import org.ccsds.moims.mo.platform.fpga.consumer.FPGAStub;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
 import org.ccsds.moims.mo.platform.opticaldatareceiver.consumer.OpticalDataReceiverStub;
 import org.ccsds.moims.mo.platform.powercontrol.consumer.PowerControlStub;
@@ -51,5 +52,7 @@ public interface PlatformServicesConsumerInterface {
     PowerControlStub getPowerControlService() throws IOException;
 
     ClockStub getClockService() throws IOException;
+
+    FPGAStub getFPGAService() throws IOException;
 
 }
