@@ -5,7 +5,6 @@
 <mal:specification
     xmlns:mal = "http://www.ccsds.org/schema/ServiceSchema"
     xmlns:com = "http://www.ccsds.org/schema/COMSchema"
-    xmlns:svg = "http://www.w3.org/2000/svg"
     xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" comment="">
     <mal:area name="Platform" number="54" version="5" comment="Platform services">
         <mal:service name="Camera" number="1" xsi:type="com:ExtendedServiceType" comment="The Camera service allows a consumer to acquire pictures and control a camera in the spacecraft platform. The service can perform format conversions in case the consumer selects a specific format other than raw. The service can also stream pictures periodically.">
@@ -635,94 +634,6 @@
                 </mal:invokeIP>
             </mal:capabilitySet>
             <com:features>
-                <mal:diagram name="GPSObjects">
-                    <svg:svg height="100" version="1.1" width="700">
-                        <svg:defs>
-                            <svg:linearGradient id="box_gradient"
-                                                x1="0%" x2="100%" y1="0%" y2="0%">
-                                <svg:stop offset="0%"
-                                          style="stop-color:rgb(237,227,212);stop-opacity:1" />
-                                <svg:stop offset="100%"
-                                          style="stop-color:rgb(249,239,224);stop-opacity:1" />
-                            </svg:linearGradient>
-                            <svg:marker id="sourceArrow" markerHeight="10"
-                                        markerWidth="15" orient="auto" refX="0" refY="5">
-                                <svg:path d="M0,0 V10 L15,5 Z"
-                                          fill="rgb(255,0,0)" />
-                            </svg:marker>
-                            <svg:marker id="relatedArrow" markerHeight="10"
-                                        markerWidth="15" orient="auto" refX="0" refY="5">
-                                <svg:path d="M0,0 V10 L15,5 Z"
-                                          fill="rgb(0,0,0)" />
-                            </svg:marker>
-                        </svg:defs>
-                        <svg:path d="M130,50 L242,50 L355,50"
-                                  end="NearbyPosition" fill="none"
-                                  marker-mid="url(#relatedArrow)"
-                                  start="NearbyPositionEntered" stroke="rgb(0,0,0)"
-                                  stroke-width="1" />
-                        <svg:path d="M570,50 L463,50 L355,50"
-                                  end="NearbyPosition" fill="none"
-                                  marker-mid="url(#relatedArrow)"
-                                  start="NearbyPositionExited" stroke="rgb(0,0,0)"
-                                  stroke-width="1" />
-                        <svg:g id="NearbyPositionEntered"
-                               transform="translate(50,20)">
-                            <svg:rect fill="rgb(190,190,190)" height="60"
-                                      id="shadow" opacity="0.5" rx="15" width="160" x="4"
-                                      y="4" />
-                            <svg:rect fill="url(#box_gradient)" height="60"
-                                      id="frame" rx="15" stroke="black" stroke-width="2"
-                                      width="160" />
-                            <svg:text fill="navy" font-family="Verdana,Arial"
-                                      font-size="12" id="object_name" pointer-events="none"
-                                      text-anchor="middle" x="80" y="25">NearbyPositionEntered
-                            </svg:text>
-                            <svg:text fill="navy" font-family="Verdana,Arial"
-                                      font-size="12" id="object_number" pointer-events="none"
-                                      text-anchor="middle" x="80" y="45">2</svg:text>
-                            <svg:text fill="navy" font-family="Verdana,Arial"
-                                      font-size="12" id="object_type" pointer-events="none"
-                                      text-anchor="middle" x="80" y="65" />
-                        </svg:g>
-                        <svg:g id="NearbyPosition"
-                               transform="translate(300,10)">
-                            <svg:rect fill="rgb(190,190,190)" height="80"
-                                      id="shadow" opacity="0.5" rx="0" width="110" x="4" y="4" />
-                            <svg:rect fill="url(#box_gradient)" height="80"
-                                      id="frame" rx="0" stroke="black" stroke-width="2"
-                                      width="110" />
-                            <svg:text fill="navy" font-family="Verdana,Arial"
-                                      font-size="12" id="object_name" pointer-events="none"
-                                      text-anchor="middle" x="55" y="25">NearbyPosition</svg:text>
-                            <svg:text fill="navy" font-family="Verdana,Arial"
-                                      font-size="12" id="object_number" pointer-events="none"
-                                      text-anchor="middle" x="55" y="45">1</svg:text>
-                            <svg:text fill="navy" font-family="Verdana,Arial"
-                                      font-size="12" id="object_type" pointer-events="none"
-                                      text-anchor="middle" x="55" y="65">MAL::Identifier</svg:text>
-                        </svg:g>
-                        <svg:g id="NearbyPositionExited"
-                               transform="translate(490,20)">
-                            <svg:rect fill="rgb(190,190,190)" height="60"
-                                      id="shadow" opacity="0.5" rx="15" width="160" x="4"
-                                      y="4" />
-                            <svg:rect fill="url(#box_gradient)" height="60"
-                                      id="frame" rx="15" stroke="black" stroke-width="2"
-                                      width="160" />
-                            <svg:text fill="navy" font-family="Verdana,Arial"
-                                      font-size="12" id="object_name" pointer-events="none"
-                                      text-anchor="middle" x="80" y="25">NearbyPositionExited
-                            </svg:text>
-                            <svg:text fill="navy" font-family="Verdana,Arial"
-                                      font-size="12" id="object_number" pointer-events="none"
-                                      text-anchor="middle" x="80" y="45">3</svg:text>
-                            <svg:text fill="navy" font-family="Verdana,Arial"
-                                      font-size="12" id="object_type" pointer-events="none"
-                                      text-anchor="middle" x="80" y="65" />
-                        </svg:g>
-                    </svg:svg>
-                </mal:diagram>
                 <com:objects comment="">
                     <com:object number="1" name="NearbyPosition"
                                 comment="A nearby position marker." >
