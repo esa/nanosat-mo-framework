@@ -49,6 +49,15 @@ import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherStub;
 import org.ccsds.moims.mo.sm.appslauncher.consumer.MonitorEventsSubscriptionKeys;
 import org.ccsds.moims.mo.sm.appslauncher.consumer.MonitorExecutionSubscriptionKeys;
 import org.ccsds.moims.mo.sm.structures.AppEventType;
+import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
+import org.ccsds.moims.mo.mc.action.consumer.ActionStub;
+import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationStub;
+import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
+import org.ccsds.moims.mo.mc.structures.AggregationValueDetailsList;
+import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import org.ccsds.moims.mo.mc.structures.ExecutionRequest;
+import org.ccsds.moims.mo.mc.structures.ExecutionStageType;
+import org.ccsds.moims.mo.mc.structures.ParameterValueDetailsList;
 
 /**
  * Manages the lifecycle of a named NMF App for end-to-end tests.
@@ -72,6 +81,7 @@ public class AppHarness {
     private GroundMOAdapterImpl adapter;
     private AppsLauncherStub stub;
     private Long appId;
+    private GroundMOAdapterImpl appMcAdapter;
 
     /**
      * Creates a harness for the named app.
@@ -239,7 +249,7 @@ public class AppHarness {
         if (!isProcessGone()) {
             LOGGER.warning("waitProcessGone timed out for app '" + appName
                     + "' — process still alive after " + timeoutMs + " ms."
-                    + "\nApp log (may include AppShutdownGuard thread dump):"
+                    + "\nApp log:"
                     + "\n" + readAppLog());
         }
         return isProcessGone();
@@ -279,8 +289,153 @@ public class AppHarness {
     }
 
     /**
-     * Sends stopApp and blocks until the PROGRESS RESPONSE is received or the
-     * timeout expires.
+     * Reads the latest values of the named parameters directly from this app's
+     * own Parameter service. Used to observe retrieval that fails (a broken
+     * parameter comes back with validity INVALID_RAW rather than an error).
+     *
+     * @param names the parameter names as registered by the app.
+     * @return the returned ParameterValueDetails, in the same order as the ids.
+     * @throws IOException if the app provider could not be reached.
+     */
+    public ParameterValueDetailsList getParameterValues(List<String> names) throws IOException {
+        try {
+            ParameterStub parameterStub = appMcAdapter().getMCServices()
+                    .getParameterService().getParameterStub();
+            IdentifierList paramNames = new IdentifierList();
+            names.forEach(n -> paramNames.add(new Identifier(n)));
+            LongList ids = parameterStub.listDefinition(paramNames);
+            return parameterStub.getValue(ids);
+        } catch (MALException | MALInteractionException e) {
+            throw new IOException("getValue (parameters) failed for app '" + appName + "': "
+                    + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Reads the current values of the named aggregations directly from this
+     * app's own Aggregation service. A broken aggregation samples fresh, so the
+     * broken parameter it contains comes back with validity INVALID_RAW.
+     *
+     * @param names the aggregation names as registered by the app.
+     * @return the returned AggregationValueDetails, in the same order as the ids.
+     * @throws IOException if the app provider could not be reached.
+     */
+    public AggregationValueDetailsList getAggregationValues(List<String> names) throws IOException {
+        try {
+            AggregationStub aggregationStub = appMcAdapter().getMCServices()
+                    .getAggregationService().getAggregationStub();
+            IdentifierList aggNames = new IdentifierList();
+            names.forEach(n -> aggNames.add(new Identifier(n)));
+            LongList ids = aggregationStub.listDefinition(aggNames);
+            return aggregationStub.getValue(ids);
+        } catch (MALException | MALInteractionException e) {
+            throw new IOException("getValue (aggregations) failed for app '" + appName + "': "
+                    + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Executes one of the app's actions and waits for the END stage of its
+     * monitorExecution report, returning the reported success flag. A broken
+     * action reports the END stage with success {@code false}.
+     *
+     * @param actionName the action name as registered by the app.
+     * @param timeoutMs maximum time to wait for the END stage in milliseconds.
+     * @return the success flag of the END stage, or {@code null} if no END stage
+     * was received within the timeout.
+     * @throws IOException if the app provider could not be reached or the action
+     * is unknown.
+     */
+    public Boolean awaitActionOutcome(String actionName, long timeoutMs) throws IOException {
+        ActionStub actionStub = appMcAdapter().getMCServices().getActionService().getActionStub();
+
+        CountDownLatch latch = new CountDownLatch(1);
+        AtomicReference<Boolean> outcome = new AtomicReference<>();
+        Subscription sub = ConnectionConsumer.subscriptionWildcardRandom();
+        try {
+            IdentifierList names = new IdentifierList();
+            names.add(new Identifier(actionName));
+            LongList ids = actionStub.listDefinition(names);
+            if (ids == null || ids.isEmpty() || ids.get(0) == null) {
+                throw new IOException("Action '" + actionName + "' not found on app '" + appName + "'.");
+            }
+            final Long defId = ids.get(0);
+
+            actionStub.monitorExecutionRegister(sub, new ActionAdapter() {
+                @Override
+                public void monitorExecutionNotifyReceived(MALMessageHeader msgHeader,
+                        Identifier subscriptionId, UpdateHeader updateHeader,
+                        org.ccsds.moims.mo.mc.action.consumer.MonitorExecutionSubscriptionKeys keys,
+                        Boolean success, UShort step, String comment, java.util.Map qosProperties) {
+                    if (defId.equals(keys.getDefinitionId())
+                            && ExecutionStageType.END.equals(keys.getStageType())) {
+                        outcome.set(success);
+                        latch.countDown();
+                    }
+                }
+            });
+
+            // Give the subscription time to register before triggering the
+            // action; a 0-stage action publishes START/END almost immediately,
+            // so firing too early would miss the END notification.
+            Thread.sleep(300);
+
+            actionStub.executeAction(new ExecutionRequest(defId, new AttributeValueList(), null));
+
+            latch.await(timeoutMs, TimeUnit.MILLISECONDS);
+            return outcome.get();
+        } catch (MALException | MALInteractionException e) {
+            throw new IOException("executeAction/monitorExecution failed for app '" + appName + "': "
+                    + e.getMessage(), e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IOException("Interrupted while waiting for the action outcome", e);
+        } finally {
+            IdentifierList subIds = new IdentifierList();
+            subIds.add(sub.getSubscriptionId());
+            try {
+                actionStub.monitorExecutionDeregister(subIds);
+            } catch (MALException | MALInteractionException ignored) {
+            }
+        }
+    }
+
+    /**
+     * Lazily connects to this app's own provider in the Directory and caches a
+     * {@link GroundMOAdapterImpl} for consuming its MC services. Reset by
+     * {@link #tearDown()}.
+     */
+    private GroundMOAdapterImpl appMcAdapter() throws IOException {
+        if (appMcAdapter == null) {
+            appMcAdapter = new GroundMOAdapterImpl(findAppProvider());
+        }
+        return appMcAdapter;
+    }
+
+    /**
+     * Resolves this app's own provider entry in the Central Directory.
+     */
+    private Provider findAppProvider() throws IOException {
+        try {
+            ProviderList providers = NMFConsumer.retrieveProvidersFromDirectory(
+                    new URI(supervisorHarness.getDirectoryURI()));
+            for (Provider p : providers) {
+                if (NMFProviderType.APP.equals(p.getProviderType())
+                        && p.getProviderName() != null
+                        && appName.equals(p.getProviderName().getValue())) {
+                    return p;
+                }
+            }
+            throw new IOException("App provider '" + appName + "' not found in Directory.");
+        } catch (MALException | MALInteractionException | java.net.MalformedURLException e) {
+            throw new IOException("Failed to resolve provider for app '" + appName + "': "
+                    + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Sends a gentle stopApp (no force-kill) and blocks until the PROGRESS
+     * RESPONSE is received or the timeout expires.
      *
      * @param timeoutMs maximum time to wait in milliseconds.
      * @return true if the app stopped cleanly (UPDATE received, not an error);
@@ -288,6 +443,21 @@ public class AppHarness {
      * @throws IOException if the call itself fails.
      */
     public boolean stop(long timeoutMs) throws IOException {
+        return stop(timeoutMs, null);
+    }
+
+    /**
+     * Sends stopApp with an explicit grace period and blocks until the PROGRESS
+     * RESPONSE is received or the timeout expires.
+     *
+     * @param timeoutMs maximum time to wait for the consumer-side UPDATE.
+     * @param graceTimeout the grace period the provider allows before forcibly
+     * killing the app, or {@code null} to never force-kill.
+     * @return true if the app stopped cleanly (UPDATE received, not an error);
+     * false if an update error was received or the timeout expired.
+     * @throws IOException if the call itself fails.
+     */
+    public boolean stop(long timeoutMs, Duration graceTimeout) throws IOException {
         if (stub == null || appId == null) {
             return false;
         }
@@ -296,7 +466,7 @@ public class AppHarness {
         LongList ids = new LongList();
         ids.add(appId);
         try {
-            stub.stopApp(ids, new AppsLauncherAdapter() {
+            stub.stopApp(ids, graceTimeout, new AppsLauncherAdapter() {
                 @Override
                 public void stopAppUpdateReceived(MALMessageHeader msgHeader,
                         Long appClosing, java.util.Map qosProperties) {
@@ -443,12 +613,16 @@ public class AppHarness {
             try {
                 LongList ids = new LongList();
                 ids.add(appId);
-                stub.stopApp(ids, new AppsLauncherAdapter() {
+                stub.stopApp(ids, null, new AppsLauncherAdapter() {
                 });
                 LOGGER.info("stopApp('" + appName + "') submitted.");
             } catch (MALException | MALInteractionException e) {
                 LOGGER.log(Level.WARNING, "Error stopping app '" + appName + "': " + e.getMessage(), e);
             }
+        }
+        if (appMcAdapter != null) {
+            appMcAdapter.closeConnections();
+            appMcAdapter = null;
         }
         if (adapter != null) {
             adapter.closeConnections();

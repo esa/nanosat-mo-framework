@@ -77,6 +77,13 @@
             <version>${esa.nmf.version}</version>
             <type>nmfpack</type>
         </dependency>
+        <!-- Deliberately misbehaving app: broken retrieval + hang on shutdown -->
+        <dependency>
+            <groupId>int.esa.nmf.testbeds</groupId>
+            <artifactId>broken-app-for-testbeds</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
