@@ -302,7 +302,9 @@ jobs:
       - name: Install NMF framework
         run: mvn --batch-mode -DskipTests install
       - name: Run E2E testbed
-        run: mvn --batch-mode test -f testbeds/testbed-e2e/pom.xml
+        run: |
+          mvn --batch-mode -DskipTests install -f testbeds/pom.xml -pl broken-app-for-testbeds
+          mvn --batch-mode test -f testbeds/testbed-e2e/pom.xml
 
   testbed-e2e-jdk17:
     runs-on: ubuntu-latest
@@ -326,7 +328,9 @@ jobs:
       - name: Install NMF framework
         run: mvn --batch-mode -DskipTests install
       - name: Run E2E testbed
-        run: mvn --batch-mode test -f testbeds/testbed-e2e/pom.xml
+        run: |
+          mvn --batch-mode -DskipTests install -f testbeds/pom.xml -pl broken-app-for-testbeds
+          mvn --batch-mode test -f testbeds/testbed-e2e/pom.xml
 
   testbed-e2e-jdk21:
     runs-on: ubuntu-latest
@@ -350,7 +354,9 @@ jobs:
       - name: Install NMF framework
         run: mvn --batch-mode -DskipTests install
       - name: Run E2E testbed
-        run: mvn --batch-mode test -f testbeds/testbed-e2e/pom.xml
+        run: |
+          mvn --batch-mode -DskipTests install -f testbeds/pom.xml -pl broken-app-for-testbeds
+          mvn --batch-mode test -f testbeds/testbed-e2e/pom.xml
 
   testbed-e2e-jdk25:
     runs-on: ubuntu-latest
@@ -374,7 +380,9 @@ jobs:
       - name: Install NMF framework
         run: mvn --batch-mode -DskipTests install
       - name: Run E2E testbed
-        run: mvn --batch-mode test -f testbeds/testbed-e2e/pom.xml
+        run: |
+          mvn --batch-mode -DskipTests install -f testbeds/pom.xml -pl broken-app-for-testbeds
+          mvn --batch-mode test -f testbeds/testbed-e2e/pom.xml
 
   testbed-performance-jdk11:
     runs-on: ubuntu-latest
