@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -477,20 +478,23 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         return killAppProcess(appInstId, interaction.getInteraction());
     }
 
-    protected void stopNMFAppGracefully(final Long appInstId, final StopAppInteraction interaction)
+    protected void stopNMFAppGracefully(final Long appInstId, final Duration timeout,
+            final StopAppInteraction interaction, final Consumer<Long> forceKill)
             throws MALException, MALInteractionException {
         Identifier appName = this.get(appInstId).getName();
         Process process = handlers.get(appInstId).getProcess();
-        MALInteraction malInt = (interaction != null) ? interaction.getInteraction() : null;
+        // A NULL timeout means the app is never forcibly killed: the provider only
+        // waits a bounded time to report the UPDATE, then leaves it to close on its own.
+        final boolean killOnTimeout = (timeout != null);
+        final long graceMs = killOnTimeout ? (long) (timeout.getInSeconds() * 1000) : APP_STOP_TIMEOUT;
         // The STOP_REQUESTED monitorEvents notification was already published by stopApp().
-        // Wait for the process to exit within the timeout.
-        LOGGER.log(Level.INFO, "Waiting up to {0} ms for app ''{1}'' (id={2}) to exit after STOP_REQUESTED.",
-                new Object[]{APP_STOP_TIMEOUT, appName, appInstId});
+        LOGGER.log(Level.INFO, "Waiting up to {0} ms for app ''{1}'' (id={2}) to close after STOP_REQUESTED.",
+                new Object[]{graceMs, appName, appInstId});
         try {
-            boolean terminated = process.waitFor(APP_STOP_TIMEOUT, TimeUnit.MILLISECONDS);
+            boolean terminated = process.waitFor(graceMs, TimeUnit.MILLISECONDS);
             if (terminated) {
                 LOGGER.log(Level.INFO,
-                        "App ''{0}'' (id={1}) exited successfully.",
+                        "App ''{0}'' (id={1}) closed gracefully.",
                         new Object[]{appName, appInstId});
                 // Wait for the ProcessExecutionHandler monitor thread to call processStopped(),
                 // which enqueues the AppStopped archive insert before clearing the running flag.
@@ -510,10 +514,19 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
                 if (interaction != null) {
                     interaction.sendUpdate(appInstId);
                 }
+            } else if (killOnTimeout) {
+                LOGGER.log(Level.WARNING,
+                        "App ''{0}'' (id={1}) did not close within the {2} ms grace period. Forcibly killing it.",
+                        new Object[]{appName, appInstId, graceMs});
+                forceKill.accept(appInstId);
+                if (interaction != null) {
+                    interaction.sendUpdate(appInstId);
+                }
             } else {
-                LOGGER.log(Level.SEVERE,
-                        "App ''{0}'' (id={1}) did not exit within {2} ms timeout after STOP_REQUESTED.",
-                        new Object[]{appName, appInstId, APP_STOP_TIMEOUT});
+                LOGGER.log(Level.INFO,
+                        "App ''{0}'' (id={1}) has not closed within {2} ms. The timeout is NULL, "
+                        + "so it will not be forcibly killed.",
+                        new Object[]{appName, appInstId, graceMs});
                 if (interaction != null) {
                     interaction.sendUpdateError(new InvalidArgumentException(appInstId));
                 }
@@ -529,13 +542,18 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
      * them times out.
      *
      * @param appInstIds Applications IDs.
+     * @param timeout Grace period before an app is forcibly killed, or NULL to
+     * never force-kill.
      * @param interaction Source interaction.
+     * @param forceKill Callback invoked with an app id when its grace period
+     * expires, responsible for marking it kill-pending and killing the process.
      * @throws MALException If the App could not be stopped.
      * @throws MALInteractionException If the Event service could not be
      * reached.
      */
-    protected void stopApps(final LongList appInstIds,
-            final StopAppInteraction interaction) throws MALException, MALInteractionException {
+    protected void stopApps(final LongList appInstIds, final Duration timeout,
+            final StopAppInteraction interaction, final Consumer<Long> forceKill)
+            throws MALException, MALInteractionException {
         for (int i = 0; i < appInstIds.size(); i++) {
             long appInstId = appInstIds.get(i);
             AppDetails curr = this.get(appInstId);
@@ -545,7 +563,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
                     + File.separator + "stop_app" + fileExt);
             boolean stopScriptExists = stopScript.exists();
             if (curr.getCategory().getValue().equalsIgnoreCase("NMF_App")) {
-                this.stopNMFAppGracefully(appInstId, interaction);
+                this.stopNMFAppGracefully(appInstId, timeout, interaction, forceKill);
                 if (stopScriptExists) {
                     Map<String, String> env = assembleAppLauncherEnvironment("");
                     File appFolder = new File(appsFolderPath + File.separator + curr.getName().getValue());

@@ -464,10 +464,22 @@
                     <mal:documentation name="Requirement" order="1">
                         The service provider shall send the UPDATE message after the app acknowledges the command to stop.
                     </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the timeout field is NULL, then the service provider shall not forcibly kill the app.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        If the timeout field is not NULL and an app does not close within the timeout after the STOP_REQUESTED notification, then the service provider shall forcibly kill that app.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="4">
+                        If the service provider forcibly kills an app because the timeout expired, then it shall publish a monitorEvents notification with the KILLED event type for that app.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:progress>
                             <mal:field name="appIds" canBeNull="true" comment="The list of apps to stop.">
                                 <mal:type area="MAL" list="true" name="Long"/>
+                            </mal:field>
+                            <mal:field name="timeout" canBeNull="true" comment="The grace period allowed for each app to close before the service provider forcibly kills it. If NULL, then the app is never forcibly killed.">
+                                <mal:type area="MAL" list="false" name="Duration"/>
                             </mal:field>
                         </mal:progress>
                         <mal:acknowledgement>

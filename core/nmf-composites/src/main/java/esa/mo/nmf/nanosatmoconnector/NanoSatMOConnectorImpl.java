@@ -24,7 +24,6 @@ import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.com.impl.util.HelperCommon;
 import esa.mo.sm.impl.consumer.AppsLauncherConsumerServiceImpl;
-import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
@@ -342,7 +341,6 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
     @Override
     public final void closeGracefully(final ObjectKey source) {
         try {
-            AppShutdownGuard.start();
             long time = System.currentTimeMillis();
 
             LOGGER.log(Level.INFO, "closeGracefully() called. Initiating shutdown sequence...");

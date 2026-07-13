@@ -811,7 +811,7 @@ public class NMFPackageManager {
                 Logger.getLogger(NMFPackageManager.class.getName()).log(
                         Level.INFO, "Stopping the " + name + " App...");
 
-                appsLauncher.stopApp(runningApp, null);
+                appsLauncher.stopApp(runningApp, null, null);
             }
         } catch (org.ccsds.moims.mo.mal.UnknownException | org.ccsds.moims.mo.com.InvalidArgumentException ex) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,

@@ -21,8 +21,8 @@
 package esa.mo.nmf.nanosatmomonolithic;
 
 import esa.mo.com.impl.util.COMServicesProvider;
-import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.helpertools.misc.Const;
+import esa.mo.helpertools.misc.ShutdownGuard;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
@@ -154,7 +154,10 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
     @Override
     public final void closeGracefully(final ObjectKey source) {
         try {
-            AppShutdownGuard.start();
+            // The Monolithic provider is a self-contained top-level process with
+            // no parent to force-kill it, so it guards its own shutdown against a
+            // deadlocked teardown.
+            ShutdownGuard.start();
             long time = System.currentTimeMillis();
 
             // Close the app...

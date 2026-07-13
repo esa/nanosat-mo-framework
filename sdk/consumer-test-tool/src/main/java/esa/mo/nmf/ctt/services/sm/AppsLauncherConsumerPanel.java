@@ -293,7 +293,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             for (Long id : ids) {
                 appsTable.reportStatus("Sending stop request.", id.intValue());
             }
-            this.serviceSMAppsLauncher.getAppsLauncherStub().stopApp(ids, new StopAdapter(ids));
+            this.serviceSMAppsLauncher.getAppsLauncherStub().stopApp(ids, null, new StopAdapter(ids));
             //appsTable.switchEnabledstatus(false);
         } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null,

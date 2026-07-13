@@ -185,7 +185,7 @@ public class AppsLauncherCommands {
 
                 final Object lock = new Object();
 
-                appsLauncher.stopApp(appIds, new AppsLauncherAdapter() {
+                appsLauncher.stopApp(appIds, null, new AppsLauncherAdapter() {
                     @Override
                     public void stopAppUpdateReceived(MALMessageHeader msgHeader,
                             Long appClosing, Map qosProperties) {

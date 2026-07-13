@@ -22,8 +22,8 @@ package esa.mo.nmf.nanosatmosupervisor;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.Quota;
-import esa.mo.helpertools.misc.AppShutdownGuard;
 import esa.mo.helpertools.misc.Const;
+import esa.mo.helpertools.misc.ShutdownGuard;
 import esa.mo.nmf.CloseAppListener;
 import esa.mo.nmf.mcadapters.CompositeMCAdapter;
 import esa.mo.nmf.mcadapters.DefaultSupervisorAdapters;
@@ -176,7 +176,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                     Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(
                             Level.SEVERE, "Stopping {0} App(s)!", runningApps.size());
 
-                    appsLauncherService.stopApp(runningApps, null);
+                    appsLauncherService.stopApp(runningApps, null, null);
                 } catch (UnknownException | org.ccsds.moims.mo.com.InvalidArgumentException ex) {
                     Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(
                             Level.SEVERE, "(0) Something went wrong...", ex);
@@ -291,7 +291,9 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
     @Override
     public final void closeGracefully(final ObjectKey source) {
         try {
-            AppShutdownGuard.start();
+            // The Supervisor is a top-level process with no parent to force-kill
+            // it, so it guards its own shutdown against a deadlocked teardown.
+            ShutdownGuard.start();
             long timestamp = System.currentTimeMillis();
 
             // Close the app...

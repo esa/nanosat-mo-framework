@@ -40,7 +40,6 @@ public class Const {
     public static final String NMF_PACKAGE_SUFFIX = "nmfpack";
     public static final String PLATFORM_IADCS_CACHING_PERIOD = "esa.mo.nmf.platform.iadcs.caching.period";
     public static final String PLATFORM_GNSS_CACHING_PERIOD = "esa.mo.nmf.platform.gnss.caching.period";
-    public static final long APP_SHUTDOWN_GUARD_MS = 5000;
     public static final String PLATFORM_GNSS_FALLBACK_TO_TLE_PROPERTY = "esa.mo.nmf.platform.gnss.fallback.to.tle";
     public static final String PLATFORM_GNSS_FALLBACK_TO_TLE_DEFAULT = "true";
 

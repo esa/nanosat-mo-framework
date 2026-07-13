@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2021      European Space Agency
+ * Copyright (C) 2026      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
@@ -27,33 +27,48 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * The AppShutdownGuard class ensures that the application terminates even if
- * one of the handlers takes time.
+ * A watchdog that guarantees a top-level NMF process terminates even if its
+ * shutdown sequence deadlocks (for example, a transport teardown that never
+ * returns).
+ *
+ * <p>
+ * It is intended for processes that have no parent to force-kill them — the
+ * Supervisor and the self-contained Monolithic provider. It must NOT be used by
+ * an App: an App is managed by the Supervisor, which owns the escalation to a
+ * forced kill (via the stopApp timeout), so an App is allowed to take as long
+ * as it needs to shut down gracefully.
+ *
+ * <p>
+ * The timeout defaults to 5000 ms and can be overridden with the
+ * {@code nmf.shutdown.guard.ms} system property.
  */
-public class AppShutdownGuard {
+public class ShutdownGuard {
 
-    private static final Logger LOGGER = Logger.getLogger(AppShutdownGuard.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ShutdownGuard.class.getName());
+    private static final String TIMEOUT_PROPERTY = "nmf.shutdown.guard.ms";
+    private static final long DEFAULT_TIMEOUT_MS = 5000;
 
-    private AppShutdownGuard() {
+    private ShutdownGuard() {
     }
 
     /**
-     * Starts the ShutdownGuardThread.
+     * Starts the watchdog thread. If the JVM has not terminated within the
+     * timeout, a thread dump is logged and the process is forcibly exited.
      */
     public static void start() {
+        final long timeoutMs = Long.getLong(TIMEOUT_PROPERTY, DEFAULT_TIMEOUT_MS);
         (new Thread("ShutdownGuardThread") {
             @Override
             public void run() {
                 try {
-                    sleep(Const.APP_SHUTDOWN_GUARD_MS);
+                    sleep(timeoutMs);
                 } catch (InterruptedException e) {
                     // The thread was interrupted by the system exit
                     return;
                 }
                 LOGGER.log(Level.WARNING,
-                        "The application failed to exit gracefully within "
-                        + "predefined {0} ms. Performing a thread dump...",
-                        Const.APP_SHUTDOWN_GUARD_MS);
+                        "The process failed to exit gracefully within the predefined {0} ms. "
+                        + "Performing a thread dump...", timeoutMs);
                 LOGGER.log(Level.WARNING, threadDump(true, true));
                 LOGGER.log(Level.WARNING, "Forcing exit with code -1");
                 System.exit(-1);

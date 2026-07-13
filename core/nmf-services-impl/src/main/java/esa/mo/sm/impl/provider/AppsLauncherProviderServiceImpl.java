@@ -405,7 +405,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
 
     @Override
-    public void stopApp(final LongList appInstIds, final StopAppInteraction interaction)
+    public void stopApp(final LongList appInstIds, final Duration timeout, final StopAppInteraction interaction)
             throws UnknownException, InvalidArgumentException, MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
@@ -462,11 +462,26 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             publishAppEvent(name, appId, AppEventType.STOP_REQUESTED, null, null);
         }
 
-        manager.stopApps(appInstIds, interaction);
+        final MALInteraction malInt = (interaction != null) ? interaction.getInteraction() : null;
+        manager.stopApps(appInstIds, timeout, interaction, appId -> forceKillAfterTimeout(appId, malInt));
 
         if (interaction != null) {
             interaction.sendResponse();
         }
+    }
+
+    /**
+     * Force-kills an app whose stopApp grace period expired. Moves it from the
+     * stop-pending set to the kill-pending set so that, when the process exits,
+     * {@code processStopped} classifies it as KILLED rather than STOPPED.
+     *
+     * @param appId the app instance id.
+     * @param interaction the originating interaction, may be null.
+     */
+    private void forceKillAfterTimeout(final Long appId, final MALInteraction interaction) {
+        stopPendingApps.remove(appId);
+        killPendingApps.add(appId);
+        manager.killAppProcess(appId, interaction);
     }
 
     @Override
