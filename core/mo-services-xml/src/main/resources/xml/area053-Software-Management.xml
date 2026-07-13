@@ -568,7 +568,7 @@
             </mal:capabilitySet>
             <com:features>
                 <mal:diagram name="AppsLauncherObjects">
-                    <svg:svg height="300" version="1.1" width="760">
+                    <svg:svg height="140" version="1.1" width="760">
                         <svg:defs>
                             <svg:linearGradient id="box_gradient" x1="0%" x2="100%" y1="0%" y2="0%">
                                 <svg:stop offset="0%" style="stop-color:rgb(237,227,212);stop-opacity:1"/>
@@ -582,12 +582,28 @@
                             </svg:marker>
                         </svg:defs>
 
-                        <svg:g id="AppDetails" transform="translate(333,147)">
+                        <svg:path d="M150,70 L240,70 L330,70" end="AppDetails" fill="none" marker-mid="url(#relatedArrow)" start="AppStarted" stroke="rgb(0,0,0)" stroke-width="1"/>
+                        <svg:path d="M610,70 L520,70 L430,70" end="AppDetails" fill="none" marker-mid="url(#relatedArrow)" start="AppStopped" stroke="rgb(0,0,0)" stroke-width="1"/>
+                        <svg:g id="AppStarted" transform="translate(50,30)">
+                            <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="100" x="4" y="4"/>
+                            <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="100"/>
+                            <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="50" y="25">AppStarted</svg:text>
+                            <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="50" y="45">2</svg:text>
+                            <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="50" y="65">AppStarted</svg:text>
+                        </svg:g>
+                        <svg:g id="AppDetails" transform="translate(330,30)">
                             <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="100" x="4" y="4"/>
                             <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="100"/>
                             <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="50" y="25">AppDetails</svg:text>
                             <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="50" y="45">1</svg:text>
                             <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="50" y="65">AppDetails</svg:text>
+                        </svg:g>
+                        <svg:g id="AppStopped" transform="translate(610,30)">
+                            <svg:rect fill="rgb(190,190,190)" height="80" id="shadow" opacity="0.5" rx="0" width="100" x="4" y="4"/>
+                            <svg:rect fill="url(#box_gradient)" height="80" id="frame" rx="0" stroke="black" stroke-width="2" width="100"/>
+                            <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_name" pointer-events="none" text-anchor="middle" x="50" y="25">AppStopped</svg:text>
+                            <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_number" pointer-events="none" text-anchor="middle" x="50" y="45">3</svg:text>
+                            <svg:text fill="navy" font-family="Verdana,Arial" font-size="12" id="object_type" pointer-events="none" text-anchor="middle" x="50" y="65">AppStopped</svg:text>
                         </svg:g>
                     </svg:svg>
                 </mal:diagram>
