@@ -22,7 +22,6 @@ package esa.mo.mc.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.helpertools.misc.Const;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
 import java.util.ArrayList;
@@ -531,7 +530,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         UIntegerList invIndexList = new UIntegerList();
 
         if (aDefs == null || ids == null) { // Are the inputs null?
-            throw new IllegalArgumentException("ids and aggDefDetails arguments must not be null");
+            throw new IllegalArgumentException("ids and definitions arguments must not be null");
         }
 
         for (int index = 0; index < ids.size(); index++) {

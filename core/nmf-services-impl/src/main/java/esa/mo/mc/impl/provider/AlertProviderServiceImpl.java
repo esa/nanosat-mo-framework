@@ -275,7 +275,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         UIntegerList invIndexList = new UIntegerList();
 
         if (alertObjInstIds == null || newAlertDefDetails == null) { // Are the inputs null?
-            throw new IllegalArgumentException("alertObjInstIds and alertDefDetails arguments must not be null");
+            throw new IllegalArgumentException("ids and definitions arguments must not be null");
         }
         for (int index = 0; index < alertObjInstIds.size(); index++) {
             //requirement: 3.4.11.2.a

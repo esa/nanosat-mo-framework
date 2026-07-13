@@ -476,7 +476,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             for (int h = 0; h < values.size(); h++) {
                 AggregationValueDetails value = values.get(h);
 
-                str.append("The value for objId ").append(value.getDefId().toString()).append(
+                str.append("The value for objId ").append(value.getDefinitionId().toString()).append(
                         " (AggregationValue index: ").append(h).append(") is:").append("\n");
                 AggregationSetValueList sets = value.getValue().getParameterSetValues();
 
@@ -584,7 +584,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             for (int h = 0; h < values.size(); h++) {
                 AggregationValueDetails value = values.get(h);
 
-                str.append("The value for objId ").append(value.getDefId().toString()).append(
+                str.append("The value for objId ").append(value.getDefinitionId().toString()).append(
                         " (AggregationValue index: ").append(h).append(") is:").append("\n");
                 for (int i = 0; i < value.getValue().getParameterSetValues().size(); i++) {
                     for (int j = 0;

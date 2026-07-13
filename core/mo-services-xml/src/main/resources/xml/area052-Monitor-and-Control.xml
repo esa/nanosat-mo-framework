@@ -666,16 +666,16 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
-                            <mal:field name="definitionIds" canBeNull="false" comment="The ids of the AlertDefinition objects to be updated.">
+                            <mal:field name="ids" canBeNull="false" comment="The ids of the AlertDefinition objects to be updated.">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
-                            <mal:field name="alertDefDetails" canBeNull="false" comment="The replacement AlertDefinition objects.">
+                            <mal:field name="definitions" canBeNull="false" comment="The replacement AlertDefinition objects.">
                                 <mal:type area="MC" list="true" name="AlertDefinition"/>
                             </mal:field>
                         </mal:submit>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="When the definitionIds list contains NULL or '0', or the definitionIds and alertDefDetails lists are not the same length, or one of the supplied AlertDefinition objects contains an invalid value.">
+                        <mal:errorRef comment="When the ids list contains NULL or '0', or the ids and definitions lists are not the same length, or one of the supplied AlertDefinition objects contains an invalid value.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
@@ -810,7 +810,7 @@
             <mal:capabilitySet number="2" comment="">
                 <mal:requestIP name="getValue" number="2" comment="The getValue operation returns the latest received value for a requested aggregation.">
                     <mal:documentation name="Requirement" order="1">
-                        The definitionIds field shall support the wildcard value of '0', which matches all aggregation definitions of the provider.
+                        If the ids field contains the wildcard value of '0', then the service provider shall match all of its aggregation definitions.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The service provider shall check for the wildcard value first; if found, the service provider shall make no further checks of the supplied ids.
@@ -826,7 +826,7 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="definitionIds" canBeNull="false" comment="The list of AggregationDefinition ids.">
+                            <mal:field name="ids" canBeNull="false" comment="The list of AggregationDefinition ids.">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:request>
@@ -849,7 +849,7 @@
             <mal:capabilitySet number="3" comment="">
                 <mal:submitIP name="enableReporting" number="3" comment="The enableReporting operation allows a consumer to control whether PUBSUB reports are published for specific aggregations or not. This affects all types of aggregations, periodic, filtered and ad-hoc.">
                     <mal:documentation name="Requirement" order="1">
-                        The ids field shall support the wildcard value of '0', which matches all aggregation definitions of the provider.
+                        If the ids field contains the wildcard value of '0', then the service provider shall match all of its aggregation definitions.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The service provider shall check for the wildcard value first; if found, the service provider shall make no further checks of the supplied ids.
@@ -896,7 +896,7 @@
                 </mal:submitIP>
                 <mal:submitIP name="enableFilter" number="4" comment="The enableFilter operation allows a consumer to control whether reports for specific aggregations are filtered or not. This affects both periodic and ad-hoc aggregations.">
                     <mal:documentation name="Requirement" order="1">
-                        The ids field shall support the wildcard value of '0', which matches all aggregation definitions of the provider.
+                        If the ids field contains the wildcard value of '0', then the service provider shall match all of its aggregation definitions.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The service provider shall check for the wildcard value first; if found, the service provider shall make no further checks of the supplied ids.
@@ -981,17 +981,14 @@
                         If an error is raised, then the service provider shall not add any new definitions as a result of this operation call.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The service provider shall create a new AggregationDefinition object.
+                        For each supplied definition, the service provider shall store a new AggregationDefinition object in the COM archive.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The service provider shall store the new AggregationDefinition object in the COM archive.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        The returned list shall maintain the same order as the submitted definitions.
+                        The returned newIds list shall maintain the same order as the submitted definitions.
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="aggDefDetails" canBeNull="false" comment="The name and the AggregationDefinition to be added.">
+                            <mal:field name="definitions" canBeNull="false" comment="The list of AggregationDefinition objects to be added.">
                                 <mal:type area="MC" list="true" name="AggregationDefinition"/>
                             </mal:field>
                         </mal:request>
@@ -1031,10 +1028,10 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
-                            <mal:field name="definitionIds" canBeNull="false" comment="The ids of the AggregationDefinition objects to be updated.">
+                            <mal:field name="ids" canBeNull="false" comment="The ids of the AggregationDefinition objects to be updated.">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
-                            <mal:field name="aggDefDetails" canBeNull="false" comment="The replacement AggregationDefinition objects.">
+                            <mal:field name="definitions" canBeNull="false" comment="The list of replacement AggregationDefinition objects.">
                                 <mal:type area="MC" list="true" name="AggregationDefinition"/>
                             </mal:field>
                         </mal:submit>
@@ -1046,7 +1043,7 @@
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="When the definitionIds list contains a NULL or '0', the two supplied lists are not the same size, or a supplied interval is not supported by the provider.">
+                        <mal:errorRef comment="When the ids list contains a NULL or '0', the two supplied lists are not the same size, or a supplied interval is not supported by the provider.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
@@ -1056,7 +1053,7 @@
                 </mal:submitIP>
                 <mal:submitIP name="removeAggregation" number="8" comment="The removeAggregation operation allows a consumer to remove one or more aggregations from the list of aggregations supported by the aggregation provider.&#xA;The operation does not remove the AggregationDefinition objects from the COM archive, merely removes the objects from the provider. This permits existing AggregationValue objects to continue to reference the correct AggregationDefinition object in the COM archive.">
                     <mal:documentation name="Requirement" order="1">
-                        The definitionIds field shall support the wildcard value of '0', which matches all aggregation definitions of the provider.
+                        If the ids field contains the wildcard value of '0', then the service provider shall match all of its aggregation definitions.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The service provider shall check for the wildcard value first; if found, the service provider shall make no further checks of the supplied ids.
@@ -1072,7 +1069,7 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
-                            <mal:field name="definitionIds" canBeNull="false" comment="The ids of the AggregationDefinition objects to be removed.">
+                            <mal:field name="ids" canBeNull="false" comment="The ids of the AggregationDefinition objects to be removed.">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:submit>
@@ -1383,7 +1380,7 @@
                 <mal:field name="name" canBeNull="false" comment="The name of the aggregation. Shall not be empty or the wildcard value.">
                     <mal:type area="MAL" list="false" name="Identifier"/>
                 </mal:field>
-                <mal:field name="description" canBeNull="false" comment="The description of the parameter. May be empty.">
+                <mal:field name="description" canBeNull="false" comment="The description of the aggregation. May be empty.">
                     <mal:type area="MAL" list="false" name="String"/>
                 </mal:field>
                 <mal:field name="category" canBeNull="false" comment="The category of the aggregation.">
@@ -1485,7 +1482,7 @@
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
-                <mal:field name="defId" canBeNull="false" comment="The AggregationDefinition id.">
+                <mal:field name="definitionId" canBeNull="false" comment="The AggregationDefinition id.">
                     <mal:type area="MAL" list="false" name="Long"/>
                 </mal:field>
                 <mal:field name="timestamp" canBeNull="false" comment="The timestamp of the value. Use for the calculation of the individual parameter value timestamps.">
