@@ -125,7 +125,6 @@ public class AppLifecycleNominalTest extends NMFTest {
     // Test 4 — monitorEvents on start
     // -------------------------------------------------------------------------
 
-    @Ignore("MAL broker drops concurrent subscriptions on deregister; fixed in mo-services-java v14.0")
     @Test
     public void testMonitorEventsOnStart() throws Exception {
         LOGGER.info(SEP + "\nRunning: testMonitorEventsOnStart()\n" + SEP);
