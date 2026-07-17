@@ -132,6 +132,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             manager = new AppsLauncherManagerWindows(comServices);
         } else if (AppsIsolationMode.isBubblewrap()) {
             manager = new AppsLauncherManagerBubblewrap(comServices);
+        } else if (AppsIsolationMode.isDockerContainers()) {
+            manager = new AppsLauncherManagerDocker(comServices);
         } else {
             manager = new AppsLauncherManagerLinux(comServices);
         }
