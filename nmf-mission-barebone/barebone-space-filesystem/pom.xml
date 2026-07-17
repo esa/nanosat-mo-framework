@@ -50,9 +50,14 @@
 
     <properties>
         <esa.nmf.version>5.0-SNAPSHOT</esa.nmf.version>
-        <out.folder.output>space-file-system</out.folder.output>
+        <!-- Must match the directory the generate-filesystem goal writes to
+             (target/space-filesystem/nanosat-mo-framework). -->
+        <out.folder.output>space-filesystem</out.folder.output>
         <out.folder.nmf>nanosat-mo-framework</out.folder.nmf>
         <mission.outputdir>${project.build.directory}/${out.folder.output}</mission.outputdir>
+        <!-- Remote target for the deploy-on-remote profile; override with
+             -Ddeploy.remote.url=scp://user@host/ -->
+        <deploy.remote.url>scp://user@192.168.1.1/</deploy.remote.url>
     </properties>
     
     <dependencies>
@@ -69,6 +74,34 @@
         </dependency>
     </dependencies>
     <build>
+        <pluginManagement>
+            <plugins>
+                <!-- The Space File System generation, defined once and reused by
+                     both the generate-filesystem and deploy-on-remote profiles. -->
+                <plugin>
+                    <groupId>int.esa.nmf.core</groupId>
+                    <artifactId>nmf-linux-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>generate-space-filesystem</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>generate-filesystem</goal>
+                            </goals>
+                            <configuration>
+                                <supervisorMainClass>esa.mo.nmf.mission.barebone.BareboneSupervisorImpl</supervisorMainClass>
+                                <mission>
+                                    <missionName>barebone</missionName>
+                                    <spacecraftName>barebone</spacecraftName>
+                                    <organizationAbbreviation>ESA</organizationAbbreviation>
+                                    <organizationName>European Space Agency</organizationName>
+                                </mission>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -79,26 +112,61 @@
     </build>
     <profiles>
         <profile>
+            <!-- Generates the Space File System into
+                 target/space-filesystem/nanosat-mo-framework -->
             <id>generate-filesystem</id>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>int.esa.nmf.core</groupId>
                         <artifactId>nmf-linux-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <!-- Generates the Space File System and uploads it to a remote machine
+                 (e.g. a flight-representative target) over scp. Self-contained, so
+                 it does not need the generate-filesystem profile:
+                   mvn install -Pdeploy-on-remote -Ddeploy.remote.url=scp://user@host/
+                 The generate-filesystem goal runs at 'package' and the upload at
+                 'install', so the filesystem always exists before it is transferred.
+                 SSH credentials are taken from ~/.ssh / an ssh-agent, or from a
+                 <server> entry in settings.xml matching the host. -->
+            <id>deploy-on-remote</id>
+            <build>
+                <plugins>
+                    <!-- Generate the filesystem first (package phase). -->
+                    <plugin>
+                        <groupId>int.esa.nmf.core</groupId>
+                        <artifactId>nmf-linux-maven-plugin</artifactId>
+                    </plugin>
+                    <!-- Then upload it (install phase). -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>wagon-maven-plugin</artifactId>
+                        <version>2.0.2</version>
+                        <dependencies>
+                            <!-- Provides the scp:// transport, scoped to this
+                                 profile so normal builds never resolve it. -->
+                            <dependency>
+                                <groupId>org.apache.maven.wagon</groupId>
+                                <artifactId>wagon-ssh</artifactId>
+                                <version>2.8</version>
+                            </dependency>
+                        </dependencies>
                         <executions>
                             <execution>
-                                <phase>package</phase>
+                                <id>upload-space-filesystem</id>
+                                <phase>install</phase>
                                 <goals>
-                                    <goal>generate-filesystem</goal>
+                                    <goal>upload</goal>
                                 </goals>
                                 <configuration>
-                                    <supervisorMainClass>esa.mo.nmf.mission.barebone.BareboneSupervisorImpl</supervisorMainClass>
-                                    <mission>
-                                        <missionName>barebone</missionName>
-                                        <spacecraftName>barebone</spacecraftName>
-                                        <organizationAbbreviation>ESA</organizationAbbreviation>
-                                        <organizationName>European Space Agency</organizationName>
-                                    </mission>
+                                    <fromDir>${mission.outputdir}/${out.folder.nmf}</fromDir>
+                                    <url>${deploy.remote.url}</url>
+                                    <toDir>${out.folder.nmf}</toDir>
+                                    <skip>false</skip>
                                 </configuration>
                             </execution>
                         </executions>
