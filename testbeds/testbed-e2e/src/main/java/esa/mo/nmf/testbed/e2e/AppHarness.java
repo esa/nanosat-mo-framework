@@ -38,6 +38,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALHelper;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
@@ -353,13 +354,7 @@ public class AppHarness {
         AtomicReference<Boolean> outcome = new AtomicReference<>();
         Subscription sub = ConnectionConsumer.subscriptionWildcardRandom();
         try {
-            IdentifierList names = new IdentifierList();
-            names.add(new Identifier(actionName));
-            LongList ids = actionStub.listDefinition(names);
-            if (ids == null || ids.isEmpty() || ids.get(0) == null) {
-                throw new IOException("Action '" + actionName + "' not found on app '" + appName + "'.");
-            }
-            final Long defId = ids.get(0);
+            final Long defId = resolveActionDefId(actionStub, actionName, timeoutMs);
 
             actionStub.monitorExecutionRegister(sub, new ActionAdapter() {
                 @Override
@@ -397,6 +392,40 @@ public class AppHarness {
                 actionStub.monitorExecutionDeregister(subIds);
             } catch (MALException | MALInteractionException ignored) {
             }
+        }
+    }
+
+    /**
+     * Resolves an action's definition id, tolerating the window in which the app
+     * is already registered in the Directory but has not yet completed its
+     * {@code initialRegistrations()}. During that window {@code listDefinition}
+     * reports the name as UNKNOWN; this polls until the definition appears or
+     * {@code timeoutMs} elapses. Any non-UNKNOWN interaction error is a genuine
+     * failure and is rethrown immediately.
+     */
+    private Long resolveActionDefId(ActionStub actionStub, String actionName, long timeoutMs)
+            throws MALException, MALInteractionException, InterruptedException, IOException {
+        IdentifierList names = new IdentifierList();
+        names.add(new Identifier(actionName));
+        long deadline = System.currentTimeMillis() + timeoutMs;
+        while (true) {
+            try {
+                LongList ids = actionStub.listDefinition(names);
+                if (ids != null && !ids.isEmpty() && ids.get(0) != null && ids.get(0) != 0L) {
+                    return ids.get(0);
+                }
+                // Empty/zero result: definition not registered yet, keep polling.
+            } catch (MALInteractionException e) {
+                if (!MALHelper.UNKNOWN_ERROR_NUMBER.equals(e.getStandardError().getErrorNumber())) {
+                    throw e;
+                }
+                // UNKNOWN: the action is not registered yet, keep polling.
+            }
+            if (System.currentTimeMillis() >= deadline) {
+                throw new IOException("Action '" + actionName + "' not registered on app '"
+                        + appName + "' within " + timeoutMs + " ms.");
+            }
+            Thread.sleep(200);
         }
     }
 
