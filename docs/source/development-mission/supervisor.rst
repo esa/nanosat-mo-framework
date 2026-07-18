@@ -121,16 +121,12 @@ The current default parameters (both read-only) are:
      - The uptime of the Supervisor process, in seconds.
    * - ``memory.ram.*``, ``memory.swap.*``
      - Host RAM and swap totals, usage and percentages.
-   * - ``memory.ram.errors.corrected`` / ``.uncorrected``
-     - EDAC ECC memory error counts (0 where EDAC is unavailable).
-   * - ``memory.pressure``, ``memory.page_faults``
-     - PSI memory pressure and cumulative page faults.
    * - ``bootloader.{primary,secondary,factory}.{nmf-version,mission-version,java,main-class}``
      - The fields of the three software baseline files the NMF Bootloader selects between.
    * - ``bootloader.rung``, ``bootloader.failed-attempts``
      - The fallback ladder rung the bootloader will boot next, and the failed-attempt count for it.
 
-The memory parameters are sourced from Linux ``/proc`` and ``/sys``; values unavailable on the host default
+The memory parameters are sourced from Linux ``/proc``; values unavailable on the host default
 to zero. The ``bootloader.*`` parameters are read live from the ``bootloader/`` domain (the baseline files
 and runtime state) that the bootloader itself consumes; see the :doc:`/background/bootloader-specification`.
 

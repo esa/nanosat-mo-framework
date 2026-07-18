@@ -24,7 +24,6 @@ import esa.mo.mc.impl.interfaces.ActionNotFoundException;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import java.io.BufferedReader;
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
@@ -38,10 +37,9 @@ import org.ccsds.moims.mo.mc.structures.ParameterDefinitionList;
 import org.ccsds.moims.mo.mc.structures.ParameterValue;
 
 /**
- * A default Supervisor MC adapter exposing host memory telemetry as read-only
- * parameters, sourced from Linux {@code /proc} and {@code /sys}. Values that
- * are not available on the host (e.g. ECC counters without EDAC, or pressure
- * without PSI) default to zero.
+ * A default Supervisor MC adapter exposing host RAM and swap telemetry as
+ * read-only parameters, sourced from Linux {@code /proc}. Values that are not
+ * available on the host default to zero.
  *
  * @author Cesar Coelho
  */
@@ -50,13 +48,9 @@ public class MemoryMCAdapter extends MonitorAndControlNMFAdapter {
     private static final String RAM_TOTAL = "memory.ram.total";
     private static final String RAM_USED = "memory.ram.used";
     private static final String RAM_PERCENTAGE = "memory.ram.percentage";
-    private static final String RAM_ERRORS_CORRECTED = "memory.ram.errors.corrected";
-    private static final String RAM_ERRORS_UNCORRECTED = "memory.ram.errors.uncorrected";
     private static final String SWAP_TOTAL = "memory.swap.total";
     private static final String SWAP_USAGE = "memory.swap.usage";
     private static final String SWAP_PERCENTAGE = "memory.swap.percentage";
-    private static final String PRESSURE = "memory.pressure";
-    private static final String PAGE_FAULTS = "memory.page_faults";
 
     @Override
     public void initialRegistrations(MCRegistration registration) {
@@ -66,13 +60,9 @@ public class MemoryMCAdapter extends MonitorAndControlNMFAdapter {
         addParam(defs, RAM_TOTAL, "Total physical RAM.", AttributeType.LONG, "bytes");
         addParam(defs, RAM_USED, "Used physical RAM (total minus available).", AttributeType.LONG, "bytes");
         addParam(defs, RAM_PERCENTAGE, "Used physical RAM as a percentage.", AttributeType.DOUBLE, "%");
-        addParam(defs, RAM_ERRORS_CORRECTED, "EDAC corrected memory errors.", AttributeType.LONG, "errors");
-        addParam(defs, RAM_ERRORS_UNCORRECTED, "EDAC uncorrected memory errors.", AttributeType.LONG, "errors");
         addParam(defs, SWAP_TOTAL, "Total swap space.", AttributeType.LONG, "bytes");
         addParam(defs, SWAP_USAGE, "Used swap space.", AttributeType.LONG, "bytes");
         addParam(defs, SWAP_PERCENTAGE, "Used swap as a percentage.", AttributeType.DOUBLE, "%");
-        addParam(defs, PRESSURE, "Memory pressure (PSI 'some' avg10).", AttributeType.DOUBLE, "%");
-        addParam(defs, PAGE_FAULTS, "Cumulative page faults since boot.", AttributeType.LONG, "faults");
         registration.registerParameters(defs);
     }
 
@@ -94,20 +84,12 @@ public class MemoryMCAdapter extends MonitorAndControlNMFAdapter {
                 return asLong(usedBytes("MemTotal", "MemAvailable"));
             case RAM_PERCENTAGE:
                 return asDouble(usedPercentage("MemTotal", "MemAvailable"));
-            case RAM_ERRORS_CORRECTED:
-                return asLong(edacErrors("ce_count"));
-            case RAM_ERRORS_UNCORRECTED:
-                return asLong(edacErrors("ue_count"));
             case SWAP_TOTAL:
                 return asLong(meminfoBytes("SwapTotal"));
             case SWAP_USAGE:
                 return asLong(usedBytes("SwapTotal", "SwapFree"));
             case SWAP_PERCENTAGE:
                 return asDouble(usedPercentage("SwapTotal", "SwapFree"));
-            case PRESSURE:
-                return asDouble(memoryPressure());
-            case PAGE_FAULTS:
-                return asLong(vmstat("pgfault"));
             default:
                 return null;
         }
@@ -125,7 +107,7 @@ public class MemoryMCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     // ------------------------------------------------------------------------
-    // Value sources (Linux /proc and /sys); return safe defaults if absent
+    // Value sources (Linux /proc); return safe defaults if absent
     // ------------------------------------------------------------------------
 
     private static long usedBytes(String totalKey, String freeKey) {
@@ -156,56 +138,6 @@ public class MemoryMCAdapter extends MonitorAndControlNMFAdapter {
             // File unavailable or unparsable: fall through to the default
         }
         return -1;
-    }
-
-    /** Reads a "key value" line from /proc/vmstat, returning the count or -1. */
-    private static long vmstat(String key) {
-        try (BufferedReader br = Files.newBufferedReader(Paths.get("/proc/vmstat"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                if (line.startsWith(key + " ")) {
-                    return Long.parseLong(line.split("\\s+")[1]);
-                }
-            }
-        } catch (Exception ex) {
-            // File unavailable or unparsable
-        }
-        return -1;
-    }
-
-    /** Sums an EDAC counter (ce_count/ue_count) over all memory controllers. */
-    private static long edacErrors(String counterFile) {
-        File[] controllers = new File("/sys/devices/system/edac/mc")
-                .listFiles((dir, name) -> name.startsWith("mc"));
-        if (controllers == null) {
-            return 0; // No EDAC on this host
-        }
-        long total = 0;
-        for (File mc : controllers) {
-            try {
-                total += Long.parseLong(Files.readString(new File(mc, counterFile).toPath()).trim());
-            } catch (Exception ex) {
-                // Missing counter on this controller: ignore
-            }
-        }
-        return total;
-    }
-
-    /** Parses the PSI 'some avg10' value from /proc/pressure/memory (0 if absent). */
-    private static double memoryPressure() {
-        try (BufferedReader br = Files.newBufferedReader(Paths.get("/proc/pressure/memory"))) {
-            String line = br.readLine(); // "some avg10=.. avg60=.. avg300=.. total=.."
-            if (line != null) {
-                for (String token : line.split("\\s+")) {
-                    if (token.startsWith("avg10=")) {
-                        return Double.parseDouble(token.substring("avg10=".length()));
-                    }
-                }
-            }
-        } catch (Exception ex) {
-            // No PSI support on this host
-        }
-        return 0.0;
     }
 
     private static Attribute asLong(long value) {
