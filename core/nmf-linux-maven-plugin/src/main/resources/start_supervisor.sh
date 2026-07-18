@@ -48,12 +48,23 @@ get_prop() {
 }
 
 # report <text> — one Boot Report line, written immediately (BAA.03) and
-# echoed to stdout. Suppressed (file only) once the daily size cap is hit.
+# echoed to stdout. The line starts with a timestamp followed by the BOOTLOADER
+# source tag, so it aligns with the java.util.logging output of the Supervisor.
+# Suppressed (file only) once the daily size cap is hit.
 report() {
-    _line="$(date "$TS_FMT") $1"
-    echo "BOOTLOADER: $_line"
+    _line="$(date "$TS_FMT") BOOTLOADER $1"
+    echo "$_line"
     if [ "$REPORT_ENABLED" = "true" ]; then
         echo "$_line" >> "$REPORT_FILE"
+    fi
+}
+
+# record <text> — like report() but written to the Boot Report file only, with
+# no console echo. For nominal-success details that would only be console noise
+# but are still worth keeping in the forensic record.
+record() {
+    if [ "$REPORT_ENABLED" = "true" ]; then
+        echo "$(date "$TS_FMT") BOOTLOADER $1" >> "$REPORT_FILE"
     fi
 }
 
@@ -100,7 +111,9 @@ initialisation() {
     fi
 
     if [ "$REPORT_ENABLED" = "true" ]; then
-        echo "=== BOOT REPORT START $(date "$TS_FMT")$(date +%z) ===" >> "$REPORT_FILE"
+        _now=$(date "$TS_FMT")
+        echo "======================================================================" >> "$REPORT_FILE"
+        echo "$_now BOOTLOADER Boot started at: $_now$(date +%z)" >> "$REPORT_FILE"
     fi
     report "INITIALISATION nmf-home: $NMF_HOME"
     report "INITIALISATION config: $CONFIG_STATUS"
@@ -275,7 +288,6 @@ boot_attempt_failed() {
     fi
     write_state "$RUNG" "$ATTEMPTS"
     report "CONFIRMATION fallback-state: rung=$RUNG failed-attempts=$ATTEMPTS"
-    report "=== BOOT REPORT END ==="
     exit 1
 }
 
@@ -283,11 +295,12 @@ confirmation() {
     _elapsed=0
     while [ "$_elapsed" -lt "$BOOT_CONFIRM_TIMEOUT_S" ]; do
         if [ -f "$MARKER_FILE" ]; then
-            report "CONFIRMATION confirmed after ${_elapsed}s"
+            # A nominal, confirmed boot is silent on the console; the timing is
+            # still kept in the Boot Report file for forensics.
+            record "CONFIRMATION confirmed after ${_elapsed}s"
             # A confirmed boot resets the fallback state: the next start
             # tries the primary baseline again (self-healing)
             write_state primary 0
-            report "=== BOOT REPORT END ==="
             return 0
         fi
         if ! kill -0 "$JVM_PID" 2>/dev/null; then
@@ -350,5 +363,5 @@ confirmation
 wait "$JVM_PID"
 JVM_EXIT=$?
 kill "$TAIL_PID" 2>/dev/null
-echo "BOOTLOADER: supervisor exited with code $JVM_EXIT"
+echo "$(date "$TS_FMT") BOOTLOADER EXECUTION supervisor exited with code $JVM_EXIT"
 exit "$JVM_EXIT"

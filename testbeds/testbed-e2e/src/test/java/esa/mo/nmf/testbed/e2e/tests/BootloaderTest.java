@@ -61,11 +61,11 @@ public class BootloaderTest extends NMFTest {
         harness.setUp();
 
         // The harness returns at the readiness message, up to one poll cycle
-        // before the bootloader records the confirmation and closes the
-        // report section: wait for the completion marker
+        // before the bootloader records the confirmation: wait for that
+        // confirmation entry
         try {
             for (int i = 0; i < 20; i++) {
-                if (contains(readTodaysReport(), "=== BOOT REPORT END ===")) {
+                if (contains(readTodaysReport(), "CONFIRMATION confirmed")) {
                     return;
                 }
                 Thread.sleep(500);
@@ -81,7 +81,7 @@ public class BootloaderTest extends NMFTest {
     }
 
     // Test — A Boot Report was written for this boot, complete with the
-    // start marker, the five sequence steps, and the completion marker
+    // start marker, the six sequence steps, and the confirmation entry
 
     @Test
     public void testBootReportIsComplete() throws IOException {
@@ -89,15 +89,13 @@ public class BootloaderTest extends NMFTest {
         List<String> report = readTodaysReport();
 
         Assert.assertTrue("Missing report start marker",
-                contains(report, "=== BOOT REPORT START"));
+                contains(report, "Boot started at:"));
         for (String step : new String[]{"INITIALISATION", "SELF-TESTS",
             "BASELINE-SELECTION", "INTEGRITY-TEST", "EXECUTION", "CONFIRMATION"}) {
             Assert.assertTrue("Missing step entry: " + step, contains(report, step));
         }
         Assert.assertTrue("The boot must be confirmed by the Supervisor",
                 contains(report, "CONFIRMATION confirmed"));
-        Assert.assertTrue("Missing report completion marker",
-                contains(report, "=== BOOT REPORT END ==="));
     }
 
     // Test — The report records a successful nominal boot: primary baseline
@@ -164,7 +162,7 @@ public class BootloaderTest extends NMFTest {
         List<String> lines = Files.readAllLines(reportFile.toPath(), StandardCharsets.UTF_8);
         int lastStart = 0;
         for (int i = 0; i < lines.size(); i++) {
-            if (lines.get(i).contains("=== BOOT REPORT START")) {
+            if (lines.get(i).contains("Boot started at:")) {
                 lastStart = i;
             }
         }
