@@ -58,6 +58,11 @@
         <!-- Remote target for the deploy-on-remote profile; override with
              -Ddeploy.remote.url=scp://user@host/ -->
         <deploy.remote.url>scp://user@192.168.1.1/</deploy.remote.url>
+        <!-- Image name for the docker profile; the tag is the project version. -->
+        <docker.image.name>nmf-mission-barebone</docker.image.name>
+        <!-- Container build tool; override with -Ddocker.executable=podman or a
+             full path if it is not on the PATH. -->
+        <docker.executable>docker</docker.executable>
     </properties>
     
     <dependencies>
@@ -167,6 +172,51 @@
                                     <url>${deploy.remote.url}</url>
                                     <toDir>${out.folder.nmf}</toDir>
                                     <skip>false</skip>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <!-- Generates the Space File System and builds a slim Docker image of
+                 the Supervisor from the Dockerfile in this module. Self-contained,
+                 so it does not need the generate-filesystem profile:
+                   mvn install -Pdocker
+                 It runs the same 'docker build' you could run by hand and needs a
+                 Docker daemon. The image is ${docker.image.name}:${project.version}. -->
+            <id>docker</id>
+            <build>
+                <plugins>
+                    <!-- Generate the filesystem first (package phase). -->
+                    <plugin>
+                        <groupId>int.esa.nmf.core</groupId>
+                        <artifactId>nmf-linux-maven-plugin</artifactId>
+                    </plugin>
+                    <!-- Then build the Docker image (install phase). -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>docker-build</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>${docker.executable}</executable>
+                                    <workingDirectory>${project.basedir}</workingDirectory>
+                                    <arguments>
+                                        <argument>build</argument>
+                                        <argument>-t</argument>
+                                        <argument>${docker.image.name}:${project.version}</argument>
+                                        <argument>-t</argument>
+                                        <argument>${docker.image.name}:latest</argument>
+                                        <argument>.</argument>
+                                    </arguments>
                                 </configuration>
                             </execution>
                         </executions>
