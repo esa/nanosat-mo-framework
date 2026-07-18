@@ -363,7 +363,7 @@ jobs:
         run: mvn --batch-mode test -f testbeds/testbed-performance/pom.xml
       - name: Upload performance results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: cli-performance-results-jdk11-${{ steps.get-date.outputs.timestamp }}
           path: |
@@ -397,7 +397,7 @@ jobs:
         run: mvn --batch-mode test -f testbeds/testbed-performance/pom.xml
       - name: Upload performance results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: cli-performance-results-jdk17-${{ steps.get-date.outputs.timestamp }}
           path: |
@@ -431,7 +431,7 @@ jobs:
         run: mvn --batch-mode test -f testbeds/testbed-performance/pom.xml
       - name: Upload performance results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: cli-performance-results-jdk21-${{ steps.get-date.outputs.timestamp }}
           path: |
@@ -465,7 +465,7 @@ jobs:
         run: mvn --batch-mode test -f testbeds/testbed-performance/pom.xml
       - name: Upload performance results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: cli-performance-results-jdk25-${{ steps.get-date.outputs.timestamp }}
           path: |
