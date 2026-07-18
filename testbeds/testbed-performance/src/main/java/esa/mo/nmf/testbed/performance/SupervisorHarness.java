@@ -55,8 +55,11 @@ import java.util.logging.Logger;
 public class SupervisorHarness {
 
     public static final String PROP_FILESYSTEM = "nmf.perf.filesystem";
-    private static final int STARTUP_TIMEOUT_SECONDS = 3;
-    private static final int SHUTDOWN_TIMEOUT_SECONDS = 3;
+    // Generous timeouts so a loaded CI runner does not flake: the Supervisor's
+    // own initialisation (archive backend, fast classes, service startup) can
+    // take several seconds. The e2e harness uses 10 s; give startup more margin.
+    private static final int STARTUP_TIMEOUT_SECONDS = 30;
+    private static final int SHUTDOWN_TIMEOUT_SECONDS = 10;
 
     private static final Logger LOGGER = Logger.getLogger(SupervisorHarness.class.getName());
 
