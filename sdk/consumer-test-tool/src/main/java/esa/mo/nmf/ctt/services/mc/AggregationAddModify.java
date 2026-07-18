@@ -529,7 +529,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
             LongList output = aggregationService.addDefinition(aDefs);
             Logger.getLogger(AggregationAddModify.class.getName()).log(Level.INFO, "addDefinition returned {0} object instance identifiers (Aggregation)", output.size());
             aggregationTableData.addRow(
-                    new Object[]{output.get(0).intValue(), aDef.getName(), aDef.getDescription(),
+                    new Object[]{output.get(0).intValue(), aDef.getName().getValue(), aDef.getDescription(),
                         categoryCB.getItemAt(aDef.getCategory().getOrdinal()).toString(), aDef.getReportingEnabled(),
                         aDef.getUpdateInterval().getValue(), aDef.getFilterEnabled(), aDef.getFilteredTimeout().getValue()}
             );
@@ -544,7 +544,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
             aggregationService.updateDefinition(objIds, aDefs);  // Execute the update
             aggregationTableData.removeRow(aggregationDefinitionSelectedIndex);
             aggregationTableData.insertRow(aggregationDefinitionSelectedIndex,
-                    new Object[]{objIds.get(0).intValue(), aDef.getName(), aDef.getDescription(),
+                    new Object[]{objIds.get(0).intValue(), aDef.getName().getValue(), aDef.getDescription(),
                         categoryCB.getItemAt(aDef.getCategory().getOrdinal()).toString(), aDef.getReportingEnabled(),
                         aDef.getUpdateInterval().getValue(), aDef.getFilterEnabled(), aDef.getFilteredTimeout().getValue()}
             );

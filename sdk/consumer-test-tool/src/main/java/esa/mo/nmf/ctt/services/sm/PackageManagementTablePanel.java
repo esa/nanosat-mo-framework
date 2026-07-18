@@ -86,7 +86,11 @@ public class PackageManagementTablePanel extends SharedTablePanel {
         String[] tableCol = new String[]{"Package name", "isInstalled"};
 
         tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
-            Class[] types = new Class[]{java.lang.String.class, java.lang.Boolean.class};
+            // Column 0 holds an Identifier object (see getSelectedPackage), not a
+            // String. Declaring it Object makes the row sorter compare via
+            // toString() instead of casting the value to String, which threw a
+            // ClassCastException when the table was sorted or rows were removed.
+            Class[] types = new Class[]{java.lang.Object.class, java.lang.Boolean.class};
 
             @Override               //all cells false
             public boolean isCellEditable(int row, int column) {
