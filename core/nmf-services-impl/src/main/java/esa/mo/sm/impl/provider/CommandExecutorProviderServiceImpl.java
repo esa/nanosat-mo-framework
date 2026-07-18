@@ -187,8 +187,10 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         try {
             org.ccsds.moims.mo.sm.structures.CommandOutput cmdOutput =
                     new org.ccsds.moims.mo.sm.structures.CommandOutput(outputType, data, exitCode);
-            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null,
-                    connection.getPrimaryConnectionDetails().getProviderURI(), commandId);
+            // Link each output chunk to its parent Command via 'related', and let the
+            // archive auto-assign a fresh instance id (a command emits many chunks).
+            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(commandId, null,
+                    connection.getPrimaryConnectionDetails().getProviderURI());
             HeterogeneousList objBodies = new HeterogeneousList();
             objBodies.add(cmdOutput);
             archiveService.store(true, CommandExecutorServiceInfo.COMMANDOUTPUT_OBJECT_TYPE,
