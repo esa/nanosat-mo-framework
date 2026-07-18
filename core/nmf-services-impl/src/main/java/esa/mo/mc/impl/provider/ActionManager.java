@@ -402,8 +402,7 @@ public final class ActionManager extends MCManager {
         private final String namePrefix;
 
         ActionThreadFactory(String prefix) {
-            SecurityManager s = System.getSecurityManager();
-            group = (s != null) ? s.getThreadGroup() : Thread.currentThread().getThreadGroup();
+            group = Thread.currentThread().getThreadGroup();
             namePrefix = prefix + "-thread-";
         }
 

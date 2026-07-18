@@ -188,8 +188,7 @@ public class PersistProviderConfiguration {
         private final String namePrefix;
 
         ConfigurationThreadFactory() {
-            SecurityManager s = System.getSecurityManager();
-            group = (s != null) ? s.getThreadGroup() : Thread.currentThread().getThreadGroup();
+            group = Thread.currentThread().getThreadGroup();
             namePrefix = "ConfigurationUpdate-";
         }
 

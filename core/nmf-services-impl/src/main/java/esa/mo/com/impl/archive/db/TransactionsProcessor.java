@@ -279,9 +279,7 @@ public class TransactionsProcessor {
         private final String namePrefix;
 
         DBThreadFactory(String prefix) {
-            SecurityManager s = System.getSecurityManager();
-            group = (s != null) ? s.getThreadGroup()
-                    : Thread.currentThread().getThreadGroup();
+            group = Thread.currentThread().getThreadGroup();
             namePrefix = prefix + "-thread-";
         }
 
