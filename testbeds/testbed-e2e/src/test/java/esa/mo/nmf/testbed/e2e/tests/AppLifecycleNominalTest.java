@@ -24,6 +24,7 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.nmf.testbed.e2e.AppHarness;
 import esa.mo.nmf.testbed.e2e.SupervisorHarness;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import org.ccsds.moims.mo.sm.structures.AppEventType;
 import org.ccsds.moims.mo.sm.structures.AppStopped;
@@ -49,6 +50,12 @@ public class AppLifecycleNominalTest extends NMFTest {
 
     private final AppHarness app = new AppHarness("all-mc-services", supervisorHarness);
 
+    // Self-exit tests spin up their own "benchmark" app. Tracked here so @After
+    // can tear it down even when the test fails mid-lifecycle; otherwise a
+    // lingering instance leaves the app registered as running and the next test
+    // that starts "benchmark" is rejected with an INVALID (already-running) error.
+    private AppHarness benchmark;
+
     @BeforeClass
     public static void startSupervisor() throws IOException {
         LOGGER.info(SETUP_CLASS_SEP + "\n" + SETUP_CLASS_MSG + "\n" + SETUP_CLASS_SEP);
@@ -70,6 +77,29 @@ public class AppLifecycleNominalTest extends NMFTest {
                 Thread.sleep(2000);
             }
         } catch (Exception ignored) {
+        }
+    }
+
+    @After
+    public void ensureBenchmarkStopped() {
+        // The self-exit tests create their own "benchmark" harness. Tear it down
+        // here so a lingering instance (e.g. one whose self-exit did not reap in
+        // time) cannot leave the app registered and poison the next test.
+        if (benchmark == null) {
+            return;
+        }
+        try {
+            if (benchmark.isRunning()) {
+                benchmark.kill();
+                benchmark.waitProcessGone(10_000);
+            }
+        } catch (Exception ignored) {
+        } finally {
+            try {
+                benchmark.tearDown();
+            } catch (Exception ignored) {
+            }
+            benchmark = null;
         }
     }
 
@@ -212,7 +242,14 @@ public class AppLifecycleNominalTest extends NMFTest {
                 + (records.isEmpty() ? app.getDiagnostics() : ""),
                 records.isEmpty());
 
-        AppStopped body = (AppStopped) records.get(0).getObject();
+        // The Supervisor's COM archive persists across runs and accumulates
+        // AppStopped records (including KILLED ones from other tests), so pick
+        // the most recent record — the one this test's stop just produced —
+        // rather than records.get(0), which is the oldest.
+        AppStopped body = (AppStopped) records.stream()
+                .max(Comparator.comparingLong(r -> r.getArchiveDetails().getTimestamp().getValue()))
+                .orElseThrow()
+                .getObject();
         Assert.assertEquals("AppStopped.stopReason must be STOPPED",
                 AppEventType.STOPPED, body.getStopReason());
     }
@@ -224,7 +261,7 @@ public class AppLifecycleNominalTest extends NMFTest {
     @Test
     public void testSelfExitZeroIsExited() throws Exception {
         LOGGER.info(SEP + "\nRunning: testSelfExitZeroIsExited()\n" + SEP);
-        AppHarness benchmark = new AppHarness("benchmark", supervisorHarness);
+        benchmark = new AppHarness("benchmark", supervisorHarness);
         benchmark.start();
 
         benchmark.launchAppAction("shutdown.system.exit.0");
@@ -250,7 +287,7 @@ public class AppLifecycleNominalTest extends NMFTest {
     @Test
     public void testSelfExitNonZeroIsCrashed() throws Exception {
         LOGGER.info(SEP + "\nRunning: testSelfExitNonZeroIsCrashed()\n" + SEP);
-        AppHarness benchmark = new AppHarness("benchmark", supervisorHarness);
+        benchmark = new AppHarness("benchmark", supervisorHarness);
         benchmark.start();
 
         benchmark.launchAppAction("shutdown.system.exit.x", 18);
