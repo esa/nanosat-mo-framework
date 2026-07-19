@@ -56,6 +56,14 @@ public class Deployment {
     public static final String ROLE_SECONDARY = "secondary";
     public static final String ROLE_FACTORY = "factory";
 
+    /**
+     * Exit code with which the Supervisor signals an intentional restart. The
+     * bootloader ({@code start_supervisor.sh}) recognises it and re-boots,
+     * distinct from a clean shutdown (0) or a crash (any other non-zero code).
+     * The value is duplicated as a literal in the bootloader script.
+     */
+    public static final int EXIT_RESTART = 90;
+
     private static final String BASELINE_FILE_PREFIX = "baseline-";
     private static final String BASELINE_FILE_SUFFIX = ".properties";
 

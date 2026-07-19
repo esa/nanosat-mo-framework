@@ -139,12 +139,18 @@ so the request can be validated before acceptance and its progress reported:
 - ``bootloader.setPrimaryBaseline(nmf-version, mission-version, java, main-class)`` — sets the baseline the
   bootloader boots next. The action validates, as reported stages, that the requested framework and mission
   versions are installed and pass their ``SHA256SUMS`` integrity tests and that the Java runtime executes;
-  any failure rejects the whole command and leaves the baseline file untouched.
+  any failure rejects the whole command and leaves the baseline file untouched. It writes only the
+  **primary** baseline.
+- ``bootloader.restart()`` — restarts the Supervisor. It acknowledges, then exits with the restart code,
+  which the bootloader recognises to re-boot from the current primary baseline. It is generic: applying a
+  newly activated baseline is one use (``setPrimaryBaseline`` then ``restart``), but the restart carries no
+  update-specific logic.
 
-The **secondary** baseline is not operator-settable — it is written only by the NMF itself, when the Package
-Management service rotates the previously running primary into the secondary on a confirmed baseline upgrade.
-The **factory** baseline is immutable in flight. A rollback to the secondary is therefore performed by
-calling ``setPrimaryBaseline`` with the secondary baseline's field values.
+The **secondary** baseline is not operator-settable — it is written only by the NMF itself. The bootloader
+*promotes* the running baseline into the secondary on each confirmed boot, so the secondary is always the
+last known-good baseline (rather than the previously commanded primary, which may never have booted). The
+**factory** baseline is immutable in flight. A rollback to the secondary is therefore performed by calling
+``setPrimaryBaseline`` with the secondary baseline's field values.
 
 Default parameter and action names follow a **dotted hierarchy** (``domain.group.leaf``), lowercase
 segments — for example ``nmf.version`` or ``bootloader.primary.nmf-version``. A default capability is added

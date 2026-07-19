@@ -91,7 +91,8 @@ writing a *boot confirmation marker* once its services are up. A boot attempt is
 JVM process exits before confirming, or when the marker has not appeared within ``BootConfirmTimeout``.
 An exit after a confirmed start-up — a commanded shutdown, or a crash long after boot — is not a boot
 failure: the bootloader exits with the Supervisor's exit code, and the service manager decides whether to
-start it again.
+start it again. The one exception is a dedicated *restart* exit code, which the bootloader recognises and
+acts on itself by re-executing the Nominal Sequence in place (see *Commanded restart* below).
 
 The bootloader performs one boot attempt per invocation and then terminates; the restart loop — and its
 pacing — belongs to the platform's service manager (e.g. a systemd unit with ``Restart=``), consistent
@@ -128,6 +129,29 @@ There are two restart types:
 2. **Warm restart** — a Supervisor restart without an OS reboot.
 
 The sequence is the same for both.
+
+Commanded restart
+~~~~~~~~~~~~~~~~~
+
+The Supervisor can be restarted on command. Because a live JVM cannot reload its own framework classes, a
+newly installed NMF core baseline only takes effect on the next boot; a commanded restart is what re-boots
+the process so the bootloader re-selects the (now updated) primary baseline. It is also useful on its own —
+to clear a bad runtime state or apply a configuration change — so it is a **generic** restart rather than an
+update-specific operation.
+
+The mechanism is a dedicated **exit code**: the Supervisor exits with the restart code (``90``), which the
+bootloader distinguishes from a clean shutdown (``0``, stay down) and a crash (any other non-zero code,
+handled by the fallback ladder / service manager). On the restart code the bootloader re-executes the
+Nominal Sequence in place and boots the current primary baseline again. Since the restart follows a
+confirmed boot, the fallback state has already reset, so the re-boot is a fresh attempt with the full
+confirmation window and fallback protection: if the newly activated baseline fails to confirm, the ladder
+falls back to the secondary — the last known-good baseline that the confirmed boot promoted (REC.04).
+
+Applying a core update is therefore a sequence of independent, individually safe steps: **install** the new
+baseline (its files are staged in a new versioned directory beside the current one), **activate** it
+(``setPrimaryBaseline`` validates it and writes the primary), and **restart** (``restart`` exits with the
+restart code). The exit code is the only channel the Supervisor needs to tell the bootloader that an exit is
+an intentional restart rather than a shutdown or a crash.
 
 Parameters
 ----------
@@ -335,12 +359,25 @@ primary baseline, the bootloader shall select the secondary baseline for the sub
 ``BootMaxAttempts`` consecutive failed boot attempts of the secondary baseline, the bootloader shall
 select the factory baseline.
 
-**NMF.BOOT.REC.04 — Baseline rotation.** On the first confirmed boot of a newly installed baseline, the
-previously primary baseline shall become the secondary baseline and the baseline files updated accordingly.
-This is performed at ASW level by the Package Management service, not by the bootloader.
+**NMF.BOOT.REC.04 — Secondary promotion.** On a confirmed boot, the bootloader shall set the secondary
+baseline to the baseline it has just booted (the last known-good). This is a *promotion of the running
+baseline* performed by the bootloader — not a rotation of the previous primary — so re-pointing the primary
+any number of times before the next boot (for example to stage an update) can never place an un-booted
+baseline in the secondary role. Activating a baseline (writing the primary) and tracking the fallback
+(the secondary) are thus decoupled: the ``setPrimaryBaseline`` Action writes only the primary, and the
+bootloader maintains the secondary.
 
 **NMF.BOOT.REC.05 — Reconfiguration traceability.** Every reconfiguration decision (failed attempt count,
-fallback to secondary or factory) shall be recorded in the Boot Report.
+fallback to secondary or factory, secondary promotion, commanded restart) shall be recorded in the Boot
+Report.
+
+**NMF.BOOT.REC.06 — Commanded restart.** The Supervisor shall be restartable on command. It shall exit with
+a dedicated restart exit code (distinct from a clean shutdown, code 0, and from a crash, any other non-zero
+code), which the bootloader shall recognise and act on by re-executing the Nominal Sequence in place —
+booting the current primary baseline again. Because a commanded restart follows a confirmed boot, it is not
+a failed boot attempt (REC.02) and does not advance the fallback ladder. In the NMF the restart is
+commanded through a generic ``restart`` Action, and applying a newly activated baseline is one use of it
+(``setPrimaryBaseline`` then ``restart``); the restart itself carries no update-specific logic.
 
 Storage (BMM)
 ~~~~~~~~~~~~~

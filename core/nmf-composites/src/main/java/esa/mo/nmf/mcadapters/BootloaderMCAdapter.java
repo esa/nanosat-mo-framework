@@ -69,6 +69,7 @@ public class BootloaderMCAdapter extends MonitorAndControlNMFAdapter {
 
     private static final String PREFIX = "bootloader.";
     private static final String ACTION_SET_PRIMARY = "bootloader.setPrimaryBaseline";
+    private static final String ACTION_RESTART = "bootloader.restart";
 
     private static final String[] ROLES = {
         Deployment.ROLE_PRIMARY, Deployment.ROLE_SECONDARY, Deployment.ROLE_FACTORY
@@ -86,6 +87,13 @@ public class BootloaderMCAdapter extends MonitorAndControlNMFAdapter {
     private static final String STATE_FAILED_ATTEMPTS = "failed-attempts";
 
     private static final int SET_PRIMARY_STAGES = 5;
+    private static final int RESTART_STAGES = 1;
+
+    /**
+     * Grace period before the Supervisor exits for a restart, giving the action
+     * response time to reach the consumer that requested it.
+     */
+    private static final long RESTART_GRACE_MS = 2000;
 
     private final NMFProvider provider;
 
@@ -131,6 +139,11 @@ public class BootloaderMCAdapter extends MonitorAndControlNMFAdapter {
                 + "and mission versions must be installed and pass their integrity tests, and the Java "
                 + "runtime must execute, otherwise the command is rejected.",
                 new UShort(SET_PRIMARY_STAGES), args));
+        actionDefs.add(new ActionDefinition(new Identifier(ACTION_RESTART),
+                "Restarts the Supervisor: after acknowledging, it shuts down gracefully and exits with "
+                + "the restart code, which the bootloader recognises to re-boot from the current primary "
+                + "baseline. Used to apply a newly activated baseline, but generic (any restart).",
+                new UShort(RESTART_STAGES), new ArgumentDefinitionList()));
         registration.registerActions(actionDefs);
     }
 
@@ -177,10 +190,46 @@ public class BootloaderMCAdapter extends MonitorAndControlNMFAdapter {
     public void actionArrived(Identifier name, AttributeValueList attributeValues,
             Long executionId, MALInteraction interaction)
             throws ExecutionFailedException, ActionNotFoundException {
-        if (name == null || !ACTION_SET_PRIMARY.equals(name.getValue())) {
-            throw new ActionNotFoundException(name == null ? null : name.getValue());
+        if (name == null) {
+            throw new ActionNotFoundException(null);
         }
-        setPrimaryBaseline(attributeValues, executionId);
+        switch (name.getValue()) {
+            case ACTION_SET_PRIMARY:
+                setPrimaryBaseline(attributeValues, executionId);
+                break;
+            case ACTION_RESTART:
+                restart(executionId);
+                break;
+            default:
+                throw new ActionNotFoundException(name.getValue());
+        }
+    }
+
+    /**
+     * Restarts the Supervisor. Acknowledges the command, then exits with
+     * {@link Deployment#EXIT_RESTART} after a short grace period so the response
+     * reaches the consumer. The exit runs the JVM shutdown hook (a graceful stop
+     * of the running Apps), and the bootloader recognises the exit code and
+     * re-boots from the current primary baseline. Generic: applying a newly
+     * activated baseline is one use, but the restart carries no update-specific
+     * logic.
+     */
+    private void restart(Long executionId) {
+        LOGGER.log(Level.INFO, "Restart requested; the Supervisor will exit with code {0} "
+                + "so the bootloader re-boots.", Deployment.EXIT_RESTART);
+        report(true, 1, RESTART_STAGES, executionId);
+
+        Thread exitThread = new Thread(() -> {
+            try {
+                Thread.sleep(RESTART_GRACE_MS);
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+            // Triggers the shutdown hook (stops running Apps) and hands the
+            // restart code to the bootloader.
+            System.exit(Deployment.EXIT_RESTART);
+        }, "supervisor-restart");
+        exitThread.start();
     }
 
     /**
@@ -292,11 +341,15 @@ public class BootloaderMCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     private void report(boolean success, int stage, Long executionId) {
+        report(success, stage, SET_PRIMARY_STAGES, executionId);
+    }
+
+    private void report(boolean success, int stage, int totalStages, Long executionId) {
         if (provider == null || executionId == null) {
             return;
         }
         try {
-            provider.reportExecutionProgress(success, 0, stage, SET_PRIMARY_STAGES, executionId);
+            provider.reportExecutionProgress(success, 0, stage, totalStages, executionId);
         } catch (NMFException ex) {
             LOGGER.log(Level.WARNING, "The action execution progress could not be reported.", ex);
         }

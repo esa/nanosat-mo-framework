@@ -380,4 +380,16 @@ wait "$JVM_PID"
 JVM_EXIT=$?
 kill "$TAIL_PID" 2>/dev/null
 echo "$(date "$TS_FMT") BOOTLOADER EXECUTION supervisor exited with code $JVM_EXIT"
+
+# Exit code 90 is an intentional restart requested by the Supervisor (e.g. to
+# apply a newly activated baseline), as opposed to a clean shutdown (0) or a
+# crash (any other non-zero code that the fallback ladder counts). Re-execute
+# the bootloader in place: it re-runs the full nominal sequence and boots the
+# current primary baseline. Because the previous boot was confirmed, this is a
+# fresh attempt with the full confirmation window and fallback protection.
+# NOTE: keep in sync with Deployment.EXIT_RESTART.
+if [ "$JVM_EXIT" -eq 90 ]; then
+    report "EXECUTION restart requested (exit 90) - re-executing the bootloader"
+    exec "$0"
+fi
 exit "$JVM_EXIT"
