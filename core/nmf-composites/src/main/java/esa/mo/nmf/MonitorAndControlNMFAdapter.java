@@ -42,9 +42,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.structures.PaginationFilter;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
@@ -245,56 +242,50 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
      * "Parameter" annotation.
      */
     public void restoreParameterValuesFromArchive() {
-        if (archiveService != null && parameterService != null) {
-            for (Map.Entry<Long, Field> entry : parameterMapping.entrySet()) {
-                Field field = entry.getValue();
-                String parameterName = null;
-                Parameter annotation = field.getAnnotation(Parameter.class);
-                if (annotation != null) {
-                    if (!annotation.restored()) {
-                        continue;
-                    }
-                    field.setAccessible(true);
-                    if (annotation.name().equals("")) {
-                        parameterName = field.getName();
-                    } else {
-                        parameterName = annotation.name();
-                    }
-                }
+        if (archiveService == null || parameterService == null) {
+            return;
+        }
+        for (Map.Entry<Long, Field> entry : parameterMapping.entrySet()) {
+            // The map key is already the parameter definition id, so there is no
+            // need to resolve it again from the Parameter service.
+            Long id = entry.getKey();
+            Field field = entry.getValue();
 
-                if (parameterName == null) {
-                    continue;
-                }
+            Parameter annotation = field.getAnnotation(Parameter.class);
+            if (annotation == null || !annotation.restored()) {
+                continue;
+            }
+            field.setAccessible(true);
 
-                IdentifierList names = new IdentifierList();
-                names.add(new Identifier(parameterName));
-                try {
-                    LongList ids = parameterService.listDefinition(names, null);
-                    Long id = ids.get(0);
-                    ArchiveQuery query = new ArchiveQuery(
-                            archiveService.getConnection().getConnectionDetails().getDomain(),
-                            null, id, null, null,
-                            Time.now(), false, null);
-                    PaginationFilter filter = new PaginationFilter(new UInteger(1), new UInteger(0));
-                    List<ArchivePersistenceObject> result = archiveService.getArchiveManager().query(
-                            ParameterServiceInfo.PARAMETERVALUE_OBJECT_TYPE, query, filter);
-                    if (!result.isEmpty()) {
-                        // assume the first one is the newest because of the query sort order
-                        ArchivePersistenceObject newestParameter = result.get(0);
-                        Attribute rawValue = ((ParameterValue) newestParameter.getObject()).getRawValue();
-                        Object value;
-                        if (field.getType() == double.class) {
-                            value = Attribute.attribute2double(rawValue);
-                        } else if (field.getType() == String.class) {
-                            value = Attribute.attribute2string(rawValue);
-                        } else {
-                            value = Attribute.attribute2JavaType(rawValue);
-                        }
-                        field.set(this, value);
-                    }
-                } catch (UnknownException | MALException | MALInteractionException | IllegalAccessException e) {
-                    LOGGER.log(Level.SEVERE, "Error during restoring parameter value!", e);
+            // Restore each parameter independently: a failure on one (missing
+            // value, type mismatch, archive error) must not abort the restore
+            // of the others, nor the app startup that triggers this.
+            try {
+                ArchiveQuery query = new ArchiveQuery(
+                        archiveService.getConnection().getConnectionDetails().getDomain(),
+                        null, id, null, null,
+                        Time.now(), false, null);
+                // sortOrder=false sorts by timestamp descending, so the single
+                // returned object is the newest stored value for this parameter.
+                PaginationFilter filter = new PaginationFilter(new UInteger(1), new UInteger(0));
+                List<ArchivePersistenceObject> result = archiveService.getArchiveManager().query(
+                        ParameterServiceInfo.PARAMETERVALUE_OBJECT_TYPE, query, filter);
+                if (result.isEmpty()) {
+                    continue; // No previously stored value; leave the default.
                 }
+                Attribute rawValue = ((ParameterValue) result.get(0).getObject()).getRawValue();
+                Object value;
+                if (field.getType() == double.class) {
+                    value = Attribute.attribute2double(rawValue);
+                } else if (field.getType() == String.class) {
+                    value = Attribute.attribute2string(rawValue);
+                } else {
+                    value = Attribute.attribute2JavaType(rawValue);
+                }
+                field.set(this, value);
+            } catch (Exception e) {
+                LOGGER.log(Level.WARNING,
+                        "Could not restore parameter value for field ''{0}''", field.getName());
             }
         }
     }
