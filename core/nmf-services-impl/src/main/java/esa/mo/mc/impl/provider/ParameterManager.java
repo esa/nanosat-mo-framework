@@ -648,15 +648,6 @@ public class ParameterManager extends MCManager {
      */
     public ParameterValue generateNewParameterValue(Attribute rawValue,
             final ParameterDefinition pDef, final boolean aggrExpired) {
-        ParameterValue newPValue;
-
-        //requirement: 3.3.3.q, 3.3.3.r
-        // if implementation specific machanisms or deployment specific values should be used
-        // for evaluating the validity-state, use these, otherwise use the standard ones.
-        newPValue = parametersMonitoring.getValueWithCustomValidityState(rawValue, pDef);
-        if (newPValue != null) {
-            return newPValue;
-        }
         //convert the raw-value
         //requirement 3.3.3.p is implicitly met here.
         Attribute convertedValue = this.getConvertedValue(rawValue, pDef);

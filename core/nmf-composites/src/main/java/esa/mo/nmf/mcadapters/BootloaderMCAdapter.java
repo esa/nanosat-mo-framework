@@ -174,11 +174,6 @@ public class BootloaderMCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public ParameterValue getValueWithCustomValidityState(Attribute rawValue, ParameterDefinition pDef) {
-        return null;
-    }
-
-    @Override
     public void actionArrived(Identifier name, AttributeValueList attributeValues,
             Long executionId, MALInteraction interaction)
             throws ExecutionFailedException, ActionNotFoundException {

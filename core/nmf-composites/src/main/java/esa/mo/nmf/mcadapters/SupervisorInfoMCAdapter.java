@@ -33,7 +33,6 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ParameterDefinition;
 import org.ccsds.moims.mo.mc.structures.ParameterDefinitionList;
-import org.ccsds.moims.mo.mc.structures.ParameterValue;
 
 /**
  * A default Supervisor MC adapter exposing basic information about the running
@@ -78,11 +77,6 @@ public class SupervisorInfoMCAdapter extends MonitorAndControlNMFAdapter {
             default:
                 return null;
         }
-    }
-
-    @Override
-    public ParameterValue getValueWithCustomValidityState(Attribute rawValue, ParameterDefinition pDef) {
-        return null;
     }
 
     @Override

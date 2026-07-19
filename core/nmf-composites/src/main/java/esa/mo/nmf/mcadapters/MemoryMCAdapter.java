@@ -34,7 +34,6 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ParameterDefinition;
 import org.ccsds.moims.mo.mc.structures.ParameterDefinitionList;
-import org.ccsds.moims.mo.mc.structures.ParameterValue;
 
 /**
  * A default Supervisor MC adapter exposing host RAM and swap telemetry as
@@ -93,11 +92,6 @@ public class MemoryMCAdapter extends MonitorAndControlNMFAdapter {
             default:
                 return null;
         }
-    }
-
-    @Override
-    public ParameterValue getValueWithCustomValidityState(Attribute rawValue, ParameterDefinition pDef) {
-        return null;
     }
 
     @Override

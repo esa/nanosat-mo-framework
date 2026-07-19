@@ -27,15 +27,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.AttributeType;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import org.ccsds.moims.mo.mc.structures.ParameterDefinition;
 import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
-import org.ccsds.moims.mo.mc.structures.ParameterValue;
 
 /**
  * Aggregates several {@link MonitorAndControlNMFAdapter}s behind a single
@@ -103,17 +98,6 @@ public class CompositeMCAdapter extends MonitorAndControlNMFAdapter {
             anySet = Boolean.TRUE.equals(child.onSetValue(identifiers, values)) || anySet;
         }
         return anySet;
-    }
-
-    @Override
-    public ParameterValue getValueWithCustomValidityState(Attribute rawValue, ParameterDefinition pDef) {
-        for (MonitorAndControlNMFAdapter child : children) {
-            ParameterValue value = child.getValueWithCustomValidityState(rawValue, pDef);
-            if (value != null) {
-                return value;
-            }
-        }
-        return null;
     }
 
     @Override

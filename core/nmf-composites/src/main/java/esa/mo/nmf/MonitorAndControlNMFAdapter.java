@@ -497,11 +497,6 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
         return true;
     }
 
-    @Override
-    public ParameterValue getValueWithCustomValidityState(Attribute rawValue, ParameterDefinition pDef) {
-        return null; // Return null to work normally...
-    }
-
     /**
      * Checks the java type and returns the equivalent MO type short form.
      * Deprecated because it should be moved to: HelperAttributes()

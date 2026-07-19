@@ -149,11 +149,6 @@ public class ActionTest {
         public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
             return true;
         }
-
-        @Override
-        public ParameterValue getValueWithCustomValidityState(Attribute rawValue, ParameterDefinition pDef) {
-            return null;
-        }
     }
 
 }

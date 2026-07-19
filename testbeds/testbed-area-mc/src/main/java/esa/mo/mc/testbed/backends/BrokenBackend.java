@@ -27,9 +27,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import org.ccsds.moims.mo.mc.structures.ParameterDefinition;
 import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
-import org.ccsds.moims.mo.mc.structures.ParameterValue;
 
 /**
  * A backend that always fails on retrieval, by design. Used to check that the
@@ -47,11 +45,6 @@ public class BrokenBackend extends Backend {
     @Override
     public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
         return false;
-    }
-
-    @Override
-    public ParameterValue getValueWithCustomValidityState(Attribute rawValue, ParameterDefinition pDef) {
-        return null;
     }
 
     @Override

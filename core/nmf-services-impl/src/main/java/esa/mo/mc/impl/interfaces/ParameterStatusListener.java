@@ -89,18 +89,4 @@ public interface ParameterStatusListener {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    /**
-     * This method allows to use implementation specific mechanisms to determine
-     * parameter validity. Also it supports the value to have
-     * deployment-specific validityStates.
-     *
-     * @param rawValue The raw value to be set
-     * @param pDef The parameter definition details of the parameter
-     *
-     * @return the validity state of the value. if it is deployment-specific
-     * then the values must be greater than 127. if null then there are no
-     * custom mechanisms and values, and the standard ones must be used
-     */
-    ParameterValue getValueWithCustomValidityState(Attribute rawValue, ParameterDefinition pDef);
-
 }
