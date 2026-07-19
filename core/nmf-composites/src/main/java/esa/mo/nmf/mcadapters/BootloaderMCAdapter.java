@@ -228,7 +228,13 @@ public class BootloaderMCAdapter extends MonitorAndControlNMFAdapter {
         }
         report(true, 4, executionId);
 
-        // Stage 5 — commit: write the primary baseline file atomically
+        // Stage 5 — commit: write only the primary baseline file atomically.
+        // The secondary is not touched here: the bootloader maintains it as the
+        // last confirmed-good baseline by promoting the running baseline to
+        // secondary on a good boot. Keeping activation (writing primary) separate
+        // from fallback tracking (secondary) means re-pointing the primary
+        // several times before the next reboot can never overwrite a good
+        // secondary with an un-booted version.
         try {
             File bootloaderDir = Deployment.getBootloaderDir();
             bootloaderDir.mkdirs();

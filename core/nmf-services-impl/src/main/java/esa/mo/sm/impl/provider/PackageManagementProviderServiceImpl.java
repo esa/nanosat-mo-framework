@@ -202,9 +202,10 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                 boolean integrity = backend.checkPackageIntegrity(availablePackages.get(index));
                 integrities.add(integrity);
 
-                // Throw error if already installed!
-                // The installation cannot go forward here if the integrity is false!
-                if (backend.isPackageInstalled(names.get(i).getValue()) || !integrity) {
+                // Reject if the integrity is false, or if a final (non-SNAPSHOT)
+                // build of this version is already installed. A SNAPSHOT version
+                // is not final and may always be re-installed (overridden).
+                if (!integrity || backend.isFinalVersionInstalled(names.get(i).getValue())) {
                     invIndexList.add(new UInteger(i));
                 }
             }
@@ -338,8 +339,11 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
                 // Before upgrading, we need to check the package integrity!
                 // The upgrade cannot go forward here if the integrity is false!
+                // Baseline components (nmf, mission, java) are also rejected:
+                // they are shipped with install and activated with the
+                // setPrimaryBaseline action, never upgraded in place.
                 boolean integrity = backend.checkPackageIntegrity(availablePackages.get(index));
-                if (!integrity) {
+                if (!integrity || backend.isBaselineComponent(availablePackages.get(index))) {
                     invIndexList.add(new UInteger(i));
                 }
             }

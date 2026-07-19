@@ -70,6 +70,16 @@ public interface PMBackend {
     boolean isPackageInstalled(final String packageName);
 
     /**
+     * Checks whether a final (non-SNAPSHOT) build of a package's version is
+     * already installed, so installing it again must be rejected. A SNAPSHOT
+     * version returns false: it is not final and may always be overridden.
+     *
+     * @param packageName The name of the package.
+     * @return True if this final version is already installed.
+     */
+    boolean isFinalVersionInstalled(final String packageName);
+
+    /**
      * Returns the currently installed version of a package.
      *
      * @param packageName The name of the package.
@@ -87,6 +97,18 @@ public interface PMBackend {
      * integrity checks.
      */
     boolean checkPackageIntegrity(final String packageName) throws UnsupportedOperationException;
+
+    /**
+     * Returns whether a package delivers a software baseline component (the NMF
+     * core, the mission JARs or a Java runtime). Such packages are shipped with
+     * install and activated with the setPrimaryBaseline action; they cannot be
+     * upgraded in place.
+     *
+     * @param packageName The name of the package.
+     * @return True if the package is a baseline component.
+     * @throws IOException if the package cannot be read.
+     */
+    boolean isBaselineComponent(final String packageName) throws IOException;
 
     /**
      * Returns the public key of a package.

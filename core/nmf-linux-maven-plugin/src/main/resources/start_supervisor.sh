@@ -295,6 +295,22 @@ confirmation() {
     _elapsed=0
     while [ "$_elapsed" -lt "$BOOT_CONFIRM_TIMEOUT_S" ]; do
         if [ -f "$MARKER_FILE" ]; then
+            # secondary <- the baseline that just booted and confirmed, so the
+            # fallback ladder always keeps the last known-good baseline. This is
+            # a promotion, not a rotation of the previous primary: re-pointing
+            # the primary any number of times (e.g. to stage an update) before
+            # the next boot therefore never pushes an un-booted version into the
+            # secondary. Done before the "confirmed" record so a waiter on that
+            # line sees the promotion completed.
+            _selected=$BOOT_DIR/baseline-$SELECTED_ROLE.properties
+            _secondary=$BOOT_DIR/baseline-secondary.properties
+            if [ "$SELECTED_ROLE" != "secondary" ] && ! cmp -s "$_selected" "$_secondary"; then
+                if cp "$_selected" "$_secondary.tmp" && mv "$_secondary.tmp" "$_secondary"; then
+                    record "CONFIRMATION promoted $SELECTED_ROLE baseline to secondary (last known-good)"
+                else
+                    report "CONFIRMATION FAIL - could not promote baseline to secondary"
+                fi
+            fi
             # A nominal, confirmed boot is silent on the console; the timing is
             # still kept in the Boot Report file for forensics.
             record "CONFIRMATION confirmed after ${_elapsed}s"

@@ -292,6 +292,17 @@ public class NMFPackageManager {
                     + "Version: " + newPackMetadata.getMetadataVersion());
         }
 
+        // Baseline components (nmf, mission, java) are never upgraded in place:
+        // upgrade removes the old files, which would destroy the version kept
+        // for fallback. They are shipped with install (into a new versioned
+        // directory) and activated later with the setPrimaryBaseline action.
+        if (newPackMetadata.isBaselineComponent()) {
+            throw new IOException("Baseline components cannot be upgraded! "
+                    + "Install the new version and switch to it with the "
+                    + "setPrimaryBaseline action. Package type: "
+                    + newPackMetadata.getPackageType());
+        }
+
         // The factory baseline is immutable in flight (NMF.BOOT.BMM.03)
         rejectIfTargetsFactory(newPackMetadata);
 
@@ -446,6 +457,93 @@ public class NMFPackageManager {
     }
 
     /**
+     * Checks whether a package's version is already installed and therefore may
+     * not be installed again. Used only to reject a re-install; it is distinct
+     * from {@link #isPackageInstalled} (which answers "is this exact package
+     * present" for uninstall and post-install confirmation).
+     *
+     * <p>
+     * A final (release) version is immutable: once its name and version are
+     * installed, re-installing the same version is rejected. A
+     * {@code -SNAPSHOT} version is not final and may always be overridden, so it
+     * is never reported as installed here. For a baseline component (nmf,
+     * mission, java) "installed" means its versioned directory (e.g.
+     * {@code jars-nmf/<v>}) already exists on disk; for other packages it means
+     * an installation receipt with the same name and version exists.
+     *
+     * @param packageLocation The package location.
+     * @return {@code true} if this final version is already installed.
+     */
+    public boolean isFinalVersionInstalled(final String packageLocation) {
+        Metadata metadata;
+        try {
+            metadata = new NMFPackage(packageLocation).getMetadata();
+        } catch (IOException ex) {
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
+                    "There was a problem while reading the NMF Package!", ex);
+            return false;
+        }
+
+        String packageName = metadata.getPackageName();
+        String version = metadata.getPackageVersion();
+
+        // SNAPSHOT versions are not final: they may always be re-installed
+        // (overridden), so they are never treated as an existing installation.
+        if (isSnapshotVersion(version)) {
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.FINE,
+                    "The package " + packageName + " is a SNAPSHOT and can be overridden.");
+            return false;
+        }
+
+        // A baseline component is installed if its versioned directory exists.
+        if (metadata.isBaselineComponent()) {
+            try {
+                File root = Deployment.getNMFRootDir();
+                for (String dir : touchedBaselineDirs(metadata)) {
+                    if (new File(root, dir).isDirectory()) {
+                        return true;
+                    }
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
+                        "The baseline directory could not be checked!", ex);
+            }
+            return false;
+        }
+
+        // Other packages: installed if a receipt with the same name and version
+        // exists in the installations tracker.
+        File receiptFile = new File(Deployment.getInstallationsTrackerDir(),
+                packageName + RECEIPT_ENDING);
+        if (!receiptFile.exists()) {
+            return false;
+        }
+
+        Metadata installedMetadata;
+        try {
+            installedMetadata = Metadata.load(new FileInputStream(receiptFile));
+        } catch (IOException ex) {
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
+                    "The file could not be loaded!", ex);
+            return false;
+        }
+
+        return installedMetadata != null
+                && packageName.equals(installedMetadata.getPackageName())
+                && version.equals(installedMetadata.getPackageVersion());
+    }
+
+    /**
+     * Returns whether a version string denotes a non-final SNAPSHOT build.
+     *
+     * @param version The version string.
+     * @return {@code true} if the version ends with {@code -SNAPSHOT}.
+     */
+    private static boolean isSnapshotVersion(final String version) {
+        return version != null && version.endsWith("-SNAPSHOT");
+    }
+
+    /**
      * Returns the currently installed version of a package, read from its
      * installation receipt.
      *
@@ -594,19 +692,24 @@ public class NMFPackageManager {
     }
 
     /**
-     * Refreshes the baseline integrity manifests and rotates the baseline after
-     * a package has been extracted (NMF Bootloader Specification). For every
-     * baseline directory the package wrote into ({@code jars-nmf/<v>},
-     * {@code jars-mission/<v>}, {@code java/<v>}) the {@code SHA256SUMS} file is
-     * regenerated so the bootloader's integrity test passes on the next boot
-     * (NMF.BOOT.BTE.02). When the package is a baseline component, the primary
-     * baseline is rotated to secondary and the newly installed version becomes
-     * the primary (NMF.BOOT.REC.04). No-op for App and dependency packages and
-     * for deployments without a {@code bootloader/} directory (e.g. IDE runs).
+     * Refreshes the baseline integrity manifests after a package has been
+     * extracted (NMF Bootloader Specification). For every baseline directory the
+     * package wrote into ({@code jars-nmf/<v>}, {@code jars-mission/<v>},
+     * {@code java/<v>}) the {@code SHA256SUMS} file is regenerated so the
+     * bootloader's integrity test passes on the next boot (NMF.BOOT.BTE.02).
+     * No-op for App and dependency packages.
+     *
+     * <p>
+     * Installing a baseline component only stages its files in a new versioned
+     * directory; it does <b>not</b> activate it. The switch to the new baseline
+     * is a deliberate, separate step performed through the validated
+     * {@code bootloader.setPrimaryBaseline} action, which rotates the primary to
+     * secondary and writes the new primary. This keeps shipping a version and
+     * activating it decoupled, and preserves the previous version for fallback.
      *
      * @param metadata The metadata of the installed package.
      * @param nmfDir The NMF root directory.
-     * @throws IOException if a checksum manifest or baseline file cannot be written.
+     * @throws IOException if a checksum manifest cannot be written.
      */
     private static void handleBaselineComponent(Metadata metadata, File nmfDir) throws IOException {
         Set<String> touched = touchedBaselineDirs(metadata);
@@ -614,55 +717,6 @@ public class NMFPackageManager {
         for (String dir : touched) {
             ChecksumGenerator.writeChecksumsFile(new File(nmfDir, dir));
         }
-
-        if (metadata.isBaselineComponent()) {
-            rotatePrimaryBaseline(touched);
-        }
-    }
-
-    /**
-     * Rotates the primary baseline to secondary and installs the newly
-     * delivered component version(s) as the new primary (NMF.BOOT.REC.04). The
-     * previously running (primary) baseline becomes the secondary, preserving
-     * the invariant that the secondary is a baseline the system has booted.
-     */
-    private static void rotatePrimaryBaseline(Set<String> touched) throws IOException {
-        File bootloaderDir = Deployment.getBootloaderDir();
-        File primaryFile = new File(bootloaderDir, Deployment.FILE_BASELINE_PRIMARY);
-
-        if (!primaryFile.isFile()) {
-            return; // Not a bootloader deployment; nothing to rotate
-        }
-
-        SoftwareBaseline primary = SoftwareBaseline.load(primaryFile);
-
-        String newNmf = versionFromTouched(touched, Deployment.DIR_JARS_NMF);
-        String newMission = versionFromTouched(touched, Deployment.DIR_JARS_MISSION);
-        String newJavaVersion = versionFromTouched(touched, Deployment.DIR_JAVA);
-
-        String nmf = (newNmf != null) ? newNmf : primary.getNmfVersion();
-        String mission = (newMission != null) ? newMission : primary.getMissionVersion();
-        String java = (newJavaVersion != null)
-                ? Deployment.DIR_JAVA + "/" + newJavaVersion + "/bin/java"
-                : primary.getJava();
-
-        // Defensive: if the primary already points at these versions, do nothing
-        if (Objects.equals(nmf, primary.getNmfVersion())
-                && Objects.equals(mission, primary.getMissionVersion())
-                && Objects.equals(java, primary.getJava())) {
-            return;
-        }
-
-        // secondary <- current primary (the last confirmed-good baseline)
-        primary.store(new File(bootloaderDir, Deployment.FILE_BASELINE_SECONDARY));
-
-        // primary <- current primary with the updated component version(s)
-        SoftwareBaseline newPrimary = new SoftwareBaseline(nmf, mission, java, primary.getMainClass());
-        newPrimary.store(primaryFile);
-
-        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Baseline rotated: secondary <- previous primary; new primary "
-                + "nmf=" + nmf + " mission=" + mission + " java=" + java);
     }
 
     /**
@@ -736,20 +790,6 @@ public class NMFPackageManager {
                 if (slash > prefix.length()) {
                     return path.substring(0, slash);
                 }
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Extracts the version segment of a touched baseline directory under the
-     * given top-level directory, or {@code null} if none was touched.
-     */
-    private static String versionFromTouched(Set<String> touched, String top) {
-        String prefix = top + "/";
-        for (String dir : touched) {
-            if (dir.startsWith(prefix)) {
-                return dir.substring(prefix.length());
             }
         }
         return null;

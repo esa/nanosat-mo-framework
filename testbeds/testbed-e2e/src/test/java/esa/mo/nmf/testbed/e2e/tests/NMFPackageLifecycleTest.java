@@ -150,6 +150,23 @@ public class NMFPackageLifecycleTest extends NMFTest {
     }
 
     // -------------------------------------------------------------------------
+    // Test 2b — Re-installing an already-installed SNAPSHOT succeeds (a
+    // SNAPSHOT is not final and can be overridden). Runs while the SNAPSHOT
+    // installed by test2 is still in place (before the test3 upgrade).
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void test2b_ReinstallSnapshotSucceeds() throws Exception {
+        LOGGER.info(SEP + "\nRunning: test2b_ReinstallSnapshotSucceeds()\n" + SEP);
+        Assert.assertTrue("This test assumes the benchmark package is a SNAPSHOT",
+                initialVersion.endsWith("-SNAPSHOT"));
+
+        MOErrorException error = pm.install(benchmarkPackage);
+        Assert.assertNull("Re-installing an already-installed SNAPSHOT must succeed "
+                + "but returned: " + error, error);
+    }
+
+    // -------------------------------------------------------------------------
     // Test 3 — Upgrade stores a PackageUpgraded object with both versions
     // -------------------------------------------------------------------------
 

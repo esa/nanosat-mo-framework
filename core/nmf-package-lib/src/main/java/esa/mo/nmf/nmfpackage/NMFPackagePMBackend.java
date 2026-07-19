@@ -160,9 +160,23 @@ public class NMFPackagePMBackend implements PMBackend {
     }
 
     @Override
+    public boolean isFinalVersionInstalled(final String packageName) {
+        String folderLocation = this.getFolderLocation(packageName);
+        return manager.isFinalVersionInstalled(folderLocation);
+    }
+
+    @Override
     public boolean checkPackageIntegrity(final String packageName) throws UnsupportedOperationException {
         // To do: Check the package integrity!
         return true;
+    }
+
+    @Override
+    public boolean isBaselineComponent(final String packageName) throws IOException {
+        String folderLocation = this.getFolderLocation(packageName);
+        try (ZipFile zipFile = new ZipFile(folderLocation)) {
+            return Metadata.parseZipFile(zipFile).isBaselineComponent();
+        }
     }
 
     private String getFolderLocation(final String packageName) {

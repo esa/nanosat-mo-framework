@@ -67,6 +67,11 @@ public class NMFPackageBuilder {
         if (metadata.isDependency()) {
             path = Deployment.DIR_JARS_SHARED;
         }
+        if (metadata.isNMF()) {
+            // A core baseline lives in its own versioned directory, so both
+            // the previous and the new version can coexist for fallback.
+            path = Deployment.DIR_JARS_NMF + File.separator + metadata.getPackageVersion();
+        }
 
         this.rootPath = path + File.separator;
     }
