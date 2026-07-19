@@ -131,7 +131,7 @@
                             <mission>
                                 <missionName>Testbed</missionName>
                                 <spacecraftName>Machine</spacecraftName>
-                                <organizationAbbreviation>ESA</organizationAbbreviation>
+                                <organizationAbbreviation>esa</organizationAbbreviation>
                                 <organizationName>European Space Agency</organizationName>
                             </mission>
                         </configuration>

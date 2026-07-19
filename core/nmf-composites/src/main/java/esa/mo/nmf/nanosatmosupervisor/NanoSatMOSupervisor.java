@@ -29,6 +29,7 @@ import esa.mo.nmf.mcadapters.CompositeMCAdapter;
 import esa.mo.nmf.mcadapters.DefaultSupervisorAdapters;
 import esa.mo.nmf.*;
 import esa.mo.nmf.environment.Deployment;
+import esa.mo.nmf.environment.MissionConfiguration;
 import esa.mo.nmf.nmfpackage.NMFPackagePMBackend;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
@@ -118,6 +119,11 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
 
         // Enforce the App Name property to be Const.NANOSAT_MO_SUPERVISOR_NAME
         System.setProperty(HelperMisc.PROP_MO_APP_NAME, Const.NANOSAT_MO_SUPERVISOR_NAME);
+
+        // Ensure the domain identity (organization + mission) is set before any
+        // service constructs the domain. The Supervisor has no provider.properties,
+        // so this reads etc/mission.properties, falling back to built-in defaults.
+        MissionConfiguration.ensureDomainIdentity();
 
         // Provider name to be used on the Directory service...
         this.providerName = System.getProperty(HelperMisc.PROP_MO_APP_NAME);

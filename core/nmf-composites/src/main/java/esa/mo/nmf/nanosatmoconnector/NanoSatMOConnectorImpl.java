@@ -28,6 +28,7 @@ import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NMFProvider;
+import esa.mo.nmf.environment.MissionConfiguration;
 import esa.mo.nmf.OneInstanceLock;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
@@ -94,6 +95,11 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "The NMF App name could not be established.");
         }
+
+        // Ensure the domain identity (organization + mission) is set before the
+        // domain is first constructed, so it is always valid even without a
+        // provider.properties (e.g. when running the App directly from an IDE).
+        MissionConfiguration.ensureDomainIdentity();
 
         this.providerName = appName;
         OneInstanceLock lock = new OneInstanceLock();

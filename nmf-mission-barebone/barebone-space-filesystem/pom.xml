@@ -98,7 +98,7 @@
                                 <mission>
                                     <missionName>barebone</missionName>
                                     <spacecraftName>barebone</spacecraftName>
-                                    <organizationAbbreviation>ESA</organizationAbbreviation>
+                                    <organizationAbbreviation>esa</organizationAbbreviation>
                                     <organizationName>European Space Agency</organizationName>
                                 </mission>
                             </configuration>
