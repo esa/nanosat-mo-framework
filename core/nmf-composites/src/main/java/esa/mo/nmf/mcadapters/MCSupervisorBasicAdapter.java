@@ -94,10 +94,15 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     private final OSValidator osValidator = new OSValidator();
     private final NanoSatMOSupervisor nmfSupervisor;
 
-    private float attitudeQuatA = 0f;
-    private float attitudeQuatB = 0f;
-    private float attitudeQuatC = 0f;
-    private float attitudeQuatD = 0f;
+    // null until the first attitude value is received from the ADCS monitoring
+    // subscription; a getValue before that returns null, reported by the MC
+    // framework as an INVALID_RAW validity state rather than a misleading zero.
+    // volatile because they are written on the MAL notify thread and read on the
+    // MC request thread.
+    private volatile Float attitudeQuatA = null;
+    private volatile Float attitudeQuatB = null;
+    private volatile Float attitudeQuatC = null;
+    private volatile Float attitudeQuatD = null;
     private Duration attitudeMonitoringInterval = DEFAULT_MONITORING_INTERVAL;
 
     public MCSupervisorBasicAdapter(NanoSatMOSupervisor supervisor) {
@@ -203,13 +208,19 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
                 return (Attribute) Attribute.javaType2Attribute("");
             }
             case PARAM_ATTITUDE_QUAT_A:
-                return (Attribute) Attribute.javaType2Attribute(attitudeQuatA);
+                // null (not yet received) becomes an INVALID_RAW validity state
+                // instead of a misleading zero.
+                return attitudeQuatA == null ? null
+                        : (Attribute) Attribute.javaType2Attribute(attitudeQuatA);
             case PARAM_ATTITUDE_QUAT_B:
-                return (Attribute) Attribute.javaType2Attribute(attitudeQuatB);
+                return attitudeQuatB == null ? null
+                        : (Attribute) Attribute.javaType2Attribute(attitudeQuatB);
             case PARAM_ATTITUDE_QUAT_C:
-                return (Attribute) Attribute.javaType2Attribute(attitudeQuatC);
+                return attitudeQuatC == null ? null
+                        : (Attribute) Attribute.javaType2Attribute(attitudeQuatC);
             case PARAM_ATTITUDE_QUAT_D:
-                return (Attribute) Attribute.javaType2Attribute(attitudeQuatD);
+                return attitudeQuatD == null ? null
+                        : (Attribute) Attribute.javaType2Attribute(attitudeQuatD);
             case PARAM_ATTITUDE_MONITORING_INTERVAL:
                 return attitudeMonitoringInterval;
             case PARAM_MAG_X:
