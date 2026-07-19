@@ -31,6 +31,7 @@ MAX_REPORT_FILE_SIZE_KB=100
 MIN_FREE_DISK_KB=10240
 BOOT_CONFIRM_TIMEOUT_S=60
 BOOT_MAX_ATTEMPTS=2
+PROMOTION_SOAK_S=60
 APPS_ISOLATION=none
 SCHEMA_VERSION=1
 
@@ -96,6 +97,8 @@ initialisation() {
         [ -n "$_v" ] && BOOT_CONFIRM_TIMEOUT_S=$_v
         _v=$(get_prop boot-max-attempts "$CONFIG_FILE")
         [ -n "$_v" ] && BOOT_MAX_ATTEMPTS=$_v
+        _v=$(get_prop promotion-soak-s "$CONFIG_FILE")
+        [ -n "$_v" ] && PROMOTION_SOAK_S=$_v
         CONFIG_STATUS="loaded from $CONFIG_FILE"
     fi
 
@@ -291,32 +294,55 @@ boot_attempt_failed() {
     exit 1
 }
 
+# promote_after_soak — after a confirmed boot, set the secondary baseline to
+# the baseline just booted (the last known-good), but only once it has stayed
+# up for PROMOTION_SOAK_S. This is a promotion of the running baseline, not a
+# rotation of the previous primary, so re-pointing the primary before the next
+# boot never pushes an un-booted version into the secondary; and the soak keeps
+# the previous known-good in the secondary until the new one proves it does not
+# confirm-then-crash. Skips silently when there is nothing to promote (the
+# secondary baseline was booted, or it already matches the running baseline).
+promote_after_soak() {
+    _selected=$BOOT_DIR/baseline-$SELECTED_ROLE.properties
+    _secondary=$BOOT_DIR/baseline-secondary.properties
+    if [ "$SELECTED_ROLE" = "secondary" ] || cmp -s "$_selected" "$_secondary"; then
+        return
+    fi
+
+    report "CONFIRMATION baseline (nmf=$NMF_VERSION mission=$MISSION_VERSION) will be promoted to secondary in ${PROMOTION_SOAK_S}s, unless the Supervisor exits first"
+
+    _soak=0
+    while [ "$_soak" -lt "$PROMOTION_SOAK_S" ]; do
+        if ! kill -0 "$JVM_PID" 2>/dev/null; then
+            report "CONFIRMATION promotion aborted - Supervisor exited during the ${PROMOTION_SOAK_S}s soak; the secondary baseline is left unchanged"
+            return
+        fi
+        sleep 1
+        _soak=$((_soak + 1))
+    done
+
+    if cp "$_selected" "$_secondary.tmp" && mv "$_secondary.tmp" "$_secondary"; then
+        report "CONFIRMATION promoted $SELECTED_ROLE baseline to secondary (last known-good, survived ${PROMOTION_SOAK_S}s soak)"
+    else
+        report "CONFIRMATION FAIL - could not promote baseline to secondary"
+    fi
+}
+
 confirmation() {
     _elapsed=0
     while [ "$_elapsed" -lt "$BOOT_CONFIRM_TIMEOUT_S" ]; do
         if [ -f "$MARKER_FILE" ]; then
-            # secondary <- the baseline that just booted and confirmed, so the
-            # fallback ladder always keeps the last known-good baseline. This is
-            # a promotion, not a rotation of the previous primary: re-pointing
-            # the primary any number of times (e.g. to stage an update) before
-            # the next boot therefore never pushes an un-booted version into the
-            # secondary. Done before the "confirmed" record so a waiter on that
-            # line sees the promotion completed.
-            _selected=$BOOT_DIR/baseline-$SELECTED_ROLE.properties
-            _secondary=$BOOT_DIR/baseline-secondary.properties
-            if [ "$SELECTED_ROLE" != "secondary" ] && ! cmp -s "$_selected" "$_secondary"; then
-                if cp "$_selected" "$_secondary.tmp" && mv "$_secondary.tmp" "$_secondary"; then
-                    record "CONFIRMATION promoted $SELECTED_ROLE baseline to secondary (last known-good)"
-                else
-                    report "CONFIRMATION FAIL - could not promote baseline to secondary"
-                fi
-            fi
             # A nominal, confirmed boot is silent on the console; the timing is
             # still kept in the Boot Report file for forensics.
             record "CONFIRMATION confirmed after ${_elapsed}s"
             # A confirmed boot resets the fallback state: the next start
             # tries the primary baseline again (self-healing)
             write_state primary 0
+            # Promote the running baseline to secondary only after it survives a
+            # soak: confirmation proves the services started, not that the
+            # baseline is stable. Soaking first keeps the previous known-good in
+            # the secondary until the new one has proven it stays up.
+            promote_after_soak
             return 0
         fi
         if ! kill -0 "$JVM_PID" 2>/dev/null; then

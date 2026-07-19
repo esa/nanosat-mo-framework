@@ -54,6 +54,7 @@ public class BootloaderPromotionTest extends NMFTest {
     private static final String MARKER = "test.PromotionMarker";
 
     private static byte[] secondaryBackup;
+    private static byte[] configBackup;
     private static File nmfDir;
 
     @BeforeClass
@@ -66,6 +67,19 @@ public class BootloaderPromotionTest extends NMFTest {
 
         // Force a fresh fallback state so the boot selects the primary baseline.
         Files.deleteIfExists(new File(bootloaderDir(), Deployment.FILE_BOOTLOADER_STATE).toPath());
+
+        // Shorten the promotion soak (default 60s) so the promotion is
+        // observable quickly; snapshot the config to restore it afterwards.
+        File configFile = new File(bootloaderDir(), Deployment.FILE_BOOTLOADER_CONFIG);
+        configBackup = Files.readAllBytes(configFile.toPath());
+        Properties config = new Properties();
+        try (InputStream in = new FileInputStream(configFile)) {
+            config.load(in);
+        }
+        config.setProperty("promotion-soak-s", "3");
+        try (OutputStream out = new FileOutputStream(configFile)) {
+            config.store(out, "short promotion soak for the promotion test");
+        }
 
         // Snapshot the secondary, then make it distinct from the primary (a
         // marker main-class) so the promotion overwriting it is observable.
@@ -84,7 +98,7 @@ public class BootloaderPromotionTest extends NMFTest {
         // effect directly (the marker being overwritten) rather than a shared
         // "confirmed" report line that a previous test class may have written.
         harness.setUp();
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < 80; i++) {
             if (!MARKER.equals(readBaselineFile(Deployment.ROLE_SECONDARY).getProperty("main-class"))) {
                 break;
             }
@@ -101,6 +115,9 @@ public class BootloaderPromotionTest extends NMFTest {
         harness.tearDown();
         if (secondaryBackup != null) {
             Files.write(baselineFile(Deployment.ROLE_SECONDARY).toPath(), secondaryBackup);
+        }
+        if (configBackup != null) {
+            Files.write(new File(bootloaderDir(), Deployment.FILE_BOOTLOADER_CONFIG).toPath(), configBackup);
         }
     }
 

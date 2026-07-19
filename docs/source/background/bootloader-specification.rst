@@ -177,8 +177,9 @@ section 9.3 (see :doc:`savoir-gs-002-mapping`); the ones marked *(NMF extension)
    * - ``NumberASWimages``
      - Three named baselines, a baseline being the combination {framework version, mission version, Java
        runtime}: *primary* (the baseline designated to run), *secondary* (the last confirmed-good
-       baseline, rotated automatically on upgrade) and *factory* (the baseline the mission was deployed
-       with at integration time, immutable in flight). Additional versions may be present on disk.
+       baseline, which the bootloader promotes the running baseline into after a soak — see NMF.BOOT.REC.04)
+       and *factory* (the baseline the mission was deployed with at integration time, immutable in flight).
+       Additional versions may be present on disk.
    * - ``IntegrityCheck``
      - SHA-256 checksums over every file of the baseline's two JAR directories, stored as a ``SHA256SUMS``
        file (``sha256sum -c`` format) inside each versioned directory. The Java runtime is verified
@@ -196,6 +197,10 @@ section 9.3 (see :doc:`savoir-gs-002-mapping`); the ones marked *(NMF extension)
    * - ``BootMaxAttempts`` *(NMF extension)*
      - Consecutive failed boot attempts of a baseline before falling back to the next rung of the ladder.
        Default: 2.
+   * - ``PromotionSoakTime`` *(NMF extension)*
+     - Time a confirmed baseline must keep running before the bootloader promotes it into the secondary
+       (last known-good). If the Supervisor exits during the soak, the secondary is left unchanged, so a
+       baseline that confirms and then crashes cannot replace the last known-good. Default: 60 s.
 
 Requirements
 ------------
@@ -359,13 +364,17 @@ primary baseline, the bootloader shall select the secondary baseline for the sub
 ``BootMaxAttempts`` consecutive failed boot attempts of the secondary baseline, the bootloader shall
 select the factory baseline.
 
-**NMF.BOOT.REC.04 — Secondary promotion.** On a confirmed boot, the bootloader shall set the secondary
-baseline to the baseline it has just booted (the last known-good). This is a *promotion of the running
-baseline* performed by the bootloader — not a rotation of the previous primary — so re-pointing the primary
-any number of times before the next boot (for example to stage an update) can never place an un-booted
-baseline in the secondary role. Activating a baseline (writing the primary) and tracking the fallback
-(the secondary) are thus decoupled: the ``setPrimaryBaseline`` Action writes only the primary, and the
-bootloader maintains the secondary.
+**NMF.BOOT.REC.04 — Secondary promotion.** After a confirmed boot, the bootloader shall set the secondary
+baseline to the baseline it has just booted (the last known-good), but only once that baseline has stayed
+up for a soak period (``PromotionSoakTime``); if the Supervisor exits during the soak, the secondary shall
+be left unchanged. This is a *promotion of the running baseline* performed by the bootloader — not a
+rotation of the previous primary — so re-pointing the primary any number of times before the next boot
+(for example to stage an update) can never place an un-booted baseline in the secondary role. The soak
+guards against a baseline that confirms and then crashes: confirmation proves the services started, not
+that the baseline is stable, so the previous known-good is kept as the secondary until the new one has
+proven it stays up. Activating a baseline (writing the primary) and tracking the fallback (the secondary)
+are thus decoupled: the ``setPrimaryBaseline`` Action writes only the primary, and the bootloader maintains
+the secondary.
 
 **NMF.BOOT.REC.05 — Reconfiguration traceability.** Every reconfiguration decision (failed attempt count,
 fallback to secondary or factory, secondary promotion, commanded restart) shall be recorded in the Boot
