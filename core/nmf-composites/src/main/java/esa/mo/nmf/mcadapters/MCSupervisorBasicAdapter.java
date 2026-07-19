@@ -39,7 +39,6 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
-import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
@@ -332,12 +331,22 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     }
 
     public void startAdcsAttitudeMonitoring() {
+        // Register the subscription and enable the generation as two independent
+        // steps: the cache is only filled once the provider is generating
+        // updates, so a failure of the subscription registration must not skip
+        // the enableMonitoring call (and vice versa), and each is logged on its
+        // own so the failing one is visible.
         try {
             nmfSupervisor.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(
                     ConnectionConsumer.subscriptionWildcardRandom(), new ADCSDataHandler());
+        } catch (IOException | MALInteractionException | MALException | NMFException ex) {
+            LOGGER.log(Level.SEVERE, "Error registering the ADCS attitude subscription.", ex);
+        }
+
+        try {
             configureMonitoring();
         } catch (IOException | MALInteractionException | MALException | NMFException ex) {
-            LOGGER.log(Level.SEVERE, "Error when setting up attitude monitoring.", ex);
+            LOGGER.log(Level.SEVERE, "Error enabling ADCS attitude monitoring generation.", ex);
         }
     }
 
@@ -349,7 +358,6 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
                 MonitorAttitudeSubscriptionKeys keys,
                 AttitudeTelemetry attitudeTm, ActuatorsTelemetry actuatorsTelemetry,
                 Duration controlDuration, AttitudeMode attitudeMode, final Map qosp) {
-            LOGGER.log(Level.INFO, "Received monitorAttitude notify");
             Quaternion attitude = attitudeTm.getAttitude();
             attitudeQuatA = attitude.getA();
             attitudeQuatB = attitude.getB();
@@ -460,7 +468,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
         @Override
         public void getNMEASentenceResponseReceived(MALMessageHeader msgHeader,
                 String sentence, Map qosProperties) {
-            LOGGER.log(Level.INFO, "Received message " + sentence);
+            LOGGER.log(Level.INFO, "Received message {0}", sentence);
         }
 
         @Override

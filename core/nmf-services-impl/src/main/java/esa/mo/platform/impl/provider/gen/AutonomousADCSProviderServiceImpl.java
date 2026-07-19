@@ -159,8 +159,6 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
             Duration duration = getAttitudeControlRemainingDuration();
             AttributeList keys = new AttributeList();
-            keys.add(new NamedValueList());
-            //final UpdateHeaderList hdrlst = new UpdateHeaderList();
             URI source = connection.getConnectionDetails().getProviderURI();
             UpdateHeader updateHeader = new UpdateHeader(new Identifier(source.getValue()),
                     connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
@@ -315,7 +313,13 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         generationEnabled = true;
         publishTimer.scheduleTask(new Thread(() -> {
             if (generationEnabled) {
-                publishCurrentAttitude();
+                try {
+                    publishCurrentAttitude();
+                } catch (Throwable t) {
+                    // An exception escaping a scheduleAtFixedRate task silently
+                    // cancels all future runs - log it and keep the schedule alive.
+                    LOGGER.log(Level.SEVERE, "Uncaught exception in attitude publish task!", t);
+                }
             }
         }), monitoringPeriod, monitoringPeriod, TimeUnit.MILLISECONDS, true);
     }
