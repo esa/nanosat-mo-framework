@@ -55,6 +55,7 @@ import org.ccsds.moims.mo.mc.action.consumer.ActionStub;
 import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationStub;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
 import org.ccsds.moims.mo.mc.structures.AggregationValueDetailsList;
+import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ExecutionRequest;
 import org.ccsds.moims.mo.mc.structures.ExecutionStageType;
@@ -266,26 +267,29 @@ public class AppHarness {
      * @throws IOException if the app provider could not be found or reached.
      */
     public void launchAppAction(String actionName, java.io.Serializable... args) throws IOException {
+        ActionStub actionStub = appMcAdapter().getMCServices().getActionService().getActionStub();
         try {
-            ProviderList providers = NMFConsumer.retrieveProvidersFromDirectory(
-                    new URI(supervisorHarness.getDirectoryURI()));
-            Provider appProvider = null;
-            for (Provider p : providers) {
-                if (NMFProviderType.APP.equals(p.getProviderType())
-                        && p.getProviderName() != null
-                        && appName.equals(p.getProviderName().getValue())) {
-                    appProvider = p;
-                    break;
-                }
+            // Resolve the definition id directly against the app's Action
+            // service, tolerating the registration window (see
+            // resolveActionDefId). Routing through GroundMOAdapterImpl.launchAction
+            // instead would swallow a failed resolution and return silently, so a
+            // never-dispatched action only surfaced 10 s later as an unrelated
+            // "process still alive" timeout. Here it fails fast with the real cause.
+            Long defId = resolveActionDefId(actionStub, actionName, 10_000);
+
+            AttributeValueList argValues = new AttributeValueList();
+            for (java.io.Serializable arg : args) {
+                argValues.add(new AttributeValue((Attribute) Attribute.javaType2Attribute(arg)));
             }
-            if (appProvider == null) {
-                throw new IOException("App provider '" + appName + "' not found in Directory.");
-            }
-            GroundMOAdapterImpl appAdapter = new GroundMOAdapterImpl(appProvider);
-            appAdapter.launchAction(actionName, args);
+
+            actionStub.executeAction(new ExecutionRequest(defId, argValues, null));
             LOGGER.info("launchAction('" + actionName + "') on app '" + appName + "' submitted.");
-        } catch (MALException | MALInteractionException | java.net.MalformedURLException e) {
-            throw new IOException("Failed to invoke action on app '" + appName + "': " + e.getMessage(), e);
+        } catch (MALException | MALInteractionException e) {
+            throw new IOException("Failed to invoke action '" + actionName + "' on app '"
+                    + appName + "': " + e.getMessage(), e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IOException("Interrupted while resolving action '" + actionName + "'", e);
         }
     }
 
