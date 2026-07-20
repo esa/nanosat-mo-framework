@@ -126,8 +126,7 @@ public class PackageManagementHarness {
 
     /**
      * Returns the file name of the single package whose name starts with the
-     * given prefix, e.g. "benchmark-" resolves to
-     * "benchmark-5.0.nmfpack".
+     * given prefix, e.g. "benchmark-" resolves to "benchmark-x.y.nmfpack".
      *
      * @param prefix the package file name prefix.
      * @return the full package file name.
