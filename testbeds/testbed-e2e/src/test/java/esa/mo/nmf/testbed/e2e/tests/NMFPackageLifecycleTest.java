@@ -86,7 +86,7 @@ public class NMFPackageLifecycleTest extends NMFTest {
 
         pm.connect();
         benchmarkPackage = pm.findPackageByPrefix(PACKAGE_PREFIX);
-        // benchmark-5.0-SNAPSHOT.nmfpack -> 5.0-SNAPSHOT
+        // benchmark-5.0.nmfpack -> 5.0
         initialVersion = benchmarkPackage.substring(PACKAGE_PREFIX.length(),
                 benchmarkPackage.lastIndexOf('.'));
         LOGGER.info("Testing with package '" + benchmarkPackage

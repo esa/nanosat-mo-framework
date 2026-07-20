@@ -23,7 +23,7 @@
     <groupId>int.esa.nmf</groupId>
     <artifactId>nanosat-mo-framework</artifactId>
     <packaging>pom</packaging>
-    <version>5.0-SNAPSHOT</version>
+    <version>5.0</version>
     <name>ESA NanoSat MO Framework</name>
     <description>Maven Reactor for ESA Nanosat MO Framework</description>
     <url>https://nanosat-mo-framework.github.io</url>
@@ -62,7 +62,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- NMF general properties -->
-        <esa.nmf.version>5.0-SNAPSHOT</esa.nmf.version>
+        <esa.nmf.version>5.0</esa.nmf.version>
     </properties>
     <dependencyManagement>
         <dependencies>

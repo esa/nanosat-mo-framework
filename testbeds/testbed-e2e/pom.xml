@@ -19,7 +19,7 @@
     <parent>
         <groupId>int.esa.nmf</groupId>
         <artifactId>nanosat-mo-framework</artifactId>
-        <version>5.0-SNAPSHOT</version>
+        <version>5.0</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
@@ -52,7 +52,7 @@
     </issueManagement>
 
     <properties>
-        <esa.nmf.version>5.0-SNAPSHOT</esa.nmf.version>
+        <esa.nmf.version>5.0</esa.nmf.version>
         <nmf.e2e.filesystem>${project.build.directory}/space-filesystem/nanosat-mo-framework</nmf.e2e.filesystem>
     </properties>
 

@@ -42,7 +42,7 @@ SCHEMA_VERSION=1
 # get_prop <key> <file> — prints the value of a plain "key=value" line, or
 # nothing if absent. Full Java properties syntax (spaces, escapes) is not
 # supported. Example: get_prop nmf-version bootloader/baseline-primary.properties
-#                     prints "5.0-SNAPSHOT"
+#                     prints "x.y"
 get_prop() {
     [ -r "$2" ] || return 1
     sed -n "s/^$1=//p" "$2" | head -n 1 | tr -d '\r'

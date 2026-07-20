@@ -127,7 +127,7 @@ public class PackageManagementHarness {
     /**
      * Returns the file name of the single package whose name starts with the
      * given prefix, e.g. "benchmark-" resolves to
-     * "benchmark-5.0-SNAPSHOT.nmfpack".
+     * "benchmark-5.0.nmfpack".
      *
      * @param prefix the package file name prefix.
      * @return the full package file name.
@@ -375,7 +375,7 @@ public class PackageManagementHarness {
      * fine for exercising the upgrade bookkeeping.
      *
      * @param packageFileName the existing package file name, e.g.
-     * "benchmark-5.0-SNAPSHOT.nmfpack".
+     * "benchmark-5.0.nmfpack".
      * @param newVersion the version for the manufactured package, e.g. "5.1".
      * @return the file name of the manufactured package, e.g.
      * "benchmark-5.1.nmfpack".
@@ -388,7 +388,7 @@ public class PackageManagementHarness {
             throw new IOException("Package file not found: " + original.getAbsolutePath());
         }
 
-        // benchmark-5.0-SNAPSHOT.nmfpack -> benchmark-5.1.nmfpack
+        // benchmark-5.0.nmfpack -> benchmark-5.1.nmfpack
         String baseName = packageFileName.substring(0, packageFileName.indexOf('-'));
         String suffix = packageFileName.substring(packageFileName.lastIndexOf('.'));
         String newFileName = baseName + "-" + newVersion + suffix;

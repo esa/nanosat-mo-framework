@@ -22,7 +22,7 @@ copyright = '2021-2026, European Space Agency'
 author = 'Cesar Coelho, Dominik Marszk, Yannick Lavan'
 
 # The full version, including alpha/beta/rc tags
-release = '5.0-SNAPSHOT'
+release = '5.0'
 
 # -- General configuration ---------------------------------------------------
 
