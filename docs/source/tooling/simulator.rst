@@ -103,7 +103,8 @@ the operator inspect and modify its configuration interactively.
 To start the GUI from NetBeans, right-click the ``ESA OPS-SAT - Spacecraft Simulator`` project, select
 **Run**, and choose ``opssat.simulator.main.MainClient`` as the main class.
 
-From Eclipse, import the ``SimClient`` launch configuration from ``sdk/launch-configs`` and run it.
+From the playground environment, start the client with ``run_Simulator_Client.sh`` in
+``sdk/sdk-playground-environment/``.
 
 Connecting the UI to the simulator
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

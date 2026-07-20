@@ -51,32 +51,20 @@ All NMF subprojects should be visible inside Eclipse's package explorer.
 
 ### Running the Supervisor Simulator and the Consumer Test Tool (CTT)
 
-1. Go to "File" -> "Import" -> "Run/Debug" -> "Launch Configurations" and click "Next".
-2. Use the "Browse..." button to navigate to your nanosat-mo-framework folder and then navigate to sdk/ and select the "launch-configs" folder.
-3. Import both provided launch configurations.
-4. You should be able to view these run configurations by going to "Run" -> "Run Configurations".
-5. Select the CTT and SupervisorSimulator profiles independently and make sure that the parameters are set according to your system.
+After a build, the Supervisor Simulator and the CTT are launched from the playground environment using the
+convenience scripts in `sdk/sdk-playground-environment/`:
 
-The parameters for the SupervisorSimulator should be:
+```bash
+# Start the Supervisor Simulator (platform services and app lifecycle management)
+sdk/sdk-playground-environment/run_Supervisor.sh
 
-| Parameter Name  | Value                                                                                                |
-|-----------------|------------------------------------------------------------------------------------------------------|
-| exec.args       | esa.mo.nmf.sim.supervisor.NanosatMOSupervisorBasicImpl                                               |
-| exec.executable | PATH\_TO\_YOUR\_JAVA\_BIN\_DIRECTORY/java                                                            |
-| exec.workingdir | PATH\_TO\_THE\_NMF/sdk/sdk-playground-environment/target/space-filesystem/nanosat-mo-framework       |
+# Start the Consumer Test Tool GUI
+sdk/sdk-playground-environment/run_CTT.sh
+```
 
-The parameters for the CTT should be:
-
-| Parameter Name  | Value                                                                                         |
-|-----------------|-----------------------------------------------------------------------------------------------|
-| exec.args       | -classpath %classpath esa.mo.nmf.ctt.guis.ConsumerTestToolGUI                                 |
-| exec.executable | PATH\_TO\_YOUR\_JAVA\_BIN\_DIRECTORY/java                                                     |
-| exec.workingdir | PATH\_TO\_THE\_NMF/sdk/consumer-test-tool                                                     |
-
-You are now able to run the SupervisorSimulator and the CTT.
-
-You can apply the above parameters for your ground software and also for your space apps.
-Just make sure to enter the correct main classes and the working directories of the compiled apps (e.g. `sdk-playground-environment/target/space-filesystem/nanosat-mo-framework/apps/APPNAME`).
+In the CTT, connect using the `maltcp://` Directory Service URI printed in the Supervisor log (also written to
+`providerURIs.properties` in the Supervisor working directory). The same directory also provides
+`run_Simulator_Client.sh` (simulator GUI client) and `run_CLI.sh` (command-line interface).
 
 
 ## Adding an application to the SDK Playground Environment

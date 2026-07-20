@@ -67,27 +67,13 @@ If errors of the form *Plugin execution not covered by lifecycle configuration* 
 for the m2e lifecycle mapping plugin to the relevant ``pom.xml`` (see the reference ``m2e.xml`` template
 included in the docs source).
 
-Setting up the Supervisor with simulator
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Running the Supervisor and the CTT
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1. ``File → Import... → Run/Debug → Launch Configurations → Next``.
-2. Browse to ``sdk/launch-configs`` under the NMF root.
-3. Import **SupervisorSimulator.launch**.
-4. Right-click any imported project and select ``Run As → Run Configurations...``.
-5. Select ``Maven Build → SupervisorSimulator``. Set:
-
-   - ``exec.executable`` — path to the JDK ``java`` executable.
-   - ``exec.workingdir`` — path to the Supervisor with simulator execution directory.
-   - In the **Environment** tab, define ``JAVA_HOME``.
-
-6. In the **Common** tab, enable **Run** and **Debug** in the *Display in favorites menu* panel.
-7. Apply and run.
-
-Setting up the CTT
-^^^^^^^^^^^^^^^^^^
-
-Repeat the same procedure with the **CTT.launch** launch configuration, setting ``exec.workingdir`` to the CTT
-execution directory.
+The Supervisor (with simulator) and the Consumer Test Tool are launched from the playground environment
+produced by a build, using the convenience scripts in ``sdk/sdk-playground-environment/`` —
+``run_Supervisor.sh`` and ``run_CTT.sh``. Run them from a terminal (including the IDE's integrated
+terminal). See :doc:`supervisor` and :doc:`ctt` for details.
 
 Troubleshooting
 ^^^^^^^^^^^^^^^
