@@ -35,7 +35,7 @@ import java.util.List;
  * <p>
  * Parameter and action names follow a dotted hierarchy (e.g. {@code nmf.version},
  * {@code bootloader.primary.nmf-version}). Adding a default capability means
- * adding its adapter to {@link #create()}.
+ * adding its adapter to {@link #create(NMFProvider)}.
  *
  * @author Cesar Coelho
  */

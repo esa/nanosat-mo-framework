@@ -257,7 +257,7 @@ public class ParameterManager extends MCManager {
      * Wrapper function for calling onGetValue without breaking backwards
      * compatibility.
      *
-     * @param paramIdentityId The Parameter identity.
+     * @param paramDefId The Parameter identity.
      * @return The attribute value for the parameter.
      * @throws IOException If the value could not be retrieved.
      */
@@ -499,8 +499,6 @@ public class ParameterManager extends MCManager {
      * @param bool The new reportingEnabled value.
      * @param source The source link for the new definition.
      * @param connectionDetails The details of the connection.
-     * @return True if it was successfully updated. false if def is null or the
-     * new bool value was the same as the current value.
      */
     protected void setReportingEnabled(Long id, Boolean bool, ObjectKey source,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.a.c
@@ -533,7 +531,6 @@ public class ParameterManager extends MCManager {
      * @param source the source object id that caused the new
      * parameter-definition to be created.
      * @param connectionDetails the given connectionDetails
-     * @return the object instance identifier of the new parameter-definition
      */
     protected void update(Long id, ParameterDefinition definition,
             ObjectKey source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.d
