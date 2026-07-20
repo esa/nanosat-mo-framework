@@ -111,6 +111,18 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
+                <configuration>
+                    <!-- Run each test class in its own JVM. These tests each
+                         stand up full MAL providers/consumers on the RMI
+                         transport (registry on port 1024); sharing one reused
+                         fork lets that process-global transport state leak
+                         between classes, which intermittently hung
+                         DirectoryLookupTest when it ran after the others. -->
+                    <reuseForks>false</reuseForks>
+                    <!-- Safety net: never let a stuck MAL interaction hang the
+                         fork (and the CI job) indefinitely. -->
+                    <forkedProcessTimeoutInSeconds>300</forkedProcessTimeoutInSeconds>
+                </configuration>
             </plugin>
         </plugins>
     </build>

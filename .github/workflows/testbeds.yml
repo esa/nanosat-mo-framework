@@ -6,6 +6,7 @@ jobs:
 
   build-jdk11:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5
@@ -24,6 +25,7 @@ jobs:
 
   build-jdk17:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5
@@ -42,6 +44,7 @@ jobs:
 
   build-jdk21:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5
@@ -60,6 +63,7 @@ jobs:
 
   build-jdk25:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5
@@ -78,6 +82,7 @@ jobs:
 
   testbed-area-mc-jdk11:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: build-jdk11
     steps:
       - uses: actions/checkout@v5
@@ -99,6 +104,7 @@ jobs:
 
   testbed-area-mc-jdk17:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: build-jdk17
     steps:
       - uses: actions/checkout@v5
@@ -120,6 +126,7 @@ jobs:
 
   testbed-area-mc-jdk21:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: build-jdk21
     steps:
       - uses: actions/checkout@v5
@@ -141,6 +148,7 @@ jobs:
 
   testbed-area-mc-jdk25:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: build-jdk25
     steps:
       - uses: actions/checkout@v5
@@ -162,6 +170,7 @@ jobs:
 
   testbed-area-com-jdk11:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: build-jdk11
     steps:
       - uses: actions/checkout@v5
@@ -183,6 +192,7 @@ jobs:
 
   testbed-area-com-jdk17:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: build-jdk17
     steps:
       - uses: actions/checkout@v5
@@ -204,6 +214,7 @@ jobs:
 
   testbed-area-com-jdk21:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: build-jdk21
     steps:
       - uses: actions/checkout@v5
@@ -225,6 +236,7 @@ jobs:
 
   testbed-area-com-jdk25:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: build-jdk25
     steps:
       - uses: actions/checkout@v5
@@ -246,6 +258,7 @@ jobs:
 
   testbed-e2e-jdk11:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: build-jdk11
     steps:
       - uses: actions/checkout@v5
@@ -269,6 +282,7 @@ jobs:
 
   testbed-e2e-jdk17:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: build-jdk17
     steps:
       - uses: actions/checkout@v5
@@ -292,6 +306,7 @@ jobs:
 
   testbed-e2e-jdk21:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: build-jdk21
     steps:
       - uses: actions/checkout@v5
@@ -315,6 +330,7 @@ jobs:
 
   testbed-e2e-jdk25:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: build-jdk25
     steps:
       - uses: actions/checkout@v5
@@ -338,6 +354,7 @@ jobs:
 
   testbed-performance-jdk11:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: build-jdk11
     steps:
       - name: Get Date
@@ -372,6 +389,7 @@ jobs:
 
   testbed-performance-jdk17:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: build-jdk17
     steps:
       - name: Get Date
@@ -406,6 +424,7 @@ jobs:
 
   testbed-performance-jdk21:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: build-jdk21
     steps:
       - name: Get Date
@@ -440,6 +459,7 @@ jobs:
 
   testbed-performance-jdk25:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: build-jdk25
     steps:
       - name: Get Date
