@@ -35,6 +35,7 @@ import org.ccsds.moims.mo.sm.structures.PackageUninstalled;
 import org.ccsds.moims.mo.sm.structures.PackageUpgraded;
 import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -158,7 +159,10 @@ public class NMFPackageLifecycleTest extends NMFTest {
     @Test
     public void test2b_ReinstallSnapshotSucceeds() throws Exception {
         LOGGER.info(SEP + "\nRunning: test2b_ReinstallSnapshotSucceeds()\n" + SEP);
-        Assert.assertTrue("This test assumes the benchmark package is a SNAPSHOT",
+        // Only meaningful for a SNAPSHOT build; on a release version the
+        // benchmark package is final and re-installing it is rejected (covered
+        // by test4). Skip rather than fail when the build is not a SNAPSHOT.
+        Assume.assumeTrue("Benchmark package is not a SNAPSHOT (release build); skipping",
                 initialVersion.endsWith("-SNAPSHOT"));
 
         MOErrorException error = pm.install(benchmarkPackage);
