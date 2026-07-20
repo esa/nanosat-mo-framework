@@ -72,8 +72,16 @@ public class HelperNMFPackage {
                 continue; // Jump over if it is a directory
             }
 
-            if (!file.getAbsolutePath().endsWith(".jar")) {
+            String name = file.getName();
+            if (!name.endsWith(".jar")) {
                 continue; // It is not a Jar file
+            }
+
+            // Skip auxiliary artifacts (e.g. the -sources/-javadoc jars produced
+            // by the release profile); they are never the application jar.
+            if (name.endsWith("-javadoc.jar") || name.endsWith("-sources.jar")
+                    || name.endsWith("-tests.jar")) {
+                continue;
             }
 
             possibleOptions.add(file);
