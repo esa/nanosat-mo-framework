@@ -4,7 +4,7 @@ ESA NanoSat MO Framework - Release Notes
 These Release Notes include a short summary of the updates done for each version.
 The different versions and respective updates are the following:
 
-### Version 5.0 (20 July 2026)
+### Version 5.0 (21 July 2026)
 * Simplifies the APIs, especially the M&C (removal of the identity model and removal of the concept of Groups)
 * Adds the nmf-mission-barebone for simple testing
 * Merges all NMF Composites into one single project
