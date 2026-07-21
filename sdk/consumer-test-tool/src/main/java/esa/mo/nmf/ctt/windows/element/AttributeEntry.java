@@ -23,8 +23,8 @@ package esa.mo.nmf.ctt.windows.element;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.MALContextFactory;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Element;
 

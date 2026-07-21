@@ -17,7 +17,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="parameterTab" alignment="0" pref="0" max="32767" attributes="0"/>
-          <Component id="jScrollPane2" alignment="1" pref="963" max="32767" attributes="0"/>
+          <Component id="jScrollPane2" alignment="1" max="32767" attributes="0"/>
           <Component id="jLabel6" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
@@ -37,9 +37,6 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="18" style="1"/>
-        </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="Aggregation Service - Definitions"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>

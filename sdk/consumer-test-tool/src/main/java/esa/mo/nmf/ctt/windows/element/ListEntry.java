@@ -22,6 +22,7 @@ package esa.mo.nmf.ctt.windows.element;
 
 import java.io.InterruptedIOException;
 import javax.swing.JPanel;
+import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 
@@ -112,7 +113,7 @@ public class ListEntry extends Entry {
         String name = this.object.getClass().getSimpleName();
         boolean isAttribute = (HelperAttributes.attributeName2typeShortForm(name) != null);
         return (isAttribute) ? HelperAttributes.string2attribute(this.object, this.fieldValue.getText())
-                : HelperAttributes.attribute2JavaType(this.object);
+                : Attribute.attribute2JavaType(this.object);
     }
 
     private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {

@@ -1,0 +1,757 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright European Space Agency, 2026
+-->
+<mal:specification
+    xmlns:mal = "http://www.ccsds.org/schema/ServiceSchema"
+    xmlns:com = "http://www.ccsds.org/schema/COMSchema"
+    xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" comment="">
+    <mal:area name="SM" number="53" version="5" comment="Software Management services">
+        <mal:service name="PackageManagement" number="1" xsi:type="com:ExtendedServiceType" comment="The Package Management service provides the ability to install, uninstall, upgrade, list, check packages. The service shall optionally support verification of packages, verification of digital signatures, upgrade software, manage dependencies.&#10;Packages can be organized in different categories in order to facilitate the management of software.">
+            <mal:documentation name="Service-level Requirement" order="1">The Package Management service shall provide:
+&lt;ol&gt;
+&lt;li&gt;the capability for listing, installing and uninstalling packages;&lt;/li&gt;
+&lt;li&gt;the capability for upgrading packages;&lt;/li&gt;
+&lt;li&gt;the capability for checking the integrity of a package.&lt;/li&gt;
+&lt;/ol&gt;
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="2">
+                When a package is successfully installed, uninstalled, or upgraded, the service provider should store the corresponding PackageInstalled, PackageUninstalled, or PackageUpgraded COM object in the COM archive.
+            </mal:documentation>
+            <mal:capabilitySet number="1" comment="">
+                <mal:requestIP name="findPackage" number="1" comment="The findPackage operation allows a consumer to find the available packages on the provider.">
+                    <mal:messages>
+                        <mal:request>
+                            <mal:field name="names" canBeNull="true" comment="The names of the packages.">
+                                <mal:type area="MAL" list="true" name="Identifier"/>
+                            </mal:field>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="names" canBeNull="true" comment="The names of the packages.">
+                                <mal:type area="MAL" list="true" name="Identifier"/>
+                            </mal:field>
+                            <mal:field name="installed" canBeNull="true" comment="The status of the package.">
+                                <mal:type area="MAL" list="true" name="Boolean"/>
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When one or more of the requested packages is unknown.">
+                            <mal:type area="MAL" list="false" name="Unknown"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="Integer"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+                <mal:invokeIP name="install" number="2" comment="The install operation allows a consumer to install the content of a package on the provider. The selected packages will be installed sequentially.">
+                    <mal:messages>
+                        <mal:invoke>
+                            <mal:field name="names" canBeNull="true" comment="The names of the packages.">
+                                <mal:type area="MAL" list="true" name="Identifier"/>
+                            </mal:field>
+                        </mal:invoke>
+                        <mal:acknowledgement>
+                            <mal:field name="integrity" canBeNull="true" comment="The status of the package integrity.">
+                                <mal:type area="MAL" list="true" name="Boolean"/>
+                            </mal:field>
+                        </mal:acknowledgement>
+                        <mal:response>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When one or more of the requested packages is unknown.">
+                            <mal:type area="MAL" list="false" name="Unknown"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="Integer"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When one or more of the requested packages is already installed.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="Integer"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:invokeIP>
+                <mal:invokeIP name="uninstall" number="3" comment="The uninstall operation allows a consumer to uninstall the content of a package on the provider. The selected packages will be uninstalled sequentially.">
+                    <mal:messages>
+                        <mal:invoke>
+                            <mal:field name="names" canBeNull="true" comment="The names of the packages.">
+                                <mal:type area="MAL" list="true" name="Identifier"/>
+                            </mal:field>
+                            <mal:field name="keepConfigurations" canBeNull="true" comment="Whether the configuration files of the executable shall be preserved after uninstall.">
+                                <mal:type area="MAL" list="true" name="Boolean"/>
+                            </mal:field>
+                        </mal:invoke>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
+                        <mal:response>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When one or more of the requested packages is unknown.">
+                            <mal:type area="MAL" list="false" name="Unknown"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="Integer"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When one or more of the requested packages is not installed.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="Integer"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:invokeIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="2" comment="">
+                <mal:invokeIP name="upgrade" number="4" comment="The upgrade operation allows a consumer to upgrade the content of a package on the provider. The selected packages will be upgraded sequentially.">
+                    <mal:messages>
+                        <mal:invoke>
+                            <mal:field name="names" canBeNull="true" comment="The names of the packages.">
+                                <mal:type area="MAL" list="true" name="Identifier"/>
+                            </mal:field>
+                        </mal:invoke>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
+                        <mal:response>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When one or more of the requested packages is unknown.">
+                            <mal:type area="MAL" list="false" name="Unknown"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="Integer"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When one or more of the requested packages is not installed.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="Integer"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:invokeIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="3" comment="">
+                <mal:requestIP name="checkPackageIntegrity" number="5" comment="The checkPackageIntegrity operation allows a consumer to check the integrity of a certain package on the provider.">
+                    <mal:messages>
+                        <mal:request>
+                            <mal:field name="names" canBeNull="true" comment="The names of the packages.">
+                                <mal:type area="MAL" list="true" name="Identifier"/>
+                            </mal:field>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="validCRCs" canBeNull="true" comment="Whether the CRC of each package is valid.">
+                                <mal:type area="MAL" list="true" name="Boolean"/>
+                            </mal:field>
+                            <mal:field name="publicKeys" canBeNull="true" comment="The public key used to verify the digital signature of each package, or NULL if unavailable.">
+                                <mal:type area="MAL" list="true" name="String"/>
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When one or more of the requested packages is unknown.">
+                            <mal:type area="MAL" list="false" name="Unknown"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="Integer"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When one or more of the requested packages is not installed.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <com:features>
+                <com:objects comment="The PackageDefinition, PackageInstalled, PackageUninstalled, and PackageUpgraded COM objects used by the Package Management service.">
+                    <com:object comment="" number="1" name="PackageDefinition">
+                        <com:objectType>
+                            <mal:type area="SM" list="false" name="PackageDefinition"/>
+                        </com:objectType>
+                        <com:relatedObject comment=""/>
+                        <com:sourceObject comment=""/>
+                    </com:object>
+
+                    <com:object comment="Stored in the archive when a package is successfully installed." number="2" name="PackageInstalled">
+                        <com:objectType>
+                            <mal:type area="SM" list="false" name="PackageInstalled"/>
+                        </com:objectType>
+                        <com:relatedObject comment="The related object shall be the PackageDefinition COM object of the installed package.">
+                            <com:objectType area="SM" number="1" service="PackageManagement"/>
+                        </com:relatedObject>
+                        <com:sourceObject comment=""/>
+                    </com:object>
+
+                    <com:object comment="Stored in the archive when a package is successfully uninstalled." number="3" name="PackageUninstalled">
+                        <com:objectType>
+                            <mal:type area="SM" list="false" name="PackageUninstalled"/>
+                        </com:objectType>
+                        <com:relatedObject comment="The related object shall be the PackageDefinition COM object of the uninstalled package.">
+                            <com:objectType area="SM" number="1" service="PackageManagement"/>
+                        </com:relatedObject>
+                        <com:sourceObject comment=""/>
+                    </com:object>
+
+                    <com:object comment="Stored in the archive when a package is successfully upgraded." number="4" name="PackageUpgraded">
+                        <com:objectType>
+                            <mal:type area="SM" list="false" name="PackageUpgraded"/>
+                        </com:objectType>
+                        <com:relatedObject comment="The related object shall be the PackageDefinition COM object of the upgraded package.">
+                            <com:objectType area="SM" number="1" service="PackageManagement"/>
+                        </com:relatedObject>
+                        <com:sourceObject comment=""/>
+                    </com:object>
+                </com:objects>
+                <com:events comment=""/>
+            </com:features>
+        </mal:service>
+        <mal:service name="Heartbeat" number="2" xsi:type="com:ExtendedServiceType" comment="The Heartbeat service provides the ability to periodically publish a heartbeat message. Additionally it is possible to get the period of the beat.">
+            <mal:documentation name="Service-level Requirement" order="1">The Heartbeat service shall provide:
+&lt;ol&gt;
+&lt;li&gt;the capability for periodic monitoring of the beat;&lt;/li&gt;
+&lt;li&gt;the capability for retrieving the period of the beat.&lt;/li&gt;
+&lt;/ol&gt;
+            </mal:documentation>
+            <mal:capabilitySet number="1" comment="">
+                <mal:pubsubIP name="beat" number="1" comment="The beat operation allows a provider to periodically send a heartbeat to the consumers.">
+                    <mal:messages>
+                        <mal:subscriptionKeys>
+                        </mal:subscriptionKeys>
+                        <mal:publishNotify>
+                        </mal:publishNotify>
+                    </mal:messages>
+                </mal:pubsubIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="2" comment="">
+                <mal:requestIP name="getPeriod" number="2" comment="The getPeriod operation allows a consumer to get the period of the provider's heartbeat.">
+                    <mal:messages>
+                        <mal:request>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="period" canBeNull="true" comment="The period of the heartbeat message.">
+                                <mal:type area="MAL" list="false" name="Duration"/>
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="3" comment="">
+                <mal:requestIP name="getTime" number="3" comment="The getTime operation allows a consumer to request the provider's current on-board time together with the time factor at which it advances.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the on-board time at the moment the provider processes the REQUEST message.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the on-board time advances at the real-time rate, then the service provider shall set the timeFactor field to 1.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="timestamp" canBeNull="false" comment="The current on-board time.">
+                                <mal:type area="MAL" list="false" name="Time"/>
+                            </mal:field>
+                            <mal:field name="timeFactor" canBeNull="false" comment="The rate of the on-board time relative to real time; 1 unless the deployment runs accelerated (e.g. in a simulation).">
+                                <mal:type area="MAL" list="false" name="Integer"/>
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <com:features/>
+        </mal:service>
+        <mal:service name="CommandExecutor" number="3" xsi:type="com:ExtendedServiceType" comment="The Command Executor service allows executing arbitrary system commands and monitoring their status.">
+            <mal:documentation name="Service-level Requirement" order="1">
+                The body of the Command COM object shall be of type Command.
+            </mal:documentation>
+            <mal:capabilitySet number="1" comment="">
+                <mal:requestIP name="runCommand" number="1" comment="The runCommand operation allows a consumer to spawn a new shell instance and execute an arbitrary command on the provider host.">
+                    <mal:messages>
+                        <mal:request>
+                            <mal:field name="command" canBeNull="true" comment="Details of the command to be run.">
+                                <mal:type area="SM" list="false" name="Command"/>
+                            </mal:field>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="commandId" canBeNull="true" comment="The COM id of the spawned command, as stored in the Archive.">
+                                <mal:type area="MAL" list="false" name="Long"/>
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="2" comment="">
+                <mal:pubsubIP name="monitorOutput" number="2" comment="The monitorOutput operation allows a consumer to subscribe to the stdout, stderr, and termination of a running command.">
+                    <mal:documentation name="Requirement" order="1">
+                        The timestamp of the NOTIFY message shall be the on-board time at which it is published.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the outputType field is STDOUT or STDERR, then the data field shall contain the corresponding output chunk and the exitCode field shall be NULL.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        If the outputType field is FINISHED, then the exitCode field shall contain the process exit code and the data field shall be NULL.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:subscriptionKeys>
+                            <mal:field name="commandId" canBeNull="false" comment="The COM id of the Command object whose output is being monitored.">
+                                <mal:type area="MAL" list="false" name="Long"/>
+                            </mal:field>
+                        </mal:subscriptionKeys>
+                        <mal:publishNotify>
+                            <mal:field name="outputType" canBeNull="false" comment="The kind of this output notification.">
+                                <mal:type area="SM" list="false" name="CommandOutputType"/>
+                            </mal:field>
+                            <mal:field name="data" canBeNull="true" comment="A chunk of stdout or stderr. NULL when outputType is FINISHED.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:field>
+                            <mal:field name="exitCode" canBeNull="true" comment="The process exit code. NULL unless outputType is FINISHED.">
+                                <mal:type area="MAL" list="false" name="Integer"/>
+                            </mal:field>
+                        </mal:publishNotify>
+                    </mal:messages>
+                </mal:pubsubIP>
+            </mal:capabilitySet>
+            <com:features>
+                <com:objects comment="The Command and CommandOutput COM objects used by the Command Executor service.">
+                    <com:object comment="" number="1" name="Command">
+                        <com:objectType>
+                            <mal:type area="SM" list="false" name="Command"/>
+                        </com:objectType>
+                        <com:relatedObject comment=""/>
+                        <com:sourceObject comment=""/>
+                    </com:object>
+                    <com:object comment="" number="2" name="CommandOutput">
+                        <com:objectType>
+                            <mal:type area="SM" list="false" name="CommandOutput"/>
+                        </com:objectType>
+                        <com:relatedObject comment="Related link to the Command object.">
+                            <com:objectType area="SM" number="1" service="CommandExecutor"/>
+                        </com:relatedObject>
+                        <com:sourceObject comment=""/>
+                    </com:object>
+                </com:objects>
+                <com:events comment=""/>
+            </com:features>
+        </mal:service>
+        <mal:service name="AppsLauncher" number="5" xsi:type="com:ExtendedServiceType" comment="The Apps Launcher service provides the ability to monitor the execution, run, stop, kill and list applications software on-board of a spacecraft. The apps can be organized in categories.&#10;The service is independent from any particular Operating System or platform.">
+            <mal:documentation name="Service-level Requirement" order="1">The Apps Launcher service shall provide:
+&lt;ol&gt;
+&lt;li&gt;the capability for periodic monitoring of the applications output;&lt;/li&gt;
+&lt;li&gt;the capability for running and killing applications;&lt;/li&gt;
+&lt;li&gt;the capability for stopping applications;&lt;/li&gt;
+&lt;li&gt;the capability for listing the ids for the available apps.&lt;/li&gt;
+&lt;/ol&gt;
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="2">
+                The body of the App COM object shall be of type AppDetails.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="3">
+                The App COM object source link should point to the package from where the app was installed.
+            </mal:documentation>
+
+            <mal:capabilitySet number="1" comment="">
+                <mal:pubsubIP name="monitorExecution" number="1" comment="The monitorExecution operation allows a consumer to subscribe for the application execution output stream.">
+                    <mal:documentation name="Requirement" order="1">
+                        The timestamp of the NOTIFY message shall be the on-board time at which it is published.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        The PUBLISH message shall include the ObjectKey of the source link of the update.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        If no source link is needed, then the service provider shall set the ObjectKey to NULL.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:subscriptionKeys>
+                            <mal:field name="appName" canBeNull="false" comment="The App name.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                            <mal:field name="appId" canBeNull="false" comment="The AppDetails id.">
+                                <mal:type area="MAL" list="false" name="Long"/>
+                            </mal:field>
+                        </mal:subscriptionKeys>
+                        <mal:publishNotify>
+                            <mal:field name="outputStream" canBeNull="true" comment="The output stream of the application.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:field>
+                        </mal:publishNotify>
+                    </mal:messages>
+                </mal:pubsubIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="2" comment="">
+                <mal:submitIP name="runApp" number="2" comment="The runApp operation allows a consumer to run an application on the provider.">
+                    <mal:messages>
+                        <mal:submit>
+                            <mal:field name="appIds" canBeNull="true" comment="The list of apps to run.">
+                                <mal:type area="MAL" list="true" name="Long"/>
+                            </mal:field>
+                        </mal:submit>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When one or more of the requested apps to run is unknown.">
+                            <mal:type area="MAL" list="false" name="Unknown"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When one or more of the requested apps is already running.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the process of the app could not be started.">
+                            <mal:type area="MAL" list="false" name="Internal"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:submitIP>
+                <mal:submitIP name="killApp" number="3" comment="The killApp operation allows a consumer to kill the execution of an application on the provider in case an application becomes unresponsive.">
+                    <mal:messages>
+                        <mal:submit>
+                            <mal:field name="appIds" canBeNull="true" comment="The list of apps to be killed.">
+                                <mal:type area="MAL" list="true" name="Long"/>
+                            </mal:field>
+                        </mal:submit>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When one or more of the requested apps to be killed is unknown.">
+                            <mal:type area="MAL" list="false" name="Unknown"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When one or more of the requested apps is not running.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:submitIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="3" comment="">
+                <mal:progressIP name="stopApp" number="4" comment="The stopApp operation allows a consumer to stop the execution of an application on the provider.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall send the UPDATE message after the app acknowledges the command to stop.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the timeout field is NULL, then the service provider shall not forcibly kill the app.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        If the timeout field is not NULL and an app does not close within the timeout after the STOP_REQUESTED notification, then the service provider shall forcibly kill that app.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="4">
+                        If the service provider forcibly kills an app because the timeout expired, then it shall publish a monitorEvents notification with the KILLED event type for that app.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:progress>
+                            <mal:field name="appIds" canBeNull="true" comment="The list of apps to stop.">
+                                <mal:type area="MAL" list="true" name="Long"/>
+                            </mal:field>
+                            <mal:field name="timeout" canBeNull="true" comment="The grace period allowed for each app to close before the service provider forcibly kills it. If NULL, then the app is never forcibly killed.">
+                                <mal:type area="MAL" list="false" name="Duration"/>
+                            </mal:field>
+                        </mal:progress>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
+                        <mal:update>
+                            <mal:field name="appClosing" canBeNull="true" comment="The id of the app that is closing.">
+                                <mal:type area="MAL" list="false" name="Long"/>
+                            </mal:field>
+                        </mal:update>
+                        <mal:response>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When one or more of the requested apps is unknown.">
+                            <mal:type area="MAL" list="false" name="Unknown"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When one or more of the requested apps is not running.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:progressIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="4" comment="">
+                <mal:requestIP name="listApp" number="5" comment="The listApp operation allows a consumer to request the ids of the Apps objects and running status for an app name or for a certain app category.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall maintain the same order in the returned lists as the submitted appNames list unless the wildcard value was included in the request.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                            <mal:field name="appNames" canBeNull="true" comment="The list of application names.">
+                                <mal:type area="MAL" list="true" name="Identifier"/>
+                            </mal:field>
+                            <mal:field name="category" canBeNull="true" comment="The category identifier to filter on.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="appIds" canBeNull="true" comment="The list of apps.">
+                                <mal:type area="MAL" list="true" name="Long"/>
+                            </mal:field>
+                            <mal:field name="running" canBeNull="true" comment="The running status of the requested apps.">
+                                <mal:type area="MAL" list="true" name="Boolean"/>
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When one or more of the requested apps is unknown.">
+                            <mal:type area="MAL" list="false" name="Unknown"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="5" comment="">
+                <mal:pubsubIP name="monitorEvents" number="6" comment="The monitorEvents operation allows a consumer to subscribe to app lifecycle events.">
+                    <mal:messages>
+                        <mal:subscriptionKeys>
+                            <mal:field name="appName" canBeNull="false" comment="The name of the app to subscribe to, or wildcard for all apps.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                            <mal:field name="appId" canBeNull="false" comment="The object instance identifier of the app, or wildcard for all apps.">
+                                <mal:type area="MAL" list="false" name="Long"/>
+                            </mal:field>
+                        </mal:subscriptionKeys>
+                        <mal:publishNotify>
+                            <mal:field name="eventType" canBeNull="false" comment="The type of lifecycle event.">
+                                <mal:type area="SM" list="false" name="AppEventType"/>
+                            </mal:field>
+                            <mal:field name="exitCode" canBeNull="true" comment="The process exit code. Non-NULL only for STOPPED, KILLED, EXITED, and CRASHED events.">
+                                <mal:type area="MAL" list="false" name="Integer"/>
+                            </mal:field>
+                            <mal:field name="extraInfo" canBeNull="true" comment="Optional free-text information associated with the event, such as an error message or crash reason.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:field>
+                        </mal:publishNotify>
+                    </mal:messages>
+                </mal:pubsubIP>
+            </mal:capabilitySet>
+            <com:features>
+                <com:objects comment="The AppDetails, AppStarted, and AppStopped COM objects used by the Apps Launcher service.">
+                    <com:object comment="" number="1" name="AppDetails">
+                        <com:objectType>
+                            <mal:type area="SM" list="false" name="AppDetails"/>
+                        </com:objectType>
+                        <com:relatedObject comment=""/>
+                        <com:sourceObject comment=""/>
+                    </com:object>
+
+                    <com:object comment="Stored in the archive when an app process is successfully spawned." number="2" name="AppStarted">
+                        <com:objectType>
+                            <mal:type area="SM" list="false" name="AppStarted"/>
+                        </com:objectType>
+                        <com:relatedObject comment="The related object shall be the AppDetails COM object of the started app.">
+                            <com:objectType area="SM" number="1" service="AppsLauncher"/>
+                        </com:relatedObject>
+                        <com:sourceObject comment=""/>
+                    </com:object>
+
+                    <com:object comment="Stored in the archive when an app process exits for any reason." number="3" name="AppStopped">
+                        <com:objectType>
+                            <mal:type area="SM" list="false" name="AppStopped"/>
+                        </com:objectType>
+                        <com:relatedObject comment="The related object shall be the AppDetails COM object of the stopped app.">
+                            <com:objectType area="SM" number="1" service="AppsLauncher"/>
+                        </com:relatedObject>
+                        <com:sourceObject comment=""/>
+                    </com:object>
+
+                </com:objects>
+                <com:events comment=""/>
+            </com:features>
+        </mal:service>
+        <mal:dataTypes>
+            <mal:composite name="PackageDefinition" shortFormPart="1" comment="The definition information of a package.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="name" canBeNull="false" comment="The name of the package.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="description" canBeNull="true" comment="The description of the package.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="category" canBeNull="false" comment="The category of the package.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="path" canBeNull="false" comment="The path of the file where the package is located.">
+                    <mal:type area="MAL" list="false" name="File"/>
+                </mal:field>
+                <mal:field name="publisher" canBeNull="true" comment="The publisher of the package. It can be, for example, a company or group of people.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="InstallationDetails" shortFormPart="2" comment="The installation details of a package.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="installed" canBeNull="true" comment="Whether the package is currently installed.">
+                    <mal:type area="MAL" list="false" name="Boolean"/>
+                </mal:field>
+                <mal:field name="folderLocation" canBeNull="true" comment="The filesystem path of the folder where the package was installed.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="AppDetails" shortFormPart="3" comment="The details of an instance of an app.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="name" canBeNull="false" comment="The name of the app.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="description" canBeNull="false" comment="The description of the app.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="version" canBeNull="false" comment="The version of the app.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="category" canBeNull="false" comment="The category of the app.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="runAtStartup" canBeNull="false" comment="Controls whether the app runs at startup of the Supervisor.">
+                    <mal:type area="MAL" list="false" name="Boolean"/>
+                </mal:field>
+                <mal:field name="running" canBeNull="false" comment="The current running state of the app.">
+                    <mal:type area="MAL" list="false" name="Boolean"/>
+                </mal:field>
+                <mal:field name="extraInfo" canBeNull="true" comment="Additional information that might be implementation-specific.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="copyright" canBeNull="true" comment="The copyright of the app.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="runAs" canBeNull="true" comment="The user the app is run as.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="Command" shortFormPart="4" comment="The execution details of a command, including its status.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="command" canBeNull="false" comment="The command line passed to the executing shell instance.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="pid" canBeNull="true" comment="Assigned Process ID of the spawned shell instance. NULL if the execution has not started yet. -1 if the PID cannot be determined.">
+                    <mal:type area="MAL" list="false" name="Long"/>
+                </mal:field>
+                <mal:field name="exitCode" canBeNull="true" comment="Exit code of the command. NULL if the execution has not completed yet.">
+                    <mal:type area="MAL" list="false" name="Integer"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="CommandOutput" shortFormPart="5" comment="The body of a CommandOutput COM object, stored in the archive when command output is captured.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="outputType" canBeNull="false" comment="The kind of this output.">
+                    <mal:type area="SM" list="false" name="CommandOutputType"/>
+                </mal:field>
+                <mal:field name="data" canBeNull="true" comment="A chunk of stdout or stderr. NULL when outputType is FINISHED.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="exitCode" canBeNull="true" comment="The process exit code. NULL unless outputType is FINISHED.">
+                    <mal:type area="MAL" list="false" name="Integer"/>
+                </mal:field>
+            </mal:composite>
+            <mal:enumeration name="AppEventType" shortFormPart="6" comment="The AppEventType enumeration identifies the lifecycle event of an NMF app.">
+                <mal:item nvalue="1" value="START_REQUESTED" comment="A request to start the app was received."/>
+                <mal:item nvalue="2" value="STARTED"         comment="The app process started running."/>
+                <mal:item nvalue="3" value="STOP_REQUESTED"  comment="A request to stop the app gracefully was received."/>
+                <mal:item nvalue="4" value="STOPPED"         comment="The app stopped after a graceful stop request."/>
+                <mal:item nvalue="5" value="KILLED"          comment="The app process was forcibly killed."/>
+                <mal:item nvalue="6" value="EXITED"          comment="The app terminated on its own with exit code 0."/>
+                <mal:item nvalue="7" value="CRASHED"         comment="The app terminated on its own with a non-zero exit code."/>
+            </mal:enumeration>
+            <mal:composite name="AppStarted" shortFormPart="7" comment="The body of an AppStarted COM object, stored in the archive when an app process is successfully spawned.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="triggeredBy" canBeNull="true" comment="The URI of the consumer that requested the app start. NULL if the app was started automatically at Supervisor boot.">
+                    <mal:type area="MAL" list="false" name="URI"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="AppStopped" shortFormPart="8" comment="The body of an AppStopped COM object, stored in the archive when an app process exits for any reason.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="stopReason" canBeNull="false" comment="How the app stopped.">
+                    <mal:type area="SM" list="false" name="AppEventType"/>
+                </mal:field>
+                <mal:field name="exitCode" canBeNull="true" comment="The process exit code. NULL if the exit code could not be determined.">
+                    <mal:type area="MAL" list="false" name="Integer"/>
+                </mal:field>
+                <mal:field name="extraInfo" canBeNull="true" comment="Optional free-text detail, such as a crash reason or error message.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+            </mal:composite>
+            <mal:enumeration name="CommandOutputType" shortFormPart="9" comment="The CommandOutputType enumeration identifies the kind of a command output notification.">
+                <mal:item nvalue="1" value="STDOUT"   comment="A chunk of the command's standard output stream."/>
+                <mal:item nvalue="2" value="STDERR"   comment="A chunk of the command's standard error stream."/>
+                <mal:item nvalue="3" value="FINISHED" comment="The command finished executing; the exit code is provided."/>
+            </mal:enumeration>
+            <mal:composite name="PackageInstalled" shortFormPart="10" comment="The body of a PackageInstalled COM object, stored in the archive when a package is successfully installed.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="packageName" canBeNull="false" comment="The name of the installed package.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="version" canBeNull="true" comment="The version of the installed package. NULL if the backend cannot determine it.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="triggeredBy" canBeNull="true" comment="The URI of the consumer that requested the installation. NULL if unknown.">
+                    <mal:type area="MAL" list="false" name="URI"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="PackageUninstalled" shortFormPart="11" comment="The body of a PackageUninstalled COM object, stored in the archive when a package is successfully uninstalled.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="packageName" canBeNull="false" comment="The name of the uninstalled package.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="version" canBeNull="true" comment="The version of the package that was uninstalled. NULL if the backend cannot determine it.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="keptConfigurations" canBeNull="false" comment="Whether the package configurations were kept on uninstall.">
+                    <mal:type area="MAL" list="false" name="Boolean"/>
+                </mal:field>
+                <mal:field name="triggeredBy" canBeNull="true" comment="The URI of the consumer that requested the uninstallation. NULL if unknown.">
+                    <mal:type area="MAL" list="false" name="URI"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="PackageUpgraded" shortFormPart="12" comment="The body of a PackageUpgraded COM object, stored in the archive when a package is successfully upgraded.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="packageName" canBeNull="false" comment="The name of the upgraded package.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="fromVersion" canBeNull="true" comment="The version of the package before the upgrade. NULL if the backend cannot determine it.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="toVersion" canBeNull="true" comment="The version of the package after the upgrade. NULL if the backend cannot determine it.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="triggeredBy" canBeNull="true" comment="The URI of the consumer that requested the upgrade. NULL if unknown.">
+                    <mal:type area="MAL" list="false" name="URI"/>
+                </mal:field>
+            </mal:composite>
+        </mal:dataTypes>
+    </mal:area>
+</mal:specification>

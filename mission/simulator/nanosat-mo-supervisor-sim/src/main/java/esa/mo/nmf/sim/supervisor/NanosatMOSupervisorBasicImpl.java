@@ -23,11 +23,10 @@ package esa.mo.nmf.sim.supervisor;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
-import esa.mo.nmf.nanosatmosupervisor.MCSupervisorBasicAdapter;
+import esa.mo.nmf.mcadapters.MCSupervisorBasicAdapter;
 import esa.mo.nmf.nanosatmosupervisor.NanoSatMOSupervisor;
 import esa.mo.nmf.nmfpackage.NMFPackagePMBackend;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
-import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
 import esa.mo.platform.impl.util.PlatformServicesProviderSoftSim;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,8 +35,8 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 
 /**
- * This is a specific implementation of the NMF supervisor which is currently
- * being used by the SDK and the OPS-SAT mission. Using the property
+ * This is a specific implementation of the NMF supervisor integrated with the
+ * Platform services attached to the CubeSat simulator. Using the property
  * "nmf.platform.impl" one can select the class of the platform services
  * implementation which shall be used by the supervisor. If no such property is
  * provided, it will use the simulated platform services by default.
@@ -47,27 +46,21 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
 
     private static final Logger LOGGER = Logger.getLogger(NanosatMOSupervisorBasicImpl.class.getName());
-    private PlatformServicesProviderInterface platformServicesProvider;
+    private PlatformServicesProviderSoftSim platformServicesProvider;
     private ConnectionConsumer connectionConsumer;
 
     @Override
     public void initPlatformServices(COMServicesProvider comServices) {
         try {
-            String platformProviderClass = System.getProperty("nmf.platform.impl", "esa.mo.platform.impl.util.PlatformServicesProviderSoftSim");
-            try {
-                platformServicesProvider
-                        = (PlatformServicesProviderInterface) Class.forName(platformProviderClass).newInstance();
-                platformServicesProvider.init(comServices);
-            } catch (NullPointerException | ClassNotFoundException | InstantiationException
-                    | IllegalAccessException ex) {
-                LOGGER.log(Level.SEVERE,
-                        "Something went wrong when initializing the platform services.",
-                        ex);
-                System.exit(-1);
-            }
+            platformServicesProvider = new PlatformServicesProviderSoftSim();
+            platformServicesProvider.init(comServices);
+
+            // Report the simulation's acceleration through the Heartbeat getTime operation
+            super.heartbeatService.setTimeFactorSupplier(platformServicesProvider::getTimeFactor);
         } catch (MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
+
         // Now connect the platform services consumer loopback to it
         connectionConsumer = new ConnectionConsumer();
         try {
@@ -79,9 +72,7 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
     }
 
     protected void startStatusTracking() {
-        if (platformServicesProvider instanceof PlatformServicesProviderSoftSim) {
-            ((PlatformServicesProviderSoftSim) platformServicesProvider).startStatusTracking(connectionConsumer);
-        }
+        platformServicesProvider.startStatusTracking(connectionConsumer);
     }
 
     @Override
@@ -102,8 +93,7 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
      */
     public static void main(final String[] args) throws Exception {
         NanosatMOSupervisorBasicImpl supervisor = new NanosatMOSupervisorBasicImpl();
-        MCSupervisorBasicAdapter adapter = new MCSupervisorBasicAdapter();
-        adapter.setNmfSupervisor(supervisor);
+        MCSupervisorBasicAdapter adapter = new MCSupervisorBasicAdapter(supervisor);
         supervisor.init(adapter);
         adapter.startAdcsAttitudeMonitoring();
     }

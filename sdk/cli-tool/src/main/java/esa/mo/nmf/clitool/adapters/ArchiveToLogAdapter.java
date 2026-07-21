@@ -27,18 +27,18 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.Element;
-import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
-import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorServiceInfo;
+
+import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorServiceInfo;
 
 /**
  * Archive adapter that dumps to a LOG file StandardOutput and StandardError
@@ -83,12 +83,7 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
         this.addTimestamps = addTimestamps;
         this.logFilePath = logFilePath;
 
-        objectTypes.put(CommandExecutorServiceInfo.STANDARDOUTPUT_OBJECT_TYPE, null);
-        objectTypes.put(CommandExecutorServiceInfo.STANDARDERROR_OBJECT_TYPE, null);
-        objectTypes.put(AppsLauncherServiceInfo.STARTAPP_OBJECT_TYPE, "Event StartApp, body: ");
-        objectTypes.put(AppsLauncherServiceInfo.STOPAPP_OBJECT_TYPE, "Event StopApp, body: ");
-        objectTypes.put(AppsLauncherServiceInfo.STOPPING_OBJECT_TYPE, "Event Stopping, body: ");
-        objectTypes.put(AppsLauncherServiceInfo.STOPPED_OBJECT_TYPE, "Event Stopped, body: ");
+        objectTypes.put(CommandExecutorServiceInfo.COMMANDOUTPUT_OBJECT_TYPE, null);
     }
 
     /**
@@ -118,9 +113,11 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
                 return;
             }
 
+            HeterogeneousList bodies = archiveObjectOutput.getObjectBodies();
+
             // if somehow we have no object bodies, stop
             if (comType.getService().equals(CommandExecutorServiceInfo.COMMANDEXECUTOR_SERVICE_NUMBER)
-                    && archiveObjectOutput.getObjectBodies() == null) {
+                    && bodies == null) {
                 return;
             }
 
@@ -129,19 +126,19 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
                 String logObject;
                 if (comType.getService().equals(CommandExecutorServiceInfo.COMMANDEXECUTOR_SERVICE_NUMBER)) {
                     // write LOG message, we can safely cast to String
-                    logObject = (String) ((Element) archiveObjectOutput.getObjectBodies().get(i)).toString();
+                    logObject = (String) ((Element) bodies.get(i)).toString();
                 } else {
                     logObject = objectTypes.get(comType);
 
-                    if (archiveObjectOutput.getObjectBodies() != null) {
-                        logObject += ((Identifier) archiveObjectOutput.getObjectBodies().get(i)).getValue() + "\n";
+                    if (bodies != null) {
+                        logObject += ((Identifier) bodies.get(i)).getValue() + "\n";
                     } else {
                         logObject += "empty\n";
                     }
                 }
                 try {
                     if (addTimestamps) {
-                        FineTime timestamp = archiveObjectOutput.getArchiveDetailsList().get(i).getTimestamp();
+                        Time timestamp = archiveObjectOutput.getArchiveDetailsList().get(i).getTimestamp();
                         String[] logLines = logObject.split("\n");
                         logLines[0] = HelperTime.time2readableString(timestamp) + " " + logLines[0];
                         if (logLines.length > 1) {
@@ -192,9 +189,7 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
     }
 
     @Override
-    public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
-        queryResults.add(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
+    public void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
         setIsQueryOver(true);
     }
 

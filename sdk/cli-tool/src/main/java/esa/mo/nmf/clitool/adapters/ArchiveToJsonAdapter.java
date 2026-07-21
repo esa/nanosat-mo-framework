@@ -21,10 +21,10 @@
 
 package esa.mo.nmf.clitool.adapters;
 
-import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
-import esa.mo.com.impl.util.HelperCOM;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
+import esa.mo.com.impl.util.HelperCOM;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,14 +33,10 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ObjectDetails;
-import org.ccsds.moims.mo.com.structures.ObjectId;
-import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
+import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
@@ -111,10 +107,10 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
         archiveObjects.get(domainKey).computeIfAbsent(comTypeKey, k -> new ArrayList<>());
 
         for (int i = 0; i < archiveObjectOutput.getArchiveDetailsList().size(); i++) {
-            Object malObject = archiveObjectOutput.getObjectBodies() == null ? null : archiveObjectOutput
-                .getObjectBodies().get(i);
-            CleanCOMArchiveObject comObject = new CleanCOMArchiveObject(comType, archiveObjectOutput
-                .getArchiveDetailsList().get(i), malObject);
+            Object malObject = archiveObjectOutput.getObjectBodies() == null ?
+                    null : archiveObjectOutput.getObjectBodies().get(i);
+            CleanCOMArchiveObject comObject = new CleanCOMArchiveObject(comType,
+                    archiveObjectOutput.getArchiveDetailsList().get(i), malObject);
             archiveObjects.get(domainKey).get(comTypeKey).add(comObject);
         }
     }
@@ -140,9 +136,7 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
     }
 
     @Override
-    public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
-        dumpArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
+    public void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
         setIsQueryOver(true);
     }
 
@@ -196,7 +190,6 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
          */
         private Long instanceId;
         private CleanObjectDetails objectDetails;
-        private String networkZone;
         private String creationTime;
         private String providerURI;
 
@@ -207,10 +200,8 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
 
         public CleanCOMArchiveObject(ObjectType objectType, ArchiveDetails archiveDetails, Object object) {
             // archive details
-            instanceId = archiveDetails.getInstId();
-            objectDetails = archiveDetails.getDetails() == null ? null : new CleanObjectDetails(archiveDetails
-                .getDetails());
-            networkZone = archiveDetails.getNetwork().getValue();
+            instanceId = archiveDetails.getId();
+            objectDetails = archiveDetails.getLinks() == null ? null : new CleanObjectDetails(archiveDetails.getLinks());
             creationTime = HelperTime.time2readableString(archiveDetails.getTimestamp());
             providerURI = archiveDetails.getProvider().getValue();
 
@@ -223,22 +214,22 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
 
         private static class CleanObjectDetails {
             private Long relatedInstanceId;
-            private CleanObjectId source;
+            private CleanObjectKey source;
 
-            public CleanObjectDetails(ObjectDetails objectDetails) {
-                relatedInstanceId = objectDetails.getRelated();
-                source = objectDetails.getSource() == null ? null : new CleanObjectId(objectDetails.getSource());
+            public CleanObjectDetails(ObjectLinks objectLinks) {
+                relatedInstanceId = objectLinks.getRelated();
+                source = objectLinks.getSource() == null ? null : new CleanObjectKey(objectLinks.getSource());
             }
 
-            private static class CleanObjectId {
+            private static class CleanObjectKey {
                 String objectType;
                 String domain;
                 Long instanceId;
 
-                public CleanObjectId(ObjectId objectId) {
-                    objectType = HelperCOM.objType2string(objectId.getType()).replace(" - ", ".").replace(": ", ".");
-                    domain = HelperDomain.domain2domainId(objectId.getKey().getDomain());
-                    instanceId = objectId.getKey().getInstId();
+                public CleanObjectKey(ObjectKey objectKey) {
+                    objectType = HelperCOM.objType2string(objectKey.getType()).replace(" - ", ".").replace(": ", ".");
+                    domain = HelperDomain.domain2domainId(objectKey.getDomain());
+                    instanceId = objectKey.getId();
                 }
             }
         }

@@ -15,12 +15,12 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>int.esa.nmf</groupId>
-        <artifactId>parent</artifactId>
-        <version>4.0</version>
-        <relativePath>../../parent/pom.xml</relativePath>
+        <artifactId>nanosat-mo-framework</artifactId>
+        <version>5.0</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
     <groupId>int.esa.nmf.core</groupId>
-    <artifactId>nmf-xmls</artifactId>
+    <artifactId>mo-services-xml</artifactId>
     <packaging>jar</packaging>
     <name>ESA NMF Core - MO Services XMLs</name>
     <description>NMF CCSDS Mission Operations Services XML files, including tailored COM specification</description>

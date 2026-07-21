@@ -63,8 +63,8 @@ public class AuxFilesGenerator {
 
         str.append("# Jars from: App, NMF, and Shared dependencies:\n");
         str.append("JAR_APP=").append(meta.getAppMainJar()).append("\n");
-        // The following code must be changed:
-        str.append("JARS_NMF=").append(Deployment.getJarsNMFDir()).append("\n");
+        str.append("JARS_NMF_DIR=").append(Deployment.getJarsNMFDir()).append("\n");
+        str.append("JARS_NMF=$(find \"$JARS_NMF_DIR\" -name \"*.jar\" | tr '\\n' ':')\n");
         String shared = "";
 
         if (meta.hasDependencies()) {
@@ -73,7 +73,7 @@ public class AuxFilesGenerator {
             str.append("JARS_SHARED=").append(paths);
             shared = ":$JARS_SHARED";
         }
-        str.append("\n\nJARS_ALL=$JAR_APP:$JARS_NMF/*").append(shared);
+        str.append("\n\nJARS_ALL=$JAR_APP:$JARS_NMF").append(shared);
         str.append("\n\n");
 
         str.append("if [ -z \"$JAVA_OPTS\" ] ; then\n");
@@ -90,13 +90,21 @@ public class AuxFilesGenerator {
         str.append("LOG_PATH=").append(logPath).append("\n");
         str.append("mkdir -p $LOG_PATH\n\n");
 
-        // The command "exec" spawns the execution in a different process
-        // str.append("exec -a MyUniqueProcessName ");
-        str.append("$JAVA_CMD $JAVA_OPTS \\\n");
+        // Launch line. The generated comments below explain the POSIX-sh caveat
+        // that forces the sidecar-file construct used to preserve the exit code.
+        str.append("# Launch the app. Its combined stdout/stderr is appended to the log file via\n");
+        str.append("# 'tee'. Caveat: in a POSIX shell a pipeline reports the exit status of its\n");
+        str.append("# LAST command -- here 'tee', which is essentially always 0 -- so the app's\n");
+        str.append("# real exit code would be lost. To preserve it, the brace group records the\n");
+        str.append("# JVM's exit status ($?) into a sidecar \".exit\" file, and the final line\n");
+        str.append("# below re-exports it as the script's exit code. This lets the Apps Launcher\n");
+        str.append("# tell a clean exit (0) apart from a crash (non-zero).\n");
+        str.append("{ $JAVA_CMD $JAVA_OPTS \\\n");
         str.append("  -classpath \"$JARS_ALL\" \\\n");
         str.append("  \"$MAIN_CLASS\" \\\n");
-        str.append("  \"$@\" \\\n");
-        str.append("  2>&1 | tee -a $LOG_PATH/$FILENAME \n");
+        str.append("  \"$@\" ; echo $? > \"$LOG_PATH/$FILENAME.exit\" ; } 2>&1 | tee -a \"$LOG_PATH/$FILENAME\"\n\n");
+        str.append("# Re-export the app's real exit code (defaulting to 0 if unavailable).\n");
+        str.append("exit \"$(cat \"$LOG_PATH/$FILENAME.exit\" 2>/dev/null || echo 0)\"\n");
 
         return str.toString();
     }
@@ -145,10 +153,6 @@ public class AuxFilesGenerator {
         str.append("# NanoSat MO Framework transport configuration\n");
         str.append("helpertools.configurations.provider.transportfilepath=");
         str.append(transportPath);
-        str.append("\n\n");
-
-        str.append("# NanoSat MO Framework Settings\n");
-        str.append("esa.mo.nanosatmoframework.provider.settings=settings.properties");
         str.append("\n\n");
 
         str.append("# NanoSat MO Framework dynamic configurations\n");
@@ -203,14 +207,14 @@ public class AuxFilesGenerator {
 
         if (os.isUnix() || os.isMac()) {
             String content = generateLinuxStartAppScript(javaCMD, appDetails);
-            File startApp = new File(appDir, "start_" + name + ".sh");
+            File startApp = new File(appDir, "start_app.sh");
             writeFile(startApp, content);
             startApp.setExecutable(true, true);
         }
 
         if (os.isWindows()) {
             String content = generateWindowsStartAppScript(javaCMD, jarName, appDetails);
-            File startApp = new File(appDir, "start_" + name + ".bat");
+            File startApp = new File(appDir, "start_app.bat");
             writeFile(startApp, content);
         }
     }

@@ -15,12 +15,12 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>int.esa.nmf</groupId>
-        <artifactId>parent</artifactId>
-        <version>4.0</version>
-        <relativePath>../../parent/pom.xml</relativePath>
+        <artifactId>nanosat-mo-framework</artifactId>
+        <version>5.0</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
     <groupId>int.esa.nmf.core</groupId>
-    <artifactId>mo-services-apis-reactor</artifactId>
+    <artifactId>mo-services-apis</artifactId>
     <packaging>pom</packaging>
     <name>ESA NMF Core - MO APIs</name>
     <organization>
@@ -51,7 +51,6 @@
     </properties>
     <modules>
         <module>api-nmf-com</module>
-        <module>api-nmf-common</module>
         <module>api-nmf-mc</module>
         <module>api-nmf-sm</module>
         <module>api-nmf-platform</module>

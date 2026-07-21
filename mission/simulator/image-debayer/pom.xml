@@ -15,9 +15,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>int.esa.nmf</groupId>
-        <artifactId>parent</artifactId>
-        <version>4.0</version>
-        <relativePath>../../../parent/pom.xml</relativePath>
+        <artifactId>nanosat-mo-framework</artifactId>
+        <version>5.0</version>
+        <relativePath>../../../pom.xml</relativePath>
     </parent>
     <groupId>int.esa.nmf.simulator</groupId>
     <artifactId>image-debayer</artifactId>

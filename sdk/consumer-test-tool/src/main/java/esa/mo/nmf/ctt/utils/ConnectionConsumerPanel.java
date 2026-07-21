@@ -21,19 +21,17 @@
 package esa.mo.nmf.ctt.utils;
 
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
-import esa.mo.com.impl.consumer.EventConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesConsumer;
+import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
+import esa.mo.mc.impl.consumer.AggregationConsumerServiceImpl;
+import esa.mo.mc.impl.consumer.AlertConsumerServiceImpl;
+import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.nmf.ctt.services.com.ArchiveConsumerManagerPanel;
-import esa.mo.nmf.ctt.services.com.EventConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.ActionConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.AggregationConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.AlertConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.ParameterConsumerPanel;
 import esa.mo.nmf.ctt.services.mc.ParameterPublishedValues;
-import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
-import esa.mo.mc.impl.consumer.AggregationConsumerServiceImpl;
-import esa.mo.mc.impl.consumer.AlertConsumerServiceImpl;
-import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
@@ -41,7 +39,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import org.ccsds.moims.mo.com.archive.ArchiveServiceInfo;
-import org.ccsds.moims.mo.com.event.EventServiceInfo;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
@@ -57,18 +54,19 @@ import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
  */
 public class ConnectionConsumerPanel extends javax.swing.JPanel {
 
+    private static final Logger LOGGER = Logger.getLogger(ConnectionConsumerPanel.class.getName());
     private ConnectionConsumer connectionConsumer;
     private javax.swing.JTabbedPane tabs;
-    private static final Logger LOGGER = Logger.getLogger(ConnectionConsumerPanel.class.getName());
 
     /**
-     * Creates new form ConsumerPanelArchive
+     * Constructor.
      *
-     * @param connectionConsumer
-     * @param tabs
+     * @param connectionConsumer The consumer connections.
+     * @param tabs The tabs object.
      */
     public ConnectionConsumerPanel(ConnectionConsumer connectionConsumer, JTabbedPane tabs) {
         initComponents();
+        jLabel7.setFont(jLabel7.getFont().deriveFont(java.awt.Font.BOLD, 18f));
         this.connectionConsumer = connectionConsumer;
         this.tabs = tabs;
 
@@ -141,7 +139,6 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         checkBoxStatistic = new javax.swing.JCheckBox();
         connectButton = new javax.swing.JButton();
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Communication Settings");
         jLabel7.setToolTipText("");
@@ -390,16 +387,6 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         });
         servicesPanel.add(find_replace);
 
-        checkBoxEvent.setSelected(true);
-        checkBoxEvent.setText("Event Service");
-        checkBoxEvent.setPreferredSize(new java.awt.Dimension(160, 23));
-        checkBoxEvent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkBoxEventActionPerformed(evt);
-            }
-        });
-        servicesPanel.add(checkBoxEvent);
-
         checkBoxArchive.setSelected(true);
         checkBoxArchive.setText("Archive Service");
         checkBoxArchive.setPreferredSize(new java.awt.Dimension(160, 23));
@@ -489,31 +476,24 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void uriServiceParameterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceParameterActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceParameterActionPerformed
 
     private void uriBrokerParameterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriBrokerParameterActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriBrokerParameterActionPerformed
 
     private void uriServiceAggregationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceAggregationActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceAggregationActionPerformed
 
     private void uriBrokerAggregationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriBrokerAggregationActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriBrokerAggregationActionPerformed
 
     private void uriServiceArchiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceArchiveActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceArchiveActionPerformed
 
     private void uriBrokerArchiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriBrokerArchiveActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriBrokerArchiveActionPerformed
 
     private void checkBoxAggregationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxAggregationActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_checkBoxAggregationActionPerformed
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
@@ -528,8 +508,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         } catch (FileNotFoundException ex) {
             LOGGER.log(Level.INFO, "The file with provider URIs is not present.");
         }
-        
-        
+
         ArchiveConsumerServiceImpl archiveService = null;
         if (checkBoxArchive.isSelected()) {
             try {
@@ -547,26 +526,8 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
             }
         }
 
-        EventConsumerServiceImpl eventService = null;
-        if (checkBoxEvent.isSelected()) {
-            try {
-                details = connectionConsumer.getServicesDetails().get(EventServiceInfo.EVENT_SERVICE_NAME);
-                eventService = new EventConsumerServiceImpl(details);
-                this.tabs.insertTab("Event service", null, new EventConsumerPanel(eventService, archiveService), "Event Tab", tabs.getTabCount());
-            } catch (MALInteractionException ex) {
-                errorConnectionProvider("Event");
-                return;
-            } catch (MALException ex) {
-                errorConnectionProvider("Event");
-                return;
-            } catch (MalformedURLException ex) {
-                errorConnectionProvider("Event");
-                return;
-            }
-        }
-
         COMServicesConsumer comServices = new COMServicesConsumer();
-        comServices.setServices(eventService, archiveService);
+        comServices.setServices(archiveService);
 
         ParameterConsumerServiceImpl parameterService = null;
 
@@ -676,7 +637,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
             }
         }
          */
-/*
+ /*
         try {
             details = connectionConsumer.getServicesDetails().get(ConfigurationHelper.CONFIGURATION_SERVICE_NAME);
             ConfigurationConsumerServiceImpl configurationService = new ConfigurationConsumerServiceImpl(details, comServices);
@@ -686,73 +647,59 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
             errorConnectionProvider("Configuration");
             return;
         }
-*/
-        
-        
+         */
+
     }//GEN-LAST:event_connectButtonActionPerformed
 
     private void errorConnectionProvider(String service) {
-        JOptionPane.showMessageDialog(null, "Could not connect to " + service + " service provider!", "Error!", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null,
+                "Could not connect to " + service + " service provider!",
+                "Error!", JOptionPane.PLAIN_MESSAGE);
     }
 
     private void checkBoxEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxEventActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_checkBoxEventActionPerformed
 
     private void checkBoxActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxActionActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_checkBoxActionActionPerformed
 
     private void uriServiceEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceEventActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceEventActionPerformed
 
     private void uriBrokerEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriBrokerEventActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriBrokerEventActionPerformed
 
     private void uriServiceActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceActionActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceActionActionPerformed
 
     private void uriBrokerActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriBrokerActionActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriBrokerActionActionPerformed
 
     private void uriServiceAlertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceAlertActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceAlertActionPerformed
 
     private void uriBrokerAlertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriBrokerAlertActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriBrokerAlertActionPerformed
 
     private void uriServiceCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceCheckActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceCheckActionPerformed
 
     private void uriBrokerCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriBrokerCheckActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriBrokerCheckActionPerformed
 
     private void checkBoxAlertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxAlertActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_checkBoxAlertActionPerformed
 
     private void checkBoxCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxCheckActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_checkBoxCheckActionPerformed
 
     private void uriServiceStatisticActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceStatisticActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriServiceStatisticActionPerformed
 
     private void uriBrokerStatisticActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriBrokerStatisticActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_uriBrokerStatisticActionPerformed
 
     private void checkBoxStatisticActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxStatisticActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_checkBoxStatisticActionPerformed
 
     private void load_URI_linksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_load_URI_linksActionPerformed
@@ -813,7 +760,6 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_find_replaceActionPerformed
 
     private void load_links_fileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_load_links_fileActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_load_links_fileActionPerformed
 
 
@@ -872,18 +818,12 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         SingleConnectionDetails details;
 
         // COM services
-        details = connectionConsumer.getServicesDetails().get(EventServiceInfo.EVENT_SERVICE_NAME);
-        if (details != null) {
-            this.connectionConsumer.getServicesDetails().get(EventServiceInfo.EVENT_SERVICE_NAME).setProviderURI(uriServiceEvent.getText());
-            this.connectionConsumer.getServicesDetails().get(EventServiceInfo.EVENT_SERVICE_NAME).setBrokerURI(uriBrokerEvent.getText());
-        }
-
         details = connectionConsumer.getServicesDetails().get(ArchiveServiceInfo.ARCHIVE_SERVICE_NAME);
         if (details != null) {
             this.connectionConsumer.getServicesDetails().get(ArchiveServiceInfo.ARCHIVE_SERVICE_NAME).setProviderURI(uriServiceArchive.getText());
             this.connectionConsumer.getServicesDetails().get(ArchiveServiceInfo.ARCHIVE_SERVICE_NAME).setBrokerURI(uriBrokerArchive.getText());
         }
-        
+
         // M&C services
         details = connectionConsumer.getServicesDetails().get(ActionServiceInfo.ACTION_SERVICE_NAME);
         if (details != null) {
@@ -902,7 +842,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
             this.connectionConsumer.getServicesDetails().get(AlertServiceInfo.ALERT_SERVICE_NAME).setProviderURI(uriServiceAlert.getText());
             this.connectionConsumer.getServicesDetails().get(AlertServiceInfo.ALERT_SERVICE_NAME).setBrokerURI(uriBrokerAlert.getText());
         }
-/*
+        /*
         details = connectionConsumer.getServicesDetails().get(CheckServiceInfo.CHECK_SERVICE_NAME);
         if (details != null) {
             this.connectionConsumer.getServicesDetails().get(CheckServiceInfo.CHECK_SERVICE_NAME).setProviderURI(uriServiceCheck.getText());
@@ -914,7 +854,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
             this.connectionConsumer.getServicesDetails().get(StatisticServiceInfo.STATISTIC_SERVICE_NAME).setProviderURI(uriServiceStatistic.getText());
             this.connectionConsumer.getServicesDetails().get(StatisticServiceInfo.STATISTIC_SERVICE_NAME).setBrokerURI(uriBrokerStatistic.getText());
         }
-*/
+         */
         details = connectionConsumer.getServicesDetails().get(AggregationServiceInfo.AGGREGATION_SERVICE_NAME);
         if (details != null) {
             this.connectionConsumer.getServicesDetails().get(AggregationServiceInfo.AGGREGATION_SERVICE_NAME).setProviderURI(uriServiceAggregation.getText());
@@ -927,12 +867,6 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
         SingleConnectionDetails details;
 
         // COM services
-        details = connectionConsumer.getServicesDetails().get(EventServiceInfo.EVENT_SERVICE_NAME);
-        if (details != null) {
-            this.uriServiceEvent.setText(details.getProviderURI().toString());
-            this.uriBrokerEvent.setText(details.getBrokerURI().toString());
-        }
-
         details = connectionConsumer.getServicesDetails().get(ArchiveServiceInfo.ARCHIVE_SERVICE_NAME);
         if (details != null) {
             this.uriServiceArchive.setText(details.getProviderURI().toString());
@@ -957,7 +891,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
             this.uriServiceAlert.setText(details.getProviderURI().toString());
             this.uriBrokerAlert.setText(details.getBrokerURI().toString());
         }
-/*
+        /*
         details = connectionConsumer.getServicesDetails().get(CheckServiceInfo.CHECK_SERVICE_NAME);
         if (details != null) {
             this.uriServiceCheck.setText(details.getProviderURI().toString());
@@ -969,14 +903,11 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
             this.uriServiceStatistic.setText(details.getProviderURI().toString());
             this.uriBrokerStatistic.setText(details.getBrokerURI().toString());
         }
-*/
+         */
         details = connectionConsumer.getServicesDetails().get(AggregationServiceInfo.AGGREGATION_SERVICE_NAME);
         if (details != null) {
             this.uriServiceAggregation.setText(details.getProviderURI().toString());
             this.uriBrokerAggregation.setText(details.getBrokerURI().toString());
         }
-
-
     }
-
 }

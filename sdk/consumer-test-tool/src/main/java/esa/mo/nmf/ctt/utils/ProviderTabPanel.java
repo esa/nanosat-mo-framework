@@ -21,40 +21,27 @@
 package esa.mo.nmf.ctt.utils;
 
 import esa.mo.com.impl.util.COMServicesConsumer;
-import esa.mo.helpertools.clock.PlatformClockCallback;
-import esa.mo.helpertools.clock.SystemClock;
 import esa.mo.mc.impl.util.MCServicesConsumer;
 import esa.mo.nmf.ctt.services.com.ArchiveConsumerManagerPanel;
-import esa.mo.nmf.ctt.services.com.EventConsumerPanel;
-import esa.mo.nmf.ctt.services.common.ConfigurationConsumerPanel;
-import esa.mo.nmf.ctt.services.mc.ActionConsumerPanel;
-import esa.mo.nmf.ctt.services.mc.AggregationConsumerPanel;
-import esa.mo.nmf.ctt.services.mc.AlertConsumerPanel;
-import esa.mo.nmf.ctt.services.mc.ParameterConsumerPanel;
-import esa.mo.nmf.ctt.services.mc.ParameterPublishedValues;
-import esa.mo.nmf.ctt.services.platform.clock.ClockConsumerPanel;
-import esa.mo.nmf.ctt.services.sm.AppsLauncherConsumerPanel;
-import esa.mo.nmf.ctt.services.sm.CommandExecutorConsumerPanel;
-import esa.mo.nmf.ctt.services.sm.PackageManagementConsumerPanel;
+import esa.mo.nmf.ctt.services.mc.*;
+import esa.mo.nmf.ctt.services.sm.*;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
 import esa.mo.sm.impl.util.SMServicesConsumer;
 import java.awt.Color;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTabbedPane;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
+import org.ccsds.moims.mo.com.structures.Provider;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.platform.clock.consumer.ClockStub;
-import org.ccsds.moims.mo.softwaremanagement.heartbeat.consumer.HeartbeatAdapter;
+import org.ccsds.moims.mo.sm.heartbeat.consumer.BeatSubscriptionKeys;
+import org.ccsds.moims.mo.sm.heartbeat.consumer.HeartbeatAdapter;
 
 /**
  *
@@ -64,7 +51,6 @@ public class ProviderTabPanel extends javax.swing.JPanel {
 
     private static final Logger LOGGER = Logger.getLogger(ProviderTabPanel.class.getName());
     protected final GroundMOAdapterImpl services;
-    private final ProviderSummary providerSummary;
 
     /**
      * Creates a new tab for a Provider and populates it.
@@ -73,14 +59,18 @@ public class ProviderTabPanel extends javax.swing.JPanel {
      * @param authenticationId The authentication Id.
      * @param localNamePrefix The local name prefix.
      */
-    public ProviderTabPanel(final ProviderSummary provider, Blob authenticationId, String localNamePrefix) {
+    public ProviderTabPanel(final Provider provider, Blob authenticationId, String localNamePrefix) {
         services = new GroundMOAdapterImpl(provider, authenticationId, localNamePrefix);
-        providerSummary = provider;
         initComponents();
     }
 
     public GroundMOAdapterImpl getServices() {
         return this.services;
+    }
+
+    private void insertServiceTab(String title, javax.swing.JComponent panel, String tooltip) {
+        javax.swing.SwingUtilities.invokeLater(()
+                -> serviceTabs.insertTab(title, null, panel, tooltip, serviceTabs.getTabCount()));
     }
 
     public void insertServicesTabs() {
@@ -98,16 +88,6 @@ public class ProviderTabPanel extends javax.swing.JPanel {
     }
 
     private void startTabs() throws MALInteractionException, MALException {
-        // Common
-        if (services.getCommonServices() != null) {
-            if (services.getCommonServices().getConfigurationService() != null) {
-                ConfigurationConsumerPanel panel = new ConfigurationConsumerPanel(
-                        services.getCommonServices().getConfigurationService(), providerSummary);
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Configuration service", null, panel, "Configuration Tab", count);
-            }
-        }
-
         // Software Management
         if (services.getSMServices() != null) {
             SMServicesConsumer sm = services.getSMServices();
@@ -117,27 +97,24 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                 ProviderStatusAdapter providerStatusAdapter = new ProviderStatusAdapter(heartbeat);
                 heartbeat.startListening(providerStatusAdapter);
             } else {
-                status.setText("Heartbeat service not available.");
+                javax.swing.SwingUtilities.invokeLater(() -> status.setText("Heartbeat service not available."));
             }
 
             if (sm.getAppsLauncherService() != null) {
                 AppsLauncherConsumerPanel panel = new AppsLauncherConsumerPanel(sm.getAppsLauncherService());
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Apps Launcher service", null, panel, "Apps Launcher Tab", count);
+                insertServiceTab("Apps Launcher service", panel, "Apps Launcher Tab");
                 panel.init();
             }
 
             if (sm.getCommandExecutorService() != null) {
                 CommandExecutorConsumerPanel panel = new CommandExecutorConsumerPanel(sm.getCommandExecutorService());
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Command Executor service", null, panel, "Command Executor Tab", count);
+                insertServiceTab("Command Executor service", panel, "Command Executor Tab");
                 panel.init();
             }
 
             if (sm.getPackageManagementService() != null) {
                 PackageManagementConsumerPanel panel = new PackageManagementConsumerPanel(sm.getPackageManagementService());
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Package Management service", null, panel, "Package Management Tab", count);
+                insertServiceTab("Package Management service", panel, "Package Management Tab");
                 panel.init();
             }
         }
@@ -148,9 +125,11 @@ public class ProviderTabPanel extends javax.swing.JPanel {
 
             if (com.getArchiveService() != null) {
                 ArchiveConsumerManagerPanel panel = new ArchiveConsumerManagerPanel(com.getArchiveService());
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Archive Manager", null, panel, "Archive Tab", count);
-                panel.setArchiveSyncConfigs(count + 1, serviceTabs, services);
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                    int count = serviceTabs.getTabCount();
+                    serviceTabs.insertTab("Archive Manager", null, panel, "Archive Tab", count);
+                    panel.setArchiveSyncConfigs(count + 1, serviceTabs, services);
+                });
             }
 
             /*
@@ -160,12 +139,6 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                 serviceTabs.insertTab("ArchiveSync service", null, panel, "ArchiveSync Tab", count);
             }
              */
-            if (com.getEventService() != null) {
-                EventConsumerPanel panel = new EventConsumerPanel(com.getEventService(), com.getArchiveService());
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Event service", null, panel, "Event Tab", count);
-                panel.init();
-            }
         }
 
         // MC
@@ -174,91 +147,36 @@ public class ProviderTabPanel extends javax.swing.JPanel {
 
             if (mc.getActionService() != null) {
                 ActionConsumerPanel panel = new ActionConsumerPanel(services);
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Action service", null, panel, "Action Tab", count);
+                insertServiceTab("Action service", panel, "Action Tab");
                 panel.init();
             }
 
             if (mc.getParameterService() != null) {
                 ParameterConsumerPanel panel1 = new ParameterConsumerPanel(mc.getParameterService());
                 ParameterPublishedValues panel2 = new ParameterPublishedValues(mc.getParameterService());
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Parameter service", null, panel1, "Parameter Tab", count);
-                serviceTabs.insertTab("Published Parameter Values", null, panel2, "Published Parameters Tab",
-                        count + 1);
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                    int count = serviceTabs.getTabCount();
+                    serviceTabs.insertTab("Parameter service", null, panel1, "Parameter Tab", count);
+                    serviceTabs.insertTab("Published Parameter Values", null, panel2, "Published Parameters Tab",
+                            count + 1);
+                });
                 panel1.init();
                 panel2.subscribeToParameters();
             }
 
             if (mc.getAggregationService() != null) {
                 AggregationConsumerPanel panel = new AggregationConsumerPanel(mc.getAggregationService());
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Aggregation service", null, panel, "Aggregation Tab", count);
+                insertServiceTab("Aggregation service", panel, "Aggregation Tab");
                 panel.init();
             }
 
             if (mc.getAlertService() != null) {
                 AlertConsumerPanel panel = new AlertConsumerPanel(mc.getAlertService());
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Alert service", null, panel, "Alert Tab", count);
+                insertServiceTab("Alert service", panel, "Alert Tab");
                 panel.init();
             }
-
-            /*
-            if (mc.getCheckService() != null) {
-                CheckConsumerPanel panel = new CheckConsumerPanel(mc.getCheckService());
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Check service", null, panel, "Check Tab", count);
-            }
-
-            if (mc.getStatisticService() != null) {
-                StatisticConsumerPanel panel = new StatisticConsumerPanel(
-                        mc.getStatisticService(),
-                        mc.getParameterService());
-                int count = serviceTabs.getTabCount();
-                serviceTabs.insertTab("Statistic service", null, panel, "Statistic Tab", count);
-            }
-            */
         }
 
-        // Platform
-        if (services.getPlatformServices() != null) {
-            try {
-                ClockStub clock = services.getPlatformServices().getClockService();
-
-                if (clock != null) {
-                    System.setProperty("esa.mo.nmf.app.systemTimeProvidedByPlatformClockService", "true");
-                    SystemClock.setPlatformClockCallback(new PlatformClockCallback() {
-                        @Override
-                        public Time getPlatformTime() {
-                            try {
-                                return clock.getTime();
-                            } catch (MALInteractionException | MALException e) {
-                                LOGGER.log(Level.SEVERE, null, e);
-                            }
-                            return new Time(System.currentTimeMillis());
-                        }
-
-                        @Override
-                        public int getPlatformTimeFactor() {
-                            try {
-                                return clock.getTimeFactor();
-                            } catch (MALInteractionException | MALException e) {
-                                LOGGER.log(Level.SEVERE, null, e);
-                            }
-                            return 1;
-                        }
-                    });
-
-                    ClockConsumerPanel consumerPanel = new ClockConsumerPanel(clock);
-                    int count = serviceTabs.getTabCount();
-                    serviceTabs.insertTab("Clock service", null, consumerPanel, "Clock Tab", count);
-                    consumerPanel.init();
-                }
-            } catch (IOException ex) {
-                LOGGER.log(Level.INFO, "The Clock Service is not available");
-            }
-        }
     }
 
     /**
@@ -319,7 +237,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         public ProviderStatusAdapter(final HeartbeatConsumerServiceImpl heartbeat)
                 throws MALInteractionException, MALException {
             long timestamp = System.currentTimeMillis();
-            double value = heartbeat.getHeartbeatStub().getPeriod().getValue();
+            double value = heartbeat.getHeartbeatStub().getPeriod().getInSeconds();
             lag = System.currentTimeMillis() - timestamp;
             period = (long) (value * 1000);
             status.setText("The provider is reachable! Beat period: " + value + " seconds");
@@ -362,8 +280,9 @@ public class ProviderTabPanel extends javax.swing.JPanel {
 
         @Override
         public synchronized void beatNotifyReceived(MALMessageHeader msgHeader,
-                org.ccsds.moims.mo.mal.structures.Identifier _Identifier0,
+                org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                 org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+                BeatSubscriptionKeys keys,
                 java.util.Map qosProperties) {
             lastBeatAt = Time.now();
             final Time onboardTime = msgHeader.getTimestamp();
@@ -378,7 +297,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
             buf.append(" ms | Round-Trip Delay time: ");
             buf.append(lag);
             buf.append(" ms | Last beat received at: ");
-            buf.append(HelperTime.time2readableString(lastBeatAt));
+            buf.append(lastBeatAt.toReadableString());
             buf.append(")");
             lastReceived.setText(buf.toString());
         }
@@ -389,7 +308,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         super.removeNotify();
         if (getServices().getAuthenticationId() != null) {
             try {
-                getServices().getCommonServices().getLoginService().getLoginStub().logout();
+                getServices().getCOMServices().getLoginService().getLoginStub().logout();
                 getServices().setAuthenticationId(null);
                 LOGGER.log(Level.INFO, "Logged out successfully");
             } catch (MALInteractionException | MALException e) {

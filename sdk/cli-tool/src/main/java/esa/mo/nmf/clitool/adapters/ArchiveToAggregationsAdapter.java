@@ -1,24 +1,22 @@
 package esa.mo.nmf.clitool.adapters;
 
 import esa.mo.nmf.clitool.TimestampedAggregationValue;
-import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.mal.MOErrorException;
-import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
+import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.structures.ObjectType;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
+import org.ccsds.moims.mo.mc.structures.AggregationDefinition;
+import org.ccsds.moims.mo.mc.structures.AggregationValue;
 
 public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements QueryStatusProvider {
 
@@ -30,13 +28,13 @@ public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements Quer
     private boolean isQueryOver = false;
 
     private final Map<IdentifierList, Map<Long, List<TimestampedAggregationValue>>> aggregationValues = new HashMap<>();
-    private final Map<IdentifierList, Map<Long, AggregationDefinitionDetails>> aggregationDefinitions = new HashMap<>();
+    private final Map<IdentifierList, Map<Long, AggregationDefinition>> aggregationDefinitions = new HashMap<>();
 
     public Map<IdentifierList, Map<Long, List<TimestampedAggregationValue>>> getAggregationValues() {
         return aggregationValues;
     }
 
-    public Map<IdentifierList, Map<Long, AggregationDefinitionDetails>> getAggregationDefinitions() {
+    public Map<IdentifierList, Map<Long, AggregationDefinition>> getAggregationDefinitions() {
         return aggregationDefinitions;
     }
 
@@ -51,19 +49,12 @@ public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements Quer
 
     @Override
     public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
+            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
         processObjects(objType, objDetails, objBodies, domain);
     }
 
     @Override
-    public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
-        if (objDetails == null) {
-            setIsQueryOver(true);
-            return;
-        }
-        processObjects(objType, objDetails, objBodies, domain);
-
+    public void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
         setIsQueryOver(true);
     }
 
@@ -74,8 +65,8 @@ public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements Quer
      * @param detailsList Archive details of the objects
      * @param bodiesList Bodies of the objects
      */
-    private void processObjects(ObjectType type, ArchiveDetailsList detailsList, HeterogeneousList bodiesList,
-            IdentifierList domain) {
+    private void processObjects(ObjectType type, ArchiveDetailsList detailsList,
+            HeterogeneousList bodiesList, IdentifierList domain) {
         if (detailsList == null) {
             return;
         }
@@ -88,10 +79,10 @@ public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements Quer
             aggregationDefinitions.put(domain, new HashMap<>());
         }
 
-        if (AggregationServiceInfo.AGGREGATIONVALUEINSTANCE_OBJECT_TYPE.equals(type)) {
+        if (AggregationServiceInfo.AGGREGATIONVALUE_OBJECT_TYPE.equals(type)) {
             for (int i = 0; i < detailsList.size(); ++i) {
                 AggregationValue value = (AggregationValue) bodiesList.get(i);
-                Long definitionId = detailsList.get(i).getDetails().getRelated();
+                Long definitionId = detailsList.get(i).getLinks().getRelated();
                 if (aggregationValues.get(domain).containsKey(definitionId)) {
                     aggregationValues.get(domain).get(definitionId).add(new TimestampedAggregationValue(value,
                             detailsList.get(i).getTimestamp()));
@@ -103,8 +94,8 @@ public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements Quer
             }
         } else if (AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE.equals(type)) {
             for (int i = 0; i < detailsList.size(); ++i) {
-                aggregationDefinitions.get(domain).put(detailsList.get(i).getInstId(),
-                        (AggregationDefinitionDetails) bodiesList.get(i));
+                aggregationDefinitions.get(domain).put(detailsList.get(i).getId(),
+                        (AggregationDefinition) bodiesList.get(i));
             }
         }
     }

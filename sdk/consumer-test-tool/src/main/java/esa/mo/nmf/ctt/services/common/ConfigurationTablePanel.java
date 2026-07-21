@@ -25,8 +25,7 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.nmf.ctt.utils.SharedTablePanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
+import org.ccsds.moims.mo.mc.structures.ActionDefinition;
 
 /**
  *
@@ -39,16 +38,16 @@ public class ConfigurationTablePanel extends SharedTablePanel {
     }
 
     @Override
-    public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
+    public void addEntry(final ArchivePersistenceObject comObject) {
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        ActionDefinitionDetails pDef = (ActionDefinitionDetails) comObject.getObject();
+        ActionDefinition pDef = (ActionDefinition) comObject.getObject();
 
-        tableData.addRow(new Object[]{comObject.getArchiveDetails().getInstId(),
+        tableData.addRow(new Object[]{comObject.getArchiveDetails().getId(),
             "Dummy name...", pDef.getDescription(), "Severity removed...",
             pDef.getProgressStepCount().toString()});
 

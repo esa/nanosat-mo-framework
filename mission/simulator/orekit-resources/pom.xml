@@ -18,14 +18,19 @@
 
     <parent>
         <groupId>int.esa.nmf</groupId>
-        <artifactId>parent</artifactId>
-        <version>4.0</version>
-        <relativePath>../../../parent/pom.xml</relativePath>
+        <artifactId>nanosat-mo-framework</artifactId>
+        <version>5.0</version>
+        <relativePath>../../../pom.xml</relativePath>
     </parent>
 
     <groupId>int.esa.nmf.sdk</groupId>
     <artifactId>orekit-resources</artifactId>
     <packaging>jar</packaging>
+
+    <properties>
+        <!-- Heavyweight orbital-data resource: keep it out of the Maven Central deployment bundle. -->
+        <skipPublishing>true</skipPublishing>
+    </properties>
 
     <name>ESA NMF Sim - Orekit Resources</name>
     <description>Jar containing the Orekit-Data that is needed as a resource for most of the Orekit applications using it</description>

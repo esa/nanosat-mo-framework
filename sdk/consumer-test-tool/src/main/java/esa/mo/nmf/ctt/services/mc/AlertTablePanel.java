@@ -25,8 +25,7 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.nmf.ctt.utils.SharedTablePanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetails;
+import org.ccsds.moims.mo.mc.structures.AlertDefinition;
 
 /**
  *
@@ -34,12 +33,17 @@ import org.ccsds.moims.mo.mc.alert.structures.AlertDefinitionDetails;
  */
 public class AlertTablePanel extends SharedTablePanel {
 
+    /**
+     * Constructor.
+     *
+     * @param archiveService The Archive service consumer.
+     */
     public AlertTablePanel(ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }
 
     @Override
-    public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
+    public void addEntry(final ArchivePersistenceObject comObject) {
         if (comObject == null) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE,
                     "The table cannot process a null COM Object.");
@@ -52,10 +56,14 @@ public class AlertTablePanel extends SharedTablePanel {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        AlertDefinitionDetails pDef = (AlertDefinitionDetails) comObject.getObject();
+        AlertDefinition pDef = (AlertDefinition) comObject.getObject();
 
-        tableData.addRow(new Object[]{comObject.getArchiveDetails().getDetails().getRelated(),
-            name.toString(), pDef.getDescription(), pDef.getSeverity().toString(), pDef.getGenerationEnabled()});
+        tableData.addRow(new Object[]{
+            comObject.getArchiveDetails().getId(),
+            pDef.getName().getValue(),
+            pDef.getDescription(),
+            pDef.getSeverity().toString(),
+            pDef.getReportingEnabled()});
 
         comObjects.add(comObject);
         semaphore.release();
@@ -68,9 +76,12 @@ public class AlertTablePanel extends SharedTablePanel {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // 4 because it is where generationEnabled is!
+        // 4 because it is where reportingEnabled is!
         tableData.setValueAt(status, this.getSelectedRow(), 4);
-        ((AlertDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
+        //((AlertDefinition) this.getSelectedCOMObject().getObject()).setReportingEnabled(status);
+        AlertDefinition def = (AlertDefinition) this.getSelectedCOMObject().getObject();
+        AlertDefinition newDef = this.generateNewAlertDef(def, status);
+        this.getSelectedCOMObject().setObject(newDef);
 
         semaphore.release();
     }
@@ -82,24 +93,60 @@ public class AlertTablePanel extends SharedTablePanel {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // 4 because it is where generationEnabled is!
+        // 4 because it is where reportingEnabled is!
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 4);
-            ((AlertDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
+            //((AlertDefinition) this.getCOMObjects().get(i).getObject()).setReportingEnabled(status);
+            AlertDefinition def = (AlertDefinition) this.getCOMObjects().get(i).getObject();
+            AlertDefinition newDef = this.generateNewAlertDef(def, status);
+            this.getCOMObjects().get(i).setObject(newDef);
         }
 
         semaphore.release();
     }
 
+    public ArchivePersistenceObject getCOMObjectById(Long definitionId) {
+        try {
+            semaphore.acquire();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ArchivePersistenceObject result = null;
+        for (ArchivePersistenceObject obj : comObjects) {
+            if (obj.getArchiveDetails().getId().equals(definitionId)) {
+                result = obj;
+                break;
+            }
+        }
+        semaphore.release();
+        return result;
+    }
+
+    public AlertDefinition generateNewAlertDef(AlertDefinition def, boolean generation) {
+        return new AlertDefinition(
+                def.getName(),
+                def.getDescription(),
+                def.getSeverity(),
+                generation,
+                def.getArguments());
+    }
+
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{"Identity", "name",
-            "description", "Severity", "generationEnabled"};
+        String[] tableCol = new String[]{
+            "Id",
+            "name",
+            "description",
+            "Severity",
+            "reportingEnabled"};
 
         tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
-            Class[] types = new Class[]{java.lang.Integer.class,
-                java.lang.String.class, java.lang.String.class,
-                java.lang.String.class, java.lang.Boolean.class};
+            Class[] types = new Class[]{
+                java.lang.Integer.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.Boolean.class};
 
             @Override               //all cells false
             public boolean isCellEditable(int row, int column) {

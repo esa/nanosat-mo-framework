@@ -131,9 +131,21 @@ public class FieldsHandler {
             }
         }
 
-        // Octet case...
+        // Boxed Java type case (Integer, Long, Short, Byte, Boolean, Double):
+        // these declare two constructors, one taking the primitive and one
+        // taking a String. getDeclaredConstructors() order is unspecified, so
+        // pick the primitive (non-String) one explicitly rather than assuming
+        // constructors[0] — otherwise Integer(String) gets selected and
+        // newInstance(1) fails with an argument type mismatch.
         if (constructors.length == 2) {
-            Constructor constructor = constructors[0];  // Use the first constructor
+            Constructor constructor = constructors[0];
+            for (Constructor candidate : constructors) {
+                Class<?>[] params = candidate.getParameterTypes();
+                if (params.length == 1 && params[0] != String.class) {
+                    constructor = candidate;
+                    break;
+                }
+            }
             constructor.setAccessible(true);
             String name = constructor.getName();
             try {

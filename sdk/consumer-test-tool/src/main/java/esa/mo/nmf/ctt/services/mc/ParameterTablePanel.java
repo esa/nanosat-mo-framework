@@ -26,8 +26,7 @@ import esa.mo.nmf.ctt.utils.SharedTablePanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
+import org.ccsds.moims.mo.mc.structures.ParameterDefinition;
 
 /**
  *
@@ -35,13 +34,17 @@ import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
  */
 public class ParameterTablePanel extends SharedTablePanel {
 
+    /**
+     * Constructor.
+     *
+     * @param archiveService The Archive service consumer.
+     */
     public ParameterTablePanel(ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }
 
     @Override
-    public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
-
+    public void addEntry(final ArchivePersistenceObject comObject) {
         if (comObject == null) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE,
                     "The table cannot process a null COM Object.");
@@ -54,16 +57,17 @@ public class ParameterTablePanel extends SharedTablePanel {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        ParameterDefinitionDetails pDef = (ParameterDefinitionDetails) comObject.getObject();
+        ParameterDefinition pDef = (ParameterDefinition) comObject.getObject();
 
         tableData.addRow(new Object[]{
-            comObject.getArchiveDetails().getDetails().getRelated(),
-            name.toString(),
+            comObject.getArchiveDetails().getId(),
+            pDef.getName().getValue(),
             pDef.getDescription(),
-            HelperAttributes.typeShortForm2attributeName(pDef.getRawType().intValue()),
+            HelperAttributes.typeShortForm2attributeName(pDef.getRawType().getValue()),
             pDef.getRawUnit(),
-            pDef.getGenerationEnabled(),
-            pDef.getReportInterval().getValue()});
+            pDef.getReportingEnabled(),
+            pDef.getReportInterval().getInSeconds(),
+            pDef.getReadOnly()});
 
         comObjects.add(comObject);
         semaphore.release();
@@ -77,9 +81,12 @@ public class ParameterTablePanel extends SharedTablePanel {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // 5 because it is where generationEnabled is!
+        // 5 because it is where reportingEnabled is!
         tableData.setValueAt(status, this.getSelectedRow(), 5);
-        ((ParameterDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
+        //((ParameterDefinition) this.getSelectedCOMObject().getObject()).setReportingEnabled(status);
+        ParameterDefinition def = (ParameterDefinition) this.getSelectedCOMObject().getObject();
+        ParameterDefinition newDef = this.generateNewParameterDef(def, status);
+        this.getSelectedCOMObject().setObject(newDef);
 
         semaphore.release();
     }
@@ -91,25 +98,51 @@ public class ParameterTablePanel extends SharedTablePanel {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // 5 because it is where generationEnabled is!
+        // 5 because it is where reportingEnabled is!
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 5);
-            ((ParameterDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
+            //((ParameterDefinition) this.getCOMObjects().get(i).getObject()).setReportingEnabled(status);
+            ParameterDefinition def = (ParameterDefinition) this.getCOMObjects().get(i).getObject();
+            ParameterDefinition newDef = this.generateNewParameterDef(def, status);
+            this.getCOMObjects().get(i).setObject(newDef);
         }
 
         semaphore.release();
     }
 
+    public ParameterDefinition generateNewParameterDef(ParameterDefinition def, boolean generation) {
+        return new ParameterDefinition(
+                def.getName(),
+                def.getDescription(),
+                def.getRawType(),
+                def.getRawUnit(),
+                generation,
+                def.getReportInterval(),
+                def.getValidityExpression(),
+                def.getConversion(),
+                def.getReadOnly());
+    }
+
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{"Identity", "name", "description",
-            "rawType", "rawUnit", "generationEnabled", "updateInterval"};
+        String[] tableCol = new String[]{
+            "Id",
+            "name",
+            "description",
+            "rawType",
+            "rawUnit",
+            "reportingEnabled", "updateInterval", "readOnly"};
 
         tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
-            Class[] types = new Class[]{java.lang.Integer.class,
-                java.lang.String.class, java.lang.String.class,
-                java.lang.Object.class, java.lang.String.class,
-                java.lang.Boolean.class, java.lang.Float.class};
+            Class[] types = new Class[]{
+                java.lang.Integer.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.Object.class,
+                java.lang.String.class,
+                java.lang.Boolean.class,
+                java.lang.Float.class,
+                java.lang.Boolean.class};
 
             @Override               //all cells false
             public boolean isCellEditable(int row, int column) {

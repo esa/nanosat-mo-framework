@@ -29,9 +29,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.platform.powercontrol.structures.Device;
-import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceList;
-import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
+import org.ccsds.moims.mo.platform.structures.Device;
+import org.ccsds.moims.mo.platform.structures.DeviceList;
+import org.ccsds.moims.mo.platform.structures.DeviceType;
 
 /**
  *
@@ -53,13 +53,13 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface,
     }
 
     private final ConcurrentHashMap<SimPayloadDevice, Device> deviceByType;
-    private final Map<Long, SimPayloadDevice> payloadIdByObjInstId;
+    private final Map<Long, SimPayloadDevice> devices;
     private static final Logger LOGGER = Logger.getLogger(PowerControlSoftSimAdapter.class.getName());
 
     public PowerControlSoftSimAdapter() {
         LOGGER.log(Level.INFO, "Initialisation");
         deviceByType = new ConcurrentHashMap<>();
-        payloadIdByObjInstId = new HashMap<>();
+        devices = new HashMap<>();
         initDevices();
     }
 
@@ -82,7 +82,7 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface,
 
     private void addDevice(Device device, SimPayloadDevice payload) {
         deviceByType.put(payload, device);
-        payloadIdByObjInstId.put(device.getUnitObjInstId(), payload);
+        devices.put(device.getUnitId(), payload);
     }
 
     @Override
@@ -105,13 +105,13 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface,
     public void enableDevices(DeviceList inputList) throws IOException {
         for (Device device : inputList) {
             LOGGER.log(Level.INFO, "Looking up Device {0}", new Object[]{device});
-            SimPayloadDevice payloadId = payloadIdByObjInstId.get(device.getUnitObjInstId());
-            if (device.getUnitObjInstId() != null) {
-                payloadId = payloadIdByObjInstId.get(device.getUnitObjInstId());
+            SimPayloadDevice payloadId = devices.get(device.getUnitId());
+            if (device.getUnitId() != null) {
+                payloadId = devices.get(device.getUnitId());
             } else {
                 Device found = findByType(device.getDeviceType());
                 if (found != null) {
-                    payloadId = payloadIdByObjInstId.get(found.getUnitObjInstId());
+                    payloadId = devices.get(found.getUnitId());
                 } else {
                     throw new IOException("Cannot find the device.");
                 }
@@ -138,7 +138,7 @@ public class PowerControlSoftSimAdapter implements PowerControlAdapterInterface,
     private void switchDevice(SimPayloadDevice device, Boolean enabled) throws IOException {
         LOGGER.log(Level.INFO, "Switching device {0} to enabled: {1}", new Object[]{device, enabled});
         Device d = deviceByType.get(device);
-        Device newDevice = new Device(enabled, d.getUnitObjInstId(), d.getName(), d.getDeviceType());
+        Device newDevice = new Device(enabled, d.getUnitId(), d.getName(), d.getDeviceType());
         deviceByType.put(device, newDevice);
         //deviceByType.get(device).setEnabled(enabled);
     }

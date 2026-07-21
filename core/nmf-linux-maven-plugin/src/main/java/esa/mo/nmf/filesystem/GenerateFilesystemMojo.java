@@ -21,6 +21,9 @@
 package esa.mo.nmf.filesystem;
 
 import esa.mo.nmf.environment.Deployment;
+import esa.mo.nmf.environment.AppsIsolationMode;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.model.Dependency;
@@ -55,16 +58,33 @@ public class GenerateFilesystemMojo extends AbstractMojo {
     private String missionVersion;
 
     /**
-     * The main class for the supervisor.
+     * The main class for the Supervisor.
      */
     @Parameter(property = "generate-filesystem.supervisorMainClass", defaultValue = "${supervisorMainClass}")
     private String supervisorMainClass;
 
     /**
-     * The version of the NMF that the App was developed against.
+     * The version of the NMF that the Supervisor was developed against.
      */
     @Parameter(property = "generate-filesystem.nmfVersion", defaultValue = "${esa.nmf.version}")
     private String nmfVersion;
+
+    /**
+     * The isolation mode applied to all apps managed by this Supervisor.
+     * Supported values are defined in {@link AppsIsolationMode}:
+     * <ul>
+     * <li>{@code none} (default) — apps run as the user that launched the
+     * Supervisor.</li>
+     * <li>{@code linux-userspace} — each app runs under a dedicated Linux user
+     * account created at install time.</li>
+     * <li>{@code docker-containers} — each app runs inside a dedicated Docker
+     * container (not yet implemented).</li>
+     * <li>{@code bubblewrap} — each app runs inside a bubblewrap sandbox (not
+     * yet implemented).</li>
+     * </ul>
+     */
+    @Parameter(property = "generate-filesystem.appsIsolation", defaultValue = AppsIsolationMode.NONE)
+    private String appsIsolation;
 
     /**
      * The set of libraries to be added
@@ -72,15 +92,23 @@ public class GenerateFilesystemMojo extends AbstractMojo {
     @Parameter(property = "generate-filesystem.libs")
     private List<String> libs;
 
+    /**
+     * The mission and spacecraft designation written into
+     * {@code etc/mission.properties}. See {@link Mission}.
+     */
+    @Parameter
+    private Mission mission;
+
     @Override
     public void execute() throws MojoExecutionException {
         getLog().info("Generating Linux Filesystem...");
 
-        getLog().info("\n---------- NMF Linux - Filesystem Generator ----------\n");
+        getLog().info("\n--------- NMF Linux - Filesystem Generator ---------\n");
         getLog().info("Input values:");
         getLog().info(">> mainClass = " + supervisorMainClass);
         getLog().info(">> nmfVersion = " + nmfVersion);
         getLog().info(">> version = " + missionVersion);
+        getLog().info(">> appsIsolation = " + appsIsolation);
 
         if (supervisorMainClass == null) {
             throw new MojoExecutionException("The supervisorMainClass tag is not defined!"
@@ -100,9 +128,40 @@ public class GenerateFilesystemMojo extends AbstractMojo {
                     + "<configuration> tag!\n");
         }
 
-        FilesystemGenerator filesystem = new FilesystemGenerator();
-        filesystem.addResource(Deployment.DIR_ETC, "logging.properties");
-        getLog().info("  >> Adding DIR_ETC: " + "logging.properties");
+        File outputDir = new File(project.getBuild().getDirectory(), "space-filesystem");
+        FilesystemGenerator filesystem = new FilesystemGenerator(outputDir);
+
+        try {
+            // Add the logging.properties file
+            String file_logging = "logging.properties";
+            getLog().info("  >> Adding DIR_ETC: " + file_logging);
+            filesystem.addResource(Deployment.DIR_ETC, file_logging);
+        } catch (IOException ex) {
+            throw new MojoExecutionException(ex);
+        }
+
+        // Add the mission.properties file
+        if (mission == null) {
+            throw new MojoExecutionException("The <mission> configuration is not defined!"
+                    + " Please include in the <configuration> tag:\n"
+                    + "-> \t\t<mission>\n"
+                    + "-> \t\t\t<missionName>...</missionName>\n"
+                    + "-> \t\t\t<spacecraftName>...</spacecraftName>\n"
+                    + "-> \t\t\t<organizationAbbreviation>...</organizationAbbreviation>\n"
+                    + "-> \t\t</mission>\n\n\n");
+        }
+        try {
+            mission.checkRequiredFields();
+        } catch (IllegalArgumentException ex) {
+            throw new MojoExecutionException("Invalid <mission> configuration: " + ex.getMessage());
+        }
+        try {
+            getLog().info("  >> Adding DIR_ETC: " + Deployment.FILE_MISSION_PROPERTIES);
+            filesystem.addGeneratedFile(Deployment.DIR_ETC, Deployment.FILE_MISSION_PROPERTIES,
+                    mission.toPropertiesContent());
+        } catch (IOException ex) {
+            throw new MojoExecutionException(ex);
+        }
 
         for (Object aaa : project.getDependencies()) {
             Dependency dependency = (Dependency) aaa;
@@ -115,16 +174,30 @@ public class GenerateFilesystemMojo extends AbstractMojo {
             Artifact artifact = (Artifact) unresolvedArtifact;
             String artifactId = artifact.getGroupId();
 
+            // Only jars belong on the classpath directories; other artifact
+            // types (e.g. nmfpack, handled by install-packages) are skipped
+            File artifactFile = artifact.getFile();
+            if (artifactFile == null || !artifactFile.getName().endsWith(".jar")) {
+                getLog().info("  >> Skipping non-jar artifact: " + artifact.toString());
+                continue;
+            }
+
             boolean isMO = artifactId.contains("int.esa.ccsds.mo");
             boolean isNMFCore = artifactId.contains("int.esa.nmf.core");
 
-            boolean fromConnector = false; // Resolves dependencies like sqlite
+            // Resolves transitive dependencies like sqlite pulled in by nmf-composites
+            boolean fromComposites = false;
             List<String> trail = artifact.getDependencyTrail();
-            if (trail != null && trail.size() > 2) {
-                fromConnector = trail.get(1).contains("nanosat-mo-connector");
+            if (trail != null) {
+                for (String step : trail) {
+                    if (step.contains("nmf-composites")) {
+                        fromComposites = true;
+                        break;
+                    }
+                }
             }
 
-            if (isMO || isNMFCore || fromConnector) {
+            if (isMO || isNMFCore || fromComposites) {
                 StringBuilder str = new StringBuilder();
                 str.append(artifact.getGroupId()).append(":");
                 str.append(artifact.getArtifactId()).append(":");
@@ -139,6 +212,18 @@ public class GenerateFilesystemMojo extends AbstractMojo {
                 getLog().info("  >> Adding DIR_JARS_MISSION: " + artifact.toString());
                 filesystem.addArtifactMission(artifact, missionVersion);
             }
+        }
+
+        // Generate the bootloader script and its domain (baseline files,
+        // config, checksum manifests). Must run after the jars are in place,
+        // because the checksum manifests cover the final directory contents.
+        getLog().info("  >> Generating the bootloader: script, baselines, checksums");
+        try {
+            File nmfRootDir = new File(outputDir, Deployment.DIR_NMF);
+            BootloaderGenerator bootloader = new BootloaderGenerator(nmfRootDir);
+            bootloader.generate(nmfVersion, missionVersion, supervisorMainClass, appsIsolation);
+        } catch (IOException ex) {
+            throw new MojoExecutionException(ex);
         }
     }
 }

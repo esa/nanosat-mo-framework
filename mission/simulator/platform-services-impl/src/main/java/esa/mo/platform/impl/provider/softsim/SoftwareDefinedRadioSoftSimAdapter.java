@@ -24,9 +24,9 @@ import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
 import esa.mo.platform.impl.provider.gen.SoftwareDefinedRadioAdapterInterface;
 import opssat.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.mal.structures.FloatList;
-import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
-import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.IQComponents;
-import org.ccsds.moims.mo.platform.softwaredefinedradio.structures.SDRConfiguration;
+import org.ccsds.moims.mo.platform.structures.DeviceType;
+import org.ccsds.moims.mo.platform.structures.IQComponents;
+import org.ccsds.moims.mo.platform.structures.SDRConfiguration;
 
 /**
  *

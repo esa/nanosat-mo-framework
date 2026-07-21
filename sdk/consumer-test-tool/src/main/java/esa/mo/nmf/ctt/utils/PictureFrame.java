@@ -30,8 +30,9 @@ import org.ccsds.moims.mo.mal.structures.Blob;
 public class PictureFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form NewJFrame
-     * @param picture
+     * Constructor.
+     *
+     * @param picture The picture to be displayed.
      */
     public PictureFrame(Blob picture) {
         initComponents();

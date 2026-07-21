@@ -23,23 +23,22 @@ package esa.mo.nmf.clitool.adapters;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.Map;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MOErrorException;
-import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
+import org.ccsds.moims.mo.mc.structures.ActionDefinition;
 
 /**
- * Archive adapter that retrieves available action names and their values.
+ * Archive adapter that retrieves available action names.
  *
  * @author marcel.mikolajko
  */
@@ -47,26 +46,15 @@ public class ArchiveToActionsAdapter extends ArchiveAdapter implements QueryStat
 
     private static final Logger LOGGER = Logger.getLogger(ArchiveToActionsAdapter.class.getName());
 
-    /**
-     * True if the query is over (response or any error received)
-     */
     private boolean isQueryOver = false;
 
-    private final ObjectType actionIdentityType = ActionServiceInfo.ACTIONIDENTITY_OBJECT_TYPE;
     private final ObjectType actionDefinitionType = ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE;
 
-    private final Map<IdentifierList, List<Identifier>> actionIdentities = new HashMap<>();
-    private final Map<IdentifierList, Map<Long, Identifier>> identitiesMap = new HashMap<>();
-    private final Map<IdentifierList, Map<Long, Long>> definitionsMap = new HashMap<>();
+    /** Map: domain → list of action names. */
+    private final Map<IdentifierList, List<Identifier>> actionNames = new HashMap<>();
 
     @Override
-    public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
-        if (objDetails == null) {
-            setIsQueryOver(true);
-            return;
-        }
-        processObjects(objType, objDetails, objBodies, domain);
+    public void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
         setIsQueryOver(true);
     }
 
@@ -76,35 +64,13 @@ public class ArchiveToActionsAdapter extends ArchiveAdapter implements QueryStat
         processObjects(objType, objDetails, objBodies, domain);
     }
 
-    /**
-     * Fills the maps based on the type of the object
-     *
-     * @param type Type of the objects to be processed
-     * @param detailsList Archive details of the objects
-     * @param bodiesList Bodies of the objects
-     */
     private void processObjects(ObjectType type, ArchiveDetailsList detailsList,
             HeterogeneousList bodiesList, IdentifierList domain) {
-        if (!actionIdentities.containsKey(domain)) {
-            actionIdentities.put(domain, new ArrayList<>());
-        }
+        actionNames.computeIfAbsent(domain, k -> new ArrayList<>());
 
-        if (!identitiesMap.containsKey(domain)) {
-            identitiesMap.put(domain, new HashMap<>());
-        }
-
-        if (!definitionsMap.containsKey(domain)) {
-            definitionsMap.put(domain, new HashMap<>());
-        }
-
-        if (type == null || type.equals(actionIdentityType)) {
+        if (type == null || type.equals(actionDefinitionType)) {
             for (int i = 0; i < detailsList.size(); ++i) {
-                identitiesMap.get(domain).put(detailsList.get(i).getInstId(), (Identifier) bodiesList.get(i));
-                actionIdentities.get(domain).add((Identifier) bodiesList.get(i));
-            }
-        } else if (type.equals(actionDefinitionType)) {
-            for (ArchiveDetails archiveDetails : detailsList) {
-                definitionsMap.get(domain).put(archiveDetails.getInstId(), archiveDetails.getDetails().getRelated());
+                actionNames.get(domain).add(((ActionDefinition) bodiesList.get(i)).getName());
             }
         }
     }
@@ -136,11 +102,7 @@ public class ArchiveToActionsAdapter extends ArchiveAdapter implements QueryStat
         this.isQueryOver = isQueryOver;
     }
 
-    public Map<IdentifierList, List<Identifier>> getActionIdentities() {
-        return actionIdentities;
-    }
-
-    public Map<IdentifierList, Map<Long, Identifier>> getIdentitiesMap() {
-        return identitiesMap;
+    public Map<IdentifierList, List<Identifier>> getActionNames() {
+        return actionNames;
     }
 }

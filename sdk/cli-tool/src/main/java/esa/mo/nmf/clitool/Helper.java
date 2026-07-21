@@ -27,9 +27,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
+import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -39,9 +38,9 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.UOctet;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.softwaremanagement.SoftwareManagementHelper;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.AppsLauncherServiceInfo;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
+import org.ccsds.moims.mo.sm.SMHelper;
+import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
+import org.ccsds.moims.mo.sm.structures.AppDetails;
 
 /**
  * The Helper class includes static methods that can be used by all other
@@ -78,35 +77,27 @@ public class Helper {
             throws MALInteractionException, MALException, InterruptedException {
         final Object lock = new Object();
 
-        ArchiveQueryList queries = new ArchiveQueryList();
-        queries.add(new ArchiveQuery(BaseCommand.domain, null, null, 0L, null, null, null, null, null));
+        ArchiveQuery archiveQuery = new ArchiveQuery(BaseCommand.domain, null, 0L, null, null, null, null, null);
 
         Map<String, ProviderAppDetails> result = new HashMap<>();
-        ObjectType appType = new ObjectType(SoftwareManagementHelper.SOFTWAREMANAGEMENT_AREA_NUMBER,
-                AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER, new UOctet((short) 0),
-                AppsLauncherServiceInfo.APP_OBJECT_NUMBER);
-        archive.query(true, appType, queries, null, new ArchiveAdapter() {
+        ObjectType appType = new ObjectType(SMHelper.SM_AREA_NUMBER,
+                AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NUMBER,
+                new UOctet((short) 0),
+                AppsLauncherServiceInfo.APPDETAILS_OBJECT_NUMBER);
+
+        archive.query(true, appType, archiveQuery, null, new ArchiveAdapter() {
             @Override
             public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
                     ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
                 for (int i = 0; i < objDetails.size(); ++i) {
                     AppDetails details = (AppDetails) objBodies.get(i);
                     result.put(details.getName().getValue(),
-                            new ProviderAppDetails(objDetails.get(i).getInstId(), details));
+                            new ProviderAppDetails(objDetails.get(i).getId(), details));
                 }
             }
 
             @Override
-            public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                    ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
-                if (objDetails != null) {
-                    for (int i = 0; i < objDetails.size(); ++i) {
-                        AppDetails details = (AppDetails) objBodies.get(i);
-                        result.put(details.getName().getValue(),
-                                new ProviderAppDetails(objDetails.get(i).getInstId(), details));
-                    }
-                }
-
+            public void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
                 synchronized (lock) {
                     lock.notifyAll();
                 }

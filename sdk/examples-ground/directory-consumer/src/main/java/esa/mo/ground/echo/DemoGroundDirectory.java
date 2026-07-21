@@ -21,14 +21,14 @@
 package esa.mo.ground.echo;
 
 import esa.mo.mc.impl.provider.ParameterInstance;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import esa.mo.nmf.commonmoadapter.CompleteDataReceivedListener;
 import esa.mo.nmf.commonmoadapter.SimpleDataReceivedListener;
+import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.net.MalformedURLException;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
+import org.ccsds.moims.mo.com.structures.ProviderList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.URI;
@@ -45,7 +45,7 @@ public class DemoGroundDirectory {
 
     public DemoGroundDirectory(String directoryURI) {
         try {
-            ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(directoryURI));
+            ProviderList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(directoryURI));
 
             if (!providers.isEmpty()) {
                 // Connect to provider on index 0
@@ -79,8 +79,8 @@ public class DemoGroundDirectory {
 
         @Override
         public void onDataReceived(String parameterName, Serializable data) {
-            LOGGER.log(Level.INFO, "\nParameter name: {0}" + "\n" + "Data content:\n{1}", new Object[]{parameterName,
-                                                                                                       data.toString()});
+            LOGGER.log(Level.INFO, "\nParameter name: {0}" + "\n" + "Data content:\n{1}",
+                    new Object[]{parameterName, data.toString()});
         }
     }
 
@@ -88,12 +88,9 @@ public class DemoGroundDirectory {
 
         @Override
         public void onDataReceived(ParameterInstance parameterInstance) {
-            LOGGER.log(Level.INFO, "\nParameter name: {0}" + "\n" + "Parameter Value: {1}", new Object[]{
-                                                                                                         parameterInstance
-                                                                                                             .getName(),
-                                                                                                         parameterInstance
-                                                                                                             .getParameterValue()
-                                                                                                             .toString()});
+            LOGGER.log(Level.INFO, "\nParameter name: {0}" + "\n" + "Parameter Value: {1}",
+                    new Object[]{parameterInstance.getName(),
+                        parameterInstance.getParameterValue().toString()});
         }
     }
 }

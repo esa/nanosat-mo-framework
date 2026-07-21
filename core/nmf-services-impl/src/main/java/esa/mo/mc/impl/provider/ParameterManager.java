@@ -1,0 +1,706 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2021      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ----------------------------------------------------------------------------
+ */
+package esa.mo.mc.impl.provider;
+
+import static esa.mo.com.impl.util.HelperArchive.generateArchiveDetailsList;
+import esa.mo.com.impl.util.COMServicesProvider;
+import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.com.impl.util.HelperCOM;
+import esa.mo.mc.impl.interfaces.ParameterStatusListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.DuplicateException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
+import org.ccsds.moims.mo.com.structures.*;
+import org.ccsds.moims.mo.mal.MALContextFactory;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.UnknownException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
+import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
+import org.ccsds.moims.mo.mc.structures.*;
+
+/**
+ * Parameter service Manager.
+ */
+public class ParameterManager extends MCManager {
+
+    private final ConversionServiceImpl conversionService = new ConversionServiceImpl();
+
+    private final ParameterStatusListener parametersMonitoring;
+
+    private Long uniqueObjIdDef; // Counter (different for every Definition)
+
+    private Long uniqueObjIdPVal;
+
+    public ParameterManager(COMServicesProvider comServices, ParameterStatusListener parametersMonitoring) {
+        super(comServices);
+        MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(ParameterHelper.PARAMETER_SERVICE);
+        this.parametersMonitoring = parametersMonitoring;
+
+        if (super.getArchiveService() == null) {  // No Archive?
+            this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
+            this.uniqueObjIdPVal = 0L; // The zeroth value will not be used (reserved for the wildcard)
+        } else {
+            // With Archive...
+
+            // Initialize the Conversion service
+            try {
+                this.conversionService.init();
+            } catch (MALException ex) {
+                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    /**
+     * Checks whether a parameter is read-only, from its definition.
+     *
+     * @param id the id of the parameter to be checked
+     * @return true, if it is read-only. false, if you can set it.
+     */
+    public boolean isReadOnly(Long id) {
+        ParameterDefinition def = (ParameterDefinition) this.getDefinition(id);
+        return def != null && Boolean.TRUE.equals(def.getReadOnly());
+    }
+
+    /**
+     * stores the new parameter-value in the provider and if existent in the
+     * COM-Archive
+     *
+     * @param defId the id of the parameter definition
+     * @param pVal the parametervalue to be stored
+     * @param source the Id of the object that caused the update to be generated
+     * @param connectionDetails the details of the connection
+     * @param timestamp the timestamp that will be set as the creation-timestamp
+     * of the, in this method created, ParameterValue-Object
+     * @return The unique identifier or null if the implementation is using the
+     * Archive service for objects storage. In this case, the unique identifier
+     * must be retrieved from the Archive during storage
+     */
+    protected Long storeAndGeneratePValobjId(Long defId, ParameterValue pVal, ObjectKey source,
+            SingleConnectionDetails connectionDetails, Time timestamp) {
+        if (super.getArchiveService() == null) {
+            uniqueObjIdPVal++;
+            return this.uniqueObjIdPVal;
+        } else {
+            HeterogeneousList pValList = new HeterogeneousList();
+            pValList.add(pVal);
+            final Long related = defId;
+
+            //create the archive details(related/source link, ...). The timestamp must
+            //be same as the one that will be used later for publishing the ParameterValue
+            final ArchiveDetailsList archiveDetailsList;
+            if (timestamp == null) { //ParameterValue-Object will not be published, generate a new timestamp then
+                archiveDetailsList = HelperArchive.generateArchiveDetailsList(related, source, connectionDetails.getProviderURI());
+            } else { //use the timestamp given
+                archiveDetailsList = new ArchiveDetailsList();
+                archiveDetailsList.add(new ArchiveDetails(0L, new ObjectLinks(related, source),
+                        timestamp, connectionDetails.getProviderURI()));
+            }
+
+            try {
+                // requirement: 3.3.4.d
+                //save the published value in the COM-Archive
+                LongList objIds = super.getArchiveService().store(true,
+                        ParameterServiceInfo.PARAMETERVALUE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
+                        archiveDetailsList, pValList, null);
+                if (objIds.size() == 1) {
+                    return objIds.get(0);
+                }
+            } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
+                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return null;
+        }
+    }
+
+    /**
+     * Stores and then generates multiple parameter values for the given inputs.
+     *
+     * @param pVals The parameter values.
+     * @param relatedList The list of relateds.
+     * @param sourcesList The list of sources.
+     * @param connectionDetails The connection details.
+     * @param timestamps the current timestamps. it will be used as the creation
+     * time for all ParameterValues
+     * @return The unique identifier or null if the implementation is using the
+     * Archive service for objects storage. In this case, the unique identifier
+     * must be retrieved from the Archive during storage
+     */
+    protected LongList storeAndGenerateMultiplePValobjId(final HeterogeneousList pVals,
+            final LongList relatedList, final ObjectKeyList sourcesList,
+            final SingleConnectionDetails connectionDetails, final TimeList timestamps) {
+        if (super.getArchiveService() != null) {
+            ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
+
+            for (int i = 0; i < relatedList.size(); i++) {
+                ArchiveDetails archiveDetails = new ArchiveDetails(0L,
+                        new ObjectLinks(relatedList.get(i), sourcesList.get(i)),
+                        timestamps.get(i),
+                        connectionDetails.getProviderURI());
+
+                archiveDetailsList.add(archiveDetails);
+            }
+
+            try {// requirement: 3.3.4.d
+                LongList objIds = super.getArchiveService().store(true,
+                        ParameterServiceInfo.PARAMETERVALUE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
+                        archiveDetailsList, pVals, null);
+
+                if (objIds.size() == pVals.size()) {
+                    return objIds;
+                }
+            } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
+                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the current values of the parameters with the given identity-ids
+     *
+     * @param defIds the ids of the definitions
+     * @return a list with the requested parameter-values
+     */
+    protected ParameterValueList getParameterValues(LongList defIds) {
+        return getParameterValues(defIds, false);
+
+    }
+
+    /**
+     * Returns the current values of the parameters with the given identity-ids
+     *
+     * @param paramIds the ids of the parameters.
+     * @param aggrExpired should be set to true, if the aggregation that is
+     * sampling the parameter, is periodic and the update hasnt been received in
+     * the aggregation-period. if true, the validity-state of the new parameter
+     * will be expired.
+     * @return a list with the requested parameter-values
+     */
+    protected ParameterValueList getParameterValues(LongList paramIds, boolean aggrExpired) {
+        ParameterValueList pValList = new ParameterValueList();
+        for (Long defId : paramIds) {
+            try {
+                pValList.add(getParameterValue(defId, aggrExpired));
+            } catch (UnknownException | MALInteractionException ex) {
+                pValList.add(null);
+            }
+        }
+
+        return pValList;
+    }
+
+    /**
+     * Returns the current value of the parameter with the given identity-id
+     *
+     * @param defId The id of the definition.
+     * @return The requested parameter value.
+     * @throws MALInteractionException If the parameter does not exist.
+     */
+    public ParameterValue getParameterValue(Long defId) throws UnknownException, MALInteractionException {
+        return getParameterValue(defId, false);
+    }
+
+    /**
+     * Returns the current value of the parameter with the given definition id
+     *
+     * @param defId the id of the definition
+     * @param aggrExpired should be set to true, if the aggregation that is
+     * sampling the parameter, is periodic and the update hasnt been received in
+     * the aggregation-period. if true, the validity-state of the new parameter
+     * will be expired.
+     * @return The requested parameter value.
+     * @throws MALInteractionException If the parameter does not exist.
+     */
+    public ParameterValue getParameterValue(Long defId, boolean aggrExpired) throws UnknownException, MALInteractionException {
+        if (!this.existsDef(defId)) {  // The Parameter does not exist
+            throw new UnknownException(defId);
+        }
+
+        ParameterDefinition pDef = this.getParameterDefinition(defId);
+
+        try {
+            Attribute rawValue = getRawValue(defId, pDef);
+            // Generate final Parameter Value
+            return generateNewParameterValue(rawValue, pDef, aggrExpired);
+        } catch (IOException ex) {
+            return new ParameterValue(ValidityState.INVALID_RAW, null, null);
+        }
+    }
+
+    /**
+     * Wrapper function for calling onGetValue without breaking backwards
+     * compatibility.
+     *
+     * @param paramDefId The Parameter identity.
+     * @return The attribute value for the parameter.
+     * @throws IOException If the value could not be retrieved.
+     */
+    public Attribute getValue(Long paramDefId) throws IOException {
+        // check if new interface method is implemented, if yes, call it
+        try {
+            Class cla = parametersMonitoring.getClass()
+                    .getMethod("onGetValue", Identifier.class, AttributeType.class).getDeclaringClass();
+            if (cla == ParameterStatusListener.class) {
+                return parametersMonitoring.onGetValue(paramDefId);
+            }
+        } catch (NoSuchMethodException | SecurityException ex) {
+        }
+
+        // else use old procedure:
+        ParameterDefinition pDef = this.getParameterDefinition(paramDefId);
+        Attribute value;
+
+        return parametersMonitoring.onGetValue(super.getName(paramDefId), pDef.getRawType());
+
+    }
+
+    /**
+     * Returns the parameter definition for the given id.
+     *
+     * @param id The id of the parameter.
+     * @return The parameter definition.
+     */
+    public ParameterDefinition getParameterDefinition(Long id) {
+        return (ParameterDefinition) this.getDefinition(id);
+    }
+
+    /**
+     * evaluates the given parameterExpression
+     *
+     * @param expression the parameterExpression to be evaluated
+     * @return The boolean value of the evaluation. Null if not evaluated.
+     */
+    public Boolean evaluateParameterExpression(ParameterExpression expression) {
+        if (expression == null) {
+            return true;  // No test is required
+        }
+
+        //TODO: contains the expression defintion or identity-id? -> issue #132, #179
+        final Long paramDefId = expression.getParameterId();
+        ParameterDefinition pDef = this.getParameterDefinition(paramDefId);
+        Attribute value;
+        try {
+
+            Class cla = parametersMonitoring.getClass()
+                    .getMethod("onGetValue", Identifier.class, AttributeType.class).getDeclaringClass();
+            if (cla == ParameterStatusListener.class) {
+                value = parametersMonitoring.onGetValue(paramDefId);
+            } else {
+                value = parametersMonitoring.onGetValue(super.getName(paramDefId), pDef.getRawType());
+            }
+        } catch (IOException | NoSuchMethodException | SecurityException ex) {
+            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+
+        if (expression.getUseConverted()) { // Is the validity checking for the converted or for the raw value?
+            value = conversionService.generateConvertedValue(value, pDef.getConversion());
+        }
+
+        return HelperCOM.evaluateExpression(value, expression.getOperator(), expression.getValue());
+    }
+
+    /**
+     * generates the validity-state for the new parameterValue
+     *
+     * @param pDef the values definition that holds the parameterExpression and
+     * conversion needed for calculating the validityState
+     * @param rawValue the new raw value
+     * @param convertedValue the converted Value of the new Raw-Value
+     * @param aggrExpired should be set to true, if the aggregation that is
+     * sampling the parameter, is periodic and the update hasnt been received in
+     * the aggregation-period. if true, the validity-state of the new parameter
+     * will be expired.
+     * @return the validityState
+     */
+    protected ValidityState generateValidityState(final ParameterDefinition pDef, final Attribute rawValue,
+            final Attribute convertedValue, final boolean aggrExpired) {
+
+        //parameter-aggregation has a timeout that is expired
+        if (pDef.getReportingEnabled()
+                && pDef.getReportInterval().getInSeconds() != 0
+                && aggrExpired) { //requirement 3.3.3.i
+            return ValidityState.EXPIRED;
+        }
+
+        //parameter raw value cannot be obtained, or calculated for synthetic parameters
+        if (rawValue == null /*|| rawValueOfSyntheticParameterCannotBeCalculated*/) { //requirement: 3.3.3.j
+            return ValidityState.INVALID_RAW;
+        }
+        final ParameterExpression validityExpression = pDef.getValidityExpression();
+        final Boolean evalExpression = this.evaluateParameterExpression(validityExpression);
+        final ParameterConversion conversion = pDef.getConversion();
+
+        //expression didnt fail
+        if (validityExpression == null || evalExpression) {
+            //conversions didnt fail
+            if (conversion == null || convertedValue != null) { // requirement: 3.3.3.k
+                return ValidityState.VALID;
+            } else {// requirement: 3.3.3.l
+                return ValidityState.INVALID_CONVERSION;
+            }
+        } else {
+            //get validityState of the parameters that are needed for the expression
+            ValidityState expPValState = getValidityState(validityExpression, aggrExpired);
+            //expression failed with not valid parameters
+            if (!expPValState.equals(ValidityState.VALID)) { // requirement: 3.3.3.m
+                return ValidityState.UNVERIFIED;
+            } else { // requirement: 3.3.3.n
+                return ValidityState.INVALID;
+            }
+        }
+    }
+
+    /**
+     * Returns the validity-state of the parameter used in the expression
+     *
+     * @param validityExpression the expression where parameters are used
+     * @return the validity-state of the parameter used in the expression
+     */
+    private ValidityState getValidityState(final ParameterExpression validityExpression, boolean aggrExpired) {
+        final Long expPDefId = validityExpression.getParameterId();
+        final Attribute expParamValue;
+        try {
+            Class cla = parametersMonitoring.getClass()
+                    .getMethod("onGetValue", Identifier.class, AttributeType.class).getDeclaringClass();
+            if (cla == ParameterStatusListener.class) {
+                expParamValue = parametersMonitoring.onGetValue(expPDefId);
+            } else {
+                expParamValue = parametersMonitoring.onGetValue(super.getName(expPDefId), null);
+            }
+
+        } catch (IOException | NoSuchMethodException | SecurityException ex) {
+            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+            return ValidityState.INVALID_RAW;
+        }
+        final ParameterDefinition expPDef = getParameterDefinition(expPDefId);
+        return generateValidityState(this.getParameterDefinition(expPDefId), expParamValue, getConvertedValue(
+                expParamValue, expPDef), aggrExpired);
+    }
+
+    protected LongList addMultiple(HeterogeneousList definitions,
+            ObjectKey source, SingleConnectionDetails connectionDetails) {
+        try {
+            if (definitions == null) {
+                throw new IllegalArgumentException("Parameter definitions list can't be null!");
+            }
+        } catch (IllegalArgumentException e) {
+            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, e);
+            return null;
+        }
+
+        // requirement: 3.3.2.5
+        LongList newIds = new LongList();
+
+        if (super.getArchiveService() == null) {
+            for (int i = 0; i < definitions.size(); i++) {
+                //add to providers local list
+                uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
+                newIds.add(uniqueObjIdDef);
+            }
+        } else {
+            try {
+                HeterogeneousList namesToAdd = new HeterogeneousList();
+                ArchiveDetailsList archDetails = new ArchiveDetailsList();
+
+                for (Element def : definitions) {
+                    ArchiveDetailsList defDetails = HelperArchive.generateArchiveDetailsList(
+                            null, source, connectionDetails.getProviderURI());
+
+                    archDetails.add(defDetails.get(0));
+                }
+
+                //not matter if the parameter was created or loaded, a new definition will be created
+                newIds = super.getArchiveService().store(true,
+                        ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,
+                        ConfigurationProviderSingleton.getDomain(),
+                        archDetails, definitions, null);
+            } catch (DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
+                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
+        }
+
+        int i = 0;
+
+        for (Element def : definitions) {
+            Identifier name = ((ParameterDefinition) def).getName();
+            this.addDefinitionLocally(name, newIds.get(i), definitions.get(i));
+            i++;
+        }
+
+        return newIds;
+    }
+
+    protected Long add(Identifier name, ParameterDefinition definition,
+            ObjectKey source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+        Long newIdPair;
+
+        if (super.getArchiveService() == null) {
+            //add to providers local list
+            uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
+            newIdPair = uniqueObjIdDef;
+        } else {
+            try {
+                //not matter if the parameter was created or loaded, a new definition will be created
+                HeterogeneousList defs = new HeterogeneousList();
+                defs.add(definition);
+                LongList defIds = super.getArchiveService().store(true,
+                        ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,
+                        ConfigurationProviderSingleton.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(0L, source, connectionDetails.getProviderURI()),
+                        defs,
+                        null);
+
+                //add to providers local list
+                newIdPair = defIds.get(0);
+
+            } catch (DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
+                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
+        }
+
+        this.addDefinitionLocally(name, newIdPair, definition);
+        return newIdPair;
+    }
+
+    /**
+     * Sets the reportingEnabled field for the given parameter as the given
+     * bool-value.
+     *
+     * @param id The definition id of the parameter.
+     * @param bool The new reportingEnabled value.
+     * @param source The source link for the new definition.
+     * @param connectionDetails The details of the connection.
+     */
+    protected void setReportingEnabled(Long id, Boolean bool, ObjectKey source,
+            SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.a.c
+        ParameterDefinition def = this.getParameterDefinition(id);
+
+        if (def == null) {
+            return;
+        }
+
+        //requirement: 3.3.10.2.f
+        if (def.getReportingEnabled().booleanValue() == bool) { // Is it set with the requested value already?
+            return; // the value was not changed
+        }
+
+        ParameterDefinition newDef = new ParameterDefinition(def.getName(),
+                def.getDescription(), def.getRawType(), def.getRawUnit(),
+                bool, def.getReportInterval(),
+                def.getValidityExpression(), def.getConversion(), def.getReadOnly());
+
+        //requirement: 3.3.10.2.k
+        this.update(id, newDef, source, connectionDetails);
+    }
+
+    /**
+     * Updates the parameter-definition of the parameter-identity by adding a
+     * new parameter-definition.
+     *
+     * @param id the id of the identity.
+     * @param definition the new definition details.
+     * @param source the source object id that caused the new
+     * parameter-definition to be created.
+     * @param connectionDetails the given connectionDetails
+     */
+    protected void update(Long id, ParameterDefinition definition,
+            ObjectKey source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.d
+        if (super.getArchiveService() == null) { //only update locally
+            this.updateDef(id, definition);
+        } else {  // update in the COM Archive
+            try {
+                HeterogeneousList defs = new HeterogeneousList();
+                defs.add(definition);
+                ArchiveDetailsList metadata = generateArchiveDetailsList(null, source,
+                        connectionDetails.getProviderURI(), id);
+
+                super.getArchiveService().update(ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,
+                        ConfigurationProviderSingleton.getDomain(),
+                        metadata,
+                        defs, null);
+            } catch (UnknownException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
+                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            this.updateDef(id, definition);
+        }
+    }
+
+    /**
+     * Sets the reportingEnabled field of all existing parameters to the given
+     * bool-value.
+     *
+     * @param bool The value the reportingEnabled field of all parameters should
+     * be set to.
+     * @param source The source that created this update. will be set as the new
+     * defintions source.
+     * @param connectionDetails The details of the connection.
+     */
+    protected void setReportingEnabledAll(Boolean bool, ObjectKey source, SingleConnectionDetails connectionDetails) {
+        LongList defIds = new LongList();
+        defIds.addAll(this.listAllDefinitions());
+
+        for (Long defId : defIds) {
+            ParameterDefinition def = this.getParameterDefinition(defId);
+            ParameterDefinition newDef = new ParameterDefinition(def.getName(),
+                    def.getDescription(), def.getRawType(), def.getRawUnit(),
+                    bool, def.getReportInterval(),
+                    def.getValidityExpression(), def.getConversion(), def.getReadOnly());
+
+            this.update(defId, newDef, source, connectionDetails);
+        }
+    }
+
+    /**
+     * Sets a new value for a parameter by creating a new parameterValueObject
+     * and storing it in the provider or COM-Archive.
+     *
+     * @param newRawValues the new value to be set
+     * @return The list with a set of boolean values, that specify the values
+     * that were set successfully (true) or unsuccessfully(false).
+     */
+    protected ParameterValueList setValues(ParameterRawValueList newRawValues) {
+        // check if new interface method is implemented, if yes, call it
+        try {
+            Class cla = parametersMonitoring.getClass().getMethod("onSetValue", IdentifierList.class,
+                    ParameterRawValueList.class).getDeclaringClass();
+            if (cla == ParameterStatusListener.class) {
+                Boolean setSuccessful = parametersMonitoring.onSetValue(newRawValues);
+            }
+        } catch (NoSuchMethodException | SecurityException ex) {
+        }
+        // else use old procedure:
+
+        ParameterValueList paramValList = new ParameterValueList();
+        IdentifierList names = new IdentifierList(newRawValues.size());
+
+        //each Raw Value shall be set
+        for (ParameterRawValue newRawValue : newRawValues) {
+            Long id = newRawValue.getParameterId();
+            //requirement 3.3.9.2.h: create a new ParameterValue
+            //TODO: what happens with the newly crated value? only raw value will be saved in the parameterApplication -> issue #140
+            //            ParameterValue newValue = generateNewParameterValue(newRawValue.getRawValue(), getParameterDefinition(identityId), false);
+            paramValList.add(generateNewParameterValue(newRawValue.getRawValue(),
+                    getParameterDefinition(id), false));
+            names.add(((ParameterDefinition) this.getParameterDefinition(id)).getName());
+            //            parametersMonitoring.onSetValue(getNameFromObjId(identityId), newRawValue.getRawValue(), timestamp);
+            //            parametersMonitoring.onSetValue(getNameFromObjId(identityId), newRawValue.getRawValue());
+            //            Boolean success;
+            //            if (parametersMonitoring != null) {
+            //                success =
+            //            } else {
+            //                success = false;
+            //            }
+            //            successFlags.add(success);
+        }
+
+        // setSuccessful is not being used anywhere... weird
+        try {
+            Boolean setSuccessful = parametersMonitoring.onSetValue(names, newRawValues);
+        } catch (UnsupportedOperationException ex) {
+        }
+
+        return paramValList;
+    }
+
+    /**
+     * This method fills a new parameter value with its rawValue, convertedValue
+     * and validityState
+     *
+     * @param rawValue the rawValue to be set and converted
+     * @param pDef the parameter-defintion the value belongs to
+     * @param aggrExpired should be set to true, if the aggregation that is
+     * sampling the parameter, is periodic and the update hasnt been received in
+     * the aggregation-period. if true, the validity-state of the new parameter
+     * will be expired.
+     * @return a filled ParameterValue
+     */
+    public ParameterValue generateNewParameterValue(Attribute rawValue,
+            final ParameterDefinition pDef, final boolean aggrExpired) {
+        //convert the raw-value
+        //requirement 3.3.3.p is implicitly met here.
+        Attribute convertedValue = this.getConvertedValue(rawValue, pDef);
+
+        //check the validity and set the state
+        ValidityState validityState = generateValidityState(pDef, rawValue, convertedValue, aggrExpired);
+
+        if (validityState.equals(ValidityState.INVALID_CONVERSION)) {
+            convertedValue = null;  // requirement: 3.3.3.o
+        }
+        if (validityState.equals(ValidityState.INVALID_RAW)) {
+            rawValue = null; //requirement: 3.3.3.j
+        }
+
+        return new ParameterValue(validityState, rawValue, convertedValue);
+    }
+
+    /**
+     * Returns the current raw value of the parameter with the given identity-Id
+     * from the application.
+     *
+     * @param defId The definition id of the parameter.
+     * @param pDef The definition of the parameter.
+     * @return The raw value. null if there is no parametersMonitoring.
+     */
+    private Attribute getRawValue(Long defId, ParameterDefinition pDef) throws IOException {
+        if (parametersMonitoring == null) {
+            return null;
+        }
+
+        try {
+            Class cla = parametersMonitoring.getClass()
+                    .getMethod("onGetValue", Identifier.class, AttributeType.class).getDeclaringClass();
+            if (cla == ParameterStatusListener.class) {
+                return parametersMonitoring.onGetValue(defId);
+            }
+        } catch (NoSuchMethodException | SecurityException ex) {
+            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return parametersMonitoring.onGetValue(this.getName(defId), pDef.getRawType());
+    }
+
+    /**
+     * Returns the converted value of a raw value
+     *
+     * @param rawValue The raw value.
+     * @param pDef The definition it should get the conversion from.
+     * @return The converted value. null if no Conversion service is available.
+     */
+    private Attribute getConvertedValue(final Attribute rawValue, final ParameterDefinition pDef) {
+        // Is the Conversion service available for use?
+        if (conversionService == null) {
+            return null;
+        }
+
+        return conversionService.generateConvertedValue(rawValue, pDef.getConversion());
+    }
+
+}

@@ -24,6 +24,7 @@ import esa.mo.nmf.environment.Deployment;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.logging.Level;
@@ -88,28 +89,50 @@ public class FilesystemGenerator {
     }
 
     /**
+     * Adds a file from the resource directory into the NMF selected directory.
      *
-     * @param directoryName The name of the directory inside the NMF.
+     * @param destination The name of the directory inside the NMF.
      * @param filename The filename of the file in the resources of the project
      * to be copied.
+     * @throws IOException If the resource could not be found.
      */
-    public void addResource(String directoryName, String filename) {
+    public void addResource(String destination, String filename) throws IOException {
         ClassLoader classLoader = GenerateFilesystemMojo.class.getClassLoader();
-        File destinationDirectory = new File(dir_nmf, directoryName);
+        File destinationDirectory = new File(dir_nmf, destination);
         destinationDirectory.mkdirs();
         File destinationFile = new File(destinationDirectory, filename);
 
         try (InputStream inputStream = classLoader.getResourceAsStream(filename)) {
             if (inputStream == null) {
-                System.out.println("Resource not found.");
-                return;
+                throw new IOException("Resource not found: " + filename);
             }
 
             Files.copy(inputStream, destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            if (filename.endsWith(".sh")) {
+                destinationFile.setExecutable(true, false);
+            }
             System.out.println("Resource copied to: " + destinationFile.getAbsolutePath());
         } catch (IOException ex) {
-            Logger.getLogger(GenerateFilesystemMojo.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
         }
+    }
+
+    /**
+     * Writes generated content into a file inside the NMF selected directory.
+     * Unlike {@link #addResource}, the content is produced in memory rather than
+     * copied from a classpath resource.
+     *
+     * @param destination The name of the directory inside the NMF.
+     * @param filename The filename of the file to be written.
+     * @param content The content to write into the file.
+     * @throws IOException If the file could not be written.
+     */
+    public void addGeneratedFile(String destination, String filename, String content) throws IOException {
+        File destinationDirectory = new File(dir_nmf, destination);
+        destinationDirectory.mkdirs();
+        File destinationFile = new File(destinationDirectory, filename);
+        Files.write(destinationFile.toPath(), content.getBytes(StandardCharsets.UTF_8));
+        System.out.println("File generated: " + destinationFile.getAbsolutePath());
     }
 
     public void addArtifactNMF(Artifact artifact, String nmfVersion) {

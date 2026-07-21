@@ -391,7 +391,8 @@ public final class MOWindow extends javax.swing.JDialog {
 
             for (int i = 0; i < componentsPanel.getComponentCount() - 1; i++) {
                 ListEntry lst = (ListEntry) componentsPanel.getComponent(i);
-                list.add(lst.getObject());
+                Object obj = lst.getObject();
+                list.add(obj);
             }
 
             return list;

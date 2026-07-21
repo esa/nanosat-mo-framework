@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>nanosat-mo-framework</artifactId>
+        <version>5.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <groupId>int.esa.nmf.barebone</groupId>
+    <artifactId>barebone-space-filesystem</artifactId>
+    <packaging>jar</packaging>
+
+    <name>ESA NMF Barebone - Space Filesystem</name>
+
+    <organization>
+        <name>ESA</name>
+        <url>http://www.esa.int</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
+            <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
+        <url>https://github.com/esa/nanosat-mo-framework</url>
+    </scm>
+
+    <issueManagement>
+        <system>Gitlab</system>
+        <url>https://gitlab.com/esa/NMF/nmf-issues/-/issues</url>
+    </issueManagement>
+
+    <developers>
+        <developer>
+            <id>CesarCoelho</id>
+            <name>César Coelho</name>
+            <url>https://github.com/CesarCoelho</url>
+        </developer>
+    </developers>
+
+    <properties>
+        <esa.nmf.version>5.0</esa.nmf.version>
+        <!-- Must match the directory the generate-filesystem goal writes to
+             (target/space-filesystem/nanosat-mo-framework). -->
+        <out.folder.output>space-filesystem</out.folder.output>
+        <out.folder.nmf>nanosat-mo-framework</out.folder.nmf>
+        <mission.outputdir>${project.build.directory}/${out.folder.output}</mission.outputdir>
+        <!-- Remote target for the deploy-on-remote profile; override with
+             -Ddeploy.remote.url=scp://user@host/ -->
+        <deploy.remote.url>scp://user@192.168.1.1/</deploy.remote.url>
+        <!-- Image name for the docker profile; the tag is the project version. -->
+        <docker.image.name>nmf-mission-barebone</docker.image.name>
+        <!-- Container build tool; override with -Ddocker.executable=podman or a
+             full path if it is not on the PATH. -->
+        <docker.executable>docker</docker.executable>
+    </properties>
+    
+    <dependencies>
+        <!-- NMF Composites -->
+        <dependency>
+            <groupId>int.esa.nmf.core</groupId>
+            <artifactId>nmf-composites</artifactId>
+        </dependency>
+        <!-- Supervisor -->
+        <dependency>
+            <groupId>int.esa.nmf</groupId>
+            <artifactId>barebone-nanosat-mo-supervisor</artifactId>
+            <version>5.0</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- The Space File System generation, defined once and reused by
+                     both the generate-filesystem and deploy-on-remote profiles. -->
+                <plugin>
+                    <groupId>int.esa.nmf.core</groupId>
+                    <artifactId>nmf-linux-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>generate-space-filesystem</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>generate-filesystem</goal>
+                            </goals>
+                            <configuration>
+                                <supervisorMainClass>esa.mo.nmf.mission.barebone.BareboneSupervisorImpl</supervisorMainClass>
+                                <mission>
+                                    <missionName>barebone</missionName>
+                                    <spacecraftName>barebone</spacecraftName>
+                                    <organizationAbbreviation>esa</organizationAbbreviation>
+                                    <organizationName>European Space Agency</organizationName>
+                                </mission>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>1.4</version>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <!-- Generates the Space File System into
+                 target/space-filesystem/nanosat-mo-framework -->
+            <id>generate-filesystem</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>int.esa.nmf.core</groupId>
+                        <artifactId>nmf-linux-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <!-- Generates the Space File System and uploads it to a remote machine
+                 (e.g. a flight-representative target) over scp. Self-contained, so
+                 it does not need the generate-filesystem profile:
+                   mvn install -Pdeploy-on-remote -Ddeploy.remote.url=scp://user@host/
+                 The generate-filesystem goal runs at 'package' and the upload at
+                 'install', so the filesystem always exists before it is transferred.
+                 SSH credentials are taken from ~/.ssh / an ssh-agent, or from a
+                 <server> entry in settings.xml matching the host. -->
+            <id>deploy-on-remote</id>
+            <build>
+                <plugins>
+                    <!-- Generate the filesystem first (package phase). -->
+                    <plugin>
+                        <groupId>int.esa.nmf.core</groupId>
+                        <artifactId>nmf-linux-maven-plugin</artifactId>
+                    </plugin>
+                    <!-- Then upload it (install phase). -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>wagon-maven-plugin</artifactId>
+                        <version>2.0.2</version>
+                        <dependencies>
+                            <!-- Provides the scp:// transport, scoped to this
+                                 profile so normal builds never resolve it. -->
+                            <dependency>
+                                <groupId>org.apache.maven.wagon</groupId>
+                                <artifactId>wagon-ssh</artifactId>
+                                <version>2.8</version>
+                            </dependency>
+                        </dependencies>
+                        <executions>
+                            <execution>
+                                <id>upload-space-filesystem</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>upload</goal>
+                                </goals>
+                                <configuration>
+                                    <fromDir>${mission.outputdir}/${out.folder.nmf}</fromDir>
+                                    <url>${deploy.remote.url}</url>
+                                    <toDir>${out.folder.nmf}</toDir>
+                                    <skip>false</skip>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <!-- Generates the Space File System and builds a slim Docker image of
+                 the Supervisor from the Dockerfile in this module. Self-contained,
+                 so it does not need the generate-filesystem profile:
+                   mvn install -Pdocker
+                 It runs the same 'docker build' you could run by hand and needs a
+                 Docker daemon. The image is ${docker.image.name}:${project.version}. -->
+            <id>docker</id>
+            <build>
+                <plugins>
+                    <!-- Generate the filesystem first (package phase). -->
+                    <plugin>
+                        <groupId>int.esa.nmf.core</groupId>
+                        <artifactId>nmf-linux-maven-plugin</artifactId>
+                    </plugin>
+                    <!-- Then build the Docker image (install phase). -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>docker-build</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>${docker.executable}</executable>
+                                    <workingDirectory>${project.basedir}</workingDirectory>
+                                    <arguments>
+                                        <argument>build</argument>
+                                        <argument>-t</argument>
+                                        <argument>${docker.image.name}:${project.version}</argument>
+                                        <argument>-t</argument>
+                                        <argument>${docker.image.name}:latest</argument>
+                                        <argument>.</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

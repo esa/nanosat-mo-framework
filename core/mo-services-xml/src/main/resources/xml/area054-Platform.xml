@@ -1,0 +1,2235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright European Space Agency, 2026
+-->
+<mal:specification
+    xmlns:mal = "http://www.ccsds.org/schema/ServiceSchema"
+    xmlns:com = "http://www.ccsds.org/schema/COMSchema"
+    xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" comment="">
+    <mal:area name="Platform" number="54" version="5" comment="Platform services">
+        <mal:service name="Camera" number="1" xsi:type="com:ExtendedServiceType" comment="The Camera service allows a consumer to acquire pictures and control a camera in the spacecraft platform. The service can perform format conversions in case the consumer selects a specific format other than raw. The service can also stream pictures periodically.">
+            <mal:documentation name="Service-level Requirement" order="1">The Camera service shall provide:
+        &lt;ol&gt;
+        &lt;li&gt;the capability for streaming pictures;&lt;/li&gt;
+        &lt;li&gt;the capability for previewing pictures;&lt;/li&gt;
+        &lt;li&gt;the capability for taking pictures;&lt;/li&gt;
+        &lt;li&gt;the capability for requesting the service and camera properties.&lt;/li&gt;
+        &lt;/ol&gt;
+            </mal:documentation>
+            <mal:capabilitySet number="1" comment="">
+                <mal:pubsubIP name="picturesStream" number="1" comment="The picturesStream operation allows a consumer to subscribe for pictures published after enableStream call.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall set the NOTIFY message timestamp to the time when the picture was taken.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:subscriptionKeys>
+                            <mal:field name="tag" canBeNull="false" comment="The value provided by the consumer during the enableStream operation.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                            <mal:field name="id" canBeNull="false" comment="A unique id.">
+                                <mal:type area="MAL" list="false" name="Long"/>
+                            </mal:field>
+                            <mal:field name="width" canBeNull="false" comment="The width value of the resolution object.">
+                                <mal:type area="MAL" list="false" name="Long"/>
+                            </mal:field>
+                            <mal:field name="height" canBeNull="false" comment="The height value of the resolution object.">
+                                <mal:type area="MAL" list="false" name="Long"/>
+                            </mal:field>
+                        </mal:subscriptionKeys>
+                        <mal:publishNotify>
+                            <mal:field name="picture" canBeNull="true" comment="The picture in streaming mode.">
+                                <mal:type area="Platform" list="false" name="Picture" />
+                            </mal:field>
+                        </mal:publishNotify>
+                    </mal:messages>
+                </mal:pubsubIP>
+                <mal:submitIP name="enableStream" number="2" comment="The enableStream operation allows a consumer to set the rate, dimension and format of the Pictures being streamed.">
+                    <mal:documentation name="Requirement" order="1">
+                        If the enable field is TRUE, then the service provider shall periodically publish pictures through the picturesStream operation at the rate given by the streamingPeriod field.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the enable field is FALSE, then the service provider shall stop publishing pictures through the picturesStream operation.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:submit>
+                            <mal:field name="enable" canBeNull="true" comment="Flag to enable or disable the pictures stream from the camera. If set to FALSE, all other fields are ignored and can be NULL.">
+                                <mal:type area="MAL" list="false" name="Boolean" />
+                            </mal:field>
+                            <mal:field name="streamingPeriod" canBeNull="true" comment="The streaming period of the pictures.">
+                                <mal:type area="MAL" list="false" name="Duration" />
+                            </mal:field>
+                            <mal:field name="tag" canBeNull="true" comment="The subscription key for filtering during the picturesStream broadcast.">
+                                <mal:type area="MAL" list="false" name="Identifier" />
+                            </mal:field>
+                            <mal:field name="settings" canBeNull="true" comment="Image acquisition settings.">
+                                <mal:type area="Platform" list="false" name="CameraSettings" />
+                            </mal:field>
+                        </mal:submit>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the Camera is currently being used. Use the enableStream(false, ...) operation to stop the streaming and try again.">
+                            <mal:type area="Platform" list="false" name="Device In Use" />
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the Camera unit is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the streamingPeriod field is less than the minimum supported streaming period.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation
+                                comment="The minimum streaming period that can be selected.">
+                                <mal:type area="MAL" list="false" name="Duration" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the requested resolution is not supported.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="The list of available resolutions.">
+                                <mal:type area="Platform" list="true" name="PixelResolution" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the requested format is not supported.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="The list of available formats.">
+                                <mal:type area="Platform" list="true" name="PictureFormat" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the enable field is TRUE and the tag field is NULL, empty, or a wildcard.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:submitIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="2" comment="">
+                <mal:requestIP name="previewPicture" number="3" comment="The previewPicture operation allows a consumer to quickly get a raw picture from the camera with a lower quality. This operation is intended to provide a quick snap of what the camera is observing.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall acquire the preview picture in the RAW picture format.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="picture" canBeNull="true" comment="The picture preview.">
+                                <mal:type area="Platform" list="false" name="Picture" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the Camera unit is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="3" comment="">
+                <mal:invokeIP name="takePicture" number="4" comment="The takePicture operation allows a consumer to take a picture from the camera. The appropriate dimension and format of the picture can be selected.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall acquire the picture using the resolution, format and exposureTime given in the settings field.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:invoke>
+                            <mal:field name="settings" canBeNull="true" comment="Picture acquisition settings.">
+                                <mal:type area="Platform" list="false" name="CameraSettings" />
+                            </mal:field>
+                        </mal:invoke>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
+                        <mal:response>
+                            <mal:field name="picture" canBeNull="true" comment="The acquired picture.">
+                                <mal:type area="Platform" list="false" name="Picture" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the Camera is currently being used. Use the enableStream(false, ...) operation to stop the streaming and try again.">
+                            <mal:type area="Platform" list="false" name="Device In Use" />
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the Camera unit is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the requested resolution is not supported.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="The list of available resolutions.">
+                                <mal:type area="Platform" list="true" name="PixelResolution" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the requested format is not supported.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="The list of available formats.">
+                                <mal:type area="Platform" list="true" name="PictureFormat" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:invokeIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="4" comment="">
+                <mal:invokeIP name="takeAutoExposedPicture" number="5" comment="The takeAutoExposedPicture operation allows a consumer to take a picture from the camera. The appropriate dimension and format of the picture can be selected. The exposure will be auto calculated, but it is slower than using takePicture.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall determine the exposure time automatically, ignoring the exposureTime of the settings field.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:invoke>
+                            <mal:field name="settings" canBeNull="true" comment="Picture acquisition settings.">
+                                <mal:type area="Platform" list="false" name="CameraSettings" />
+                            </mal:field>
+                        </mal:invoke>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
+                        <mal:response>
+                            <mal:field name="picture" canBeNull="true" comment="The acquired picture.">
+                                <mal:type area="Platform" list="false" name="Picture" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the Camera is currently being used. Use the enableStream(false, ...) operation to stop the streaming and try again.">
+                            <mal:type area="Platform" list="false" name="Device In Use" />
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the Camera unit is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the requested resolution is not supported.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="The list of available resolutions.">
+                                <mal:type area="Platform" list="true" name="PixelResolution" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the requested format is not supported.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="The list of available formats.">
+                                <mal:type area="Platform" list="true" name="PictureFormat" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:invokeIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="5" comment="">
+                <mal:requestIP name="getProperties" number="6" comment="The getProperties operation allows a consumer to request the properties of the service and camera. The service shall provide information about the available resolutions, formats and some extra information.">
+                    <mal:documentation name="Requirement" order="1">
+                        The availableResolutions and availableFormats fields of the RESPONSE message shall enumerate the resolutions and formats that the service accepts for the takePicture and enableStream operations.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="availableResolutions" canBeNull="true" comment="The list of available resolutions supported by the camera.">
+                                <mal:type area="Platform" list="true" name="PixelResolution" />
+                            </mal:field>
+                            <mal:field name="availableFormats" canBeNull="true" comment="The list of available formats supported by the service.">
+                                <mal:type area="Platform" list="true" name="PictureFormat" />
+                            </mal:field>
+                            <mal:field name="extraInfo" canBeNull="true" comment="Additional properties of the camera. The actual content is undefined.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="6" comment="">
+                <mal:invokeIP name="preprocessPicture" number="7" comment="The preprocessPicture operation allows a consumer to preprocess a picture.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the inputPicture after applying the preprocessing selected by the settings field.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:invoke>
+                            <mal:field name="inputPicture" canBeNull="true" comment="The input picture to be preprocessed.">
+                                <mal:type area="Platform" list="false" name="Picture" />
+                            </mal:field>
+                            <mal:field name="settings" canBeNull="true" comment="Picture acquisition settings.">
+                                <mal:type area="Platform" list="false" name="CameraSettings" />
+                            </mal:field>
+                        </mal:invoke>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
+                        <mal:response>
+                            <mal:field name="outputPicture" canBeNull="true" comment="The preprocessed picture.">
+                                <mal:type area="Platform" list="false" name="Picture" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the inputPicture or the settings field contains an invalid value.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="The name of the first invalid field.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:invokeIP>
+            </mal:capabilitySet>
+            <com:features />
+        </mal:service>
+        <mal:service name="GPS" number="2" xsi:type="com:ExtendedServiceType" comment="The GPS service provides the ability to retrieve satellite navigation data from a Global Navigation Satellite System (GNSS) device receiver in the spacecraft platform. The GPS service provides the capability for streaming NMEA messages; the capability for enabling/disabling the streaming of NMEA messages; the capability for getting the last known position from the receiver; the capability for getting the satellites GNSS information; the capability for maintaining the list of nearby position events.&#10;The nearbyPosition operation allows a consumer to receive a message from the service when the spacecraft enters or exits a certain position. These can be set using the addNearbyPosition and removed using the removeNearbyPosition.">
+            <mal:documentation name="Service-level Requirement" order="1">The GPS service shall provide:
+        &lt;ol&gt;
+        &lt;li&gt;the capability for requesting GPS NMEA sentences;&lt;/li&gt;
+        &lt;li&gt;the capability for getting the last known position from the GPS;&lt;/li&gt;
+        &lt;li&gt;the capability for getting the satellites GPS information;&lt;/li&gt;
+        &lt;li&gt;the capability for maintaining the list of nearby position events.&lt;/li&gt;
+        &lt;/ol&gt;</mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="2">
+                The service provider shall represent position markers for nearby position events as NearbyPosition COM objects.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="3">
+                The source link of the NearbyPosition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="4">
+                The service provider shall use a boolean value as the body of the NearbyPositionAlert object.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="5">
+                The service provider should store NearbyPosition objects in the COM archive.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="6">
+                Upon publishing a nearby position event, the service provider should store the NearbyPositionAlert object in the COM archive.
+            </mal:documentation>
+            <mal:capabilitySet number="1" comment="">
+                <mal:invokeIP name="getNMEASentence" number="1" comment="The getNMEASentence operation allows a consumer to request a NMEA sentence from a sentence identifier.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the NMEA sentence produced by the GPS unit for the sentenceIdentifier field.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:invoke>
+                            <mal:field name="sentenceIdentifier" canBeNull="true" comment="The sentence identifier of the request.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:field>
+                        </mal:invoke>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
+                        <mal:response>
+                            <mal:field name="sentence" canBeNull="true" comment="The response NMEA sentence.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the requested sentence identifier is invalid.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the GPS unit is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:invokeIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="2" comment="">
+                <mal:requestIP name="getLastKnownPosition" number="2" comment="The getLastKnownPosition operation allows a consumer to retrieve the last known position that was provided by the GPS unit.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall return the most recent position previously reported by the GPS unit, without triggering a new position acquisition.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="position" canBeNull="true" comment="The last known position.">
+                                <mal:type area="Platform" list="false" name="Position" />
+                            </mal:field>
+                            <mal:field name="elapsedTime" canBeNull="true" comment="The elapsed time since the position was determined.">
+                                <mal:type area="MAL" list="false" name="Duration" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the position is unknown.">
+                            <mal:type area="MAL" list="false" name="Unknown" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="3" comment="">
+                <mal:invokeIP name="getPosition" number="3" comment="The getPosition operation allows a consumer to obtain a position from the GPS unit.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall return the position determined by the GPS unit at the time of the request.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:invoke>
+                        </mal:invoke>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
+                        <mal:response>
+                            <mal:field name="position" canBeNull="true" comment="The current position.">
+                                <mal:type area="Platform" list="false" name="Position" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the GPS unit is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the position is unknown.">
+                            <mal:type area="MAL" list="false" name="Unknown" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:invokeIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="4" comment="">
+                <mal:invokeIP name="getSatellitesInfo" number="4" comment="The getSatellitesInfo operation allows a consumer to obtain the satellites information from the GPS.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the information of the satellites currently in view of the GPS unit.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:invoke>
+                        </mal:invoke>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
+                        <mal:response>
+                            <mal:field name="gpsSatellitesInfo" canBeNull="true" comment="The information of the satellites.">
+                                <mal:type area="Platform" list="true" name="SatelliteInfo" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the GPS unit is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:invokeIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="5" comment="">
+                <mal:requestIP name="listNearbyPosition" number="5" comment="The listNearbyPosition operation allows a consumer to request the identifiers of the existing nearby position events in the service. The operation is expected to be used in conjunction with the COM archive for retrieval of the actual nearby position objects.">
+                    <mal:documentation name="Requirement" order="1">
+                        If the names field contains the wildcard value of '*', then the service provider shall return the identifiers of all nearby position events.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the names field does not include the wildcard value, then the RESPONSE message shall maintain the same ordering as the REQUEST message.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                            <mal:field name="names" canBeNull="true" comment="The list of NearbyPositionEvent names.">
+                                <mal:type area="MAL" list="true" name="Identifier" />
+                            </mal:field>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="ids" canBeNull="true" comment="The list of ids corresponding to the selected names.">
+                                <mal:type area="MAL" list="true" name="Long" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="6" comment="">
+                <mal:requestIP name="addNearbyPosition" number="6" comment="The addNearbyPosition operation allows a consumer to define a list of nearby position events in the service. The new NearbyPosition objects are expected to be stored in the COM Archive by the provider of the GPS service.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall create one NearbyPosition object for each entry of the nearbyPositionDefinitions field.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        The ids field of the RESPONSE message shall maintain the same ordering as the nearbyPositionDefinitions field of the REQUEST message.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                            <mal:field name="nearbyPositionDefinitions" canBeNull="true" comment="The list of nearby position definitions to add.">
+                                <mal:type area="Platform" list="true" name="NearbyPosition" />
+                            </mal:field>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="ids" canBeNull="true" comment="The list of ids assigned to the newly created NearbyPosition objects.">
+                                <mal:type area="MAL" list="true" name="Long" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When one of the supplied NearbyPosition objects contains an invalid name.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation
+                                comment="The indexes of the erroneous entries in the nearbyPositionDefinitions list.">
+                                <mal:type area="MAL" list="true" name="UInteger" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When one or more of the nearbyPositionDefinitions entries has a name that is already in use in the domain.">
+                            <mal:type area="COM" list="false" name="Duplicate" />
+                            <mal:extraInformation
+                                comment="The indexes of the duplicate entries in the nearbyPositionDefinitions list.">
+                                <mal:type area="MAL" list="true" name="UInteger" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+                <mal:submitIP name="removeNearbyPosition" number="7" comment="The removeNearbyPosition operation allows a consumer to remove a list of nearby position events set in the service.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall remove each NearbyPosition object identified in the ids field, so that it no longer generates nearby position notifications.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:submit>
+                            <mal:field name="ids" canBeNull="true" comment="The list of ids of the NearbyPosition objects to remove.">
+                                <mal:type area="MAL" list="true" name="Long" />
+                            </mal:field>
+                        </mal:submit>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When one of the supplied NearbyPosition ids is unknown.">
+                            <mal:type area="MAL" list="false" name="Unknown" />
+                            <mal:extraInformation comment="The indexes of the unknown entries in the ids list.">
+                                <mal:type area="MAL" list="true" name="UInteger" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:submitIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="7" comment="">
+                <mal:pubsubIP name="nearbyPosition" number="8" comment="The nearbyPosition operation allows a consumer to subscribe to nearby position notifications.">
+                    <mal:documentation name="Requirement" order="1">
+                        If the GPS current position has entered the nearby position boundary, then the service provider shall set the isEntering field to TRUE.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the GPS current position has exited the nearby position boundary, then the service provider shall set the isEntering field to FALSE.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        The NOTIFY message timestamp shall be the on-board clock time at the time of the notification.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:subscriptionKeys>
+                            <mal:field name="name" canBeNull="false" comment="The NearbyPosition name.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                            <mal:field name="nearbyPositionId" canBeNull="false" comment="The NearbyPosition id.">
+                                <mal:type area="MAL" list="false" name="Long"/>
+                            </mal:field>
+                            <mal:field name="alertId" canBeNull="false" comment="The NearbyPositionAlert id.">
+                                <mal:type area="MAL" list="false" name="Long"/>
+                            </mal:field>
+                        </mal:subscriptionKeys>
+                        <mal:publishNotify>
+                            <mal:field name="isEntering" canBeNull="true" comment="TRUE if the spacecraft has entered the nearby position boundary; FALSE if it has exited.">
+                                <mal:type area="MAL" list="false" name="Boolean" />
+                            </mal:field>
+                        </mal:publishNotify>
+                    </mal:messages>
+                </mal:pubsubIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="8" comment="">
+                <mal:invokeIP name="getBestXYZSentence" number="9" comment="The getBestXYZSentence operation allows a consumer to request a GNSS BestXYZ sentence returning cartesian x-, y- and z-coordinates of the satellite.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the GNSS BestXYZ sentence reported by the GPS unit at the time of the request.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:invoke>
+                        </mal:invoke>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
+                        <mal:response>
+                            <mal:field name="sentence" canBeNull="true" comment="The response BestXYZ sentence.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the GPS unit is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:invokeIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="9" comment="">
+                <mal:invokeIP name="getTIMEASentence" number="10" comment="The getTIMEASentence operation allows a consumer to request a GNSS TIMEA sentence returning information on UTC time of the satellite.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the GNSS TIMEA sentence reported by the GPS unit at the time of the request.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:invoke>
+                        </mal:invoke>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
+                        <mal:response>
+                            <mal:field name="sentence" canBeNull="true" comment="The response TIMEA sentence.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the GPS unit is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:invokeIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="10" comment="">
+                <mal:requestIP name="getLastKnownPositionAndVelocity" number="11" comment="The getLastKnownPositionAndVelocity operation allows a consumer to retrieve the last known Position and Velocity in Cartesian coordinates, and the corresponding standard deviations that were provided by the GPS unit.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall return the most recent position and velocity previously reported by the GPS unit, without triggering a new acquisition.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="position" canBeNull="true" comment="The last known position.">
+                                <mal:type area="Platform" list="false" name="VectorD3D"/>
+                            </mal:field>
+                            <mal:field name="positionDeviation" canBeNull="true" comment="The last known standard deviations of the position.">
+                                <mal:type area="Platform" list="false" name="VectorF3D"/>
+                            </mal:field>
+                            <mal:field name="velocity" canBeNull="true" comment="The last known velocity.">
+                                <mal:type area="Platform" list="false" name="VectorD3D"/>
+                            </mal:field>
+                            <mal:field name="velocityDeviation" canBeNull="true" comment="The last known standard deviations of the velocity.">
+                                <mal:type area="Platform" list="false" name="VectorF3D"/>
+                            </mal:field>
+                            <mal:field name="elapsedTime" canBeNull="true" comment="The elapsed time since the position's determination.">
+                                <mal:type area="MAL" list="false" name="Duration" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the position and velocity are unknown.">
+                            <mal:type area="MAL" list="false" name="Unknown" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="11" comment="">
+                <mal:invokeIP name="getPositionAndVelocity" number="12" comment="The getPositionAndVelocity operation allows a consumer to obtain a position and velocity from the GPS unit.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall return the position and velocity determined by the GPS unit at the time of the request.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:invoke>
+                        </mal:invoke>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
+                        <mal:response>
+                            <mal:field name="position" canBeNull="true" comment="The current position.">
+                                <mal:type area="Platform" list="false" name="VectorD3D"/>
+                            </mal:field>
+                            <mal:field name="positionDeviation" canBeNull="true" comment="The current standard deviations of the position.">
+                                <mal:type area="Platform" list="false" name="VectorF3D"/>
+                            </mal:field>
+                            <mal:field name="velocity" canBeNull="true" comment="The current velocity.">
+                                <mal:type area="Platform" list="false" name="VectorD3D"/>
+                            </mal:field>
+                            <mal:field name="velocityDeviation" canBeNull="true" comment="The current standard deviations of the velocity.">
+                                <mal:type area="Platform" list="false" name="VectorF3D"/>
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the GPS unit is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the position and velocity are unknown.">
+                            <mal:type area="MAL" list="false" name="Unknown" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:invokeIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="12" comment="">
+                <mal:invokeIP name="getTLE" number="13" comment="The getTLE operation allows a consumer to obtain the current TLE.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the current two-line element set for the spacecraft as reported by the GPS unit.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:invoke>
+                        </mal:invoke>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
+                        <mal:response>
+                            <mal:field name="tle" canBeNull="true" comment="The current TLE.">
+                                <mal:type area="Platform" list="false" name="TwoLineElementSet" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the GPS unit is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the TLE is unknown.">
+                            <mal:type area="MAL" list="false" name="Unknown" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:invokeIP>
+            </mal:capabilitySet>
+            <com:features>
+                <com:objects comment="">
+                    <com:object number="1" name="NearbyPosition"
+                                comment="A nearby position marker." >
+                        <com:objectType>
+                            <mal:type area="Platform" list="false" name="NearbyPosition" />
+                        </com:objectType>
+                        <com:relatedObject comment="" />
+                        <com:sourceObject
+                            comment="The object that caused it to be created.">
+                        </com:sourceObject>
+                    </com:object>
+                    <com:object number="2" name="NearbyPositionAlert"
+                                comment="Alert state indicating whether the spacecraft is entering or exiting the nearby position boundary." >
+                        <com:objectType>
+                            <mal:type area="Platform" list="false" name="NearbyPositionAlert" />
+                        </com:objectType>
+                        <com:relatedObject comment="">
+                            <com:objectType area="Platform" number="1" service="GPS" />
+                        </com:relatedObject>
+                        <com:sourceObject comment="" />
+                    </com:object>
+                </com:objects>
+                <com:archiveUsage
+                    comment="NearbyPosition objects and NearbyPositionAlert objects are stored in the COM archive." />
+            </com:features>
+        </mal:service>
+        <mal:service name="AutonomousADCS" number="3" xsi:type="com:ExtendedServiceType" comment="The AutonomousADCS service allows a consumer to monitor the attitude from an ADCS device in the spacecraft platform and to engage and disengage a desired attitude control mode.">
+            <mal:documentation name="Service-level Requirement" order="1">The Autonomous ADCS service shall provide:
+        &lt;ol&gt;
+        &lt;li&gt;the capability for periodic monitoring of the spacecraft's attitude;&lt;/li&gt;
+        &lt;li&gt;the capability for setting and unsetting the spacecraft's desired attitude;&lt;/li&gt;
+        &lt;/ol&gt;
+            </mal:documentation>
+            <mal:capabilitySet number="1" comment="">
+                <mal:pubsubIP name="monitorAttitude" number="1" comment="The monitorAttitude operation allows a consumer to subscribe for the spacecraft attitude, ADCS actuators status, and ADCS attitude control mode status.">
+                    <mal:documentation name="Requirement" order="1">
+                        A consumer shall set the ObjectKey to NULL when subscribing.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:publishNotify>
+                            <mal:field name="attitudeTelemetry" canBeNull="true" comment="Determined spacecraft attitude.">
+                                <mal:type area="Platform" list="false" name="AttitudeTelemetry" />
+                            </mal:field>
+                            <mal:field name="actuatorsTelemetry" canBeNull="true" comment="Status of the ADCS actuators.">
+                                <mal:type area="Platform" list="false" name="ActuatorsTelemetry" />
+                            </mal:field>
+                            <mal:field name="controlDuration" canBeNull="true" comment="The remaining duration of the active attitude control mode. NULL if no time duration is set, or no attitude control is active.">
+                                <mal:type area="MAL" list="false" name="Duration" />
+                            </mal:field>
+                            <mal:field name="activeAttitudeMode" canBeNull="true" comment="Active attitude mode. NULL if no attitude control is active. This is an abstract type.">
+                                <mal:type area="Platform" list="false" name="AttitudeMode" />
+                            </mal:field>
+                        </mal:publishNotify>
+                    </mal:messages>
+                </mal:pubsubIP>
+                <mal:submitIP name="enableMonitoring" number="2" comment="The enableMonitoring operation allows a consumer to enable attitude, actuator and mode telemetry updates published through the monitorAttitude operation.">
+                    <mal:documentation name="Requirement" order="1">
+                        If the enableGeneration field is TRUE, then the service provider shall periodically publish the attitude, actuator and mode telemetry through the monitorAttitude operation at the rate given by the monitoringInterval field.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the enableGeneration field is FALSE, then the service provider shall stop publishing telemetry through the monitorAttitude operation.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:submit>
+                            <mal:field name="enableGeneration" canBeNull="true" comment="Flag enabling attitude status generation.">
+                                <mal:type area="MAL" list="false" name="Boolean" />
+                            </mal:field>
+                            <mal:field name="monitoringInterval" canBeNull="true" comment="Period of the monitoring messages.">
+                                <mal:type area="MAL" list="false" name="Duration" />
+                            </mal:field>
+                        </mal:submit>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the monitoringInterval field is too short or was not provided.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="The minimum allowed publishing period.">
+                                <mal:type area="MAL" list="false" name="Duration" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the ADCS device is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:submitIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="2" comment="">
+                <mal:requestIP name="getStatus" number="3" comment="The getStatus operation allows a consumer to request a single dataset of the current spacecraft attitude, ADCS actuators status, attitude control mode, and monitoring settings.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain a single snapshot of the current spacecraft attitude, ADCS actuators status, active attitude mode and monitoring settings.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="attitudeTelemetry" canBeNull="true" comment="Determined spacecraft attitude.">
+                                <mal:type area="Platform" list="false" name="AttitudeTelemetry" />
+                            </mal:field>
+                            <mal:field name="actuatorsTelemetry" canBeNull="true" comment="Status of the ADCS actuators.">
+                                <mal:type area="Platform" list="false" name="ActuatorsTelemetry" />
+                            </mal:field>
+                            <mal:field name="controlDuration" canBeNull="true" comment="The remaining duration of the active attitude control mode. NULL if no time duration is set, or no attitude control is active.">
+                                <mal:type area="MAL" list="false" name="Duration" />
+                            </mal:field>
+                            <mal:field name="generationEnabled" canBeNull="true" comment="Indicates whether ADCS status is published periodically through monitorAttitude operation.">
+                                <mal:type area="MAL" list="false" name="Boolean" />
+                            </mal:field>
+                            <mal:field name="monitoringInterval" canBeNull="true" comment="Period of the monitoring messages.">
+                                <mal:type area="MAL" list="false" name="Duration" />
+                            </mal:field>
+                            <mal:field name="activeAttitudeMode" canBeNull="true" comment="Active attitude mode. NULL if no attitude control is active. This is an abstract type.">
+                                <mal:type area="Platform" list="false" name="AttitudeMode" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the ADCS unit is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="3" comment="">
+                <mal:submitIP name="setDesiredAttitude" number="4" comment="The setDesiredAttitude operation allows a consumer to engage or disengage a certain attitude mode using an attitude mode.">
+                    <mal:documentation name="Requirement" order="1">
+                        If the duration field is NULL, then the service provider shall not automatically disengage the attitude setting.
+                        Note: The consumer disengages the attitude setting by calling the setDesiredAttitude operation again.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:submit>
+                            <mal:field name="duration" canBeNull="true" comment="The duration after which the attitude mode is automatically disengaged.">
+                                <mal:type area="MAL" list="false" name="Duration" />
+                            </mal:field>
+                            <mal:field name="desiredAttitude" canBeNull="true" comment="Desired attitude mode. If set to NULL, ADCS will switch into a free tumbling mode. This is an abstract type.">
+                                <mal:type area="Platform" list="false" name="AttitudeMode" />
+                            </mal:field>
+                        </mal:submit>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the ADCS unit is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the desiredAttitude field contains an invalid argument.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="The name of the first field in the attitude mode that failed validation.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the ADCS is currently being used by another attitude control mode.">
+                            <mal:type area="Platform" list="false" name="Device In Use" />
+                            <mal:extraInformation comment="The remaining duration of the active attitude control mode, or NULL if the active mode has no time limit.">
+                                <mal:type area="MAL" list="false" name="Duration" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the selected attitude mode is not supported by the current implementation.">
+                            <mal:type area="MAL" list="false" name="Unsupported Operation" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:submitIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="4" comment="">
+                <mal:submitIP name="setReactionWheelSpeed" number="5" comment="The setReactionWheelSpeed operation allows a consumer to set a desired speed for the specified Reaction wheel in rad/second.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall set the target speed of the reaction wheel identified by the wheel field to the value of the speed field.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:submit>
+                            <mal:field name="wheel" canBeNull="false" comment="The Reaction wheel identifier.">
+                                <mal:type area="Platform" list="false" name="ReactionWheelIdentifier" />
+                            </mal:field>
+                            <mal:field name="speed" canBeNull="false" comment="Desired Speed in rad/second.">
+                                <mal:type area="MAL" list="false" name="Float"/>
+                            </mal:field>
+                        </mal:submit>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the ADCS unit is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:submitIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="5" comment="">
+                <mal:submitIP name="setAllReactionWheelSpeeds" number="6" comment="The setAllReactionWheelSpeeds operation allows a consumer to set the desired speed for all Reaction wheels in rad/second.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall set the target speed of each reaction wheel to its corresponding speed field of the SUBMIT message.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:submit>
+                            <mal:field name="speedX" canBeNull="false" comment="Desired Speed of wheel x in rad/second.">
+                                <mal:type area="MAL" list="false" name="Float"/>
+                            </mal:field>
+                            <mal:field name="speedY" canBeNull="false" comment="Desired Speed of wheel y in rad/second.">
+                                <mal:type area="MAL" list="false" name="Float"/>
+                            </mal:field>
+                            <mal:field name="speedZ" canBeNull="false" comment="Desired Speed of wheel z in rad/second.">
+                                <mal:type area="MAL" list="false" name="Float"/>
+                            </mal:field>
+                            <mal:field name="speedU" canBeNull="false" comment="Desired Speed of wheel u in rad/second.">
+                                <mal:type area="MAL" list="false" name="Float"/>
+                            </mal:field>
+                            <mal:field name="speedV" canBeNull="false" comment="Desired Speed of wheel v in rad/second.">
+                                <mal:type area="MAL" list="false" name="Float"/>
+                            </mal:field>
+                            <mal:field name="speedW" canBeNull="false" comment="Desired Speed of wheel w in rad/second.">
+                                <mal:type area="MAL" list="false" name="Float"/>
+                            </mal:field>
+                        </mal:submit>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the ADCS unit is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:submitIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="6" comment="">
+                <mal:submitIP name="setAllReactionWheelParameters" number="7" comment="The setAllReactionWheelParameters operation allows a consumer to set the desired parameters for all Reaction wheels. Any parameter field left NULL is not changed. Note: This will affect all ADCS operation modes; only maximum speed, maximum torque and control mode will be changed.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall apply the controlMode, maxSpeed and maxTorque of the rwParameters field to all reaction wheels.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If a field of the rwParameters composite is NULL, then the service provider shall leave the corresponding reaction wheel parameter unchanged.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:submit>
+                            <mal:field name="rwParameters" canBeNull="false" comment="Reaction wheel parameters.">
+                                <mal:type area="Platform" list="false" name="ReactionWheelParameters" />
+                            </mal:field>
+                        </mal:submit>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the ADCS unit is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the maxSpeed field exceeds the maximum supported reaction wheel speed of 1047.197551 rad/second (10 000 RPM).">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="The maximum supported reaction wheel speed in rad/second.">
+                                <mal:type area="MAL" list="false" name="Float" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:submitIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="7" comment="">
+                <mal:submitIP name="setAllMagnetorquersDipoleMoments" number="8" comment="The setAllMagnetorquersDipoleMoments operation allows a consumer to set the desired dipole moments for all Magnetorquers in Am.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall set the dipole moment of each magnetorquer to its corresponding dipoleX, dipoleY or dipoleZ field of the SUBMIT message.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:submit>
+                            <mal:field name="dipoleX" canBeNull="false" comment="Desired Dipole moment for Magnetorquer x in Am (in actuator frame).">
+                                <mal:type area="MAL" list="false"
+                                          name="Float"/>
+                            </mal:field>
+                            <mal:field name="dipoleY" canBeNull="false" comment="Desired Dipole moment for Magnetorquer y in Am (in actuator frame).">
+                                <mal:type area="MAL" list="false" name="Float"/>
+                            </mal:field>
+                            <mal:field name="dipoleZ" canBeNull="false" comment="Desired Dipole moment for Magnetorquer z in Am (in actuator frame).">
+                                <mal:type area="MAL" list="false" name="Float"/>
+                            </mal:field>
+                        </mal:submit>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the ADCS unit is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:submitIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="8" comment="">
+                <mal:requestIP name="getAllReactionWheelParameters" number="9" comment="The getAllReactionWheelParameters operation allows a consumer to get all parameters that are currently set for the Reaction wheels.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the reaction wheel parameters currently set on the ADCS unit.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="rwParameters" canBeNull="false" comment="Reaction wheel parameters.">
+                                <mal:type area="Platform" list="false" name="ReactionWheelParameters" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the ADCS unit is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+        </mal:service>
+        <mal:service name="SoftwareDefinedRadio" number="4" xsi:type="com:ExtendedServiceType" comment="The Software-defined Radio provides a generic mechanism to set, configure and receive data from a Software-defined Radio device.">
+            <mal:capabilitySet number="1" comment="">
+                <mal:pubsubIP name="streamRadio" number="1" comment="The streamRadio operation allows a consumer to subscribe for Software-defined Radio data updates.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall publish IQ components through the streamRadio operation only while the Software-defined Radio is enabled.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        The service provider shall publish IQ components through the streamRadio operation at the publishingPeriod configured through the enableSDR operation.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:publishNotify>
+                            <mal:field name="iqComponents" canBeNull="true" comment="The in-phase and quadrature data from the Software-defined Radio unit.">
+                                <mal:type area="Platform" list="false" name="IQComponents" />
+                            </mal:field>
+                        </mal:publishNotify>
+                    </mal:messages>
+                </mal:pubsubIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="2" comment="">
+                <mal:submitIP name="enableSDR" number="2" comment="The enableSDR operation allows a consumer to enable or disable the Software-defined Radio.">
+                    <mal:documentation name="Requirement" order="1">
+                        If the enable field is TRUE, then the service provider shall enable the Software-defined Radio.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the enable field is FALSE, then the service provider shall disable the Software-defined Radio.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        If the enable field is TRUE and the initialConfiguration field is not NULL, then the service provider shall apply the initialConfiguration field to the Software-defined Radio unit.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="4">
+                        If the enable field is TRUE, then a consumer shall supply the publishingPeriod field.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:submit>
+                            <mal:field name="enable" canBeNull="false" comment="TRUE to enable the Software-defined Radio, FALSE to disable it.">
+                                <mal:type area="MAL" list="false" name="Boolean" />
+                            </mal:field>
+                            <mal:field name="initialConfiguration" canBeNull="true" comment="The configuration to apply right after the Software-defined Radio is enabled, or NULL to apply no configuration.">
+                                <mal:type area="Platform" list="false" name="SDRConfiguration" />
+                            </mal:field>
+                            <mal:field name="publishingPeriod" canBeNull="true" comment="The period at which the Software-defined Radio publishes data through the streamRadio operation; required when the enable field is TRUE.">
+                                <mal:type area="MAL" list="false" name="Duration" />
+                            </mal:field>
+                        </mal:submit>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the initialConfiguration field contains an invalid value.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the Software-defined Radio is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the Software-defined Radio could not be enabled.">
+                            <mal:type area="MAL" list="false" name="Internal" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:submitIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="3" comment="">
+                <mal:submitIP name="updateConfiguration" number="3" comment="The updateConfiguration operation allows a consumer to set a configuration on the Software-defined Radio.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall apply the configuration field to the Software-defined Radio unit.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:submit>
+                            <mal:field name="configuration" canBeNull="false" comment="The configuration to apply to the Software-defined Radio.">
+                                <mal:type area="Platform" list="false" name="SDRConfiguration" />
+                            </mal:field>
+                        </mal:submit>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the configuration field contains an invalid value.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the Software-defined Radio is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:submitIP>
+            </mal:capabilitySet>
+            <com:features />
+        </mal:service>
+        <mal:service name="OpticalDataReceiver" number="5" xsi:type="com:ExtendedServiceType" comment="The Optical Data Receiver service provides a mechanism to receive messages from an Optical Data Receiver device.">
+            <mal:capabilitySet number="1" comment="">
+                <mal:invokeIP name="recordSamples" number="1" comment="The recordSamples operation allows a consumer to record a sample.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the samples recorded from the Optical Data Receiver over the period given in the recordingDuration field.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:invoke>
+                            <mal:field name="recordingDuration" canBeNull="true" comment="The duration of samples acquisition.">
+                                <mal:type area="MAL" list="false" name="Duration" />
+                            </mal:field>
+                        </mal:invoke>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
+                        <mal:response>
+                            <mal:field name="data" canBeNull="true" comment="A blob of data from the Optical Data Receiver. Sample buffer format is implementation specific.">
+                                <mal:type area="MAL" list="false" name="Blob" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the recordingDuration field exceeds the maximum allowed recording duration.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="The maximum allowed recording duration.">
+                                <mal:type area="MAL" list="false" name="Duration" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the Optical Data Receiver is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:invokeIP>
+            </mal:capabilitySet>
+            <com:features />
+        </mal:service>
+        <mal:service name="FPGA" number="6" xsi:type="com:ExtendedServiceType" comment="The FPGA service allows a consumer to load and unload gateware modules into the reconfigurable partitions of the platform FPGA at runtime, without disturbing the static shell design. The static shell defines the set of reconfigurable partitions; a module is a partial bitstream compiled on ground against a specific shell version and delivered on board inside an NMF Package together with a manifest that declares its shell version and its per-partition bitstream variants.">
+            <mal:documentation name="Service-level Requirement" order="1">The FPGA service shall provide:
+&lt;ol&gt;
+  &lt;li&gt;the capability to list the reconfigurable partitions of the platform FPGA;&lt;/li&gt;
+  &lt;li&gt;the capability to load a gateware module into a free partition and to unload it;&lt;/li&gt;
+  &lt;li&gt;the capability to monitor the state of the partitions and of the fabric.&lt;/li&gt;
+&lt;/ol&gt;
+            </mal:documentation>
+            <mal:capabilitySet number="1" comment="">
+                <mal:requestIP name="listPartitions" number="1" comment="The listPartitions operation allows a consumer to request the list of reconfigurable partitions of the platform FPGA.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain one entry in the partitions field for every reconfigurable partition of the platform, regardless of its state.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="partitions" canBeNull="false" comment="The list of reconfigurable partitions of the platform.">
+                                <mal:type area="Platform" list="true" name="FPGAPartition"/>
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the platform has no reconfigurable fabric.">
+                            <mal:type area="Platform" list="false" name="Device Not Available"/>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="2" comment="">
+                <mal:progressIP name="loadModule" number="2" comment="The loadModule operation allows a consumer to load a gateware module into a reconfigurable partition. The bitstream is not carried in the message: the service locates it on board through the module manifest delivered with the app.">
+                    <mal:documentation name="Requirement" order="1">
+                        If the preferredPartition field is NULL, then the service provider shall select a free partition for which the module manifest declares a bitstream variant.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        The service provider shall verify the checksum of the bitstream file against the value declared in the module manifest before writing it to the fabric.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        The service provider shall decouple the partition from the static shell before writing the bitstream to the fabric.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="4">
+                        The service provider shall couple the partition back to the static shell only after the bitstream write has completed and the module reset has been released.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="5">
+                        The service provider shall send one UPDATE message at the start of each stage of the load, with the stage field set to the stage being entered.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="6">
+                        Upon successful completion of the load, the service provider shall store an FPGAModuleLoaded object in the COM Archive.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:progress>
+                            <mal:field name="moduleName" canBeNull="false" comment="The name of the module, as declared in the module manifest.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                            <mal:field name="preferredPartition" canBeNull="true" comment="The partition to load the module into, or NULL to let the service provider select one.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                        </mal:progress>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
+                        <mal:update>
+                            <mal:field name="stage" canBeNull="false" comment="The stage of the load being entered.">
+                                <mal:type area="Platform" list="false" name="ModuleLoadStage"/>
+                            </mal:field>
+                        </mal:update>
+                        <mal:response>
+                            <mal:field name="partition" canBeNull="false" comment="The partition into which the module was loaded, including the data-plane reference for direct access to the module.">
+                                <mal:type area="Platform" list="false" name="FPGAPartition"/>
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the moduleName is not known to the service provider.">
+                            <mal:type area="MAL" list="false" name="Unknown"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the preferredPartition field references a partition that is not in the FREE state.">
+                            <mal:type area="Platform" list="false" name="Device In Use"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the platform has no reconfigurable fabric, or when no free partition has a bitstream variant of the requested module.">
+                            <mal:type area="Platform" list="false" name="Device Not Available"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the shell version declared in the module manifest differs from the shell version running in the fabric.">
+                            <mal:type area="Platform" list="false" name="Incompatible"/>
+                            <mal:extraInformation comment="The shell version running in the fabric.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the bitstream file fails its checksum verification.">
+                            <mal:type area="Platform" list="false" name="Verification Failed"/>
+                            <mal:extraInformation comment="A textual description of the verification failure.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:progressIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="3" comment="">
+                <mal:requestIP name="unloadModule" number="3" comment="The unloadModule operation allows a consumer to unload the module of a reconfigurable partition, returning the partition to the FREE state.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall decouple the partition from the static shell before clearing it.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        The service provider shall set the partition state to FREE after the unload completes.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        If the partition is already in the FREE state, then the service provider shall return without error.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="4">
+                        Upon successful completion of the unload, the service provider shall store an FPGAModuleUnloaded object in the COM Archive.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                            <mal:field name="partitionId" canBeNull="false" comment="The identifier of the partition to unload.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                        </mal:request>
+                        <mal:response>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the partitionId is not known to the service provider.">
+                            <mal:type area="MAL" list="false" name="Unknown"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the platform has no reconfigurable fabric.">
+                            <mal:type area="Platform" list="false" name="Device Not Available"/>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="4" comment="">
+                <mal:requestIP name="getStatus" number="4" comment="The getStatus operation allows a consumer to request the status of the reconfigurable fabric.">
+                    <mal:documentation name="Requirement" order="1">
+                        If the platform cannot report single-event upset statistics, then the service provider shall set the seuCount and scrubCycles fields to NULL.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="status" canBeNull="false" comment="The status of the reconfigurable fabric.">
+                                <mal:type area="Platform" list="false" name="FabricStatus"/>
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the platform has no reconfigurable fabric.">
+                            <mal:type area="Platform" list="false" name="Device Not Available"/>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+                <mal:pubsubIP name="monitorPartitions" number="5" comment="The monitorPartitions operation allows a consumer to subscribe for partition state changes.">
+                    <mal:documentation name="Requirement" order="1">
+                        Upon every partition state transition, the service provider shall publish the new Partition through the monitorPartitions operation.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        A service consumer may subscribe to updates for a specific partition, or for all partitions with the use of the wildcard in the partitionId field.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:subscriptionKeys>
+                            <mal:field name="partitionId" canBeNull="false" comment="The identifier of the partition.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                        </mal:subscriptionKeys>
+                        <mal:publishNotify>
+                            <mal:field name="partition" canBeNull="false" comment="The partition after the state transition.">
+                                <mal:type area="Platform" list="false" name="FPGAPartition"/>
+                            </mal:field>
+                        </mal:publishNotify>
+                    </mal:messages>
+                </mal:pubsubIP>
+            </mal:capabilitySet>
+            <com:features>
+                <com:objects comment="The FPGAModuleLoaded and FPGAModuleUnloaded COM objects form the audit trail of the fabric occupancy.">
+                    <com:object number="1" name="FPGAModuleLoaded"
+                                comment="A record of a gateware module loaded into a reconfigurable partition.">
+                        <com:objectType>
+                            <mal:type area="Platform" list="false" name="FPGAModuleLoaded"/>
+                        </com:objectType>
+                        <com:relatedObject comment=""/>
+                        <com:sourceObject comment=""/>
+                    </com:object>
+                    <com:object number="2" name="FPGAModuleUnloaded"
+                                comment="A record of a gateware module unloaded from a reconfigurable partition.">
+                        <com:objectType>
+                            <mal:type area="Platform" list="false" name="FPGAModuleUnloaded"/>
+                        </com:objectType>
+                        <com:relatedObject comment="The FPGAModuleLoaded COM object of the load that this unload terminates.">
+                            <com:objectType area="Platform" number="1" service="FPGA"/>
+                        </com:relatedObject>
+                        <com:sourceObject comment=""/>
+                    </com:object>
+                </com:objects>
+                <com:archiveUsage
+                    comment="FPGAModuleLoaded objects and FPGAModuleUnloaded objects are stored in the COM archive."/>
+            </com:features>
+        </mal:service>
+        <mal:service name="PowerControl" number="7" xsi:type="com:ExtendedServiceType" comment="The Power Control service provides a generic mechanism to list the available power units in a spacecraft platform and to enable/disable them.">
+            <mal:capabilitySet number="1" comment="">
+                <mal:requestIP name="listDevices" number="1" comment="The listDevices operation allows a consumer to request the list of the units available and their respective status. The request may contain the wildcard value of '*' to return all available devices.">
+                    <mal:documentation name="Requirement" order="1">
+                        The devices field of the RESPONSE message shall report, for each selected unit, its identity and current power state.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the names field contains the wildcard value of '*', then the service provider shall return all units available for power control.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                            <mal:field name="names" canBeNull="true" comment="The name of the units.">
+                                <mal:type area="MAL" list="true" name="Identifier" />
+                            </mal:field>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="devices" canBeNull="true" comment="List of returned devices.">
+                                <mal:type area="Platform" list="true" name="Device" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When one of the supplied identifiers in the names list is unknown.">
+                            <mal:type area="MAL" list="false" name="Unknown" />
+                            <mal:extraInformation comment="The indexes of the unknown entries in the names list.">
+                                <mal:type area="MAL" list="true" name="UInteger" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="2" comment="">
+                <mal:requestIP name="enableDevices" number="2" comment="The enableDevices operation allows a consumer to enable and disable specific devices. Device can be identified by id and/or unit Type. If id is NULL, then the first device of given type is selected.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall set the power state of each unit in the devices field to the value of its enabled field.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the unitId field of a device is NULL, then the service provider shall select the first available unit of the matching deviceType.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                            <mal:field name="devices" canBeNull="true" comment="List of devices to be controlled.">
+                                <mal:type area="Platform" list="true" name="Device" />
+                            </mal:field>
+                        </mal:request>
+                        <mal:response>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When at least one of the devices requested is not available for power control.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <com:features />
+        </mal:service>
+        <mal:service name="ArtificialIntelligence" number="8" xsi:type="com:ExtendedServiceType" comment="The Artificial Intelligence service provides a generic mechanism to control an AI device including setting the models and controlling the inference of images.">
+            <mal:capabilitySet number="1" comment="">
+                <mal:requestIP name="setModel" number="1" comment="The setModel operation allows a consumer to set the Model to be used by the AI device.">
+                    <mal:documentation name="Requirement" order="1">
+                        If there is also an associated weights file, then its path and filename shall be the same as the model with the only difference being the file extension (from .xml to .bin).
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                            <mal:field name="modelPath" canBeNull="false" comment="The absolute path to the model file.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:field>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="modelId" canBeNull="false" comment="The id of the model.">
+                                <mal:type area="MAL" list="false" name="Long" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="2" comment="">
+                <mal:requestIP name="doInference" number="2" comment="The doInference operation allows a consumer to perform inference on the AI device.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall process the tiles in the inputTilesPath folder using the model identified by the modelId field.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        The outputTilesPath field of the RESPONSE message shall reference the folder containing the inferred tiles.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                            <mal:field name="modelId" canBeNull="false" comment="The id of the model to be used for inference.">
+                                <mal:type area="MAL" list="false" name="Long" />
+                            </mal:field>
+                            <mal:field name="inputTilesPath" canBeNull="false" comment="The absolute path to a folder with the tiles to be processed.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:field>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="outputTilesPath" canBeNull="false" comment="The absolute path to a folder with the inferred tiles.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the inputTilesPath field does not refer to an existing folder.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="3" comment="">
+                <mal:invokeIP name="doComputerVision" number="3" comment="The doComputerVision operation allows a consumer to invoke the execution of inference with an AI unit.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall execute the computer vision task described by the file referenced in the jsonPath field.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:invoke>
+                            <mal:field name="jsonPath" canBeNull="false" comment="The absolute path to a json file with information to be processed.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:field>
+                        </mal:invoke>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
+                        <mal:response>
+                            <mal:field name="success" canBeNull="false" comment="TRUE if the execution of the computer vision was successful; FALSE otherwise.">
+                                <mal:type area="MAL" list="false" name="Boolean" />
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the execution could not be completed successfully.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="A description of the error.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the AI device is not available.">
+                            <mal:type area="Platform" list="false" name="Device Not Available" />
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the AI device is currently being used.">
+                            <mal:type area="Platform" list="false" name="Device In Use" />
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:invokeIP>
+            </mal:capabilitySet>
+            <com:features />
+        </mal:service>
+        <mal:service name="SoftwareImages" number="9" xsi:type="com:ExtendedServiceType" comment="The SoftwareImages service allows a consumer to start, stop and restart software images in the partitions of the platform hypervisor. The hypervisor configuration defines the set of partitions; an image is a bare-metal or guest operating system payload compiled on ground against a specific hypervisor configuration version and delivered on board inside an NMF Package together with a manifest that declares its configuration version and its per-partition variants.">
+            <mal:documentation name="Service-level Requirement" order="1">The SoftwareImages service shall provide:
+&lt;ol&gt;
+  &lt;li&gt;the capability to list the partitions of the platform hypervisor;&lt;/li&gt;
+  &lt;li&gt;the capability to start a software image in a free partition, to stop it and to restart it;&lt;/li&gt;
+  &lt;li&gt;the capability to monitor the status of the hypervisor.&lt;/li&gt;
+&lt;/ol&gt;
+            </mal:documentation>
+            <mal:capabilitySet number="1" comment="">
+                <mal:requestIP name="listPartitions" number="1" comment="The listPartitions operation allows a consumer to request the list of partitions of the platform hypervisor.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain one entry in the partitions field for every partition of the hypervisor configuration, regardless of its state.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="partitions" canBeNull="false" comment="The list of partitions of the platform hypervisor.">
+                                <mal:type area="Platform" list="true" name="SoftwareImagePartition"/>
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the platform has no hypervisor.">
+                            <mal:type area="Platform" list="false" name="Device Not Available"/>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="2" comment="">
+                <mal:progressIP name="startImage" number="2" comment="The startImage operation allows a consumer to start a software image in a partition of the platform hypervisor. The image is not carried in the message: the service locates it on board through the image manifest delivered with it.">
+                    <mal:documentation name="Requirement" order="1">
+                        If the preferredPartition field is NULL, then the service provider shall select a free partition for which the image manifest declares a variant.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        The service provider shall verify the checksum of the image file against the value declared in the image manifest before loading it into the partition.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        The service provider shall load the image into the partition while the partition is halted.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="4">
+                        The service provider shall send one UPDATE message at the start of each stage of the start, with the stage field set to the stage being entered.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="5">
+                        Upon successful completion of the start, the service provider shall store a SoftwareImageStarted object in the COM Archive.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:progress>
+                            <mal:field name="imageName" canBeNull="false" comment="The name of the image, as declared in the image manifest.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                            <mal:field name="preferredPartition" canBeNull="true" comment="The partition to start the image in, or NULL to let the service provider select one.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                        </mal:progress>
+                        <mal:acknowledgement>
+                        </mal:acknowledgement>
+                        <mal:update>
+                            <mal:field name="stage" canBeNull="false" comment="The stage of the start being entered.">
+                                <mal:type area="Platform" list="false" name="SoftwareImageStartStage"/>
+                            </mal:field>
+                        </mal:update>
+                        <mal:response>
+                            <mal:field name="partition" canBeNull="false" comment="The partition in which the image was started.">
+                                <mal:type area="Platform" list="false" name="SoftwareImagePartition"/>
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the imageName is not known to the service provider.">
+                            <mal:type area="MAL" list="false" name="Unknown"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the preferredPartition field references a partition that is not in the FREE state.">
+                            <mal:type area="Platform" list="false" name="Device In Use"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the platform has no hypervisor, or when no free partition has a variant of the requested image.">
+                            <mal:type area="Platform" list="false" name="Device Not Available"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the hypervisor configuration version declared in the image manifest differs from the configuration version running on the hypervisor.">
+                            <mal:type area="Platform" list="false" name="Incompatible"/>
+                            <mal:extraInformation comment="The configuration version running on the hypervisor.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the image file fails its checksum verification.">
+                            <mal:type area="Platform" list="false" name="Verification Failed"/>
+                            <mal:extraInformation comment="A textual description of the verification failure.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:progressIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="3" comment="">
+                <mal:requestIP name="stopImage" number="3" comment="The stopImage operation allows a consumer to stop the image of a partition, returning the partition to the FREE state.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall halt the partition before clearing it.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        The service provider shall set the partition state to FREE after the stop completes.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        If the partition is already in the FREE state, then the service provider shall return without error.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="4">
+                        Upon successful completion of the stop, the service provider shall store a SoftwareImageStopped object in the COM Archive.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                            <mal:field name="partitionId" canBeNull="false" comment="The identifier of the partition to stop.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                        </mal:request>
+                        <mal:response>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the partitionId is not known to the service provider.">
+                            <mal:type area="MAL" list="false" name="Unknown"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the platform has no hypervisor.">
+                            <mal:type area="Platform" list="false" name="Device Not Available"/>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+                <mal:requestIP name="restartImage" number="4" comment="The restartImage operation allows a consumer to reset a partition without reloading its image.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall reset the partition without writing the image to the partition again.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                            <mal:field name="partitionId" canBeNull="false" comment="The identifier of the partition to restart.">
+                                <mal:type area="MAL" list="false" name="Identifier"/>
+                            </mal:field>
+                        </mal:request>
+                        <mal:response>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the partitionId is not known to the service provider.">
+                            <mal:type area="MAL" list="false" name="Unknown"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the partition has no image loaded.">
+                            <mal:type area="MAL" list="false" name="Incorrect State"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the platform has no hypervisor.">
+                            <mal:type area="Platform" list="false" name="Device Not Available"/>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <mal:capabilitySet number="4" comment="">
+                <mal:requestIP name="getStatus" number="5" comment="The getStatus operation allows a consumer to request the status of the platform hypervisor.">
+                    <mal:documentation name="Requirement" order="1">
+                        The RESPONSE message shall contain the hypervisor version and the version of the hypervisor configuration it is running.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="status" canBeNull="false" comment="The status of the platform hypervisor.">
+                                <mal:type area="Platform" list="false" name="HypervisorStatus"/>
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the platform has no hypervisor.">
+                            <mal:type area="Platform" list="false" name="Device Not Available"/>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
+            <com:features>
+                <com:objects comment="The SoftwareImageStarted and SoftwareImageStopped COM objects form the audit trail of the hypervisor partition occupancy.">
+                    <com:object number="1" name="SoftwareImageStarted"
+                                comment="A record of a software image started in a hypervisor partition.">
+                        <com:objectType>
+                            <mal:type area="Platform" list="false" name="SoftwareImageStarted"/>
+                        </com:objectType>
+                        <com:relatedObject comment=""/>
+                        <com:sourceObject comment=""/>
+                    </com:object>
+                    <com:object number="2" name="SoftwareImageStopped"
+                                comment="A record of a software image stopped in a hypervisor partition.">
+                        <com:objectType>
+                            <mal:type area="Platform" list="false" name="SoftwareImageStopped"/>
+                        </com:objectType>
+                        <com:relatedObject comment="The SoftwareImageStarted COM object of the start that this stop terminates.">
+                            <com:objectType area="Platform" number="1" service="SoftwareImages"/>
+                        </com:relatedObject>
+                        <com:sourceObject comment=""/>
+                    </com:object>
+                </com:objects>
+                <com:archiveUsage
+                    comment="SoftwareImageStarted objects and SoftwareImageStopped objects are stored in the COM archive."/>
+            </com:features>
+        </mal:service>
+        <mal:dataTypes>
+            <mal:composite name="VectorF3D" shortFormPart="1" comment="A 3D float vector.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field name="x" canBeNull="true" comment="The x component.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="y" canBeNull="true" comment="The y component.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="z" canBeNull="true" comment="The z component.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="VectorD3D" shortFormPart="2" comment="A 3D double vector.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field name="x" canBeNull="true" comment="The x component.">
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field name="y" canBeNull="true" comment="The y component.">
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field name="z" canBeNull="true" comment="The z component.">
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="Picture" shortFormPart="3" comment="The details of a picture.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field name="timestamp" canBeNull="true" comment="The time of creation.">
+                    <mal:type area="MAL" list="false" name="Time" />
+                </mal:field>
+                <mal:field name="settings" canBeNull="false" comment="Acquisition settings used to take the picture.">
+                    <mal:type area="Platform" list="false" name="CameraSettings" />
+                </mal:field>
+                <mal:field name="content" canBeNull="false" comment="The content of the picture.">
+                    <mal:type area="MAL" list="false" name="Blob" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="PixelResolution" shortFormPart="4" comment="The pixel resolution of a picture.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field name="width" canBeNull="false" comment="The width of the picture.">
+                    <mal:type area="MAL" list="false" name="UInteger" />
+                </mal:field>
+                <mal:field name="height" canBeNull="false" comment="The height of the picture.">
+                    <mal:type area="MAL" list="false" name="UInteger" />
+                </mal:field>
+            </mal:composite>
+            <mal:enumeration name="PictureFormat" shortFormPart="5" comment="The format of a picture.">
+                <mal:item nvalue="1" value="RAW" comment="RAW bitmap with native sensor data."/>
+                <mal:item nvalue="2" value="RGB24" comment="RGB24 raw stream."/>
+                <mal:item nvalue="3" value="BMP" comment="BMP file."/>
+                <mal:item nvalue="4" value="PNG" comment="PNG file."/>
+                <mal:item nvalue="5" value="JPG" comment="JPG file."/>
+            </mal:enumeration>
+            <mal:composite name="CameraSettings" shortFormPart="6" comment="Image acquisition settings.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field name="resolution" canBeNull="false" comment="The desired picture resolution.">
+                    <mal:type area="Platform" list="false" name="PixelResolution" />
+                </mal:field>
+                <mal:field name="format" canBeNull="false" comment="The desired picture format.">
+                    <mal:type area="Platform" list="false" name="PictureFormat" />
+                </mal:field>
+                <mal:field name="exposureTime" canBeNull="false" comment="The exposure time of the camera.">
+                    <mal:type area="MAL" list="false" name="Duration" />
+                </mal:field>
+                <mal:field name="gainRed" canBeNull="false" comment="Red channel gain.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="gainGreen" canBeNull="false" comment="Green channel gain.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="gainBlue" canBeNull="false" comment="Blue channel gain.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="extra" canBeNull="true" comment="Extra optional configurations. Shall be empty if no extra configurations are provided.">
+                    <mal:type area="MAL" list="true" name="NamedValue" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="Position" shortFormPart="7" comment="A WGS-84 position of the spacecraft reported by the GPS unit.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field name="latitude" canBeNull="false" comment="The latitude of the position. The unit is in decimal degrees.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="longitude" canBeNull="false" comment="The longitude of the position. The unit is in decimal degrees.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="altitude" canBeNull="false" comment="Altitude in meters according to the WGS-84 ellipsoid.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="extraDetails" canBeNull="true" comment="Extra details about the position.">
+                    <mal:type area="Platform" list="false" name="PositionExtraDetails" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="SatelliteInfo" shortFormPart="8" comment="The satellite information obtained from the GPS unit.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field name="azimuth" canBeNull="true" comment="The azimuth of the satellite [deg].">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="elevation" canBeNull="true" comment="The elevation of the satellite [deg].">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="prn" canBeNull="true" comment="The pseudorandom noise number.">
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+                <mal:field name="psr" canBeNull="true" comment="Calculated pseudorange [m].">
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field name="psrDev" canBeNull="true" comment="Pseudorange std deviation.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="adr" canBeNull="true" comment="Calculated carrier phase (accumulated Doppler range) [cycles].">
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field name="adrDev" canBeNull="true" comment="Calculated carrier phase std deviation.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="dopp" canBeNull="true" comment="Instantaneous carrier Doppler frequency.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="snr" canBeNull="true" comment="Signal to noise ratio.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="trackingStatus" canBeNull="true" comment="Tracking Status.">
+                    <mal:type area="MAL" list="false" name="UInteger" />
+                </mal:field>
+                <mal:field name="locktime" canBeNull="true" comment="Time of continuous tracking [s].">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="PositionExtraDetails" shortFormPart="9" comment="Extra position information that can be provided by a GPS unit.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field name="utc" canBeNull="true" comment="UTC time status of position.">
+                    <mal:type area="MAL" list="false" name="Time" />
+                </mal:field>
+                <mal:field name="fixQuality" canBeNull="true" comment="Fix Quality:&#10;0 = Invalid; &#10;1 = GPS fix;&#10;2 = DGPS fix.">
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+                <mal:field name="numberOfSatellites" canBeNull="true" comment="The number of satellites in view for this position.">
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+                <mal:field name="hdop" canBeNull="true" comment="Horizontal Dilution of Precision. The relative accuracy of horizontal position.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="undulation" canBeNull="true" comment="The relationship between the geoid and the WGS84 ellipsoid. The unit is meters.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="positionSource" canBeNull="false" comment="Source of the position data (e.g. directly from GNSS or propagated via TLE).">
+                    <mal:type area="Platform" list="false" name="PositionSourceType" />
+                </mal:field>
+            </mal:composite>
+            <mal:enumeration name="PositionSourceType" shortFormPart="10" comment="GNSS position source.">
+                <mal:item nvalue="1" value="GNSS" comment="GNSS."/>
+                <mal:item nvalue="2" value="TLE" comment="TLE propagation."/>
+            </mal:enumeration>
+            <mal:composite name="NearbyPosition" shortFormPart="11" comment="A definition of a nearby position.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field name="name" canBeNull="true" comment="The name of the definition.">
+                    <mal:type area="MAL" list="false" name="Identifier" />
+                </mal:field>
+                <mal:field name="description" canBeNull="true" comment="A textual description of the definition.">
+                    <mal:type area="MAL" list="false" name="String" />
+                </mal:field>
+                <mal:field name="distanceBoundary" canBeNull="true" comment="The distance boundary of this definition. The distance boundary shall define a spherical zone around the position. The unit is meters.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="position" canBeNull="true" comment="The position of the definition.">
+                    <mal:type area="Platform" list="false" name="Position" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="TwoLineElementSet" shortFormPart="12" comment="The two-line element set reported by the GPS unit.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field name="catalogNo" canBeNull="true" comment="The Satellite catalog number.">
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+                <mal:field name="classification" canBeNull="true" comment="The Classification. Possible Values: U=Unclassified, C=Classified, S=Secret.">
+                    <mal:type area="MAL" list="false" name="String" />
+                </mal:field>
+                <mal:field name="idYear" canBeNull="true" comment="First part of International Designator, containing the last two digits of the launch year.">
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+                <mal:field name="idLaunchNo" canBeNull="true" comment="Second part of International Designator, containing launch number of the year.">
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+                <mal:field name="idPiece" canBeNull="true" comment="Third part of International Designator, containing the piece of launch.">
+                    <mal:type area="MAL" list="false" name="String" />
+                </mal:field>
+                <mal:field name="epochYear" canBeNull="true" comment="Epoch year (last two digits of year).">
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+                <mal:field name="epochDay" canBeNull="true" comment="Epoch day (day of year).">
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+                <mal:field name="epochSecond" canBeNull="true" comment="Epoch second (Second of day).">
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field name="meanMotionD1" canBeNull="true" comment="First Derivative of Mean Motion.">
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field name="meanMotionD2" canBeNull="true" comment="Second Derivative of Mean Motion.">
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field name="dragTerm" canBeNull="true" comment="Drag Term (Radiation Pressure Coefficient).">
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field name="id" canBeNull="true" comment="Element set number (ID of this set).">
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+                <mal:field name="inclination" canBeNull="true" comment="The Inclination. The unit is in decimal degrees.">
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field name="raan" canBeNull="true" comment="The right ascension of the ascending node. The unit is in decimal degrees.">
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field name="eccentricity" canBeNull="true" comment="The eccentricity. This value is dimensionless.">
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field name="argumentOfPerigee" canBeNull="true" comment="The argument of perigee. The unit is in decimal degrees.">
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field name="meanAnomaly" canBeNull="true" comment="The mean anomaly. The unit is in decimal degrees.">
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field name="meanMotion" canBeNull="true" comment="The mean motion. The unit is revolutions per day.">
+                    <mal:type area="MAL" list="false" name="Double" />
+                </mal:field>
+                <mal:field name="numRevolutions" canBeNull="true" comment="The number of completed revolutions at epoch.">
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="Quaternion" shortFormPart="13" comment="Quaternion components.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field name="a" canBeNull="false" comment="Quaternion scalar component a.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="b" canBeNull="false" comment="Quaternion vector component b*i.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="c" canBeNull="false" comment="Quaternion vector component c*j.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="d" canBeNull="false" comment="Quaternion vector component d*k.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="AttitudeMode" comment="An abstract attitude setting defined by the consumer. This composite is specialized into particular attitude mode descriptors.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+            </mal:composite>
+            <mal:composite name="AttitudeModeBDot" shortFormPart="14" comment="B-dot detumbling attitude mode defined by the consumer.">
+                <mal:extends>
+                    <mal:type area="Platform" list="false" name="AttitudeMode" />
+                </mal:extends>
+            </mal:composite>
+            <mal:composite name="AttitudeModeSingleSpinning" shortFormPart="15" comment="Single-axis spinning attitude mode defined by the consumer.">
+                <mal:extends>
+                    <mal:type area="Platform" list="false" name="AttitudeMode" />
+                </mal:extends>
+                <mal:field name="bodyAxis" canBeNull="false" comment="The spin axis vector, defined in the body reference frame.">
+                    <mal:type area="Platform" list="false" name="VectorF3D"/>
+                </mal:field>
+                <mal:field name="angularVelocity" canBeNull="false" comment="The angular velocity of the spin. The right-hand rule shall be followed to indicate the positive direction of the angular velocity. [rad/s].">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="AttitudeModeSunPointing" shortFormPart="16" comment="Sun Pointing attitude mode defined by the consumer.">
+                <mal:extends>
+                    <mal:type area="Platform" list="false" name="AttitudeMode" />
+                </mal:extends>
+            </mal:composite>
+            <mal:composite name="AttitudeModeTargetTracking" shortFormPart="17" comment="Fixed Ground Target Tracking attitude mode defined by the consumer.">
+                <mal:extends>
+                    <mal:type area="Platform" list="false" name="AttitudeMode" />
+                </mal:extends>
+                <mal:field name="latitude" canBeNull="false" comment="The latitude of the target to be tracked. [deg].">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="longitude" canBeNull="false" comment="The longitude of the target to be tracked. [deg].">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="AttitudeModeTargetTrackingLinear" shortFormPart="18" comment="Constant velocity Ground Target Tracking attitude mode defined by the consumer.">
+                <mal:extends>
+                    <mal:type area="Platform" list="false" name="AttitudeMode" />
+                </mal:extends>
+                <mal:field name="latitudeStart" canBeNull="false" comment="The start latitude of the target to be tracked. [deg].">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="longitudeStart" canBeNull="false" comment="The start longitude of the target to be tracked. [deg].">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="latitudeEnd" canBeNull="false" comment="The end latitude of the target to be tracked. [deg].">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="longitudeEnd" canBeNull="false" comment="The end longitude of the target to be tracked. [deg].">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="startEpoch" canBeNull="false" comment="The beginning epoch time of the tracking. [msec].">
+                    <mal:type area="MAL" list="false" name="Long" />
+                </mal:field>
+                <mal:field name="endEpoch" canBeNull="false" comment="The ending epoch time of the tracking. [msec].">
+                    <mal:type area="MAL" list="false" name="Long" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="AttitudeModeNadirPointing" shortFormPart="19" comment="Nadir Pointing attitude mode defined by the consumer.">
+                <mal:extends>
+                    <mal:type area="Platform" list="false" name="AttitudeMode" />
+                </mal:extends>
+            </mal:composite>
+            <mal:composite name="AttitudeModeVectorPointing" shortFormPart="20" comment="Vector Pointing attitude mode defined by the consumer.">
+                <mal:extends>
+                    <mal:type area="Platform" list="false" name="AttitudeMode" />
+                </mal:extends>
+                <mal:field name="target" canBeNull="false" comment="Vector the Satellite should point the camera at (in ICRF).">
+                    <mal:type area="Platform" list="false" name="VectorF3D"/>
+                </mal:field>
+                <mal:field name="margin" canBeNull="false" comment="Margin between target vector and current vector (in degrees).">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="AttitudeModeInertialPointing" shortFormPart="21" comment="Inertial Pointing attitude mode.">
+                <mal:extends>
+                    <mal:type area="Platform" list="false" name="AttitudeMode" />
+                </mal:extends>
+                <mal:field name="targetVector" canBeNull="false" comment="Line of sight vector in satellite body frame pointing to the target.">
+                    <mal:type area="Platform" list="false" name="VectorF3D"/>
+                </mal:field>
+                <mal:field name="flightVector" canBeNull="false" comment="Flight vector in satellite body frame pointing into the flight direction.">
+                    <mal:type area="Platform" list="false" name="VectorF3D"/>
+                </mal:field>
+                <mal:field name="targetAttitude" canBeNull="false" comment="Target attitude quaternion in ECI frame.">
+                    <mal:type area="Platform" list="false" name="Quaternion" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="WheelsSpeed" shortFormPart="22" comment="The speeds of the reaction wheels.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field name="rotationalSpeed" canBeNull="false" comment="Angular velocities of the wheels. The ordering of the array is implementation specific (typically X,Y,Z[,U,V,W]). [rad/sec].">
+                    <mal:type area="MAL" list="true" name="Float" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="ActuatorsTelemetry" shortFormPart="23" comment="The ADCS actuators telemetry.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field name="targetWheelSpeed" canBeNull="false" comment="Target reaction wheels speed.">
+                    <mal:type area="Platform" list="false" name="WheelsSpeed" />
+                </mal:field>
+                <mal:field name="currentWheelSpeed" canBeNull="false" comment="Current reaction wheels speed.">
+                    <mal:type area="Platform" list="false" name="WheelsSpeed" />
+                </mal:field>
+                <mal:field name="mtqDipoleMoment" canBeNull="false" comment="Target magnetorquers dipole moment relative to the spacecraft frame. [A*m^2].">
+                    <mal:type area="Platform" list="false" name="VectorF3D"/>
+                </mal:field>
+                <mal:field name="mtqState" canBeNull="false" comment="Current state of the magnetorquers.">
+                    <mal:type area="Platform" list="false" name="MagnetorquersState" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="AttitudeTelemetry" shortFormPart="24" comment="The derived ADCS telemetry.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field name="attitude" canBeNull="false" comment="Calculated attitude quaternion of the spacecraft frame relative to International Celestial Reference Frame (ICRF).">
+                    <mal:type area="Platform" list="false" name="Quaternion" />
+                </mal:field>
+                <mal:field name="angularVelocity" canBeNull="false" comment="Calculated angular velocity vector (x,y,z) relative to the spacecraft frame. [rad/sec].">
+                    <mal:type area="Platform" list="false" name="VectorF3D"/>
+                </mal:field>
+                <mal:field name="sunVector" canBeNull="false" comment="Calculated dimensionless sun vector (x,y,z) relative to the spacecraft frame.">
+                    <mal:type area="Platform" list="false" name="VectorF3D"/>
+                </mal:field>
+                <mal:field name="magneticField" canBeNull="false" comment="Calculated magnetic flux density relative to the spacecraft frame. [T].">
+                    <mal:type area="Platform" list="false" name="VectorF3D"/>
+                </mal:field>
+                <mal:field name="stateTarget" canBeNull="false" comment="TRUE if the desired pointing mode is achieved; FALSE otherwise.">
+                    <mal:type area="MAL" list="false" name="Boolean"/>
+                </mal:field>
+            </mal:composite>
+            <mal:enumeration name="MagnetorquersState" shortFormPart="25" comment="State of the magnetorquers.">
+                <mal:item nvalue="1" value="INACTIVE" comment="Magnetorquers not operating."/>
+                <mal:item nvalue="2" value="ACTIVE" comment="Magnetorquers operating and powered."/>
+                <mal:item nvalue="3" value="SUSPEND" comment="Magnetorquers operating and automatically suspended."/>
+            </mal:enumeration>
+            <mal:enumeration name="ReactionWheelIdentifier" shortFormPart="32" comment="Wheel identifiers.">
+                <mal:item nvalue="1" value="WHEEL_X" comment="Reaction wheel x."/>
+                <mal:item nvalue="2" value="WHEEL_Y" comment="Reaction wheel y."/>
+                <mal:item nvalue="3" value="WHEEL_Z" comment="Reaction wheel z."/>
+                <mal:item nvalue="4" value="WHEEL_U" comment="Reaction wheel u."/>
+                <mal:item nvalue="5" value="WHEEL_V" comment="Reaction wheel v."/>
+                <mal:item nvalue="6" value="WHEEL_W" comment="Reaction wheel w."/>
+            </mal:enumeration>
+            <mal:enumeration name="ReactionWheelControlMode" shortFormPart="31" comment="The interpretation of the reaction wheel target value.">
+                <mal:item nvalue="1" value="CURRENT" comment="The target value is a current [A]."/>
+                <mal:item nvalue="2" value="SPEED" comment="The target value is a speed [rad/sec]."/>
+                <mal:item nvalue="3" value="TORQUE" comment="The target value is a torque [Nm]."/>
+            </mal:enumeration>
+            <mal:composite name="ReactionWheelParameters" shortFormPart="26" comment="Reaction wheel parameters.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field name="controlMode" canBeNull="true" comment="The interpretation of the reaction wheel target value.">
+                    <mal:type area="Platform" list="false" name="ReactionWheelControlMode" />
+                </mal:field>
+                <mal:field name="maxSpeed" canBeNull="true" comment="The maximum speed of the reaction wheels, in rad/second.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="maxTorque" canBeNull="true" comment="Maximum torque of the Reaction wheels in Nm.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="inertia" canBeNull="true" comment="Moment of inertia of the Reaction wheels in kg/m^2.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="motorConst" canBeNull="true" comment="Motor constant of the Reaction wheels in Nm/A.">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="SDRConfiguration" shortFormPart="27" comment="A configuration for the SDR. Allowed value ranges depend on the unit.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field name="rxCarrierFrequency" canBeNull="true" comment="RX Carrier Frequency [MHz].">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="rxGain" canBeNull="true" comment="RX chain gain [dB].">
+                    <mal:type area="MAL" list="false" name="Integer" />
+                </mal:field>
+                <mal:field name="rxLowPassBW" canBeNull="true" comment="RX Low Pass Filter bandwidth [MHz].">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+                <mal:field name="rxSamplingFrequency" canBeNull="true" comment="RX sampling frequency [MHz].">
+                    <mal:type area="MAL" list="false" name="Float" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="IQComponents" shortFormPart="28" comment="The In-phase and Quadrature components.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field name="inPhase" canBeNull="true" comment="The in-phase component.">
+                    <mal:type area="MAL" list="true" name="Float" />
+                </mal:field>
+                <mal:field name="quadrature" canBeNull="true" comment="The quadrature component.">
+                    <mal:type area="MAL" list="true" name="Float" />
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="Device" shortFormPart="29" comment="A unit managed by the Power Control service.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite" />
+                </mal:extends>
+                <mal:field name="enabled" canBeNull="false" comment="Power state of the unit.">
+                    <mal:type area="MAL" list="false" name="Boolean" />
+                </mal:field>
+                <mal:field name="unitId" canBeNull="true" comment="The unique id of the device.">
+                    <mal:type area="MAL" list="false" name="Long" />
+                </mal:field>
+                <mal:field name="name" canBeNull="true" comment="Device name.">
+                    <mal:type area="MAL" list="false" name="Identifier" />
+                </mal:field>
+                <mal:field name="deviceType" canBeNull="false" comment="Device type.">
+                    <mal:type area="Platform" list="false" name="DeviceType" />
+                </mal:field>
+            </mal:composite>
+            <mal:enumeration name="DeviceType" shortFormPart="30" comment="Defines type of controlled Units.">
+                <mal:item nvalue="1" value="ADCS" comment="Attitude Determination and Control System."/>
+                <mal:item nvalue="2" value="OBC" comment="On-Board computer."/>
+                <mal:item nvalue="3" value="SBAND" comment="S-Band transceiver."/>
+                <mal:item nvalue="4" value="XBAND" comment="X-Band transceiver."/>
+                <mal:item nvalue="5" value="SDR" comment="Software Defined Radio."/>
+                <mal:item nvalue="6" value="OPTRX" comment="Optical receiver."/>
+                <mal:item nvalue="7" value="CAMERA" comment="Imaging subsystem."/>
+                <mal:item nvalue="8" value="GNSS" comment="GNSS subsystem."/>
+                <mal:item nvalue="100" value="OTHER" comment="Other device."/>
+            </mal:enumeration>
+            <mal:composite name="NearbyPositionAlert" shortFormPart="33" comment="Alert state for spacecraft entering/exiting nearby position boundary.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="enteredBoundary" canBeNull="false" comment="True if entering boundary, false if exiting.">
+                    <mal:type area="MAL" list="false" name="Boolean"/>
+                </mal:field>
+            </mal:composite>
+            <mal:enumeration name="FPGAPartitionState" shortFormPart="34" comment="The state of a reconfigurable partition.">
+                <mal:item nvalue="1" value="FREE" comment="No module is loaded; the partition is available."/>
+                <mal:item nvalue="2" value="LOADING" comment="A module load is in progress."/>
+                <mal:item nvalue="3" value="LOADED" comment="A module is loaded and coupled to the static shell."/>
+                <mal:item nvalue="4" value="FAULTED" comment="The partition is unusable until it is unloaded or the platform is reset."/>
+            </mal:enumeration>
+            <mal:composite name="FPGAPartition" shortFormPart="35" comment="A reconfigurable partition of the platform FPGA.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="partitionId" canBeNull="false" comment="The identifier of the partition.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="description" canBeNull="false" comment="The human-readable description of the partition.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="state" canBeNull="false" comment="The current state of the partition.">
+                    <mal:type area="Platform" list="false" name="FPGAPartitionState"/>
+                </mal:field>
+                <mal:field name="loadedModule" canBeNull="true" comment="The name of the module currently loaded in the partition, or NULL if the partition is FREE.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="ownerAppId" canBeNull="true" comment="The id of the app that loaded the current module, or NULL if the partition is FREE or the module was not loaded by an app.">
+                    <mal:type area="MAL" list="false" name="Long"/>
+                </mal:field>
+                <mal:field name="dataPlaneRef" canBeNull="true" comment="The platform-specific reference for direct data-plane access to the module in this partition (e.g. a Linux UIO device path), or NULL if the platform does not expose one.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="resources" canBeNull="true" comment="An informative summary of the fabric resources of the partition, or NULL if not reported.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="FabricStatus" shortFormPart="36" comment="The status of the reconfigurable fabric.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="shellVersion" canBeNull="false" comment="The version of the static shell design currently loaded in the fabric.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="deviceModel" canBeNull="false" comment="The FPGA device model.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="seuCount" canBeNull="true" comment="The number of single-event upsets detected in the configuration memory since boot, or NULL if the platform cannot report it.">
+                    <mal:type area="MAL" list="false" name="UInteger"/>
+                </mal:field>
+                <mal:field name="scrubCycles" canBeNull="true" comment="The number of configuration scrubbing cycles completed since boot, or NULL if the platform cannot report it.">
+                    <mal:type area="MAL" list="false" name="UInteger"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="FPGAModuleLoaded" shortFormPart="37" comment="A record of a gateware module loaded into a reconfigurable partition.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="moduleName" canBeNull="false" comment="The name of the loaded module.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="partitionId" canBeNull="false" comment="The partition into which the module was loaded.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="ownerAppId" canBeNull="true" comment="The id of the app that requested the load, or NULL if the load was not requested by an app.">
+                    <mal:type area="MAL" list="false" name="Long"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="FPGAModuleUnloaded" shortFormPart="38" comment="A record of a gateware module unloaded from a reconfigurable partition.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="moduleName" canBeNull="false" comment="The name of the unloaded module.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="partitionId" canBeNull="false" comment="The partition from which the module was unloaded.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+            </mal:composite>
+            <mal:enumeration name="ModuleLoadStage" shortFormPart="39" comment="The stage of a module load reported by the loadModule operation.">
+                <mal:item nvalue="1" value="VERIFYING" comment="The bitstream checksum and shell compatibility are being verified."/>
+                <mal:item nvalue="2" value="DECOUPLING" comment="The partition is being decoupled from the static shell."/>
+                <mal:item nvalue="3" value="WRITING" comment="The bitstream is being written to the fabric."/>
+                <mal:item nvalue="4" value="RESETTING" comment="The module is being reset and coupled back to the static shell."/>
+            </mal:enumeration>
+            <mal:enumeration name="SoftwareImagePartitionState" shortFormPart="40" comment="The state of a hypervisor partition.">
+                <mal:item nvalue="1" value="FREE" comment="No image is loaded; the partition is available."/>
+                <mal:item nvalue="2" value="STARTING" comment="An image start is in progress."/>
+                <mal:item nvalue="3" value="RUNNING" comment="An image is loaded and executing."/>
+                <mal:item nvalue="4" value="FAULTED" comment="The partition is unusable until it is stopped or the platform is reset."/>
+            </mal:enumeration>
+            <mal:composite name="SoftwareImagePartition" shortFormPart="41" comment="A partition of the platform hypervisor.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="partitionId" canBeNull="false" comment="The identifier of the partition.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="description" canBeNull="false" comment="The human-readable description of the partition.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="state" canBeNull="false" comment="The current state of the partition.">
+                    <mal:type area="Platform" list="false" name="SoftwareImagePartitionState"/>
+                </mal:field>
+                <mal:field name="loadedImage" canBeNull="true" comment="The name of the image currently loaded in the partition, or NULL if the partition is FREE.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="resources" canBeNull="true" comment="An informative summary of the resources of the partition, or NULL if not reported.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="HypervisorStatus" shortFormPart="42" comment="The status of the platform hypervisor.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="hypervisorVersion" canBeNull="false" comment="The hypervisor product and version.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="configVersion" canBeNull="false" comment="The version of the hypervisor configuration currently running.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="SoftwareImageStarted" shortFormPart="43" comment="A record of a software image started in a hypervisor partition.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="imageName" canBeNull="false" comment="The name of the started image.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="partitionId" canBeNull="false" comment="The partition in which the image was started.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="SoftwareImageStopped" shortFormPart="44" comment="A record of a software image stopped in a hypervisor partition.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="imageName" canBeNull="false" comment="The name of the stopped image.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="partitionId" canBeNull="false" comment="The partition from which the image was stopped.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+            </mal:composite>
+            <mal:enumeration name="SoftwareImageStartStage" shortFormPart="45" comment="The stage of an image start reported by the startImage operation.">
+                <mal:item nvalue="1" value="VERIFYING" comment="The image checksum and hypervisor configuration compatibility are being verified."/>
+                <mal:item nvalue="2" value="LOADING" comment="The image is being loaded into the halted partition."/>
+                <mal:item nvalue="3" value="STARTING" comment="The partition is being started."/>
+            </mal:enumeration>
+        </mal:dataTypes>
+        <mal:errors>
+            <mal:error number="1" name="Device In Use" comment="The device is currently in use." />
+            <mal:error number="2" name="Device Not Available" comment="The device is currently not available." />
+            <mal:error number="3" name="Incompatible" comment="The referenced item was built against a different version of the platform than the one running." />
+            <mal:error number="4" name="Verification Failed" comment="The integrity verification of the referenced item failed." />
+        </mal:errors>
+    </mal:area>
+</mal:specification>

@@ -24,7 +24,7 @@ import esa.mo.platform.impl.provider.gen.OpticalDataReceiverAdapterInterface;
 import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
 import opssat.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
+import org.ccsds.moims.mo.platform.structures.DeviceType;
 
 /**
  *
@@ -48,7 +48,7 @@ public class OpticalDataReceiverSoftSimAdapter implements OpticalDataReceiverAda
 
     @Override
     public byte[] recordOpticalReceiverData(Duration recordingLength) {
-        int nSamples = (int) (recordingLength.getValue() * 1000); // Assume 1kHz sample rate
+        int nSamples = (int) (recordingLength.getInSeconds() * 1000); // Assume 1kHz sample rate
         return instrumentsSimulator.getpOpticalReceiver().readFromMessageBuffer(nSamples);
     }
 

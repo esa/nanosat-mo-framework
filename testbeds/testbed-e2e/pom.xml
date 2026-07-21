@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+    You may not use this file except in compliance with the License.
+
+    Except as expressly set forth in this License, the Software is provided to
+    You on an "as is" basis and without warranties of any kind, including without
+    limitation merchantability, fitness for a particular purpose, absence of
+    defects or errors, accuracy or non-infringement of intellectual property rights.
+
+    See the License for the specific language governing permissions and limitations under the License.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>nanosat-mo-framework</artifactId>
+        <version>5.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <groupId>int.esa.nmf.testbeds</groupId>
+    <artifactId>testbed-e2e</artifactId>
+    <packaging>jar</packaging>
+    <name>ESA NMF Testbed - End-to-End</name>
+
+    <organization>
+        <name>ESA</name>
+        <url>http://www.esa.int</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
+            <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
+        <url>https://github.com/esa/nanosat-mo-framework</url>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/esa/nanosat-mo-framework/issues</url>
+    </issueManagement>
+
+    <properties>
+        <esa.nmf.version>5.0</esa.nmf.version>
+        <nmf.e2e.filesystem>${project.build.directory}/space-filesystem/nanosat-mo-framework</nmf.e2e.filesystem>
+    </properties>
+
+    <dependencies>
+        <!-- Supervisor — used by generate-filesystem to classify JARs -->
+        <dependency>
+            <groupId>int.esa.nmf</groupId>
+            <artifactId>barebone-nanosat-mo-supervisor</artifactId>
+            <version>${esa.nmf.version}</version>
+        </dependency>
+        <!-- App under test -->
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>all-mc-services</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+        <!-- App with a self-exit action, used to test exit-code propagation -->
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>benchmark</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+        <!-- Deliberately misbehaving app: broken retrieval + hang on shutdown -->
+        <dependency>
+            <groupId>int.esa.nmf.testbeds</groupId>
+            <artifactId>broken-app-for-testbeds</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <testResources>
+            <testResource>
+                <directory>${basedir}</directory>
+                <includes>
+                    <include>provider.properties</include>
+                    <include>consumer.properties</include>
+                    <include>transport.properties</include>
+                </includes>
+            </testResource>
+        </testResources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>int.esa.nmf.core</groupId>
+                <artifactId>nmf-linux-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-e2e-filesystem</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>generate-filesystem</goal>
+                        </goals>
+                        <configuration>
+                            <supervisorMainClass>esa.mo.nmf.mission.barebone.BareboneSupervisorImpl</supervisorMainClass>
+                            <mission>
+                                <missionName>Testbed</missionName>
+                                <spacecraftName>Machine</spacecraftName>
+                                <organizationAbbreviation>esa</organizationAbbreviation>
+                                <organizationName>European Space Agency</organizationName>
+                            </mission>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-e2e-apps</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>install-packages</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <nmf.e2e.filesystem>${nmf.e2e.filesystem}</nmf.e2e.filesystem>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

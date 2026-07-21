@@ -18,9 +18,9 @@
 
     <parent>
         <groupId>int.esa.nmf</groupId>
-        <artifactId>parent</artifactId>
-        <version>4.0</version>
-        <relativePath>../../../parent/pom.xml</relativePath>
+        <artifactId>nanosat-mo-framework</artifactId>
+        <version>5.0</version>
+        <relativePath>../../../pom.xml</relativePath>
     </parent>
 
     <groupId>int.esa.nmf.sdk</groupId>
@@ -65,6 +65,8 @@
     <properties>
         <assembly.mainClass>esa.mo.ground.cameraacquisotorground.SpringInitiator</assembly.mainClass>
         <start-class>esa.mo.ground.cameraacquisotorground.SpringInitiator</start-class>
+        <!-- Heavyweight artifact: keep it out of the Maven Central deployment bundle. -->
+        <skipPublishing>true</skipPublishing>
     </properties>
 
     <dependencyManagement>
@@ -82,7 +84,7 @@
     <dependencies>
         <dependency>
             <groupId>int.esa.nmf.core</groupId>
-            <artifactId>ground-mo-adapter</artifactId>
+            <artifactId>nmf-composites</artifactId>
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.sdk</groupId>

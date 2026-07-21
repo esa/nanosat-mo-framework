@@ -1,0 +1,599 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2021      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ * ----------------------------------------------------------------------------
+ */
+package esa.mo.nmf.ctt.utils;
+
+import esa.mo.com.impl.provider.ArchivePersistenceObject;
+import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.com.impl.util.HelperCOM;
+import esa.mo.nmf.ctt.windows.element.MOWindow;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import org.ccsds.moims.mo.com.COMObject;
+import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
+import org.ccsds.moims.mo.com.structures.ArchiveDetails;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
+import org.ccsds.moims.mo.com.structures.ObjectLinks;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
+import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.Element;
+
+/**
+ *
+ * @author Cesar Coelho
+ */
+public final class COMObjectWindow extends javax.swing.JDialog {
+
+    private final ArchivePersistenceObject comObject;
+    private final boolean editable;
+    private final ArchiveStub archiveService;
+
+    /**
+     * Constructor for MOWindow.
+     *
+     * @param comObject The COM Object to display.
+     * @param editable Flag that defines if it is editable.
+     * @param archiveService The Archive service.
+     * @throws java.io.IOException If the window could not be displayed.
+     */
+    public COMObjectWindow(final ArchivePersistenceObject comObject,
+            final boolean editable, final ArchiveStub archiveService) throws IOException {
+        initComponents();
+        jLabel3.setFont(jLabel3.getFont().deriveFont(java.awt.Font.BOLD));
+        jLabel4.setFont(jLabel4.getFont().deriveFont(java.awt.Font.BOLD));
+        jLabel6.setFont(jLabel6.getFont().deriveFont(java.awt.Font.BOLD));
+        jLabel7.setFont(jLabel7.getFont().deriveFont(java.awt.Font.BOLD));
+
+        if (comObject == null) {
+            String msg = "A null object was submitted into the COMObjectWindow."
+                    + " The COM object will not be displayed.";
+            Logger.getLogger(COMObjectWindow.class.getName()).log(Level.SEVERE, msg);
+            throw new IOException(msg);
+        }
+
+        this.setModal(true);
+        this.setLocationRelativeTo(null);
+
+        this.comObject = comObject;
+        this.editable = editable;
+        this.archiveService = archiveService;
+        String bodyType;
+
+        // Set the object Body type field
+        if (comObject.getObject() != null) {
+            bodyType = comObject.getObject().getClass().getSimpleName();
+        } else {
+            bodyType = "null";
+            this.objectBodyButton.setEnabled(false);
+        }
+
+        this.tfObjectBodyType.setText(bodyType);
+        this.tfDomain.setEditable(editable);
+        this.tfObjId.setEditable(editable);
+
+        this.tfObjectType.setEditable(false);
+
+        this.tfDomain.setText(HelperDomain.domain2domainId(comObject.getDomain()));
+        this.tfObjId.setText(comObject.getObjectId().toString());
+
+        this.tfObjectType.setText(
+            comObject.getObjectType().getArea() + "-" +
+            comObject.getObjectType().getService() + "-" +
+            comObject.getObjectType().getVersion() + "-" +
+            comObject.getObjectType().getNumber() + " " +
+            HelperCOM.objType2string(comObject.getObjectType()));
+
+        ArchiveDetails archiveDetails = comObject.getArchiveDetails();
+
+        if (archiveDetails != null) {
+            this.tfNetwork.setText("N/A");
+
+            if (archiveDetails.getTimestamp() != null) {
+                this.tfTimestamp.setText(HelperTime.time2readableString(archiveDetails.getTimestamp()));
+            } else {
+                this.tfProvider.setText("null");
+            }
+
+            if (archiveDetails.getProvider() != null) {
+                this.tfProvider.setText(archiveDetails.getProvider().toString());
+            } else {
+                this.tfProvider.setText("null");
+            }
+
+            Long related = archiveDetails.getLinks().getRelated();
+
+            if (related == null) {
+                this.relatedObjId.setText("null");
+                this.relatedButton.setEnabled(false);
+            } else {
+                COMObject comObjectInfo = HelperCOM.objType2COMObject(comObject.getObjectType());
+
+                if (comObjectInfo.hasRelated()) {
+                    if (comObjectInfo.getRelatedType() != null) {
+                        this.relatedType.setText(
+                            comObjectInfo.getRelatedType().getArea() + "-"
+                            + comObjectInfo.getRelatedType().getService() + "-"
+                            + comObjectInfo.getRelatedType().getVersion() + "-"
+                            + comObjectInfo.getRelatedType().getNumber() + " "
+                            + HelperCOM.objType2string(comObjectInfo.getRelatedType()));
+                    } else {
+                        this.relatedType.setText("no info"); // TODO: why no information available?
+                        this.relatedButton.setEnabled(false);
+                    }
+                }
+
+                this.relatedObjId.setText(related.toString());
+            }
+
+            ObjectKey source = archiveDetails.getLinks().getSource();
+
+            if (source == null) {
+                this.sourceType.setText("null");
+                this.sourceButton.setEnabled(false);
+            } else {
+                ObjectLinks links = comObject.getArchiveDetails().getLinks();
+                // Source
+                this.sourceType.setText(
+                    links.getSource().getType().getArea() + "-" +
+                    links.getSource().getType().getService() + "-" +
+                    links.getSource().getType().getVersion() + "-" +
+                    links.getSource().getType().getNumber() + " " +
+                    HelperCOM.objType2string(links.getSource().getType()));
+
+                this.sourceDomain.setText(HelperDomain.domain2domainId(links.getSource().getDomain()));
+                this.sourceObjId.setText(links.getSource().getId().toString());
+            }
+        }
+
+        this.button.setText(editable ? "Submit" : "Close");
+        componentsPanel.revalidate();
+        componentsPanel.repaint();
+        this.pack();
+        this.setVisible(true);
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        topPanel = new javax.swing.JPanel();
+        objIdentification = new javax.swing.JLabel();
+        objIdentification1 = new javax.swing.JLabel();
+        objIdentification2 = new javax.swing.JLabel();
+        tfDomain = new javax.swing.JTextField();
+        tfObjectType = new javax.swing.JTextField();
+        tfObjId = new javax.swing.JTextField();
+        componentsPanel = new javax.swing.JPanel();
+        objectBodyButton = new javax.swing.JButton();
+        relatedButton = new javax.swing.JButton();
+        sourceButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        tfObjectBodyType = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        relatedObjId = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        sourceType = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        tfTimestamp = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        tfNetwork = new javax.swing.JTextField();
+        tfProvider = new javax.swing.JTextField();
+        sourceDomain = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        sourceObjId = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        relatedType = new javax.swing.JTextField();
+        bottomPanel = new javax.swing.JPanel();
+        button = new javax.swing.JToggleButton();
+
+        setTitle("COM Object");
+        setMinimumSize(null);
+        setResizable(false);
+
+        objIdentification.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        objIdentification.setText("Domain:");
+        objIdentification.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        objIdentification1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        objIdentification1.setText("Object Type:");
+        objIdentification1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        objIdentification2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        objIdentification2.setText("Object Instance Identifier:");
+        objIdentification2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout topPanelLayout = new javax.swing.GroupLayout(topPanel);
+        topPanel.setLayout(topPanelLayout);
+        topPanelLayout.setHorizontalGroup(
+            topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(topPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(topPanelLayout.createSequentialGroup()
+                        .addComponent(objIdentification, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfDomain))
+                    .addGroup(topPanelLayout.createSequentialGroup()
+                        .addComponent(objIdentification1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfObjectType, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE))
+                    .addGroup(topPanelLayout.createSequentialGroup()
+                        .addComponent(objIdentification2, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfObjId)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        topPanelLayout.setVerticalGroup(
+            topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(topPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(objIdentification)
+                    .addComponent(tfDomain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(objIdentification1)
+                    .addComponent(tfObjectType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(topPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(objIdentification2)
+                    .addComponent(tfObjId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(topPanel, java.awt.BorderLayout.PAGE_START);
+
+        componentsPanel.setMinimumSize(new java.awt.Dimension(0, 0));
+        componentsPanel.setName(""); // NOI18N
+
+        objectBodyButton.setText("View Object Body");
+        objectBodyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                objectBodyButtonActionPerformed(evt);
+            }
+        });
+
+        relatedButton.setText("Retrieve Related");
+        relatedButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                relatedButtonActionPerformed(evt);
+            }
+        });
+
+        sourceButton.setText("Retrieve Source");
+        sourceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sourceButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Object Body Type:");
+
+        jLabel2.setText("Object Instance Id:");
+
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Related");
+
+        sourceType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sourceTypeActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Source");
+
+        jLabel5.setText("Object Type:");
+
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("Object Body");
+
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("Other Details");
+
+        jLabel8.setText("Network:");
+
+        jLabel9.setText("Timestamp:");
+
+        jLabel10.setText("Provider:");
+
+        jLabel11.setText("Domain:");
+
+        jLabel12.setText("Object Instance Identifier:");
+
+        jLabel13.setText("Object Type:");
+
+        relatedType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                relatedTypeActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout componentsPanelLayout = new javax.swing.GroupLayout(componentsPanel);
+        componentsPanel.setLayout(componentsPanelLayout);
+        componentsPanelLayout.setHorizontalGroup(
+            componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(componentsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(componentsPanelLayout.createSequentialGroup()
+                        .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tfProvider, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                            .addComponent(tfNetwork, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                            .addComponent(tfTimestamp, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE))
+                        .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(componentsPanelLayout.createSequentialGroup()
+                                .addGap(62, 62, 62)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(componentsPanelLayout.createSequentialGroup()
+                                .addGap(63, 63, 63)
+                                .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(sourceObjId, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(componentsPanelLayout.createSequentialGroup()
+                                        .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 33, Short.MAX_VALUE))
+                                    .addComponent(sourceDomain, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(sourceButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(sourceType)))))
+                    .addGroup(componentsPanelLayout.createSequentialGroup()
+                        .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tfObjectBodyType, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(objectBodyButton, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE))
+                        .addGap(62, 62, 62)
+                        .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(componentsPanelLayout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(componentsPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 34, Short.MAX_VALUE))
+                            .addComponent(relatedType)
+                            .addComponent(relatedObjId)
+                            .addComponent(relatedButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        componentsPanelLayout.setVerticalGroup(
+            componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, componentsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel6))
+                .addGap(18, 18, 18)
+                .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(componentsPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfObjectBodyType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(objectBodyButton))
+                    .addGroup(componentsPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(relatedType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(relatedObjId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(relatedButton)
+                .addGap(18, 18, 18)
+                .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(componentsPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(sourceType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(sourceDomain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(sourceObjId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(componentsPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfNetwork, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfTimestamp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfProvider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sourceButton)
+                .addContainerGap())
+        );
+
+        getContentPane().add(componentsPanel, java.awt.BorderLayout.CENTER);
+
+        bottomPanel.setName(""); // NOI18N
+
+        button.setText("Submit");
+        button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout bottomPanelLayout = new javax.swing.GroupLayout(bottomPanel);
+        bottomPanel.setLayout(bottomPanelLayout);
+        bottomPanelLayout.setHorizontalGroup(
+            bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(button, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 667, Short.MAX_VALUE)
+        );
+        bottomPanelLayout.setVerticalGroup(
+            bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bottomPanelLayout.createSequentialGroup()
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addComponent(button)
+                .addContainerGap())
+        );
+
+        getContentPane().add(bottomPanel, java.awt.BorderLayout.PAGE_END);
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_buttonActionPerformed
+
+    private void objectBodyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_objectBodyButtonActionPerformed
+        // Open the body object
+        if (this.comObject != null) {
+            Element object = (Element) Attribute.javaType2Attribute(this.comObject.getObject());
+            if (object != null) {
+                MOWindow objectBodyWindow = new MOWindow(object, false);
+            }
+        }
+    }//GEN-LAST:event_objectBodyButtonActionPerformed
+
+    private void relatedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatedButtonActionPerformed
+        COMObject comObjectInfo = HelperCOM.objType2COMObject(comObject.getObjectType());
+
+        ArchivePersistenceObject related = HelperArchive.getArchiveCOMObject(
+                archiveService,
+                comObjectInfo.getRelatedType(),
+                comObject.getDomain(),
+                comObject.getArchiveDetails().getLinks().getRelated());
+
+        if (related == null) {
+            JOptionPane.showMessageDialog(null,
+                    "The object was not found in the COM Archive!", "Error!",
+                    JOptionPane.PLAIN_MESSAGE);
+            return;
+        }
+
+        try {
+            COMObjectWindow newWindow = new COMObjectWindow(related, editable, archiveService);
+        } catch (IOException ex) {
+            Logger.getLogger(COMObjectWindow.class.getName())
+                    .log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_relatedButtonActionPerformed
+
+    private void sourceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sourceButtonActionPerformed
+        ObjectLinks links = comObject.getArchiveDetails().getLinks();
+        ArchivePersistenceObject source = HelperArchive.getArchiveCOMObject(
+                archiveService,
+                links.getSource().getType(),
+                links.getSource().getDomain(),
+                links.getSource().getId());
+
+        if (source == null) {
+            JOptionPane.showMessageDialog(null,
+                    "The object was not found in the COM Archive!", "Error!",
+                    JOptionPane.PLAIN_MESSAGE);
+            return;
+        }
+
+        try {
+            COMObjectWindow newWindow = new COMObjectWindow(source, editable, archiveService);
+        } catch (IOException ex) {
+            Logger.getLogger(COMObjectWindow.class.getName())
+                    .log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_sourceButtonActionPerformed
+
+    private void sourceTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sourceTypeActionPerformed
+    }//GEN-LAST:event_sourceTypeActionPerformed
+
+    private void relatedTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatedTypeActionPerformed
+    }//GEN-LAST:event_relatedTypeActionPerformed
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel bottomPanel;
+    private javax.swing.JToggleButton button;
+    private javax.swing.JPanel componentsPanel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel objIdentification;
+    private javax.swing.JLabel objIdentification1;
+    private javax.swing.JLabel objIdentification2;
+    private javax.swing.JButton objectBodyButton;
+    private javax.swing.JButton relatedButton;
+    private javax.swing.JTextField relatedObjId;
+    private javax.swing.JTextField relatedType;
+    private javax.swing.JButton sourceButton;
+    private javax.swing.JTextField sourceDomain;
+    private javax.swing.JTextField sourceObjId;
+    private javax.swing.JTextField sourceType;
+    private javax.swing.JTextField tfDomain;
+    private javax.swing.JTextField tfNetwork;
+    private javax.swing.JTextField tfObjId;
+    private javax.swing.JTextField tfObjectBodyType;
+    private javax.swing.JTextField tfObjectType;
+    private javax.swing.JTextField tfProvider;
+    private javax.swing.JTextField tfTimestamp;
+    private javax.swing.JPanel topPanel;
+    // End of variables declaration//GEN-END:variables
+
+    public ArchivePersistenceObject getCOMObject() {
+        return comObject;
+    }
+
+    public Element getObjectBody() {
+        return (Element) Attribute.javaType2Attribute(comObject.getObject());
+    }
+
+}

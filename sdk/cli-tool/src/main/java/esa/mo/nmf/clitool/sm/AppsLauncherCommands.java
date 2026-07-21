@@ -20,11 +20,13 @@
  */
 package esa.mo.nmf.clitool.sm;
 
-import esa.mo.nmf.clitool.BaseCommand;
+import org.ccsds.moims.mo.sm.appslauncher.consumer.MonitorExecutionSubscriptionKeys;
 import static esa.mo.nmf.clitool.BaseCommand.consumer;
+import static esa.mo.nmf.clitool.sm.SoftwareManagementCommands.outputSubscription;
+import esa.mo.nmf.clitool.Args;
+import esa.mo.nmf.clitool.BaseCommand;
 import esa.mo.nmf.clitool.ExitCodes;
 import esa.mo.nmf.clitool.Helper;
-import static esa.mo.nmf.clitool.sm.SoftwareManagementCommands.outputSubscription;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -32,19 +34,11 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
-import org.ccsds.moims.mo.mal.structures.AttributeList;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.Subscription;
-import org.ccsds.moims.mo.mal.structures.SubscriptionFilter;
-import org.ccsds.moims.mo.mal.structures.SubscriptionFilterList;
-import org.ccsds.moims.mo.mal.structures.Union;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherAdapter;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.consumer.AppsLauncherStub;
-import picocli.CommandLine;
+import org.ccsds.moims.mo.sm.appslauncher.body.ListAppResponse;
+import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherAdapter;
+import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherStub;
 
 /**
  * The AppsLauncherCommands class contains the static classes for the Apps
@@ -56,15 +50,13 @@ public class AppsLauncherCommands {
 
     private static final Logger LOGGER = Logger.getLogger(AppsLauncherCommands.class.getName());
 
-    @CommandLine.Command(name = "subscribe", description = "Subscribes to app's stdout")
-    public static class MonitorExecution extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(arity = "0..*", paramLabel = "<appNames>", index = "0",
-                description = "Names of the apps to subscribe to. If non are specified subscribe to all.")
-        List<String> appNames;
+    public static class MonitorExecution extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> appNames = args.positionals();
+
             if (!super.initRemoteConsumer()) {
                 System.exit(ExitCodes.NO_HOST);
             }
@@ -80,12 +72,13 @@ public class AppsLauncherCommands {
                 Identifier subscriptionId = new Identifier("CLI-Consumer-AppsLauncherSubscription_" + timestamp);
                 Subscription subscription = new Subscription(subscriptionId, null, null, null);
 
-                if (appNames != null && !appNames.isEmpty()) {
-                    SubscriptionFilterList filters = new SubscriptionFilterList();
+                if (!appNames.isEmpty()) {
+                    AttributeList acceptableNames = new AttributeList();
                     for (String app : appNames) {
-                        filters.add(new SubscriptionFilter(new Identifier("app.name"), new AttributeList(app)));
+                        acceptableNames.add(new Identifier(app));
                     }
-
+                    SubscriptionFilterList filters = new SubscriptionFilterList();
+                    filters.add(new SubscriptionFilter(new Identifier("appName"), acceptableNames));
                     subscription = new Subscription(subscriptionId, null, null, filters);
                 }
                 outputSubscription = subscriptionId;
@@ -95,9 +88,10 @@ public class AppsLauncherCommands {
                     public void monitorExecutionNotifyReceived(MALMessageHeader msgHeader,
                             org.ccsds.moims.mo.mal.structures.Identifier subscriptionId,
                             org.ccsds.moims.mo.mal.structures.UpdateHeader updateHeader,
+                            MonitorExecutionSubscriptionKeys keys,
                             String outputStream,
                             java.util.Map qosProperties) {
-                        String providerName = ((Union) updateHeader.getKeyValues().get(0).getValue()).getStringValue();
+                        String providerName = keys.getAppName().getValue();
                         String[] lines = outputStream.split("\n");
                         for (String line : lines) {
                             System.out.println("[" + providerName + "]: " + line);
@@ -111,21 +105,24 @@ public class AppsLauncherCommands {
                     lock.wait();
                 }
             } catch (MALInteractionException | MALException | InterruptedException e) {
-                LOGGER.log(Level.SEVERE, "Error during heartbeat register!", e);
+                LOGGER.log(Level.SEVERE, "Error during monitorExecution register!", e);
                 System.exit(ExitCodes.GENERIC_ERROR);
             }
         }
     }
 
-    @CommandLine.Command(name = "run", description = "Runs the specified provider app")
-    public static class RunApp extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(arity = "1", paramLabel = "<appName>",
-                index = "0", description = "Name of the app to run.")
-        String appName;
+    public static class RunApp extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> positionals = args.positionals();
+            if (positionals.isEmpty()) {
+                System.out.println("Missing required argument: <appName>");
+                return;
+            }
+            String appName = positionals.get(0);
+
             if (!super.initRemoteConsumer()) {
                 System.exit(ExitCodes.NO_HOST);
             }
@@ -140,7 +137,7 @@ public class AppsLauncherCommands {
                 IdentifierList appsToSearch = new IdentifierList();
                 appsToSearch.add(new Identifier(appName));
                 ListAppResponse response = appsLauncher.listApp(appsToSearch, null);
-                LongList appIds = response.getAppInstIds();
+                LongList appIds = response.getAppIds();
 
                 if (!Helper.checkProvider(appIds)) {
                     System.exit(ExitCodes.GENERIC_ERROR);
@@ -154,15 +151,18 @@ public class AppsLauncherCommands {
         }
     }
 
-    @CommandLine.Command(name = "stop", description = "Stops the specified provider app")
-    public static class StopApp extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(arity = "1", paramLabel = "<appName>",
-                index = "0", description = "Name of the app to stop.")
-        String appName;
+    public static class StopApp extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> positionals = args.positionals();
+            if (positionals.isEmpty()) {
+                System.out.println("Missing required argument: <appName>");
+                return;
+            }
+            String appName = positionals.get(0);
+
             if (!super.initRemoteConsumer()) {
                 System.exit(ExitCodes.NO_HOST);
             }
@@ -177,7 +177,7 @@ public class AppsLauncherCommands {
                 IdentifierList appsToSearch = new IdentifierList();
                 appsToSearch.add(new Identifier(appName));
                 ListAppResponse response = appsLauncher.listApp(appsToSearch, null);
-                LongList appIds = response.getAppInstIds();
+                LongList appIds = response.getAppIds();
 
                 if (!Helper.checkProvider(appIds)) {
                     System.exit(ExitCodes.GENERIC_ERROR);
@@ -185,7 +185,7 @@ public class AppsLauncherCommands {
 
                 final Object lock = new Object();
 
-                appsLauncher.stopApp(appIds, new AppsLauncherAdapter() {
+                appsLauncher.stopApp(appIds, null, new AppsLauncherAdapter() {
                     @Override
                     public void stopAppUpdateReceived(MALMessageHeader msgHeader,
                             Long appClosing, Map qosProperties) {
@@ -193,8 +193,7 @@ public class AppsLauncherCommands {
                     }
 
                     @Override
-                    public void stopAppResponseReceived(MALMessageHeader msgHeader,
-                            Map qosProperties) {
+                    public void stopAppResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
                         System.out.println("App stopped!");
 
                         synchronized (lock) {
@@ -222,7 +221,7 @@ public class AppsLauncherCommands {
                 });
 
                 synchronized (lock) {
-                    lock.wait();
+                    lock.wait(4_000);
                 }
 
             } catch (MALInteractionException | MALException | InterruptedException e) {
@@ -232,15 +231,18 @@ public class AppsLauncherCommands {
         }
     }
 
-    @CommandLine.Command(name = "kill", description = "Kills the specified provider app")
-    public static class KillApp extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(arity = "1", paramLabel = "<appName>",
-                index = "0", description = "Name of the app to kill.")
-        String appName;
+    public static class KillApp extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> positionals = args.positionals();
+            if (positionals.isEmpty()) {
+                System.out.println("Missing required argument: <appName>");
+                return;
+            }
+            String appName = positionals.get(0);
+
             if (!super.initRemoteConsumer()) {
                 System.exit(ExitCodes.NO_HOST);
             }
@@ -255,7 +257,7 @@ public class AppsLauncherCommands {
                 IdentifierList appsToSearch = new IdentifierList();
                 appsToSearch.add(new Identifier(appName));
                 ListAppResponse response = appsLauncher.listApp(appsToSearch, null);
-                LongList appIds = response.getAppInstIds();
+                LongList appIds = response.getAppIds();
 
                 if (!Helper.checkProvider(appIds)) {
                     System.exit(ExitCodes.GENERIC_ERROR);

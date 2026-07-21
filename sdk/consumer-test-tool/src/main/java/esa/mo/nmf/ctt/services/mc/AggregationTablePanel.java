@@ -25,8 +25,7 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.nmf.ctt.utils.SharedTablePanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationDefinitionDetails;
+import org.ccsds.moims.mo.mc.structures.AggregationDefinition;
 
 /**
  *
@@ -39,7 +38,7 @@ public class AggregationTablePanel extends SharedTablePanel {
     }
 
     @Override
-    public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
+    public void addEntry(final ArchivePersistenceObject comObject) {
         if (comObject == null) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE,
                     "The table cannot process a null COM Object.");
@@ -52,11 +51,17 @@ public class AggregationTablePanel extends SharedTablePanel {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        AggregationDefinitionDetails pDef = (AggregationDefinitionDetails) comObject.getObject();
+        AggregationDefinition pDef = (AggregationDefinition) comObject.getObject();
 
-        tableData.addRow(new Object[]{comObject.getArchiveDetails().getDetails().getRelated(), name.toString(), pDef
-            .getDescription(), pDef.getCategory().toString(), pDef.getGenerationEnabled(), pDef.getReportInterval()
-            .toString(), pDef.getFilterEnabled(), pDef.getFilteredTimeout().getValue()});
+        tableData.addRow(new Object[]{
+            comObject.getArchiveDetails().getId(),
+            pDef.getName().getValue(),
+            pDef.getDescription(),
+            pDef.getCategory().toString(),
+            pDef.getReportingEnabled(),
+            pDef.getReportInterval().toString(),
+            pDef.getFilterEnabled(),
+            pDef.getFilteredTimeout().getInSeconds()});
 
         comObjects.add(comObject);
         semaphore.release();
@@ -69,9 +74,12 @@ public class AggregationTablePanel extends SharedTablePanel {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // 4 because it is where generationEnabled is!
+        // 4 because it is where reportingEnabled is!
         tableData.setValueAt(status, this.getSelectedRow(), 4);
-        ((AggregationDefinitionDetails) this.getSelectedCOMObject().getObject()).setGenerationEnabled(status);
+        //((AggregationDefinition) this.getSelectedCOMObject().getObject()).setReportingEnabled(status);
+        AggregationDefinition def = (AggregationDefinition) this.getSelectedCOMObject().getObject();
+        AggregationDefinition newDef = this.generateNewAggregationDef(def, def.getFilterEnabled(), status);
+        this.getSelectedCOMObject().setObject(newDef);
 
         semaphore.release();
     }
@@ -83,16 +91,19 @@ public class AggregationTablePanel extends SharedTablePanel {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        // 4 because it is where generationEnabled is!
+        // 4 because it is where reportingEnabled is!
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 4);
-            ((AggregationDefinitionDetails) this.getCOMObjects().get(i).getObject()).setGenerationEnabled(status);
+            //((AggregationDefinition) this.getCOMObjects().get(i).getObject()).setReportingEnabled(status);
+            AggregationDefinition def = (AggregationDefinition) this.getCOMObjects().get(i).getObject();
+            AggregationDefinition newDef = this.generateNewAggregationDef(def, def.getFilterEnabled(), status);
+            this.getCOMObjects().get(i).setObject(newDef);
         }
 
         semaphore.release();
     }
 
-    public void switchFilterEnabledstatus(boolean status) {
+    public void switchFilterEnabledStatus(boolean status) {
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
@@ -101,7 +112,10 @@ public class AggregationTablePanel extends SharedTablePanel {
 
         // 6 because it is where filter is!
         tableData.setValueAt(status, this.getSelectedRow(), 6);
-        ((AggregationDefinitionDetails) this.getSelectedCOMObject().getObject()).setFilterEnabled(status);
+        //((AggregationDefinition) this.getSelectedCOMObject().getObject()).setFilterEnabled(status);
+        AggregationDefinition def = (AggregationDefinition) this.getSelectedCOMObject().getObject();
+        AggregationDefinition newDef = this.generateNewAggregationDef(def, status, def.getReportingEnabled());
+        this.getSelectedCOMObject().setObject(newDef);
 
         semaphore.release();
     }
@@ -116,21 +130,51 @@ public class AggregationTablePanel extends SharedTablePanel {
         // 6 because it is where filter is!
         for (int i = 0; i < this.getTable().getRowCount(); i++) {
             tableData.setValueAt(status, i, 6);
-            ((AggregationDefinitionDetails) this.getCOMObjects().get(i).getObject()).setFilterEnabled(status);
+            //((AggregationDefinition) this.getCOMObjects().get(i).getObject()).setFilterEnabled(status);
+            AggregationDefinition def = (AggregationDefinition) this.getCOMObjects().get(i).getObject();
+            AggregationDefinition newDef = this.generateNewAggregationDef(def, status, def.getReportingEnabled());
+            this.getCOMObjects().get(i).setObject(newDef);
         }
 
         semaphore.release();
     }
 
+    public AggregationDefinition generateNewAggregationDef(
+            AggregationDefinition def, boolean filter, boolean generation) {
+        return new AggregationDefinition(
+                def.getName(),
+                def.getDescription(),
+                def.getCategory(),
+                def.getReportInterval(),
+                def.getSendUnchanged(),
+                def.getSendDefinitions(),
+                filter,
+                def.getFilteredTimeout(),
+                generation,
+                def.getParameterSets());
+    }
+
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{"Identity", "name", "description",
-            "category", "generationEnabled", "updateInterval", "filterEnabled"};
+        String[] tableCol = new String[]{
+            "Id",
+            "name",
+            "description",
+            "category",
+            "reportingEnabled",
+            "updateInterval",
+            "filterEnabled"};
 
         tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
-            Class[] types = new Class[]{java.lang.Integer.class, java.lang.String.class,
-                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class,
-                java.lang.String.class, java.lang.Boolean.class, java.lang.Double.class};
+            Class[] types = new Class[]{
+                java.lang.Integer.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.Boolean.class,
+                java.lang.String.class,
+                java.lang.Boolean.class,
+                java.lang.Double.class};
 
             @Override
             public boolean isCellEditable(int row, int column) {

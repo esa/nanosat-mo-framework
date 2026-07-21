@@ -32,14 +32,11 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UShort;
 
 /**
- * This class is deprecated. It is only here for backward compatibility with the
- * old MAL.
+ * This class extends the normal ServiceInfo class.
  */
-@Deprecated
 public abstract class COMService extends ServiceInfo {
 
     private final Map<Integer, COMObject> objectsByNumber = new HashMap<>();
-    private final Map<String, COMObject> objectsByName = new HashMap<>();
 
     public COMService(final ServiceKey serviceKey, final Identifier serviceName,
             final Element[] elements, final MALOperation[] operations) {
@@ -61,13 +58,11 @@ public abstract class COMService extends ServiceInfo {
      * @param object The new object to add.
      * @throws java.lang.IllegalArgumentException If the argument is null.
      */
-    @Proposed
     public void addCOMObject(COMObject object) throws java.lang.IllegalArgumentException {
         if (object == null) {
             throw new IllegalArgumentException("object must not be null.");
         }
         objectsByNumber.put(object.getObjectType().getNumber().getValue(), object);
-        objectsByName.put(object.getObjectName().getValue(), object);
     }
 
     /**
@@ -85,26 +80,12 @@ public abstract class COMService extends ServiceInfo {
     }
 
     /**
-     * Return an object identified by its name.
-     *
-     * @param opName The name of the object.
-     * @return The found operation or null.
-     * @throws java.lang.IllegalArgumentException If opName == null.
-     */
-    public COMObject getObjectByName(final Identifier opName) throws IllegalArgumentException {
-        if (opName == null) {
-            throw new IllegalArgumentException("opName must not be null.");
-        }
-        return objectsByName.get(opName.getValue());
-    }
-
-    /**
      * Returns the set of objects.
      *
      * @return The set of objects or an empty array if none defined.
      */
     public COMObject[] getObjects() {
-        List<COMObject> lst = new ArrayList<>(objectsByName.values());
+        List<COMObject> lst = new ArrayList<>(objectsByNumber.values());
         COMObject[] result = new COMObject[lst.size()];
         lst.toArray(result);
         return result;

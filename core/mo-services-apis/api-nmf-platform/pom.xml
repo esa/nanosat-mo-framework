@@ -15,9 +15,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>int.esa.nmf</groupId>
-        <artifactId>parent</artifactId>
-        <version>4.0</version>
-        <relativePath>../../../parent/pom.xml</relativePath>
+        <artifactId>nanosat-mo-framework</artifactId>
+        <version>5.0</version>
+        <relativePath>../../../pom.xml</relativePath>
     </parent>
     <groupId>int.esa.nmf.core</groupId>
     <artifactId>api-nmf-platform</artifactId>
@@ -49,15 +49,15 @@
     </developers>
     <properties>
         <ccsds.specification.download.group>int.esa.nmf.core</ccsds.specification.download.group>
-        <ccsds.specification.download.artifact>nmf-xmls</ccsds.specification.download.artifact>
+        <ccsds.specification.download.artifact>mo-services-xml</ccsds.specification.download.artifact>
         <ccsds.specification.download.ref-group>int.esa.nmf.core</ccsds.specification.download.ref-group>
-        <ccsds.specification.download.ref-artifact>nmf-xmls</ccsds.specification.download.ref-artifact>
+        <ccsds.specification.download.ref-artifact>mo-services-xml</ccsds.specification.download.ref-artifact>
         <ccsds.specification.version>${project.version}</ccsds.specification.version>
         <ccsds.specification.download.skip>false</ccsds.specification.download.skip>
         <ccsds.specification.download.directory>${project.build.directory}</ccsds.specification.download.directory>
-        <ccsds.specification.download.filter>**/ServiceDefPLATFORM.xml</ccsds.specification.download.filter>
+        <ccsds.specification.download.filter>**/area054-Platform.xml</ccsds.specification.download.filter>
         <ccsds.specification.download.ref-skip>false</ccsds.specification.download.ref-skip>
-        <ccsds.specification.download.ref-filter>**/ServiceDefMAL.xml, **/ServiceDefCOM.xml</ccsds.specification.download.ref-filter>
+        <ccsds.specification.download.ref-filter>**/area001-MAL.xml, **/area051-COM.xml</ccsds.specification.download.ref-filter>
     </properties>
     <dependencies>
         <dependency>
@@ -70,7 +70,7 @@
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nmf-xmls</artifactId>
+            <artifactId>mo-services-xml</artifactId>
         </dependency>
     </dependencies>
     <build>

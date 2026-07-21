@@ -1,0 +1,1217 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2021      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ * ----------------------------------------------------------------------------
+ */
+package esa.mo.mc.impl.provider;
+
+import esa.mo.com.impl.util.COMServicesProvider;
+import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.reconfigurable.service.ConfigurationChangeListener;
+import esa.mo.reconfigurable.service.ReconfigurableService;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.COMService;
+import org.ccsds.moims.mo.com.DuplicateException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
+import org.ccsds.moims.mo.com.structures.*;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.UnknownException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
+import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
+import org.ccsds.moims.mo.mal.provider.MALInteraction;
+import org.ccsds.moims.mo.mal.provider.MALProvider;
+import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
+import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mal.transport.MALErrorBody;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
+import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
+import org.ccsds.moims.mo.mc.aggregation.provider.AggregationInheritanceSkeleton;
+import org.ccsds.moims.mo.mc.aggregation.provider.MonitorValuePublisher;
+import org.ccsds.moims.mo.mc.structures.*;
+
+/**
+ * Aggregation service Provider.
+ */
+public class AggregationProviderServiceImpl extends AggregationInheritanceSkeleton implements ReconfigurableService {
+
+    private final static double MIN_REPORTING_INTERVAL = 0.2;
+    private MALProvider aggregationServiceProvider;
+    private boolean initialiased = false;
+    private boolean running = false;
+    private boolean storeAggregationsInCOMArchive = true;
+    private MonitorValuePublisher publisher;
+    private final Object lock = new Object();
+    private boolean isRegistered = false;
+    protected AggregationManager manager;
+    private PeriodicReportingManager periodicReportingManager;
+    private PeriodicSamplingManager periodicSamplingManager;
+    private final ConnectionProvider connection = new ConnectionProvider();
+    private ConfigurationChangeListener configurationAdapter;
+    private final AtomicLong aValUniqueObjId = new AtomicLong(System.currentTimeMillis());
+
+    /**
+     * Creates the MAL objects, the publisher used to create updates and starts
+     * the publishing thread
+     *
+     * @param comServices The COM services.
+     * @param parameterManager The Parameter Manager.
+     * @throws MALException On initialisation error.
+     */
+    public synchronized void init(COMServicesProvider comServices,
+            ParameterManager parameterManager) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        publisher = createMonitorValuePublisher(ConfigurationProviderSingleton.getDomain(),
+                null, SessionType.LIVE,
+                ConfigurationProviderSingleton.getSourceSessionName(),
+                QoSLevel.BESTEFFORT, null, new UInteger(0));
+
+        // Shut down old service transport
+        if (null != aggregationServiceProvider) {
+            connection.closeAll();
+        }
+
+        aggregationServiceProvider = connection.startService(
+                AggregationServiceInfo.AGGREGATION_SERVICE_NAME.toString(),
+                AggregationHelper.AGGREGATION_SERVICE, this);
+
+        running = true;
+        manager = new AggregationManager(comServices, parameterManager);
+        periodicReportingManager = new PeriodicReportingManager();
+        periodicSamplingManager = new PeriodicSamplingManager();
+        periodicReportingManager.init(); // Initialize the Periodic Reporting Manager
+        periodicSamplingManager.init(); // Initialize the Periodic Sampling Manager
+
+        /*
+        storeAggregationsInCOMArchive = Boolean.parseBoolean(System.getProperty(Const.STORE_IN_ARCHIVE_PROPERTY, "true"));
+        String msg = MessageFormat.format("{0} = {1}", Const.STORE_IN_ARCHIVE_PROPERTY, storeAggregationsInCOMArchive);
+        Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.FINE, msg);
+         */
+        initialiased = true;
+        timestamp = System.currentTimeMillis() - timestamp;
+        Logger.getLogger(AggregationProviderServiceImpl.class.getName()).info(
+                "Aggregation service READY! (" + timestamp + " ms)");
+    }
+
+    public ConnectionProvider getConnectionProvider() {
+        return this.connection;
+    }
+
+    /**
+     * Closes all running threads and releases the MAL resources.
+     */
+    public void close() {
+        try {
+            if (null != aggregationServiceProvider) {
+                aggregationServiceProvider.close();
+            }
+
+            connection.closeAll();
+            running = false;
+        } catch (MALException ex) {
+            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(
+                    Level.WARNING, "Exception during close down of the provider {0}", ex);
+        }
+    }
+
+    @Override
+    public void setOnConfigurationChangeListener(ConfigurationChangeListener configurationAdapter) {
+        this.configurationAdapter = configurationAdapter;
+    }
+
+    /**
+     * publishes, a periodic update, meaning without a sourceId and with a newly
+     * created timestamp
+     *
+     * @param id The id of the Aggregation.
+     * @param aVal The value to be published.
+     * @return True if it was successfully published, false otherwise.
+     */
+    private boolean publishPeriodicAggregationUpdate(final Long id, final AggregationValue aVal) {
+        return publishAggregationUpdate(id, aVal, null,
+                null, storeAggregationsInCOMArchive); //requirement: 3.7.4.j
+    }
+
+    /**
+     * publishes, an update with the given value, sourceId and timestamp
+     *
+     * @param id the id of the aggregation
+     * @param aVal the value to be published
+     * @param source the id of the object that caused the update to be generated
+     * @param timestamp the timestamp of the update. if null a new timestamp
+     * @param storeInCOMArchive flag indicating whether or not the aggregation
+     * should be stored in the archive will be generated
+     * @return true if it was successfully published, false otherwise
+     */
+    private boolean publishAggregationUpdate(final Long id, final AggregationValue aVal,
+            final ObjectKey source, final Time timestamp, boolean storeInCOMArchive) {
+        try {
+            synchronized (lock) {
+                if (!isRegistered) {
+                    publisher.registerWithDefaultKeys(new PublishInteractionListener());
+                    isRegistered = true;
+                }
+            }
+
+            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.FINER,
+                    "Generating Aggregation update for the Aggregation Definition objId: {0} (Identifier: {1})",
+                    new Object[]{id, new Identifier(manager.getName(id).toString())});
+
+            Time time = timestamp;
+
+            if (time == null) {
+                time = Time.now(); //  requirement: 3.7.7.2.e
+            }
+
+            Long aValObjId;
+            if (storeInCOMArchive) {
+                //requirement 3.7.6.b
+                aValObjId = manager.storeAndGenerateAValobjId(aVal, id, source,
+                        connection.getPrimaryConnectionDetails().getProviderURI(), time);
+            } else {
+                aValObjId = aValUniqueObjId.incrementAndGet();
+            }
+
+            // requirements: 3.7.7.2.a , 3.7.7.2.b , 3.7.7.2.c , 3.7.7.2.d
+            AttributeList keys = new AttributeList();
+            keys.add(new Identifier(manager.getName(id).toString()));
+            keys.add(new Union(id));
+            keys.add(new Union(aValObjId));
+
+            URI providerURI = connection.getConnectionDetails().getProviderURI();
+            UpdateHeader updateHeader = new UpdateHeader(new Identifier(providerURI.getValue()),
+                    connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
+
+            //requirement 3.7.7.2.h
+            publisher.publish(updateHeader, aVal);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during publishing process on the provider {0}", ex);
+            return false;
+        } catch (MALException ex) {
+            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during publishing process on the provider {0}", ex);
+            return false;
+        } catch (MALInteractionException ex) {
+            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during publishing process on the provider {0}", ex);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * creates and publishes an aggregation-update. all parameter-sets of the
+     * aggregation will be sampled for the first time, saved in the internal
+     * list and published. As it is the first update-value, no filter must be
+     * checked.
+     *
+     * @param id the id of the aggregations identity
+     */
+    private void publishImmediatePeriodicUpdate(Long id) {
+        //get the parameter-values of each parameter-set
+        final AggregationDefinition aggrDefinition = manager.getAggregationDefinition(id);
+        final AggregationParameterSetList parameterSets = aggrDefinition.getParameterSets();
+        for (int i = 0; i < parameterSets.size(); i++) {
+            manager.sampleParam(id, i);
+        }
+        //publish the parameter-values as an updated 
+        publishPeriodicAggregationUpdate(id, manager.getAggregationValue(id, GenerationMode.PERIODIC));
+        manager.resetAggregationSampleHelperVariables(id);
+    }
+
+    @Override
+    public AggregationValueDetailsList getValue(final LongList inIdentityIds,
+            final MALInteraction interaction) throws UnknownException, MALException, MALInteractionException {
+        // requirement 3.7.6.2.1
+        UIntegerList unkIndexList = new UIntegerList();
+
+        if (inIdentityIds == null) { // Is the input null?
+            throw new IllegalArgumentException("LongList argument must not be null");
+        }
+
+        for (int index = 0; index < inIdentityIds.size(); index++) {
+            Long tempDefId = inIdentityIds.get(index);
+
+            if (tempDefId == 0) {  // Is it the wildcard '0'? requirement: 3.7.8.2.b
+                inIdentityIds.clear();  // if the wildcard is in the middle of the input list, we clear the output list and...
+                inIdentityIds.addAll(manager.listAllDefinitions()); // ... add all in a row
+                //as it should be checked for a wildcard first, dont return found errors; requirement: 3.7.8.2.c
+                unkIndexList.clear();
+                break;
+            }
+
+            if (!manager.existsDef(tempDefId)) { // Is the requested aggregation unknown?
+                unkIndexList.add(new UInteger(index)); // requirement: 3.7.8.2.d
+                continue;
+            }
+        }
+
+        // Errors
+        if (!unkIndexList.isEmpty()) { // requirement: 3.7.8.3.1 a, b
+            throw new UnknownException(unkIndexList);
+        }
+
+        // requirement: 3.7.8.2.e
+        AggregationValueDetailsList outList = new AggregationValueDetailsList(inIdentityIds.size());
+
+        for (Long id : inIdentityIds) {
+            outList.add(new AggregationValueDetails(id,
+                    Time.now(), manager.getValue(id)));
+        }
+
+        return outList;
+    }
+
+    @Override
+    public void enableReporting(final Boolean enable, final LongList ids,
+            final MALInteraction interaction) throws UnknownException, MALException, MALInteractionException {
+        UIntegerList unkIndexList = new UIntegerList();
+
+        LongList objIdToBeEnabled = new LongList();
+
+        if (enable == null) {
+            throw new IllegalArgumentException("enable argument must not be null");
+        }
+        if (ids == null) {
+            throw new IllegalArgumentException("ids argument must not be null");
+        }
+
+        boolean foundWildcard = false;
+
+        for (Long id : ids) {  // requirement: 3.7.9.2.d
+            if (id == 0) {  // Is it the wildcard '0'? requirement: 3.7.9.2.c
+                manager.setReportingEnabledAll(enable,
+                        null, connection.getConnectionDetails());
+                periodicReportingManager.refreshAll();
+                periodicSamplingManager.refreshAll();
+                foundWildcard = true;
+                break;
+            }
+        }
+
+        if (!foundWildcard) { // requirement: 3.7.9.2.d
+            for (int index = 0; index < ids.size(); index++) {
+                Long id = ids.get(index);
+                objIdToBeEnabled.add(id); //requirement: 3.7.9.2.b
+
+                if (!manager.existsDef(id)) { // does it exist?
+                    unkIndexList.add(new UInteger(index)); // requirement: 3.7.9.2.g
+                }
+            }
+        }
+
+        // Errors
+        if (!unkIndexList.isEmpty()) { // requirement: 3.7.9.3.1
+            throw new UnknownException(unkIndexList);
+        }
+
+        // requirement: 3.7.9.2.i (This part of the code is not reached if an error is thrown)
+        for (int index = 0; index < objIdToBeEnabled.size(); index++) {
+            // requirement: 3.7.3.c, 3.7.9.2.f and 3.7.9.2.j, k
+            Long id = objIdToBeEnabled.get(index);
+            manager.setReportingEnabled(id, enable, null, connection.getConnectionDetails());
+            periodicReportingManager.refresh(id);
+            periodicSamplingManager.refresh(id);
+        }
+
+        if (configurationAdapter != null) {
+            configurationAdapter.onConfigurationChanged(this);
+        }
+    }
+
+    @Override
+    public void enableFilter(final Boolean enable, final LongList ids,
+            final MALInteraction interaction) throws UnknownException, MALException, MALInteractionException { // requirement: 3.7.10.2.a
+        UIntegerList unkIndexList = new UIntegerList();
+
+        LongList objIdToBeEnabled = new LongList();
+
+        if (enable == null) {
+            throw new IllegalArgumentException("enable argument must not be null");
+        }
+        if (ids == null) {
+            throw new IllegalArgumentException("ids argument must not be null");
+        }
+
+        boolean foundWildcard = false;
+
+        for (Long id : ids) {  // requirement: 3.7.10.2.d
+            if (id == 0) {  // Is it the wildcard '0'? requirement: 3.7.10.2.c
+                manager.setFilterEnabledAll(enable, null, connection.getConnectionDetails());
+                periodicReportingManager.refreshAll();
+                periodicSamplingManager.refreshAll();
+                foundWildcard = true;
+                break;
+            }
+        }
+
+        if (!foundWildcard) { // requirement: 3.7.10.2.d
+            for (int index = 0; index < ids.size(); index++) {
+                Long id = ids.get(index);
+                objIdToBeEnabled.add(id); //requirement: 3.7.10.2.b
+
+                if (!manager.existsDef(id)) { // does it exist?
+                    unkIndexList.add(new UInteger(index)); // requirement: 3.7.10.2.g
+                }
+            }
+        }
+
+        // Errors
+        if (!unkIndexList.isEmpty()) { // requirement: 3.7.10.3.1
+            throw new UnknownException(unkIndexList);
+        }
+
+        // requirement: 3.7.10.2.i (This part of the code is not reached if an error is thrown)
+        for (int index = 0; index < objIdToBeEnabled.size(); index++) {
+            // requirement: 3.7.3.d, e, f; 3.7.10.2.f and 3.7.1.2.j, k
+            boolean changed = manager.setFilterEnabled(objIdToBeEnabled.get(index),
+                    enable, null, connection.getConnectionDetails());
+            //requirement: 3.7.10.2.e //periodic managers must be refreshed, as the change of the filterEnabled-value creates a new Definition object
+            if (changed) {
+                periodicReportingManager.refresh(objIdToBeEnabled.get(index));
+                periodicSamplingManager.refresh(objIdToBeEnabled.get(index));
+            }
+        }
+
+        if (configurationAdapter != null) {
+            configurationAdapter.onConfigurationChanged(this);
+        }
+    }
+
+    @Override
+    public LongList listDefinition(final IdentifierList nameList, final MALInteraction interaction)
+            throws UnknownException, MALException, MALInteractionException { // requirement: 3.7.9.2.1
+        LongList outLongLst = new LongList();
+        UIntegerList unkIndexList = new UIntegerList();
+
+        if (nameList == null) { // Is the input null?
+            throw new IllegalArgumentException("IdentifierList argument must not be null");
+        }
+
+        for (int index = 0; index < nameList.size(); index++) { // requirement: 3.7.11.2.f  
+            Identifier name = nameList.get(index);
+            // Check for the wildcard: requirement: 3.7.11.2.c
+            if (name.toString().equals("*")) {
+                outLongLst.clear();  // if the wildcard is in the middle of the input list, we clear the output list and...
+                outLongLst.addAll(manager.listAllDefinitions()); // ... add all in a row
+                //as it should be checked for wildcards first, ignore unknown names: requirement: 3.7.11.2.b,
+                unkIndexList.clear();
+                break;
+            }
+            //check if the given name exists
+            final Long id = manager.getId(name);
+            if (id == null) { // the id is unknown; requirement: 3.7.11.2.d  
+                unkIndexList.add(new UInteger(index));
+                continue;
+            } else {
+                outLongLst.add(id);  // requirement: 3.7.11.2.e  
+            }
+        }
+
+        // Errors
+        //if there is one name unknown, fail with an unknown error and dont return the found entries.
+        if (!unkIndexList.isEmpty()) { // requirement: 3.7.11.3.1
+            throw new UnknownException(unkIndexList);
+        }
+
+        return outLongLst;
+    }
+
+    @Override
+    public LongList addAggregation(final AggregationDefinitionList defsList,
+            final MALInteraction interaction) throws DuplicateException, InvalidArgumentException, MALException, MALInteractionException {
+        LongList out = new LongList();
+        UIntegerList invIndexList = new UIntegerList();
+        UIntegerList dupIndexList = new UIntegerList();
+
+        if (defsList == null) { // Is the input null?
+            throw new IllegalArgumentException("defsList argument must not be null");
+        }
+
+        for (int index = 0; index < defsList.size(); index++) { // requirement: 3.7.10.2.5 (incremental "for cycle" guarantees that)
+            AggregationDefinition aDef = defsList.get(index);
+            final Identifier aggrName = aDef.getName();
+
+            // Check if the name field of the AggregationDefinition is invalid.
+            if (aggrName.equals(new Identifier("*"))
+                    || aggrName.equals(new Identifier(""))) { // requirement: 3.7.10.2.2
+                invIndexList.add(new UInteger(index));
+                continue;
+            }
+
+            final AggregationParameterSetList parameterSets = aDef.getParameterSets();
+
+            //requirement: 3.7.10.2.c, 3.7.3.p requested intervals must be provided
+            //updateInterval must be provided
+            if (aDef.getReportInterval().getInSeconds() != 0
+                    && aDef.getReportInterval().getInSeconds() < MIN_REPORTING_INTERVAL) {
+                invIndexList.add(new UInteger(index));
+                continue;
+            }
+            //requirement: 3.7.10.2.c, 3.7.3.p
+            //sample-interval must be provided
+            for (AggregationParameterSet parameterSet : parameterSets) {
+                if (parameterSet.getSampleInterval().getInSeconds() != 0
+                        && parameterSet.getSampleInterval().getInSeconds() < MIN_REPORTING_INTERVAL) {
+                    invIndexList.add(new UInteger(index));
+                    break;
+                }
+            }
+            //requirement: 3.7.3.p
+            //filteredTimeout-interval must be provided
+            if (aDef.getFilteredTimeout().getInSeconds() != 0
+                    && aDef.getFilteredTimeout().getInSeconds() < MIN_REPORTING_INTERVAL) {
+                invIndexList.add(new UInteger(index));
+                continue;
+            }
+
+            if (manager.getDefinition(aggrName) != null) { // Is the supplied name already given? requirement: 3.7.12.2.d
+                dupIndexList.add(new UInteger(index));
+                continue;
+            }
+        }
+
+        // requirement: 3.7.10.2.e is met because the errors will be thrown before something changes
+        // Errors
+        if (!invIndexList.isEmpty()) { // requirement: 3.7.10.2.2
+            throw new InvalidArgumentException(invIndexList);
+        }
+
+        if (!dupIndexList.isEmpty()) { // requirement: 3.7.10.2.3
+            throw new DuplicateException(dupIndexList);
+        }
+
+        for (AggregationDefinition def : defsList) { // requirement: 3.7.12.2.i ( "for each cycle" guarantees that)
+            Identifier aggrName = def.getName();
+            //requriement: 3.7.12.2.g , store the objects
+            out.add(manager.add(aggrName, def,
+                    null, connection.getConnectionDetails())); //  requirement: 3.3.12.2.e
+            periodicReportingManager.refresh(out.get(0)); // Refresh the Periodic Reporting Manager for the added Identities
+            periodicSamplingManager.refresh(out.get(0)); // Refresh the Periodic Sampling Manager for the added Identities
+        }
+
+        if (configurationAdapter != null) {
+            configurationAdapter.onConfigurationChanged(this);
+        }
+
+        return out; // requirement: 3.7.12.2.h
+    }
+
+    @Override
+    public void updateDefinition(LongList ids, AggregationDefinitionList aDefs,
+            MALInteraction interaction) throws UnknownException, InvalidArgumentException, MALInteractionException, MALException { // requirement: 3.7.13.2.a, 3.7.13.2.d
+        UIntegerList unkIndexList = new UIntegerList();
+        UIntegerList invIndexList = new UIntegerList();
+
+        if (aDefs == null || ids == null) { // Are the inputs null?
+            throw new IllegalArgumentException("ids and definitions arguments must not be null");
+        }
+
+        for (int index = 0; index < ids.size(); index++) {
+            final Long id = ids.get(index);
+
+            if (id == null || id == 0) { // requirement: 3.7.13.2.c
+                invIndexList.add(new UInteger(index));
+                continue;
+            }
+            if (!manager.existsDef(id)) { // requirement: 3.7.13.2.b
+                unkIndexList.add(new UInteger(index));
+                continue;
+            }
+
+            final AggregationDefinition aDef = aDefs.get(index);
+            final AggregationParameterSetList parameterSets = aDef.getParameterSets();
+            //requirement: 3.7.3.p, 3.7.13.2.f
+            //TODO: check the updateInterval, filteredTimeout and sampleIntervals? -> issue #152
+            //updateInterval must be provided
+            if (aDef.getReportInterval().getInSeconds() != 0
+                    && aDef.getReportInterval().getInSeconds() < MIN_REPORTING_INTERVAL) {
+                invIndexList.add(new UInteger(index));
+                continue;
+            }
+            //requirement: 3.7.3.p, 3.7.13.2.f
+            //sample-interval must be provided
+            for (AggregationParameterSet parameterSet : parameterSets) {
+                if (parameterSet.getSampleInterval().getInSeconds() != 0
+                        && parameterSet.getSampleInterval().getInSeconds() < MIN_REPORTING_INTERVAL) {
+                    invIndexList.add(new UInteger(index));
+                    break;
+                }
+            }
+            //requirement: 3.7.3.p
+            //filteredTimeout-interval must be provided
+            if (aDef.getFilteredTimeout().getInSeconds() != 0
+                    && aDef.getFilteredTimeout().getInSeconds() < MIN_REPORTING_INTERVAL) {
+                invIndexList.add(new UInteger(index));
+                continue;
+            }
+        }
+
+        // requirement: 3.7.13.2.g is met because errors will be thrown before changes are made
+        // Errors
+        if (!unkIndexList.isEmpty()) { // requirement: 3.7.13.3.1
+            throw new UnknownException(unkIndexList);
+        }
+
+        if (!invIndexList.isEmpty()) { // requirement: 3.7.13.3.2
+            throw new InvalidArgumentException(invIndexList);
+        }
+
+        for (int index = 0; index < ids.size(); index++) { // requirement: 3.7.13.2.e, k (implicitly by cycling through list)
+            final Long id = ids.get(index);
+            // requirement: 3.7.3.o, 3.7.13.2.d, h, k
+            manager.update(id, aDefs.get(index), null, connection.getConnectionDetails());
+            periodicReportingManager.refresh(id);// then, refresh the Periodic updates and samplings //requirement: 3.7.3.k
+            periodicSamplingManager.refresh(id);//requirement: 3.7.3.k
+        }
+
+        if (configurationAdapter != null) {
+            configurationAdapter.onConfigurationChanged(this);
+        }
+    }
+
+    @Override
+    public void removeAggregation(final LongList ids, final MALInteraction interaction)
+            throws UnknownException, MALException, MALInteractionException { // requirement: 3.7.12.2.1
+        UIntegerList unkIndexList = new UIntegerList();
+        Long id;
+        LongList removalLst = new LongList();
+
+        if (ids == null) { // Is the input null?
+            throw new IllegalArgumentException("LongList argument must not be null");
+        }
+
+        for (int index = 0; index < ids.size(); index++) {
+            id = ids.get(index);
+
+            if (id == 0) {  // Is it the wildcard '0'? requirement: 3.3.14.2.b, c
+                removalLst.clear();  // if the wildcard is in the middle of the input list, we clear the output list and...
+                removalLst.addAll(manager.listAllDefinitions()); // ... add all in a row
+                //as of requirement 3.3.14.2.c, the wildcards should be checked "first", no error will be returned then
+                unkIndexList.clear();
+                break;
+            }
+
+            if (!manager.existsDef(id)) { // Does it match an existing identity? requirement: 3.3.14.2.d
+                unkIndexList.add(new UInteger(index));
+            } else {
+                removalLst.add(id);
+            }
+        }
+
+        // Errors
+        if (!unkIndexList.isEmpty()) { // requirement: 3.3.14.3.1 (error: a, b)
+            throw new UnknownException(unkIndexList);
+        }
+        // requirement: 3.7.14.2.f (Inserting the errors before this line guarantees that the requirement is met)
+        for (Long removalItem : removalLst) {
+            manager.delete(removalItem); // requirement: 3.7.14.2.e
+        }
+        //requirement: 3.7.14.2.g
+        periodicReportingManager.refreshList(removalLst); // Refresh the Periodic Reporting Manager for the removed identities
+        periodicSamplingManager.refreshList(removalLst); // Refresh the Periodic Sampling Manager for the removed identities
+        // COM archive is left untouched. requirement: 3.7.14.2.e
+
+        if (configurationAdapter != null) {
+            configurationAdapter.onConfigurationChanged(this);
+        }
+    }
+
+    /**
+     *
+     * The pushAggregationAdhocUpdate operation allows an external entity to
+     * trigger an adhoc aggregation-update.
+     *
+     * @param name The id of the Aggregation as set in the aggregation
+     * definition
+     * @param source The source of the aggregation. Can be null
+     * @param timestamp The timestamp of the aggregation. If null, the method
+     * will automatically use the System's time
+     * @return Returns true if the push was successful. False otherwise.
+     */
+    public Boolean pushAggregationAdhocUpdate(Identifier name, final ObjectKey source, final Time timestamp) { //requirement: 3.7.2.b.b, 3.7.4.i
+        final Long id = manager.getId(name);
+        if (id == null) {
+            return false;
+        }
+        //check the filter and sample
+        if (!checkFilterAndSampleParam(id, false)) {
+            //filter didnt trigger
+            return false;
+        }
+        //publish! requirement: 3.7.3.j
+        if (!publishAggregationUpdate(id,
+                manager.getAggregationValue(id, GenerationMode.ADHOC),
+                source, timestamp, storeAggregationsInCOMArchive)) {
+            return false;
+        }
+
+        //if the push value was published during a periodic update reset the timers //not standarized. impl. specific
+        if (manager.getAggregationDefinition(id).getReportInterval().getInSeconds() != 0) {
+            periodicReportingManager.refresh(id);// then, refresh the Periodic updates and samplings
+            periodicSamplingManager.refresh(id);
+        } else {
+            manager.resetAggregationSampleHelperVariables(id);
+        }
+        return true;
+    }
+
+    /**
+     *
+     * The pushSingleParameterValueAttribute operation allows an external entity
+     * to push Attribute values through the monitorValue operation of the
+     * Aggregation service.
+     *
+     * @param defId The id of the aggregation definition
+     * @param aSetVal The list of aggregation set values to be pushed
+     * @param source The source of the aggregation. Can be null
+     * @param timestamp The timestamp of the aggregation. If null, the method
+     * will automatically use the System's time
+     * @return Returns true if the push was successful. False otherwise.
+     */
+    public Boolean pushAggregationSetValue(final Long defId, final AggregationSetValueList aSetVal,
+            final ObjectKey source, final Time timestamp) { //requirement: 3.7.4.i
+
+        //check that the given aggregationSetValueList has the right amount of entries
+        final AggregationDefinition aggrDef = manager.getAggregationDefinition(defId);
+        if (aSetVal.size() != aggrDef.getParameterSets().size()) {
+            return false;
+        }
+        //check the filter and sample
+        if (!checkFilterAndSampleParams(defId, false, aSetVal)) {
+            return false;
+        }
+        //publish! requirement: 3.7.3.j
+        if (!publishAggregationUpdate(defId, manager.getAggregationValue(defId, GenerationMode.ADHOC), source,
+                timestamp, storeAggregationsInCOMArchive)) {
+            return false;
+        }
+        //if the push value was published during a periodic update reset the timers //not standarized, impl. specific
+        if (manager.getAggregationDefinition(defId).getReportInterval().getInSeconds() != 0) {
+            periodicReportingManager.refresh(defId);// then, refresh the Periodic updates and samplings
+            periodicSamplingManager.refresh(defId);
+        } else {
+            manager.resetAggregationSampleHelperVariables(defId);
+        }
+        return true;
+    }
+
+    /**
+     * checks if the filter is triggered and samples new parametervalues and
+     * sets them to the internal list if it was triggered or if no filter is
+     * enabled
+     *
+     * @param id The id of the aggregation definition.
+     * @param aggrExpired should be set to true, if the aggregation that is
+     * sampling the parameter is periodic and the aggregation period is up.
+     * @return true if the values were successfully saved to the internal list.
+     * false if the filter is enabled but wasnt triggered with the new values.
+     */
+    private boolean checkFilterAndSampleParam(final Long id, boolean aggrExpired) {
+        return checkFilterAndSampleParams(id, aggrExpired, null);
+    }
+
+    /**
+     * Returns the new parameterValues, checks if the filter is triggered and
+     * sets these to the internal list if the filter was triggered or if no
+     * filter is enabled
+     *
+     * @param id The id of the aggregation definition.
+     * @param aggrExpired should be set to true, if the aggregation that is
+     * sampling the parameter is periodic and the aggregation period is up.
+     * @param aSetVal the new parameter values to be set
+     * @return true if the values were successfully saved to the internal list.
+     * false if the filter is enabled but wasnt triggered with the new values.
+     */
+    private boolean checkFilterAndSampleParams(final Long id,
+            boolean aggrExpired, final AggregationSetValueList aSetVal) {
+        //check if filter enabled
+        AggregationDefinition aggrDef = manager.getAggregationDefinition(id);
+        final AggregationParameterSetList parameterSets = aggrDef.getParameterSets();
+        //requirement: 3.7.3.d, e
+        if (aggrDef.getFilterEnabled()) {
+            //create new parameter-samples
+            for (int i = 0; i < parameterSets.size(); i++) {
+                final AggregationParameterValueList newParaVals = (aSetVal == null ? null : aSetVal.get(i).getValues());
+                manager.sampleAndFilterParam(id, i, aggrExpired, newParaVals);
+            }
+            //check the filter is triggered
+            if (!manager.isFilterTriggered(id)) {
+                return false;
+            }
+        } else {
+            //no filtering enabled
+            //create new parameter-samples
+            for (int i = 0; i < parameterSets.size(); i++) {
+                final AggregationParameterValueList newParaVals = (aSetVal == null ? null : aSetVal.get(i).getValues());
+                manager.sampleParam(id, i, aggrExpired, newParaVals);
+            }
+        }
+        return true;
+    }
+
+    /**
+     * checks if the sampleInterval is 0 or greater than the updateInterval of
+     * the given definition. if it is, it samples new parameters and check if
+     * the filter was triggered. if it was triggerd, or no filter was enabled,
+     * the values will be set to the internal list
+     *
+     * @param id The id of the aggregation-definito to be
+     * @param aggrExpired Should be set to true, if the aggregation that is
+     * sampling the parameter is periodic and the aggregation period is up.
+     */
+    private void checkSampleIntervalAndSampleParam(Long id, boolean aggrExpired) {
+        final AggregationDefinition def = manager.getAggregationDefinition(id);
+        //check the sampleInterval
+        final AggregationParameterSetList parameterSets = def.getParameterSets();
+        for (int i = 0; i < parameterSets.size(); i++) {
+            final double sampleInterval = parameterSets.get(i).getSampleInterval().getInSeconds();
+            //If '0' or if its greater than the updateInterval then just a single sample of the parameters is required per aggregation update
+            if (sampleInterval == 0 || (sampleInterval > def.getReportInterval().getInSeconds())) {
+                checkFilterAndSampleParam(id, aggrExpired);
+            }
+        }
+    }
+
+    private static final class PublishInteractionListener implements MALPublishInteractionListener {
+
+        @Override
+        public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+                throws MALException {
+            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).fine(
+                    "PublishInteractionListener::publishDeregisterAckReceived");
+        }
+
+        @Override
+        public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
+                final Map qosProperties) throws MALException {
+            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).fine(
+                    "PublishInteractionListener::publishErrorReceived");
+        }
+
+        @Override
+        public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+                throws MALException {
+            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).fine(
+                    "PublishInteractionListener::publishRegisterAckReceived");
+        }
+
+        @Override
+        public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
+                final Map qosProperties) throws MALException {
+            Logger.getLogger(AggregationProviderServiceImpl.class.getName()).fine(
+                    "PublishInteractionListener::publishRegisterErrorReceived");
+        }
+    }
+
+    private class PeriodicReportingManager { // requirement: 3.7.2.1a
+
+        private HashMap<Long, TaskScheduler> updateTimerList; // updateInterval Timers list
+        private HashMap<Long, TaskScheduler> filterTimeoutTimerList; // filterTimeout Timers list
+        private boolean active = false; // Flag that determines if the Manager is on or off
+
+        public PeriodicReportingManager() {
+            updateTimerList = new HashMap<>();
+            filterTimeoutTimerList = new HashMap<>();
+        }
+
+        public void refreshAll() {
+            this.refreshList(manager.listAllDefinitions());
+        }
+
+        public void pause() {
+            active = false;
+        }
+
+        public void start() {
+            active = true;
+        }
+
+        public void init() {
+            this.refreshAll(); // Refresh all the Aggregation Definitions on the Manager
+            this.start(); // set active flag to true
+        }
+
+        public void refresh(Long id) {
+            // get Aggregation Definition
+            AggregationDefinition aDef = manager.getAggregationDefinition(id);
+
+            if (updateTimerList.containsKey(id)) { // Does it exist in the Periodic Reporting Manager?
+                this.removePeriodicReporting(id);
+            }
+            if (filterTimeoutTimerList.containsKey(id)) { // Does it exist in the filter-timeout timerlist already?
+                this.removeFilteredTimeoutReporting(id);
+            }
+
+            if (aDef != null) { // Does it exist in the Aggregation Definitions List?
+                if (aDef.getReportingEnabled()) { //requirement 3.7.3.a, 3.7.3.b
+                    manager.populateAggregationValues(id); // Reset the Sampling Values
+                    if (aDef.getReportInterval().getInSeconds() != 0) { // Is the periodic reporting active? (requirement: 3.7.3.i, 3.7.9.2.k)
+                        this.addPeriodicReporting(id);
+                    }
+                    //AD-HOC aggregations can also have a filter and must be added to the filtered-timeout-list in this case
+                    if (aDef.getFilterEnabled() && aDef.getFilteredTimeout().getInSeconds() != 0) { // requirement 3.7.3.j
+                        this.addFilteredTimeoutReporting(id);
+                    }
+                }
+            } else { //aggregation was removed
+                manager.removeAggregationValues(id);
+            }
+
+        }
+
+        public void refreshList(LongList ids) {
+            if (ids == null) {
+                return;
+            }
+            for (Long id : ids) {
+                this.refresh(id);
+            }
+        }
+
+        /**
+         * starts the periodic-update-timer and if enabled the
+         * filter-timeout-timer.
+         *
+         * @param id the id of the aggregation which timers should be
+         * started
+         */
+        private void addPeriodicReporting(Long id) {
+            //requirement: 3.7.9.2.12
+            publishImmediatePeriodicUpdate(id);
+            TaskScheduler timer = new TaskScheduler(1);
+            updateTimerList.put(id, timer);
+
+            final AggregationDefinition aggrDef = manager.getAggregationDefinition(id);
+            this.startUpdatesTimer(id, aggrDef.getReportInterval());  // requirement 3.7.3.c
+
+        }
+
+        /**
+         * starts the filtered timeout-timer, if enabled
+         *
+         * @param id
+         */
+        private void addFilteredTimeoutReporting(Long id) {
+            final AggregationDefinition aggrDef = manager.getAggregationDefinition(id);
+            // Is the filter enabled? If so, do we have a filter Timeout set?
+            //            if (aggrDef.getFilterEnabled() && aggrDef.getFilteredTimeout().getValue() != 0) { // requirement 3.7.2.12
+            TaskScheduler timer2 = new TaskScheduler(1);
+            filterTimeoutTimerList.put(id, timer2);
+            this.startFilterTimeoutTimer(id, aggrDef.getFilteredTimeout());
+        }
+
+        private void removePeriodicReporting(Long objId) {
+            this.stopUpdatesTimer(objId);
+            updateTimerList.remove(objId);
+        }
+
+        private void removeFilteredTimeoutReporting(Long id) {
+            this.stopFilterTimeoutTimer(id);
+            filterTimeoutTimerList.remove(id);
+        }
+
+        private void startUpdatesTimer(final Long id, final Duration interval) {
+            // the time is being converted to milliseconds by multiplying by 1000
+            updateTimerList.get(id).scheduleTask(new Thread(() -> {  // requirement: 3.7.3.c
+                if (active) {
+                    AggregationDefinition def = manager.getAggregationDefinition(id);
+                    checkSampleIntervalAndSampleParam(id, true);
+
+                    // To prevent race conditions with the other timer
+                    synchronized (lock) {
+                        if (!def.getFilterEnabled()) { // The Filter is not enabled? // requirement: 3.7.2.a.a,
+                            publishPeriodicAggregationUpdate(id, manager.getAggregationValue(id,
+                                    GenerationMode.PERIODIC)); //requirement: 3.7.3.h
+                            manager.resetAggregationSampleHelperVariables(id);
+                        } else {  // requirement: 3.7.2.a.c,
+                            if (manager.isFilterTriggered(id)) { // The Filter is on and triggered? requirement: 3.7.2.6
+                                publishPeriodicAggregationUpdate(id, manager.getAggregationValue(id,
+                                        GenerationMode.PERIODIC)); //requirement: 3.7.3.h
+                                manager.resetAggregationSampleHelperVariables(id);
+                                resetFilterTimeoutTimer(id);        // Reset the timer
+                            }
+                        }
+                    }
+                }
+            }), (int) (interval.getInSeconds() * 1000), (int) (interval.getInSeconds() * 1000), TimeUnit.MILLISECONDS, true); // requirement: 3.7.3.g
+        }
+
+        private void stopUpdatesTimer(final Long objId) {
+            updateTimerList.get(objId).stopLast();
+        }
+
+        private void resetFilterTimeoutTimer(Long objId) {
+            if (!updateTimerList.containsKey(objId)) {
+                return;  // Get out if it didn't find the objId
+            }
+            if (filterTimeoutTimerList.get(objId) == null) {
+                return;  // Get out if the timer was not set
+            }
+            this.stopFilterTimeoutTimer(objId);
+            // Should be unnecessary since the TaskScheduler does not need to be re-initialized to start the timer again.
+            //TaskScheduler timer2 = new TaskScheduler(1);
+            //filterTimeoutTimerList.put(objId, timer2);
+            this.startFilterTimeoutTimer(objId, manager.getAggregationDefinition(objId).getFilteredTimeout());
+        }
+
+        private void startFilterTimeoutTimer(final Long id, final Duration interval) {
+            // the time is being converted to milliseconds by multiplying by 1000
+            filterTimeoutTimerList.get(id).scheduleTask(new Thread(() -> {  // requirement: 3.7.2.a.c, 3.7.3.n
+                if (active) {
+                    manager.setFilterTriggered(id, true);
+                    //get the new samples and update the aggregation in the internal list
+                    for (int index = 0;
+                            index < manager.getAggregationDefinition(id).getParameterSets().size();
+                            index++) {
+                        manager.sampleParam(id, index);
+                    }
+                    //publish the values in the internal list
+                    publishPeriodicAggregationUpdate(id, manager.getAggregationValue(id,
+                            GenerationMode.FILTERED_TIMEOUT));
+                    manager.resetAggregationSampleHelperVariables(id);
+                }
+            }), 0, (int) (interval.getInSeconds() * 1000), TimeUnit.MILLISECONDS, true);
+        }
+
+        private void stopFilterTimeoutTimer(final Long objId) {
+            if (filterTimeoutTimerList.get(objId) != null) { // Does it exist?
+                filterTimeoutTimerList.get(objId).stopLast();
+            }
+        }
+
+    }
+
+    /**
+     * this manager samples the parameter-values of the aggregations
+     * parameterSet after the given sampleInterval. It saves the values to an
+     * internal list and checks at the same time, if the filter would be
+     * triggered with this value. But it doesnt publish the value yet. The
+     * generation of the update will be done with the periodic or filtered
+     * generation mode. This modes use the sample-values generated here as the
+     * update-value when the updateInterval or filter-timeout-interval is
+     * expired.
+     *
+     * Hasnt been tested yet!
+     *
+     */
+    private class PeriodicSamplingManager { // requirement: 3.7.2.1a
+
+        private final List<TaskScheduler> sampleTimerList; // Timer List. One timer for each parameterSet of each aggregation that needs to be sampled
+        private final LongList aggregationObjIdList; // ids of the aggregations whiches parameterSet started the timer above. first index here belongs to the first timer abode. 
+        private final List<Integer> parameterSetIndexList; // index of the parameter set in the aggregation above, that belongs to the timer. first index here belngs to the first  aggregation id above and belongs to the first timer above.
+        private boolean active = false; // Flag that determines if the Manager is on or off
+
+        public PeriodicSamplingManager() {
+            sampleTimerList = new ArrayList<>();
+            aggregationObjIdList = new LongList();
+            parameterSetIndexList = new ArrayList<>();
+        }
+
+        public void refreshAll() {
+            this.refreshList(manager.listAllDefinitions());
+        }
+
+        public void pause() {
+            active = false;
+        }
+
+        public void start() {
+            active = true;
+        }
+
+        public void init() {
+            this.refreshAll(); // Refresh all the Aggregation Definitions on the Manager
+            this.start(); // set active flag to true
+        }
+
+        public void refresh(Long id) {
+            final int index = aggregationObjIdList.indexOf(id);
+
+            if (index != -1) { // Does it exist in the PeriodicSamplingManager?
+                this.removePeriodicSampling(id);
+            }
+
+            if (manager.existsDef(id)) { // Does it exist in the Aggregation Definitions List?
+                manager.populateAggregationValues(id); // Reset the Sampled Values
+                this.addPeriodicSampling(id);
+            } else { //aggregation was removed
+                manager.removeAggregationValues(id);
+            }
+        }
+
+        public void refreshList(LongList defIds) {
+            if (defIds == null) {
+                return;
+            }
+
+            for (Long defId : defIds) {
+                refresh(defId);
+            }
+        }
+
+        private void addPeriodicSampling(Long defId) {
+            final AggregationDefinition aggrDef = manager.getAggregationDefinition(defId);
+            if (!aggrDef.getReportingEnabled()) {
+                return; // Periodic Sampling shall not occur if the generation is not enabled at the definition level
+            }
+            final int parameterSetsTotal = aggrDef.getParameterSets().size();
+            int index = sampleTimerList.size();
+
+            for (int indexOfParameterSet = 0; indexOfParameterSet < parameterSetsTotal; indexOfParameterSet++) {
+                Duration sampleInterval = aggrDef.getParameterSets().get(indexOfParameterSet).getSampleInterval();
+
+                //means ad hoc value, dont add to sample timer
+                if (sampleInterval.getInSeconds() > aggrDef.getReportInterval().getInSeconds()) {
+                    sampleInterval = new Duration(0);
+                }
+                // Add to the Periodic Sampling Manager only if there's a sampleInterval selected for the parameterSet
+                if (sampleInterval.getInSeconds() != 0) {
+                    aggregationObjIdList.add(index, defId);
+                    parameterSetIndexList.add(index, indexOfParameterSet);
+                    TaskScheduler timer = new TaskScheduler(1);  // Take care of adding a new timer
+                    sampleTimerList.add(index, timer);
+                    startTimer(index, sampleInterval);
+                    index++;
+                }
+            }
+        }
+
+        private void removePeriodicSampling(Long objId) {
+            for (int index = aggregationObjIdList.indexOf(objId);
+                    index != -1;
+                    index = aggregationObjIdList.indexOf(objId)) {
+                this.stopTimer(index);
+                aggregationObjIdList.remove(index);
+                sampleTimerList.remove(index);
+                parameterSetIndexList.remove(index);
+            }
+        }
+
+        private void startTimer(final int index, Duration interval) {  // requirement: 3.7.2.11
+            final Long defId = aggregationObjIdList.get(index);
+            final int indexOfparameterSet = parameterSetIndexList.get(index);
+
+            sampleTimerList.get(index).scheduleTask(new Thread(() -> {
+                if (active) {
+                    // To prevent race conditions with the other timer
+                    synchronized (lock) {
+                        //create the new paraemtersamples and set them if filter triggered or not enabled
+                        manager.sampleAndFilterParam(defId, indexOfparameterSet);
+                    }
+                }
+            }), 0, (int) (interval.getInSeconds() * 1000), TimeUnit.MILLISECONDS, true); // the time has to be converted to milliseconds by multiplying by 1000
+        }
+
+        private void stopTimer(int index) {
+            sampleTimerList.get(index).stopLast();
+        }
+
+    }
+
+    @Override
+    public Boolean reloadConfiguration(ObjectKeysList configurationObjectDetails) {
+        // Validate the returned configuration...
+        if (configurationObjectDetails == null) {
+            return false;
+        }
+
+        if (configurationObjectDetails == null) {
+            return false;
+        }
+
+        // Is the size 1?
+        if (configurationObjectDetails.size() != 1) {
+            return false;
+        }
+
+        ObjectKeys confSetDefs = configurationObjectDetails.get(0);
+
+        // Confirm the objTypes
+        if (!confSetDefs.getObjType().equals(AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE)) {
+            return false;
+        }
+
+        // Confirm the domain
+        if (!confSetDefs.getDomain().equals(ConfigurationProviderSingleton.getDomain())) {
+            return false;
+        }
+
+        // If the list is empty, reconfigure the service with nothing...
+        if (confSetDefs.getIds().isEmpty()) {
+            manager.reconfigureDefinitions(new IdentifierList(), new LongList(),
+                    new AggregationDefinitionList());   // Reconfigures the Manager
+
+            return true;
+        }
+
+        // ok, we're good to go...
+        // Load the Definitions from this configuration...
+        HeterogeneousList pDefs = (HeterogeneousList) HelperArchive.getObjectBodyListFromArchive(
+                manager.getArchiveService(),
+                AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(),
+                confSetDefs.getIds());
+
+        periodicReportingManager.pause();
+        periodicSamplingManager.pause();
+
+        IdentifierList names = new IdentifierList();
+        for (Element element : pDefs) {
+            names.add(((AggregationDefinition) element).getName());
+        }
+        manager.reconfigureDefinitions(names, confSetDefs.getIds(), pDefs);   // Reconfigures the Manager
+
+        // The periodic reporting and sampling need to be refreshed
+        manager.createAggregationValuesList(confSetDefs.getIds());
+        periodicReportingManager.refreshAll();  // Refresh the reporting
+        periodicSamplingManager.refreshAll();
+        periodicReportingManager.start();
+        periodicSamplingManager.start();
+
+        return true;
+    }
+
+    @Override
+    public ObjectKeysList getCurrentConfiguration() {
+        // Needs the Common API here!
+        ObjectKeysList list = manager.getCurrentConfiguration(
+                AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE
+        );
+
+        // Needs the Common API here!
+        return new ObjectKeysList(list);
+    }
+
+    @Override
+    public COMService getCOMService() {
+        return AggregationHelper.AGGREGATION_SERVICE;
+    }
+
+}

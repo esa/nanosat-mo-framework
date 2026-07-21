@@ -20,9 +20,10 @@
  */
 package esa.mo.nmf.nmfpackage;
 
-import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
+import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
 import esa.mo.nmf.nmfpackage.metadata.MetadataDependency;
+import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,11 +33,13 @@ import java.util.logging.Logger;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.project.MavenProjectHelper;
 
 /**
  * Generates the NMF Package for the NMF App
@@ -53,6 +56,9 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
      */
     @Parameter(defaultValue = "${project}")
     private MavenProject project;
+
+    @Component
+    private MavenProjectHelper projectHelper;
 
     /**
      * The App name of the NMF Package
@@ -111,8 +117,6 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
     @Parameter(property = "generate-nmf-package.privilege", defaultValue = "normal")
     private Privilege privilege;
 
-    private final static File TARGET_FOLDER = new File("target");
-
     @Override
     public void execute() throws MojoExecutionException {
         getLog().info("Generating NMF Package...");
@@ -139,17 +143,19 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
                     + "-> \t\t</properties>\n\n\n");
         }
 
-        if ("${esa.nmf.version-qualifier}".equals(nmfVersion)) {
+        if ("null".equals(nmfVersion)) {
             throw new MojoExecutionException("The nmfVersion property needs to "
                     + "be defined!\nPlease use the <nmfVersion> tag inside the "
                     + "<configuration> tag!\n");
         }
 
+        File targetFolder = new File(project.getBuild().getDirectory());
+
         File myAppFilename;
         String mainJar;
 
         try {
-            myAppFilename = HelperNMFPackage.findAppJarInFolder(TARGET_FOLDER);
+            myAppFilename = HelperNMFPackage.findAppJarInFolder(targetFolder);
             mainJar = myAppFilename.getName();
             getLog().info(">> mainJar = " + mainJar);
         } catch (IOException ex) {
@@ -172,7 +178,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
             boolean fromConnector = false;
             List<String> trail = artifact.getDependencyTrail();
             if (trail != null && trail.size() > 2) {
-                fromConnector = trail.get(1).contains("nanosat-mo-connector");
+                fromConnector = trail.get(1).contains("nmf-composites");
             }
 
             if (isKnown || fromConnector) {
@@ -186,7 +192,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
                 getLog().info("  >> GroupId = " + artifact.getGroupId());
                 getLog().info("  >> ArtifactId = " + artifact.getArtifactId());
                 getLog().info("  >> Version = " + artifact.getVersion());
-                dependencies.add(packageJarDependency(artifact));
+                dependencies.add(packageJarDependency(artifact, targetFolder));
             }
         }
 
@@ -205,17 +211,24 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         }
 
         getLog().info("------\nGenerating project NMF Package...\n");
-        builder.createPackage(TARGET_FOLDER);
+        builder.createPackage(targetFolder);
+
+        File packageFile = new File(project.getBuild().getDirectory(),
+                name + "-" + version + "." + Const.NMF_PACKAGE_SUFFIX);
+        if (packageFile.exists()) {
+            projectHelper.attachArtifact(project, Const.NMF_PACKAGE_SUFFIX, packageFile);
+            getLog().info("Attached artifact: " + packageFile.getName());
+        }
     }
 
-    private String packageJarDependency(Artifact artifact) {
+    private String packageJarDependency(Artifact artifact, File targetFolder) {
         File file = artifact.getFile();
         String artifactId = artifact.getArtifactId();
         String ver = artifact.getVersion();
         MetadataDependency metadata = new MetadataDependency(artifactId, ver);
         NMFPackageBuilder builder = new NMFPackageBuilder(metadata);
         builder.addFileOrDirectory(file);
-        builder.createPackage(TARGET_FOLDER);
+        builder.createPackage(targetFolder);
         return file.getName();
     }
 }

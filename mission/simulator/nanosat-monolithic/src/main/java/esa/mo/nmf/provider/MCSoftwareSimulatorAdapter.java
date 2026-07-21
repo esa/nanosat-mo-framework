@@ -24,11 +24,15 @@ import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
+
+import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
 
 /**
  * Specific Software Simulator Monitoring and Control
@@ -43,7 +47,7 @@ public class MCSoftwareSimulatorAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public Attribute onGetValue(Identifier identifier, Byte rawType) {
+    public Attribute onGetValue(Identifier identifier, AttributeType rawType) {
         return null;
     }
 
@@ -53,9 +57,9 @@ public class MCSoftwareSimulatorAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public UInteger actionArrived(Identifier name, AttributeValueList attributeValues, Long actionInstanceObjId,
-        boolean reportProgress, MALInteraction interaction) {
-        return new UInteger(1);  // Action service not integrated
+    public void actionArrived(Identifier name, AttributeValueList attributeValues, Long executionId,
+        MALInteraction interaction) throws ExecutionFailedException {
+        throw new ExecutionFailedException("Action service not integrated");
     }
 
 }

@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mal:specification xmlns:mal="http://www.ccsds.org/schema/ServiceSchema-v003" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <mal:area name="MAL" number="1" version="3" comment="Message Abstraction Layer">
+        <mal:dataTypes>
+            <mal:fundamental name="Attribute" comment="Attribute is the base type of all Attributes of the MAL data model. Attributes are contained within Composites and are used to build complex structures that make the data model.">
+                <mal:extends>
+                    <mal:type area="MAL" name="Element"/>
+                </mal:extends>
+            </mal:fundamental>
+            <mal:fundamental name="Composite" comment="Composite is the base structure for Composite structures that contain a set of Elements.">
+                <mal:extends>
+                    <mal:type area="MAL" name="Element"/>
+                </mal:extends>
+            </mal:fundamental>
+            <mal:fundamental name="Object" comment="Object is the base structure for MO Objects in the MAL data model. Objects are representations of complex data types with two specific characteristics: Objects have a unique and an immutable identity and can be referenced unambiguously.">
+                <mal:extends>
+                    <mal:type area="MAL" name="Composite"/>
+                </mal:extends>
+            </mal:fundamental>
+            <mal:fundamental name="Element" comment="Element is the base type of all data constructs. All types that make up the MAL data model are derived from it."/>
+            <mal:attribute shortFormPart="1" name="Blob" comment="The Blob structure shall be used to hold binary data. It shall be a variable-length Octet array and the maximum length shall depend on the selected encoding."/>
+            <mal:attribute shortFormPart="2" name="Boolean" comment="The Boolean structure shall be used to hold Boolean Attributes. Possible values are ‘True’ or ‘False’."/>
+            <mal:attribute shortFormPart="3" name="Duration" comment="The Duration structure shall be used to hold duration Attributes at nanoseconds resolution. It can be negative because it may be used to represent offsets. The duration shall support a range between -2^63 nanoseconds, and (2^63)-1 nanoseconds (to allow representation as a 64-bit signed integer)."/>
+            <mal:attribute shortFormPart="4" name="Float" comment="The Float structure shall be used to hold floating point Attributes using the IEEE 754 32-bit range."/>
+            <mal:attribute shortFormPart="5" name="Double" comment="The Double structure shall be used to hold floating point Attributes using the IEEE 754 64-bit range."/>
+            <mal:attribute shortFormPart="6" name="Identifier" comment="The Identifier structure shall be used to hold an identifier and can be used for indexing. It is a variable-length Unicode string and the maximum length shall depend on the selected encoding. For some encoding/decoding bindings, the use of a numeric value might be appropriate for this Attribute, for example, via a dictionary."/>
+            <mal:attribute shortFormPart="7" name="Octet" comment="The Octet structure shall be used to hold 8-bit signed Attributes. The permitted range is −128 to 127."/>
+            <mal:attribute shortFormPart="8" name="UOctet" comment="The UOctet structure shall be used to hold 8-bit unsigned Attributes. The permitted range is 0 to 255."/>
+            <mal:attribute shortFormPart="9" name="Short" comment="The Short structure shall be used to hold 16-bit signed Attributes. The permitted range is −32768 to 32767."/>
+            <mal:attribute shortFormPart="10" name="UShort" comment="The UShort structure shall be used to hold 16-bit unsigned Attributes. The permitted range is 0 to 65535."/>
+            <mal:attribute shortFormPart="11" name="Integer" comment="The Integer structure shall be used to hold 32-bit signed Attributes. The permitted range is −2147483648 to 2147483647."/>
+            <mal:attribute shortFormPart="12" name="UInteger" comment="The UInteger structure shall be used to hold 32-bit unsigned Attributes. The permitted range is 0 to 4294967295."/>
+            <mal:attribute shortFormPart="13" name="Long" comment="The Long structure shall be used to hold 64-bit signed Attributes. The permitted range is −9223372036854775808 to 9223372036854775807."/>
+            <mal:attribute shortFormPart="14" name="ULong" comment="The ULong structure shall be used to hold 64-bit unsigned Attributes. The permitted range is 0 to 18446744073709551615."/>
+            <mal:attribute shortFormPart="15" name="String" comment="The String structure shall be used to hold string Attributes. It is a variable-length Unicode string and the maximum length shall depend on the selected encoding."/>
+            <mal:attribute shortFormPart="16" name="Time" comment="The Time structure shall be used to hold absolute time Attributes. It shall represent an absolute date and time to millisecond resolution. The range shall depend on the selected encoding."/>
+            <mal:attribute shortFormPart="17" name="FineTime" comment="The FineTime structure shall be used to hold high-resolution absolute time Attributes. It shall represent an absolute date and time to nanosecond resolution. The range shall depend on the selected encoding."/>
+            <mal:attribute shortFormPart="18" name="URI" comment="The URI structure shall be used to hold URI addresses. It shall be a variable-length Unicode string and the maximum length shall depend on the selected encoding."/>
+            <mal:attribute shortFormPart="19" name="ObjectRef" comment="The ObjectRef structure shall be used to hold references to MO Objects."/>
+            <mal:enumeration name="InteractionType" shortFormPart="101" comment="InteractionType is an enumeration that shall be used to hold the possible Interaction Pattern types.">
+                <mal:item value="SEND" nvalue="1" comment="Used for SEND interactions."/>
+                <mal:item value="SUBMIT" nvalue="2" comment="Used for SUBMIT interactions."/>
+                <mal:item value="REQUEST" nvalue="3" comment="Used for REQUEST interactions."/>
+                <mal:item value="INVOKE" nvalue="4" comment="Used for INVOKE interactions."/>
+                <mal:item value="PROGRESS" nvalue="5" comment="Used for PROGRESS interactions."/>
+                <mal:item value="PUBSUB" nvalue="6" comment="Used for Publish-Subscribe interactions."/>
+            </mal:enumeration>
+            <mal:enumeration name="SessionType" shortFormPart="102" comment="SessionType is an enumeration that shall be used to hold the session types. This facilitates the use of different Sessions in out-of-band agreements.">
+                <mal:item value="LIVE" nvalue="1" comment="Used for Live sessions."/>
+                <mal:item value="SIMULATION" nvalue="2" comment="Used for Simulation sessions."/>
+                <mal:item value="REPLAY" nvalue="3" comment="Used for Replay sessions."/>
+            </mal:enumeration>
+            <mal:enumeration name="QoSLevel" shortFormPart="103" comment="QoSLevel is an enumeration that shall be used to hold the possible QoS levels. This facilitates the use of different QoS in out-of-band agreements.">
+                <mal:item value="BESTEFFORT" nvalue="1" comment="Used for Best Effort QoS Level."/>
+                <mal:item value="ASSURED" nvalue="2" comment="Used for Assured QoS Level."/>
+                <mal:item value="QUEUED" nvalue="3" comment="Used for Queued QoS Level."/>
+                <mal:item value="TIMELY" nvalue="4" comment="Used for Timely QoS Level."/>
+            </mal:enumeration>
+            <mal:enumeration name="AttributeType" shortFormPart="104" comment="AttributeType is an enumeration that shall be used to hold the defined MAL Attribute types.">
+                <mal:item value="BLOB" nvalue="1" comment="Blob type."/>
+                <mal:item value="BOOLEAN" nvalue="2" comment="Boolean type."/>
+                <mal:item value="DURATION" nvalue="3" comment="Duration type."/>
+                <mal:item value="FLOAT" nvalue="4" comment="Float type."/>
+                <mal:item value="DOUBLE" nvalue="5" comment="Double type."/>
+                <mal:item value="IDENTIFIER" nvalue="6" comment="Identifier type."/>
+                <mal:item value="OCTET" nvalue="7" comment="Octet type."/>
+                <mal:item value="UOCTET" nvalue="8" comment="UOctet type."/>
+                <mal:item value="SHORT" nvalue="9" comment="Short type."/>
+                <mal:item value="USHORT" nvalue="10" comment="UShort type."/>
+                <mal:item value="INTEGER" nvalue="11" comment="Integer type."/>
+                <mal:item value="UINTEGER" nvalue="12" comment="UInteger type."/>
+                <mal:item value="LONG" nvalue="13" comment="Long type."/>
+                <mal:item value="ULONG" nvalue="14" comment="ULong type."/>
+                <mal:item value="STRING" nvalue="15" comment="String type."/>
+                <mal:item value="TIME" nvalue="16" comment="Time type."/>
+                <mal:item value="FINETIME" nvalue="17" comment="FineTime type."/>
+                <mal:item value="URI" nvalue="18" comment="URI type."/>
+                <mal:item value="OBJECTREF" nvalue="19" comment="ObjectRef type."/>
+            </mal:enumeration>
+            <mal:enumeration name="MOArea" shortFormPart="105" comment="MOArea is an enumeration that shall be used to hold the known existing area numbers in use.">
+                <mal:item value="MAL" nvalue="1" comment="The MAL area number."/>
+                <mal:item value="COM" nvalue="2" comment="The COM area number. The COM is deprecated; therefore this area number is reserved for backward compatibility."/>
+                <mal:item value="COMMON" nvalue="3" comment="The Common area number."/>
+                <mal:item value="MC" nvalue="4" comment="The Monitor and Control area number."/>
+                <mal:item value="MPS" nvalue="5" comment="The Mission Planning and Scheduling area number."/>
+                <mal:item value="SM" nvalue="7" comment="The Software Management area number."/>
+                <mal:item value="MDPD" nvalue="9" comment="The Mission Data Product Distribution area number."/>
+            </mal:enumeration>
+            <mal:composite name="Subscription" shortFormPart="1001" comment="The Subscription structure shall be used when subscribing for updates using the PUBSUB Interaction Pattern. It shall contain a single identifier that identifies the subscription being defined and a set of entities being requested.">
+                <mal:extends>
+                    <mal:type area="MAL" name="Composite"/>
+                </mal:extends>
+                <mal:field name="subscriptionId" canBeNull="false" comment="The identifier of this subscription.">
+                    <mal:type area="MAL" name="Identifier"/>
+                </mal:field>
+                <mal:field name="domain" canBeNull="true" comment="Optional domain identifier. If NULL, the subscription shall match with any domain.">
+                    <mal:type list="true" area="MAL" name="Identifier"/>
+                </mal:field>
+                <mal:field name="selectedKeys" canBeNull="true" comment="The list of names of the selected Subscription Keys to be transmitted to the consumer. The Subscription Keys that are not in this list will be removed. If NULL, then all Subscription Keys will be transmitted.">
+                    <mal:type list="true" area="MAL" name="Identifier"/>
+                </mal:field>
+                <mal:field name="filters" canBeNull="true" comment="The list of filters for this subscription. The list of filters must be ANDed together. If NULL, the subscription will not filter specific keys.">
+                    <mal:type list="true" area="MAL" name="SubscriptionFilter"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="SubscriptionFilter" shortFormPart="1002" comment="The SubscriptionFilter structure shall be used when subscribing for updates using the PUBSUB Interaction Pattern. It shall contain a single identifier that identifies the Subscription Key name and the set of values to be registered for the defined key name.">
+                <mal:extends>
+                    <mal:type area="MAL" name="Composite"/>
+                </mal:extends>
+                <mal:field name="name" canBeNull="false" comment="The identifier name of the key.">
+                    <mal:type area="MAL" name="Identifier"/>
+                </mal:field>
+                <mal:field name="values" canBeNull="false" comment="The list of values that are being subscribed for this key. These shall be ORed together.">
+                    <mal:type list="true" area="MAL" name="Attribute"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="UpdateHeader" shortFormPart="1003" comment="The UpdateHeader structure shall be used by updates using the PUBSUB Interaction Pattern. It shall hold information that identifies a single update.">
+                <mal:extends>
+                    <mal:type area="MAL" name="Composite"/>
+                </mal:extends>
+                <mal:field name="source" canBeNull="true" comment="The source of the update, usually a PUBSUB provider.">
+                    <mal:type area="MAL" name="Identifier"/>
+                </mal:field>
+                <mal:field name="domain" canBeNull="true" comment="The domain of this update. The individual domain identifier parts shall not be set as the wildcard character ‘*’.">
+                    <mal:type list="true" area="MAL" name="Identifier"/>
+                </mal:field>               
+                <mal:field name="keyValues" canBeNull="true" comment="The values for the PUBSUB keys. The values shall be ordered according to the defined keys if the consumer subscription did not enable trimming.">
+                    <mal:type list="true" area="MAL" name="NullableAttribute"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="IdBooleanPair" shortFormPart="1004" comment="IdBooleanPair shall be a simple pair type of an identifier and Boolean value.">
+                <mal:extends>
+                    <mal:type area="MAL" name="Composite"/>
+                </mal:extends>
+                <mal:field name="id" canBeNull="false" comment="The Identifier value.">
+                    <mal:type area="MAL" name="Identifier"/>
+                </mal:field>
+                <mal:field name="value" canBeNull="true" comment="The Boolean value.">
+                    <mal:type area="MAL" name="Boolean"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="Pair" shortFormPart="1005" comment="Pair shall be a simple Composite structure for holding pairs.">
+                <mal:extends>
+                    <mal:type area="MAL" name="Composite"/>
+                </mal:extends>
+                <mal:field name="first" canBeNull="true" comment="The attribute value for the first Element of this pair.">
+                    <mal:type area="MAL" name="Attribute"/>
+                </mal:field>
+                <mal:field name="second" canBeNull="true" comment="The attribute value for the second Element of this pair.">
+                    <mal:type area="MAL" name="Attribute"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="NamedValue" shortFormPart="1006" comment="The NamedValue structure shall represent a simple pair type of an identifier and abstract Attribute value.">
+                <mal:extends>
+                    <mal:type area="MAL" name="Composite"/>
+                </mal:extends>
+                <mal:field name="name" canBeNull="false" comment="The Identifier value.">
+                    <mal:type area="MAL" name="Identifier"/>
+                </mal:field>
+                <mal:field name="value" canBeNull="true" comment="The Attribute value.">
+                    <mal:type area="MAL" name="Attribute"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="File" shortFormPart="1007" comment="The File structure represents a file and shall be used to hold details about a file. It may also, optionally, hold a BLOB of the file data. The file type shall be denoted using the internet MIME media types.">
+                <mal:extends>
+                    <mal:type area="MAL" name="Composite"/>
+                </mal:extends>
+                <mal:field name="name" canBeNull="false" comment="The file name.">
+                    <mal:type area="MAL" name="String"/>
+                </mal:field>
+                <mal:field name="mimeType" canBeNull="true" comment="The MIME type of the file, NULL if not known.">
+                    <mal:type area="MAL" name="String"/>
+                </mal:field>
+                <mal:field name="creationDate" canBeNull="true" comment="The creation timestamp of the file, NULL if not known.">
+                    <mal:type area="MAL" name="Time"/>
+                </mal:field>
+                <mal:field name="modificationDate" canBeNull="true" comment="The last modification timestamp of the file, NULL if not known.">
+                    <mal:type area="MAL" name="Time"/>
+                </mal:field>
+                <mal:field name="size" canBeNull="true" comment="The size of the file in Octets, NULL if not known.">
+                    <mal:type area="MAL" name="ULong"/>
+                </mal:field>
+                <mal:field name="content" canBeNull="true" comment="The contents of the file, NULL if not supplied.">
+                    <mal:type area="MAL" name="Blob"/>
+                </mal:field>
+                <mal:field name="metaData" canBeNull="true" comment="A list of extra metadata for the file.">
+                    <mal:type list="true" area="MAL" name="NamedValue"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="ObjectIdentity" shortFormPart="1008" comment="The ObjectIdentity structure shall represent the Object Identity of an MO Object.">
+                <mal:extends>
+                    <mal:type area="MAL" name="Composite"/>
+                </mal:extends>
+                <mal:field name="domain" canBeNull="false" comment="The domain of the MO Object being referenced.">
+                    <mal:type list="true" area="MAL" name="Identifier"/>
+                </mal:field>
+                <mal:field name="key" canBeNull="false" comment="The key of the MO Object being referenced.">
+                    <mal:type area="MAL" name="Identifier"/>
+                </mal:field>
+                <mal:field name="version" canBeNull="false" comment="The version of the MO Object being referenced.">
+                    <mal:type area="MAL" name="UInteger"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="ServiceId" shortFormPart="1009" comment="The ServiceId structure shall represent a specific service in MO.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="keyArea" canBeNull="false" comment="The area of this service taken from the numeric Area identifier of the service specification.">
+                    <mal:type name="UShort" area="MAL"/>
+                </mal:field>
+                <mal:field name="keyService" canBeNull="false" comment="The service taken from the numeric Service identifier of the service specification.">
+                    <mal:type name="UShort" area="MAL"/>
+                </mal:field>
+                <mal:field name="keyAreaVersion" canBeNull="false" comment="The Area Version of the service.">
+                    <mal:type name="UOctet" area="MAL"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="NullableAttribute" shortFormPart="1010" comment="NullableAttribute structure shall represent an Attribute that can be nullable.">
+                <mal:extends>
+                    <mal:type name="Composite" area="MAL"/>
+                </mal:extends>
+                <mal:field name="value" canBeNull="true" comment="The value of the nullable attribute.">
+                    <mal:type name="Attribute" area="MAL"/>
+                </mal:field>
+            </mal:composite>
+        </mal:dataTypes>
+        <mal:errors>
+            <mal:error number="65536" name="Delivery Failed" comment="Confirmed communication error."/>
+            <mal:error number="65537" name="Delivery Timedout" comment="Unconfirmed communication error."/>
+            <mal:error number="65538" name="Delivery Delayed" comment="Message queued somewhere awaiting contact."/>
+            <mal:error number="65539" name="Destination Unknown" comment="Destination cannot be contacted."/>
+            <mal:error number="65540" name="Destination Transient" comment="Destination middleware reports destination application does not exist."/>
+            <mal:error number="65541" name="Destination Lost" comment="Destination lost halfway through conversation."/>
+            <mal:error number="65542" name="Authentication Failed" comment="A failure to authenticate the message correctly."/>
+            <mal:error number="65543" name="Authorisation Fail" comment="A failure in the MAL to authorise the message."/>
+            <mal:error number="65544" name="Encryption Fail" comment="A failure in the MAL to encrypt/decrypt the message."/>
+            <mal:error number="65545" name="Unsupported Area" comment="The destination does not support the selected area."/>
+            <mal:error number="65546" name="Unsupported Area Version" comment="The destination does not support the selected area version."/>
+            <mal:error number="65547" name="Unsupported Service" comment="The destination does not support the selected service."/>
+            <mal:error number="65548" name="Unsupported Operation" comment="The destination does not support the selected operation."/>
+            <mal:error number="65549" name="Bad Encoding" comment="The destination was unable to decode the message."/>
+            <mal:error number="65550" name="Internal" comment="An internal error has occurred."/>
+            <mal:error number="65551" name="Unknown" comment="Operation specific."/>
+            <mal:error number="65552" name="Incorrect State" comment="The destination was not in the correct state for the received message."/>
+            <mal:error number="65553" name="Too Many" comment="Maximum number of subscriptions or providers of a broker has been exceeded."/>
+            <mal:error number="65554" name="Shutdown" comment="The component is being shutdown."/>
+            <mal:error number="65555" name="Transaction Timeout" comment="The interaction exceeded a certain timeout duration."/>
+        </mal:errors>
+    </mal:area>
+</mal:specification>

@@ -18,13 +18,13 @@
 
     <parent>
         <groupId>int.esa.nmf</groupId>
-        <artifactId>parent</artifactId>
-        <version>4.0</version>
-        <relativePath>../parent/pom.xml</relativePath>
+        <artifactId>nanosat-mo-framework</artifactId>
+        <version>5.0</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>int.esa.nmf.sdk</groupId>
-    <artifactId>reactor</artifactId>
+    <artifactId>sdk</artifactId>
     <name>ESA NMF SDK</name>
     <packaging>pom</packaging>
 
@@ -65,10 +65,11 @@
     </properties>
 
     <modules>
-        <module>examples-space</module>
+        <module>examples-apps</module>
         <module>examples-ground</module>
+        <module>all-mc-services-with-sim</module>
         <module>consumer-test-tool</module>
         <module>cli-tool</module>
-        <module>sdk-package</module>
+        <module>sdk-playground-environment</module>
     </modules>
 </project>

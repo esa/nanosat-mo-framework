@@ -20,10 +20,12 @@
  */
 package esa.mo.nmf.clitool.platform;
 
+import esa.mo.nmf.clitool.Args;
 import esa.mo.nmf.clitool.BaseCommand;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,14 +39,11 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.platform.autonomousadcs.body.GetStatusResponse;
 import org.ccsds.moims.mo.platform.autonomousadcs.consumer.AutonomousADCSStub;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.ActuatorsTelemetry;
-import org.ccsds.moims.mo.platform.autonomousadcs.structures.AttitudeTelemetry;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraStub;
-import org.ccsds.moims.mo.platform.camera.structures.*;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSAdapter;
 import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
-import picocli.CommandLine.*;
+import org.ccsds.moims.mo.platform.structures.*;
 
 /**
  * @author marcel.mikolajko
@@ -53,51 +52,42 @@ public class PlatformCommands {
 
     static Logger LOGGER = Logger.getLogger(PlatformCommands.class.getName());
 
-    @Command(name = "gps", subcommands = {GetNMEASentence.class})
-    public static class GPS {
-    }
-
-    @Command(name = "adcs", subcommands = {GetStatus.class})
-    public static class ADCS {
-    }
-
-    @Command(name = "camera", subcommands = {TakePicture.class})
-    public static class Camera {
-    }
-
-    @Command(name = "take-picture", description = "Take a picture from the camera")
-    public static class TakePicture extends BaseCommand implements Runnable {
-
-        @Option(names = {"-res", "--resolution"}, paramLabel = "<resolution>", required = true,
-                description = "Resolution of the image in format widthxheigh. For example 1920x1080")
-        String resolution;
-
-        @Option(names = {"-fmt", "--format"}, paramLabel = "<format>", defaultValue = "PNG",
-                description = "Format of the image")
-        String format;
-
-        @Option(names = {"-exp", "--exposure"}, paramLabel = "<exposureTime>", defaultValue = "0.1",
-                description = "Exposure time of the picture")
-        String exposure;
-
-        @Option(names = {"-gr", "--gain-red"}, paramLabel = "<gainRed>", defaultValue = "1.0",
-                description = "Gain of the red channel")
-        String gainRed;
-
-        @Option(names = {"-gg", "--gain-green"}, paramLabel = "<gainGreen>", defaultValue = "1.0",
-                description = "Gain of the green channel")
-        String gainGreen;
-
-        @Option(names = {"-gb", "--gain-blue"}, paramLabel = "<gainBlue>", defaultValue = "1.0",
-                description = "Gain of the blue channel")
-        String gainBlue;
-
-        @Option(names = {"-o", "--output"}, paramLabel = "<outputFile>", defaultValue = "picture",
-                description = "Name of the output file without the extension.")
-        String filename;
+    public static class TakePicture extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            String resolution = args.option("-res", "--resolution");
+            String format = args.option("-fmt", "--format");
+            String exposure = args.option("-exp", "--exposure");
+            String gainRed = args.option("-gr", "--gain-red");
+            String gainGreen = args.option("-gg", "--gain-green");
+            String gainBlue = args.option("-gb", "--gain-blue");
+            String filename = args.option("-o", "--output");
+
+            if (resolution == null) {
+                System.out.println("Missing required option: -res/--resolution");
+                return;
+            }
+            if (format == null) {
+                format = "PNG";
+            }
+            if (exposure == null) {
+                exposure = "0.1";
+            }
+            if (gainRed == null) {
+                gainRed = "1.0";
+            }
+            if (gainGreen == null) {
+                gainGreen = "1.0";
+            }
+            if (gainBlue == null) {
+                gainBlue = "1.0";
+            }
+            if (filename == null) {
+                filename = "picture";
+            }
+
             if (!super.initRemoteConsumer()) {
                 return;
             }
@@ -111,12 +101,14 @@ public class PlatformCommands {
             }
 
             String[] res = resolution.split("x");
-            PixelResolution resolution = new PixelResolution(
+            PixelResolution pixelResolution = new PixelResolution(
                     new UInteger(Integer.parseInt(res[0])),
                     new UInteger(Integer.parseInt(res[1])));
 
+            final String finalFormat = format;
+            final String finalFilename = filename;
             CameraSettings settings = new CameraSettings(
-                    resolution,
+                    pixelResolution,
                     PictureFormat.fromString(format.toUpperCase()),
                     new Duration(Double.parseDouble(exposure)),
                     Float.parseFloat(gainRed),
@@ -133,9 +125,9 @@ public class PlatformCommands {
                             Picture picture, Map qosProperties) {
                         System.out.println("Picture received: " + picture);
                         try {
-                            filename = filename + "." + format.toLowerCase();
-                            Files.write(Paths.get(filename), picture.getContent().getValue());
-                            System.out.println("File " + filename + " saved!");
+                            String outFile = finalFilename + "." + finalFormat.toLowerCase();
+                            Files.write(Paths.get(outFile), picture.getContent().getValue());
+                            System.out.println("File " + outFile + " saved!");
                         } catch (IOException e) {
                             LOGGER.log(Level.SEVERE, "Error during picture saving!", e);
                         }
@@ -160,7 +152,7 @@ public class PlatformCommands {
                 }
             } catch (MALInteractionException e) {
                 MOErrorException error = e.getStandardError();
-                if (error.getErrorNumber().equals(COMHelper.INVALID_ERROR_NUMBER)) {
+                if (error.getErrorNumber().equals(COMHelper.INVALID_ARGUMENT_ERROR_NUMBER)) {
                     if (error.getExtraInformation() instanceof PixelResolutionList) {
                         System.out.println("Provided resolution is not supported!");
                         System.out.println("Supported resolutions: " + error.getExtraInformation());
@@ -181,11 +173,12 @@ public class PlatformCommands {
         }
     }
 
-    @Command(name = "get-status", description = "Gets the provider status")
-    public static class GetStatus extends BaseCommand implements Runnable {
+    public static class GetStatus extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+
             if (!super.initRemoteConsumer()) {
                 return;
             }
@@ -221,19 +214,21 @@ public class PlatformCommands {
             } catch (MALInteractionException | MALException e) {
                 LOGGER.log(Level.SEVERE, "Error during getStatus!", e);
             }
-
         }
     }
 
-    @Command(name = "get-nmea-sentence", description = "Gets the NMEA sentence")
-    public static class GetNMEASentence extends BaseCommand implements Runnable {
-
-        @Parameters(arity = "1", paramLabel = "<sentenceIdentifier>", index = "0",
-                description = "Identifier of the sentence")
-        String sentenceId;
+    public static class GetNMEASentence extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> positionals = args.positionals();
+            if (positionals.isEmpty()) {
+                System.out.println("Missing required argument: <sentenceIdentifier>");
+                return;
+            }
+            String sentenceId = positionals.get(0);
+
             if (!super.initRemoteConsumer()) {
                 return;
             }

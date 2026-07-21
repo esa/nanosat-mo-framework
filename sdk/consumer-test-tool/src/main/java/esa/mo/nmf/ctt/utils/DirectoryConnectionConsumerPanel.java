@@ -26,32 +26,34 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Properties;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
-import java.util.Random;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import org.ccsds.moims.mo.com.archive.ArchiveHelper;
-import org.ccsds.moims.mo.common.directory.DirectoryServiceInfo;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
-import org.ccsds.moims.mo.common.directory.structures.ServiceCapability;
-import org.ccsds.moims.mo.common.directory.structures.ServiceCapabilityList;
-import org.ccsds.moims.mo.common.login.LoginHelper;
-import org.ccsds.moims.mo.common.structures.ServiceKey;
+import org.ccsds.moims.mo.com.directory.DirectoryServiceInfo;
+import org.ccsds.moims.mo.com.login.LoginHelper;
+import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.ServiceId;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
@@ -62,33 +64,31 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
     private final javax.swing.JTabbedPane tabs;
     private ConnectionConsumer connectionConsumer;
-    private ProviderSummaryList summaryList;
+    private ProviderList providerList;
     private DefaultTableModel tableData;
-    private final boolean isS2G;
     private static final String LAST_USED_CONSUMER_PREF = "last_used_consumer";
     private static Preferences prefs = Preferences.userNodeForPackage(DirectoryConnectionConsumerPanel.class);
 
     /**
-     * Creates new form ConsumerPanelArchive
+     * Constructor.
      *
-     * @param isS2G Flag that defines if it is a Space to Ground link
-     * @param connectionConsumer
-     * @param tabs
+     * @param connectionConsumer The consumer connections.
+     * @param tabs The tabs object.
      */
-    public DirectoryConnectionConsumerPanel(final boolean isS2G,
-            final ConnectionConsumer connectionConsumer, final JTabbedPane tabs) {
+    public DirectoryConnectionConsumerPanel(final ConnectionConsumer connectionConsumer, final JTabbedPane tabs) {
         initComponents();
+        jLabel7.setFont(jLabel7.getFont().deriveFont(java.awt.Font.BOLD, 18f));
+        jLabel1.setFont(jLabel1.getFont().deriveFont(java.awt.Font.BOLD, 12f));
         this.connectionConsumer = connectionConsumer;
         this.tabs = tabs;
         this.initTextBoxAddress();
-        this.isS2G = isS2G;
 
-        String[] tableCol = new String[]{"Service name", "Supported Capabilities",
-            "Service Properties", "URI address", "Broker URI Address"};
+        String[] tableCol = new String[]{"Service name", "Service Properties",
+            "URI address", "Broker URI Address"};
 
         tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
             Class[] types = new Class[]{
-                java.lang.String.class, java.lang.String.class, java.lang.String.class,
+                java.lang.String.class, java.lang.String.class,
                 java.lang.String.class, java.lang.String.class
             };
 
@@ -104,6 +104,8 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         };
 
         jTable1.setModel(tableData);
+        tableData.addTableModelListener(
+                e -> TableUtils.packColumnsLater(jTable1));
 
         ListSelectionListener listSelectionListener = listSelectionEvent -> {
             // Update the jTable according to the selection of the index
@@ -116,7 +118,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             }
 
             ServiceCapabilityList services
-                    = summaryList.get(index).getProviderDetails().getServiceCapabilities();
+                    = providerList.get(index).getServiceCapabilities();
 
             // And then add the new stuff
             for (int i = 0; i < services.size(); i++) {
@@ -124,8 +126,10 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
                 String serviceName;
                 try {
-                    serviceName = HelperMisc.serviceKey2name(service.getServiceKey().getKeyArea(),
-                            service.getServiceKey().getKeyAreaVersion(), service.getServiceKey().getKeyService());
+                    serviceName = HelperMisc.serviceKey2name(
+                            service.getServiceId().getKeyArea(),
+                            service.getServiceId().getKeyAreaVersion(),
+                            service.getServiceId().getKeyService());
                 } catch (MALException ex) {
                     serviceName = "<Unknown service>";
                 }
@@ -140,12 +144,8 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                             ? "null" : service.getServiceAddresses().get(0).getBrokerURI().toString();
                 }
 
-                String supportedCapabilities = (service.getSupportedCapabilitySets() == null)
-                        ? "All Supported" : service.getSupportedCapabilitySets().toString();
-
                 tableData.addRow(new Object[]{
                     serviceName,
-                    supportedCapabilities,
                     service.getServiceProperties().toString(),
                     serviceURI,
                     brokerURI
@@ -154,6 +154,14 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         };
 
         providersList.addListSelectionListener(listSelectionListener);
+        providersList.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                    connectButtonActionPerformed(null);
+                }
+            }
+        });
         connectButton.setEnabled(false);
     }
 
@@ -169,10 +177,36 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
     public void setURITextbox(final String uri) {
         if (uri.isEmpty()) {
-            uriServiceDirectory.setText(prefs.get(LAST_USED_CONSUMER_PREF, ""));
+            String freshUri = readFreshDirectoryURI();
+            if (freshUri != null) {
+                uriServiceDirectory.setText(freshUri);
+            } else {
+                uriServiceDirectory.setText(prefs.get(LAST_USED_CONSUMER_PREF, ""));
+            }
         } else {
             uriServiceDirectory.setText(uri);
         }
+    }
+
+    private static String readFreshDirectoryURI() {
+        File file = ConnectionProvider.getProviderURIsDirectory(HelperMisc.PROVIDER_URIS_PROPERTIES_FILENAME);
+        if (!file.exists()) {
+            return null;
+        }
+        long ageMs = System.currentTimeMillis() - file.lastModified();
+        if (ageMs > 120_000) { // 2 minutes in milliseconds
+            return null;
+        }
+        Properties props = new Properties();
+        try (FileInputStream fis = new FileInputStream(file)) {
+            props.load(fis);
+        } catch (IOException ex) {
+            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(
+                    Level.WARNING, "Could not read providerURIs.properties", ex);
+            return null;
+        }
+        String key = DirectoryServiceInfo.DIRECTORY_SERVICE_NAME.getValue() + "_URI";
+        return props.getProperty(key);
     }
 
     /**
@@ -200,22 +234,16 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
         setPreferredSize(new java.awt.Dimension(1280, 720));
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Communication Settings");
         jLabel7.setToolTipText("");
 
-        homeTab.setMinimumSize(new java.awt.Dimension(200, 300));
         homeTab.setName(""); // NOI18N
-        homeTab.setPreferredSize(new java.awt.Dimension(800, 600));
 
-        jPanel10.setPreferredSize(new java.awt.Dimension(1750, 60));
 
         jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel29.setText("Directory Service URI:");
-        jLabel29.setPreferredSize(new java.awt.Dimension(150, 14));
 
-        uriServiceDirectory.setPreferredSize(new java.awt.Dimension(350, 20));
         uriServiceDirectory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 uriServiceDirectoryActionPerformed(evt);
@@ -236,36 +264,30 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
-                .addComponent(uriServiceDirectory, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(load_URI_links1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(connectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 193, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel10Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(uriServiceDirectory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(load_URI_links1))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE))
-        );
+        // Row 1: label + URI field
+        javax.swing.JPanel uriRow = new javax.swing.JPanel(new java.awt.BorderLayout(6, 0));
+        uriRow.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 6, 4, 6));
+        uriRow.add(jLabel29, java.awt.BorderLayout.WEST);
+        uriRow.add(uriServiceDirectory, java.awt.BorderLayout.CENTER);
+
+        // Row 2: two buttons side by side, occupying the left 50%
+        javax.swing.JPanel buttonRow = new javax.swing.JPanel(new java.awt.GridBagLayout());
+        buttonRow.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 6, 6, 6));
+        java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
+        gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.insets = new java.awt.Insets(0, 0, 0, 3);
+        buttonRow.add(load_URI_links1, gbc);
+        gbc.insets = new java.awt.Insets(0, 3, 0, 0);
+        buttonRow.add(connectButton, gbc);
+        gbc.weightx = 2.0;
+        gbc.insets = new java.awt.Insets(0, 0, 0, 0);
+        buttonRow.add(new javax.swing.JPanel(), gbc);
+
+        jPanel10.setLayout(new java.awt.BorderLayout());
+        jPanel10.add(uriRow, java.awt.BorderLayout.NORTH);
+        jPanel10.add(buttonRow, java.awt.BorderLayout.SOUTH);
 
         jSplitPane1.setDividerLocation(280);
 
@@ -291,49 +313,22 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
         jSplitPane1.setLeftComponent(jScrollPane2);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 4, 2, 0));
         jLabel1.setText("Providers List:");
 
-        javax.swing.GroupLayout homeTabLayout = new javax.swing.GroupLayout(homeTab);
-        homeTab.setLayout(homeTabLayout);
-        homeTabLayout.setHorizontalGroup(
-            homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
-            .addGroup(homeTabLayout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE))
-        );
-        homeTabLayout.setVerticalGroup(
-            homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(homeTabLayout.createSequentialGroup()
-                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 260, Short.MAX_VALUE))
-            .addGroup(homeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homeTabLayout.createSequentialGroup()
-                    .addGap(99, 99, 99)
-                    .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)))
-        );
+        javax.swing.JPanel headerPanel = new javax.swing.JPanel(new java.awt.BorderLayout());
+        headerPanel.add(jPanel10, java.awt.BorderLayout.CENTER);
+        headerPanel.add(jLabel1, java.awt.BorderLayout.SOUTH);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
-            .addComponent(homeTab, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jLabel7)
-                .addGap(18, 18, 18)
-                .addComponent(homeTab, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE))
-        );
+        homeTab.setLayout(new java.awt.BorderLayout());
+        homeTab.add(headerPanel, java.awt.BorderLayout.NORTH);
+        homeTab.add(jSplitPane1, java.awt.BorderLayout.CENTER);
+
+        this.setLayout(new java.awt.BorderLayout(0, 8));
+        this.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 0, 0, 0));
+        this.add(jLabel7, java.awt.BorderLayout.NORTH);
+        this.add(homeTab, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
@@ -341,7 +336,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             return;
         }
 
-        final ProviderSummary summary = summaryList.get(providersList.getSelectedIndex());
+        final Provider provider = providerList.get(providersList.getSelectedIndex());
         final int count = tabs.getTabCount();
 
         Thread t1 = new Thread() {
@@ -349,38 +344,20 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             public void run() {
                 this.setName("ConnectButtonActionThread");
 
-                ServiceKey loginServiceKey = new ServiceKey(LoginHelper.LOGIN_SERVICE.getArea().getNumber(),
-                    LoginHelper.LOGIN_SERVICE.getServiceNumber(), LoginHelper.LOGIN_SERVICE.getArea().getVersion());
-                ServiceCapability loginService = summary.getProviderDetails().getServiceCapabilities().stream().filter(
-                    serviceCapability -> serviceCapability.getServiceKey().equals(loginServiceKey)).findFirst().orElse(
-                        null);
-
-                ServiceKey archiveServiceKey = new ServiceKey(ArchiveHelper.ARCHIVE_SERVICE.getArea().getNumber(),
-                    ArchiveHelper.ARCHIVE_SERVICE.getServiceNumber(), ArchiveHelper.ARCHIVE_SERVICE.getArea().getVersion());
-                ServiceCapability archiveService = summary.getProviderDetails().getServiceCapabilities().stream()
-                    .filter(serviceCapability -> serviceCapability.getServiceKey().equals(archiveServiceKey))
-                    .findFirst().orElse(null);
+                ServiceId loginServiceId = new ServiceId(LoginHelper.LOGIN_SERVICE.getArea().getNumber(),
+                        LoginHelper.LOGIN_SERVICE.getServiceNumber(), LoginHelper.LOGIN_SERVICE.getArea().getVersion());
+                ServiceCapability loginService = provider.getServiceCapabilities().stream().filter(
+                        serviceCapability -> serviceCapability.getServiceId().equals(loginServiceId)).findFirst().orElse(
+                                null);
 
                 Blob authenticationId = null;
                 String localNamePrefix = null;
-                IdentifierList providerDomain = summary.getProviderKey().getDomain();
-                IdentifierList domainForArchiveRetrieval = providerDomain;
-                if (loginService != null && archiveService != null) {
+                IdentifierList providerDomain = provider.getDomain();
+                if (loginService != null) {
                     if (loginService.getServiceAddresses().get(0).getServiceURI().getValue().toLowerCase().contains("lwmcs")) {
                         localNamePrefix = "LWMCS_Consumer_" + new Random().nextInt();
-                        ProviderSummary lwmcs = summaryList.stream()
-                                .filter(providerSummary -> providerSummary.getProviderId()
-                                .getValue()
-                                .toLowerCase()
-                                .contains("lwmcs"))
-                                .findFirst()
-                                .orElse(null);
-                        if (lwmcs != null) {
-                            domainForArchiveRetrieval = lwmcs.getProviderKey().getDomain();
-                        }
                     }
-                    LoginDialog loginDialog = new LoginDialog(loginService, archiveService,
-                            providerDomain, domainForArchiveRetrieval, localNamePrefix);
+                    LoginDialog loginDialog = new LoginDialog(loginService, providerDomain, localNamePrefix);
                     if (loginDialog.isLoginSuccessful()) {
                         authenticationId = loginDialog.getAuthenticationId();
                     } else {
@@ -388,12 +365,12 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                     }
                 }
 
-                ProviderTabPanel providerPanel = createNewProviderTabPanel(summary, authenticationId, localNamePrefix);
+                ProviderTabPanel providerPanel = createNewProviderTabPanel(provider, authenticationId, localNamePrefix);
 
                 // -- Close Button --
                 final javax.swing.JPanel pnlTab = new javax.swing.JPanel();
                 pnlTab.setOpaque(false);
-                JLabel label = new JLabel(summary.getProviderId().toString());
+                JLabel label = new JLabel(provider.getProviderName().toString());
                 JLabel closeLabel = new JLabel("x");
                 closeLabel.addMouseListener(new CloseMouseHandler(pnlTab, providerPanel));
                 closeLabel.setFont(closeLabel.getFont().deriveFont(closeLabel.getFont().getStyle() | Font.BOLD));
@@ -409,9 +386,11 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                 pnlTab.add(closeLabel, gbc);
                 // ------------------
 
-                tabs.addTab("", providerPanel);
-                tabs.setSelectedIndex(count);
-                tabs.setTabComponentAt(count, pnlTab);
+                SwingUtilities.invokeLater(() -> {
+                    tabs.addTab("", providerPanel);
+                    tabs.setSelectedIndex(count);
+                    tabs.setTabComponentAt(count, pnlTab);
+                });
 
                 providerPanel.insertServicesTabs();
             }
@@ -420,29 +399,31 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         t1.start();
     }//GEN-LAST:event_connectButtonActionPerformed
 
-    public ProviderTabPanel createNewProviderTabPanel(ProviderSummary providerSummary,
+    public ProviderTabPanel createNewProviderTabPanel(Provider provider,
             Blob authenticationId, String localNamePrefix) {
-        return new ProviderTabPanel(providerSummary, authenticationId, localNamePrefix);
+        return new ProviderTabPanel(provider, authenticationId, localNamePrefix);
     }
 
     private void errorConnectionProvider(String service, Throwable ex) {
-        JOptionPane.showMessageDialog(null, "Could not connect to " + service + " service provider!"
-                + "\nException:\n" + ex + "\n" + ex.getMessage(), "Error!", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(null,
+                "Could not connect to " + service + " service provider!"
+                + "\nException:\n" + ex + "\n" + ex.getMessage(),
+                "Error!", JOptionPane.PLAIN_MESSAGE);
     }
 
     private void uriServiceDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uriServiceDirectoryActionPerformed
-        // TODO add your handling code here:
+        load_URI_links1ActionPerformed(evt);
     }//GEN-LAST:event_uriServiceDirectoryActionPerformed
 
     @SuppressWarnings("unchecked")
     private void load_URI_links1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_load_URI_links1ActionPerformed
         try {
-            summaryList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(isS2G, this.getAddressToBeUsed());
+            providerList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(this.getAddressToBeUsed());
             DefaultListModel listOfProviders = new DefaultListModel();
 
-            for (ProviderSummary summary : summaryList) {
-                listOfProviders.addElement(summary.getProviderKey().getInstId().toString()
-                        + ". " + summary.getProviderId().toString());
+            for (Provider p : providerList) {
+                listOfProviders.addElement(p.getId().toString()
+                        + ". " + p.getProviderName().toString());
             }
 
             providersList.setModel(listOfProviders);
@@ -457,7 +438,8 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             errorConnectionProvider("Directory", ex);
             providersList.setModel(new DefaultListModel());
             connectButton.setEnabled(false);
-            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(
+                    Level.SEVERE, null, ex);
             cleanTableData();
         }
     }//GEN-LAST:event_load_URI_links1ActionPerformed
@@ -485,11 +467,33 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     private void initTextBoxAddress() {  // runs during the init of the app
         // Common services
         SingleConnectionDetails details = connectionConsumer.getServicesDetails().get(
-            DirectoryServiceInfo.DIRECTORY_SERVICE_NAME);
+                DirectoryServiceInfo.DIRECTORY_SERVICE_NAME);
 
         if (details != null) {
             this.uriServiceDirectory.setText(details.getProviderURI().toString());
         }
+    }
+
+    private void closeProvider(ProviderTabPanel providerPanel) {
+        try {
+            if (providerPanel.getServices().getAuthenticationId() != null) {
+                try {
+                    providerPanel.getServices().getCOMServices().getLoginService().getLoginStub().logout();
+                    providerPanel.getServices().setAuthenticationId(null);
+                    Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(
+                            Level.INFO, "Logged out successfully");
+                } catch (MALInteractionException | MALException e) {
+                    Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(
+                            Level.SEVERE, "Unexpected exception during logout!", e);
+                }
+            }
+            providerPanel.getServices().closeConnections();
+        } catch (Exception ex) {
+            Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(
+                    Level.WARNING,
+                    "The connection was not closed correctly. Maybe the provider was unreachable!");
+        }
+
     }
 
     public class CloseMouseHandler implements MouseListener {
@@ -516,24 +520,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                         @Override
                         public void run() {
                             this.setName("CloseButtonTabThread");
-
-                            try {
-                                if (providerPanel.getServices().getAuthenticationId() != null) {
-                                    try {
-                                        providerPanel.getServices().getCommonServices().getLoginService().getLoginStub().logout();
-                                        providerPanel.getServices().setAuthenticationId(null);
-                                        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
-                                                .log(Level.INFO, "Logged out successfully");
-                                    } catch (MALInteractionException | MALException e) {
-                                        Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName())
-                                                .log(Level.SEVERE, "Unexpected exception during logout!", e);
-                                    }
-                                }
-                                providerPanel.getServices().closeConnections();
-                            } catch (Exception ex) {
-                                Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(Level.WARNING,
-                                        "The connection was not closed correctly. Maybe the provider was unreachable!");
-                            }
+                            closeProvider(providerPanel);
                         }
                     };
 

@@ -15,9 +15,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>int.esa.nmf</groupId>
-        <artifactId>parent</artifactId>
-        <version>4.0</version>
-        <relativePath>../../parent/pom.xml</relativePath>
+        <artifactId>nanosat-mo-framework</artifactId>
+        <version>5.0</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <groupId>int.esa.nmf.core</groupId>
@@ -52,17 +52,16 @@
         </developer>
     </developers>
     <dependencies>
-        <dependency>
+                <dependency>
             <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nmf-services-sm</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.xerial</groupId>
-                    <artifactId>sqlite-jdbc</artifactId>
-                </exclusion>
-            </exclusions>
+            <artifactId>nmf-services-impl</artifactId>
         </dependency>
-    </dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+</dependencies>
     <build>
         <resources></resources>
         <plugins>

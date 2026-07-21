@@ -71,7 +71,8 @@ public class OrbitHandler {
      */
     public OrbitHandler(TLE tle) {
         earthFrame = FramesFactory.getITRF(IERSConventions.IERS_2010, true);
-        earth = new OneAxisEllipsoid(Constants.WGS84_EARTH_EQUATORIAL_RADIUS, Constants.WGS84_EARTH_FLATTENING,
+        earth = new OneAxisEllipsoid(Constants.WGS84_EARTH_EQUATORIAL_RADIUS,
+                Constants.WGS84_EARTH_FLATTENING,
                 earthFrame);
 
         initialTLE = tle;
@@ -101,7 +102,7 @@ public class OrbitHandler {
      * @param startDate date of first entry in the ground track.
      * @param endDate date of last entry in the ground track.
      * @param timeStepSeconds seconds between entries.
-     * @return
+     * @return The ground track in Position and Time.
      */
     public PositionAndTime[] getGroundTrack(AbsoluteDate startDate, AbsoluteDate endDate, long timeStepSeconds) {
         LinkedList<PositionAndTime> positionSeries = new LinkedList<>();
@@ -112,7 +113,8 @@ public class OrbitHandler {
                 currentDate = currentDate.shiftedBy(timeStepSeconds)) {
 
             SpacecraftState currentState = this.propagator.propagate(startDate, currentDate);
-            GeodeticPoint currentLocation = earth.transform(currentState.getPVCoordinates(earthFrame).getPosition(),
+            GeodeticPoint currentLocation = earth.transform(
+                    currentState.getPVCoordinates(earthFrame).getPosition(),
                     earthFrame, currentDate);
             positionSeries.add(new PositionAndTime(currentDate, currentLocation));
         }
@@ -123,7 +125,8 @@ public class OrbitHandler {
         System.out.println(propagator.getInitialState().getDate());
         SpacecraftState finalState = propagator.propagate(endDate);
         System.out.println(propagator.getInitialState().getDate());
-        return earth.transform(finalState.getPVCoordinates(earthFrame).getPosition(), earthFrame, finalState.getDate());
+        return earth.transform(finalState.getPVCoordinates(earthFrame).getPosition(),
+                earthFrame, finalState.getDate());
     }
 
     /**
@@ -136,13 +139,15 @@ public class OrbitHandler {
      * @param notBeforeDate the earliest time the pass can be
      * @param worstCaseRotationTimeSeconds the time needed to orient the
      * satellite
-     * @param simulationRange
+     * @param simulationRange The simulation range.
      * @return the earliest pass that fits the given parameters
      */
     public Pass getPassTime(double latitude, double longitude, double maxAngle, TimeModeEnum timeMode,
             AbsoluteDate notBeforeDate, long worstCaseRotationTimeSeconds, long simulationRange) {
 
-        GeodeticPoint targetLocation = new GeodeticPoint(FastMath.toRadians(latitude), FastMath.toRadians(longitude),
+        GeodeticPoint targetLocation = new GeodeticPoint(
+                FastMath.toRadians(latitude),
+                FastMath.toRadians(longitude),
                 0);
         TopocentricFrame groundFrame = new TopocentricFrame(earth, targetLocation, "cameraTarget");
 
@@ -150,14 +155,16 @@ public class OrbitHandler {
         /**
          * to Radians??????
          */
-        EventDetector overpassDetector = new ElevationDetector(groundFrame).withConstantElevation(FastMath.toRadians(
-                90.0 - maxAngle));
+        EventDetector overpassDetector = new ElevationDetector(groundFrame).withConstantElevation(
+                FastMath.toRadians(90.0 - maxAngle));
 
         Pass pass = new Pass(notBeforeDate, worstCaseRotationTimeSeconds);
         if (timeMode != TimeModeEnum.ANY) {
             PVCoordinatesProvider sun = CelestialBodyFactory.getSun(); //create detector for nighttime
 
-            EventDetector timeModeDetector = new GroundAtNightDetector(groundFrame, sun, FastMath.toRadians(-18.0),
+            EventDetector timeModeDetector = new GroundAtNightDetector(
+                    groundFrame, sun,
+                    FastMath.toRadians(-18.0),
                     new EarthITU453AtmosphereRefraction(0));
 
             //invert nightTime detector if photograph should be taken at daytime

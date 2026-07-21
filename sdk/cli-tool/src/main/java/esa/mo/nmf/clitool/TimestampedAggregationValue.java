@@ -20,15 +20,15 @@
  */
 package esa.mo.nmf.clitool;
 
-import org.ccsds.moims.mo.mal.structures.FineTime;
-import org.ccsds.moims.mo.mc.aggregation.structures.AggregationValue;
+import org.ccsds.moims.mo.mal.structures.Time;
+import org.ccsds.moims.mo.mc.structures.AggregationValue;
 
 public class TimestampedAggregationValue {
 
     private final AggregationValue aggregationValue;
-    private final FineTime timestamp;
+    private final Time timestamp;
 
-    public TimestampedAggregationValue(AggregationValue value, FineTime timestamp) {
+    public TimestampedAggregationValue(AggregationValue value, Time timestamp) {
         this.aggregationValue = value;
         this.timestamp = timestamp;
     }
@@ -37,7 +37,7 @@ public class TimestampedAggregationValue {
         return aggregationValue;
     }
 
-    public FineTime getTimestamp() {
+    public Time getTimestamp() {
         return timestamp;
     }
 }

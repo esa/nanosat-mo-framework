@@ -32,16 +32,12 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.platform.DeviceNotAvailableException;
 import org.ccsds.moims.mo.platform.gps.provider.GetTLEInteraction;
-import org.ccsds.moims.mo.platform.gps.structures.Position;
-import org.ccsds.moims.mo.platform.gps.structures.PositionExtraDetails;
-import org.ccsds.moims.mo.platform.gps.structures.PositionSourceType;
-import org.ccsds.moims.mo.platform.gps.structures.TwoLineElementSet;
-import org.ccsds.moims.mo.platform.structures.VectorD3D;
-import org.ccsds.moims.mo.platform.structures.VectorF3D;
+import org.ccsds.moims.mo.platform.structures.*;
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
 import org.hipparchus.util.FastMath;
 import org.orekit.bodies.GeodeticPoint;
 import org.orekit.bodies.OneAxisEllipsoid;
+import org.orekit.data.DataProvider;
 import org.orekit.data.DataProvidersManager;
 import org.orekit.frames.Frame;
 import org.orekit.frames.FramesFactory;
@@ -132,9 +128,9 @@ public class GPSProviderServiceWithTLEImpl extends GPSProviderServiceImpl {
     }
 
     @Override
-    public void getTLE(GetTLEInteraction interaction) throws MALInteractionException, MALException {
+    public void getTLE(GetTLEInteraction interaction) throws DeviceNotAvailableException, MALInteractionException, MALException {
         if (!adapter.isUnitAvailable() && isTLEFallbackEnabled == false) { // Is the unit available?
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
         interaction.sendAcknowledgement();
         TLE tle = adapterCast.getTLE();
@@ -174,7 +170,8 @@ public class GPSProviderServiceWithTLEImpl extends GPSProviderServiceImpl {
             //DataProvidersManager manager = DataProvidersManager.getInstance();
             DataProvidersManager manager = new DataProvidersManager();
             if (manager.getProviders().isEmpty()) {
-                manager.addProvider(OrekitResources.getOrekitData());
+                DataProvider dataProvider = OrekitResources.getOrekitData();
+                manager.addProvider(dataProvider);
             }
             isOrekitDataInitialized = true;
         }

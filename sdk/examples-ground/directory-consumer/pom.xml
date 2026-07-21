@@ -18,9 +18,9 @@
 
     <parent>
         <groupId>int.esa.nmf</groupId>
-        <artifactId>parent</artifactId>
-        <version>4.0</version>
-        <relativePath>../../../parent/pom.xml</relativePath>
+        <artifactId>nanosat-mo-framework</artifactId>
+        <version>5.0</version>
+        <relativePath>../../../pom.xml</relativePath>
     </parent>
 
     <groupId>int.esa.nmf.sdk</groupId>
@@ -65,7 +65,7 @@
     <dependencies>
         <dependency>
             <groupId>int.esa.nmf.core</groupId>
-            <artifactId>ground-mo-adapter</artifactId>
+            <artifactId>nmf-composites</artifactId>
         </dependency>
     </dependencies>
 

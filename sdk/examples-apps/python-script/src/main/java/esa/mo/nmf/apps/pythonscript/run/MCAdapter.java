@@ -1,0 +1,182 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2021      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ * ----------------------------------------------------------------------------
+ */
+package esa.mo.nmf.apps.pythonscript.run;
+
+import esa.mo.nmf.MCRegistration;
+import esa.mo.nmf.MonitorAndControlNMFAdapter;
+import esa.mo.nmf.NMFException;
+import esa.mo.nmf.NMFInterface;
+import esa.mo.nmf.NMFProvider;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.provider.MALInteraction;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
+import org.ccsds.moims.mo.mc.structures.*;
+
+/**
+ * The adapter for the NMF App
+ */
+public class MCAdapter extends MonitorAndControlNMFAdapter {
+
+    private static final Logger LOG = Logger.getLogger(MCAdapter.class.getName());
+
+    private static final String ACTION_RUN_PYTHON_SCRIPT = "RunPythonScript";
+    private static final String ACTION_DESTROY_PROCESS = "DestroyProcess";
+    private static final int TOTAL_STAGES = 1;
+
+    private final Map<Long, PythonScriptExecutor> processMap = new ConcurrentHashMap<>();
+    private final NMFInterface connector;
+
+    public MCAdapter(NMFProvider connector) {
+        this.connector = connector;
+    }
+
+    @Override
+    public void initialRegistrations(MCRegistration registration) {
+        registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
+
+        // ------------------ Actions ------------------
+        ActionDefinitionList actionDefs = new ActionDefinitionList();
+
+        registerActionDestroyProcess(actionDefs);
+        registerActionRunPython(actionDefs);
+        // ----
+
+        registration.registerActions(actionDefs);
+    }
+
+    @Override
+    public void actionArrived(Identifier name, AttributeValueList attributeValues,
+            Long executionId, MALInteraction interaction)  throws ExecutionFailedException {
+
+        if (ACTION_RUN_PYTHON_SCRIPT.equals(name.getValue())) {
+            runPythonScript(executionId, attributeValues);
+            return;
+        } else if (ACTION_DESTROY_PROCESS.equals(name.getValue())) {
+            destroyProcess(attributeValues);
+            return;
+        }
+
+        throw new ExecutionFailedException("Unknown action: " + name.getValue());
+    }
+
+    public void onProcessCompleted(Long id, int exitCode) {
+        processMap.remove(id);
+        LOG.info("Process with Request Id: " + id + " exited with code: " + exitCode);
+        publishParameter(id.toString(), exitCode);
+    }
+
+    private void registerActionRunPython(ActionDefinitionList actionDefs) {
+        ArgumentDefinitionList arguments = new ArgumentDefinitionList();
+        {
+            AttributeType rawType = AttributeType.INTEGER;
+            arguments.add(new ArgumentDefinition(
+                    new Identifier("Min Process duration"),
+                    "Minimum Process duration",
+                    rawType, "seconds"));
+        }
+        {
+            AttributeType rawType = AttributeType.INTEGER;
+            arguments.add(new ArgumentDefinition(
+                    new Identifier("Max Process duration"),
+                    "Max Picture processing duration",
+                    rawType, "seconds"));
+        }
+
+        actionDefs.add(new ActionDefinition(
+                new Identifier(ACTION_RUN_PYTHON_SCRIPT),
+                "Runs a python script",
+                new UShort(TOTAL_STAGES),
+                arguments));
+    }
+
+    private void registerActionDestroyProcess(ActionDefinitionList actionDefs) {
+        ArgumentDefinitionList arguments = new ArgumentDefinitionList();
+        {
+            AttributeType rawType = AttributeType.LONG;
+            arguments.add(new ArgumentDefinition(
+                    new Identifier("process id"),
+                    "process id",
+                    rawType, ""));
+        }
+
+        actionDefs.add(new ActionDefinition(
+                new Identifier(ACTION_DESTROY_PROCESS),
+                "Destroy a process",
+                new UShort(1),
+                arguments));
+    }
+
+    private void runPythonScript(Long executionId, AttributeValueList attributeValues) {
+        int minProcessingDurationSeconds = getAs(attributeValues.get(0));
+        int maxProcessingDurationSeconds = getAs(attributeValues.get(1));
+
+        LOG.info("Requested to run the python script...");
+        LOG.info("Process Min duration " + minProcessingDurationSeconds);
+        LOG.info("Process Max duration " + maxProcessingDurationSeconds);
+        LOG.info("Process Request Id " + executionId);
+
+        PythonScriptExecutor exec = new PythonScriptExecutor(this,
+                executionId, minProcessingDurationSeconds,
+                maxProcessingDurationSeconds
+        );
+        
+        exec.runPythonScript("");
+
+        processMap.put(executionId, exec);
+    }
+
+    private void destroyProcess(AttributeValueList attributeValues) {
+        Long processRequestId = getAs(attributeValues.get(0));
+        LOG.info("Requested to destroy Process with Id: " + processRequestId);
+
+        PythonScriptExecutor adapter = processMap.remove(processRequestId);
+        if (adapter != null) {
+            LOG.info("Killing process Process with Id: " + processRequestId);
+            adapter.destroyProcess();
+        } else {
+            LOG.info("Process Request Id " + processRequestId + " not found");
+        }
+    }
+
+    private void publishParameter(String id, int exitCode) {
+        try {
+            String str = "Process Request ID: " + id + " exitCode: " + exitCode;
+            connector.pushParameterValue(str, exitCode);
+        } catch (NMFException e) {
+            LOG.log(Level.SEVERE, "Failed to publish parameter", e);
+        }
+    }
+
+    private static <T> T getAs(AttributeValue attributeValue) {
+        if (attributeValue == null) {
+            return null;
+        }
+        return (T) Attribute.attribute2JavaType(attributeValue.getValue());
+    }
+
+}

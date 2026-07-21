@@ -26,8 +26,7 @@ import esa.mo.nmf.ctt.utils.SharedTablePanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.structures.AppDetails;
+import org.ccsds.moims.mo.sm.structures.AppDetails;
 
 /**
  *
@@ -42,7 +41,7 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
     }
 
     @Override
-    public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
+    public void addEntry(final ArchivePersistenceObject comObject) {
         if (comObject == null) {
             LOGGER.log(Level.SEVERE, "The table cannot process a null COM Object.");
             return;
@@ -56,7 +55,7 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
 
         AppDetails appDetails = (AppDetails) comObject.getObject();
 
-        tableData.addRow(new Object[]{comObject.getArchiveDetails().getInstId(),
+        tableData.addRow(new Object[]{comObject.getArchiveDetails().getId(),
             appDetails.getName().toString(), appDetails.getDescription(),
             appDetails.getCategory().toString(), appDetails.getRunAtStartup(),
             appDetails.getRunning(), ""});
@@ -82,7 +81,7 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        // 4 because it is where generationEnabled is!
+        // 4 because it is where reportingEnabled is!
         tableData.setValueAt(status, rowId, 5);
         //AppDetails app = (AppDetails) this.getSelectedCOMObject().getObject();
         //app.setRunning(status);

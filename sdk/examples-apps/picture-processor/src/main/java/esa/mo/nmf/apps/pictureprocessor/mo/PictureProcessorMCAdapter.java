@@ -1,0 +1,215 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2021      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ * ----------------------------------------------------------------------------
+ */
+package esa.mo.nmf.apps.pictureprocessor.mo;
+
+import static esa.mo.nmf.apps.pictureprocessor.utils.FileUtils.createDirectoriesIfNotExist;
+import esa.mo.nmf.AppStorage;
+import esa.mo.nmf.MCRegistration;
+import esa.mo.nmf.MonitorAndControlNMFAdapter;
+import esa.mo.nmf.NMFException;
+import esa.mo.nmf.NMFInterface;
+import esa.mo.nmf.NMFProvider;
+import esa.mo.nmf.apps.pictureprocessor.process.ProcessEventListener;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.provider.MALInteraction;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
+import org.ccsds.moims.mo.mal.structures.Duration;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.UInteger;
+import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
+import org.ccsds.moims.mo.mc.structures.*;
+import org.ccsds.moims.mo.platform.structures.CameraSettings;
+import org.ccsds.moims.mo.platform.structures.PictureFormat;
+import org.ccsds.moims.mo.platform.structures.PixelResolution;
+
+/**
+ * The adapter for the NMF App
+ */
+public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter implements ProcessEventListener {
+
+    private static final Logger LOG = Logger.getLogger(PictureProcessorMCAdapter.class.getName());
+
+    private static final String ACTION_TAKE_AND_PROCESS_PICTURE = "TakeAndProcessPicture";
+    private static final String ACTION_DESTROY_PROCESS = "DestroyProcess";
+    private static final int TOTAL_STAGES = 1;
+
+    private final Map<Long, PictureReceivedAdapter> processMap = new ConcurrentHashMap<>();
+    private final NMFInterface connector;
+
+    public PictureProcessorMCAdapter(NMFProvider connector) {
+        this.connector = connector;
+    }
+
+    @Override
+    public void initialRegistrations(MCRegistration registration) {
+        registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
+
+        // ------------------ Actions ------------------
+        ActionDefinitionList actionDefs = new ActionDefinitionList();
+
+        populateActionTakeAndProcessPicture(actionDefs);
+        populateActionDestroyProcess(actionDefs);
+        // ----
+
+        registration.registerActions(actionDefs);
+    }
+
+    @Override
+    public void actionArrived(Identifier name, AttributeValueList attributeValues, Long executionId,
+            MALInteraction interaction)  throws ExecutionFailedException {
+
+        if (ACTION_TAKE_AND_PROCESS_PICTURE.equals(name.getValue())) {
+            takeAndProcessPicture(executionId, attributeValues);
+            return;
+        } else if (ACTION_DESTROY_PROCESS.equals(name.getValue())) {
+            destroyProcess(attributeValues);
+            return;
+        }
+
+        throw new ExecutionFailedException("Unknown action: " + name.getValue());
+    }
+
+    @Override
+    public void onProcessCompleted(Long id, int exitCode) {
+        processMap.remove(id);
+        LOG.info("Process with Request Id: " + id + " exited with code: " + exitCode);
+        publishParameter(id.toString(), exitCode);
+    }
+
+    private void populateActionTakeAndProcessPicture(ActionDefinitionList actionDefs) {
+        ArgumentDefinitionList arguments = new ArgumentDefinitionList();
+        {
+            AttributeType rawType = AttributeType.INTEGER;
+            arguments.add(new ArgumentDefinition(
+                    new Identifier("min process duration"),
+                    "minimum picture processing duration",
+                    rawType, "seconds"));
+        }
+        {
+            AttributeType rawType = AttributeType.INTEGER;
+            arguments.add(new ArgumentDefinition(
+                    new Identifier("max process duration"),
+                    "max picture processing duration",
+                    rawType, "seconds"));
+        }
+
+        actionDefs.add(new ActionDefinition(
+                new Identifier(ACTION_TAKE_AND_PROCESS_PICTURE),
+                "Uses the NMF Camera to take a picture and process it through a python script",
+                new UShort(TOTAL_STAGES), arguments));
+    }
+
+    private void populateActionDestroyProcess(ActionDefinitionList actionDefs) {
+        ArgumentDefinitionList arguments = new ArgumentDefinitionList();
+        {
+            AttributeType rawType = AttributeType.LONG;
+            arguments.add(new ArgumentDefinition(
+                    new Identifier("process id"),
+                    "process id",
+                    rawType, ""));
+        }
+
+        actionDefs.add(new ActionDefinition(
+                new Identifier(ACTION_DESTROY_PROCESS),
+                "Destroy a process",
+                new UShort(1),
+                arguments));
+    }
+
+    private void takeAndProcessPicture(Long executionId, AttributeValueList attributeValues) {
+        int minProcessingDurationSeconds = getAs(attributeValues.get(0));
+        int maxProcessingDurationSeconds = getAs(attributeValues.get(1));
+
+        LOG.info("Requested take and process picture");
+        LOG.info("Process Min duration " + minProcessingDurationSeconds);
+        LOG.info("Process Max duration " + maxProcessingDurationSeconds);
+        LOG.info("Process Request Id " + executionId);
+
+        File userdata = AppStorage.getAppUserdataDir();
+        String path = userdata + File.separator + "pictures";
+        Path outputFolder = createDirectoriesIfNotExist(Paths.get(path));
+
+        PictureReceivedAdapter adapter = new PictureReceivedAdapter(
+                this,
+                executionId,
+                outputFolder,
+                minProcessingDurationSeconds,
+                maxProcessingDurationSeconds);
+        try {
+            connector.getPlatformServices().getCameraService().takePicture(defaultCameraSettings(), adapter);
+            processMap.put(executionId, adapter);
+        } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+            LOG.log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void destroyProcess(AttributeValueList attributeValues) {
+        Long processRequestId = getAs(attributeValues.get(0));
+        LOG.info("Requested destroy process matching Process Request Id" + processRequestId);
+
+        PictureReceivedAdapter adapter = processMap.remove(processRequestId);
+        if (adapter != null) {
+            LOG.info("Killing process matching Process Request Id " + processRequestId);
+            adapter.stopProcess();
+        } else {
+            LOG.info("Process Request Id " + processRequestId + "not found");
+        }
+    }
+
+    private void publishParameter(String id, int exitCode) {
+        try {
+            connector.pushParameterValue("Process Request ID: " + id
+                    + " exitCode: " + exitCode, exitCode);
+        } catch (NMFException e) {
+            LOG.log(Level.SEVERE, "Failed to publish parameter", e);
+        }
+    }
+
+    private static CameraSettings defaultCameraSettings() {
+        final float gainR = 10;
+        final float gainG = 8;
+        final float gainB = 10;
+        final PixelResolution resolution = new PixelResolution(new UInteger(2048), new UInteger(1944));
+        final Duration exposureTime = new Duration(0.200);
+
+        return new CameraSettings(resolution, PictureFormat.JPG,
+                exposureTime, gainR, gainG, gainB, null);
+    }
+
+    private static <T> T getAs(AttributeValue attributeValue) {
+        if (attributeValue == null) {
+            return null;
+        }
+        return (T) Attribute.attribute2JavaType(attributeValue.getValue());
+    }
+
+}

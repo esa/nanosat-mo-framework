@@ -41,7 +41,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jButtonStoreConversions" pref="178" max="32767" attributes="0"/>
-                  <Component id="jButtonStoreGroups" max="32767" attributes="0"/>
+                  <Component id="jButtonStorePlaceholder" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -67,7 +67,7 @@
                   <Component id="jButtonRetrieve" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonStoreAggregation" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonUpdate" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButtonStoreGroups" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jButtonStorePlaceholder" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="TBoxStore" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonQuery" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonCount" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -95,9 +95,6 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Tahoma" size="18" style="1"/>
-        </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="COM Archive Manager"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
@@ -208,12 +205,12 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonStoreActionsActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButtonStoreGroups">
+    <Component class="javax.swing.JButton" name="jButtonStorePlaceholder">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Quick Store (Groups)"/>
+        <Property name="text" type="java.lang.String" value="-"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonStoreGroupsActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonStorePlaceholderActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="TBoxStore">

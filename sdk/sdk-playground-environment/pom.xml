@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+    You may not use this file except in compliance with the License.
+
+    Except as expressly set forth in this License, the Software is provided to
+    You on an "as is" basis and without warranties of any kind, including without
+    limitation merchantability, fitness for a particular purpose, absence of
+    defects or errors, accuracy or non-infringement of intellectual property rights.
+
+    See the License for the specific language governing permissions and limitations under the License.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>nanosat-mo-framework</artifactId>
+        <version>5.0</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <groupId>int.esa.nmf.sdk</groupId>
+    <artifactId>sdk-playground-environment</artifactId>
+    <packaging>jar</packaging>
+
+    <name>ESA NMF SDK - Playground Environment</name>
+    <description>Local execution environment for SDK developers. Generates a proper NMF filesystem layout using the nmf-linux-maven-plugin, replacing the legacy ant-based sdk-execution-environment.</description>
+
+    <organization>
+        <name>ESA</name>
+        <url>http://www.esa.int</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
+            <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
+        <url>https://github.com/esa/nanosat-mo-framework</url>
+    </scm>
+
+    <issueManagement>
+        <system>Gitlab</system>
+        <url>https://gitlab.com/esa/NMF/nmf-issues/-/issues</url>
+    </issueManagement>
+
+    <developers>
+        <developer>
+            <id>CesarCoelho</id>
+            <name>César Coelho</name>
+            <url>https://github.com/CesarCoelho</url>
+        </developer>
+    </developers>
+
+    <properties>
+        <esa.nmf.version>5.0</esa.nmf.version>
+        <maven.deploy.skip>true</maven.deploy.skip>
+        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+    </properties>
+
+    <dependencies>
+        <!-- Supervisor — used by generate-filesystem to classify JARs -->
+        <dependency>
+            <groupId>int.esa.nmf.simulator</groupId>
+            <artifactId>nanosat-mo-supervisor-sim</artifactId>
+            <version>${esa.nmf.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>all-mc-services</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>publish-clock</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>camera</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>hello-world</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>benchmark</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>payloads-test</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>waveform</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>camera-acquisitor-system</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>picture-processor</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>python-script</artifactId>
+            <version>${esa.nmf.version}</version>
+            <type>nmfpack</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>int.esa.nmf.core</groupId>
+                <artifactId>nmf-linux-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-supervisor-filesystem</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>generate-filesystem</goal>
+                        </goals>
+                        <configuration>
+                            <supervisorMainClass>esa.mo.nmf.sim.supervisor.NanosatMOSupervisorBasicImpl</supervisorMainClass>
+                            <mission>
+                                <missionName>sdk</missionName>
+                                <spacecraftName>SDK</spacecraftName>
+                                <organizationAbbreviation>esa</organizationAbbreviation>
+                                <organizationName>European Space Agency</organizationName>
+                            </mission>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-example-apps</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>install-packages</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

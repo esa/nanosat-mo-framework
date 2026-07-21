@@ -1,33 +1,51 @@
-.. Nanosat MO Framework documentation master file, created by
-   sphinx-quickstart on Fri Jun  7 14:08:04 2019.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. NMF documentation root for the restructured site.
+   To activate, rename this file to index.rst (replacing the existing one).
 
-.. image:: https://nanosat-mo-framework.github.io/img/NMF_logo_1124_63.png
-
-==================
-
+==================================
 NanoSat MO Framework Documentation
-================================================
-This is the documentation page for the `NanoSat MO Framework <https://github.com/esa/nanosat-mo-framework>`_.
-You can use this framework to develop on-board and ground software for small satellites. 
-If you're new here, make sure to check out the :doc:`quickstart` page.
-Following this page will lead you to having your own app which you could run on a satellite (like `OPS-SAT <https://www.esa.int/Our_Activities/Operations/OPS-SAT>`_).
-You can also just click through the different pages to see what we can offer.
+==================================
+
+The `NanoSat MO Framework <https://github.com/esa/nanosat-mo-framework>`_ is a Java software framework for
+developing on-board and ground software for small satellites, based on the CCSDS Mission Operations services.
+
+If you are new to the framework, start with :doc:`quickstart/index`. For the architectural model behind the
+runtime, read :doc:`concepts/index`. The remaining sections cover app and ground development, mission
+integration, tooling, and reference material.
 
 .. toctree::
    :maxdepth: 1
-   :caption: Contents:
+   :caption: Getting Started
 
-   quickstart
-   sdk
-   apps/apps
-   simulator/simulator
-   opssat/opssat
-   phi-sat-2/phi-sat-2
-   javadoc/packages
-   mpservices/mp
-   cli-tool
+   quickstart/index
+   concepts/index
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Development Guides
+
+   development-app/index
+   development-ground/index
+   development-mission/index
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Deployment
+
+   mission-integration/index
+   tooling/index
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Reference
+
+   reference/index
+   background/index
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Archive
+
+   removed-features/index
 
 Indices and tables
 ==================

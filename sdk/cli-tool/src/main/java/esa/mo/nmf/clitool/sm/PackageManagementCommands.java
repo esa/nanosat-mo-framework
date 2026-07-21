@@ -20,9 +20,11 @@
  */
 package esa.mo.nmf.clitool.sm;
 
-import esa.mo.nmf.clitool.BaseCommand;
 import static esa.mo.nmf.clitool.BaseCommand.consumer;
+import esa.mo.nmf.clitool.Args;
+import esa.mo.nmf.clitool.BaseCommand;
 import esa.mo.nmf.clitool.ExitCodes;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,37 +35,40 @@ import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.softwaremanagement.packagemanagement.body.FindPackageResponse;
-import org.ccsds.moims.mo.softwaremanagement.packagemanagement.consumer.PackageManagementAdapter;
-import org.ccsds.moims.mo.softwaremanagement.packagemanagement.consumer.PackageManagementStub;
-import picocli.CommandLine;
+import org.ccsds.moims.mo.sm.packagemanagement.body.FindPackageResponse;
+import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementAdapter;
+import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementStub;
 
 /**
  * The PackageManagementCommands class contains the static classes for the
- * Package Management service. Launcher service.
+ * Package Management service.
  *
  * @author Cesar Coelho
  */
 public class PackageManagementCommands {
 
-    private static final Logger LOGGER = Logger.getLogger(PackageManagementCommands.class.getName());
+    private static final Logger LOGGER
+            = Logger.getLogger(PackageManagementCommands.class.getName());
 
-    @CommandLine.Command(name = "findPackage",
-            description = "The findPackage operation allows a consumer to find the available packages on the provider.")
-    public static class FindPackage extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(arity = "1", paramLabel = "<packageName>",
-                index = "0", description = "Name of the package to find.")
-        String name;
+    public static class FindPackage extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> positionals = args.positionals();
+            if (positionals.isEmpty()) {
+                System.out.println("Missing required argument: <packageName>");
+                return;
+            }
+            String name = positionals.get(0);
+
             if (!super.initRemoteConsumer()) {
                 System.exit(ExitCodes.NO_HOST);
             }
 
             if (consumer.getSMServices().getPackageManagementService() == null) {
-                System.out.println("Package Management service is not available for this provider!");
+                System.out.println(
+                        "Package Management service is not available for this provider!");
                 System.exit(ExitCodes.UNAVAILABLE);
             }
 
@@ -79,28 +84,32 @@ public class PackageManagementCommands {
                     System.out.println("Package name: " + packageName + installedStr);
                 }
             } catch (MALInteractionException | MALException e) {
-                LOGGER.log(Level.SEVERE, "Error during the execution of the findPackage operation!", e);
+                LOGGER.log(Level.SEVERE,
+                        "Error during the execution of the findPackage operation!", e);
                 System.exit(ExitCodes.GENERIC_ERROR);
             }
         }
     }
 
-    @CommandLine.Command(name = "install",
-            description = "The install operation allows a consumer to install the content of a package on the provider.")
-    public static class Install extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(arity = "1", paramLabel = "<packageName>",
-                index = "0", description = "Name of the package to be installed.")
-        String name;
+    public static class Install extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> positionals = args.positionals();
+            if (positionals.isEmpty()) {
+                System.out.println("Missing required argument: <packageName>");
+                return;
+            }
+            String name = positionals.get(0);
+
             if (!super.initRemoteConsumer()) {
                 System.exit(ExitCodes.NO_HOST);
             }
 
             if (consumer.getSMServices().getPackageManagementService() == null) {
-                System.out.println("Package Management service is not available for this provider!");
+                System.out.println(
+                        "Package Management service is not available for this provider!");
                 System.exit(ExitCodes.UNAVAILABLE);
             }
 
@@ -113,57 +122,70 @@ public class PackageManagementCommands {
                     String packageName = response.getNames().get(i).getValue();
                     Boolean isInstalled = response.getInstalled().get(i);
                     if (!isInstalled) {
-                        packageManagement.install(names, new PackageManagementAdapter() {
+                        packageManagement.install(names,
+                                new PackageManagementAdapter() {
                             @Override
-                            public void installAckReceived(MALMessageHeader msgHeader, BooleanList integrity, Map qosProperties) {
+                            public void installAckReceived(
+                                    MALMessageHeader msgHeader,
+                                    BooleanList integrity, Map qosProperties) {
                                 LOGGER.log(Level.INFO, "Installing...");
                             }
 
                             @Override
-                            public void installResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                            public void installResponseReceived(
+                                    MALMessageHeader msgHeader, Map qosProperties) {
                                 LOGGER.log(Level.INFO, "Installed successfully");
                             }
 
                             @Override
-                            public void installAckErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
-                                LOGGER.log(Level.SEVERE, "There was an error during the install operation.", error);
+                            public void installAckErrorReceived(
+                                    MALMessageHeader msgHeader,
+                                    MOErrorException error, Map qosProperties) {
+                                LOGGER.log(Level.SEVERE,
+                                        "There was an error during the install operation.",
+                                        error);
                             }
 
                             @Override
-                            public void installResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
-                                LOGGER.log(Level.SEVERE, "There was an error during the install operation.", error);
+                            public void installResponseErrorReceived(
+                                    MALMessageHeader msgHeader,
+                                    MOErrorException error, Map qosProperties) {
+                                LOGGER.log(Level.SEVERE,
+                                        "There was an error during the install operation.",
+                                        error);
                             }
                         });
-                        System.out.println("Package name: " + packageName +  "  (installed)");
+                        System.out.println("Package name: " + packageName + "  (installed)");
                     }
                 }
             } catch (MALInteractionException | MALException e) {
-                LOGGER.log(Level.SEVERE, "Error during the execution of the install operation!", e);
+                LOGGER.log(Level.SEVERE,
+                        "Error during the execution of the install operation!", e);
                 System.exit(ExitCodes.GENERIC_ERROR);
             }
         }
     }
 
-    @CommandLine.Command(name = "uninstall",
-            description = "The uninstall operation allows a consumer to uninstall the content of a package on the provider.")
-    public static class Uninstall extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(arity = "1", paramLabel = "<packageName>",
-                index = "0", description = "Name of the package to be uninstalled.")
-        String name;
-
-        @CommandLine.Option(names = {"-k", "--keepConfiguration"}, paramLabel = "<keepConfiguration>",
-                description = "It specifies if the existing configuration is to be kept.")
-        boolean keepConfiguration;
+    public static class Uninstall extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            boolean keepConfiguration = args.flag("-k", "--keepConfiguration");
+            List<String> positionals = args.positionals();
+            if (positionals.isEmpty()) {
+                System.out.println("Missing required argument: <packageName>");
+                return;
+            }
+            String name = positionals.get(0);
+
             if (!super.initRemoteConsumer()) {
                 System.exit(ExitCodes.NO_HOST);
             }
 
             if (consumer.getSMServices().getPackageManagementService() == null) {
-                System.out.println("Package Management service is not available for this provider!");
+                System.out.println(
+                        "Package Management service is not available for this provider!");
                 System.exit(ExitCodes.UNAVAILABLE);
             }
 
@@ -177,50 +199,60 @@ public class PackageManagementCommands {
                 packageManagement.uninstall(names,
                         keepConfigurations,
                         new PackageManagementAdapter() {
-                            @Override
-                            public void uninstallAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
-                                LOGGER.log(Level.INFO, "Uninstalling...");
-                            }
+                    @Override
+                    public void uninstallAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                        LOGGER.log(Level.INFO, "Uninstalling...");
+                    }
 
-                            @Override
-                            public void uninstallResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
-                                LOGGER.log(Level.INFO, "Uninstalled successfully");
-                            }
+                    @Override
+                    public void uninstallResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                        LOGGER.log(Level.INFO, "Uninstalled successfully");
+                    }
 
-                            @Override
-                            public void uninstallAckErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
-                                LOGGER.log(Level.SEVERE, "There was an error during the uninstall operation.", error);
-                            }
+                    @Override
+                    public void uninstallAckErrorReceived(MALMessageHeader msgHeader,
+                            MOErrorException error, Map qosProperties) {
+                        LOGGER.log(Level.SEVERE,
+                                "There was an error during the uninstall operation.",
+                                error);
+                    }
 
-                            @Override
-                            public void uninstallResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
-                                LOGGER.log(Level.SEVERE, "There was an error during the uninstall operation.", error);
-                            }
-                        }
+                    @Override
+                    public void uninstallResponseErrorReceived(MALMessageHeader msgHeader,
+                            MOErrorException error, Map qosProperties) {
+                        LOGGER.log(Level.SEVERE,
+                                "There was an error during the uninstall operation.",
+                                error);
+                    }
+                }
                 );
             } catch (MALInteractionException | MALException e) {
-                LOGGER.log(Level.SEVERE, "Error during the execution of the uninstall operation!", e);
+                LOGGER.log(Level.SEVERE,
+                        "Error during the execution of the uninstall operation!", e);
                 System.exit(ExitCodes.GENERIC_ERROR);
             }
         }
     }
 
-    @CommandLine.Command(name = "upgrade",
-            description = "The upgrade operation allows a consumer to upgrade the content of a package on the provider.")
-    public static class Upgrade extends BaseCommand implements Runnable {
-
-        @CommandLine.Parameters(arity = "1", paramLabel = "<packageName>",
-                index = "0", description = "Name of the package to be upgraded.")
-        String name;
+    public static class Upgrade extends BaseCommand {
 
         @Override
-        public void run() {
+        public void run(Args args) {
+            parseBaseOptions(args);
+            List<String> positionals = args.positionals();
+            if (positionals.isEmpty()) {
+                System.out.println("Missing required argument: <packageName>");
+                return;
+            }
+            String name = positionals.get(0);
+
             if (!super.initRemoteConsumer()) {
                 System.exit(ExitCodes.NO_HOST);
             }
 
             if (consumer.getSMServices().getPackageManagementService() == null) {
-                System.out.println("Package Management service is not available for this provider!");
+                System.out.println(
+                        "Package Management service is not available for this provider!");
                 System.exit(ExitCodes.UNAVAILABLE);
             }
 
@@ -230,35 +262,43 @@ public class PackageManagementCommands {
                 names.add(new Identifier(name));
                 packageManagement.upgrade(names,
                         new PackageManagementAdapter() {
-                            @Override
-                            public void upgradeAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
-                                LOGGER.log(Level.INFO, "Upgrading...");
-                            }
+                    @Override
+                    public void upgradeAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                        LOGGER.log(Level.INFO, "Upgrading...");
+                    }
 
-                            @Override
-                            public void upgradeResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
-                                LOGGER.log(Level.INFO, "Upgraded successfully");
-                            }
+                    @Override
+                    public void upgradeResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                        LOGGER.log(Level.INFO, "Upgraded successfully");
+                    }
 
-                            @Override
-                            public void upgradeAckErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
-                                LOGGER.log(Level.SEVERE, "There was an error during the upgrade operation.", error);
-                            }
+                    @Override
+                    public void upgradeAckErrorReceived(MALMessageHeader msgHeader,
+                            MOErrorException error, Map qosProperties) {
+                        LOGGER.log(Level.SEVERE,
+                                "There was an error during the upgrade operation.",
+                                error);
+                    }
 
-                            @Override
-                            public void upgradeResponseErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
-                                LOGGER.log(Level.SEVERE, "There was an error during the upgrade operation.", error);
-                            }
-                        }
+                    @Override
+                    public void upgradeResponseErrorReceived(MALMessageHeader msgHeader,
+                            MOErrorException error, Map qosProperties) {
+                        LOGGER.log(Level.SEVERE,
+                                "There was an error during the upgrade operation.",
+                                error);
+                    }
+                }
                 );
             } catch (MALInteractionException | MALException e) {
-                LOGGER.log(Level.SEVERE, "Error during the execution of the upgrade operation!", e);
+                LOGGER.log(Level.SEVERE,
+                        "Error during the execution of the upgrade operation!", e);
                 System.exit(ExitCodes.GENERIC_ERROR);
             }
         }
     }
 
     public static PackageManagementStub getPackageManagement() {
-        return consumer.getSMServices().getPackageManagementService().getPackageManagementStub();
+        return consumer.getSMServices()
+                .getPackageManagementService().getPackageManagementStub();
     }
 }

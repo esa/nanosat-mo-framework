@@ -1,0 +1,179 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2021      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ * ----------------------------------------------------------------------------
+ */
+package esa.mo.mc.impl.proxy;
+
+import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
+import esa.mo.nmf.NMFConsumer;
+import java.util.HashMap;
+import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
+import org.ccsds.moims.mo.mal.provider.MALInteraction;
+import org.ccsds.moims.mo.mal.provider.MALProvider;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
+import org.ccsds.moims.mo.mc.parameter.provider.ParameterInheritanceSkeleton;
+import org.ccsds.moims.mo.mc.structures.*;
+
+/**
+ * The ParameterProxyServiceImpl class extends the ParameterInheritanceSkeleton
+ * class in order to allow the retrieval of parameters to be queued.
+ */
+public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
+
+    private boolean proxyInitialiased = false;
+
+    private ParameterConsumerServiceImpl consumer;
+    private final Semaphore queueSemaphore = new Semaphore(1, true);
+
+    private MALProvider parameterServiceProvider;
+    private boolean initialiased = false;
+    private boolean running = false;
+    private boolean isRegistered = false;
+    private final ConnectionProvider connection = new ConnectionProvider();
+
+    /**
+     * Creates the MAL objects, the publisher used to create updates and starts
+     * the publishing thread
+     *
+     * @param adaptersList The list of consumer adapters.
+     * @throws MALException If the service could not be started.
+     */
+    public synchronized void initProxy(HashMap<String, NMFConsumer> adaptersList) throws MALException {
+        // One should initialize the Consumer first...
+        // Maybe we can use the Ground MO Adapter and pass it during initialization... ;)
+        this.consumer = adaptersList.get("lalalalla").getMCServices().getParameterService();
+
+        /*
+        publisher = createMonitorValuePublisher(configuration.getDomain(),
+                configuration.getNetwork(),
+                SessionType.LIVE,
+                ConfigurationProviderSingleton.getSourceSessionName(),
+                QoSLevel.BESTEFFORT,
+                null,
+                new UInteger(0));
+         */
+        // shut down old service transport
+        if (null != parameterServiceProvider) {
+            connection.closeAll();
+        }
+
+        parameterServiceProvider = connection.startService(ParameterHelper.PARAMETER_SERVICE, true, this);
+        running = true;
+        proxyInitialiased = true;
+        Logger.getLogger(ParameterProxyServiceImpl.class.getName()).info("Parameter service READY");
+
+    }
+
+    @Override
+    public ParameterValueDetailsList getValue(LongList ll, MALInteraction interaction)
+            throws MALInteractionException, MALException {
+        // In this case, the object this.consumer represents the connection 
+        // between the consumer part of the proxy to the provider on Space
+
+        //  Check the interaction object to know to whom the message should be forwarded to...
+        URI uriTo = interaction.getMessageHeader().getToURI();
+
+        // Remove the first part of the uriTo
+        URI uriOfSpaceProvider = this.removePrefix(uriTo);
+
+        // Select the right provider from a List of providers based on the 
+        // uriOfSpaceProvider. If it does not exist, then initialize the 
+        // connection to it.
+        boolean weCareAboutConnectionAvailableToGS = true; // Will be a future property that can be set
+        boolean weHaveQueueing = true;                     // Will be a future property that can be set
+        boolean isConnectionAvailable = true;              // Proxy needs to periodically check the connection for this var
+        boolean isSatelliteInSight = true;                 // This information must be provided OR it can be calculated if the orbit is known
+        int TIME_BETWEEN_COMMANDS = 50;                    // The time between each telecommand in milliseconds
+
+        //------------------Check Connection------------------        
+        if (weCareAboutConnectionAvailableToGS) {
+            // Is the connection to the GS available?
+            if (!isConnectionAvailable) {
+                // Publish RECEPTION Event failure back to the consumer
+                throw new MALException("The connection to the Ground Station is not available...");
+            }
+        }
+        //----------------------------------------------------
+
+        // Publish RECEPTION Event success back to the consumer
+        try {
+            if (weHaveQueueing) {
+                queueSemaphore.acquire(); // Put it waiting in the queue list
+            }
+
+            // Make each telecommand wait TIME_BETWEEN_COMMANDS milliseconds before the previous
+            Thread.sleep(TIME_BETWEEN_COMMANDS);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ParameterProxyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        while (true) {
+            if (isSatelliteInSight) {
+                if (weHaveQueueing) {
+                    // Let the next command in the queue continue its execution
+                    queueSemaphore.release();
+                }
+
+                // Publish FORWARD Event back to the consumer (runs inside a thread)
+                // Makes a call to the provider on Space
+                //                GetValueResponse response = this.consumer.getParameterStub().getValue(lLongList);
+                // returns the answer to the connected consumer
+                //                return response;
+                return null;
+            }
+        }
+
+    }
+
+    @Override
+    public void enableReporting(final Boolean enable, final LongList ids,
+            final MALInteraction interaction) throws MALException, MALInteractionException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    private URI removePrefix(URI uriTo) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setValue(ParameterRawValueList prvl, MALInteraction mali) throws MALInteractionException, MALException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public LongList listDefinition(IdentifierList il,
+            MALInteraction mali) throws MALInteractionException, MALException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateDefinition(LongList ll, ParameterDefinitionList pddl, MALInteraction mali)
+            throws MALInteractionException, MALException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+}

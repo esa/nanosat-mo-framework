@@ -20,7 +20,6 @@
  */
 package esa.mo.nmf.ctt.utils;
 
-import esa.mo.nmf.ctt.windows.com.COMObjectWindow;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
@@ -39,16 +38,13 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
 import org.ccsds.moims.mo.com.COMObject;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
-import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePair;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
 
 /**
  *
@@ -62,9 +58,9 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
     protected final ArchiveConsumerServiceImpl archiveService;
 
     /**
-     * Creates new form ObjectsDisplay
+     * Constructor.
      *
-     * @param archiveService
+     * @param archiveService The Archive service consumer.
      */
     public SharedTablePanel(final ArchiveConsumerServiceImpl archiveService) {
         initComponents();
@@ -72,6 +68,7 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
 
         comObjects = new ArrayList<>();
         this.defineTableContent();
+        tableData.addTableModelListener(e -> TableUtils.packColumnsLater(table));
 
         table.addMouseListener(new MouseAdapter() {
             @Override
@@ -80,10 +77,11 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
                     // Get from the list of objects the one we want and display
                     ArchivePersistenceObject comObject = comObjects.get(getSelectedRow());
                     try {
-                        COMObjectWindow comObjectWindow = new COMObjectWindow(comObject, false, archiveService
-                                .getArchiveStub());
+                        COMObjectWindow comObjectWindow = new COMObjectWindow(comObject,
+                                false, archiveService.getArchiveStub());
                     } catch (IOException ex) {
-                        Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(SharedTablePanel.class.getName()).log(
+                                Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -94,27 +92,22 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
     }
 
     public synchronized int getSelectedRow() {
-        return table.getRowSorter().convertRowIndexToModel(table.getSelectedRow());
+        int index = table.getSelectedRow();
+        if (index == -1) {
+            return -1;
+        }
+        return table.getRowSorter().convertRowIndexToModel(index);
     }
 
-    public void refreshTableWithIdsPairs(ObjectInstancePairList pairs, IdentifierList domain, ObjectType objType) {
-        // RemoveAll
-        this.removeAllEntries();
+    public void refreshTableWithIdsPairs(LongList ids, IdentifierList domain, ObjectType objType) {
+        this.removeAllEntries(); // RemoveAll
 
-        LongList objIds = new LongList();
-        LongList identities = new LongList();
-
-        // Sort by Identity id
-        pairs.sort(Comparator.comparing(ObjectInstancePair::getObjIdentityInstanceId));
-
-        for (ObjectInstancePair pair : pairs) {
-            objIds.add(pair.getObjDefInstanceId());
-            identities.add(pair.getObjIdentityInstanceId());
-        }
+        // Sort by id
+        ids.sort(Comparator.comparing(Long::longValue));
 
         // Retrieve from the archive all the objects
         List<ArchivePersistenceObject> archiveCOMobjectList = HelperArchive.getArchiveCOMObjectList(
-                archiveService.getArchiveStub(), objType, domain, objIds);
+                archiveService.getArchiveStub(), objType, domain, ids);
 
         if (archiveCOMobjectList == null) {
             return;
@@ -126,12 +119,9 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
 
         COMObject comObjectInfo = HelperCOM.objType2COMObject(archiveCOMobjectList.get(0).getObjectType());
 
-        List<ArchivePersistenceObject> comIdentityList = HelperArchive.getArchiveCOMObjectList(
-                archiveService.getArchiveStub(), comObjectInfo.getRelatedType(), domain, identities);
-
         // Add them
         for (int i = 0; i < archiveCOMobjectList.size(); i++) {
-            addEntry((Identifier) comIdentityList.get(i).getObject(), archiveCOMobjectList.get(i));
+            addEntry(archiveCOMobjectList.get(i));
         }
     }
 
@@ -155,7 +145,7 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
 
         // Add them
         for (int i = 0; i < archiveCOMobjectList.size(); i++) {
-            addEntry(null, archiveCOMobjectList.get(i));
+            addEntry(archiveCOMobjectList.get(i));
         }
     }
 
@@ -165,10 +155,6 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
 
     public Long getSelectedDefinitionObjId() {
         return comObjects.get(getSelectedRow()).getObjectId();
-    }
-
-    public Long getSelectedIdentityObjId() {
-        return comObjects.get(getSelectedRow()).getArchiveDetails().getDetails().getRelated();
     }
 
     public List<ArchivePersistenceObject> getCOMObjects() {
@@ -193,11 +179,12 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
             return null;
         }
 
+        ObjectKey source = comObjects.get(0).getArchiveDetails().getLinks().getSource();
         return HelperArchive.getArchiveCOMObject(
                 archiveService,
-                comObjects.get(0).getArchiveDetails().getDetails().getSource().getType(),
-                comObjects.get(0).getArchiveDetails().getDetails().getSource().getKey().getDomain(),
-                comObjects.get(0).getArchiveDetails().getDetails().getSource().getKey().getInstId()
+                source.getType(),
+                source.getDomain(),
+                source.getId()
         );
     }
 
@@ -217,7 +204,7 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         }
     }
 
-    protected final void addEntries(final IdentifierList names, final ArchiveCOMObjectsOutput archiveObjectOutput) {
+    protected final void addEntries(final ArchiveCOMObjectsOutput archiveObjectOutput) {
         if (archiveObjectOutput == null) {
             return;
         }
@@ -233,15 +220,15 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
             ArchivePersistenceObject comObject = new ArchivePersistenceObject(
                     archiveObjectOutput.getObjectType(),
                     archiveObjectOutput.getDomain(),
-                    archiveObjectOutput.getArchiveDetailsList().get(i).getInstId(),
+                    archiveObjectOutput.getArchiveDetailsList().get(i).getId(),
                     archiveObjectOutput.getArchiveDetailsList().get(i),
                     objects);
 
-            addEntry(names.get(i), comObject);
+            addEntry(comObject);
         }
     }
 
-    public abstract void addEntry(final Identifier defName, final ArchivePersistenceObject comObject);
+    public abstract void addEntry(final ArchivePersistenceObject comObject);
 
     public abstract void defineTableContent();
 
@@ -298,7 +285,6 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_tableComponentAdded
-        // TODO add your handling code here:
     }//GEN-LAST:event_tableComponentAdded
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

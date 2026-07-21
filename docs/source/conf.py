@@ -18,18 +18,22 @@ import os
 # -- Project information -----------------------------------------------------
 
 project = 'Nanosat MO Framework'
-copyright = '2021, European Space Agency'
-author = 'Dominik Marszk, Yannick Lavan'
+copyright = '2021-2026, European Space Agency'
+author = 'Cesar Coelho, Dominik Marszk, Yannick Lavan'
 
 # The full version, including alpha/beta/rc tags
-release = '4.0'
+release = '5.0'
 
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['javasphinx']
+extensions = [
+    'javasphinx',
+    'sphinxcontrib.mermaid',
+    'sphinx_tabs.tabs',
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -58,4 +62,8 @@ def setup(app):
     if not os.path.exists("./javadoc-cache"):
         os.makedirs("./javadoc-cache")
     os.system("javasphinx-apidoc -u -c ./javadoc-cache -o ./javadoc --title='NMF Javadoc' ../../")
-    os.system("find . -name '*Test*' -delete")
+    # Scope the cleanup of generated *Test* apidoc stubs to the javadoc output
+    # directory only. A bare "find ." here deletes every *Test* file in whatever
+    # the current working directory happens to be, which wipes the repository's
+    # own test sources when Sphinx is run from the repo root.
+    os.system("find ./javadoc -name '*Test*' -delete")

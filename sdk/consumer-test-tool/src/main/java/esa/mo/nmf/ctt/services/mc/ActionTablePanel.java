@@ -25,8 +25,7 @@ import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.nmf.ctt.utils.SharedTablePanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mc.action.structures.ActionDefinitionDetails;
+import org.ccsds.moims.mo.mc.structures.ActionDefinition;
 
 /**
  *
@@ -39,10 +38,10 @@ public class ActionTablePanel extends SharedTablePanel {
     }
 
     @Override
-    public void addEntry(final Identifier name, final ArchivePersistenceObject comObject) {
+    public void addEntry(final ArchivePersistenceObject comObject) {
         if (comObject == null) {
-            Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE,
-                "The table cannot process a null COM Object.");
+            Logger.getLogger(SharedTablePanel.class.getName()).log(
+                    Level.SEVERE, "The table cannot process a null COM Object.");
             return;
         }
 
@@ -52,11 +51,13 @@ public class ActionTablePanel extends SharedTablePanel {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        ActionDefinitionDetails pDef = (ActionDefinitionDetails) comObject.getObject();
+        ActionDefinition pDef = (ActionDefinition) comObject.getObject();
 
-        tableData.addRow(new Object[]{comObject.getArchiveDetails().getDetails().getRelated(), comObject
-            .getArchiveDetails().getInstId(), name.toString(), pDef.getDescription(), String.valueOf(pDef.getCategory()
-                .getValue()), pDef.getProgressStepCount().toString()});
+        tableData.addRow(new Object[]{
+            comObject.getArchiveDetails().getId(),
+            pDef.getName().getValue(),
+            pDef.getDescription(),
+            pDef.getProgressStepCount().toString()});
 
         comObjects.add(comObject);
         semaphore.release();
@@ -64,16 +65,22 @@ public class ActionTablePanel extends SharedTablePanel {
 
     @Override
     public void defineTableContent() {
-        String[] tableCol = new String[]{"Identity", "Obj Inst Id", "name", "description", "Category",
-                                         "progressStepCount"};
+        String[] tableCol = new String[]{
+            "Id",
+            "name",
+            "description",
+            "progressStepCount"};
 
         tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
-            Class[] types = new Class[]{java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class,
-                                        java.lang.String.class, java.lang.String.class, java.lang.String.class};
+            Class[] types = new Class[]{
+                java.lang.Integer.class,
+                java.lang.String.class,
+                java.lang.String.class,
+                java.lang.String.class};
 
-            @Override               //all cells false
+            @Override
             public boolean isCellEditable(int row, int column) {
-                return false;
+                return false; // all cells false
             }
 
             @Override

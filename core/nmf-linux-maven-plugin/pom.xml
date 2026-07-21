@@ -15,16 +15,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>int.esa.nmf</groupId>
-        <artifactId>parent</artifactId>
-        <version>4.0</version>
-        <relativePath>../../parent/pom.xml</relativePath>
+        <artifactId>nanosat-mo-framework</artifactId>
+        <version>5.0</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <groupId>int.esa.nmf.core</groupId>
     <artifactId>nmf-linux-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
 
-    <name>ESA NMF Core - NMF Linux Maven Plugin (EXPERIMENTAL)</name>
+    <name>ESA NMF Core - NMF Linux Maven Plugin</name>
     <description>Maven Plugin to generate the NMF filesystem for a Linux environment</description>
     <url>http://www.esa.int</url>
 
@@ -71,6 +71,11 @@
         <dependency>
             <groupId>org.apache.maven.plugin-tools</groupId>
             <artifactId>maven-plugin-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

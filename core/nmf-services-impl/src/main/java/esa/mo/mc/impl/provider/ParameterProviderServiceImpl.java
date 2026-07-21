@@ -1,0 +1,1008 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2021      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ * ----------------------------------------------------------------------------
+ */
+package esa.mo.mc.impl.provider;
+
+import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.reconfigurable.service.ConfigurationChangeListener;
+import esa.mo.reconfigurable.service.ReconfigurableService;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.COMService;
+import org.ccsds.moims.mo.com.DuplicateException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
+import org.ccsds.moims.mo.com.structures.*;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.UnknownException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
+import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
+import org.ccsds.moims.mo.mal.provider.MALInteraction;
+import org.ccsds.moims.mo.mal.provider.MALProvider;
+import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
+import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mal.transport.MALErrorBody;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.mc.ReadOnlyException;
+import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
+import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
+import org.ccsds.moims.mo.mc.parameter.provider.MonitorValuePublisher;
+import org.ccsds.moims.mo.mc.parameter.provider.ParameterInheritanceSkeleton;
+import org.ccsds.moims.mo.mc.structures.*;
+
+/**
+ * Parameter service Provider.
+ */
+public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton implements ReconfigurableService {
+
+    private final static double MIN_REPORTING_INTERVAL = 0.2;
+    private MALProvider parameterServiceProvider;
+    private boolean initialiased = false;
+    private boolean running = false;
+    private boolean storeParametersInCOMArchive = true;
+    private MonitorValuePublisher publisher;
+    private boolean isRegistered = false;
+    private final Object lock = new Object();
+    private final AtomicLong pValUniqueObjId = new AtomicLong(System.currentTimeMillis());
+    protected ParameterManager manager;
+    private PeriodicReportingManager periodicReportingManager;
+    private final ConnectionProvider connection = new ConnectionProvider();
+    private ConfigurationChangeListener configurationAdapter;
+
+    /**
+     * Creates the MAL objects, the publisher used to create updates and starts
+     * the publishing thread.
+     *
+     * @param parameterManager The Parameter Manager.
+     * @throws MALException if there is an initialisation error.
+     */
+    public synchronized void init(ParameterManager parameterManager) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        publisher = createMonitorValuePublisher(ConfigurationProviderSingleton.getDomain(),
+                null,
+                SessionType.LIVE, ConfigurationProviderSingleton.getSourceSessionName(),
+                QoSLevel.BESTEFFORT, null, new UInteger(0));
+
+        // shut down old service transport
+        if (parameterServiceProvider != null) {
+            connection.closeAll();
+        }
+
+        parameterServiceProvider = connection.startService(ParameterHelper.PARAMETER_SERVICE, true, this);
+
+        running = true;
+        manager = parameterManager;
+        periodicReportingManager = new PeriodicReportingManager();
+        periodicReportingManager.init(); // Initialize the Periodic Reporting Manager
+
+        /*
+        storeParametersInCOMArchive = Boolean.parseBoolean(System.getProperty(Const.STORE_IN_ARCHIVE_PROPERTY, "true"));
+        String msg = MessageFormat.format("{0} = {1}", Const.STORE_IN_ARCHIVE_PROPERTY, storeParametersInCOMArchive);
+        Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.FINE, msg);
+         */
+        initialiased = true;
+        timestamp = System.currentTimeMillis() - timestamp;
+        Logger.getLogger(ParameterProviderServiceImpl.class.getName()).info(
+                "Parameter service READY! (" + timestamp + " ms)");
+    }
+
+    /**
+     * Closes all running threads and releases the MAL resources.
+     */
+    public void close() {
+        try {
+            if (null != parameterServiceProvider) {
+                parameterServiceProvider.close();
+            }
+
+            connection.closeAll();
+            running = false;
+        } catch (MALException ex) {
+            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during close down of the provider {0}", ex);
+        }
+    }
+
+    public ConnectionProvider getConnectionProvider() {
+        return this.connection;
+    }
+
+    @Override
+    public ParameterValueDetailsList getValue(final LongList ids, final MALInteraction interaction)
+            throws UnknownException, MALException, MALInteractionException { // requirement 3.3.6.2.1
+        if (ids == null) { // Is the input null?
+            throw new IllegalArgumentException("LongList argument must not be null");
+        }
+        // requirement: 3.3.8.2.c : check for wildcard first
+        boolean wildcardFound = false;
+        for (int index = 0; index < ids.size(); index++) {
+            if (ids.get(index) == 0) {  // Is it the wildcard '0'? requirement: 3.3.8.2.b
+                ids.clear();
+                ids.addAll(manager.listAllDefinitions()); // ... add all in a row
+                wildcardFound = true;
+                break;
+            }
+        }
+        //check for errors
+        if (!wildcardFound) {
+            UIntegerList unkIndexList = new UIntegerList();
+
+            for (int index = 0; index < ids.size(); index++) {
+                Long defId = ids.get(index);
+                if (!manager.existsDef(defId)) { // requirement 3.3.8.2.d: Does the ParameterDefinition exist?
+                    unkIndexList.add(new UInteger(index)); // add the index to the list of errors
+                    continue;
+                }
+            }
+            // Errors
+            if (!unkIndexList.isEmpty()) { // requirement: 3.3.8.2.d
+                throw new UnknownException(unkIndexList);
+            }
+        }
+
+        ParameterValueDetailsList outList = new ParameterValueDetailsList();
+        ParameterValueList outPValLst = manager.getParameterValues(ids, false); // requirement: 3.3.8.2.e
+
+        for (int i = 0; i < ids.size(); i++) {
+            Long paramId = ids.get(i);
+
+            outList.add(new ParameterValueDetails(paramId, Time.now(), outPValLst.get(i)));
+        }
+
+        return outList;
+    }
+
+    @Override
+    public void enableReporting(final Boolean enable, final LongList ids,
+            final MALInteraction interaction) throws UnknownException, MALException, MALInteractionException {
+        UIntegerList unkIndexList = new UIntegerList();
+
+        LongList objIdToBeEnabled = new LongList();
+
+        if (enable == null) {
+            throw new IllegalArgumentException("enable argument must not be null");
+        }
+        if (ids == null) {
+            throw new IllegalArgumentException("ids argument must not be null");
+        }
+
+        boolean foundWildcard = false;
+
+        for (Long id : ids) {
+            if (id == 0) {  // Is it the wildcard '0'?
+                manager.setReportingEnabledAll(enable, null, connection.getConnectionDetails());
+                periodicReportingManager.refreshAll();
+                foundWildcard = true;
+                break;
+            }
+        }
+
+        if (!foundWildcard) {
+            for (int index = 0; index < ids.size(); index++) {
+                Long id = ids.get(index);
+                objIdToBeEnabled.add(id);
+
+                if (!manager.existsDef(id)) {
+                    unkIndexList.add(new UInteger(index));
+                }
+            }
+        }
+
+        // Errors
+        if (!unkIndexList.isEmpty()) {
+            throw new UnknownException(unkIndexList);
+        }
+
+        // requirement: 3.3.10.2.i (This part of the code is only reached if no error was raised)
+        for (int index = 0; index < objIdToBeEnabled.size(); index++) {
+            // requirement: 3.3.10.2.e, 3.3.10.2.f, 3.3.10.2.j and 3.3.10.2.k
+            Long id = objIdToBeEnabled.get(index);
+            manager.setReportingEnabled(id, enable, null, connection.getConnectionDetails());
+            periodicReportingManager.refresh(id);
+        }
+
+        if (configurationAdapter != null) {
+            configurationAdapter.onConfigurationChanged(this);
+        }
+    }
+
+    @Override
+    public void setValue(final ParameterRawValueList rawValueList,
+            final MALInteraction interaction) throws UnknownException, ReadOnlyException, InvalidArgumentException, MALException, MALInteractionException {
+        UIntegerList unkIndexList = new UIntegerList();
+        UIntegerList invIndexList = new UIntegerList();
+        UIntegerList readOnlyIndexList = new UIntegerList();
+
+        if (rawValueList == null) {
+            throw new IllegalArgumentException("rawValueList inputs must not be null");
+        }
+
+        for (int index = 0; index < rawValueList.size(); index++) {
+            Long defId = rawValueList.get(index).getParameterId();
+            ParameterRawValue newValue = rawValueList.get(index);
+            ParameterDefinition pDef = manager.getParameterDefinition(defId);
+
+            //requirement 3.3.9.2.b
+            if (defId == 0) {
+                invIndexList.add(new UInteger(index));
+                continue;
+            }
+
+            //requirement 3.3.9.2.c
+            if (!manager.existsDef(defId)) {
+                unkIndexList.add(new UInteger(index));
+                continue;
+            }
+
+            //requriement 3.3.9.2.d: checks if a parameter is readOnly
+            if (manager.isReadOnly(defId)) {
+                readOnlyIndexList.add(new UInteger(index));
+                continue;
+            }
+
+            // requirement: 3.3.9.2.f the new rawValues type and its definitions rawType must be the same
+            if (!((Integer) newValue.getRawValue().getTypeId().getSFP()).equals(pDef.getRawType().getValue())) {
+                invIndexList.add(new UInteger(index));
+                continue;
+            }
+        }
+        // requirement: 3.3.9.2.g: before changes are made, possible errors are thrown
+        // Errors
+        if (!invIndexList.isEmpty()) { // requirement: 3.3.9.3.2 
+            throw new InvalidArgumentException(invIndexList);
+        }
+        if (!unkIndexList.isEmpty()) { // requirement: 3.3.9.3.1 (error: a and b)
+            throw new UnknownException(unkIndexList);
+        }
+        if (!readOnlyIndexList.isEmpty()) { // requirement: 3.3.9.3.3 
+            throw new ReadOnlyException(readOnlyIndexList);
+        }
+
+        //atomic behaviour while setting the values. So let all values have the same timestamp for creation
+        //        FineTime timestamp = HelperTime.getTimestamp();
+        //requirement: 3.3.9.2.e
+        ParameterValueList newParamValues = manager.setValues(rawValueList);
+        Time timestamp = Time.now();
+
+        //requirement: 3.3.9.2.h, 3.3.9.2.i
+        List<ParameterInstance> toPublishParamInstances = new ArrayList<>();
+        HeterogeneousList noPublishParamValList = new HeterogeneousList();
+        LongList noPublishRelatedIds = new LongList();
+        ObjectKeyList noPublishSourceIds = new ObjectKeyList();
+        TimeList timestamps = new TimeList();
+        for (int i = 0; i < newParamValues.size(); i++) {
+            final Long id = rawValueList.get(i).getParameterId();
+            if (manager.getParameterDefinition(id).getReportingEnabled()) {
+                //for the parameters where values have to be published (generation is enabled)
+                toPublishParamInstances.add(new ParameterInstance(manager.getName(id),
+                        newParamValues.get(i), null, null));
+            } else {
+                //for the parameters where values do not have to be published (generation is disabled)
+                noPublishParamValList.add(newParamValues.get(i));
+                noPublishRelatedIds.add(id);
+                noPublishSourceIds.add(null);
+                timestamps.add(timestamp);
+            }
+        }
+
+        //for the parameters where values have to be published (generation is enabled)
+        if (!toPublishParamInstances.isEmpty()) {
+            pushMultipleParameterValues(toPublishParamInstances, storeParametersInCOMArchive);
+        }
+        //for the parameters where values do not have to be published (generation is disabled)
+        if (!noPublishParamValList.isEmpty()) {
+            manager.storeAndGenerateMultiplePValobjId(noPublishParamValList, noPublishRelatedIds, noPublishSourceIds,
+                    connection.getConnectionDetails(), timestamps);
+        }
+    }
+
+    @Override
+    public LongList listDefinition(final IdentifierList paramNames, final MALInteraction interaction)
+            throws UnknownException, MALException, MALInteractionException { // requirement: 3.3.11.2.a
+        LongList retDefinitions = new LongList();
+
+        if (paramNames == null) { // Is the input null?
+            throw new IllegalArgumentException("IdentifierList argument must not be null");
+        }
+
+        boolean wildcardFound = false;
+        // requirement: 3.3.11.2.c : check for wildcard first
+        for (int i = 0; i < paramNames.size(); i++) { //requirement: 3.3.11.2.f foreach-cycle steps through list in order
+            if (paramNames.get(i).toString().equals("*")) {  // requirement: 3.3.11.2.b
+                retDefinitions.addAll(manager.listAllDefinitions()); // ... add all in a row
+                wildcardFound = true;
+                break;
+            }
+        }
+
+        //check for errors
+        if (!wildcardFound) {
+            UIntegerList unkIndexList = new UIntegerList();
+            for (int i = 0; i < paramNames.size(); i++) { //requirement: 3.3.11.2.f foreach-cycle steps through list in order
+                Identifier name = paramNames.get(i);
+                final Long id = manager.getId(name);
+
+                if (id == null) {  //requirement: 3.3.11.2.d
+                    unkIndexList.add(new UInteger(i));
+                    continue;
+                } else {
+                    retDefinitions.add(id);  // requirement: 3.3.11.2.e
+                }
+            }
+
+            // Errors
+            if (!unkIndexList.isEmpty()) { // requirement: 3.3.11.3.1 (error: a and b)
+                throw new UnknownException(unkIndexList);
+            }
+        }
+        return retDefinitions;
+    }
+
+    public LongList addParameters(final ParameterDefinitionList defsList,
+            final MALInteraction interaction) throws InvalidArgumentException, DuplicateException, MALException, MALInteractionException {
+        UIntegerList invIndexList = new UIntegerList();
+        UIntegerList dupIndexList = new UIntegerList();
+
+        if (defsList == null) { // Is the input null?
+            throw new IllegalArgumentException("defsList argument must not be null");
+        }
+
+        // Checks if there are invalid fields with any of the ParameterDefinitions
+        for (int index = 0; index < defsList.size(); index++) {
+            ParameterDefinition pDef = defsList.get(index);
+            Identifier paramName = pDef.getName();
+
+            if (paramName == null
+                    || paramName.equals(new Identifier("*"))
+                    || paramName.equals(new Identifier(""))) { // requirement: 3.3.12.2.b
+                invIndexList.add(new UInteger(index));
+                continue;
+            }
+
+            Duration reportInterval = pDef.getReportInterval();
+
+            if (reportInterval.getInSeconds() != 0
+                    && reportInterval.getInSeconds() < MIN_REPORTING_INTERVAL) { //requirement: 3.3.3.h, 3.3.12.2.c
+                invIndexList.add(new UInteger(index));
+                continue;
+            }
+
+            // Does the name already exists? requirement: 3.3.12.2.d
+            if (manager.getDefinition(paramName) != null) {
+                dupIndexList.add(new UInteger(index));
+                continue;
+            }
+        }
+
+        // Errors
+        if (!invIndexList.isEmpty()) { // requirement: 3.3.12.2.b
+            throw new InvalidArgumentException(invIndexList);
+        }
+
+        if (!dupIndexList.isEmpty()) { // requirement: 3.3.12.2.c
+            throw new DuplicateException(dupIndexList);
+        }
+
+        //requirement: 3.3.12.2.e: only if no error was raised, the new definitions should be stored
+        HeterogeneousList definitions = new HeterogeneousList();
+        for (ParameterDefinition tempDef : defsList) { // requirement: 3.3.12.2.i ( "for each cycle" guarantees that)
+            definitions.add(tempDef);
+        }
+
+        //store the objects
+        LongList ids = manager.addMultiple(definitions, null, connection.getConnectionDetails());
+
+        // Refresh the Periodic Reporting Manager for the added Definitions
+        final ReconfigurableService t = this;
+
+        Thread thread = new Thread(() -> {
+            for (Long newParamIds : ids) {
+                periodicReportingManager.refresh(newParamIds);
+            }
+
+            if (configurationAdapter != null) {
+                configurationAdapter.onConfigurationChanged(t);
+            }
+        });
+
+        thread.start();//To not block main thread parameter timers can be started in parallel thread
+
+        return ids; // requirement: 3.3.12.2.h
+    }
+
+    @Override
+    public void updateDefinition(LongList ids, ParameterDefinitionList paramDefDetails,
+            MALInteraction interaction) throws InvalidArgumentException, UnknownException, MALInteractionException, MALException { // requirement: 3.3.13.2.a
+        UIntegerList unkIndexList = new UIntegerList();
+        UIntegerList invIndexList = new UIntegerList();
+
+        if (ids == null || paramDefDetails == null) { // Are the inputs null?
+            throw new IllegalArgumentException("ids and paramDefDetails arguments must not be null");
+        }
+
+        for (int index = 0; index < ids.size(); index++) {
+            final Long defId = ids.get(index);
+
+            //requirement: 3.3.13.2.c: id is Null or 0?
+            if (defId == null || defId == 0) {
+                invIndexList.add(new UInteger(index));
+                continue;
+            }
+            //requirement: 3.3.13.2.b: The object instance identifier could not be found?
+            if (!manager.existsDef(defId)) {
+                unkIndexList.add(new UInteger(index));
+                continue;
+            }
+            //requirement: 3.3.3.h, 3.3.13.2.f
+            final ParameterDefinition pDef = paramDefDetails.get(index);
+            if (pDef.getReportInterval().getInSeconds() != 0
+                    && pDef.getReportInterval().getInSeconds() < MIN_REPORTING_INTERVAL) {
+                invIndexList.add(new UInteger(index));
+                continue;
+            }
+        }
+
+        // Errors
+        if (!invIndexList.isEmpty()) // requirement: 3.3.13.3.1 (error: a)
+        {
+            throw new InvalidArgumentException(invIndexList);
+        }
+
+        if (!unkIndexList.isEmpty()) // requirement: 3.3.13.3.2 (error: b)
+        {
+            throw new UnknownException(unkIndexList);
+        }
+
+        //requirment 3.3.13.2.g: parameters shall only be updated if no error was raised
+        for (int index = 0; index < ids.size(); index++) {  // requirement: 3.3.13.2.i, .k
+            manager.update(ids.get(index), paramDefDetails.get(index),
+                    null, connection.getConnectionDetails());  // Change in the manager, requirement 3.3.13.2.d, g
+            periodicReportingManager.refresh(ids.get(index));// then, refresh the Periodic updates
+        }
+
+        if (configurationAdapter != null) {
+            configurationAdapter.onConfigurationChanged(this);
+        }
+    }
+
+    public void removeParameter(final LongList defIds, final MALInteraction interaction) throws UnknownException,
+            MALException, MALInteractionException { // requirement: 3.3.11.2.1
+        UIntegerList unkIndexList = new UIntegerList();
+        LongList removalLst = new LongList();
+
+        if (defIds == null) { // Is the input null?
+            throw new IllegalArgumentException("LongList argument must not be null");
+        }
+
+        for (int index = 0; index < defIds.size(); index++) {
+            Long defId = defIds.get(index);
+
+            if (defId == 0) {  // Is it the wildcard '0'? requirement: 3.3.14.2.b, .c
+                removalLst.clear();  // if the wildcard is in the middle of the input list, we clear the output list and...
+                removalLst.addAll(manager.listAllDefinitions()); // ... add all in a row
+                unkIndexList.clear();
+                break;
+            }
+
+            if (!manager.existsDef(defId)) { // Does it match an existing identity? requirement: 3.3.14.2.d
+                unkIndexList.add(new UInteger(index));
+            } else {
+                removalLst.add(defId);
+            }
+        }
+
+        // Errors
+        if (!unkIndexList.isEmpty()) // requirement: 3.3.14.3.1 (error: a, b)
+        {
+            throw new UnknownException(unkIndexList);
+        }
+
+        // requirement: 3.3.14.2.f (Inserting the errors before this line guarantees that the requirement is met)
+        // Delete from internal list; COM archive is left untouched. requirement: 3.3.14.2.e
+        for (Long removalId : removalLst) {
+            manager.deleteDefinitionLocally(removalId);
+            //requirement: 3.3.14.2.g: dont publish anymore values 
+            periodicReportingManager.refresh(removalId);
+        }
+
+        if (configurationAdapter != null) {
+            configurationAdapter.onConfigurationChanged(this);
+        }
+    }
+
+    @Override
+    public void setOnConfigurationChangeListener(ConfigurationChangeListener configurationAdapter) {
+        this.configurationAdapter = configurationAdapter;
+    }
+
+    @Override
+    public Boolean reloadConfiguration(ObjectKeysList configurationObjectDetails) {
+        // Validate the returned configuration...
+        if (configurationObjectDetails == null) {
+            return false;
+        }
+
+        if (configurationObjectDetails == null) {
+            return false;
+        }
+
+        // Is the size 1?
+        if (configurationObjectDetails.size() != 1) {
+            return false;
+        }
+
+        ObjectKeys confSetDefs = configurationObjectDetails.get(0);
+
+        // Confirm the objTypes
+        if (!confSetDefs.getObjType().equals(ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE)) {
+            return false;
+        }
+
+        // Confirm the domain
+        if (!confSetDefs.getDomain().equals(ConfigurationProviderSingleton.getDomain())) {
+            return false;
+        }
+
+        // If the list is empty, reconfigure the service with nothing...
+        if (confSetDefs.getIds().isEmpty()) {
+            manager.reconfigureDefinitions(new IdentifierList(), new LongList(),
+                    new ParameterDefinitionList());   // Reconfigures the Manager
+
+            return true;
+        }
+
+        // ok, we're good to go...
+        // Load the Definitions from this configuration...
+        HeterogeneousList pDefs = (HeterogeneousList) HelperArchive.getObjectBodyListFromArchive(
+                manager.getArchiveService(),
+                ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(),
+                confSetDefs.getIds());
+
+        periodicReportingManager.pause();
+
+        IdentifierList names = new IdentifierList();
+        for (Element element : pDefs) {
+            names.add(((ParameterDefinition) element).getName());
+        }
+        // Reconfigures the Manager
+        manager.reconfigureDefinitions(names, confSetDefs.getIds(), pDefs);
+
+        periodicReportingManager.refreshAll();  // Refresh the reporting
+        periodicReportingManager.start();
+
+        return true;
+    }
+
+    @Override
+    public ObjectKeysList getCurrentConfiguration() {
+        ObjectKeysList list = manager.getCurrentConfiguration(
+                ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE
+        );
+
+        // Needs the Common API here!
+        return new ObjectKeysList(list);
+    }
+
+    @Override
+    public COMService getCOMService() {
+        return ParameterHelper.PARAMETER_SERVICE;
+    }
+
+    public static final class PublishInteractionListener implements MALPublishInteractionListener {
+
+        @Override
+        public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+                throws MALException {
+            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).fine(
+                    "PublishInteractionListener::publishDeregisterAckReceived");
+        }
+
+        @Override
+        public void publishErrorReceived(final MALMessageHeader header, final MALErrorBody body,
+                final Map qosProperties) throws MALException {
+            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).fine(
+                    "PublishInteractionListener::publishErrorReceived");
+        }
+
+        @Override
+        public void publishRegisterAckReceived(final MALMessageHeader header, final Map qosProperties)
+                throws MALException {
+            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).fine(
+                    "PublishInteractionListener::publishRegisterAckReceived");
+        }
+
+        @Override
+        public void publishRegisterErrorReceived(final MALMessageHeader header, final MALErrorBody body,
+                final Map qosProperties) throws MALException {
+            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).fine(
+                    "PublishInteractionListener::publishRegisterErrorReceived");
+        }
+
+    }
+
+    private class PeriodicReportingManager { // requirement: 3.3.2.a.a
+
+        private HashMap<Long, TaskScheduler> timerList; // Timers list
+        boolean active = false; // Flag that determines if the Manager publishes or not
+
+        public PeriodicReportingManager() {
+            timerList = new HashMap<>();
+        }
+
+        public void start() {
+            active = true;
+        }
+
+        public void pause() {
+            active = false;
+        }
+
+        public void init() {   // Refresh all the Parameter Definitions on the Manager
+            this.refreshList(manager.listAllDefinitions());
+            active = true; // set active flag to true
+        }
+
+        /**
+         * refreshes the interval for periodic updates of the parameter with the
+         * given defId
+         *
+         * @param id the id of the Parameter
+         *
+         */
+        public void refresh(Long id) {
+            if (timerList.containsKey(id)) { // Does it exist in the Periodic Manager?
+                this.removePeriodicReporting(id);
+            }
+            // get parameter definition
+            ParameterDefinition pDef = manager.getParameterDefinition(id);
+            if (pDef != null) { // Does it exist in the Parameter Definitions List?
+                //requirement: 3.3.3.d
+                if (pDef.getReportInterval().getInSeconds() != 0
+                        && pDef.getReportingEnabled()) { // Is the periodic reporting active?
+                    this.addPeriodicReporting(id);
+                }
+            }
+        }
+
+        public void refreshList(LongList defIds) {
+            if (defIds == null) {
+                return;
+            }
+            for (Long defId : defIds) {
+                refresh(defId);
+            }
+        }
+
+        public void refreshAll() {
+            this.refreshList(manager.listAllDefinitions());
+        }
+
+        /**
+         * publishes the first update of the parameter after setting the
+         * generatinEneabled-Field to true and starts the timer for the further
+         * periodic updates.
+         *
+         * @param defId the definition id of the parameter to be updated
+         * periodically
+         */
+        private void addPeriodicReporting(Long defId) {
+            TaskScheduler timer = new TaskScheduler(1);
+            timerList.put(defId, timer);
+            publishPeriodicParameterUpdate(defId);
+            //requirement: 3.3.3.c
+            startTimer(defId, manager.getParameterDefinition(defId).getReportInterval());
+        }
+
+        private void removePeriodicReporting(Long defId) {
+            this.stopTimer(defId);
+            timerList.remove(defId);
+        }
+
+        /**
+         *
+         * @param defId
+         * @param interval
+         */
+        private void startTimer(final Long defId, final Duration interval) {  // requirement: 3.3.3.c
+            timerList.get(defId).scheduleTask(new Thread(() -> {
+                if (active) {
+                    if (defId == -1) {
+                        return;
+                    }
+                    if (manager.getParameterDefinition(defId).getReportingEnabled()) {
+                        publishPeriodicParameterUpdate(defId);
+                    }
+                }
+            }), 0, (int) (interval.getInSeconds() * 1000), TimeUnit.MILLISECONDS, true);
+            // the time has to be converted to milliseconds by multiplying by 1000
+        }
+
+        private void stopTimer(final Long defId) {
+            timerList.get(defId).stopLast();
+        }
+
+    }
+
+    /**
+     *
+     * The pushSingleParameterValueAttribute operation allows an external entity
+     * to push Attribute values through the monitorValue operation of the
+     * Parameter service. If there is no parameter definition with the submitted
+     * name, the method shall automatically create the parameter definition in
+     * the Parameter service.
+     *
+     * @param name The name of the Parameter as set in the parameter definition
+     * @param value The value of the parameter to be pushed
+     * @param source The source of the parameter. Can be null
+     * @param timestamp The timestamp of the parameter. If null, the method will
+     * automatically use the System's time
+     * @return Returns true if the push was successful. False otherwise. Please
+     * notice that if no consumers are registered on the broker, then the value
+     * of true will be returned because not error happened.
+     */
+    public Boolean pushSingleParameterValueAttribute(final Identifier name,
+            final Attribute value, final ObjectKey source, final Time timestamp) {
+        final ParameterValue parameterValue = new ParameterValue(ValidityState.VALID, value, null);
+        ArrayList<ParameterInstance> parameters = new ArrayList<>(1);
+        parameters.add(new ParameterInstance(name, parameterValue, source, timestamp));
+
+        return this.pushMultipleParameterValues(parameters);
+    }
+
+    /**
+     *
+     * The pushParameterValue operation allows an external entity to push
+     * Parameter values through the monitorValue operation of the Parameter
+     * service. If there is no parameter definition with the submitted name, the
+     * method shall automatically create the parameter definition in the
+     * Parameter service
+     *
+     * @param name The name of the Parameter as set in the parameter definition
+     * @param parameterValue The parameter value to be pushed
+     * @param source The source of the parameter. Can be null
+     * @param timestamp The timestamp of the parameter. If null, the method will
+     * automatically use the System's time
+     * @return Returns true if the push was successful. False otherwise. Please
+     * notice that if no consumers are registered on the broker, then the value
+     * of true will be returned because not error happened.
+     */
+    @Deprecated
+    public Boolean pushParameterValue(final Identifier name,
+            final ParameterValue parameterValue, final ObjectKey source, final Time timestamp) {
+        ParameterInstance instance = new ParameterInstance(name, parameterValue, source, timestamp);
+        ArrayList<ParameterInstance> parameters = new ArrayList<>();
+        parameters.add(instance);
+
+        return this.pushMultipleParameterValues(parameters);
+    }
+
+    /**
+     *
+     * The pushParameterValue operation allows an external entity to push
+     * Parameter values through the monitorValue operation of the Parameter
+     * service. If there is no parameter definition with the submitted name, the
+     * method shall automatically create the parameter definition in the
+     * Parameter service. The parameter value will not be stored in the COM
+     * Archive.
+     *
+     * @param parameters The list of parameter instances.
+     * @return Returns true if the push was successful. False otherwise. Please
+     * notice that if no consumers are registered on the broker, then the value
+     * of true will be returned because no error happened.
+     */
+    public Boolean pushMultipleParameterValues(final List<ParameterInstance> parameters) {
+        return this.pushMultipleParameterValues(parameters, storeParametersInCOMArchive);
+    }
+
+    /**
+     *
+     * The pushParameterValue operation allows an external entity to push
+     * Parameter values through the monitorValue operation of the Parameter
+     * service. If there is no parameter definition with the submitted name, the
+     * method shall automatically create the parameter definition in the
+     * Parameter service.
+     *
+     * @param parameters The list of parameter instances to be pushed.
+     * @param storeIt A flag that defines if the Parameters are going to be
+     * stored in the COM Archive
+     * @return Returns true if the push was successful. False otherwise. Please
+     * notice that if no consumers are registered on the broker, then the value
+     * of true will be returned because not error happened.
+     */
+    public Boolean pushMultipleParameterValues(final List<ParameterInstance> parameters, final boolean storeIt) {
+        try {
+            synchronized (lock) {
+                if (!isRegistered) {
+                    publisher.registerWithDefaultKeys(new PublishInteractionListener());
+                    isRegistered = true;
+                }
+            }
+
+            final LongList outIds = new LongList(parameters.size());
+            final HeterogeneousList pVals = new HeterogeneousList();
+            final List<ParameterInstance> parameterInstances = new ArrayList<>(parameters.size());
+
+            for (int i = 0; i < parameters.size(); i++) {
+                // Does the submitted name exists in the manager?
+                ParameterInstance parameter = parameters.get(i);
+                Long id = manager.getId(parameter.getName());
+
+                if (id == null) { // If the definition is not in the manager, then create it
+                    Attribute rawValue = parameter.getParameterValue().getRawValue();
+                    AttributeType rawType = AttributeType.DOUBLE; // Default
+
+                    if (rawValue != null) {
+                        // Check what is the type and stamp it
+                        rawType = new AttributeType((Integer) rawValue.getTypeId().getSFP());
+                    }
+
+                    ParameterDefinition pDef = new ParameterDefinition(
+                            parameter.getName(),
+                            "Auto-generated definition",
+                            rawType,
+                            null,
+                            true, // Auto enable the generation
+                            new Duration(0),
+                            null,
+                            null, false);
+
+                    ParameterDefinitionList pDefs = new ParameterDefinitionList(1);
+                    pDefs.add(pDef);
+
+                    try {
+                        // Enable the reporting for this Alert Definition
+                        LongList returnedObjIds = this.addParameters(pDefs, null);
+                        id = returnedObjIds.get(0);
+                    } catch (InvalidArgumentException | DuplicateException | MALInteractionException | MALException ex) {
+                        Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                        return false;
+                    }
+                }
+
+                ParameterDefinition pDef2 = (ParameterDefinition) manager.getDefinition(id);
+                if (pDef2.getReportingEnabled()) {
+                    outIds.add(id); // Don't push the PVals that are not enabled...
+                    ParameterValue value = parameter.getParameterValue();
+                    Attribute convertedValue = value.getConvertedValue();
+                    ValidityState validityState = value.getValidityState();
+
+                    // If the conversion value was not provided, we can try to generate it
+                    if (convertedValue == null) {
+                        ParameterValue newPVal = manager.generateNewParameterValue(
+                                value.getRawValue(), pDef2, false);
+                        convertedValue = newPVal.getConvertedValue();
+                        validityState = newPVal.getValidityState();
+                    }
+
+                    pVals.add(new ParameterValue(validityState, value.getRawValue(), convertedValue));
+                    parameterInstances.add(parameter);
+                }
+            }
+
+            if (pVals.isEmpty()) {
+                return true; // No parameters values are going to be pushed
+            }
+
+            LongList relatedIds = new LongList(outIds.size());
+            ObjectKeyList sourceIds = new ObjectKeyList(outIds.size());
+            TimeList timestamps = new TimeList(outIds.size());
+
+            //requirement: 3.3.9.2.h all Parameter-Value objects shall have the same creation-time
+            final Time defaultTimestamp = Time.now();
+
+            for (int i = 0; i < outIds.size(); i++) {
+                relatedIds.add(outIds.get(i));
+                ObjectKey sourceId = parameters.get(i).getSource();
+                sourceId = (sourceId != null) ? sourceId : new ObjectKey();
+                sourceIds.add(sourceId);
+                final Time timestamp = (parameters.get(i).getTimestamp() != null)
+                        ? parameters.get(i).getTimestamp()
+                        : defaultTimestamp;
+                timestamps.add(timestamp);
+            }
+
+            final LongList parameterValueId;
+
+            if (storeIt) {
+                parameterValueId = manager.storeAndGenerateMultiplePValobjId(pVals, relatedIds,
+                        sourceIds, connection.getConnectionDetails(), timestamps);
+            } else {
+                // Well, if we don't store it, then we shall use the local unique variable
+                parameterValueId = new LongList(pVals.size());
+                for (Element parameterVal : pVals) {
+                    parameterValueId.add(pValUniqueObjId.incrementAndGet());
+                }
+            }
+
+            final UpdateHeaderList hdrlst = new UpdateHeaderList(parameters.size());
+            final ParameterValueList pVallst = new ParameterValueList(parameters.size());
+
+            for (int i = 0; i < parameterInstances.size(); i++) {
+                //  requirements: 3.3.7.2.a , 3.3.7.2.b , 3.3.7.2.c , 3.3.7.2.d
+                AttributeList keys = new AttributeList();
+                keys.add(new Identifier(manager.getName(outIds.get(i)).toString()));
+                keys.add(new Union(outIds.get(i)));
+                keys.add(new Union(parameterValueId.get(i)));
+
+                Time time = parameterInstances.get(i).getTimestamp();
+                time = (time == null) ? defaultTimestamp : time; //  requirement: 3.3.5.2.5
+
+                //requirement: 3.3.7.2.e : timestamp must be the same as for the creation of the ParameterValue
+                URI source = connection.getConnectionDetails().getProviderURI();
+                UpdateHeader updateHeader = new UpdateHeader(new Identifier(source.getValue()),
+                        connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
+
+                // requirement: 3.3.7.2.g (3.3.5.2.f not necessary) 
+                // requirement: 3.3.7.2.h 
+                publisher.publish(updateHeader, parameterInstances.get(i).getParameterValue());
+            }
+        } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
+            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Pushed Parameter: Exception during publishing process on the provider {0}", ex);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * publishes a periodic parameter update for the given parameter
+     *
+     * @param defId the id of the parameter definition
+     */
+    private void publishPeriodicParameterUpdate(final Long defId) {
+        publishPeriodicParameterUpdate(defId, storeParametersInCOMArchive);
+    }
+
+    /**
+     * publishes a periodic parameter update for the given parameter
+     *
+     * @param defId the id of the parameter definition
+     * @param storeInCOMArchive flag indicating whether or not the parameter
+     * should be stored in the archive
+     */
+    private void publishPeriodicParameterUpdate(final Long defId, boolean storeInCOMArchive) {
+        try {
+            /*
+            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.INFO,
+                    "start publishing periodic parameter update with defId: {0} at {1}",
+                    new Object[]{defId, System.currentTimeMillis()});
+             */
+            final ParameterValue parameterValue = manager.getParameterValue(defId);
+            final Identifier name = manager.getName(defId);
+
+            ArrayList<ParameterInstance> parameters = new ArrayList<>(1);
+            parameters.add(new ParameterInstance(name, parameterValue, null, Time.now()));
+            this.pushMultipleParameterValues(parameters, storeInCOMArchive);
+        } catch (UnknownException | IllegalArgumentException | MALInteractionException ex) {
+            Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "Exception during publishing process on the provider {0}", ex);
+        }
+    }
+
+}

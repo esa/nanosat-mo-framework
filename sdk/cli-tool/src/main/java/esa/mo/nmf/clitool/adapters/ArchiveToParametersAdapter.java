@@ -28,8 +28,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetails;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
@@ -37,7 +36,8 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValue;
+import org.ccsds.moims.mo.mc.structures.ParameterDefinition;
+import org.ccsds.moims.mo.mc.structures.ParameterValue;
 
 /**
  * Archive adapter that retrieves available parameter names and their values.
@@ -48,62 +48,33 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
 
     private static final Logger LOGGER = Logger.getLogger(ArchiveToAppListAdapter.class.getName());
 
-    /**
-     * True if the query is over (response or any error received)
-     */
     private boolean isQueryOver = false;
 
-    /**
-     * MC.Parameter.ParameterIdentity object type
-     */
-    private final ObjectType parameterIdentityType = ParameterServiceInfo.PARAMETERIDENTITY_OBJECT_TYPE;
-
-    /**
-     * MC.Parameter.ParameterDefinition object type
-     */
     private final ObjectType parameterDefinitionType = ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE;
+    private final ObjectType parameterValueType = ParameterServiceInfo.PARAMETERVALUE_OBJECT_TYPE;
 
-    /**
-     * MC.Parameter.ParameterValueInstance object type
-     */
-    private final ObjectType parameterValueType = ParameterServiceInfo.PARAMETERVALUEINSTANCE_OBJECT_TYPE;
+    /** Map: domain → list of parameter names. */
+    private final Map<IdentifierList, List<Identifier>> parameterNames = new HashMap<>();
 
-    private final Map<IdentifierList, List<Identifier>> parameterIdentities = new HashMap<>();
-    private final Map<IdentifierList, Map<Long, Identifier>> identitiesMap = new HashMap<>();
-    private final Map<IdentifierList, Map<Long, Long>> definitionsMap = new HashMap<>();
+    /** Map: domain → (definitionId → name). */
+    private final Map<IdentifierList, Map<Long, Identifier>> namesMap = new HashMap<>();
 
-    /**
-     * Map from ParameterDefinition ID to a list of the parameter values segregated based on the domain
-     */
+    /** Map: domain → (definitionId → list of timestamped values). */
     private final Map<IdentifierList, Map<Long, List<TimestampedParameterValue>>> valuesMap = new HashMap<>();
 
-    /**
-     * Map from parameter name to a list of it's values segregated based on the domain
-     */
+    /** Map: domain → (name → list of timestamped values). */
     private final Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> parameterValues = new HashMap<>();
 
     @Override
-    public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-        ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
-        if (objDetails == null) {
-            setIsQueryOver(true);
-            return;
-        }
-        processObjects(objType, objDetails, objBodies, domain);
-
+    public void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
         for (IdentifierList domainKey : valuesMap.keySet()) {
-            if (!parameterValues.containsKey(domainKey)) {
-                parameterValues.put(domainKey, new HashMap<>());
-            }
+            parameterValues.computeIfAbsent(domainKey, k -> new HashMap<>());
 
-            Map<Long, List<TimestampedParameterValue>> parameters = valuesMap.get(domainKey);
-            for (Map.Entry<Long, List<TimestampedParameterValue>> entry : parameters.entrySet()) {
-                Identifier identity = identitiesMap.get(domainKey).get(definitionsMap.get(domainKey).get(entry
-                    .getKey()));
-                parameterValues.get(domainKey).put(identity, entry.getValue());
+            for (Map.Entry<Long, List<TimestampedParameterValue>> entry : valuesMap.get(domainKey).entrySet()) {
+                Identifier name = namesMap.get(domainKey).get(entry.getKey());
+                parameterValues.get(domainKey).put(name, entry.getValue());
             }
         }
-
         setIsQueryOver(true);
     }
 
@@ -113,51 +84,24 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
         processObjects(objType, objDetails, objBodies, domain);
     }
 
-    /**
-     * Fills the maps based on the type of the object
-     * @param type Type of the objects to be processed
-     * @param detailsList Archive details of the objects
-     * @param bodiesList Bodies of the objects
-     */
     private void processObjects(ObjectType type, ArchiveDetailsList detailsList,
             HeterogeneousList bodiesList, IdentifierList domain) {
-        if (!parameterIdentities.containsKey(domain)) {
-            parameterIdentities.put(domain, new ArrayList<>());
-        }
+        parameterNames.computeIfAbsent(domain, k -> new ArrayList<>());
+        namesMap.computeIfAbsent(domain, k -> new HashMap<>());
+        valuesMap.computeIfAbsent(domain, k -> new HashMap<>());
 
-        if (!identitiesMap.containsKey(domain)) {
-            identitiesMap.put(domain, new HashMap<>());
-        }
-
-        if (!definitionsMap.containsKey(domain)) {
-            definitionsMap.put(domain, new HashMap<>());
-        }
-
-        if (!valuesMap.containsKey(domain)) {
-            valuesMap.put(domain, new HashMap<>());
-        }
-
-        if (type == null || type.equals(parameterIdentityType)) {
+        if (type == null || type.equals(parameterDefinitionType)) {
             for (int i = 0; i < detailsList.size(); ++i) {
-                identitiesMap.get(domain).put(detailsList.get(i).getInstId(), (Identifier) bodiesList.get(i));
-                parameterIdentities.get(domain).add((Identifier) bodiesList.get(i));
-            }
-        } else if (type.equals(parameterDefinitionType)) {
-            for (ArchiveDetails archiveDetails : detailsList) {
-                definitionsMap.get(domain).put(archiveDetails.getInstId(), archiveDetails.getDetails().getRelated());
+                Identifier name = ((ParameterDefinition) bodiesList.get(i)).getName();
+                namesMap.get(domain).put(detailsList.get(i).getId(), name);
+                parameterNames.get(domain).add(name);
             }
         } else if (type.equals(parameterValueType)) {
             for (int i = 0; i < detailsList.size(); ++i) {
-                if (valuesMap.get(domain).containsKey(detailsList.get(i).getDetails().getRelated())) {
-                    valuesMap.get(domain).get(detailsList.get(i).getDetails().getRelated()).add(
-                        new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i)
-                            .getTimestamp()));
-                } else {
-                    List<TimestampedParameterValue> values = new ArrayList<>();
-                    values.add(new TimestampedParameterValue((ParameterValue) bodiesList.get(i), detailsList.get(i)
-                        .getTimestamp()));
-                    valuesMap.get(domain).put(detailsList.get(i).getDetails().getRelated(), values);
-                }
+                Long defId = detailsList.get(i).getLinks().getRelated();
+                TimestampedParameterValue tv = new TimestampedParameterValue(
+                        (ParameterValue) bodiesList.get(i), detailsList.get(i).getTimestamp());
+                valuesMap.get(domain).computeIfAbsent(defId, k -> new ArrayList<>()).add(tv);
             }
         }
     }
@@ -189,15 +133,16 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
         this.isQueryOver = isQueryOver;
     }
 
-    public Map<IdentifierList, List<Identifier>> getParameterIdentities() {
-        return parameterIdentities;
+    public Map<IdentifierList, List<Identifier>> getParameterNames() {
+        return parameterNames;
     }
 
     public Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> getParameterValues() {
         return parameterValues;
     }
 
-    public Map<IdentifierList, Map<Long, Identifier>> getIdentitiesMap() {
-        return identitiesMap;
+    /** Returns a map from definition id to parameter name, for use when resolving aggregation parameter references. */
+    public Map<IdentifierList, Map<Long, Identifier>> getNamesMap() {
+        return namesMap;
     }
 }

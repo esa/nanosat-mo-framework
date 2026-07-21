@@ -50,15 +50,8 @@ public class ConfigurationManager extends javax.swing.JFrame
   {
 
     try {
-      // Set cross-platform Java L&F (also called "Metal")
       UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-    } catch (UnsupportedLookAndFeelException e) {
-      // handle exception
-    } catch (ClassNotFoundException e) {
-      // handle exception
-    } catch (InstantiationException e) {
-      // handle exception
-    } catch (IllegalAccessException e) {
+    } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
       // handle exception
     }
 
@@ -105,6 +98,7 @@ public class ConfigurationManager extends javax.swing.JFrame
   public ConfigurationManager(final String name)
   {
     initComponents();
+    jLabel6.setFont(jLabel6.getFont().deriveFont(java.awt.Font.BOLD, 18f));
     this.setLocationRelativeTo(null);
     this.setTitle(name);
 
@@ -158,15 +152,11 @@ public class ConfigurationManager extends javax.swing.JFrame
 
         tabs.setToolTipText("");
         tabs.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        tabs.setMaximumSize(new java.awt.Dimension(800, 600));
-        tabs.setMinimumSize(new java.awt.Dimension(800, 600));
         tabs.setName("tabs"); // NOI18N
-        tabs.setPreferredSize(new java.awt.Dimension(800, 600));
         tabs.setRequestFocusEnabled(false);
 
         homeTab.setName("homeTab"); // NOI18N
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Welcome!");
         jLabel6.setToolTipText("");
@@ -244,11 +234,9 @@ public class ConfigurationManager extends javax.swing.JFrame
     }//GEN-LAST:event_COM_buttonActionPerformed
 
     private void MC_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MC_buttonActionPerformed
-      // TODO add your handling code here:
     }//GEN-LAST:event_MC_buttonActionPerformed
 
     private void Platform_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Platform_buttonActionPerformed
-      // TODO add your handling code here:
     }//GEN-LAST:event_Platform_buttonActionPerformed
 
 

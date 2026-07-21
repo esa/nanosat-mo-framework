@@ -28,19 +28,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import opssat.simulator.main.ESASimulator;
+import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.platform.camera.structures.CameraSettings;
-import org.ccsds.moims.mo.platform.camera.structures.Picture;
-import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
-import org.ccsds.moims.mo.platform.camera.structures.PictureFormatList;
-import org.ccsds.moims.mo.platform.camera.structures.PixelResolution;
-import org.ccsds.moims.mo.platform.camera.structures.PixelResolutionList;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
-import org.ccsds.moims.mo.platform.powercontrol.structures.DeviceType;
+import org.ccsds.moims.mo.platform.structures.*;
 
 /**
  *
@@ -101,8 +94,9 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface, SimulatorAd
     public synchronized Picture takePicture(final CameraSettings settings) throws IOException {
         // Get a picture from the simulator...
         final Time timestamp = Time.now();
-        byte[] data = instrumentsSimulator.getpCamera().takePicture((int) settings.getResolution().getWidth()
-            .getValue(), (int) settings.getResolution().getHeight().getValue());
+        byte[] data = instrumentsSimulator.getpCamera().takePicture(
+                (int) settings.getResolution().getWidth().getValue(),
+                (int) settings.getResolution().getHeight().getValue());
 
         if (settings.getFormat() != PictureFormat.RAW) {
             data = convertImage(data, settings.getFormat());

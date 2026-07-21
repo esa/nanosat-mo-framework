@@ -1,0 +1,78 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2021      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ * ----------------------------------------------------------------------------
+ */
+package esa.mo.nmf.apps;
+
+import esa.mo.nmf.MCRegistration;
+import esa.mo.nmf.MonitorAndControlNMFAdapter;
+import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
+import org.ccsds.moims.mo.mal.provider.MALInteraction;
+import org.ccsds.moims.mo.mal.structures.Attribute;
+import org.ccsds.moims.mo.mal.structures.AttributeType;
+import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mc.ExecutionFailedException;
+import org.ccsds.moims.mo.mc.structures.AttributeValueList;
+import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
+
+/**
+ * Blank App
+ */
+public class BlankApp {
+
+    private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
+
+    public BlankApp() {
+        connector.init(new MCAdapter());
+    }
+
+    /**
+     * Main command line entry point.
+     *
+     * @param args the command line arguments
+     * @throws java.lang.Exception If there is an error
+     */
+    public static void main(final String[] args) throws Exception {
+        BlankApp demo = new BlankApp();
+    }
+
+    public static class MCAdapter extends MonitorAndControlNMFAdapter {
+
+        @Override
+        public void initialRegistrations(MCRegistration registrationObject) {
+        }
+
+        @Override
+        public Attribute onGetValue(Identifier identifier, AttributeType rawType) {
+            return null;
+        }
+
+        @Override
+        public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
+            return false;
+        }
+
+        @Override
+        public void actionArrived(Identifier name, AttributeValueList attributeValues, Long executionId,
+            MALInteraction interaction)  throws ExecutionFailedException {
+            throw new ExecutionFailedException("Action service not integrated");
+        }
+    }
+}

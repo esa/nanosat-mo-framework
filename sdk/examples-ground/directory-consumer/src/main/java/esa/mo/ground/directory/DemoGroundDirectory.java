@@ -25,10 +25,10 @@ import esa.mo.nmf.commonmoadapter.CompleteDataReceivedListener;
 import esa.mo.nmf.commonmoadapter.SimpleDataReceivedListener;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.net.MalformedURLException;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
+import org.ccsds.moims.mo.com.structures.ProviderList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.URI;
@@ -50,7 +50,7 @@ public class DemoGroundDirectory
   public DemoGroundDirectory()
   {
     try {
-      ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(
+      ProviderList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(
           DIRECTORY_URI);
 
       if (!providers.isEmpty()) {

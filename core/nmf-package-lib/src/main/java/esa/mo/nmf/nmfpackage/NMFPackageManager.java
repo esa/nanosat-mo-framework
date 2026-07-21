@@ -20,20 +20,23 @@
  */
 package esa.mo.nmf.nmfpackage;
 
-import esa.mo.nmf.environment.Deployment;
-import esa.mo.nmf.environment.LinuxUsersGroups;
-import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.helpertools.misc.OSValidator;
+import esa.mo.nmf.environment.AppsIsolationMode;
+import esa.mo.nmf.environment.Deployment;
+import esa.mo.nmf.environment.LinuxUsersGroups;
+import esa.mo.nmf.environment.SoftwareBaseline;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
 import esa.mo.nmf.nmfpackage.utils.AuxFilesGenerator;
+import esa.mo.nmf.nmfpackage.utils.ChecksumGenerator;
+import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
@@ -42,7 +45,7 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.softwaremanagement.appslauncher.body.ListAppResponse;
+import org.ccsds.moims.mo.sm.appslauncher.body.ListAppResponse;
 
 /**
  * The NMFPackageManager class allows the install, uninstall and upgrade an NMF
@@ -54,10 +57,10 @@ public class NMFPackageManager {
 
     private static final String RECEIPT_ENDING = ".receipt";
 
-    // This must match the group_nmf_apps value in the fresh_install.sh file
+    // This must match the group_nmf_apps value in the setup_linux_userspace.sh file
     private static final String GROUP_NMF_APPS = "nmf-apps";
 
-    // The groups will be disbled in the current state of the NMF because there 
+    // The groups will be disbled in the current state of the NMF because there
     // is no need for it at the moment and it is not supported by the Phi-Sat-2
     // mission on-board computer. This might have to be revised in the future...
     private static final boolean GROUP_FLAG = false;
@@ -106,6 +109,9 @@ public class NMFPackageManager {
 
         nmfPackage.verifyPackageIntegrity();
 
+        // The factory baseline is immutable in flight (NMF.BOOT.BMM.03)
+        rejectIfTargetsFactory(metadata);
+
         if (metadata.isApp()) {
             installDependencies(metadata.castToApp(), packageLocation, nmfDir);
         }
@@ -117,8 +123,13 @@ public class NMFPackageManager {
         nmfPackage.extractFiles(nmfDir);
         String packageName = metadata.getPackageName();
 
+        // Refresh the baseline checksums and rotate the baseline if this
+        // package delivered a new baseline component (NMF Bootloader Spec)
+        handleBaselineComponent(metadata, nmfDir);
+
         if (metadata.isApp()) {
-            String username = generateUsername(packageName);
+            boolean linuxUserspace = AppsIsolationMode.isLinuxUserspace();
+            String username = linuxUserspace ? generateUsername(packageName) : null;
             String password = null;
 
             File appDir = new File(Deployment.getAppsDir(), packageName);
@@ -127,7 +138,7 @@ public class NMFPackageManager {
             File logDir = Deployment.getLogsDirForApp(packageName);
             logDir.mkdirs();
 
-            if (OS.isUnix()) {
+            if (OS.isUnix() && linuxUserspace) {
                 try {
                     // Create the User for this App
                     boolean withGroup = true;
@@ -207,6 +218,9 @@ public class NMFPackageManager {
         System.out.printf(SEPARATOR);
         String packageName = packageMetadata.getPackageName();
 
+        // The factory baseline is immutable in flight (NMF.BOOT.BMM.03)
+        rejectIfTargetsFactory(packageMetadata);
+
         if (packageMetadata.isApp()) { // If the App is running, then stop it!
             this.stopAppIfRunning(packageName);
         }
@@ -221,7 +235,8 @@ public class NMFPackageManager {
             File installationDir = new File(Deployment.getAppsDir(), packageName);
             removeAuxiliaryFiles(installationDir, packageName);
 
-            if (OS.isUnix()) {
+            boolean linuxUserspace = AppsIsolationMode.isLinuxUserspace();
+            if (OS.isUnix() && linuxUserspace) {
                 if (!keepUserData) {
                     String username = generateUsername(packageName);
                     try {
@@ -277,6 +292,20 @@ public class NMFPackageManager {
                     + "Version: " + newPackMetadata.getMetadataVersion());
         }
 
+        // Baseline components (nmf, mission, java) are never upgraded in place:
+        // upgrade removes the old files, which would destroy the version kept
+        // for fallback. They are shipped with install (into a new versioned
+        // directory) and activated later with the setPrimaryBaseline action.
+        if (newPackMetadata.isBaselineComponent()) {
+            throw new IOException("Baseline components cannot be upgraded! "
+                    + "Install the new version and switch to it with the "
+                    + "setPrimaryBaseline action. Package type: "
+                    + newPackMetadata.getPackageType());
+        }
+
+        // The factory baseline is immutable in flight (NMF.BOOT.BMM.03)
+        rejectIfTargetsFactory(newPackMetadata);
+
         File receiptsFolder = Deployment.getInstallationsTrackerDir();
         String receiptFilename = newPackMetadata.getPackageName() + RECEIPT_ENDING;
         File oldReceiptFile = new File(receiptsFolder, receiptFilename);
@@ -322,23 +351,28 @@ public class NMFPackageManager {
         }
         newPack.extractFiles(nmfDir);
 
-        if (isApp) {
-            File appDir = new File(Deployment.getAppsDir(), packageName);
-            String username = generateUsername(packageName);
+        // Refresh the baseline checksums and rotate the baseline if this
+        // package delivered a new baseline component (NMF Bootloader Spec)
+        handleBaselineComponent(newPackMetadata, nmfDir);
 
+        if (isApp) {
+            boolean linuxUserspace = AppsIsolationMode.isLinuxUserspace();
+            String username = linuxUserspace ? generateUsername(packageName) : null;
+
+            File appDir = new File(Deployment.getAppsDir(), packageName);
             MetadataApp appMetadata = newPackMetadata.castToApp();
             AuxFilesGenerator.generateStartScript(appMetadata, appDir, nmfDir);
             createAuxiliaryFiles(appDir, username);
             File logDir = Deployment.getLogsDirForApp(packageName);
             logDir.mkdirs();
 
-            if (OS.isUnix()) { // Change Group owner of the appDir
+            if (OS.isUnix() && linuxUserspace) { // Change Group owner of the appDir
                 changeGroupAndSetPermissions(appDir, username, "750");
 
                 try {
                     changeGroupAndSetPermissions(logDir, username, "770");
                 } catch (IOException ex) {
-                    // The previous log files were created with a user that 
+                    // The previous log files were created with a user that
                     // might no longer exist, so just ignore the exception!
                 }
             }
@@ -422,6 +456,129 @@ public class NMFPackageManager {
         return true;
     }
 
+    /**
+     * Checks whether a package's version is already installed and therefore may
+     * not be installed again. Used only to reject a re-install; it is distinct
+     * from {@link #isPackageInstalled} (which answers "is this exact package
+     * present" for uninstall and post-install confirmation).
+     *
+     * <p>
+     * A final (release) version is immutable: once its name and version are
+     * installed, re-installing the same version is rejected. A
+     * {@code -SNAPSHOT} version is not final and may always be overridden, so it
+     * is never reported as installed here. For a baseline component (nmf,
+     * mission, java) "installed" means its versioned directory (e.g.
+     * {@code jars-nmf/<v>}) already exists on disk; for other packages it means
+     * an installation receipt with the same name and version exists.
+     *
+     * @param packageLocation The package location.
+     * @return {@code true} if this final version is already installed.
+     */
+    public boolean isFinalVersionInstalled(final String packageLocation) {
+        Metadata metadata;
+        try {
+            metadata = new NMFPackage(packageLocation).getMetadata();
+        } catch (IOException ex) {
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
+                    "There was a problem while reading the NMF Package!", ex);
+            return false;
+        }
+
+        String packageName = metadata.getPackageName();
+        String version = metadata.getPackageVersion();
+
+        // SNAPSHOT versions are not final: they may always be re-installed
+        // (overridden), so they are never treated as an existing installation.
+        if (isSnapshotVersion(version)) {
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.FINE,
+                    "The package " + packageName + " is a SNAPSHOT and can be overridden.");
+            return false;
+        }
+
+        // A baseline component is installed if its versioned directory exists.
+        if (metadata.isBaselineComponent()) {
+            try {
+                File root = Deployment.getNMFRootDir();
+                for (String dir : touchedBaselineDirs(metadata)) {
+                    if (new File(root, dir).isDirectory()) {
+                        return true;
+                    }
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
+                        "The baseline directory could not be checked!", ex);
+            }
+            return false;
+        }
+
+        // Other packages: installed if a receipt with the same name and version
+        // exists in the installations tracker.
+        File receiptFile = new File(Deployment.getInstallationsTrackerDir(),
+                packageName + RECEIPT_ENDING);
+        if (!receiptFile.exists()) {
+            return false;
+        }
+
+        Metadata installedMetadata;
+        try {
+            installedMetadata = Metadata.load(new FileInputStream(receiptFile));
+        } catch (IOException ex) {
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
+                    "The file could not be loaded!", ex);
+            return false;
+        }
+
+        return installedMetadata != null
+                && packageName.equals(installedMetadata.getPackageName())
+                && version.equals(installedMetadata.getPackageVersion());
+    }
+
+    /**
+     * Returns whether a version string denotes a non-final SNAPSHOT build.
+     *
+     * @param version The version string.
+     * @return {@code true} if the version ends with {@code -SNAPSHOT}.
+     */
+    private static boolean isSnapshotVersion(final String version) {
+        return version != null && version.endsWith("-SNAPSHOT");
+    }
+
+    /**
+     * Returns the currently installed version of a package, read from its
+     * installation receipt.
+     *
+     * @param packageLocation The location of the package file.
+     * @return The installed version, or null if the package is not installed
+     * or the version cannot be determined.
+     */
+    public String getInstalledVersion(final String packageLocation) {
+        Metadata metadata;
+
+        try {
+            metadata = (new NMFPackage(packageLocation)).getMetadata();
+        } catch (IOException ex) {
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
+                    "There was a problem while reading the NMF Package!", ex);
+            return null;
+        }
+
+        File temp = Deployment.getInstallationsTrackerDir();
+        File receiptFile = new File(temp, metadata.getPackageName() + RECEIPT_ENDING);
+
+        if (!receiptFile.exists()) {
+            return null;
+        }
+
+        try {
+            Metadata installedMetadata = Metadata.load(new FileInputStream(receiptFile));
+            return (installedMetadata != null) ? installedMetadata.getPackageVersion() : null;
+        } catch (IOException ex) {
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
+                    "The receipt file could not be loaded!", ex);
+            return null;
+        }
+    }
+
     private void installDependencies(MetadataApp metadata,
             String packageLocation, File nmfDir) throws IOException {
         if (!metadata.hasDependencies()) {
@@ -463,12 +620,12 @@ public class NMFPackageManager {
     private static void removeAuxiliaryFiles(File folder, String appName) throws IOException {
         File provider = new File(folder, HelperMisc.PROVIDER_PROPERTIES_FILE);
         File transport = new File(folder, HelperMisc.TRANSPORT_PROPERTIES_FILE);
-        File linux = new File(folder, "start_" + appName + ".sh");
-        File windows = new File(folder, "start_" + appName + ".bat");
+        File linux = new File(folder, "start_app.sh");
+        File windows = new File(folder, "start_app.bat");
 
         // Remove the provider.properties
         // Remove the transport.properties
-        // Remove the start_myAppName.sh or start_myAppName.bat
+        // Remove the start_app.sh or start_app.bat
         NMFPackageManager.removeFile(provider);
         NMFPackageManager.removeFile(windows.exists() ? windows : linux);
         if (transport.exists()) {
@@ -534,6 +691,110 @@ public class NMFPackageManager {
         }
     }
 
+    /**
+     * Refreshes the baseline integrity manifests after a package has been
+     * extracted (NMF Bootloader Specification). For every baseline directory the
+     * package wrote into ({@code jars-nmf/<v>}, {@code jars-mission/<v>},
+     * {@code java/<v>}) the {@code SHA256SUMS} file is regenerated so the
+     * bootloader's integrity test passes on the next boot (NMF.BOOT.BTE.02).
+     * No-op for App and dependency packages.
+     *
+     * <p>
+     * Installing a baseline component only stages its files in a new versioned
+     * directory; it does <b>not</b> activate it. The switch to the new baseline
+     * is a deliberate, separate step performed through the validated
+     * {@code bootloader.setPrimaryBaseline} action, which rotates the primary to
+     * secondary and writes the new primary. This keeps shipping a version and
+     * activating it decoupled, and preserves the previous version for fallback.
+     *
+     * @param metadata The metadata of the installed package.
+     * @param nmfDir The NMF root directory.
+     * @throws IOException if a checksum manifest cannot be written.
+     */
+    private static void handleBaselineComponent(Metadata metadata, File nmfDir) throws IOException {
+        Set<String> touched = touchedBaselineDirs(metadata);
+
+        for (String dir : touched) {
+            ChecksumGenerator.writeChecksumsFile(new File(nmfDir, dir));
+        }
+    }
+
+    /**
+     * Rejects an operation that would modify a component of the factory
+     * baseline (NMF.BOOT.BMM.03). No-op for deployments without a factory
+     * baseline file (e.g. IDE or test runs outside an NMF filesystem).
+     *
+     * @param metadata The metadata of the package targeted by the operation.
+     * @throws IOException if the operation targets a factory baseline component.
+     */
+    private static void rejectIfTargetsFactory(Metadata metadata) throws IOException {
+        File factoryFile = new File(Deployment.getBootloaderDir(), Deployment.FILE_BASELINE_FACTORY);
+
+        if (!factoryFile.isFile()) {
+            return; // No factory baseline to protect
+        }
+
+        SoftwareBaseline factory = SoftwareBaseline.load(factoryFile);
+        Set<String> factoryDirs = new LinkedHashSet<>();
+        addBaselineDir(factoryDirs, Deployment.DIR_JARS_NMF, factory.getNmfVersion());
+        addBaselineDir(factoryDirs, Deployment.DIR_JARS_MISSION, factory.getMissionVersion());
+        if (factory.getJava() != null) {
+            String javaDir = baselineDirOf(factory.getJava().replace('\\', '/'));
+            if (javaDir != null) {
+                factoryDirs.add(javaDir);
+            }
+        }
+
+        for (String dir : touchedBaselineDirs(metadata)) {
+            if (factoryDirs.contains(dir)) {
+                throw new IOException("The factory baseline is immutable in flight! "
+                        + "The operation targets a factory baseline component: " + dir);
+            }
+        }
+    }
+
+    private static void addBaselineDir(Set<String> dirs, String top, String version) {
+        if (version != null && !version.isEmpty()) {
+            dirs.add(top + "/" + version);
+        }
+    }
+
+    /**
+     * The set of baseline component directories (relative to the NMF root, with
+     * {@code /} separators) that a package writes into: {@code jars-nmf/<v>},
+     * {@code jars-mission/<v>} and {@code java/<v>}. App and dependency packages
+     * yield an empty set.
+     */
+    private static Set<String> touchedBaselineDirs(Metadata metadata) throws IOException {
+        Set<String> dirs = new LinkedHashSet<>();
+        for (NMFPackageFile entry : metadata.getFiles()) {
+            String path = HelperNMFPackage.sanitizePath(entry.getPath()).replace('\\', '/');
+            String dir = baselineDirOf(path);
+            if (dir != null) {
+                dirs.add(dir);
+            }
+        }
+        return dirs;
+    }
+
+    /**
+     * Returns the {@code <top>/<version>} baseline directory a file path lies
+     * under, or {@code null} if the path is not inside a baseline directory.
+     */
+    private static String baselineDirOf(String path) {
+        for (String top : new String[]{Deployment.DIR_JARS_NMF,
+                Deployment.DIR_JARS_MISSION, Deployment.DIR_JAVA}) {
+            String prefix = top + "/";
+            if (path.startsWith(prefix)) {
+                int slash = path.indexOf('/', prefix.length());
+                if (slash > prefix.length()) {
+                    return path.substring(0, slash);
+                }
+            }
+        }
+        return null;
+    }
+
     public static String getPublicKey(String folderLocation) {
         /*
         // Find the newReceipt and get it out of the package
@@ -579,9 +840,9 @@ public class NMFPackageManager {
             ListAppResponse response = appsLauncher.listApp(myApp, category, null);
             LongList runningApp = new LongList();
 
-            for (int i = 0; i < response.getAppInstIds().size(); i++) {
+            for (int i = 0; i < response.getAppIds().size(); i++) {
                 if (response.getRunning().get(i)) {
-                    Long appId = response.getAppInstIds().get(i);
+                    Long appId = response.getAppIds().get(i);
                     runningApp.add(appId);
                 }
             }
@@ -590,8 +851,11 @@ public class NMFPackageManager {
                 Logger.getLogger(NMFPackageManager.class.getName()).log(
                         Level.INFO, "Stopping the " + name + " App...");
 
-                appsLauncher.stopApp(runningApp, null);
+                appsLauncher.stopApp(runningApp, null, null);
             }
+        } catch (org.ccsds.moims.mo.mal.UnknownException | org.ccsds.moims.mo.com.InvalidArgumentException ex) {
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
+                    "The " + name + " App was not found in the Directory service!");
         } catch (MALInteractionException ex) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                     "The " + name + " App was not found in the Directory service!");

@@ -1,0 +1,473 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2021      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft - v2.4
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ----------------------------------------------------------------------------
+ */
+package esa.mo.com.impl.provider;
+
+import esa.mo.com.impl.archive.db.COMObjectEntity;
+import esa.mo.com.impl.sync.Dictionary;
+import esa.mo.com.impl.sync.EncodeDecode;
+import esa.mo.helpertools.misc.Const;
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
+import org.ccsds.moims.mo.com.archivesync.ArchiveSyncHelper;
+import org.ccsds.moims.mo.com.archivesync.body.GetTimeResponse;
+import org.ccsds.moims.mo.com.archivesync.provider.ArchiveSyncInheritanceSkeleton;
+import org.ccsds.moims.mo.com.archivesync.provider.RetrieveRangeAgainInteraction;
+import org.ccsds.moims.mo.com.archivesync.provider.RetrieveRangeInteraction;
+import org.ccsds.moims.mo.com.structures.*;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.UnknownException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.provider.MALInteraction;
+import org.ccsds.moims.mo.mal.provider.MALProvider;
+import org.ccsds.moims.mo.mal.structures.*;
+
+/**
+ * Archive Sync service Provider.
+ */
+public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkeleton {
+
+    private static final Logger LOGGER = Logger.getLogger(ArchiveSyncProviderServiceImpl.class.getName());
+
+    private static final long DISPATCHERS_CLEANUP_INTERVAL_IN_MILISECONDS = 600000L; //10 minutes
+
+    private static long timerCounter = 0;
+
+    private final ConnectionProvider connection = new ConnectionProvider();
+
+    private final AtomicLong lastSync = new AtomicLong(0);
+
+    private final Dictionary dictionary = new Dictionary();
+
+    private final Map<Long, Dispatcher> dispatchers = Collections.synchronizedMap(new HashMap<>());
+
+    private final ExecutorService executor = Executors.newCachedThreadPool();
+
+    private final Map<Long, TimerTask> timerTasks = Collections.synchronizedMap(new HashMap<>());
+
+    private final Map<Long, Long> syncTimes = Collections.synchronizedMap(new HashMap<>());
+
+    private final String timerName;
+
+    private ArchiveManager manager;
+
+    private MALProvider archiveSyncServiceProvider;
+
+    private boolean initialiased = false;
+
+    private Time latestSync;
+
+    private Timer dispatchersCleanupTimer;
+
+    private int objectsLimit;
+
+    public ArchiveSyncProviderServiceImpl(SingleConnectionDetails connectionToArchiveService) {
+        this(connectionToArchiveService, null, null);
+    }
+
+    public ArchiveSyncProviderServiceImpl(SingleConnectionDetails connectionToArchiveService,
+            Blob authenticationId, String localNamePrefix) {
+        this.latestSync = new Time(0);
+        timerName = getTimerName();
+        dispatchersCleanupTimer = new Timer(timerName);
+        LOGGER.log(Level.FINE, "Dispatchers cleanup timer created " + timerName);
+
+        try {
+            objectsLimit = Integer.parseInt(System.getProperty(Const.ARCHIVESYNC_OBJECTS_LIMIT_PROPERTY, Const.ARCHIVESYNC_OBJECTS_LIMIT_DEFAULT));
+            LOGGER.log(Level.FINE, "The object limits is: " + objectsLimit);
+
+            if (objectsLimit >= 90000) {
+                String msg = "Using a large objects limit may cause the archive sync to fail due to too long data transfer. "
+                        + "Consider changing the limit to a smaller amount";
+                LOGGER.log(Level.WARNING, msg);
+            }
+        } catch (NumberFormatException ex) {
+            objectsLimit = 30000;
+            String msg = "Error when parsing " + Const.ARCHIVESYNC_OBJECTS_LIMIT_PROPERTY
+                    + " property. Using the default value of 30000";
+            LOGGER.log(Level.WARNING, msg);
+        }
+    }
+
+    private static synchronized String getTimerName() {
+        return "DispachersCleanupTimer_" + timerCounter++;
+    }
+
+    /**
+     * creates the MAL objects, the publisher used to create updates and starts
+     * the publishing thread
+     *
+     * @param manager the Archive Manager
+     * @throws MALException if initialization error.
+     */
+    public synchronized void init(ArchiveManager manager) throws MALException {
+        long timestamp = System.currentTimeMillis();
+        this.manager = manager;
+
+        // shut down old service transport
+        if (null != archiveSyncServiceProvider) {
+            connection.closeAll();
+        }
+
+        archiveSyncServiceProvider = connection.startService(ArchiveSyncHelper.ARCHIVESYNC_SERVICE, false, this);
+        initialiased = true;
+        timestamp = System.currentTimeMillis() - timestamp;
+        LOGGER.info("ArchiveSync service: READY! (" + timestamp + " ms)");
+    }
+
+    /**
+     * Closes all running threads and releases the MAL resources.
+     */
+    public void close() {
+        try {
+            dispatchersCleanupTimer.cancel();
+            dispatchersCleanupTimer = new Timer(timerName);
+
+            final String msg = "Dispatchers cleanup timer re-created " + timerName;
+            LOGGER.log(Level.FINE, msg);
+
+            if (null != archiveSyncServiceProvider) {
+                archiveSyncServiceProvider.close();
+            }
+
+            manager.close();
+            connection.closeAll();
+        } catch (MALException ex) {
+            LOGGER.log(Level.WARNING, "Exception during close down of the provider!", ex);
+        }
+    }
+
+    @Override
+    public GetTimeResponse getTime(final MALInteraction interaction) throws MALInteractionException, MALException {
+        final Time currentTime = Time.now();
+        final Time lastSyncTime = new Time(lastSync.get());
+        return new GetTimeResponse(currentTime, lastSyncTime);
+    }
+
+    @Override
+    public void retrieveRange(Time from, Time until, ObjectTypeList objectTypes, Identifier compression,
+            RetrieveRangeInteraction interaction) throws MALInteractionException, MALException {
+        final Dispatcher dispatcher = new Dispatcher(interaction);
+        long interactionTicket = interaction.getInteraction().getMessageHeader().getTransactionId();
+        dispatchers.put(interactionTicket, dispatcher);
+        final TimerTask timerTask = new CleaningTimerTask(interactionTicket);
+        timerTasks.put(interactionTicket, timerTask);
+        dispatchersCleanupTimer.schedule(timerTask, DISPATCHERS_CLEANUP_INTERVAL_IN_MILISECONDS);
+
+        LOGGER.log(Level.FINE, "Dispatcher cleaning task created and scheduled in timer for transaction"
+                + interactionTicket + " , it will be triggered in "
+                + DISPATCHERS_CLEANUP_INTERVAL_IN_MILISECONDS / 1000 + " seconds.");
+
+        interaction.sendAcknowledgement(interactionTicket);
+
+        ArchiveQuery archiveQuery = new ArchiveQuery(null, null,
+                0L, null, from, until, true, null);
+
+        PaginationFilter filter = new PaginationFilter(new UInteger(objectsLimit), new UInteger(0));
+
+        ArrayList<COMObjectEntity> perObjs = manager.queryCOMObjectEntity(objectTypes, archiveQuery, filter);
+        latestSync = perObjs.isEmpty() ? latestSync : perObjs.get(perObjs.size() - 1).getTimestamp().toTime();
+
+        dispatcher.addObjects(perObjs);
+        LOGGER.log(Level.FINE, "Stage 1: " + perObjs.size()
+                + " objects were queried and are now being sent back to the consumer!");
+
+        syncTimes.put(interactionTicket, latestSync.getValue());
+        executor.execute(dispatcher::flushData);
+    }
+
+    @Override
+    public void retrieveRangeAgain(final Long transactionTicket, final UIntegerList missingIndexes,
+            final RetrieveRangeAgainInteraction interaction)
+            throws InvalidArgumentException, MALInteractionException, MALException {
+        final Dispatcher dispatcher = dispatchers.get(transactionTicket);
+
+        if (dispatcher == null) {
+            throw new InvalidArgumentException(null);
+        }
+
+        TimerTask timerTask = timerTasks.get(transactionTicket);
+
+        if (timerTask == null) {
+            LOGGER.log(Level.WARNING, "Dispatcher cleaning timer task not found for "
+                    + "transaction " + transactionTicket + " ! Trying to continue...");
+        } else {
+            cleanTimerTask(transactionTicket, timerTask);
+        }
+
+        timerTask = new CleaningTimerTask(transactionTicket);
+        timerTasks.put(transactionTicket, timerTask);
+        dispatchersCleanupTimer.schedule(timerTask, DISPATCHERS_CLEANUP_INTERVAL_IN_MILISECONDS);
+
+        LOGGER.log(Level.FINE, "Dispatcher cleaning task re-created and scheduled in "
+                + "timer for transaction " + transactionTicket + ", it will be triggered in "
+                + DISPATCHERS_CLEANUP_INTERVAL_IN_MILISECONDS / 1000 + " seconds.");
+
+        interaction.sendAcknowledgement();
+
+        if (missingIndexes.size() == 2 && missingIndexes.get(1).getValue() == 0) {
+            // Special case! The condition means that we need to retransmit
+            // everything since the value in missingIndexes.get(0)
+            UInteger lastIndex = missingIndexes.get(0);
+            try {
+                int numberOfChunks = dispatcher.numberOfChunks();
+
+                for (int i = (int) lastIndex.getValue(); i < numberOfChunks; i++) {
+                    byte[] chunk = dispatcher.getFlushedChunk(i);
+                    interaction.sendUpdate(new Blob(chunk), new UInteger(i));
+                }
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, "", ex);
+            }
+        } else {
+            for (UInteger missingIndex : missingIndexes) {
+                byte[] chunk = dispatcher.getFlushedChunk((short) missingIndex.getValue());
+                interaction.sendUpdate(new Blob(chunk), missingIndex);
+            }
+        }
+
+        interaction.sendResponse();
+    }
+
+    private void cleanTimerTask(Long transactionTicket, TimerTask timerTask) {
+        timerTask.cancel();
+        dispatchersCleanupTimer.purge();
+        timerTasks.remove(transactionTicket);
+
+        final String msg = "Dispatcher cleaning task for transaction: " + transactionTicket;
+        LOGGER.log(Level.FINE, msg);
+    }
+
+    @Override
+    public StringList getDictionary(IntegerList wordIds, MALInteraction interaction)
+            throws MALInteractionException, MALException {
+        StringList output = new StringList();
+
+        for (Integer wordId : wordIds) {
+            String word;
+            try {
+                word = dictionary.getWord(wordId);
+            } catch (Exception ex) {
+                word = null;
+                LOGGER.log(Level.SEVERE, "The word was not found!", ex);
+            }
+
+            output.add(word);
+        }
+
+        return output;
+    }
+
+    @Override
+    public void free(Long transactionTicket, MALInteraction interaction)
+            throws UnknownException, MALInteractionException, MALException {
+        final Dispatcher dispatcher = dispatchers.get(transactionTicket);
+
+        if (dispatcher == null) {
+            throw new UnknownException("Can't find a dispatcher!");
+        }
+
+        final TimerTask timerTask = timerTasks.get(transactionTicket);
+
+        if (null != timerTask) {
+            cleanTimerTask(transactionTicket, timerTask);
+        }
+
+        dispatcher.purge();
+        cleanDispatcher(transactionTicket, dispatcher);
+
+        Long lastSyncTime = syncTimes.get(transactionTicket);
+
+        if (lastSyncTime == null) {
+            throw new UnknownException("Can't find a last sync time!");
+        }
+
+        lastSync.set(lastSyncTime);
+        LOGGER.log(Level.FINE, "Last sync time is set. For transaction : " + transactionTicket);
+    }
+
+    private void cleanDispatcher(Long transactionTicket, Dispatcher dispatcher) {
+        dispatcher.clear();
+        dispatchers.remove(transactionTicket);
+        LOGGER.log(Level.FINE, "Dispatcher removed for transaction: " + transactionTicket);
+    }
+
+    private class CleaningTimerTask extends TimerTask {
+
+        private final Long transactionTicket;
+
+        public CleaningTimerTask(Long transactionTicket) {
+            this.transactionTicket = transactionTicket;
+        }
+
+        /**
+         * The action to be performed by this timer task.
+         */
+        @Override
+        public void run() {
+            LOGGER.log(Level.FINE, "Dispatcher cleaning task started for transaction: " + transactionTicket);
+            final Dispatcher dispatcher = dispatchers.get(this.transactionTicket);
+
+            if (null != dispatcher) {
+                cleanDispatcher(this.transactionTicket, dispatcher);
+            }
+
+            cleanTimerTask(this.transactionTicket, this);
+            LOGGER.log(Level.FINE, "Dispatcher cleaning task ended for transaction: ", transactionTicket);
+        }
+    }
+
+    private class Dispatcher {
+
+        private final RetrieveRangeInteraction interaction;
+
+        // These chunks are already compressed!
+        private final ArrayList<byte[]> chunksFlushed = new ArrayList<>();
+
+        private byte[] dataToFlush = null;
+
+        private List<COMObjectEntity> syncedEntities = Collections.emptyList();
+
+        private int chunkSize = 200;
+
+        private int numberOfChunks = 0;
+
+        private final boolean purgeArchive;
+
+        Dispatcher(final RetrieveRangeInteraction interaction) {
+            this.interaction = interaction;
+
+            String chunkSizeParam = System.getProperty(Const.ARCHIVESYNC_CHUNK_SIZE_PROPERTY,
+                    Const.ARCHIVESYNC_CHUNK_SIZE_DEFAULT);
+
+            try {
+                this.chunkSize = Integer.parseInt(chunkSizeParam);
+            } catch (NumberFormatException e) {
+                Logger.getLogger(Dispatcher.class.getName()).log(Level.WARNING,
+                        "Unexpected NumberFormatException on " + Const.ARCHIVESYNC_CHUNK_SIZE_PROPERTY, e);
+            }
+
+            Logger.getLogger(Dispatcher.class.getName()).log(Level.FINE,
+                    Const.ARCHIVESYNC_CHUNK_SIZE_PROPERTY + " = " + this.chunkSize);
+            this.purgeArchive = Boolean.parseBoolean(System.getProperty(Const.ARCHIVESYNC_PURGE_ARCHIVE_PROPERTY,
+                    Const.ARCHIVESYNC_PURGE_ARCHIVE_DEFAULT));
+        }
+
+        private void clear() {
+            chunksFlushed.clear();
+            syncedEntities = Collections.emptyList();
+        }
+
+        public byte[] getFlushedChunk(int index) {
+            return chunksFlushed.get(index);
+        }
+
+        public int numberOfChunks() throws IOException {
+            if (numberOfChunks == 0) {
+                throw new IOException("The dispatcher still did not pushed everything to the consumer!");
+            }
+
+            return numberOfChunks;
+        }
+
+        public void addObjects(final List<COMObjectEntity> entities) {
+            this.syncedEntities = entities;
+            dataToFlush = EncodeDecode.encodeToCompressedByteArray(entities, manager, dictionary);
+        }
+
+        public void flushData() {
+            numberOfChunks = dataToFlush.length / chunkSize + (dataToFlush.length % chunkSize != 0 ? 1 : 0);
+            if (numberOfChunks > 0) {
+                byte[] aChunk = new byte[chunkSize];
+
+                for (int i = 0; i < numberOfChunks - (dataToFlush.length % chunkSize != 0 ? 1 : 0); ++i) {
+                    System.arraycopy(dataToFlush, chunkSize * i, aChunk, 0, chunkSize);
+                    sendUpdateToConsumer(i, aChunk);
+                }
+
+                // Flush the last byte array!
+                if (dataToFlush.length % chunkSize != 0) {
+                    byte[] lastChunk = new byte[dataToFlush.length - (numberOfChunks - 1) * chunkSize]; // We need to trim to fit!
+                    System.arraycopy(dataToFlush, chunkSize * (numberOfChunks - 1), lastChunk, 0, lastChunk.length);
+                    sendUpdateToConsumer(numberOfChunks - 1, lastChunk);
+                }
+            }
+
+            try {
+                interaction.sendResponse(new UInteger(numberOfChunks));
+            } catch (MALInteractionException | MALException ex) {
+                LOGGER.log(Level.SEVERE, "Unexpected exception!", ex);
+            }
+
+            LOGGER.log(Level.INFO, "Objects were successfully flushed! "
+                    + numberOfChunks + " chunks in total!");
+        }
+
+        public void purge() {
+            if (!purgeArchive || syncedEntities.isEmpty()) {
+                return;
+            }
+            Map<Integer, Map<Integer, LongList>> grouped = new HashMap<>();
+            for (COMObjectEntity entity : syncedEntities) {
+                grouped.computeIfAbsent(entity.getObjectTypeId(), k -> new HashMap<>())
+                        .computeIfAbsent(entity.getDomainId(), k -> new LongList())
+                        .add(entity.getObjectId());
+            }
+            for (Map.Entry<Integer, Map<Integer, LongList>> typeEntry : grouped.entrySet()) {
+                ObjectType objType;
+                try {
+                    objType = manager.getFastObjectType().getObjectType(typeEntry.getKey());
+                } catch (Exception ex) {
+                    LOGGER.log(Level.WARNING, "Could not resolve object type id {0}", typeEntry.getKey());
+                    continue;
+                }
+                for (Map.Entry<Integer, LongList> domainEntry : typeEntry.getValue().entrySet()) {
+                    IdentifierList domain;
+                    try {
+                        domain = manager.getFastDomain().getDomain(domainEntry.getKey());
+                    } catch (Exception ex) {
+                        LOGGER.log(Level.WARNING, "Could not resolve domain id {0}", domainEntry.getKey());
+                        continue;
+                    }
+                    manager.removeEntries(objType, domain, domainEntry.getValue(), null);
+                    LOGGER.log(Level.FINE, "Purged {0} synced objects of type {1}",
+                            new Object[]{domainEntry.getValue().size(), objType});
+                }
+            }
+        }
+
+        public void sendUpdateToConsumer(int index, byte[] aChunk) {
+            chunksFlushed.add(index, aChunk);
+            try {
+                interaction.sendUpdate(new Blob(aChunk), new UInteger(index));
+            } catch (MALInteractionException | MALException ex) {
+                LOGGER.log(Level.SEVERE, "Unexpected exception!", ex);
+            }
+        }
+    }
+}

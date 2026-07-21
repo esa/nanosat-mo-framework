@@ -7,15 +7,15 @@ most of the spacecraft functionalities available through the NMF.
 
 This project is also an example implementation of mission-specific components of the NMF.
 
-The simulator platform is based on OPS-SAT mission.
+The simulator platform is based on the classic CubeSat missions.
 
 ### Repository content
 
-#### [OPS-SAT GPS Simulator](opssat-gps-simulator)
+#### [CubeSat GPS Simulator](cubesat-gps-simulator)
 
 Lightweight simulator of the basic orbital parameters, using an analytical solution.
 
-#### [OPS-SAT Spacecraft Simulator](opssat-spacecraft-simulator)
+#### [CubeSat Spacecraft Simulator](cubesat-spacecraft-simulator)
 
 Simulates most of the spacecraft functionalities available through the NMF.
 

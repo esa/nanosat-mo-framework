@@ -1,0 +1,422 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2021      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ * ----------------------------------------------------------------------------
+ */
+package esa.mo.mc.impl.provider;
+
+import static esa.mo.com.impl.util.HelperArchive.generateArchiveDetailsList;
+import esa.mo.com.impl.util.COMServicesProvider;
+import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.mc.impl.interfaces.ActionInvocationListener;
+import java.util.HashMap;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.DuplicateException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
+import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.provider.MALInteraction;
+import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
+import org.ccsds.moims.mo.mc.structures.*;
+import org.ccsds.moims.mo.mc.structures.ExecutionStageType;
+
+/**
+ *
+ * @author Cesar Coelho
+ */
+public final class ActionManager extends MCManager {
+
+    private Long uniqueObjIdDef; // Unique objId Definition (different for every Definition)
+    private Long uniqueObjIdAIns;
+    private final ActionInvocationListener actions;
+    private final HashMap<Long, ExecutionRequest> executionRequests = new HashMap<>();
+
+    private final static int MINIMUM_THREADS_IN_POOL = 2;
+    private final static int MAXIMUM_THREADS_IN_POOL = 100;
+    private final static long KEEP_ALIVE_TIME_THREADS_IN_POOL = 60L;
+    private final static int MAXIMUM_NUMBER_OF_TASKS_IN_POOL = 1000;
+
+    private final ExecutorService actionsExecutor = new ThreadPoolExecutor(MINIMUM_THREADS_IN_POOL,
+            MAXIMUM_THREADS_IN_POOL, KEEP_ALIVE_TIME_THREADS_IN_POOL, TimeUnit.SECONDS, new ArrayBlockingQueue<>(
+                    MAXIMUM_NUMBER_OF_TASKS_IN_POOL, true), new ActionThreadFactory("ActionsExecutor"));
+
+    public ActionManager(COMServicesProvider comServices, ActionInvocationListener actions) {
+        super(comServices);
+        this.actions = actions;
+
+        if (super.getArchiveService() == null) {  // No Archive?
+            this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
+            this.uniqueObjIdAIns = 0L; // The zeroth value will not be used (reserved for the wildcard)
+            //            this.load(); // Load the file
+        } else {
+
+        }
+
+    }
+
+    // We could use generics to avoid doing this...
+    public ActionDefinition getActionDefinition(Long id) {
+        return (ActionDefinition) this.getDefinition(id);
+    }
+
+    public Long storeAndGenerateExecReqId(ExecutionRequest execReq, Long related, final URI uri) {
+        if (super.getArchiveService() == null) {
+            uniqueObjIdAIns++;
+            return this.uniqueObjIdAIns;
+        } else {
+            HeterogeneousList aValList = new HeterogeneousList();
+            aValList.add(execReq);
+
+            try {
+                LongList objIds = super.getArchiveService().store(
+                        true,
+                        ActionServiceInfo.EXECUTIONREQUEST_OBJECT_TYPE,
+                        ConfigurationProviderSingleton.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(related, null, uri),
+                        aValList,
+                        null);
+
+                if (objIds.size() == 1) {
+                    return objIds.get(0);
+                }
+            } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
+                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            return null;
+        }
+
+    }
+
+    public Long add(ActionDefinition actionDefDetails, ObjectKey source, URI uri) { // requirement: 3.3.2.5
+        Long newId = 0L;
+        final Identifier name = actionDefDetails.getName();
+
+        if (super.getArchiveService() == null) {
+            //add to providers local list
+            uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
+            newId = uniqueObjIdDef;
+        } else {
+            try {
+                HeterogeneousList defs = new HeterogeneousList();
+                defs.add(actionDefDetails);
+                //add definition to the archive requirement: 3.2.7.b
+                LongList defIds = super.getArchiveService().store(true,
+                        ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE, //requirement: 3.2.4.c
+                        ConfigurationProviderSingleton.getDomain(),
+                        HelperArchive.generateArchiveDetailsList(null, source, uri), //requirement: 3.2.4.d, f
+                        defs,
+                        null);
+
+                newId = defIds.get(0);
+            } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
+                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        //add to internal lists
+        this.addDefinitionLocally(name, newId, actionDefDetails);
+        return newId;
+    }
+
+    public Long update(Long id, ActionDefinition definition, ObjectKey source, URI uri) { // requirement: 3.3.2.5
+        Long newDefId = id;
+
+        if (super.getArchiveService() == null) { //only update locally
+            //add to providers local list
+            uniqueObjIdDef++;
+            newDefId = uniqueObjIdDef;
+        } else {  // update in the COM Archive
+            try {
+                HeterogeneousList defs = new HeterogeneousList();
+                defs.add(definition);
+                ArchiveDetailsList metadata = generateArchiveDetailsList(null, source, uri, id);
+
+                // Update a new ActionDefinition 
+                super.getArchiveService().update(
+                        ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE,
+                        ConfigurationProviderSingleton.getDomain(),
+                        metadata,
+                        defs,
+                        null);
+            } catch (org.ccsds.moims.mo.mal.UnknownException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
+                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        //update internal list
+        this.updateDef(newDefId, definition);
+        return newDefId;
+    }
+
+    protected boolean isActionDefinitionValid(ActionDefinition oldDef, ActionDefinition newDef) {
+        if (!oldDef.getProgressStepCount().equals(newDef.getProgressStepCount())) {
+            return false;
+        }
+
+        final ArgumentDefinitionList oldArguments = oldDef.getArguments();
+        final ArgumentDefinitionList newArguments = newDef.getArguments();
+
+        if (oldArguments.size() != newArguments.size()) {
+            return false;
+        }
+
+        for (int index = 0; index < oldArguments.size(); index++) {
+            ArgumentDefinition oldArgument = oldArguments.get(index);
+            ArgumentDefinition newArgument = newArguments.get(index);
+
+            // cannot compare, check next
+            if (oldArgument == null || newArgument == null) {
+                continue;
+            }
+
+            if (oldArgument.getRawType() != null && newArgument.getRawType() != null) {
+                if (!oldArgument.getRawType().equals(newArgument.getRawType())) {
+                    return false;
+                }
+            }
+        }
+
+        // If both are null then skip the rest of the code
+        if (oldDef.getArguments() == null && newDef.getArguments() == null) {
+            return true;
+        }
+
+        // But if only one of them is null, well, then we have an error here
+        if (oldDef.getArguments() == null || newDef.getArguments() == null) {
+            return false;
+        }
+
+        // Are the list sizes different?
+        if (oldArguments.size() != newArguments.size()) {
+            return false;
+        }
+
+        for (int index = 0; index < oldDef.getArguments().size(); index++) {
+            ArgumentDefinition oldArgs = oldDef.getArguments().get(index);
+            ArgumentDefinition newArgs = newDef.getArguments().get(index);
+
+            if (oldArgs != null && newArgs != null) {
+                if (!oldArgs.getArgId().getValue().equals(newArgs.getArgId().getValue())) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+
+    }
+
+    public boolean checkExecutionRequest(ExecutionRequest execReq, UIntegerList errorList) {
+        //TODO extend this method to support the external verification. create a new Interface -> actionservice
+        ActionDefinition actionDef = this.getActionDefinition(execReq.getDefinitionId());
+
+        if (errorList != null) {
+            errorList.clear();
+        } else {  // just for safety reasons. It is expected from whom calls the method, to submit an already initialized List!
+            errorList = new UIntegerList();
+        }
+
+        if (actionDef == null) {  // The action definition is not in the Provider
+            return false;
+        }
+
+        int sizeDef = 0;
+        int sizeArgVal = 0;
+        ArgumentDefinitionList args = actionDef.getArguments();
+
+        if (args != null) {
+            sizeDef = args.size();
+        }
+
+        if (execReq.getArgumentValues() != null) {
+            sizeArgVal = execReq.getArgumentValues().size();
+        }
+
+        // So, first of all, are we even comparing things of the same size?
+        if (sizeArgVal != sizeDef) {
+            int min = (sizeDef < sizeArgVal) ? sizeDef : sizeArgVal;
+            int max = (sizeDef > sizeArgVal) ? sizeDef : sizeArgVal;
+
+            for (int i = min; i < max; i++) {
+                errorList.add(new UInteger(i));
+            }
+            return false;
+        }
+
+        // Do the argument ids are not null? (it is optional)
+        if (args != null && execReq.getArgumentIds() != null) {
+            // Ids must be of the same size as well
+            int sizeDefArgIds = args.size();
+            int sizeInstArgIds = execReq.getArgumentIds().size();
+
+            int min = (sizeDefArgIds < sizeInstArgIds) ? sizeDefArgIds : sizeInstArgIds;
+            int max = (sizeDefArgIds > sizeInstArgIds) ? sizeDefArgIds : sizeInstArgIds;
+
+            if (sizeDefArgIds != sizeInstArgIds) {
+                for (int i = min; i < max; i++) {
+                    errorList.add(new UInteger(i));
+                }
+                return false;
+            }
+            // Are the argumentIds the same?
+            for (int index = 0; index < sizeDefArgIds; index++) {
+                if (!(args.get(index).getArgId().getValue().equals(execReq.getArgumentIds().get(index).getValue()))) {
+                    errorList.add(new UInteger(index));
+                }
+                if (!errorList.isEmpty()) {
+                    return false;
+                }
+            }
+            // Are the argument types the same?
+            for (int index = 0; index < sizeDefArgIds; index++) {
+                int defRawType = args.get(index).getRawType().getValue();
+                int instType = execReq.getArgumentValues().get(index).getValue().getTypeId().getSFP();
+
+                if (defRawType != instType) {
+                    errorList.add(new UInteger(index));
+                }
+                if (!errorList.isEmpty()) {
+                    return false;
+                }
+            }
+        }
+        return errorList.isEmpty();
+    }
+
+    protected void forward(final Long executionId, final ExecutionRequest executionRequest,
+            final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
+        final Identifier name = this.getName(executionRequest.getDefinitionId());
+
+        actionsExecutor.execute(() -> {
+            if (actions != null) {
+                try {
+                    actions.actionArrived(name, executionRequest.getArgumentValues(),
+                            executionId, interaction);
+                } catch (Exception ex) {
+                    // Exception handled silently in forward path (no progress publisher)
+                    Logger.getLogger(ActionManager.class.getName()).log(Level.SEVERE,
+                            "Action execution failed: " + (ex.getMessage() != null ? ex.getMessage() : ex.toString()), ex);
+                }
+            }
+        });
+    }
+
+    protected void execute(final Long executionId, final ExecutionRequest executionRequest,
+            final MALInteraction interaction, ActionProviderServiceImpl progressPublisher,
+            final SingleConnectionDetails connectionDetails) {
+        executionRequests.put(executionId, executionRequest);
+        Long definitionId = executionRequest.getDefinitionId();
+        final Identifier name = this.getName(definitionId);
+
+        actionsExecutor.execute(() -> {
+            if (progressPublisher != null) {
+                progressPublisher.publishExecutionProgress(definitionId, executionId,
+                        ExecutionStageType.START, true, null, null);
+            }
+
+            boolean success = false;
+            String comment = null;
+
+            if (actions != null) {
+                try {
+                    actions.actionArrived(name, executionRequest.getArgumentValues(),
+                            executionId, interaction);
+                    success = true;
+                } catch (Exception ex) {
+                    success = false;
+                    comment = ex.getMessage() != null ? ex.getMessage() : ex.toString();
+                }
+            } else {
+                success = true;
+            }
+
+            if (progressPublisher != null) {
+                progressPublisher.publishExecutionProgress(definitionId, executionId,
+                        ExecutionStageType.END, success, null, comment);
+            }
+
+            executionRequests.remove(executionId);
+        });
+
+    }
+
+    protected ExecutionRequest getExecutionRequest(final Long id) {
+        return executionRequests.get(id);
+    }
+
+    public void storeExecutionStatus(final Long executionId, final ExecutionStageType stageType,
+            final boolean success, final UShort step, final String comment, final URI uri) {
+        if (super.getArchiveService() == null) {
+            return;
+        }
+        try {
+            ExecutionStatus status = new ExecutionStatus(stageType, success, step, comment);
+            HeterogeneousList bodies = new HeterogeneousList();
+            bodies.add(status);
+            super.getArchiveService().store(
+                    false,
+                    ActionServiceInfo.EXECUTIONSTATUS_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(),
+                    HelperArchive.generateArchiveDetailsList(executionId, null, uri),
+                    bodies,
+                    null);
+        } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
+            Logger.getLogger(ActionManager.class.getName()).log(Level.WARNING,
+                    "Failed to store ExecutionStatus", ex);
+        }
+    }
+
+    /**
+     * The database backend thread factory
+     */
+    static class ActionThreadFactory implements ThreadFactory {
+
+        private final ThreadGroup group;
+        private final AtomicInteger threadNumber = new AtomicInteger(1);
+        private final String namePrefix;
+
+        ActionThreadFactory(String prefix) {
+            group = Thread.currentThread().getThreadGroup();
+            namePrefix = prefix + "-thread-";
+        }
+
+        @Override
+        public Thread newThread(Runnable r) {
+            Thread t = new Thread(group, r, namePrefix + threadNumber.getAndIncrement(), 0);
+            if (t.isDaemon()) {
+                t.setDaemon(false);
+            }
+            if (t.getPriority() != Thread.NORM_PRIORITY) {
+                t.setPriority(Thread.NORM_PRIORITY);
+            }
+            return t;
+        }
+    }
+
+}

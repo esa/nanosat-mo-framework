@@ -15,9 +15,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>int.esa.nmf</groupId>
-        <artifactId>parent</artifactId>
-        <version>4.0</version>
-        <relativePath>../parent/pom.xml</relativePath>
+        <artifactId>nanosat-mo-framework</artifactId>
+        <version>5.0</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>int.esa.nmf.core</groupId>
     <artifactId>core</artifactId>
@@ -50,13 +50,12 @@
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
     </properties>
     <modules>
-        <module>nmf-environment</module>
         <module>mo-services-xml</module>
         <module>mo-services-apis</module>
-        <module>mo-services-impl</module>
+        <module>nmf-services-impl</module>
         <module>nmf-package-lib</module>
         <module>nmf-package-maven-plugin</module>
         <module>nmf-composites</module>
-        <!-- <module>nmf-linux-maven-plugin</module> -->
+        <module>nmf-linux-maven-plugin</module>
     </modules>
 </project>

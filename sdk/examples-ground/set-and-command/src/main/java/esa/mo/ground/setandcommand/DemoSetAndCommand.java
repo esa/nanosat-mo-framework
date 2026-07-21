@@ -21,15 +21,14 @@
 package esa.mo.ground.setandcommand;
 
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
-import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.URI;
-
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.structures.Provider;
+import org.ccsds.moims.mo.com.structures.ProviderList;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
  * Set and Command demo application. This demo should be used with the Hello World (Simple) demo provider.
@@ -47,11 +46,11 @@ public class DemoSetAndCommand {
     public DemoSetAndCommand(String directoryURI) {
         try {
             GroundMOAdapterImpl gma = null;
-            ProviderSummaryList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(directoryURI));
+            ProviderList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(directoryURI));
 
             if (!providers.isEmpty()) {
-                for (ProviderSummary provider : providers) {
-                    if (provider.getProviderId().toString().equals(PROVIDER_HELLO_WORLD)) {
+                for (Provider provider : providers) {
+                    if (provider.getProviderName().toString().equals(PROVIDER_HELLO_WORLD)) {
                         gma = new GroundMOAdapterImpl(provider);
                         break;
                     }

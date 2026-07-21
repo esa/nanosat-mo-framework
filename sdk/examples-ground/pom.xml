@@ -18,9 +18,9 @@
 
     <parent>
         <groupId>int.esa.nmf</groupId>
-        <artifactId>parent</artifactId>
-        <version>4.0</version>
-        <relativePath>../../parent/pom.xml</relativePath>
+        <artifactId>nanosat-mo-framework</artifactId>
+        <version>5.0</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <groupId>int.esa.nmf.sdk</groupId>
@@ -67,7 +67,7 @@
     <modules>
         <module>simple-ground</module>
         <module>directory-consumer</module>
-        <module>echo</module>
+        <module>echo-ground</module>
         <module>set-and-command</module>
         <module>facebook</module>
         <module>camera-acquisitor-system-ground</module>

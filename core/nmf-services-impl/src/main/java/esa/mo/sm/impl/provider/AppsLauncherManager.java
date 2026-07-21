@@ -1,0 +1,719 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2021      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ * ----------------------------------------------------------------------------
+ */
+package esa.mo.sm.impl.provider;
+
+import esa.mo.com.impl.util.COMServicesProvider;
+import esa.mo.com.impl.util.DefinitionsManager;
+import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.com.impl.util.HelperCommon;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.exec.environment.EnvironmentUtils;
+import org.ccsds.moims.mo.com.DuplicateException;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
+import org.ccsds.moims.mo.com.structures.*;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.UnknownException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
+import org.ccsds.moims.mo.mal.provider.MALInteraction;
+import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
+import org.ccsds.moims.mo.sm.appslauncher.provider.StopAppInteraction;
+import org.ccsds.moims.mo.sm.structures.AppDetails;
+import org.ccsds.moims.mo.sm.structures.AppDetailsList;
+
+/**
+ *
+ * @author Cesar Coelho
+ */
+public abstract class AppsLauncherManager extends DefinitionsManager {
+
+    private static final int APP_STOP_TIMEOUT = 15000; // In ms
+
+    private static final Logger LOGGER = Logger.getLogger(AppsLauncherManager.class.getName());
+
+    private static final String FOLDER_LOCATION_PROPERTY
+            = "esa.mo.sm.impl.provider.appslauncher.FolderLocation";
+
+    private static final String DEFAULT_APPS_FOLDER_PATH
+            = ".." + File.separator + ".." + File.separator + "apps";
+
+    /**
+     * Location of the apps folder, relative to the MO Supervisor
+     */
+    private final ArrayList<File> foldersWithApps = new ArrayList<>();
+
+    private final HashMap<Long, ProcessExecutionHandler> handlers = new HashMap<>();
+
+    private AtomicLong uniqueObjIdDef; // Counter
+
+    public AppsLauncherManager(COMServicesProvider comServices) {
+        super(comServices);
+        File appsFolderPath;
+        File defaultAppsFolder = new File(DEFAULT_APPS_FOLDER_PATH);
+
+        // If there is a property for that, then use it!!
+        if (System.getProperty(FOLDER_LOCATION_PROPERTY) != null) {
+            appsFolderPath = new File(System.getProperty(FOLDER_LOCATION_PROPERTY));
+        } else {
+            LOGGER.log(Level.INFO, "Property not set: {0} \nUsing default apps directory: {1}",
+                    new Object[]{FOLDER_LOCATION_PROPERTY, DEFAULT_APPS_FOLDER_PATH});
+            appsFolderPath = defaultAppsFolder;
+        }
+
+        // In the future, we will support multiple folders containing Apps
+        // Example: If there are Apps installed in an external memory device
+        this.addFolderWithApps(appsFolderPath);
+
+        if (super.getArchiveService() == null) {  // No Archive?
+            this.uniqueObjIdDef = new AtomicLong(0);
+        } else {
+            // With Archive...
+        }
+    }
+
+    protected AppDetailsList getAll() {
+        return (AppDetailsList) this.getAllDefs();
+    }
+
+    @Override
+    public Boolean compareName(Long objId, Identifier name) {
+        return this.get(objId).getName().equals(name);
+    }
+
+    @Override
+    public ElementList newDefinitionList() {
+        return new AppDetailsList();
+    }
+
+    public AppDetails get(Long input) {
+        return (AppDetails) this.getDef(input);
+    }
+
+    protected Long addApp(final AppDetails definition, final ObjectKey source, final URI uri) {
+        Long objId = null;
+        Long related = null;
+
+        if (definition.getExtraInfo() != null) {
+            try { // Read the provider.properties of the app
+                objId = readAppObjectId(definition);
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, "Something went wrong...", ex);
+            }
+        }
+
+        if (super.getArchiveService() == null) {
+            if (objId == null) {
+                objId = uniqueObjIdDef.incrementAndGet();
+            }
+            this.addDef(objId, definition);
+            return objId;
+        } else {
+            if (objId != null) {
+                try {
+                    // Attempt to resurrect previous app object from the archive
+                    updateAppInArchive(objId, definition, null);
+                    this.addDef(objId, definition);
+                    return objId;
+                } catch (UnknownException | InvalidArgumentException | MALException | MALInteractionException ex) {
+                    // No previous object - fail silently and proceed to creating one
+                }
+            }
+            if (objId == null) {
+                // Ensure archive allocates the id
+                objId = (long) 0;
+            }
+            try {
+                LongList objIds = addAppToArchive(definition, source, uri, objId, related);
+
+                if (objIds.size() == 1) {
+                    this.addDef(objIds.get(0), definition);
+                    return objIds.get(0);
+                }
+            } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
+                LOGGER.log(Level.SEVERE, "Something went wrong...", ex);
+            }
+        }
+
+        return null;
+    }
+
+    private Long readAppObjectId(final AppDetails definition) throws IOException {
+        Long objId;
+        File appsFolderPath = this.getAppsFolderPath(definition.getName());
+        File fileProps = new File(appsFolderPath.getCanonicalPath()
+                + File.separator + definition.getName().getValue()
+                + File.separator + definition.getExtraInfo());
+
+        Properties props = HelperMisc.loadProperties(fileProps.getCanonicalPath());
+
+        // Look up for apid
+        String apidString = (String) props.get(HelperMisc.PROPERTY_APID);
+        int apid = (apidString != null) ? Integer.parseInt(apidString) : 0;
+        objId = apid != 0 ? (long) apid : null;
+        return objId;
+    }
+
+    private File getAppsFolderPath(Identifier appIdentifier) {
+        String appName = appIdentifier.getValue();
+
+        for (File appsFolderPath : foldersWithApps) {
+            File appFolder = new File(appsFolderPath + File.separator + appName);
+            if (appFolder.exists()) {
+                return appsFolderPath;
+            }
+        }
+        return foldersWithApps.get(0); // Use the default folder!
+    }
+
+    private LongList addAppToArchive(final AppDetails definition, final ObjectKey source,
+            final URI uri, Long objId, Long related) throws DuplicateException,
+            InvalidArgumentException, MALException, MALInteractionException {
+        HeterogeneousList defs = new HeterogeneousList();
+        defs.add(definition);
+        ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
+                related, source, uri, objId);
+
+        return super.getArchiveService().store(true, AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE,
+                ConfigurationProviderSingleton.getDomain(), archDetails, defs, null);
+    }
+
+    protected boolean update(final Long objId, final AppDetails definition,
+            final MALInteraction interaction) { // requirement: 3.3.2.5
+        boolean success = this.updateDef(objId, definition);
+
+        if (super.getArchiveService() != null) {  // It should also update on the COM Archive
+            try {
+                updateAppInArchive(objId, definition, interaction);
+            } catch (UnknownException | InvalidArgumentException | MALException | MALInteractionException ex) {
+                LOGGER.log(Level.SEVERE, "Something went wrong...", ex);
+                return false;
+            }
+        }
+
+        return success;
+    }
+
+    private void updateAppInArchive(final Long objId, final AppDetails definition,
+            final MALInteraction interaction) throws UnknownException,
+            InvalidArgumentException, MALException, MALInteractionException {
+        HeterogeneousList defs = new HeterogeneousList();
+        defs.add(definition);
+        IdentifierList domain = ConfigurationProviderSingleton.getDomain();
+
+        ArchiveDetails archiveDetails = HelperArchive.getArchiveDetailsFromArchive(super.getArchiveService(),
+                AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE, domain, objId);
+
+        if (archiveDetails == null) {
+            throw new MALException("No object present in archive.");
+        }
+
+        ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
+        archiveDetailsList.add(archiveDetails);
+
+        super.getArchiveService().update(AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE,
+                domain, archiveDetailsList, defs, interaction);
+    }
+
+    protected boolean delete(Long objId) {
+        return this.deleteDef(objId);
+    }
+
+    protected boolean refreshAvailableAppsList(final URI providerURI) {
+        boolean anyChanges = false;
+        ArrayList<File> fList = new ArrayList<>();
+
+        for (File appsFolderPath : foldersWithApps) {
+            if (appsFolderPath == null) {
+                LOGGER.log(Level.SEVERE, "The appsFolderPath parameter is null!");
+
+                continue;
+            }
+
+            File[] list = appsFolderPath.listFiles();
+
+            if (list != null) {
+                for (File appFolder : list) {
+                    if ((appFolder != null) && appFolder.isDirectory()) {
+                        fList.add(appFolder);
+                    }
+                }
+            }
+        }
+
+        AppDetailsList apps = new AppDetailsList();
+
+        for (File folder : fList) { // Roll all the apps inside the apps folder
+            if (folder.isDirectory()) {
+                File propsFile = new File(folder, HelperMisc.PROVIDER_PROPERTIES_FILE);
+                if (propsFile.exists() && !propsFile.isDirectory()) {
+                    AppDetails app = this.readAppDescriptor(folder.getName(), propsFile);
+                    apps.add(app);
+                }
+            }
+        }
+
+        // Compare with the defs list!
+        // Are there any differences?
+        for (AppDetails singleApp : apps) {
+            Long id = super.list(singleApp.getName());
+            AppDetails previousAppDetails = this.get(id);
+            String name = singleApp.getName().getValue();
+
+            // It didn't exist...
+            if (previousAppDetails == null) {
+                LOGGER.log(Level.INFO, "New app found! Adding new app: {0}", name);
+
+                // Either is the first time running or it is a newly installed app!
+                ObjectKey source = null;
+                this.addApp(singleApp, source, providerURI);
+                anyChanges = true;
+                continue; // Check the next one...
+            }
+
+            // It did exist before. Are there any differences from the previous?
+            if (!previousAppDetails.equals(singleApp)) {
+                // Is it a difference just in the Running status?
+                if (AppsLauncherManager.isJustRunningStatusChange(previousAppDetails, singleApp)) {
+                    continue;
+                }
+
+                // Then we have to update it...
+                LOGGER.log(Level.INFO, "New update found on app: {0}"
+                        + "\nPrevious: {1}\nNew: {2}",
+                        new Object[]{name, previousAppDetails, singleApp});
+
+                this.update(id, singleApp, null);
+                anyChanges = true;
+            }
+        }
+
+        // Also needs to check if we removed a folder!
+        LongList ids = this.listAll();
+        AppDetailsList localApps = this.getAll();
+
+        for (int i = 0; i < ids.size(); i++) { // Roll all the apps inside the apps folder
+            String name = localApps.get(i).getName().getValue();
+            boolean appStillIntact = false;
+
+            for (File folder : fList) { // Roll all the apps inside the apps folder
+                if (folder.isDirectory()) {
+                    if (folder.getName().equals(name)) {
+                        for (File file : folder.listFiles()) { // Roll all the files inside each app folder
+                            // Check if the folder contains the provider properties
+                            if (HelperMisc.PROVIDER_PROPERTIES_FILE.equals(file.getName())) {
+                                appStillIntact = true; // All Good!
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!appStillIntact) {
+                LOGGER.log(Level.INFO, "The app has been removed: {0}", name);
+                this.delete(ids.get(i));
+                anyChanges = true;
+            }
+        }
+
+        return anyChanges;
+    }
+
+    protected boolean isAppRunning(final Long appId) {
+        // get it from the list of available apps
+        //AppDetails app = (AppDetails) this.getDef(appId);
+        ProcessExecutionHandler handler = handlers.get(appId);
+
+        if (handler == null) {
+            LOGGER.log(Level.FINE, "The Process handler could not be found!");
+
+            //app.setRunning(false);
+            setRunning(appId, false, null);
+            return false;
+        }
+
+        return this.get(appId).getRunning();
+    }
+
+    protected abstract String[] assembleCommand(final String workDir, final String appName,
+            final String runAs, final String prefix, final String[] env);
+
+    protected abstract String getScriptExtension();
+
+    protected String[] assembleAppStopCommand(final String workDir,
+            final String appName, final String runAs, final String[] env) {
+        return assembleCommand(workDir, appName, runAs, "stop_", env);
+    }
+
+    protected String[] assembleAppStartCommand(final String workDir,
+            final String appName, final String runAs, final String[] env) {
+        return assembleCommand(workDir, appName, runAs, "start_", env);
+    }
+
+    protected abstract HashMap<String, String> assembleAppLauncherEnvironment(
+            final String directoryServiceURI);
+
+    protected void startAppProcess(final ProcessExecutionHandler handler,
+            final MALInteraction interaction, final String directoryServiceURI) throws IOException {
+        // get it from the list of available apps
+        AppDetails app = (AppDetails) this.getDef(handler.getObjId());
+        String appName = app.getName().getValue();
+
+        // Go to the folder where the app are installed
+        File appsFolderPath = this.getAppsFolderPath(app.getName());
+        final File appFolder = new File(appsFolderPath + File.separator + appName);
+        Map<String, String> env = assembleAppLauncherEnvironment(directoryServiceURI);
+        String[] appLauncherCommand = assembleAppStartCommand(
+                appFolder.getAbsolutePath(),
+                appName,
+                app.getRunAs(),
+                EnvironmentUtils.toStrings(env));
+
+        final ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
+        pb.environment().clear();
+        pb.environment().putAll(env);
+
+        pb.directory(appFolder);
+        LOGGER.log(Level.INFO, "Initializing ''{0}'' App!\nIn directory: {1}\nUsing launcher command: {2}",
+                new Object[]{appName, appFolder.getAbsolutePath(), Arrays.toString(appLauncherCommand)});
+        final Process proc = pb.start();
+        handler.monitorProcess(proc);
+        handlers.put(handler.getObjId(), handler);
+        this.setRunning(handler.getObjId(), true, interaction); // Update the Archive
+    }
+
+    protected boolean killAppProcess(final Long appInstId, MALInteraction interaction) {
+        AppDetails app = (AppDetails) this.getDef(appInstId); // get it from the list of available apps
+        String appName = app.getName().getValue();
+
+        LOGGER.log(Level.INFO, "Killing app: {0}", appName);
+        ProcessExecutionHandler handler = handlers.get(appInstId);
+
+        if (handler == null) {
+            LOGGER.log(Level.INFO, "Handler of {0} app is null, setting running = false.", appName);
+            //app.setRunning(false);
+            setRunning(appInstId, false, interaction);
+            return false;
+        }
+
+        if (handler.getProcess() == null) {
+            LOGGER.log(Level.INFO, "Process of {0} app is null, setting running = false.", appName);
+            //app.setRunning(false);
+            setRunning(appInstId, false, interaction);
+            return true;
+        }
+
+        handler.close();
+        this.setRunning(handler.getObjId(), false, interaction); // Update the Archive
+        handlers.remove(appInstId); // Get rid of it!
+
+        return true;
+    }
+
+    protected boolean stopNativeApp(final Long appInstId, StopAppInteraction interaction,
+            boolean onlyNativeComponent) throws IOException, MALInteractionException, MALException {
+        AppDetails app = (AppDetails) this.getDef(appInstId); // get it from the list of available apps
+
+        // Go to the folder where the app is installed
+        File appsFolderPath = this.getAppsFolderPath(app.getName());
+        File appFolder = new File(appsFolderPath + File.separator + app.getName().getValue());
+        Map<String, String> env = assembleAppLauncherEnvironment("");
+        String[] appLauncherCommand = assembleAppStopCommand(appFolder.getAbsolutePath(),
+                app.getName().getValue(), app.getRunAs(), EnvironmentUtils.toStrings(env));
+
+        ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
+        pb.environment().clear();
+        pb.directory(appFolder);
+        LOGGER.log(Level.INFO,
+                "Stopping ''{0}'' app in dir: {1}, using launcher command: {2}",
+                new Object[]{app.getName().getValue(), appFolder.getAbsolutePath(),
+                    Arrays.toString(appLauncherCommand)});
+        final Process proc = pb.start();
+        interaction.sendUpdate(appInstId);
+        boolean exitCleanly = false;
+        try {
+            exitCleanly = proc.waitFor(APP_STOP_TIMEOUT, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException ex) {
+            LOGGER.log(Level.WARNING, "Something went wrong...", ex);
+        }
+        if (!exitCleanly) {
+            LOGGER.log(Level.WARNING,
+                    "App {0} stop script did not exit within the timeout ({1} ms). "
+                    + "Killing the stop script and forcing the app exit.",
+                    new Object[]{app.getName().getValue(), APP_STOP_TIMEOUT});
+            proc.destroyForcibly();
+        }
+        if (onlyNativeComponent) {
+            return true;
+        }
+        return killAppProcess(appInstId, interaction.getInteraction());
+    }
+
+    protected void stopNMFAppGracefully(final Long appInstId, final Duration timeout,
+            final StopAppInteraction interaction, final Consumer<Long> forceKill)
+            throws MALException, MALInteractionException {
+        Identifier appName = this.get(appInstId).getName();
+        Process process = handlers.get(appInstId).getProcess();
+        // A NULL timeout means the app is never forcibly killed: the provider only
+        // waits a bounded time to report the UPDATE, then leaves it to close on its own.
+        final boolean killOnTimeout = (timeout != null);
+        final long graceMs = killOnTimeout ? (long) (timeout.getInSeconds() * 1000) : APP_STOP_TIMEOUT;
+        // The STOP_REQUESTED monitorEvents notification was already published by stopApp().
+        LOGGER.log(Level.INFO, "Waiting up to {0} ms for app ''{1}'' (id={2}) to close after STOP_REQUESTED.",
+                new Object[]{graceMs, appName, appInstId});
+        try {
+            boolean terminated = process.waitFor(graceMs, TimeUnit.MILLISECONDS);
+            if (terminated) {
+                LOGGER.log(Level.INFO,
+                        "App ''{0}'' (id={1}) closed gracefully.",
+                        new Object[]{appName, appInstId});
+                // Wait for the ProcessExecutionHandler monitor thread to call processStopped(),
+                // which enqueues the AppStopped archive insert before clearing the running flag.
+                // The archive store executor is single-threaded FIFO, so once the insert is
+                // enqueued any later query is serialised behind it. Sending the UPDATE before
+                // processStopped() runs would let a consumer's query be enqueued first and find
+                // nothing.
+                long deadline = System.currentTimeMillis() + 5_000;
+                while (isAppRunning(appInstId) && System.currentTimeMillis() < deadline) {
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        break;
+                    }
+                }
+                if (interaction != null) {
+                    interaction.sendUpdate(appInstId);
+                }
+            } else if (killOnTimeout) {
+                LOGGER.log(Level.WARNING,
+                        "App ''{0}'' (id={1}) did not close within the {2} ms grace period. Forcibly killing it.",
+                        new Object[]{appName, appInstId, graceMs});
+                forceKill.accept(appInstId);
+                if (interaction != null) {
+                    interaction.sendUpdate(appInstId);
+                }
+            } else {
+                LOGGER.log(Level.INFO,
+                        "App ''{0}'' (id={1}) has not closed within {2} ms. The timeout is NULL, "
+                        + "so it will not be forcibly killed.",
+                        new Object[]{appName, appInstId, graceMs});
+                if (interaction != null) {
+                    interaction.sendUpdateError(new InvalidArgumentException(appInstId));
+                }
+            }
+        } catch (InterruptedException ex) {
+            LOGGER.log(Level.WARNING,
+                    "Interrupted while waiting for app ''{0}'' to stop.", appName);
+        }
+    }
+
+    /**
+     * Stops multiple apps. Blocks until all applications exit or waiting for
+     * them times out.
+     *
+     * @param appInstIds Applications IDs.
+     * @param timeout Grace period before an app is forcibly killed, or NULL to
+     * never force-kill.
+     * @param interaction Source interaction.
+     * @param forceKill Callback invoked with an app id when its grace period
+     * expires, responsible for marking it kill-pending and killing the process.
+     * @throws MALException If the App could not be stopped.
+     * @throws MALInteractionException If the Event service could not be
+     * reached.
+     */
+    protected void stopApps(final LongList appInstIds, final Duration timeout,
+            final StopAppInteraction interaction, final Consumer<Long> forceKill)
+            throws MALException, MALInteractionException {
+        for (int i = 0; i < appInstIds.size(); i++) {
+            long appInstId = appInstIds.get(i);
+            AppDetails curr = this.get(appInstId);
+            String fileExt = getScriptExtension();
+            File appsFolderPath = this.getAppsFolderPath(curr.getName());
+            File stopScript = new File(appsFolderPath + File.separator + curr.getName().getValue()
+                    + File.separator + "stop_app" + fileExt);
+            boolean stopScriptExists = stopScript.exists();
+            if (curr.getCategory().getValue().equalsIgnoreCase("NMF_App")) {
+                this.stopNMFAppGracefully(appInstId, timeout, interaction, forceKill);
+                if (stopScriptExists) {
+                    Map<String, String> env = assembleAppLauncherEnvironment("");
+                    File appFolder = new File(appsFolderPath + File.separator + curr.getName().getValue());
+                    String[] appLauncherCommand = assembleAppStopCommand(appFolder.getAbsolutePath(),
+                            curr.getName().getValue(), curr.getRunAs(), EnvironmentUtils.toStrings(env));
+                    ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
+                    pb.environment().clear();
+                    pb.directory(appFolder);
+
+                    LOGGER.log(Level.INFO,
+                            "Stopping native component of ''{0}'' app",
+                            new Object[]{curr.getName().getValue()});
+                    try {
+                        this.stopNativeApp(appInstId, interaction, true);
+                    } catch (IOException ex) {
+                        Logger.getLogger(AppsLauncherManager.class.getName()).log(
+                                Level.SEVERE, "Stopping native component failed", ex);
+                    }
+                }
+            } else {
+                if (!stopScriptExists) {
+                    LOGGER.log(Level.INFO,
+                            "No stop script present for app {0}. Killing the process.",
+                            curr.getName());
+                    this.killAppProcess(appInstId, interaction.getInteraction());
+                } else {
+                    try {
+                        LOGGER.log(Level.INFO,
+                                "Stop script present for app {0}. Invoking it.", curr.getName());
+                        this.stopNativeApp(appInstId, interaction, false);
+                    } catch (IOException ex) {
+                        Logger.getLogger(AppsLauncherManager.class.getName()).log(
+                                Level.SEVERE, "Stopping native app failed", ex);
+                    }
+                }
+            }
+        }
+    }
+
+    public void setRunning(Long appInstId, boolean running, MALInteraction interaction) {
+        AppDetails previousAppDetails = this.get(appInstId);
+        if (previousAppDetails == null) {
+            LOGGER.log(Level.WARNING, "The App was not found! For id: {0}", appInstId);
+            return;
+        }
+        AppDetails newAppDetails = new AppDetails(
+                previousAppDetails.getName(),
+                previousAppDetails.getDescription(),
+                previousAppDetails.getVersion(),
+                previousAppDetails.getCategory(),
+                previousAppDetails.getRunAtStartup(),
+                running,
+                previousAppDetails.getExtraInfo(),
+                previousAppDetails.getCopyright(),
+                previousAppDetails.getRunAs()
+        );
+
+        this.update(appInstId, newAppDetails, interaction); // Update the Archive
+    }
+
+    public static SingleConnectionDetails getSingleConnectionDetailsFromProviderList(
+            ProviderList providersList) throws IOException {
+        if (providersList.isEmpty()) { // Throw error!
+            LOGGER.log(Level.WARNING,
+                    "The service could not be found in the Directory service... Possible reasons:\n"
+                    + "1. Wrong area number.\n"
+                    + "2. User is trying to control a non-NMF app! If so, one needs to use killApp operation!\n");
+            throw new IOException();
+        }
+
+        if (providersList.size() != 1) { // Throw error!
+            throw new IOException("There are more than 1 provider registered for this app! "
+                    + "Most likely the app was forcefully killed before.");
+        }
+
+        // Get the service address details lists
+        ServiceCapabilityList capabilities = providersList.get(0).getServiceCapabilities();
+
+        // How many addresses do we have?
+        if (capabilities.isEmpty()) { // Throw an error
+            throw new IOException("We don't have any services...");
+        }
+
+        if (capabilities.size() != 1) {
+            throw new IOException("We have more than 1 service...");
+        }
+
+        AddressDetailsList addresses = capabilities.get(0).getServiceAddresses();
+        int bestIndex = HelperCommon.getBestIPCServiceAddressIndex(addresses);
+        AddressDetails best = addresses.get(bestIndex);
+
+        return new SingleConnectionDetails(best.getServiceURI(), best.getBrokerURI(),
+                providersList.get(0).getDomain());
+    }
+
+    private static boolean isJustRunningStatusChange(final AppDetails previous,
+            final AppDetails single_app) {
+        if (!previous.getCategory().equals(single_app.getCategory())
+                || !previous.getDescription().equals(single_app.getDescription())
+                || !previous.getName().equals(single_app.getName())
+                || previous.getRunAtStartup().booleanValue() != single_app.getRunAtStartup().booleanValue()
+                || !previous.getVersion().equals(single_app.getVersion())) {
+            return false;
+        }
+
+        // extraInfo field can be null according to the API
+        if (previous.getExtraInfo() != null && single_app.getExtraInfo() != null) {
+            if (!previous.getExtraInfo().equals(single_app.getExtraInfo())) {
+                return false;
+            }
+        }
+
+        return previous.getRunning().booleanValue() != single_app.getRunning().booleanValue();
+    }
+
+    private AppDetails readAppDescriptor(final String appName, final File propertiesFile) {
+        Identifier myAppName = new Identifier(appName);
+
+        try (FileInputStream inputStream = new FileInputStream(propertiesFile)) {
+            Properties props = new Properties();
+            props.load(inputStream);
+
+            String category = (props.getProperty(HelperMisc.APP_CATEGORY) != null)
+                    ? props.getProperty(HelperMisc.APP_CATEGORY) : "-";
+            String version = (props.getProperty(HelperMisc.APP_VERSION) != null)
+                    ? props.getProperty(HelperMisc.APP_VERSION) : "-";
+            String copyright = (props.getProperty(HelperMisc.APP_COPYRIGHT) != null)
+                    ? props.getProperty(HelperMisc.APP_COPYRIGHT) : "-";
+            String description = (props.getProperty(HelperMisc.APP_DESCRIPTION) != null)
+                    ? props.getProperty(HelperMisc.APP_DESCRIPTION) : "-";
+            String user = (props.getProperty(HelperMisc.APP_USER) != null)
+                    ? props.getProperty(HelperMisc.APP_USER)
+                    : null; // Since the user change is only implemented on linux this dependency is fine
+
+            return new AppDetails(myAppName, description, version, new Identifier(category),
+                    false, false, HelperMisc.PROVIDER_PROPERTIES_FILE, copyright, user);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "Something went wrong...", ex);
+        }
+
+        return new AppDetails(myAppName, null, null, null, null, null);
+    }
+
+    public final void addFolderWithApps(File folder) {
+        if (!foldersWithApps.contains(folder)) {
+            foldersWithApps.add(folder);
+        }
+    }
+}

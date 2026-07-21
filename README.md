@@ -7,6 +7,9 @@
 NanoSat MO Framework
 ========================
 
+[![Maven Central](https://img.shields.io/maven-central/v/int.esa.nmf/parent)](https://central.sonatype.com/artifact/int.esa.nmf/parent)
+[![Build Status](https://github.com/esa/nanosat-mo-framework/actions/workflows/testbeds.yml/badge.svg)](https://github.com/esa/nanosat-mo-framework/actions/workflows/testbeds.yml)
+
 The [NanoSat MO Framework] is a software framework for small satellites based on CCSDS Mission Operations services.
 
 It introduces the concept of apps in space that can be started and stopped from ground. Apps can retrieve data from the platform through a set of well-defined MO services. Many possibilities for extensions are available due to its modular and flexible design approach which is not limited to the space segment but extends down to ground by providing all the building blocks for a complete and free end-to-end solution.
@@ -46,12 +49,7 @@ sudo apt-get install maven
 git clone https://github.com/esa/nanosat-mo-framework.git
 ```
 
-4. Set the environment variable NMF\_HOME with the path to this repository's root directory
-```bash
-export NMF_HOME=path_to_repository
-```
-
-5. Build the cloned NanoSat MO Framework project:
+4. Build the cloned NanoSat MO Framework project:
 ```bash
 mvn clean install
 ```
@@ -68,7 +66,7 @@ More documentation about code examples, SDK packaging and usage is available und
 
 ### Logging
 
-This project uses the default Java logger (java.util.Logger) to generate log messages. The verbosity of these log messages can be changed by configuring the logging.properties file inside the NMF\_HOME directory.
+This project uses the default Java logger (java.util.Logger) to generate log messages. The verbosity of these log messages can be changed by configuring the ``logging.properties`` file inside the Supervisor's working directory.
 
 ## Source Code
 

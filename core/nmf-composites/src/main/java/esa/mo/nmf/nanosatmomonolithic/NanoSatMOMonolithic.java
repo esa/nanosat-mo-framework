@@ -1,0 +1,195 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2021      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ * ----------------------------------------------------------------------------
+ */
+package esa.mo.nmf.nanosatmomonolithic;
+
+import esa.mo.com.impl.util.COMServicesProvider;
+import esa.mo.helpertools.misc.Const;
+import esa.mo.helpertools.misc.ShutdownGuard;
+import esa.mo.nmf.MCRegistration;
+import esa.mo.nmf.MonitorAndControlNMFAdapter;
+import esa.mo.nmf.NMFException;
+import esa.mo.nmf.NMFProvider;
+import esa.mo.nmf.OneInstanceLock;
+import esa.mo.nmf.environment.MissionConfiguration;
+import esa.mo.platform.impl.util.PlatformServicesConsumer;
+import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.configuration.ConfigurationServiceInfo;
+import org.ccsds.moims.mo.com.structures.NMFProviderType;
+import org.ccsds.moims.mo.com.structures.ObjectKey;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
+
+
+/**
+ * The implementation of the NanoSat MO Monolithic that can be extended by
+ * particular implementations.
+ *
+ * @author Cesar Coelho
+ */
+public abstract class NanoSatMOMonolithic extends NMFProvider {
+
+    private static final Logger LOGGER = Logger.getLogger(NanoSatMOMonolithic.class.getName());
+
+    /**
+     * Initializes the NanoSat MO Monolithic. The MonitorAndControlAdapter
+     * adapter class can be extended for remote monitoring and control with the
+     * CCSDS Monitor and Control services. One can also extend the
+     * SimpleMonitorAndControlAdapter class which contains a simpler interface.
+     *
+     * @param mcAdapter The adapter to connect the actions and parameters to the
+     * corresponding methods and variables of a specific entity.
+     * @param platformServices Platform Services
+     */
+    public void init(final MonitorAndControlNMFAdapter mcAdapter, final PlatformServicesConsumer platformServices) {
+        super.startTime = System.currentTimeMillis();
+        LOGGER.log(Level.INFO, this.generateStartBanner());
+
+        // Loads: provider.properties; transport.properties
+        NMFProvider.loadMOElements();
+        HelperMisc.loadPropertiesFile();
+        ConnectionProvider.resetURILinksFile();
+
+        // Create provider name to be registerd on the Directory service...
+        String appName = "Unknown";
+        try { // Use the folder name
+            appName = (new File((new File("")).getCanonicalPath())).getName();
+            System.setProperty(HelperMisc.PROP_MO_APP_NAME, appName);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "The NMF App name could not be established.");
+        }
+
+        // Ensure the domain identity (organization + mission) is set before the
+        // domain is first constructed, so it is always valid even without a
+        // provider.properties (e.g. when running directly from an IDE).
+        MissionConfiguration.ensureDomainIdentity();
+
+        super.providerName = appName;
+        OneInstanceLock lock = new OneInstanceLock();
+
+        // Configure the property to select the database file in the right directory
+        this.configureCOMArchiveDatabaseLocation();
+
+        super.platformServices = platformServices;
+
+        try {
+            Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.FINE, "Initializing services...");
+
+            comServices.init();
+            comServices.initArchiveSync();
+
+            heartbeatService.init();
+            super.startMCServices(mcAdapter);
+            this.initPlatformServices(comServices);
+            directoryService.init(comServices);
+        } catch (MALException ex) {
+            Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE,
+                    "The services could not be initialized. Perhaps there's "
+                    + "something wrong with the selected Transport Layer.", ex);
+            return;
+        }
+
+        // Populate the Directory service with the entries from the URIs File
+        Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Populating Directory service...");
+        directoryService.loadURIs(this.providerName, NMFProviderType.MONOLITHIC);
+
+        // Are the dynamic changes enabled? (defaults to true)
+        if ("true".equals(System.getProperty(Const.DYNAMIC_CHANGES_PROPERTY, "true"))) {
+            Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "Loading previous configurations...");
+
+            // Activate the previous configuration
+            final ObjectKey confId = new ObjectKey(
+                    ConfigurationServiceInfo.CONFIGURATIONPROVIDER_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(),
+                    DEFAULT_PROVIDER_CONFIGURATION_OBJID
+            );
+
+            super.providerConfiguration = new PersistProviderConfiguration(this,
+                    confId, comServices.getArchiveService());
+
+            try {
+                super.providerConfiguration.loadPreviousConfigurations();
+            } catch (IOException ex) {
+                Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        if (mcAdapter != null) {
+            MCRegistration registration = new MCRegistration(comServices,
+                    mcServices.getParameterService(),
+                    mcServices.getAggregationService(),
+                    mcServices.getAlertService(),
+                    mcServices.getActionService());
+            mcAdapter.initialRegistrations(registration);
+        }
+
+        Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "NanoSat MO Monolithic initialized in "
+                + (((float) (System.currentTimeMillis() - super.startTime)) / 1000) + " seconds!");
+        final String uri = directoryService.getConnection().getConnectionDetails().getProviderURI().toString();
+        Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO, "URI: {0}\n", uri);
+    }
+
+    /**
+     * It closes the App gracefully.
+     *
+     * @param source The source of the triggering. Can be null
+     */
+    @Override
+    public final void closeGracefully(final ObjectKey source) {
+        try {
+            // The Monolithic provider is a self-contained top-level process with
+            // no parent to force-kill it, so it guards its own shutdown against a
+            // deadlocked teardown.
+            ShutdownGuard.start();
+            long time = System.currentTimeMillis();
+
+            // Close the app...
+            // Make a call on the app layer to close nicely...
+            if (this.closeAppAdapter != null) {
+                Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO,
+                        "Triggering the closeAppAdapter of the app business logic...");
+                this.closeAppAdapter.onClose(); // Time to sleep, boy!
+            }
+
+            // Should close them safely as well...
+            //        provider.getMCServices().closeServices();
+            //        provider.getCOMServices().closeServices();
+            this.getCOMServices().closeAll();
+
+            // Exit the Java application
+            Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.INFO,
+                    "Success! The currently running Java Virtual Machine will now terminate. " + "(App closed in: "
+                    + (System.currentTimeMillis() - time) + " ms)\n");
+        } catch (NMFException ex) {
+            Logger.getLogger(NanoSatMOMonolithic.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        System.exit(0);
+    }
+
+    public abstract void initPlatformServices(COMServicesProvider comServices);
+
+}

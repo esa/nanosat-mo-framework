@@ -15,9 +15,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>int.esa.nmf</groupId>
-        <artifactId>parent</artifactId>
-        <version>4.0</version>
-        <relativePath>../../../parent/pom.xml</relativePath>
+        <artifactId>nanosat-mo-framework</artifactId>
+        <version>5.0</version>
+        <relativePath>../../../pom.xml</relativePath>
     </parent>
     <groupId>int.esa.nmf.simulator</groupId>
     <artifactId>nanosat-mo-supervisor-sim</artifactId>
@@ -53,13 +53,13 @@
     <dependencies>
         <dependency>
             <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nanosat-mo-supervisor</artifactId>
+            <artifactId>nmf-composites</artifactId>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.simulator</groupId>
             <artifactId>nmf-platform-impl-sim</artifactId>
-            <version>4.0</version>
+            <version>5.0</version>
             <type>jar</type>
         </dependency>
         <dependency>

@@ -15,12 +15,12 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>int.esa.nmf</groupId>
-        <artifactId>parent</artifactId>
-        <version>4.0</version>
-        <relativePath>../../parent/pom.xml</relativePath>
+        <artifactId>nanosat-mo-framework</artifactId>
+        <version>5.0</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
     <groupId>int.esa.nmf.simulator</groupId>
-    <artifactId>reactor</artifactId>
+    <artifactId>simulator</artifactId>
     <packaging>pom</packaging>
     <name>ESA NMF Mission Simulator</name>
     <organization>
@@ -52,8 +52,8 @@
     <modules>
         <module>image-debayer</module>
         <module>orekit-resources</module>
-        <module>opssat-gps-simulator</module>
-        <module>opssat-spacecraft-simulator</module>
+        <module>cubesat-gps-simulator</module>
+        <module>cubesat-spacecraft-simulator</module>
         <module>platform-services-impl</module>
         <module>nanosat-mo-supervisor-sim</module>
         <module>nanosat-monolithic</module>

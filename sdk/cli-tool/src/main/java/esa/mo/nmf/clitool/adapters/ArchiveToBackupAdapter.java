@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -65,9 +65,12 @@ public class ArchiveToBackupAdapter extends ArchiveAdapter implements QueryStatu
         boolean result = true;
         for (ArchiveCOMObjectsOutput objects : objectsToProcess) {
             try {
-                archive.store(false, objects.getObjectType(), objects.getDomain(), objects.getArchiveDetailsList(),
+                archive.store(false,
+                        objects.getObjectType(),
+                        objects.getDomain(),
+                        objects.getArchiveDetailsList(),
                         objects.getObjectBodies(), null);
-            } catch (MALException | MALInteractionException e) {
+            } catch (MALException | MALInteractionException | org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException e) {
                 LOGGER.log(Level.SEVERE, "Failed to store objects of type: " + objects.getObjectType(), e);
                 result = false;
             }
@@ -92,9 +95,7 @@ public class ArchiveToBackupAdapter extends ArchiveAdapter implements QueryStatu
     }
 
     @Override
-    public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-            ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
-        dumpArchiveObjectsOutput(new ArchiveCOMObjectsOutput(domain, objType, objDetails, objBodies));
+    public void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
         setIsQueryOver(true);
     }
 

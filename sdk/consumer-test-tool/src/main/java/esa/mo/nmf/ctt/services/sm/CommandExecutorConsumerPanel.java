@@ -22,10 +22,7 @@ package esa.mo.nmf.ctt.services.sm;
 
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
-import esa.mo.com.impl.util.EventCOMObject;
-import esa.mo.com.impl.util.EventReceivedListener;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.sm.impl.consumer.CommandExecutorConsumerServiceImpl;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -34,19 +31,19 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
-import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.Subscription;
-import org.ccsds.moims.mo.mal.structures.Union;
+import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.softwaremanagement.commandexecutor.CommandExecutorServiceInfo;
-import org.ccsds.moims.mo.softwaremanagement.commandexecutor.consumer.CommandExecutorAdapter;
-import org.ccsds.moims.mo.softwaremanagement.commandexecutor.structures.CommandDetails;
+import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorServiceInfo;
+import org.ccsds.moims.mo.sm.commandexecutor.consumer.CommandExecutorAdapter;
+import org.ccsds.moims.mo.sm.commandexecutor.consumer.MonitorOutputSubscriptionKeys;
+import org.ccsds.moims.mo.sm.structures.Command;
+import org.ccsds.moims.mo.sm.structures.CommandOutputType;
 
 /**
  * The CommandExecutorConsumerPanel class holds a panel to interact with a
@@ -61,11 +58,13 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
     private final HashMap<Long, StringBuffer> outputBuffers = new HashMap<>();
 
     /**
+     * Constructor.
      *
-     * @param serviceSMCommandExecutor
+     * @param serviceSMCommandExecutor The Command Executor service consumer.
      */
     public CommandExecutorConsumerPanel(CommandExecutorConsumerServiceImpl serviceSMCommandExecutor) {
         initComponents();
+        jLabel6.setFont(jLabel6.getFont().deriveFont(java.awt.Font.BOLD, 18f));
 
         ArchiveConsumerServiceImpl archive = serviceSMCommandExecutor.getCOMServices().getArchiveService();
         recentCommandsTable = new CommandExecutorTablePanel(archive);
@@ -99,18 +98,23 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
     }
 
     public void init() {
-        final Subscription subscription = HelperCOM.generateSubscriptionCOMEvent("SUB",
-                CommandExecutorServiceInfo.EXECUTIONFINISHED_OBJECT_TYPE);
-        // Produce wildcard subscribtion to all event objects
-        serviceSMCommandExecutor.getCOMServices().getEventService().addEventReceivedListener(subscription,
-                new EventReceivedAdapter());
+        // Subscribe to monitorOutput PUBSUB to receive command output in real-time.
+        final Subscription subscription = ConnectionConsumer.subscriptionWildcardRandom();
+
+        try {
+            serviceSMCommandExecutor.getCommandExecutorStub().monitorOutputRegister(
+                    subscription, new MonitorOutputAdapterImpl());
+            LOGGER.fine("Registered monitorOutput subscription for command output streaming");
+        } catch (MALException | MALInteractionException ex) {
+            LOGGER.log(Level.SEVERE, "Failed to subscribe to monitorOutput", ex);
+        }
     }
 
     private void refreshOutputBufferWindow(Long justUpdatedObjId) {
         // If there is a concrete row selected...
-        if (recentCommandsTable.getSelectedRow() != -1) {
-            final Long objId = recentCommandsTable.getCOMObjects().get(recentCommandsTable.getSelectedRow())
-                    .getArchiveDetails().getInstId();
+        int selectedRow = recentCommandsTable.getSelectedRow();
+        if (selectedRow != -1) {
+            final Long objId = recentCommandsTable.getCOMObjects().get(selectedRow).getArchiveDetails().getId();
             if (justUpdatedObjId != null && !justUpdatedObjId.equals(objId)) {
                 return;
             }
@@ -142,7 +146,6 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
         listAppAllButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Command Executor Service");
         jLabel6.setToolTipText("");
@@ -202,7 +205,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
             // Either cancelled or didn't input any data
             return;
         }
-        CommandDetails cd = new CommandDetails(commandText, null, null);
+        Command cd = new Command(commandText, null, null);
         try {
             serviceSMCommandExecutor.getCommandExecutorStub().asyncRunCommand(cd, asyncAdapter);
         } catch (MALInteractionException | MALException ex) {
@@ -212,45 +215,39 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_runCommandButtonActionPerformed
 
-    public class EventReceivedAdapter extends EventReceivedListener {
+    public class MonitorOutputAdapterImpl extends CommandExecutorAdapter {
 
         @Override
-        public void onDataReceived(EventCOMObject eventCOMObject) {
-            Element object = null;
-            if (eventCOMObject.getBody() != null) {
-                object = (Element) HelperAttributes.javaType2Attribute(eventCOMObject.getBody());
+        public synchronized void monitorOutputNotifyReceived(MALMessageHeader msgHeader,
+                Identifier subscriptionId, UpdateHeader updateHeader,
+                MonitorOutputSubscriptionKeys keys,
+                CommandOutputType outputType, String data, Integer exitCode, Map qosProperties) {
+            // Extract commandId from the typed subscription key.
+            Long commandId = keys.getCommandId();
+            if (commandId == null) {
+                LOGGER.log(Level.WARNING, "Received monitorOutput notification without a commandId");
+                return;
             }
-            ObjectType objType = eventCOMObject.getObjType();
 
-            String time = HelperTime.time2readableString(eventCOMObject.getTimestamp());
-            Long sourceObjId = eventCOMObject.getSource().getKey().getInstId();
-            if (sourceObjId == null) {
-                LOGGER.log(Level.SEVERE,
-                        "Missing source object in a received event (oID {0}). This should never happen.",
-                        eventCOMObject.getObjId());
-                return;
-            }
-            if (object == null) {
-                LOGGER.log(Level.SEVERE,
-                        "Missing body in a received event (oID {0}). This should never happen.",
-                        eventCOMObject.getObjId());
-                return;
-            }
-            if (objType.equals(CommandExecutorServiceInfo.EXECUTIONFINISHED_OBJECT_TYPE)) {
-                recentCommandsTable.updateExitCode(sourceObjId, ((Union) object).getIntegerValue());
-            } else if (objType.equals(CommandExecutorServiceInfo.STANDARDOUTPUT_OBJECT_TYPE)) {
-                addCommandOutput(sourceObjId, time + " stdout:\n" + object.toString());
-            } else if (objType.equals(CommandExecutorServiceInfo.STANDARDERROR_OBJECT_TYPE)) {
-                addCommandOutput(sourceObjId, time + " stderr:\n" + object.toString());
+            final String time = HelperTime.time2readableString(msgHeader.getTimestamp());
+
+            if (CommandOutputType.STDOUT.equals(outputType)) {
+                addCommandOutput(commandId, time + " stdout:\n" + (data != null ? data : ""));
+            } else if (CommandOutputType.STDERR.equals(outputType)) {
+                addCommandOutput(commandId, time + " stderr:\n" + (data != null ? data : ""));
+            } else if (CommandOutputType.FINISHED.equals(outputType)) {
+                if (exitCode != null) {
+                    recentCommandsTable.updateExitCode(commandId, exitCode);
+                }
             } else {
-                LOGGER.log(Level.SEVERE, "Received an unsupported object type. {0}", objType.toString());
+                LOGGER.log(Level.WARNING, "Received unsupported CommandOutputType: {0}", outputType);
             }
         }
 
-        private synchronized void addCommandOutput(Long sourceObjId, String data) {
-            outputBuffers.computeIfAbsent(sourceObjId, k -> new StringBuffer());
-            outputBuffers.get(sourceObjId).append(data);
-            refreshOutputBufferWindow(sourceObjId);
+        private synchronized void addCommandOutput(Long commandId, String data) {
+            outputBuffers.computeIfAbsent(commandId, k -> new StringBuffer());
+            outputBuffers.get(commandId).append(data);
+            javax.swing.SwingUtilities.invokeLater(() -> refreshOutputBufferWindow(commandId));
         }
     }
 
@@ -258,13 +255,14 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
 
         @Override
         public void runCommandResponseReceived(MALMessageHeader msgHeader, Long commandInstId, Map qosProperties) {
-            ArchivePersistenceObject comObj = HelperArchive.getArchiveCOMObject(serviceSMCommandExecutor
-                    .getCOMServices().getArchiveService().getArchiveStub(), CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE,
+            ArchivePersistenceObject comObj = HelperArchive.getArchiveCOMObject(
+                    serviceSMCommandExecutor.getCOMServices().getArchiveService().getArchiveStub(),
+                    CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE,
                     serviceSMCommandExecutor.getConnectionDetails().getDomain(), commandInstId);
             if (comObj == null) {
                 LOGGER.log(Level.SEVERE, "Retrieved null COM object for objInstId {0}", commandInstId);
             } else {
-                recentCommandsTable.addEntry(new Identifier(commandInstId.toString()), comObj);
+                javax.swing.SwingUtilities.invokeLater(() -> recentCommandsTable.addEntry(comObj));
             }
         }
     }

@@ -21,7 +21,6 @@
 package esa.mo.nmf.ctt.services.mc;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
-import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.nmf.ctt.windows.element.MOWindow;
 import java.io.IOException;
@@ -31,31 +30,19 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import org.ccsds.moims.mo.com.structures.InstanceBooleanPair;
-import org.ccsds.moims.mo.com.structures.InstanceBooleanPairList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
-import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequest;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterCreationRequestList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetails;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterDefinitionDetailsList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValue;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterRawValueList;
-import org.ccsds.moims.mo.mc.parameter.structures.ParameterValueDetailsList;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
+import org.ccsds.moims.mo.mc.structures.*;
 
 /**
  * The ParameterConsumerPanel class holds a panel to interact with a Parameter
@@ -65,19 +52,47 @@ import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
  */
 public class ParameterConsumerPanel extends javax.swing.JPanel {
 
+    private static final Logger LOGGER = Logger.getLogger(ParameterConsumerPanel.class.getName());
+
     private final ParameterConsumerServiceImpl serviceMCParameter;
     private final ParameterTablePanel parameterTable;
 
     /**
+     * Constructor.
      *
-     * @param serviceMCParameter
+     * @param serviceMCParameter The Parameter service consumer.
      */
     public ParameterConsumerPanel(ParameterConsumerServiceImpl serviceMCParameter) {
         initComponents();
+        jLabel6.setFont(jLabel6.getFont().deriveFont(java.awt.Font.BOLD, 18f));
 
         this.serviceMCParameter = serviceMCParameter;
         parameterTable = new ParameterTablePanel(serviceMCParameter.getCOMServices().getArchiveService());
         jScrollPane2.setViewportView(parameterTable);
+        this.addDefinitionButton.setVisible(false);
+        this.removeDefinitionButton.setVisible(false);
+        this.removeDefinitionAllButton.setVisible(false);
+
+        // The setValue button is only enabled for writable (non read-only)
+        // parameters, and only when a row is selected.
+        setValueButton.setEnabled(false);
+        parameterTable.getTable().getSelectionModel().addListSelectionListener(
+                e -> setValueButton.setEnabled(!isSelectedParameterReadOnly()));
+    }
+
+    /**
+     * Returns true if no row is selected or the selected parameter is
+     * read-only (so its value cannot be set).
+     */
+    private boolean isSelectedParameterReadOnly() {
+        if (parameterTable.getSelectedRow() == -1) {
+            return true;
+        }
+        ArchivePersistenceObject obj = parameterTable.getSelectedCOMObject();
+        if (obj == null || !(obj.getObject() instanceof ParameterDefinition)) {
+            return true;
+        }
+        return Boolean.TRUE.equals(((ParameterDefinition) obj.getObject()).getReadOnly());
     }
 
     public void init() {
@@ -109,7 +124,6 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         listDefinitionAllButton = new javax.swing.JButton();
         removeDefinitionAllButton = new javax.swing.JButton();
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Parameter Service - Definitions");
         jLabel6.setToolTipText("");
@@ -124,7 +138,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
                                                                                                         null, null,
                                                                                                         null, null,
                                                                                                         null}},
-            new String[]{"Obj Inst Id", "name", "description", "rawType", "rawUnit", "generationEnabled",
+            new String[]{"Obj Inst Id", "name", "description", "rawType", "rawUnit", "reportingEnabled",
                          "updateInterval"}) {
             Class[] types = new Class[]{java.lang.Integer.class, java.lang.String.class, java.lang.String.class,
                                         java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class,
@@ -157,11 +171,11 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         setValueButton.addActionListener(this::setValueButtonActionPerformed);
         jPanel1.add(setValueButton);
 
-        enableDefinitionAllAgg.setText("enableGeneration(group=false, 0)");
+        enableDefinitionAllAgg.setText("enableReporting(0)");
         enableDefinitionAllAgg.addActionListener(this::enableDefinitionAllAggActionPerformed);
         jPanel1.add(enableDefinitionAllAgg);
 
-        enableDefinitionButtonAgg.setText("enableGeneration");
+        enableDefinitionButtonAgg.setText("enableReporting");
         enableDefinitionButtonAgg.addActionListener(this::enableDefinitionButtonAggActionPerformed);
         jPanel1.add(enableDefinitionButtonAgg);
 
@@ -206,64 +220,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
 
     private void addDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDefinitionButtonActionPerformed
         // Create and Show the Action Definition to the user
-        ParameterDefinitionDetails parameterDefinition = new ParameterDefinitionDetails(
-                "This Parameter Definition gives a simulated value of the GPS latitude.",
-                Union.DOUBLE_TYPE_SHORT_FORM.byteValue(),
-                "degrees",
-                false,
-                new Duration(2),
-                null,
-                null);
 
-        ParameterCreationRequest request = new ParameterCreationRequest(
-                new Identifier("GPS.Latitude"),
-                parameterDefinition);
-        MOWindow parameterDefinitionWindow = new MOWindow(request, true);
-
-        ParameterCreationRequestList requestList = new ParameterCreationRequestList();
-        try {
-            requestList.add((ParameterCreationRequest) parameterDefinitionWindow.getObject());
-        } catch (InterruptedIOException ex) {
-            return;
-        }
-
-        try {
-            ObjectInstancePairList objIds = this.serviceMCParameter.getParameterStub().addParameter(requestList);
-
-            if (objIds.isEmpty()) {
-                return;
-            }
-
-            Thread.sleep(500);
-            // Get the stored Parameter Definition from the Archive
-            ArchivePersistenceObject comObject = HelperArchive.getArchiveCOMObject(
-                    this.serviceMCParameter.getCOMServices().getArchiveService().getArchiveStub(),
-                    ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,
-                    serviceMCParameter.getConnectionDetails().getDomain(),
-                    objIds.get(0).getObjDefInstanceId());
-
-            if (comObject == null) {
-                JOptionPane.showMessageDialog(null, "The COM object could not be returned! The objId is: " + objIds.get(
-                        0).toString(), "Error", JOptionPane.PLAIN_MESSAGE);
-
-                Thread.sleep(2500);
-                // Get the stored Parameter Definition from the Archive
-                comObject = HelperArchive.getArchiveCOMObject(
-                        this.serviceMCParameter.getCOMServices().getArchiveService().getArchiveStub(),
-                        ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,
-                        serviceMCParameter.getConnectionDetails().getDomain(),
-                        objIds.get(0).getObjDefInstanceId());
-            }
-
-            // Add the Parameter Definition to the table
-            parameterTable.addEntry(request.getName(), comObject);
-        } catch (MALInteractionException | MALException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error with the submitted parameter definition.", "Error",
-                    JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }//GEN-LAST:event_addDefinitionButtonActionPerformed
 
     private void updateDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDefinitionButtonActionPerformed
@@ -275,11 +232,11 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         MOWindow moObject = new MOWindow(obj.getObject(), true);
 
         LongList objIds = new LongList();
-        objIds.add(parameterTable.getSelectedIdentityObjId());
+        objIds.add(parameterTable.getSelectedDefinitionObjId());
 
-        ParameterDefinitionDetailsList defs = new ParameterDefinitionDetailsList();
+        ParameterDefinitionList defs = new ParameterDefinitionList();
         try {
-            defs.add((ParameterDefinitionDetails) moObject.getObject());
+            defs.add((ParameterDefinition) moObject.getObject());
         } catch (InterruptedIOException ex) {
             return;
         }
@@ -288,110 +245,80 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
             this.serviceMCParameter.getParameterStub().updateDefinition(objIds, defs);
             this.listDefinitionAllButtonActionPerformed(null);
         } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_updateDefinitionButtonActionPerformed
 
     private void removeDefinitionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefinitionButtonActionPerformed
-        if (parameterTable.getSelectedRow() == -1) { // The row is not selected?
-            return;  // Well, then nothing to be done here folks!
-        }
 
-        Long objId = parameterTable.getSelectedIdentityObjId();
-        LongList longlist = new LongList();
-        longlist.add(objId);
-
-        try {
-            this.serviceMCParameter.getParameterStub().removeParameter(longlist);
-            parameterTable.removeSelectedEntry();
-        } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }//GEN-LAST:event_removeDefinitionButtonActionPerformed
 
     private void listDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listDefinitionAllButtonActionPerformed
         IdentifierList idList = new IdentifierList();
         idList.add(new Identifier("*"));
-        /*
-        ObjectInstancePairList output;
-        try {
-            output = this.serviceMCParameter.getParameterStub().listDefinition(idList);
-            parameterTable.refreshTableWithIds(output, serviceMCParameter.getConnectionDetails().getDomain(), 
-                    ParameterHelper.PARAMETERDEFINITION_OBJECT_TYPE);
-        } catch (MALInteractionException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-            return;
-        } catch (MALException ex) {
-            JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-            return;
-        }
-        
-        Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", output.size());
-         */
 
         try {
-            this.serviceMCParameter.getParameterStub().asyncListDefinition(idList, new ParameterAdapter() {
+            this.serviceMCParameter.getParameterStub()
+                    .asyncListDefinition(idList, new ParameterAdapter() {
                 @Override
-                public void listDefinitionResponseReceived(MALMessageHeader msgHeader, ObjectInstancePairList objInstIds, Map qosProperties) {
-                    parameterTable.refreshTableWithIdsPairs(objInstIds, serviceMCParameter.getConnectionDetails().getDomain(), ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE);
-                    Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.INFO, "listDefinition(\"*\") returned {0} object instance identifiers", objInstIds.size());
+                public void listDefinitionResponseReceived(MALMessageHeader msgHeader,
+                        LongList objInstIds, Map qosProperties) {
+                    javax.swing.SwingUtilities.invokeLater(
+                            () -> parameterTable.refreshTableWithIdsPairs(
+                            objInstIds,
+                            serviceMCParameter.getConnectionDetails().getDomain(),
+                            ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE));
+                    LOGGER.log(Level.INFO,
+                            "listDefinition(\"*\") returned {0} object instance identifiers",
+                            objInstIds.size());
                 }
 
                 @Override
-                public void listDefinitionErrorReceived(MALMessageHeader msgHeader, MOErrorException error, Map qosProperties) {
-                    JOptionPane.showMessageDialog(null, "There was an error during the listDefinition operation.", "Error", JOptionPane.PLAIN_MESSAGE);
-                    Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, error);
+                public void listDefinitionErrorReceived(MALMessageHeader msgHeader,
+                        MOErrorException error, Map qosProperties) {
+                    JOptionPane.showMessageDialog(null,
+                            "There was an error during the listDefinition operation.",
+                            "Error", JOptionPane.PLAIN_MESSAGE);
+                    LOGGER.log(Level.SEVERE, null, error);
                 }
             });
         } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_listDefinitionAllButtonActionPerformed
 
     private void removeDefinitionAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDefinitionAllButtonActionPerformed
-        Long objId = (long) 0;
-        LongList longlist = new LongList();
-        longlist.add(objId);
 
-        try {
-            this.serviceMCParameter.getParameterStub().removeParameter(longlist);
-            parameterTable.removeAllEntries();
-        } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }//GEN-LAST:event_removeDefinitionAllButtonActionPerformed
 
     private void actionDefinitionsTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_actionDefinitionsTableComponentAdded
-        // TODO add your handling code here:
     }//GEN-LAST:event_actionDefinitionsTableComponentAdded
 
     private void enableDefinitionAllAggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableDefinitionAllAggActionPerformed
         Boolean curState;
 
         if (parameterTable.getSelectedRow() == -1) {  // Used to avoid problems if no row is selected
-            ParameterDefinitionDetails parameterDefinition = (ParameterDefinitionDetails) parameterTable
-                    .getFirstCOMObject().getObject();
+            ParameterDefinition parameterDefinition =
+                    (ParameterDefinition) parameterTable.getFirstCOMObject().getObject();
             if (parameterDefinition != null) {
-                curState = parameterDefinition.getGenerationEnabled();
+                curState = parameterDefinition.getReportingEnabled();
             } else {
                 curState = true;
             }
         } else {
-            curState = ((ParameterDefinitionDetails) parameterTable.getSelectedCOMObject().getObject())
-                    .getGenerationEnabled();
+            curState = ((ParameterDefinition) parameterTable
+                    .getSelectedCOMObject().getObject()).getReportingEnabled();
         }
 
-        InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
-        BoolPairList.add(new InstanceBooleanPair((long) 0, !curState));  // Zero is the wildcard
+        LongList ids = new LongList();
+        ids.add(0L);  // wildcard
 
         try {
-            this.serviceMCParameter.getParameterStub().enableGeneration(false, BoolPairList);
+            this.serviceMCParameter.getParameterStub().enableReporting(!curState, ids);
             parameterTable.switchEnabledstatusAll(!curState);
         } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableDefinitionAllAggActionPerformed
 
@@ -400,16 +327,16 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
             return;  // Well, then nothing to be done here folks!
         }
 
-        Boolean curState = ((ParameterDefinitionDetails) parameterTable.getSelectedCOMObject().getObject())
-                .getGenerationEnabled();
-        InstanceBooleanPairList BoolPairList = new InstanceBooleanPairList();
-        BoolPairList.add(new InstanceBooleanPair(parameterTable.getSelectedIdentityObjId(), !curState));  // Zero is the wildcard
+        Boolean curState = ((ParameterDefinition) parameterTable
+                .getSelectedCOMObject().getObject()).getReportingEnabled();
+        LongList ids = new LongList();
+        ids.add(parameterTable.getSelectedDefinitionObjId());
 
         try {
-            this.serviceMCParameter.getParameterStub().enableGeneration(false, BoolPairList);
+            this.serviceMCParameter.getParameterStub().enableReporting(!curState, ids);
             parameterTable.switchEnabledstatus(!curState);
         } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableDefinitionButtonAggActionPerformed
 
@@ -419,7 +346,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         }
 
         LongList longlist = new LongList();
-        longlist.add(parameterTable.getSelectedIdentityObjId());
+        longlist.add(parameterTable.getSelectedDefinitionObjId());
 
         ParameterValueDetailsList values;
         try {
@@ -427,9 +354,9 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
 
             StringBuilder str = new StringBuilder();
             for (int i = 0; i < values.size(); i++) {
-                str.append("The value for objId ").append(values.get(i).getParamId().toString()).append(" is:");
+                str.append("The value for objId ").append(values.get(i).getDefId().toString()).append(" is:");
 
-                UOctet validityState = values.get(i).getValue().getValidityState();
+                ValidityState validityState = values.get(i).getValue().getValidityState();
                 Attribute rawValue = values.get(i).getValue().getRawValue();
                 Attribute convertedValue = values.get(i).getValue().getConvertedValue();
                 str.append("\nvalidityState: ");
@@ -456,16 +383,16 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, str.toString(), "Returned Values from the Provider",
                     JOptionPane.PLAIN_MESSAGE);
         } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_getValueButtonActionPerformed
 
     private void setValueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setValueButtonActionPerformed
-        if (parameterTable.getSelectedRow() == -1) { // The row is not selected?
+        if (isSelectedParameterReadOnly()) { // No selection, or a read-only parameter
             return;  // Well, then nothing to be done here folks!
         }
 
-        ParameterRawValue newValue = new ParameterRawValue(parameterTable.getSelectedIdentityObjId());
+        ParameterRawValue newValue = new ParameterRawValue(parameterTable.getSelectedDefinitionObjId());
         MOWindow window = new MOWindow(newValue, true);
 
         try {
@@ -480,7 +407,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         try {
             serviceMCParameter.getParameterStub().setValue(newValues);
         } catch (MALInteractionException | MALException ex) {
-            Logger.getLogger(ParameterConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_setValueButtonActionPerformed
 

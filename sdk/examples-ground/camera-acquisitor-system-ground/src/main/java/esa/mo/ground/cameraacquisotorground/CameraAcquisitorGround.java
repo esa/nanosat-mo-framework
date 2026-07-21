@@ -20,10 +20,8 @@
  */
 package esa.mo.ground.cameraacquisotorground;
 
-import esa.mo.com.impl.util.EventCOMObject;
-import esa.mo.com.impl.util.EventReceivedListener;
-import esa.mo.com.impl.util.HelperCOM;
 import esa.mo.ground.restservice.GroundTrack;
+import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
 import esa.mo.ground.restservice.Pass;
 import esa.mo.ground.restservice.PositionAndTime;
 import esa.mo.nmf.NMFException;
@@ -47,35 +45,18 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import org.ccsds.moims.mo.com.activitytracking.ActivityTrackingServiceInfo;
-import org.ccsds.moims.mo.com.activitytracking.structures.ActivityAcceptance;
-import org.ccsds.moims.mo.com.activitytracking.structures.ActivityExecution;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveDetailsList;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveQuery;
-import org.ccsds.moims.mo.com.archive.structures.ArchiveQueryList;
-import org.ccsds.moims.mo.com.structures.ObjectType;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummary;
-import org.ccsds.moims.mo.common.directory.structures.ProviderSummaryList;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
+import org.ccsds.moims.mo.com.structures.*;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.ElementList;
-import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.Subscription;
-import org.ccsds.moims.mo.mal.structures.UOctet;
-import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.mal.structures.UShort;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.mc.action.structures.ActionInstanceDetails;
-import org.ccsds.moims.mo.mc.alert.structures.AlertEventDetails;
-import org.ccsds.moims.mo.mc.structures.AttributeValue;
-import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import org.ccsds.moims.mo.mc.structures.ObjectInstancePairList;
-import org.ccsds.moims.mo.platform.camera.structures.PictureFormat;
+import org.ccsds.moims.mo.mc.action.consumer.MonitorExecutionSubscriptionKeys;
+import org.ccsds.moims.mo.mc.structures.*;
+import org.ccsds.moims.mo.platform.structures.PictureFormat;
 import org.orekit.bodies.GeodeticPoint;
 import org.orekit.data.DataContext;
 import org.orekit.data.DataProvidersManager;
@@ -130,8 +111,10 @@ public class CameraAcquisitorGround {
     // Tree set to keep track of scheduled photographs and make checking for collisions easier
     private final TreeSet<AbsoluteDate> schedule = new TreeSet<>();
 
-    // Hashmap containing the currently running actions and their status (current stage)
+    // Hashmap keyed by executionId containing each action's per-stage progress reports
     private final HashMap<Long, ActionReport[]> activeActions = new HashMap<>();
+
+    private Subscription monitorExecutionSubscription;
 
     // cached values
     private PositionAndTime[] cachedTrack = new PositionAndTime[0];
@@ -220,7 +203,7 @@ public class CameraAcquisitorGround {
         manager.addProvider(OrekitResources.getOrekitData());
 
         LOGGER.log(Level.INFO, "Setup providers");
-        ProviderSummaryList providers;
+        ProviderList providers;
         //maybe this initialization can occur inside the methods in case you want to check
         //availability again and retrieve providers after init
         LOGGER.log(Level.INFO, "Retrieving providers...");
@@ -229,10 +212,10 @@ public class CameraAcquisitorGround {
                 //System.out.println("Retrieving providers...");
                 providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(directoryURI);
                 LOGGER.log(Level.INFO, "Finished retrieving providers");
-                for (ProviderSummary provider : providers) {
-                    LOGGER.log(Level.INFO, "Name: {0} ", provider.getProviderId().getValue());
+                for (Provider provider : providers) {
+                    LOGGER.log(Level.INFO, "Name: {0} ", provider.getProviderName().getValue());
 
-                    if (provider.getProviderId().getValue().equals(PROVIDER_CAMERA_APP)) {
+                    if (provider.getProviderName().getValue().equals(PROVIDER_CAMERA_APP)) {
                         gma = new GroundMOAdapterImpl(provider);
                         break;
                     } else {
@@ -244,20 +227,14 @@ public class CameraAcquisitorGround {
             }
         }
         try {
-            Subscription subscription = HelperCOM.generateSubscriptionCOMEvent("ActivityTrackingListener",
-                    ActivityTrackingServiceInfo.EXECUTION_OBJECT_TYPE);
-            gma.getCOMServices().getEventService().addEventReceivedListener(subscription,
-                    new EventReceivedListenerAdapter());
             setInitialParameters();
+            subscribeToMonitorExecution();
 
             // get previous requests
-            ArchiveQueryList archiveQueryList = new ArchiveQueryList();
             ArchiveQuery archiveQuery = new ArchiveQuery(0L);
-            archiveQueryList.add(archiveQuery);
-
             GetAllArchiveAdapter archiveAdapter = new GetAllArchiveAdapter();
             gma.getCOMServices().getArchiveService().getArchiveStub().query(true, new ObjectType(new UShort(0),
-                    new UShort(0), new UOctet((short) 0), new UShort(0)), archiveQueryList, null, archiveAdapter);
+                    new UShort(0), new UOctet((short) 0), new UShort(0)), archiveQuery, null, archiveAdapter);
 
             LOGGER.log(Level.INFO, "Finished getting archive entries!");
         } catch (MALException | MALInteractionException ex) {
@@ -302,8 +279,7 @@ public class CameraAcquisitorGround {
                 IdentifierList idList = new IdentifierList();
                 idList.add(new Identifier(CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION));
 
-                ObjectInstancePairList objIds = gma.getMCServices().getActionService().getActionStub().listDefinition(
-                        idList);
+                LongList objIds = gma.getMCServices().getActionService().getActionStub().listDefinition(idList);
                 if (objIds == null) {
                     LOGGER.log(Level.SEVERE, "Action does not exist, please check if space application is running");
                 }
@@ -312,7 +288,7 @@ public class CameraAcquisitorGround {
                 arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(longitude)));
                 arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(timeStamp)));
 
-                Long actionID = gma.launchAction(objIds.get(0).getObjDefInstanceId(), arguments);
+                Long actionID = gma.launchAction(objIds.get(0), arguments);
                 if (actionID == null) {
                     LOGGER.log(Level.SEVERE, "Action ID == null!");
                 } else {
@@ -384,7 +360,7 @@ public class CameraAcquisitorGround {
      * calculated in seconds
      * @param stepsize the amount of time between entries in the resulting list
      * in seconds
-     * @return
+     * @return The GroundTrack object.
      */
     @GetMapping("/groundTrack")
     public GroundTrack groundTrack(@RequestParam(value = "duration", defaultValue = ""
@@ -394,8 +370,8 @@ public class CameraAcquisitorGround {
         AbsoluteDate endDate = now.shiftedBy(duration);
 
         //cache for one hour.
-        if (cachedTrack.length > 1 && (now.durationFrom(cachedTrack[0].orekitDate) < HOUR_IN_SECONDS || endDate
-                .durationFrom(cachedTrack[cachedTrack.length - 1].orekitDate) < HOUR_IN_SECONDS)) {
+        if (cachedTrack.length > 1 && (now.durationFrom(cachedTrack[0].orekitDate) < HOUR_IN_SECONDS
+                || endDate.durationFrom(cachedTrack[cachedTrack.length - 1].orekitDate) < HOUR_IN_SECONDS)) {
             return new GroundTrack(counter.incrementAndGet(), cachedTrack);
         }
 
@@ -475,107 +451,104 @@ public class CameraAcquisitorGround {
         gma.setParameter(Parameter.PICTURE_TYPE, PictureFormat.PNG.getValue());
     }
 
-    private void updateEvent(long actionID, int type, Object body) {
-        if (type == ActivityAcceptance.TYPE_ID.getSFP()) {
-            System.out.println("ActivityAcceptance");
-            ActivityAcceptance event = (ActivityAcceptance) body;
-        } else if (type == ActivityExecution.TYPE_ID.getSFP()) {
-            System.out.println("ActivityExecution");
-            ActivityExecution event = (ActivityExecution) body;
-            int executionStage = (int) event.getExecutionStage().getValue();
-            int stageCount = (int) event.getStageCount().getValue();
-            boolean success = event.getSuccess();
-
-            // update status of action
-            if (activeActions.containsKey(actionID)) {
-                synchronized (activeActions) {
-                    // minus 2 because stage count starts at 1 and an extra stage (for message received) is added by the Framework
-                    if (executionStage > 1 && executionStage < 6) {
-                        activeActions.get(actionID)[executionStage - 1] = new ActionReport(executionStage, success, "");
-                    }
-                    // if some other stage is successful, the command has also been transmitted to the satellite!
-                    if (executionStage - 1 > 0 && executionStage != 7 && success) {
-                        activeActions.get(actionID)[0] = new ActionReport(1, true, "");
-                    }
-                }
-                LOGGER.log(Level.INFO, "Action State: {0}", Arrays.toString(activeActions.get(actionID)));
-            }
-            if (success) {
-                LOGGER.log(Level.INFO, "Action Update: ID={0}, Execution Stage={1}", new Object[]{actionID,
-                    executionStage});
-            } else {
-                LOGGER.log(Level.WARNING, "Action Unsuccessful: ID={0}, Execution Stage={1}", new Object[]{actionID,
-                    executionStage});
-            }
-
-        } else if (type == AlertEventDetails.TYPE_ID.getSFP()) {
-            System.out.println("AlertEventDetails");
-            AlertEventDetails event = (AlertEventDetails) body;
-
-            AttributeValueList attValues = event.getArgumentValues();
-
-            StringBuilder messageToDisplay = new StringBuilder("ID: " + actionID + " ");
-
-            if (attValues != null) {
-                if (attValues.size() == 1) {
-                    messageToDisplay.append(attValues.get(0).getValue().toString());
-                }
-                if (attValues.size() > 1) {
-                    for (int i = 0; i < attValues.size(); i++) {
-                        AttributeValue attValue = attValues.get(i);
-                        messageToDisplay.append("[").append(i).append("] ").append(attValue.getValue().toString())
-                                .append("\n");
-                    }
-                }
-            }
-            LOGGER.log(Level.WARNING, messageToDisplay.toString());
+    private void subscribeToMonitorExecution() {
+        ActionConsumerServiceImpl actionService = gma.getMCServices().getActionService();
+        if (actionService.getConnectionDetails().getBrokerURI() == null) {
+            LOGGER.log(Level.WARNING,
+                    "Action service has no broker URI - monitorExecution subscription skipped.");
+            return;
+        }
+        monitorExecutionSubscription = ConnectionConsumer.subscriptionWildcardRandom();
+        try {
+            actionService.getActionStub().monitorExecutionRegister(
+                    monitorExecutionSubscription, new MonitorExecutionAdapter());
+            LOGGER.log(Level.INFO, "Subscribed to monitorExecution");
+        } catch (MALInteractionException | MALException ex) {
+            LOGGER.log(Level.SEVERE, "Failed to subscribe to monitorExecution", ex);
         }
     }
 
-    /**
-     * class for handling the receiving of messages from the space Application
-     */
-    private class EventReceivedListenerAdapter extends EventReceivedListener {
+    private void updateExecutionStatus(long executionId, ExecutionStageType stageType,
+            Boolean success, UShort step) {
+        if (!activeActions.containsKey(executionId)) {
+            return;
+        }
+        synchronized (activeActions) {
+            ActionReport[] reports = activeActions.get(executionId);
+            if (stageType == ExecutionStageType.PROGRESS && step != null) {
+                int stepVal = step.getValue();
+                if (stepVal > 0 && stepVal <= reports.length) {
+                    boolean ok = success != null && success;
+                    reports[stepVal - 1] = new ActionReport(stepVal, ok, "");
+                }
+            }
+        }
+        boolean ok = success != null && success;
+        if (stageType == ExecutionStageType.PROGRESS) {
+            if (ok) {
+                LOGGER.log(Level.INFO, "Action Update: executionId={0}, step={1}",
+                        new Object[]{executionId, step});
+            } else {
+                LOGGER.log(Level.WARNING, "Action step failed: executionId={0}, step={1}",
+                        new Object[]{executionId, step});
+            }
+        }
+        LOGGER.log(Level.INFO, "Action State: {0}", Arrays.toString(activeActions.get(executionId)));
+    }
+
+    private class MonitorExecutionAdapter extends ActionAdapter {
 
         @Override
-        public void onDataReceived(EventCOMObject eventCOMObject) {
-
-            if (eventCOMObject.getBody() == null) {
+        public void monitorExecutionNotifyReceived(MALMessageHeader msgHeader,
+                Identifier subscriptionId, UpdateHeader updateHeader,
+                MonitorExecutionSubscriptionKeys subscriptionKeys,
+                Boolean success, UShort step,
+                String comment, java.util.Map qosProperties) {
+            NullableAttributeList keys = updateHeader.getKeyValues();
+            if (keys == null || keys.size() < 2) {
                 return;
             }
-
-            long actionID = eventCOMObject.getSource().getKey().getInstId();
-
-            int type = eventCOMObject.getBody().getTypeId().getSFP();
-            updateEvent(actionID, type, eventCOMObject.getBody());
+            Long executionId = null;
+            if (keys.get(1) != null && keys.get(1).getValue() != null) {
+                executionId = ((Union) keys.get(1).getValue()).getLongValue();
+            }
+            if (executionId == null) {
+                return;
+            }
+            updateExecutionStatus(executionId, subscriptionKeys.getStageType(), success, step);
         }
     }
 
     private class GetAllArchiveAdapter extends ArchiveAdapter {
 
         @Override
-        public void queryResponseReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
+        public void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
+            // All matched objects have been received via queryUpdateReceived; query is complete.
+        }
+
+        @Override
+        public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
                 ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
             if (objBodies != null) {
                 int i = 0;
                 for (Object objBody : objBodies) {
-                    if (objBody instanceof ActionInstanceDetails) {
-                        ActionInstanceDetails instance = ((ActionInstanceDetails) objBody);
+                    if (objBody instanceof ExecutionRequest) {
+                        ExecutionRequest execReq = ((ExecutionRequest) objBody);
                         try {
                             IdentifierList idList = new IdentifierList();
                             idList.add(new Identifier(
                                     CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION));
 
-                            ObjectInstancePairList objIds = gma.getMCServices().getActionService().getActionStub()
-                                    .listDefinition(idList);
-                            if (objIds.size() > 0 && objIds.get(0).getObjDefInstanceId().longValue() == instance
-                                    .getDefInstId().longValue() && instance.getArgumentValues().size() == 3) {
+                            LongList objIds = gma.getMCServices().getActionService().getActionStub().listDefinition(idList);
+                            if (!objIds.isEmpty()
+                                    && objIds.get(0).longValue() == execReq.getDefinitionId().longValue()
+                                    && execReq.getArgumentValues().size() == 3) {
 
-                                String timestamp = instance.getArgumentValues().get(2).getValue().toString();
-                                LOGGER.log(Level.INFO, "recovered action: " + timestamp + "\tID: " + objDetails.get(i)
-                                        .getInstId());
+                                String timestamp = execReq.getArgumentValues().get(2).getValue().toString();
+                                LOGGER.log(Level.INFO,
+                                        "recovered action: " + timestamp + "\tID: " + objDetails.get(i).getId());
 
-                                activeActions.put(objDetails.get(i).getInstId(),
+                                activeActions.put(objDetails.get(i).getId(),
                                         new ActionReport[CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_STAGES]);
 
                                 AbsoluteDate scheduleDate = new AbsoluteDate(timestamp, TimeScalesFactory.getUTC());
@@ -585,24 +558,17 @@ public class CameraAcquisitorGround {
                         } catch (MALInteractionException | MALException ex) {
                             LOGGER.log(Level.SEVERE, ex.getMessage());
                         }
-                    } else if (objBody instanceof ActivityAcceptance) {
-                        ActivityAcceptance instance = ((ActivityAcceptance) objBody);
-                        updateEvent(objDetails.get(i).getDetails().getSource().getKey().getInstId(),
-                                instance.getTypeId().getSFP(), objBody);
-                    } else if (objBody instanceof ActivityExecution) {
-                        ActivityExecution instance = ((ActivityExecution) objBody);
-                        updateEvent(objDetails.get(i).getDetails().getSource().getKey().getInstId(),
-                                instance.getTypeId().getSFP(), objBody);
+                    } else if (objBody instanceof ExecutionStatus) {
+                        ExecutionStatus status = (ExecutionStatus) objBody;
+                        Long executionId = objDetails.get(i).getLinks().getRelated();
+                        if (executionId != null) {
+                            updateExecutionStatus(executionId, status.getStageType(),
+                                    status.getSuccess(), status.getStep());
+                        }
                     }
                     i++;
                 }
             }
-        }
-
-        @Override
-        public void queryUpdateReceived(MALMessageHeader msgHeader, ObjectType objType, IdentifierList domain,
-                ArchiveDetailsList objDetails, HeterogeneousList objBodies, Map qosProperties) {
-            queryResponseReceived(msgHeader, objType, domain, objDetails, objBodies, qosProperties);
         }
 
     }
