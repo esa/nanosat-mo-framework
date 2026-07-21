@@ -19,7 +19,7 @@
     <parent>
         <groupId>int.esa.nmf</groupId>
         <artifactId>nanosat-mo-framework</artifactId>
-        <version>5.0</version>
+        <version>5.1-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
@@ -62,7 +62,7 @@
     </developers>
 
     <properties>
-        <esa.nmf.version>5.0</esa.nmf.version>
+        <esa.nmf.version>5.1-SNAPSHOT</esa.nmf.version>
         <maven.deploy.skip>true</maven.deploy.skip>
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
     </properties>

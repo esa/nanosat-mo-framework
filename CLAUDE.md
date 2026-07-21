@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 The NanoSat MO Framework (NMF) is a Java software framework for small satellites based on CCSDS Mission Operations (MO) services. It enables apps running on a spacecraft to be started/stopped from the ground. Apps have specific Parameters, Actions and Alerts that can be monitored and controlled. The NMF has a set of MO services (Monitor & Control, Platform, COM, Software Management).
 
 - **Documentation**: https://nanosat-mo-framework.readthedocs.io/en/latest/
-- **Version**: 5.0 (`int.esa.nmf` group ID)
+- **Version**: 5.1-SNAPSHOT (`int.esa.nmf` group ID)
 - **Java**: 11 (source/target)
 - **License**: ESA-PL Weak Copyleft v2.4
 

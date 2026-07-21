@@ -14,7 +14,7 @@ under the License. -->
     <parent>
         <groupId>int.esa.nmf</groupId>
         <artifactId>nanosat-mo-framework</artifactId>
-        <version>5.0</version>
+        <version>5.1-SNAPSHOT</version>
         <relativePath>../../../pom.xml</relativePath>
     </parent>
 
@@ -50,12 +50,12 @@ under the License. -->
     <dependencies>        <dependency>
             <groupId>int.esa.nmf.simulator</groupId>
             <artifactId>cubesat-spacecraft-simulator</artifactId>
-            <version>5.0</version>
+            <version>5.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.simulator</groupId>
             <artifactId>image-debayer</artifactId>
-            <version>5.0</version>
+            <version>5.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.sdk</groupId>
