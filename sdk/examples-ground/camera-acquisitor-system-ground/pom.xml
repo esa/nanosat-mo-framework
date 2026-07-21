@@ -65,6 +65,8 @@
     <properties>
         <assembly.mainClass>esa.mo.ground.cameraacquisotorground.SpringInitiator</assembly.mainClass>
         <start-class>esa.mo.ground.cameraacquisotorground.SpringInitiator</start-class>
+        <!-- Heavyweight artifact: keep it out of the Maven Central deployment bundle. -->
+        <skipPublishing>true</skipPublishing>
     </properties>
 
     <dependencyManagement>

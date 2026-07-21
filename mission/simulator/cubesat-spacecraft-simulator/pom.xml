@@ -18,6 +18,10 @@ the License. -->
     <groupId>int.esa.nmf.simulator</groupId>
     <artifactId>cubesat-spacecraft-simulator</artifactId>
     <packaging>jar</packaging>
+    <properties>
+        <!-- Heavyweight artifact: keep it out of the Maven Central deployment bundle. -->
+        <skipPublishing>true</skipPublishing>
+    </properties>
     <name>ESA NMF Sim - Spacecraft Simulator</name>
     <description>A simple software simulator of OPS-SAT</description>
     <url>http://www.esa.int</url>

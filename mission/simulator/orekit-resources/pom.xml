@@ -27,6 +27,11 @@
     <artifactId>orekit-resources</artifactId>
     <packaging>jar</packaging>
 
+    <properties>
+        <!-- Heavyweight orbital-data resource: keep it out of the Maven Central deployment bundle. -->
+        <skipPublishing>true</skipPublishing>
+    </properties>
+
     <name>ESA NMF Sim - Orekit Resources</name>
     <description>Jar containing the Orekit-Data that is needed as a resource for most of the Orekit applications using it</description>
     <url>http://www.esa.int</url>

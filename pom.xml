@@ -63,6 +63,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- NMF general properties -->
         <esa.nmf.version>5.0</esa.nmf.version>
+        <central.publishing.plugin.version>0.9.0</central.publishing.plugin.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -190,6 +191,65 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-assembly-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <!-- Publish to the Maven Central Portal via central-publishing (the
+                 modern Sonatype Portal flow, as used by e.g. WildFly). This
+                 overrides the nexus-staging deploy inherited from the MO parent:
+                 nexus-staging defers its upload to the last reactor module, which
+                 never fires in NMF's single-root layout (the aggregator root
+                 builds first, and the last module skips staging). central-publishing
+                 instead aggregates the whole reactor into one deployment at session
+                 end, independent of module build order.
+
+                 This profile merges with the inherited "release" profile, so the
+                 source/javadoc/gpg-sign steps still apply; here we only swap the
+                 deploy mechanism. -->
+            <id>release</id>
+            <build>
+                <plugins>
+                    <!-- Neutralise the nexus-staging plugin inherited from the parent. -->
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <extensions>false</extensions>
+                        <executions>
+                            <execution>
+                                <id>default-deploy</id>
+                                <phase>none</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- The Portal plugin performs the upload; disable the stock deploy. -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>default-deploy</id>
+                                <phase>none</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>${central.publishing.plugin.version}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <!-- Reuses the existing "ossrh" server (a Central Portal
+                                 token) from settings.xml; change if you use another id. -->
+                            <publishingServerId>ossrh</publishingServerId>
+                            <!-- Upload and validate only. Publishing is done manually
+                                 from https://central.sonatype.com after reviewing the
+                                 validated deployment. -->
+                            <autoPublish>false</autoPublish>
+                            <waitUntil>validated</waitUntil>
+                            <deploymentName>nanosat-mo-framework-${project.version}</deploymentName>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
