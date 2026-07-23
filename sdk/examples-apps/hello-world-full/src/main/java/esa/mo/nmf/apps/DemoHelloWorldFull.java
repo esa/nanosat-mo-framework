@@ -45,7 +45,7 @@ import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
 public class DemoHelloWorldFull {
 
     private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
-    private static final String PARAMETER_NAME = "A_Parameter";
+    private static final String PARAMETER_NAME = "a-parameter";
     private static final String PARAMETER_DESCRIPTION = "My first parameter!";
     private String var = "Hello World!";
 

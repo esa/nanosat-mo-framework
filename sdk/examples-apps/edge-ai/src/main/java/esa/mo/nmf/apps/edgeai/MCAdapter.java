@@ -47,8 +47,8 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
     private static final Logger LOG = Logger.getLogger(MCAdapter.class.getName());
 
-    private static final String ACTION_START_AI = "AI_Start";
-    private static final String ACTION_CANCEL_AI = "AI_Cancel";
+    private static final String ACTION_START_AI = "ai.start";
+    private static final String ACTION_CANCEL_AI = "ai.cancel";
     private static final int TOTAL_STAGES = 1;
 
     private final NMFInterface connector;

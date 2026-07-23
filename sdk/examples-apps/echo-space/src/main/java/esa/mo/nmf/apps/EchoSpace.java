@@ -63,7 +63,7 @@ public class EchoSpace {
     }
 
     public void pushBlob() throws NMFException {
-        connector.pushParameterValue("Data", data);
+        connector.pushParameterValue("data", data);
     }
 
     /**
@@ -83,7 +83,7 @@ public class EchoSpace {
             ParameterDefinitionList pddl = new ParameterDefinitionList();
 
             pddl.add(new ParameterDefinition(
-                    new Identifier("Data"), "The sent data", new AttributeType(1),
+                    new Identifier("data"), "The sent data", new AttributeType(1),
                     null, true, new Duration(), null, null, false));
             registrationObject.registerParameters(pddl);
         }
@@ -101,7 +101,7 @@ public class EchoSpace {
 
         @Override
         public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
-            if (!identifiers.get(0).getValue().equals("Data")) {
+            if (!identifiers.get(0).getValue().equals("data")) {
                 return false;
             }
 

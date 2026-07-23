@@ -51,9 +51,9 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
 
     private NMFInterface connector;
 
-    private static final String PARAMETER_SNAPS_TAKEN = "NumberOfSnapsTaken";
-    private static final String ACTION_TAKE_PICTURE_RAW = "TakeSnap.RAW";
-    private static final String ACTION_TAKE_PICTURE_JPG = "TakeSnap.JPG";
+    private static final String PARAMETER_SNAPS_TAKEN = "camera.number-of-snaps-taken";
+    private static final String ACTION_TAKE_PICTURE_RAW = "camera.take-snap.raw";
+    private static final String ACTION_TAKE_PICTURE_JPG = "camera.take-snap.jpg";
 
     private final AtomicInteger snapsTaken = new AtomicInteger(0);
     private final int width = 2048;

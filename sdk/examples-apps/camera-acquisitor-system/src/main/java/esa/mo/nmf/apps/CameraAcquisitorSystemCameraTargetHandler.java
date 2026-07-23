@@ -54,7 +54,7 @@ import org.orekit.time.TimeScalesFactory;
  */
 public class CameraAcquisitorSystemCameraTargetHandler {
 
-    public static final String ACTION_PHOTOGRAPH_LOCATION = "photographLocation";
+    public static final String ACTION_PHOTOGRAPH_LOCATION = "camera.photograph-location";
     public static final int PHOTOGRAPH_LOCATION_STAGES = 3 + CameraAcquisitorSystemCameraHandler.PHOTOGRAPH_NOW_STAGES;
     private static final int STAGE_WAIT_FOR_PASS = 1;
     private static final int STAGE_ATTITUDE_CORECTION = 2;

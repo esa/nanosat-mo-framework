@@ -66,26 +66,26 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     private static final String CMD_LINUX_VERSION = "uname -a";
     private static final String CMD_WINDOWS_VERSION = "systeminfo | findstr Version";
 
-    private static final String PARAM_OS_VERSION = "OSVersion";
-    private static final String PARAM_OS_PARTITION = "OSPartition";
-    private static final String PARAM_ATTITUDE_QUAT_A = "attitudeQuatA";
-    private static final String PARAM_ATTITUDE_QUAT_B = "attitudeQuatB";
-    private static final String PARAM_ATTITUDE_QUAT_C = "attitudeQuatC";
-    private static final String PARAM_ATTITUDE_QUAT_D = "attitudeQuatD";
-    private static final String PARAM_ATTITUDE_MONITORING_INTERVAL = "attitudeMonitoringInterval";
-    private static final String PARAM_GPS_LATITUDE = "GPS_Latitude";
-    private static final String PARAM_GPS_LONGITUDE = "GPS_Longitude";
-    private static final String PARAM_GPS_N_SATS = "GPS_NumberOfSatellitesInView";
-    private static final String PARAM_MAG_X = "MagneticField_X";
-    private static final String PARAM_MAG_Y = "MagneticField_Y";
-    private static final String PARAM_MAG_Z = "MagneticField_Z";
+    private static final String PARAM_OS_VERSION = "os.version";
+    private static final String PARAM_OS_PARTITION = "os.partition";
+    private static final String PARAM_ATTITUDE_QUAT_A = "adcs.attitude-quat.a";
+    private static final String PARAM_ATTITUDE_QUAT_B = "adcs.attitude-quat.b";
+    private static final String PARAM_ATTITUDE_QUAT_C = "adcs.attitude-quat.c";
+    private static final String PARAM_ATTITUDE_QUAT_D = "adcs.attitude-quat.d";
+    private static final String PARAM_ATTITUDE_MONITORING_INTERVAL = "adcs.attitude-monitoring-interval";
+    private static final String PARAM_GPS_LATITUDE = "gps.latitude";
+    private static final String PARAM_GPS_LONGITUDE = "gps.longitude";
+    private static final String PARAM_GPS_N_SATS = "gps.number-of-satellites-in-view";
+    private static final String PARAM_MAG_X = "magnetometer.field.x";
+    private static final String PARAM_MAG_Y = "magnetometer.field.y";
+    private static final String PARAM_MAG_Z = "magnetometer.field.z";
 
-    private static final String ACTION_ADCS_CONFIGURE_MONITORING = "ADCS.configureMonitoring";
-    private static final String ACTION_NMEA_SENTENCE = "NMEA_Sentence";
-    private static final String ACTION_CLOCK_SET_TIME = "Clock.setTimeUsingDeltaMilliseconds";
-    private static final String ACTION_ADCS_SUN_POINTING = "ADCS.sunpointing";
-    private static final String ACTION_ADCS_NADIR_POINTING = "ADCS.nadirPointing";
-    private static final String ACTION_ADCS_UNSET_ATTITUDE = "ADCS.unsetAttitude";
+    private static final String ACTION_ADCS_CONFIGURE_MONITORING = "adcs.configure-monitoring";
+    private static final String ACTION_NMEA_SENTENCE = "gps.sentence";
+    private static final String ACTION_CLOCK_SET_TIME = "clock.set-time-using-delta-milliseconds";
+    private static final String ACTION_ADCS_SUN_POINTING = "adcs.mode.sun-pointing";
+    private static final String ACTION_ADCS_NADIR_POINTING = "adcs.mode.nadir-pointing";
+    private static final String ACTION_ADCS_UNSET_ATTITUDE = "adcs.mode.unset-attitude";
 
     private static final Duration DEFAULT_MONITORING_INTERVAL = new Duration(1.0);
 

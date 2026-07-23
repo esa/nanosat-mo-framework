@@ -55,7 +55,7 @@ public class DefaultSupervisorMCTest extends NMFTest {
 
     private static final String NMF_VERSION = "nmf.version";
     private static final String NMF_UPTIME = "nmf.uptime";
-    private static final String MISSION_PARAM = "OSVersion"; // from MCSupervisorBasicAdapter
+    private static final String MISSION_PARAM = "os.version"; // from MCSupervisorBasicAdapter
 
     private static GroundMOAdapterImpl adapter;
     private static ParameterStub parameterStub;

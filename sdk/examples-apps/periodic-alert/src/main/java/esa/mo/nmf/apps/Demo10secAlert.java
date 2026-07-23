@@ -53,7 +53,7 @@ public class Demo10secAlert {
 
         this.timer.scheduleTask(new Thread(() -> {
             try {
-                connector.publishAlertEvent("10SecondsAlert", null);
+                connector.publishAlertEvent("10-seconds-alert", null);
             } catch (NMFException ex) {
                 Logger.getLogger(Demo10secAlert.class.getName()).log(Level.SEVERE,
                     "The Alert could not be published to the consumer!", ex);

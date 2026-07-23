@@ -54,35 +54,35 @@ import org.ccsds.moims.mo.platform.structures.*;
  */
 public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
 
-    private static final String ACTION_5_STAGES = "5StagesAction";
-    private static final String ACTION_NADIR_POINTING_MODE = "ADCS_NadirPointingMode";
-    private static final String ACTION_SUN_POINTING_MODE = "ADCS_SunPointingMode";
-    private static final String ACTION_UNSET = "ADCS_UnsetAttitude";
+    private static final String ACTION_5_STAGES = "5-stages-action";
+    private static final String ACTION_NADIR_POINTING_MODE = "adcs.mode.nadir-pointing";
+    private static final String ACTION_SUN_POINTING_MODE = "adcs.mode.sun-pointing";
+    private static final String ACTION_UNSET = "adcs.mode.unset-attitude";
     private static final String AGGREGATION_GPS = "GPS_Aggregation";
     private static final String AGGREGATION_MAG = "Magnetometer_Aggregation";
-    private static final String PARAMETER_ADCS_MODE = "ADCS_ModeOperation";
-    private static final String PARAMETER_ADCS_DURATION = "ADCS_RemainingControlDuration";
-    private static final String PARAMETER_ANGULAR_VELOCITY_X = "AngularVelocity_X";
-    private static final String PARAMETER_ANGULAR_VELOCITY_Y = "AngularVelocity_Y";
-    private static final String PARAMETER_ANGULAR_VELOCITY_Z = "AngularVelocity_Z";
-    private static final String PARAMETER_ATTITUDE_Q_A = "AttitudeQuaternion_a";
-    private static final String PARAMETER_ATTITUDE_Q_B = "AttitudeQuaternion_b";
-    private static final String PARAMETER_ATTITUDE_Q_C = "AttitudeQuaternion_c";
-    private static final String PARAMETER_ATTITUDE_Q_D = "AttitudeQuaternion_d";
-    private static final String PARAMETER_GPS_ALTITUDE = "GPS_Altitude";
-    private static final String PARAMETER_GPS_ELAPSED_TIME = "GPS_ElapsedTime";
-    private static final String PARAMETER_GPS_LATITUDE = "GPS_Latitude";
-    private static final String PARAMETER_GPS_LONGITUDE = "GPS_Longitude";
-    private static final String PARAMETER_GPS_N_SATS_IN_VIEW = "GPS_NumberOfSatellitesInView";
-    private static final String PARAMETER_MAG_X = "MagneticField_X";
-    private static final String PARAMETER_MAG_Y = "MagneticField_Y";
-    private static final String PARAMETER_MAG_Z = "MagneticField_Z";
-    private static final String PARAMETER_MTQ_X = "MagnetorquerMoment_X";
-    private static final String PARAMETER_MTQ_Y = "MagnetorquerMoment_Y";
-    private static final String PARAMETER_MTQ_Z = "MagnetorquerMoment_Z";
-    private static final String PARAMETER_SUN_VECTOR_X = "SunVector_X";
-    private static final String PARAMETER_SUN_VECTOR_Y = "SunVector_Y";
-    private static final String PARAMETER_SUN_VECTOR_Z = "SunVector_Z";
+    private static final String PARAMETER_ADCS_MODE = "adcs.mode-operation";
+    private static final String PARAMETER_ADCS_DURATION = "adcs.remaining-control-duration";
+    private static final String PARAMETER_ANGULAR_VELOCITY_X = "adcs.angular-velocity.x";
+    private static final String PARAMETER_ANGULAR_VELOCITY_Y = "adcs.angular-velocity.y";
+    private static final String PARAMETER_ANGULAR_VELOCITY_Z = "adcs.angular-velocity.z";
+    private static final String PARAMETER_ATTITUDE_Q_A = "adcs.attitude-quaternion.a";
+    private static final String PARAMETER_ATTITUDE_Q_B = "adcs.attitude-quaternion.b";
+    private static final String PARAMETER_ATTITUDE_Q_C = "adcs.attitude-quaternion.c";
+    private static final String PARAMETER_ATTITUDE_Q_D = "adcs.attitude-quaternion.d";
+    private static final String PARAMETER_GPS_ALTITUDE = "gps.altitude";
+    private static final String PARAMETER_GPS_ELAPSED_TIME = "gps.elapsed-time";
+    private static final String PARAMETER_GPS_LATITUDE = "gps.latitude";
+    private static final String PARAMETER_GPS_LONGITUDE = "gps.longitude";
+    private static final String PARAMETER_GPS_N_SATS_IN_VIEW = "gps.number-of-satellites-in-view";
+    private static final String PARAMETER_MAG_X = "magnetometer.field.x";
+    private static final String PARAMETER_MAG_Y = "magnetometer.field.y";
+    private static final String PARAMETER_MAG_Z = "magnetometer.field.z";
+    private static final String PARAMETER_MTQ_X = "adcs.magnetorquer-moment.x";
+    private static final String PARAMETER_MTQ_Y = "adcs.magnetorquer-moment.y";
+    private static final String PARAMETER_MTQ_Z = "adcs.magnetorquer-moment.z";
+    private static final String PARAMETER_SUN_VECTOR_X = "adcs.sun-vector.x";
+    private static final String PARAMETER_SUN_VECTOR_Y = "adcs.sun-vector.y";
+    private static final String PARAMETER_SUN_VECTOR_Z = "adcs.sun-vector.z";
 
     private static final Duration ATTITUDE_MONITORING_INTERVAL = new Duration(1.0);
     private static final Logger LOGGER = Logger.getLogger(MCAllInOneAdapter.class.getName());
@@ -125,7 +125,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
             atts.add(att);
 
             try {
-                nmf.publishAlertEvent("10SecondsAlert", atts);
+                nmf.publishAlertEvent("10-seconds-alert", atts);
             } catch (NMFException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }

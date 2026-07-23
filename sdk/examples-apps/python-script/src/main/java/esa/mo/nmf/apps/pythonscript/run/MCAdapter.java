@@ -44,8 +44,8 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
     private static final Logger LOG = Logger.getLogger(MCAdapter.class.getName());
 
-    private static final String ACTION_RUN_PYTHON_SCRIPT = "RunPythonScript";
-    private static final String ACTION_DESTROY_PROCESS = "DestroyProcess";
+    private static final String ACTION_RUN_PYTHON_SCRIPT = "run-python-script";
+    private static final String ACTION_DESTROY_PROCESS = "destroy-process";
     private static final int TOTAL_STAGES = 1;
 
     private final Map<Long, PythonScriptExecutor> processMap = new ConcurrentHashMap<>();

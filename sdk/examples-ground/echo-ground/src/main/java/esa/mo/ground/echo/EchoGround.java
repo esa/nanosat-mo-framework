@@ -66,12 +66,12 @@ public class EchoGround {
             if (gma != null) {
                 StringBuilder sb = new StringBuilder("A");
                 for (int i = 0; i < 50; i++) {
-                    gma.setParameter("Data", new Blob(sb.toString().getBytes()));
+                    gma.setParameter("data", new Blob(sb.toString().getBytes()));
                     sb.append("A");
                     Thread.sleep(5000);
                 }
-                gma.setParameter("Data", new Blob("Hello".getBytes()));
-                gma.setParameter("Data", new Blob("OPS-SAT".getBytes()));
+                gma.setParameter("data", new Blob("Hello".getBytes()));
+                gma.setParameter("data", new Blob("OPS-SAT".getBytes()));
             } else {
                 LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - "
                         + ECHO_SPACE_PROVIDER);

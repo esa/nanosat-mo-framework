@@ -62,13 +62,13 @@ public class DemoSetAndCommand {
             if (gma != null) {
                 // Set a parameter with a string value
                 String parameterValue = "The parameter was set!";
-                gma.setParameter("A_Parameter", parameterValue);
+                gma.setParameter("a-parameter", parameterValue);
 
                 // Send a command with a Double argument
                 double value = 1.35565;
                 Double[] values = new Double[1];
                 values[0] = value;
-                gma.launchAction("Go", values);
+                gma.launchAction("go", values);
             } else {
                 LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - " +
                     PROVIDER_HELLO_WORLD);

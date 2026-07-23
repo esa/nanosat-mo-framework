@@ -98,25 +98,25 @@ public class PayloadsTestActionsHandler {
                 switch (format.getValue()) {
                     case PictureFormat.BMP_VALUE:
                         if (autoExposed) {
-                            actionName = "takeAutoExposedPicture_BMP";
+                            actionName = "camera.take-auto-exposed-picture.bmp";
                         } else {
-                            actionName = "takePicture_BMP";
+                            actionName = "camera.take-picture.bmp";
                         }
                         break;
                     case PictureFormat.RAW_VALUE:
                         if (autoExposed) {
-                            actionName = "takeAutoExposedPicture_RAW";
+                            actionName = "camera.take-auto-exposed-picture.raw";
                         } else {
-                            actionName = "takePicture_RAW";
+                            actionName = "camera.take-picture.raw";
                         }
                         break;
                     case PictureFormat.PNG_VALUE:
                     case PictureFormat.JPG_VALUE:
                     default:
                         if (autoExposed) {
-                            actionName = "takeAutoExposedPicture_JPG";
+                            actionName = "camera.take-auto-exposed-picture.jpg";
                         } else {
-                            actionName = "takePicture_JPG";
+                            actionName = "camera.take-picture.jpg";
                         }
                         break;
                 }

@@ -65,37 +65,37 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
 
     // ----------------------------------- Parameters -----------------------------------------------
 
-    @Parameter(description = "The red channel gain", reportingEnabled = false)
+    @Parameter(name = "camera.gain.red", description = "The red channel gain", reportingEnabled = false)
     private float gainRed = 8.0f;
 
-    @Parameter(description = "The green channel gain", reportingEnabled = false)
+    @Parameter(name = "camera.gain.green", description = "The green channel gain", reportingEnabled = false)
     private float gainGreen = 8.0f;
 
-    @Parameter(description = "The blue channel gain", reportingEnabled = false)
+    @Parameter(name = "camera.gain.blue", description = "The blue channel gain", reportingEnabled = false)
     private float gainBlue = 8.0f;
 
-    @Parameter(description = "The camera's exposure Type (CUSTOM = 0, AUTOMATIC = 1)", reportingEnabled = false)
+    @Parameter(name = "camera.exposure-type", description = "The camera's exposure Type (CUSTOM = 0, AUTOMATIC = 1)", reportingEnabled = false)
     private byte exposureType = 0;
 
-    @Parameter(description = "The camera's exposure time (only used if exposureType is CUSTOM)",
+    @Parameter(name = "camera.exposure-time", description = "The camera's exposure time (only used if exposureType is CUSTOM)",
                reportingEnabled = false)
     private float exposureTime = 0.003f;
 
-    @Parameter(description = "The maximum time (in milliseconds) the satellite will take to establish a lock and rotate",
+    @Parameter(name = "worst-case-rotation-time-ms", description = "The maximum time (in milliseconds) the satellite will take to establish a lock and rotate",
                reportingEnabled = false)
     private long worstCaseRotationTimeMS = 1000000;
 
-    @Parameter(description = "The time (in milliseconds) the satellite will keep pointing at a given target after passing over it",
+    @Parameter(name = "adcs.attitude-safety-margin-ms", description = "The time (in milliseconds) the satellite will keep pointing at a given target after passing over it",
                reportingEnabled = false)
     private long attitudeSafetyMarginMS = 20000;
 
-    @Parameter(description = "The width (x resolution) of the picture taken by the camera", reportingEnabled = false)
+    @Parameter(name = "camera.picture-width", description = "The width (x resolution) of the picture taken by the camera", reportingEnabled = false)
     private int pictureWidth = 2048;
 
-    @Parameter(description = "The height (y resolution) of the picture taken by the camera", reportingEnabled = false)
+    @Parameter(name = "camera.picture-height", description = "The height (y resolution) of the picture taken by the camera", reportingEnabled = false)
     private int pictureHeight = 1944;
 
-    @Parameter(description = "The picture type to use (uses PictureFormat ENUM: RAW=0, RGB24=1, BMP=2, PNG=3, JPG=4)",
+    @Parameter(name = "camera.picture-type", description = "The picture type to use (uses PictureFormat ENUM: RAW=0, RGB24=1, BMP=2, PNG=3, JPG=4)",
                reportingEnabled = false)
     private int pictureType = 3;
 

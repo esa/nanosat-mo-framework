@@ -44,14 +44,14 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     private final NanoSatMOConnectorImpl connector;
     //    private static int NUMBER_OF_OBJS = 5000;
     private static final int NUMBER_OF_OBJS = 10000;
-    private static final String PARAMETER_PERIODIC = "Periodic_Parameter";
-    private static final String PARAMETER_ARCHIVE_SIZE = "COM_Archive.size";
-    private static final String ACTION_STORE_AGGS = "StoreAggregations";
-    private static final String ACTION_STORE_PARS = "StoreParameters";
+    private static final String PARAMETER_PERIODIC = "benchmark.periodic-parameter";
+    private static final String PARAMETER_ARCHIVE_SIZE = "benchmark.com-archive-size";
+    private static final String ACTION_STORE_AGGS = "benchmark.store-aggregations";
+    private static final String ACTION_STORE_PARS = "benchmark.store-parameters";
     private static final String ACTION_SHUTDOWN_GRACEFULLY = "shutdown.gracefully";
     private static final String ACTION_SHUTDOWN_EXIT_0 = "shutdown.system.exit.0";
     private static final String ACTION_SHUTDOWN_EXIT_X = "shutdown.system.exit.x";
-    private static final String ACTION_GO = "Go";
+    private static final String ACTION_GO = "benchmark.go";
     private static final int TOTAL_N_OF_STAGES = 5;
     private static final int SLEEP_TIME = 2;
 

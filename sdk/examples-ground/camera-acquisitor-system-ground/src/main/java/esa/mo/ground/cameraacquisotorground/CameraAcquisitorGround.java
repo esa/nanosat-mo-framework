@@ -135,16 +135,16 @@ public class CameraAcquisitorGround {
      */
     private static class Parameter {
 
-        private static final String GAIN_RED = "gainRed";
-        private static final String GAIN_GREEN = "gainGreen";
-        private static final String GAIN_BLUE = "gainBlue";
-        private static final String EXPOSURE_TYPE = "exposureType";
-        private static final String CUSTOM_EXPOSURE_TIME = "exposureTime";
-        private static final String WORST_CASE_ROTATION_TIME_MS = "worstCaseRotationTimeMS";
-        private static final String ATTITUDE_SAFETY_MARGIN_MS = "attitudeSafetyMarginMS";
-        private static final String PICTURE_WIDTH = "pictureWidth";
-        private static final String PICTURE_HEIGHT = "pictureHeight";
-        private static final String PICTURE_TYPE = "pictureType";
+        private static final String GAIN_RED = "camera.gain.red";
+        private static final String GAIN_GREEN = "camera.gain.green";
+        private static final String GAIN_BLUE = "camera.gain.blue";
+        private static final String EXPOSURE_TYPE = "camera.exposure-type";
+        private static final String CUSTOM_EXPOSURE_TIME = "camera.exposure-time";
+        private static final String WORST_CASE_ROTATION_TIME_MS = "worst-case-rotation-time-ms";
+        private static final String ATTITUDE_SAFETY_MARGIN_MS = "adcs.attitude-safety-margin-ms";
+        private static final String PICTURE_WIDTH = "camera.picture-width";
+        private static final String PICTURE_HEIGHT = "camera.picture-height";
+        private static final String PICTURE_TYPE = "camera.picture-type";
     }
 
     /**

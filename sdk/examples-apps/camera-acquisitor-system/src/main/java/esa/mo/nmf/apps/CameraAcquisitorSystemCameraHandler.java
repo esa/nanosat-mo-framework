@@ -59,7 +59,7 @@ public class CameraAcquisitorSystemCameraHandler {
             CameraAcquisitorSystemCameraHandler.class.getName());
 
     // photographNow action name
-    public static final String ACTION_PHOTOGRAPH_NOW = "photographNow";
+    public static final String ACTION_PHOTOGRAPH_NOW = "camera.photograph-now";
     // photographNow number of stages
     public static final int PHOTOGRAPH_NOW_STAGES = 2;
 

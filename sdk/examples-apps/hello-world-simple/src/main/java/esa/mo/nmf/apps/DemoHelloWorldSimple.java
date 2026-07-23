@@ -37,10 +37,10 @@ import org.ccsds.moims.mo.mc.structures.*;
 public class DemoHelloWorldSimple {
 
     private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
-    private static final String PARAMETER_NAME = "A_Parameter";
+    private static final String PARAMETER_NAME = "a-parameter";
     private static final String PARAMETER_DESCRIPTION = "My first parameter!";
     private String var = "Hello World!";
-    private static final String ACTION_GO = "Go";
+    private static final String ACTION_GO = "go";
 
     public DemoHelloWorldSimple() {
         connector.init(new MCAdapterSimple());

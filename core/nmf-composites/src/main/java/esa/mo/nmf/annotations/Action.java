@@ -42,7 +42,7 @@ import java.lang.annotation.Target;
  * <p>
  * Example:
  * <pre>
- * <b>&#64;Action(name = "Clock.setTimeUsingDeltaMilliseconds",
+ * <b>&#64;Action(name = "clock.set-time-using-delta-milliseconds",
  *   description = "Sets the clock using a diff between the on-board time and the desired time.")</b>
  * public void setTimeUsingDeltaMilliseconds(
  *     Long executionId,

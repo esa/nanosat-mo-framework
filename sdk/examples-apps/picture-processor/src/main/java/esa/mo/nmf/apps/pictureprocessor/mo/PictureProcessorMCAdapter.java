@@ -58,8 +58,8 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
 
     private static final Logger LOG = Logger.getLogger(PictureProcessorMCAdapter.class.getName());
 
-    private static final String ACTION_TAKE_AND_PROCESS_PICTURE = "TakeAndProcessPicture";
-    private static final String ACTION_DESTROY_PROCESS = "DestroyProcess";
+    private static final String ACTION_TAKE_AND_PROCESS_PICTURE = "take-and-process-picture";
+    private static final String ACTION_DESTROY_PROCESS = "destroy-process";
     private static final int TOTAL_STAGES = 1;
 
     private final Map<Long, PictureReceivedAdapter> processMap = new ConcurrentHashMap<>();

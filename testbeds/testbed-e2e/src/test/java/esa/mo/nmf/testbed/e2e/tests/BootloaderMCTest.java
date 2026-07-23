@@ -54,7 +54,7 @@ import org.junit.Test;
  * End-to-end tests for the NMF Bootloader MC set (NMF Bootloader
  * Specification, Phase 3). Verifies that the Supervisor exposes the software
  * baseline files as read-only parameters and that the primary baseline can be
- * commanded through the validated {@code bootloader.setPrimaryBaseline} action.
+ * commanded through the validated {@code bootloader.set-primary-baseline} action.
  * The Supervisor runs from a real generated filesystem, so the on-disk baseline
  * files and {@code SHA256SUMS} manifests exercised here are the ones the
  * bootloader itself consumes.
@@ -63,7 +63,7 @@ public class BootloaderMCTest extends NMFTest {
 
     private static final SupervisorHarness harness = new SupervisorHarness();
 
-    private static final String SET_PRIMARY = "bootloader.setPrimaryBaseline";
+    private static final String SET_PRIMARY = "bootloader.set-primary-baseline";
     private static final String P_NMF = "bootloader.primary.nmf-version";
     private static final String P_MISSION = "bootloader.primary.mission-version";
     private static final String P_JAVA = "bootloader.primary.java";

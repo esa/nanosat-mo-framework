@@ -35,7 +35,7 @@ import java.util.logging.Logger;
 public class Space2SpaceAdapter extends MonitorAndControlNMFAdapter {
 
     private static final Logger LOGGER = Logger.getLogger(Space2SpaceAdapter.class.getName());
-    private static final String PARAMETER_NAMES = "GPS.Latitude,GPS.Longitude,GPS.Altitude,GPS.NumberOfSatellitesInView";
+    private static final String PARAMETER_NAMES = "gps.latitude,gps.longitude,gps.altitude,gps.number-of-satellites-in-view";
 
     // The application's NMF provider.
     private NanoSatMOConnectorImpl connector;
