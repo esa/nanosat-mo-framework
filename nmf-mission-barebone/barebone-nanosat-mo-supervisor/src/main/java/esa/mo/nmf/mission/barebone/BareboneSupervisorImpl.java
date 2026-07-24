@@ -39,6 +39,12 @@ public class BareboneSupervisorImpl extends NanoSatMOSupervisor {
     private static final Logger LOGGER = Logger.getLogger(BareboneSupervisorImpl.class.getName());
 
     /**
+     * Default constructor.
+     */
+    public BareboneSupervisorImpl() {
+    }
+
+    /**
      * Main command line entry point.
      *
      * @param args the command line arguments.

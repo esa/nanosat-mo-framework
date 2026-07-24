@@ -28,6 +28,9 @@ import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
  */
 public class MonolithicProviderDemo {
 
+    private MonolithicProviderDemo() {
+    }
+
     /**
      * Main command line entry point.
      *

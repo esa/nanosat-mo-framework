@@ -38,11 +38,28 @@ public abstract class COMService extends ServiceInfo {
 
     private final Map<Integer, COMObject> objectsByNumber = new HashMap<>();
 
+    /**
+     * Creates a COM service specification with no COM objects.
+     *
+     * @param serviceKey the service key
+     * @param serviceName the service name
+     * @param elements the MAL elements defined by the service
+     * @param operations the MAL operations defined by the service
+     */
     public COMService(final ServiceKey serviceKey, final Identifier serviceName,
             final Element[] elements, final MALOperation[] operations) {
         this(serviceKey, serviceName, elements, operations, new COMObject[0]);
     }
 
+    /**
+     * Creates a COM service specification with the given COM objects.
+     *
+     * @param serviceKey the service key
+     * @param serviceName the service name
+     * @param elements the MAL elements defined by the service
+     * @param operations the MAL operations defined by the service
+     * @param comObjects the COM objects defined by the service
+     */
     public COMService(final ServiceKey serviceKey, final Identifier serviceName,
             final Element[] elements, final MALOperation[] operations, final COMObject[] comObjects) {
         super(serviceKey, serviceName, elements, operations);
