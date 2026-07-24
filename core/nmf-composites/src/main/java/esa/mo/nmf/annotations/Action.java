@@ -62,9 +62,24 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface Action {
 
+    /**
+     * The name of the action. Defaults to the annotated method's name when left empty.
+     *
+     * @return the action name
+     */
     String name() default "";
 
+    /**
+     * A human-readable description of what the action does.
+     *
+     * @return the action description
+     */
     String description() default "";
 
+    /**
+     * The number of progress stages the action reports; {@code 0} for a single-step action.
+     *
+     * @return the number of progress stages
+     */
     int stepCount() default 0;
 }

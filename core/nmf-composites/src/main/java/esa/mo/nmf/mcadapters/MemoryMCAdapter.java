@@ -51,6 +51,12 @@ public class MemoryMCAdapter extends MonitorAndControlNMFAdapter {
     private static final String SWAP_USAGE = "memory.swap.usage";
     private static final String SWAP_PERCENTAGE = "memory.swap.percentage";
 
+    /**
+     * Default constructor.
+     */
+    public MemoryMCAdapter() {
+    }
+
     @Override
     public void initialRegistrations(MCRegistration registration) {
         registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);

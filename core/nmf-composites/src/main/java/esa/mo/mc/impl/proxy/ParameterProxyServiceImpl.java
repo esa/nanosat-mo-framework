@@ -56,6 +56,12 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
     private final ConnectionProvider connection = new ConnectionProvider();
 
     /**
+     * Default constructor.
+     */
+    public ParameterProxyServiceImpl() {
+    }
+
+    /**
      * Creates the MAL objects, the publisher used to create updates and starts
      * the publishing thread
      *

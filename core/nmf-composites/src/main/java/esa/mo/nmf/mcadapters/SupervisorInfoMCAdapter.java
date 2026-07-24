@@ -46,6 +46,12 @@ public class SupervisorInfoMCAdapter extends MonitorAndControlNMFAdapter {
     private static final String PARAM_NMF_VERSION = "nmf.version";
     private static final String PARAM_NMF_UPTIME = "nmf.uptime";
 
+    /**
+     * Default constructor.
+     */
+    public SupervisorInfoMCAdapter() {
+    }
+
     @Override
     public void initialRegistrations(MCRegistration registration) {
         registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);

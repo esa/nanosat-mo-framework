@@ -73,6 +73,12 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
     private SoftwareDefinedRadioAdapterInterface adapter;
 
     /**
+     * Default constructor.
+     */
+    public SoftwareDefinedRadioProviderServiceImpl() {
+    }
+
+    /**
      * Initializes the Software-defined Radio service.
      *
      * @param adapter The SDR adapter
@@ -198,7 +204,18 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
         }
     }
 
+    /**
+     * Listener that logs the acknowledgements and errors of the SoftwareDefinedRadio service PUB/SUB
+     * publish operations.
+     */
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
+
+        /**
+         * Default constructor.
+         */
+        public PublishInteractionListener() {
+        }
+
 
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header, 

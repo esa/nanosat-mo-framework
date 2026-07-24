@@ -75,10 +75,21 @@ public class NMFPackageManager {
 
     private AppsLauncherProviderServiceImpl appsLauncher;
 
+    /**
+     * Creates the package manager.
+     *
+     * @param appsLauncher the AppsLauncher service used to register/deregister installed apps,
+     * or {@code null} if not available
+     */
     public NMFPackageManager(AppsLauncherProviderServiceImpl appsLauncher) {
         this.appsLauncher = appsLauncher;
     }
 
+    /**
+     * Sets the AppsLauncher service used to register/deregister installed apps.
+     *
+     * @param appsLauncher the AppsLauncher service
+     */
     public void setAppsLauncher(AppsLauncherProviderServiceImpl appsLauncher) {
         this.appsLauncher = appsLauncher;
     }
@@ -795,6 +806,12 @@ public class NMFPackageManager {
         return null;
     }
 
+    /**
+     * Returns the public key stored at the given folder location.
+     *
+     * @param folderLocation the folder containing the public key
+     * @return the public key, or {@code null} if it cannot be read
+     */
     public static String getPublicKey(String folderLocation) {
         /*
         // Find the newReceipt and get it out of the package

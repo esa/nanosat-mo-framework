@@ -55,6 +55,12 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
     private ActionConsumerServiceImpl actionConsumer;
 
     /**
+     * Default constructor.
+     */
+    public ActionProxyServiceImpl() {
+    }
+
+    /**
      * creates the MAL objects, the publisher used to create updates and starts
      * the publishing thread
      *
@@ -101,6 +107,11 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
         }
     }
 
+    /**
+     * Returns the connection provider backing this Action proxy service.
+     *
+     * @return the connection provider
+     */
     public ConnectionProvider getConnectionProvider() {
         return this.connection;
     }

@@ -66,8 +66,15 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
     private boolean running = false;
     private final ConnectionProvider connection = new ConnectionProvider();
     private Timer timer;
+    /** The heartbeat publish period, in milliseconds. */
     protected long period = 10000; // 10 seconds
     private IntSupplier timeFactorSupplier = () -> 1;
+
+    /**
+     * Default constructor.
+     */
+    public HeartbeatProviderServiceImpl() {
+    }
 
     /**
      * Creates the MAL objects, the publisher used to create updates and starts
@@ -167,7 +174,18 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
         this.timeFactorSupplier = supplier;
     }
 
+    /**
+     * Listener that logs the acknowledgements and errors of the Heartbeat service PUB/SUB
+     * publish operations.
+     */
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
+
+        /**
+         * Default constructor.
+         */
+        public PublishInteractionListener() {
+        }
+
 
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header,

@@ -24,11 +24,15 @@ import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
 
 /**
+ * Consumer of the Conversion service.
  *
  * @author Cesar Coelho
  */
 public class ConversionConsumerServiceImpl {
 
+    /**
+     * Creates the Conversion service consumer, loading the Conversion service MAL elements.
+     */
     public ConversionConsumerServiceImpl() {
         MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(ConversionHelper.CONVERSION_SERVICE);
     }

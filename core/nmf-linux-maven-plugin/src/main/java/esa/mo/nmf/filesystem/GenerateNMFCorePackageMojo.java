@@ -81,6 +81,12 @@ public class GenerateNMFCorePackageMojo extends AbstractMojo {
     @Parameter(property = "generate-nmf-core-package.jarsNmfDirectory")
     private File jarsNmfDirectory;
 
+    /**
+     * Default constructor.
+     */
+    public GenerateNMFCorePackageMojo() {
+    }
+
     @Override
     public void execute() throws MojoExecutionException {
         getLog().info("Generating NMF core package...");

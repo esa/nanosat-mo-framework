@@ -63,8 +63,21 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
     private final HashMap<String, Long> actionNameMapping = new HashMap<>();
 
     private ArchiveProviderServiceImpl archiveService;
+    /** The Parameter service used to push parameter values; set during registration. */
     protected ParameterProviderServiceImpl parameterService;
 
+    /**
+     * Default constructor.
+     */
+    public MonitorAndControlNMFAdapter() {
+    }
+
+    /**
+     * Registers the parameters and actions declared by this adapter in the Monitor and
+     * Control services. Called once by the NMF when the provider starts.
+     *
+     * @param registration the registration object bound to the M&amp;C services
+     */
     public void initialRegistrations(MCRegistration registration) {
         // Prevent definition updates on consecutive application runs
         registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
@@ -464,6 +477,12 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
         return result;
     }
 
+    /**
+     * Sets a single parameter's raw value on the mapped annotated field.
+     *
+     * @param newRawValue the parameter id and its new raw value
+     * @return {@code true} if the value was set; {@code false} if no field maps to the id
+     */
     public Boolean onSetValue(ParameterRawValue newRawValue) {
         Object value;
         Field param = parameterMapping.get(newRawValue.getParameterId());

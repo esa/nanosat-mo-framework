@@ -33,6 +33,7 @@ import org.ccsds.moims.mo.sm.packagemanagement.PackageManagementHelper;
 import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementStub;
 
 /**
+ * Consumer of the PackageManagement service.
  *
  * @author Cesar Coelho
  */
@@ -41,6 +42,16 @@ public class PackageManagementConsumerServiceImpl extends ConsumerServiceImpl {
     private PackageManagementStub packageManagementService = null;
     private COMServicesConsumer comServices;
 
+    /**
+     * Creates the PackageManagement service consumer and starts the consumer connection.
+     *
+     * @param connectionDetails the connection details of the PackageManagement service provider
+     * @param comServices the COM services consumer used by this service
+     * @param authenticationId the authentication id of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     * @throws MALException if the consumer cannot be created
+     * @throws MALInteractionException if the service returns an error
+     */
     public PackageManagementConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix)
             throws MALException, MALInteractionException {
@@ -64,11 +75,24 @@ public class PackageManagementConsumerServiceImpl extends ConsumerServiceImpl {
         this.packageManagementService = new PackageManagementStub(tmConsumer);
     }
 
+    /**
+     * Creates the PackageManagement service consumer with no authentication id nor local name prefix.
+     *
+     * @param connectionDetails the connection details of the PackageManagement service provider
+     * @param comServices the COM services consumer used by this service
+     * @throws MALException if the consumer cannot be created
+     * @throws MALInteractionException if the service returns an error
+     */
     public PackageManagementConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices) throws MALException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
+    /**
+     * Returns the COM services consumer used by this service.
+     *
+     * @return the COM services consumer
+     */
     public COMServicesConsumer getCOMServices() {
         return comServices;
     }
@@ -78,6 +102,11 @@ public class PackageManagementConsumerServiceImpl extends ConsumerServiceImpl {
         return this.getPackageManagementStub();
     }
 
+    /**
+     * Returns the PackageManagement service stub used to invoke operations on the provider.
+     *
+     * @return the PackageManagement service stub
+     */
     public PackageManagementStub getPackageManagementStub() {
         return this.packageManagementService;
     }

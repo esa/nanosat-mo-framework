@@ -67,6 +67,12 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
     private final Map<Long, Command> cachedCommandDetails = new HashMap<>();
 
     /**
+     * Default constructor.
+     */
+    public CommandExecutorProviderServiceImpl() {
+    }
+
+    /**
      * Initializes the service provider.
      *
      * @param comServices The COM services.
@@ -104,6 +110,12 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         LOGGER.info("Command Executor service: READY! (" + timestamp + " ms)");
     }
 
+    /**
+     * Splits a command line string into the argument array passed to the process builder.
+     *
+     * @param command the command line to assemble
+     * @return the command split into its arguments
+     */
     protected String[] assembleCommand(final String command) {
         ArrayList<String> ret = new ArrayList<>();
         if (osValidator.isWindows()) {
@@ -226,8 +238,18 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         }
     }
 
+    /**
+     * Listener that logs the acknowledgements and errors of the CommandExecutor service
+     * PUB/SUB publish operations.
+     */
     public static final class PublishInteractionListener
             implements org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener {
+
+        /**
+         * Default constructor.
+         */
+        public PublishInteractionListener() {
+        }
 
         @Override
         public void publishDeregisterAckReceived(

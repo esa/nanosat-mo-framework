@@ -35,6 +35,8 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
+ * Consumer of the COM Directory service.
+ *
  * @author Cesar Coelho
  */
 public class DirectoryConsumerServiceImpl extends ConsumerServiceImpl {
@@ -43,6 +45,16 @@ public class DirectoryConsumerServiceImpl extends ConsumerServiceImpl {
 
     private DirectoryStub directoryService = null;
 
+    /**
+     * Creates the Directory service consumer and starts the consumer connection.
+     *
+     * @param providerURI the URI of the Directory service provider
+     * @param authenticationId the authentication id of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     * @throws MALException if the consumer cannot be created
+     * @throws MalformedURLException if a provided URI is malformed
+     * @throws MALInteractionException if the service returns an error
+     */
     public DirectoryConsumerServiceImpl(final URI providerURI, final Blob authenticationId,
             final String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
         this.connectionDetails = null;
@@ -66,11 +78,24 @@ public class DirectoryConsumerServiceImpl extends ConsumerServiceImpl {
         this.directoryService = new DirectoryStub(tmConsumer);
     }
 
+    /**
+     * Creates the Directory service consumer with no authentication id nor local name prefix.
+     *
+     * @param providerURI the URI of the Directory service provider
+     * @throws MALException if the consumer cannot be created
+     * @throws MalformedURLException if a provided URI is malformed
+     * @throws MALInteractionException if the service returns an error
+     */
     public DirectoryConsumerServiceImpl(final URI providerURI)
             throws MALException, MalformedURLException, MALInteractionException {
         this(providerURI, null, null);
     }
 
+    /**
+     * Returns the URI of the Directory service provider.
+     *
+     * @return the provider URI
+     */
     public URI getProviderURI() {
         return this.providerURI;
     }
@@ -85,6 +110,11 @@ public class DirectoryConsumerServiceImpl extends ConsumerServiceImpl {
         return this.getDirectoryStub();
     }
 
+    /**
+     * Returns the Directory service stub used to invoke operations on the provider.
+     *
+     * @return the Directory service stub
+     */
     public DirectoryStub getDirectoryStub() {
         return this.directoryService;
     }

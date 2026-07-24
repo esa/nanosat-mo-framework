@@ -53,28 +53,45 @@ import org.ccsds.moims.mo.mal.structures.Time;
  */
 public class Metadata {
 
+    /** File name of the metadata receipt bundled inside every NMF Package. */
     public static final String FILENAME = "package-metadata.properties";
 
+    /** Property key for the package creation timestamp. */
     public static final String PACKAGE_TIMESTAMP = "info.creation-timestamp";
+    /** Property key for the metadata format version. */
     public static final String PACKAGE_METADATA_VERSION = "info.metadata-version";
+    /** The latest metadata format version written by this library. */
     public static final String METADATA_VERSION_LATEST = "4";
 
+    /** Property key for the package name. */
     public static final String PACKAGE_NAME = "info.name";
+    /** Property key for the package version. */
     public static final String PACKAGE_VERSION = "info.version";
 
     // PACKAGE_TYPE: "app", "nmf-update", "mission-update", "dependency", "java"
+    /** Property key for the package type; one of the {@code TYPE_*} values. */
     public static final String PACKAGE_TYPE = "info.type";
+    /** Package type value for an App. */
     public static final String TYPE_APP = "app";
+    /** Package type value for a shared dependency. */
     public static final String TYPE_DEPENDENCY = "dependency";
+    /** Package type value for a Java runtime update. */
     public static final String TYPE_UPDATE_JAVA = "java";
+    /** Package type value for a mission baseline update. */
     public static final String TYPE_UPDATE_MISSION = "mission";
+    /** Package type value for an NMF baseline update. */
     public static final String TYPE_UPDATE_NMF = "nmf";
+    /** Package type value for a delta package. */
     public static final String TYPE_DELTA = "delta";
 
+    /** Property key for the number of files listed in the package. */
     public static final String FILE_COUNT = "zipped.file.count";
+    /** Property key prefix for the path of each listed file. */
     public static final String FILE_PATH = "zipped.file.path";
+    /** Property key prefix for the CRC checksum of each listed file. */
     public static final String FILE_CRC = "zipped.file.crc";
 
+    /** The backing properties holding all metadata entries. */
     protected final Properties properties;
     private ArrayList<NMFPackageFile> files;
 
@@ -107,31 +124,67 @@ public class Metadata {
         */
     }
 
+    /**
+     * Adds or overwrites a metadata property.
+     *
+     * @param key the property key
+     * @param value the property value
+     */
     public void addProperty(String key, String value) {
         properties.put(key, value);
     }
 
+    /**
+     * Returns the metadata format version of this package.
+     *
+     * @return the metadata version
+     */
     public int getMetadataVersion() {
         String version = properties.getProperty(PACKAGE_METADATA_VERSION);
         return Integer.parseInt(version);
     }
 
+    /**
+     * Returns the package name.
+     *
+     * @return the package name
+     */
     public String getPackageName() {
         return properties.getProperty(PACKAGE_NAME);
     }
 
+    /**
+     * Returns the package version.
+     *
+     * @return the package version
+     */
     public String getPackageVersion() {
         return properties.getProperty(PACKAGE_VERSION);
     }
 
+    /**
+     * Returns the package creation timestamp.
+     *
+     * @return the creation timestamp
+     */
     public String getPackageTimestamp() {
         return properties.getProperty(PACKAGE_TIMESTAMP);
     }
 
+    /**
+     * Returns the package type; one of the {@code TYPE_*} values.
+     *
+     * @return the package type
+     */
     public String getPackageType() {
         return properties.getProperty(PACKAGE_TYPE);
     }
 
+    /**
+     * Returns this metadata as an {@link MetadataApp} if the package is an App.
+     *
+     * @return the app metadata, or {@code null} if this package is not an App
+     */
     public MetadataApp castToApp() {
         if (!isApp()) {
             return null;
@@ -139,6 +192,12 @@ public class Metadata {
         return new MetadataApp(this.properties);
     }
 
+    /**
+     * Returns the list of files declared in the package, parsing them from the properties on
+     * first access.
+     *
+     * @return the list of package files
+     */
     public synchronized ArrayList<NMFPackageFile> getFiles() {
         if (files != null) {
             return files;
@@ -157,10 +216,23 @@ public class Metadata {
         return files;
     }
 
+    /**
+     * Writes the metadata to the given output stream.
+     *
+     * @param outStream the stream to write to
+     * @throws IOException if writing fails
+     */
     public void store(OutputStream outStream) throws IOException {
         properties.store(outStream, "NMF Package Metadata");
     }
 
+    /**
+     * Writes the metadata to the given file, creating parent directories as needed.
+     *
+     * @param file the file to write to
+     * @throws FileNotFoundException if the file cannot be created
+     * @throws IOException if writing fails
+     */
     public void store(File file) throws FileNotFoundException, IOException {
         String parent = file.getParent();
 
@@ -195,12 +267,26 @@ public class Metadata {
         }
     }
 
+    /**
+     * Loads metadata from the given input stream.
+     *
+     * @param inStream the stream to read from
+     * @return the loaded metadata
+     * @throws IOException if reading fails
+     */
     public static Metadata load(InputStream inStream) throws IOException {
         Properties props = new Properties();
         props.load(inStream);
         return new Metadata(props);
     }
 
+    /**
+     * Loads metadata from the given file.
+     *
+     * @param file the file to read from
+     * @return the loaded metadata
+     * @throws IOException if reading fails
+     */
     public static Metadata load(File file) throws IOException {
         Metadata loadedMetadata;
         try ( InputStream stream = new FileInputStream(file)) {
@@ -228,6 +314,11 @@ public class Metadata {
         };
     }
 
+    /**
+     * Whether this package carries an App.
+     *
+     * @return {@code true} if the package is an App (or a pre-version-4 package)
+     */
     public boolean isApp() {
         // Before version 4, all NMF Packages were used to carry Apps
         // Version 4 is more dynamic and allows NMF Packages to carry other
@@ -239,18 +330,38 @@ public class Metadata {
         return TYPE_APP.equals(this.getPackageType());
     }
 
+    /**
+     * Whether this package carries a Java runtime update.
+     *
+     * @return {@code true} if the package type is {@code java}
+     */
     public boolean isJava() {
         return TYPE_UPDATE_JAVA.equals(this.getPackageType());
     }
 
+    /**
+     * Whether this package carries an NMF baseline update.
+     *
+     * @return {@code true} if the package type is {@code nmf}
+     */
     public boolean isNMF() {
         return TYPE_UPDATE_NMF.equals(this.getPackageType());
     }
 
+    /**
+     * Whether this package carries a mission baseline update.
+     *
+     * @return {@code true} if the package type is {@code mission}
+     */
     public boolean isMission() {
         return TYPE_UPDATE_MISSION.equals(this.getPackageType());
     }
 
+    /**
+     * Whether this package carries a shared dependency.
+     *
+     * @return {@code true} if the package type is {@code dependency}
+     */
     public boolean isDependency() {
         return TYPE_DEPENDENCY.equals(this.getPackageType());
     }
@@ -268,6 +379,12 @@ public class Metadata {
         return isNMF() || isMission() || isJava();
     }
 
+    /**
+     * Compares this metadata with another by creation timestamp, name and version.
+     *
+     * @param other the metadata to compare against
+     * @return {@code true} if the timestamp, name and version all match
+     */
     public boolean sameAs(Metadata other) {
         // Starts with the timestamp because this is most of the times unique!
         if (!this.getPackageTimestamp().equals(other.getPackageTimestamp())) {

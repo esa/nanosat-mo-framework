@@ -183,6 +183,11 @@ public class NMFPackagePMBackend implements PMBackend {
         return packagesFolder.getAbsolutePath() + File.separator + packageName;
     }
 
+    /**
+     * Sets the AppsLauncher service used by the underlying package manager.
+     *
+     * @param appsLauncherService the AppsLauncher service
+     */
     public void setAppsLauncher(AppsLauncherProviderServiceImpl appsLauncherService) {
         manager.setAppsLauncher(appsLauncherService);
     }

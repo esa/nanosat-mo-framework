@@ -34,6 +34,7 @@ import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.action.consumer.ActionStub;
 
 /**
+ * Consumer of the Action service.
  *
  * @author Cesar Coelho
  */
@@ -42,6 +43,11 @@ public class ActionConsumerServiceImpl extends ConsumerServiceImpl {
     private ActionStub actionService = null;
     private COMServicesConsumer comServices;
 
+    /**
+     * Returns the COM services consumer used by this service.
+     *
+     * @return the COM services consumer
+     */
     public COMServicesConsumer getCOMServices() {
         return comServices;
     }
@@ -51,6 +57,11 @@ public class ActionConsumerServiceImpl extends ConsumerServiceImpl {
         return this.getActionStub();
     }
 
+    /**
+     * Returns the Action service stub used to invoke operations on the provider.
+     *
+     * @return the Action service stub
+     */
     public ActionStub getActionStub() {
         return this.actionService;
     }
@@ -60,11 +71,31 @@ public class ActionConsumerServiceImpl extends ConsumerServiceImpl {
         return new ActionStub(tmConsumer);
     }
 
+    /**
+     * Creates the Action service consumer with no authentication id nor local name prefix.
+     *
+     * @param connectionDetails the connection details of the Action service provider
+     * @param comServices the COM services consumer used by this service
+     * @throws MALException if the consumer cannot be created
+     * @throws MalformedURLException if a provided URI is malformed
+     * @throws MALInteractionException if the service returns an error
+     */
     public ActionConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
             throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
+    /**
+     * Creates the Action service consumer and starts the consumer connection.
+     *
+     * @param connectionDetails the connection details of the Action service provider
+     * @param comServices the COM services consumer used by this service
+     * @param authenticationId the authentication id of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     * @throws MALException if the consumer cannot be created
+     * @throws MalformedURLException if a provided URI is malformed
+     * @throws MALInteractionException if the service returns an error
+     */
     public ActionConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices, Blob authenticationId,
             String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {

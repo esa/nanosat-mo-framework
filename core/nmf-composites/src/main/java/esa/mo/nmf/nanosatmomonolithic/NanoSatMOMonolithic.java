@@ -55,6 +55,12 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
     private static final Logger LOGGER = Logger.getLogger(NanoSatMOMonolithic.class.getName());
 
     /**
+     * Default constructor.
+     */
+    public NanoSatMOMonolithic() {
+    }
+
+    /**
      * Initializes the NanoSat MO Monolithic. The MonitorAndControlAdapter
      * adapter class can be extended for remote monitoring and control with the
      * CCSDS Monitor and Control services. One can also extend the
@@ -190,6 +196,12 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
         System.exit(0);
     }
 
+    /**
+     * Initializes the mission-specific Platform services and registers them in the given
+     * COM services stack.
+     *
+     * @param comServices the COM services stack the Platform services register with
+     */
     public abstract void initPlatformServices(COMServicesProvider comServices);
 
 }

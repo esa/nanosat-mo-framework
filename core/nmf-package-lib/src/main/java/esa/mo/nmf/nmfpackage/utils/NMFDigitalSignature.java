@@ -37,6 +37,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Utility methods to generate DSA key pairs and sign NMF Package files.
  *
  * @author Cesar Coelho
  */
@@ -45,6 +46,14 @@ public class NMFDigitalSignature {
     private static final String SIGNATURE_ALGORITHM = "SHA1withDSA";
     private static final String SIGNATURE_PROVIDER = "SUN";
 
+    private NMFDigitalSignature() {
+    }
+
+    /**
+     * Generates a 2048-bit DSA key pair for signing NMF Packages.
+     *
+     * @return the generated key pair, or {@code null} if the algorithm is unavailable
+     */
     public static KeyPair generateKeyPar() {
         try {
             KeyPairGenerator keyGen = KeyPairGenerator.getInstance("DSA", "SUN");
@@ -59,6 +68,13 @@ public class NMFDigitalSignature {
         return null;
     }
 
+    /**
+     * Signs the content of a file with the given private key.
+     *
+     * @param privateKey the private key to sign with
+     * @param file the path to the file to sign
+     * @return the signature bytes, or {@code null} if signing fails
+     */
     public static byte[] signWithData(PrivateKey privateKey, String file) {
         try {
             Signature dsa = Signature.getInstance(SIGNATURE_ALGORITHM, SIGNATURE_PROVIDER);

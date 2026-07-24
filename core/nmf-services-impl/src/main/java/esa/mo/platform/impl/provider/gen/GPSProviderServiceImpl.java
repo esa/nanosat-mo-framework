@@ -61,6 +61,7 @@ import org.ccsds.moims.mo.platform.structures.*;
  */
 public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements ReconfigurableService {
 
+    /** Logger for this service provider. */
     protected static final Logger LOGGER = Logger.getLogger(GPSProviderServiceImpl.class.getName());
     private MALProvider gpsServiceProvider;
     private boolean initialiased = false;
@@ -71,18 +72,33 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     private GPSManager manager;
     private PeriodicCurrentPosition periodicCurrentPosition;
     private final ConnectionProvider connection = new ConnectionProvider();
+    /** Mission-specific adapter that reads the GPS hardware. */
     protected GPSAdapterInterface adapter;
     private ConfigurationChangeListener configurationAdapter;
 
+    /** Mutex guarding the cached position and velocity fields below. */
     protected final Object MUTEX = new Object();
+    /** Last known geodetic position. */
     protected Position currentPosition = null;
+    /** Last known cartesian position. */
     protected VectorD3D currentCartesianPosition = null;
+    /** Estimated deviation of the last known cartesian position. */
     protected VectorF3D currentCartesianPositionDeviation = null;
+    /** Last known cartesian velocity. */
     protected VectorD3D currentCartesianVelocity = null;
+    /** Estimated deviation of the last known cartesian velocity. */
     protected VectorF3D currentCartesianVelocityDeviation = null;
 
+    /** Timestamp, in milliseconds, of the last known position. */
     protected long timeOfCurrentPosition;
+    /** Timestamp, in milliseconds, of the last known position and velocity. */
     protected long timeOfCurrentPositionAndVelocity;
+
+    /**
+     * Default constructor.
+     */
+    public GPSProviderServiceImpl() {
+    }
 
     /**
      * Creates the MAL objects, the publisher used to create updates and starts
@@ -438,7 +454,18 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * Listener that logs the acknowledgements and errors of the GPS service PUB/SUB
+     * publish operations.
+     */
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
+
+        /**
+         * Default constructor.
+         */
+        public PublishInteractionListener() {
+        }
+
 
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header,
@@ -646,6 +673,13 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         }
     }
 
+    /**
+     * Whether this provider uses TLE propagation to estimate the position.
+     *
+     * @return {@code true} if TLE propagation is used
+     * @throws MALInteractionException if the service returns an error
+     * @throws MALException if a communication error occurs
+     */
     public boolean useTLEPropagation() throws MALInteractionException, MALException {
         return false;
     }

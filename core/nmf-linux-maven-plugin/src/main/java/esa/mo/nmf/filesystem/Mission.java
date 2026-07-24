@@ -73,26 +73,63 @@ public class Mission {
      */
     private String organizationName;
 
+    /**
+     * Default constructor. Maven populates the fields from the nested {@code <mission>}
+     * configuration element.
+     */
+    public Mission() {
+    }
+
+    /**
+     * Returns the mission name.
+     *
+     * @return the mission name
+     */
     public String getMissionName() {
         return missionName;
     }
 
+    /**
+     * Returns the spacecraft name.
+     *
+     * @return the spacecraft name
+     */
     public String getSpacecraftName() {
         return spacecraftName;
     }
 
+    /**
+     * Returns the spacecraft's unit number within the mission.
+     *
+     * @return the spacecraft node, or {@code null} if not set
+     */
     public Integer getSpacecraftNode() {
         return spacecraftNode;
     }
 
+    /**
+     * Returns the spacecraft's CCSDS Spacecraft Identifier (SCID).
+     *
+     * @return the spacecraft SCID, or {@code null} if not set
+     */
     public String getSpacecraftScid() {
         return spacecraftScid;
     }
 
+    /**
+     * Returns the operating organization's short acronym.
+     *
+     * @return the organization abbreviation
+     */
     public String getOrganizationAbbreviation() {
         return organizationAbbreviation;
     }
 
+    /**
+     * Returns the operating organization's full name.
+     *
+     * @return the organization name, or {@code null} if not set
+     */
     public String getOrganizationName() {
         return organizationName;
     }

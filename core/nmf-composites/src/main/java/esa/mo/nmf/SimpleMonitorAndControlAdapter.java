@@ -47,6 +47,12 @@ import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
  */
 public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNMFAdapter implements SimpleMonitorAndControlListener {
 
+    /**
+     * Default constructor.
+     */
+    public SimpleMonitorAndControlAdapter() {
+    }
+
     @Override
     public void actionArrived(Identifier identifier, AttributeValueList attributeValues,
             Long executionId, MALInteraction interaction) throws ExecutionFailedException {

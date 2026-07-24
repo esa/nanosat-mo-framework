@@ -26,6 +26,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Allocates and tracks the virtual SPP URIs used by {@link ProtocolBridgeSPP} to map non-SPP
+ * consumers onto SPP APID/source-id pairs within a configured APID range.
+ */
 public class VirtualSPPURIsManager {
 
     private static Random random = new Random();
@@ -42,6 +46,13 @@ public class VirtualSPPURIsManager {
     private final AtomicInteger uniqueSourceId;
     private final Object MUTEX = new Object();
 
+    /**
+     * Creates the manager for the given APID range, picking a random starting APID and
+     * source id within the range.
+     *
+     * @param apidRangeStart the first APID (inclusive) available for virtual URIs
+     * @param apidRangeEnd the last APID (inclusive) available for virtual URIs
+     */
     public VirtualSPPURIsManager(int apidRangeStart, int apidRangeEnd) {
         this.apidRangeStart = apidRangeStart;
         this.apidRangeEnd = apidRangeEnd;
@@ -53,6 +64,12 @@ public class VirtualSPPURIsManager {
         uniqueSourceId = new AtomicInteger(sourceId);
     }
 
+    /**
+     * Returns the original (non-SPP) URI previously mapped to the given virtual SPP URI.
+     *
+     * @param virtualSPPURI the virtual SPP URI to resolve
+     * @return the original URI, or {@code null} if the mapping does not exist
+     */
     public String getURI(String virtualSPPURI) {
         String reverse;
 
@@ -68,6 +85,13 @@ public class VirtualSPPURIsManager {
         return reverse;
     }
 
+    /**
+     * Returns the virtual SPP URI mapped to the given non-SPP URI, allocating a new one on
+     * first use.
+     *
+     * @param uriFrom the original (non-SPP) URI
+     * @return the virtual SPP URI assigned to it
+     */
     public String getVirtualSPPURI(String uriFrom) {
         String virtualAPID;
 
@@ -105,6 +129,12 @@ public class VirtualSPPURIsManager {
         return PROTOCOL_SPP + ":" + APID_QUALIFIER + "/" + apid + "/" + sourceId;
     }
 
+    /**
+     * Extracts the APID from a virtual SPP URI.
+     *
+     * @param virtualSPPURI the virtual SPP URI (format {@code malspp:qualifier/apid/sourceId})
+     * @return the APID encoded in the URI
+     */
     public static int getAPIDFromVirtualSPPURI(final String virtualSPPURI) {
         String[] str = virtualSPPURI.split("/");
         return Integer.parseInt(str[1]);

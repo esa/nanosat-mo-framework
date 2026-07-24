@@ -41,6 +41,16 @@ public class CameraConsumerServiceImpl extends ConsumerServiceImpl {
     private CameraStub cameraService = null;
     private COMServicesConsumer comServices;
 
+    /**
+     * Creates the Camera service consumer and starts the consumer connection.
+     *
+     * @param connectionDetails the connection details of the Camera service provider
+     * @param comServices the COM services consumer used by this service
+     * @param authenticationId the authentication id of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     * @throws MALException if the consumer cannot be created
+     * @throws MALInteractionException if the service returns an error
+     */
     public CameraConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices, Blob authenticationId,
             String localNamePrefix) throws MALException, MALInteractionException {
@@ -66,11 +76,24 @@ public class CameraConsumerServiceImpl extends ConsumerServiceImpl {
         this.cameraService = new CameraStub(tmConsumer);
     }
 
+    /**
+     * Creates the Camera service consumer with no authentication id nor local name prefix.
+     *
+     * @param connectionDetails the connection details of the Camera service provider
+     * @param comServices the COM services consumer used by this service
+     * @throws MALException if the consumer cannot be created
+     * @throws MALInteractionException if the service returns an error
+     */
     public CameraConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices) throws MALException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
+    /**
+     * Returns the COM services consumer used by this service.
+     *
+     * @return the COM services consumer
+     */
     public COMServicesConsumer getCOMServices() {
         return comServices;
     }
@@ -80,6 +103,11 @@ public class CameraConsumerServiceImpl extends ConsumerServiceImpl {
         return this.getCameraStub();
     }
 
+    /**
+     * Returns the Camera service stub used to invoke operations on the provider.
+     *
+     * @return the Camera service stub
+     */
     public CameraStub getCameraStub() {
         return this.cameraService;
     }

@@ -72,6 +72,12 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
     private PictureFormatList availableFormats;
 
     /**
+     * Default constructor.
+     */
+    public CameraProviderServiceImpl() {
+    }
+
+    /**
      * Creates the MAL objects, the publisher used to create updates and starts
      * the publishing thread
      *
@@ -316,7 +322,18 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * Listener that logs the acknowledgements and errors of the Camera service PUB/SUB
+     * publish operations.
+     */
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
+
+        /**
+         * Default constructor.
+         */
+        public PublishInteractionListener() {
+        }
+
 
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header,

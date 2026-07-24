@@ -32,18 +32,39 @@ import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.sm.heartbeat.consumer.BeatSubscriptionKeys;
 import org.ccsds.moims.mo.sm.heartbeat.consumer.HeartbeatAdapter;
 
+/**
+ * Heartbeat adapter used on the ground side of a {@link GroundMOProxy}. It subscribes to the
+ * spacecraft heartbeat, tracks the last received beat and updates the proxy's alive status.
+ */
 public class GroundHeartbeatAdapter extends HeartbeatAdapter {
 
     private static final Logger LOGGER = Logger.getLogger(GroundHeartbeatAdapter.class.getName());
+    /** Tolerance, in milliseconds, added to the beat period before a beat is considered missed. */
     protected static final long DELTA_ERROR = 2 * 1000; // 2 seconds = 2000 milliseconds
+    /** The heartbeat period, in milliseconds, as reported by the provider. */
     protected final long period; // In seconds
+    /** The measured round-trip delay to the provider, in milliseconds. */
     protected long lag; // In milliseconds
+    /** Scheduler running the periodic heartbeat-refresh task. */
     protected final TaskScheduler timer;
+    /** Ground timestamp of the last received beat. */
     protected Time lastBeatAt = Time.now();
+    /** On-board timestamp of the last received beat; {@code null} until the first beat. */
     protected Time lastBeatOBT = null; // Last beat in On-Board timestamp
+    /** The ground proxy whose alive status is tracked. */
     protected final GroundMOProxy moProxy;
+    /** The heartbeat consumer service connected to the spacecraft. */
     protected final HeartbeatConsumerServiceImpl heartbeat;
 
+    /**
+     * Creates the adapter, reads the heartbeat period from the provider, marks the proxy as
+     * alive and starts the periodic heartbeat-refresh task.
+     *
+     * @param heartbeat the heartbeat consumer service connected to the spacecraft
+     * @param moProxy the ground proxy whose alive status is tracked
+     * @throws MALInteractionException if the heartbeat service returns an error
+     * @throws MALException if a communication error occurs
+     */
     public GroundHeartbeatAdapter(final HeartbeatConsumerServiceImpl heartbeat,
             final GroundMOProxy moProxy) throws MALInteractionException, MALException {
         this.moProxy = moProxy;
@@ -58,10 +79,17 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
         startHeartbeatRefreshTask();
     }
 
+    /**
+     * Starts the periodic task that checks whether beats are still being received and
+     * remeasures the lag.
+     */
     public void startHeartbeatRefreshTask() {
         timer.scheduleTask(new HeartbeatRefreshTask(moProxy, heartbeat), period, period, TimeUnit.MILLISECONDS, true);
     }
 
+    /**
+     * Stops the heartbeat-refresh task and releases the scheduler.
+     */
     public void stop() {
         timer.resetScheduler();
     }
@@ -84,10 +112,20 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
         }
     }
 
+    /**
+     * Returns the ground timestamp of the last received beat.
+     *
+     * @return the ground timestamp of the last beat
+     */
     public Time getLastBeat() {
         return lastBeatAt;
     }
 
+    /**
+     * Returns the on-board timestamp of the last received beat.
+     *
+     * @return the on-board timestamp of the last beat, or {@code null} if no beat was received yet
+     */
     public Time getLastBeatOBT() {
         return lastBeatOBT;
     }

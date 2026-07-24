@@ -57,12 +57,19 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     private MALProvider alertServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
+    /** The manager handling the Alert definitions and their persistence. */
     protected AlertManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
     private ConfigurationChangeListener configurationAdapter;
     private MonitorAlertPublisher publisher;
     private boolean isRegistered = false;
     private final Object lock = new Object();
+
+    /**
+     * Default constructor.
+     */
+    public AlertProviderServiceImpl() {
+    }
 
     /**
      * Creates the MAL objects, the publisher used to create updates and starts
@@ -113,6 +120,11 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
     }
 
+    /**
+     * Returns the connection provider backing this service.
+     *
+     * @return the connection provider
+     */
     public ConnectionProvider getConnectionProvider() {
         return this.connection;
     }
@@ -216,6 +228,17 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         return outPairLst;  // requirement: 3.4.9.2.d
     }
 
+    /**
+     * Adds a set of alert definitions to the Alert service.
+     *
+     * @param alertDefs the alert definitions to add
+     * @param interaction the MAL interaction context, or {@code null}
+     * @return the object instance ids of the added definitions
+     * @throws InvalidArgumentException if a definition is invalid
+     * @throws DuplicateException if a definition already exists
+     * @throws MALInteractionException if the service returns an error
+     * @throws MALException if a communication error occurs
+     */
     public LongList addAlert(AlertDefinitionList alertDefs, MALInteraction interaction)
             throws InvalidArgumentException, DuplicateException, MALInteractionException, MALException {
         UIntegerList invIndexList = new UIntegerList();
@@ -314,6 +337,15 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
     }
 
+    /**
+     * Removes a set of alert definitions from the Alert service.
+     *
+     * @param alertDefIds the object instance ids of the definitions to remove
+     * @param interaction the MAL interaction context, or {@code null}
+     * @throws UnknownException if an id is unknown
+     * @throws MALInteractionException if the service returns an error
+     * @throws MALException if a communication error occurs
+     */
     public void removeAlert(LongList alertDefIds, MALInteraction interaction)
             throws UnknownException, MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
@@ -448,7 +480,18 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         return alertEventObjId;
     }
 
+    /**
+     * Listener that logs the acknowledgements and errors of the Alert service PUB/SUB
+     * publish operations.
+     */
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
+
+        /**
+         * Default constructor.
+         */
+        public PublishInteractionListener() {
+        }
+
 
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)

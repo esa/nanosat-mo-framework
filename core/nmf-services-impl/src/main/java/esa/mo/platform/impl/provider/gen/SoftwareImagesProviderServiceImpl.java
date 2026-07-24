@@ -87,6 +87,12 @@ public class SoftwareImagesProviderServiceImpl extends SoftwareImagesInheritance
     private final Map<String, Occupancy> occupancies = new HashMap<>();
 
     /**
+     * Default constructor.
+     */
+    public SoftwareImagesProviderServiceImpl() {
+    }
+
+    /**
      * Initializes the SoftwareImages service.
      *
      * @param comServices The COM services provider, for archiving the

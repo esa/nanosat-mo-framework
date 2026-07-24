@@ -71,6 +71,12 @@ public class InstallPackagesMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project}")
     private MavenProject project;
 
+    /**
+     * Default constructor.
+     */
+    public InstallPackagesMojo() {
+    }
+
     @Override
     public void execute() throws MojoExecutionException {
         File outputDir = new File(project.getBuild().getDirectory(), "space-filesystem");

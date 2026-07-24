@@ -583,8 +583,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 eclipsedParameters.add(new Identifier("CADC0890"));
                 eclipsedParameters.add(new Identifier("CADC0892"));
                 eclipsedParameters.add(new Identifier("CADC0894"));
-                LongList payloadsTestIds = this.parameterService.listDefinition(eclipsedParameters,
-                        null);
+                LongList payloadsTestIds = this.parameterService.listDefinition(eclipsedParameters, null);
 
                 Map<String, Long> nameToId = new HashMap<>();
                 for (int i = 0; i < eclipsedParameters.size(); ++i) {

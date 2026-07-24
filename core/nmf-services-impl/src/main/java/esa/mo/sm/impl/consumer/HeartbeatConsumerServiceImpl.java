@@ -38,6 +38,7 @@ import org.ccsds.moims.mo.sm.heartbeat.consumer.HeartbeatAdapter;
 import org.ccsds.moims.mo.sm.heartbeat.consumer.HeartbeatStub;
 
 /**
+ * Consumer of the Heartbeat service.
  *
  * @author Cesar Coelho
  */
@@ -47,6 +48,16 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
     private COMServicesConsumer comServices;
     private Subscription heartbeatSubscription = null;
 
+    /**
+     * Creates the Heartbeat service consumer and starts the consumer connection.
+     *
+     * @param connectionDetails the connection details of the Heartbeat service provider
+     * @param comServices the COM services consumer used by this service
+     * @param authenticationId the authentication id of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     * @throws MALException if the consumer cannot be created
+     * @throws MALInteractionException if the service returns an error
+     */
     public HeartbeatConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices, Blob authenticationId,
             String localNamePrefix) throws MALException, MALInteractionException {
@@ -70,6 +81,14 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
         this.heartbeatService = new HeartbeatStub(tmConsumer);
     }
 
+    /**
+     * Creates the Heartbeat service consumer with no authentication id nor local name prefix.
+     *
+     * @param connectionDetails the connection details of the Heartbeat service provider
+     * @param comServices the COM services consumer used by this service
+     * @throws MALException if the consumer cannot be created
+     * @throws MALInteractionException if the service returns an error
+     */
     public HeartbeatConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices) throws MALException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
@@ -115,6 +134,11 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
         }
     }
 
+    /**
+     * Returns the COM services consumer used by this service.
+     *
+     * @return the COM services consumer
+     */
     public COMServicesConsumer getCOMServices() {
         return comServices;
     }
@@ -124,6 +148,11 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
         return this.getHeartbeatStub();
     }
 
+    /**
+     * Returns the Heartbeat service stub used to invoke operations on the provider.
+     *
+     * @return the Heartbeat service stub
+     */
     public HeartbeatStub getHeartbeatStub() {
         return this.heartbeatService;
     }

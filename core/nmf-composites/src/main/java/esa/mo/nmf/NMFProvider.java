@@ -60,20 +60,39 @@ import org.ccsds.moims.mo.sm.SMHelper;
  */
 public abstract class NMFProvider implements ReconfigurableProvider, NMFInterface {
 
+    /** Error message used when the Monitor and Control services have not been initialized. */
     protected final static String MC_SERVICES_NOT_INITIALIZED = "The M&C services were not initialized!";
-    protected final static Long DEFAULT_PROVIDER_CONFIGURATION_OBJID = (long) 1;  // The objId of the configuration to be used by the provider
+    /** The objId of the configuration to be used by the provider. */
+    protected final static Long DEFAULT_PROVIDER_CONFIGURATION_OBJID = (long) 1;
+    /** The COM services stack (Archive, Directory, ...) provided by this provider. */
     protected final COMServicesProvider comServices = new COMServicesProvider();
+    /** The Heartbeat service exposing the provider's liveness. */
     protected final HeartbeatProviderServiceImpl heartbeatService = new HeartbeatProviderServiceImpl();
+    /** The Directory service advertising this provider's services. */
     protected final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
+    /** The Monitor and Control services stack; {@code null} until {@link #startMCServices} is called. */
     protected MCServicesProviderNMF mcServices;
+    /** Consumer of the Platform services offered by the Supervisor. */
     protected PlatformServicesConsumer platformServices;
+    /** Listener notified when the app is requested to close; {@code null} if none is set. */
     protected CloseAppListener closeAppAdapter = null;
+    /** Listener notified when the provider configuration changes; {@code null} if none is set. */
     protected ConfigurationChangeListener providerConfigurationAdapter = null;
+    /** The name this provider registers under in the Directory service. */
     protected String providerName;
+    /** Provider start time, in milliseconds since the epoch. */
     protected long startTime;
 
+    /** Handles persistence of the provider configuration across restarts. */
     protected PersistProviderConfiguration providerConfiguration;
+    /** The reconfigurable services whose configuration is persisted and restored. */
     protected final ArrayList<ReconfigurableService> reconfigurableServices = new ArrayList<>();
+
+    /**
+     * Default constructor for the generic NMF provider.
+     */
+    protected NMFProvider() {
+    }
 
     /**
      * Initializes the NMF provider using a monitoring and control adapter that
@@ -167,6 +186,14 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);
     }
 
+    /**
+     * Pushes a set of parameter values to the Parameter service in a single call.
+     *
+     * @param parameters the parameter instances to push
+     * @param storeIt {@code true} to also store the values in the COM Archive
+     * @return {@code true} if the values were successfully pushed
+     * @throws NMFException if the Monitor and Control services are not initialized
+     */
     public Boolean pushMultipleParameterValues(final ArrayList<ParameterInstance> parameters,
             final boolean storeIt) throws NMFException {
         if (this.getMCServices() == null) {
@@ -176,6 +203,14 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);
     }
 
+    /**
+     * Creates and initializes the Monitor and Control services from the given adapter and
+     * registers them as reconfigurable services. Does nothing if {@code mcAdapter} is
+     * {@code null}.
+     *
+     * @param mcAdapter the Monitor and Control adapter, or {@code null} to skip M&amp;C setup
+     * @throws MALException if the Monitor and Control services fail to initialize
+     */
     public final void startMCServices(MonitorAndControlNMFAdapter mcAdapter) throws MALException {
         if (mcAdapter != null) {
             mcServices = new MCServicesProviderNMF();
@@ -229,6 +264,11 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         this.closeAppAdapter = closeAppAdapter;
     }
 
+    /**
+     * Returns the listener notified when the app is requested to close.
+     *
+     * @return the close-app listener, or {@code null} if none is set
+     */
     public CloseAppListener getCloseAppListener() {
         return this.closeAppAdapter;
     }
@@ -308,6 +348,13 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         t1.start();
     }
 
+    /**
+     * Writes the Central Directory service URI (and an optional secondary URI) to the file
+     * read back by {@link #readCentralDirectoryServiceURI()}.
+     *
+     * @param centralDirectoryURI the primary Central Directory service URI
+     * @param secondaryURI an optional secondary URI written on the first line, or {@code null}
+     */
     public final void writeCentralDirectoryServiceURI(final String centralDirectoryURI, final String secondaryURI) {
         String filename = Const.FILENAME_CENTRAL_DIRECTORY_SERVICE;
 

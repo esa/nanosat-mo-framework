@@ -104,6 +104,11 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     private volatile Float attitudeQuatD = null;
     private Duration attitudeMonitoringInterval = DEFAULT_MONITORING_INTERVAL;
 
+    /**
+     * Creates the adapter bound to the given Supervisor.
+     *
+     * @param supervisor the Supervisor whose platform services are monitored and controlled
+     */
     public MCSupervisorBasicAdapter(NanoSatMOSupervisor supervisor) {
         nmfSupervisor = supervisor;
     }
@@ -330,6 +335,10 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Registers the ADCS attitude subscription and enables the attitude monitoring so that
+     * attitude telemetry starts flowing into the parameter cache.
+     */
     public void startAdcsAttitudeMonitoring() {
         // Register the subscription and enable the generation as two independent
         // steps: the cache is only filled once the provider is generating
@@ -350,7 +359,17 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Consumer adapter that caches the latest ADCS attitude telemetry received from the
+     * AutonomousADCS service so it can be exposed as parameters.
+     */
     public class ADCSDataHandler extends AutonomousADCSAdapter {
+
+        /**
+         * Default constructor.
+         */
+        public ADCSDataHandler() {
+        }
 
         @Override
         public void monitorAttitudeNotifyReceived(final MALMessageHeader msgHeader,

@@ -48,17 +48,34 @@ public class MCRegistration {
      * The possible registration modes.
      */
     public enum RegistrationMode {
-        UPDATE_IF_EXISTS, DONT_UPDATE_IF_EXISTS
+        /** Update the existing definition when a definition with the same name already exists. */
+        UPDATE_IF_EXISTS,
+        /** Keep the existing definition when a definition with the same name already exists. */
+        DONT_UPDATE_IF_EXISTS
     }
 
     private RegistrationMode mode = RegistrationMode.DONT_UPDATE_IF_EXISTS; // default mode
 
+    /** The COM services stack backing the Monitor and Control services. */
     public final COMServicesProvider comServices;
+    /** The Parameter service the parameter definitions are registered in. */
     public final ParameterProviderServiceImpl parameterService;
+    /** The Aggregation service the aggregation definitions are registered in. */
     public final AggregationProviderServiceImpl aggregationService;
+    /** The Alert service the alert definitions are registered in. */
     public final AlertProviderServiceImpl alertService;
+    /** The Action service the action definitions are registered in. */
     public final ActionProviderServiceImpl actionService;
 
+    /**
+     * Creates a registration object bound to the given Monitor and Control services.
+     *
+     * @param comServices the COM services stack
+     * @param parameterService the Parameter service
+     * @param aggregationService the Aggregation service
+     * @param alertService the Alert service
+     * @param actionService the Action service
+     */
     public MCRegistration(COMServicesProvider comServices,
             ParameterProviderServiceImpl parameterService,
             AggregationProviderServiceImpl aggregationService,
@@ -71,6 +88,11 @@ public class MCRegistration {
         this.actionService = actionService;
     }
 
+    /**
+     * Sets the mode used when a definition with the same name already exists.
+     *
+     * @param mode the registration mode to use
+     */
     public void setMode(RegistrationMode mode) {
         this.mode = mode;
     }

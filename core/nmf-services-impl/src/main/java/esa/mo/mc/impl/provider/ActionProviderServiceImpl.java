@@ -59,12 +59,19 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
     private MALProvider actionServiceProvider;
     private boolean initialiased = false;
     private boolean running = false;
+    /** The manager handling the Action definitions and their persistence. */
     protected ActionManager manager;
     private final ConnectionProvider connection = new ConnectionProvider();
     private ConfigurationChangeListener configurationAdapter;
     private MonitorExecutionPublisher publisher;
     private boolean isRegistered = false;
     private final Object lock = new Object();
+
+    /**
+     * Default constructor.
+     */
+    public ActionProviderServiceImpl() {
+    }
 
     /**
      * cCreates the MAL objects, the publisher used to create updates and starts
@@ -116,6 +123,11 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         }
     }
 
+    /**
+     * Returns the connection provider backing this service.
+     *
+     * @return the connection provider
+     */
     public ConnectionProvider getConnectionProvider() {
         return this.connection;
     }
@@ -202,6 +214,17 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         return outPairLst;  // requirement: 3.4.9.2.d
     }
 
+    /**
+     * Adds a set of action definitions to the Action service.
+     *
+     * @param defsList the action definitions to add
+     * @param interaction the MAL interaction context, or {@code null}
+     * @return the object instance ids of the added definitions
+     * @throws InvalidArgumentException if a definition is invalid
+     * @throws DuplicateException if a definition already exists
+     * @throws MALInteractionException if the service returns an error
+     * @throws MALException if a communication error occurs
+     */
     public LongList addAction(ActionDefinitionList defsList, MALInteraction interaction)
             throws InvalidArgumentException, DuplicateException, MALInteractionException, MALException {
         LongList newObjInstIds = new LongList();
@@ -251,6 +274,18 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         return newObjInstIds; // requirement: 3.2.12.2.f
     }
 
+    /**
+     * Updates a set of existing action definitions.
+     *
+     * @param ids the object instance ids of the definitions to update
+     * @param actionDefDetails the new action definitions
+     * @param interaction the MAL interaction context, or {@code null}
+     * @return the object instance ids of the updated definitions
+     * @throws InvalidArgumentException if a definition is invalid
+     * @throws UnknownException if an id is unknown
+     * @throws MALInteractionException if the service returns an error
+     * @throws MALException if a communication error occurs
+     */
     public LongList updateDefinition(LongList ids, ActionDefinitionList actionDefDetails,
             MALInteraction interaction) throws InvalidArgumentException,
             UnknownException, MALInteractionException, MALException {
@@ -300,6 +335,15 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         return newDefIds;
     }
 
+    /**
+     * Removes a set of action definitions from the Action service.
+     *
+     * @param definitionIds the object instance ids of the definitions to remove
+     * @param interaction the MAL interaction context, or {@code null}
+     * @throws UnknownException if an id is unknown
+     * @throws MALException if a communication error occurs
+     * @throws MALInteractionException if the service returns an error
+     */
     public void removeAction(final LongList definitionIds, final MALInteraction interaction)
             throws UnknownException, MALException, MALInteractionException { // requirement: 3.7.12.2.1
         UIntegerList unkIndexList = new UIntegerList();
@@ -434,7 +478,18 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         }
     }
 
+    /**
+     * Listener that logs the acknowledgements and errors of the Action service PUB/SUB
+     * publish operations.
+     */
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
+
+        /**
+         * Default constructor.
+         */
+        public PublishInteractionListener() {
+        }
+
 
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)

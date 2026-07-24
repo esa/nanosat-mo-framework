@@ -34,5 +34,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface Aggregations {
 
+    /**
+     * The aggregations declared on the annotated type.
+     *
+     * @return the array of aggregations
+     */
     Aggregation[] value() default {}; // it has to be named value for @Repeatable to work
 }

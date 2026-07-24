@@ -40,6 +40,18 @@ public class SMServicesProvider {
     private final AppsLauncherProviderServiceImpl applicationsManagerService = new AppsLauncherProviderServiceImpl();
     private final HeartbeatProviderServiceImpl heartbeatService = new HeartbeatProviderServiceImpl();
 
+    /**
+     * Default constructor.
+     */
+    public SMServicesProvider() {
+    }
+
+    /**
+     * Initializes the AppsLauncher and Heartbeat services.
+     *
+     * @param comServices the COM services stack backing the SM services
+     * @param directoryService the Directory service the providers register with
+     */
     public void init(COMServicesProvider comServices, DirectoryProviderServiceImpl directoryService) {
         try {
             applicationsManagerService.init(comServices, directoryService);
@@ -49,10 +61,20 @@ public class SMServicesProvider {
         }
     }
 
+    /**
+     * Returns the AppsLauncher service provider.
+     *
+     * @return the AppsLauncher service provider
+     */
     public AppsLauncherProviderServiceImpl getApplicationsManagerService() {
         return this.applicationsManagerService;
     }
 
+    /**
+     * Returns the Heartbeat service provider.
+     *
+     * @return the Heartbeat service provider
+     */
     public HeartbeatProviderServiceImpl getHeartbeatService() {
         return this.heartbeatService;
     }

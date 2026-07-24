@@ -32,10 +32,15 @@ import java.util.Properties;
  */
 public class MetadataApp extends Metadata {
 
+    /** Property key for the App's main class. */
     public static final String APP_MAINCLASS = "pack.app.mainclass";
+    /** Property key for the App's main JAR. */
     public static final String APP_MAIN_JAR = "pack.app.mainjar";
+    /** Property key for the App's maximum JVM heap size. */
     public static final String APP_MAX_HEAP = "pack.app.maxheap";
+    /** Property key for the App's minimum JVM heap size. */
     public static final String APP_MIN_HEAP = "pack.app.minheap";
+    /** Property key for the App's dependency JAR filenames, separated by {@code ;}. */
     public static final String APP_DEPENDENCIES = "pack.app.dependencies";
 
     /**
@@ -79,22 +84,47 @@ public class MetadataApp extends Metadata {
         super(props);
     }
 
+    /**
+     * Returns the App's main class.
+     *
+     * @return the fully-qualified main class name
+     */
     public String getAppMainclass() {
         return properties.getProperty(APP_MAINCLASS);
     }
 
+    /**
+     * Returns the App's main JAR filename.
+     *
+     * @return the main JAR filename
+     */
     public String getAppMainJar() {
         return properties.getProperty(APP_MAIN_JAR);
     }
 
+    /**
+     * Returns the App's maximum JVM heap size.
+     *
+     * @return the maximum heap size (for example {@code 128m})
+     */
     public String getAppMaxHeap() {
         return properties.getProperty(APP_MAX_HEAP);
     }
 
+    /**
+     * Returns the App's minimum JVM heap size.
+     *
+     * @return the minimum heap size (for example {@code 32m})
+     */
     public String getAppMinHeap() {
         return properties.getProperty(APP_MIN_HEAP);
     }
 
+    /**
+     * Returns the App's dependency JAR filenames.
+     *
+     * @return the list of dependency filenames, empty if the App has none
+     */
     public ArrayList<String> getAppDependencies() {
         String d = properties.getProperty(APP_DEPENDENCIES);
         if (d == null) {
@@ -106,6 +136,13 @@ public class MetadataApp extends Metadata {
         return deps;
     }
 
+    /**
+     * Returns the App's dependency JARs as a classpath string of absolute paths, resolved
+     * against the given shared-libraries folder.
+     *
+     * @param sharedLibsFolder the folder containing the shared dependency JARs
+     * @return a {@code :}-separated classpath string, empty if the App has no dependencies
+     */
     public String getAppDependenciesFullPaths(File sharedLibsFolder) {
         String d = properties.getProperty(APP_DEPENDENCIES);
         if (d == null) {
@@ -122,6 +159,11 @@ public class MetadataApp extends Metadata {
         return removeLastChar(out.toString());
     }
 
+    /**
+     * Whether the App declares any dependency JARs.
+     *
+     * @return {@code true} if the App has at least one dependency
+     */
     public boolean hasDependencies() {
         String dependencies = properties.getProperty(APP_DEPENDENCIES);
         return (dependencies != null) && !(dependencies.equals(""));

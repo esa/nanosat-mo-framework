@@ -62,6 +62,14 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     private boolean running = false;
 
     /**
+     * Default constructor.
+     */
+    public ArchiveProviderServiceImpl() {
+    }
+
+    /**
+     * Creates the MAL objects and starts the Archive service provider.
+     *
      * @throws MALException On initialization error.
      */
     public synchronized void init() throws MALException {

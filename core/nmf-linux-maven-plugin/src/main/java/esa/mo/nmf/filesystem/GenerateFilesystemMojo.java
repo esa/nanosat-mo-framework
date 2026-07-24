@@ -99,6 +99,12 @@ public class GenerateFilesystemMojo extends AbstractMojo {
     @Parameter
     private Mission mission;
 
+    /**
+     * Default constructor.
+     */
+    public GenerateFilesystemMojo() {
+    }
+
     @Override
     public void execute() throws MojoExecutionException {
         getLog().info("Generating Linux Filesystem...");

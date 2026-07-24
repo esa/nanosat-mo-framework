@@ -36,6 +36,9 @@ import java.util.zip.ZipFile;
  */
 public class SimpleDemoPackageAppCreation {
 
+    private SimpleDemoPackageAppCreation() {
+    }
+
     /**
      * Main command line entry point.
      *
@@ -45,6 +48,9 @@ public class SimpleDemoPackageAppCreation {
         SimpleDemoPackageAppCreation.createPackage();
     }
 
+    /**
+     * Creates the demo NMF App Package(s).
+     */
     public static void createPackage() {
         Logger.getLogger(SimpleDemoPackageAppCreation.class.getName()).log(
                 Level.INFO, "\n----------- Package 1 Generation -----------\n");

@@ -68,10 +68,17 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     private boolean isRegistered = false;
     private final Object lock = new Object();
     private final AtomicLong pValUniqueObjId = new AtomicLong(System.currentTimeMillis());
+    /** The manager handling the Parameter definitions and their persistence. */
     protected ParameterManager manager;
     private PeriodicReportingManager periodicReportingManager;
     private final ConnectionProvider connection = new ConnectionProvider();
     private ConfigurationChangeListener configurationAdapter;
+
+    /**
+     * Default constructor.
+     */
+    public ParameterProviderServiceImpl() {
+    }
 
     /**
      * Creates the MAL objects, the publisher used to create updates and starts
@@ -127,6 +134,11 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
     }
 
+    /**
+     * Returns the connection provider backing this service.
+     *
+     * @return the connection provider
+     */
     public ConnectionProvider getConnectionProvider() {
         return this.connection;
     }
@@ -362,6 +374,17 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         return retDefinitions;
     }
 
+    /**
+     * Adds a set of parameter definitions to the Parameter service.
+     *
+     * @param defsList the parameter definitions to add
+     * @param interaction the MAL interaction context, or {@code null}
+     * @return the object instance ids of the added definitions
+     * @throws InvalidArgumentException if a definition is invalid
+     * @throws DuplicateException if a definition already exists
+     * @throws MALException if a communication error occurs
+     * @throws MALInteractionException if the service returns an error
+     */
     public LongList addParameters(final ParameterDefinitionList defsList,
             final MALInteraction interaction) throws InvalidArgumentException, DuplicateException, MALException, MALInteractionException {
         UIntegerList invIndexList = new UIntegerList();
@@ -489,6 +512,15 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
     }
 
+    /**
+     * Removes a set of parameter definitions from the Parameter service.
+     *
+     * @param defIds the object instance ids of the definitions to remove
+     * @param interaction the MAL interaction context, or {@code null}
+     * @throws UnknownException if an id is unknown
+     * @throws MALException if a communication error occurs
+     * @throws MALInteractionException if the service returns an error
+     */
     public void removeParameter(final LongList defIds, final MALInteraction interaction) throws UnknownException,
             MALException, MALInteractionException { // requirement: 3.3.11.2.1
         UIntegerList unkIndexList = new UIntegerList();
@@ -613,7 +645,18 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         return ParameterHelper.PARAMETER_SERVICE;
     }
 
+    /**
+     * Listener that logs the acknowledgements and errors of the Parameter service PUB/SUB
+     * publish operations.
+     */
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
+
+        /**
+         * Default constructor.
+         */
+        public PublishInteractionListener() {
+        }
+
 
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)

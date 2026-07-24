@@ -27,10 +27,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * A simple demo program that installs an NMF Package.
  *
  * @author Cesar Coelho
  */
 public class SimpleDemoPackageAppInstallation {
+
+    private SimpleDemoPackageAppInstallation() {
+    }
 
     /**
      * Main command line entry point.
@@ -41,6 +45,9 @@ public class SimpleDemoPackageAppInstallation {
         SimpleDemoPackageAppInstallation.installPackage();
     }
 
+    /**
+     * Installs the demo NMF Package into the destination folder.
+     */
     public static void installPackage() {
         String packagePath = "TBD";
         String destinationFolder = "TBD";

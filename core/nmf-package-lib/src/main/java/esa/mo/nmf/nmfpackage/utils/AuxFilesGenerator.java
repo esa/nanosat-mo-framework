@@ -35,6 +35,9 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
  */
 public class AuxFilesGenerator {
 
+    private AuxFilesGenerator() {
+    }
+
     private static String getBanner() {
         StringBuilder str = new StringBuilder();
         str.append("########################################################\n");
@@ -47,6 +50,14 @@ public class AuxFilesGenerator {
         return str.toString();
     }
 
+    /**
+     * Generates the content of the Linux {@code start_app.sh} launch script for an App.
+     *
+     * @param javaCommand the path to the Java executable
+     * @param meta the App metadata
+     * @return the script content
+     * @throws IOException if the metadata cannot be resolved
+     */
     public static String generateLinuxStartAppScript(String javaCommand,
             MetadataApp meta) throws IOException {
         StringBuilder str = new StringBuilder();
@@ -109,6 +120,15 @@ public class AuxFilesGenerator {
         return str.toString();
     }
 
+    /**
+     * Generates the content of the Windows {@code start_app.bat} launch script for an App.
+     *
+     * @param javaCommand the path to the Java executable
+     * @param jarFilename the App's main JAR filename
+     * @param meta the App metadata
+     * @return the script content
+     * @throws IOException if the metadata cannot be resolved
+     */
     public static String generateWindowsStartAppScript(String javaCommand,
             String jarFilename, MetadataApp meta) throws IOException {
         StringBuilder str = new StringBuilder();
@@ -136,6 +156,14 @@ public class AuxFilesGenerator {
         return str.toString();
     }
 
+    /**
+     * Generates the content of the App's {@code provider.properties} file.
+     *
+     * @param runAs the user the App runs as, or {@code null} to omit the setting
+     * @param transportPath the path to the transport configuration file
+     * @return the properties file content
+     * @throws IOException if the content cannot be generated
+     */
     public static String generateProviderProperties(String runAs, String transportPath) throws IOException {
         StringBuilder str = new StringBuilder();
         str.append(getBanner());
@@ -165,6 +193,13 @@ public class AuxFilesGenerator {
         return str.toString();
     }
 
+    /**
+     * Generates the content of the App's {@code transport.properties} file, defaulting to the
+     * {@code maltcp} transport bound to localhost.
+     *
+     * @return the properties file content
+     * @throws IOException if the content cannot be generated
+     */
     public static String generateTransportProperties() throws IOException {
         StringBuilder str = new StringBuilder();
         str.append(getBanner());
@@ -189,6 +224,15 @@ public class AuxFilesGenerator {
         return str.toString();
     }
 
+    /**
+     * Generates the platform-specific start script ({@code start_app.sh} on Unix/macOS or
+     * {@code start_app.bat} on Windows) for an App in its installation directory.
+     *
+     * @param appDetails the App metadata
+     * @param appDir the App's installation directory where the script is written
+     * @param nmfDir the NMF base directory
+     * @throws IOException if the App JAR cannot be located or the script cannot be written
+     */
     public static void generateStartScript(MetadataApp appDetails,
             File appDir, File nmfDir) throws IOException {
         String name = appDetails.getPackageName();
@@ -219,6 +263,12 @@ public class AuxFilesGenerator {
         }
     }
 
+    /**
+     * Writes the given content to a file.
+     *
+     * @param file the file to write
+     * @param content the content to write
+     */
     public static void writeFile(File file, String content) {
         System.out.println("   >> Creating file on: " + file);
 

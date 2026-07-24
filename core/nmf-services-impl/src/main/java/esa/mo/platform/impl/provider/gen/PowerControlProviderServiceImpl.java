@@ -54,6 +54,12 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
             PowerControlProviderServiceImpl.class.getName());
 
     /**
+     * Default constructor.
+     */
+    public PowerControlProviderServiceImpl() {
+    }
+
+    /**
      * Initializes the Power Control service.
      *
      * @param adapter The Power Control adapter

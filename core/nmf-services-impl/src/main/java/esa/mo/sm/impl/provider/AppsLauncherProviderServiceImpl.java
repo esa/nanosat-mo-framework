@@ -92,6 +92,12 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     private Quota stdQuota = new Quota();
 
     /**
+     * Default constructor.
+     */
+    public AppsLauncherProviderServiceImpl() {
+    }
+
+    /**
      * Initializes the Apps Launcher service provider.
      *
      * @param comServices The COM services.
@@ -145,6 +151,11 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         LOGGER.info("Apps Launcher service: READY! (" + timestamp + " ms)");
     }
 
+    /**
+     * Returns the connection provider backing this service.
+     *
+     * @return the connection provider
+     */
     public ConnectionProvider getConnectionProvider() {
         return this.connection;
     }
@@ -619,15 +630,35 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         return AppsLauncherHelper.APPSLAUNCHER_SERVICE;
     }
 
+    /**
+     * Rescans the apps folders and refreshes the list of installed apps advertised by the
+     * service.
+     */
     public void refresh() {
         manager.refreshAvailableAppsList(new URI(""));
     }
 
+    /**
+     * Registers all the apps found in the given folder with the service.
+     *
+     * @param folder the folder to scan for installed apps
+     */
     public void addFolderWithApps(java.io.File folder) {
         manager.addFolderWithApps(folder);
     }
 
+    /**
+     * Listener that logs the acknowledgements and errors of the AppsLauncher service PUB/SUB
+     * publish operations.
+     */
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
+
+        /**
+         * Default constructor.
+         */
+        public PublishInteractionListener() {
+        }
+
 
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header,

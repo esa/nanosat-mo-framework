@@ -97,6 +97,11 @@ public class NMFPackageBuilder {
         }
     }
 
+    /**
+     * Adds a file or directory (recursively) to the package, at the root of the package layout.
+     *
+     * @param file the file or directory to add
+     */
     public void addFileOrDirectory(File file) {
         addFileOrDirectory(file.getAbsolutePath(), "");
     }

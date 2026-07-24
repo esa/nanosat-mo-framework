@@ -42,6 +42,16 @@ public class SoftwareImagesConsumerServiceImpl extends ConsumerServiceImpl {
     private SoftwareImagesStub softwareImagesService = null;
     private COMServicesConsumer comServices;
 
+    /**
+     * Creates the SoftwareImages service consumer and starts the consumer connection.
+     *
+     * @param connectionDetails the connection details of the SoftwareImages service provider
+     * @param comServices the COM services consumer used by this service
+     * @param authenticationId the authentication id of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     * @throws MALException if the consumer cannot be created
+     * @throws MALInteractionException if the service returns an error
+     */
     public SoftwareImagesConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix)
             throws MALException, MALInteractionException {
@@ -67,11 +77,24 @@ public class SoftwareImagesConsumerServiceImpl extends ConsumerServiceImpl {
         this.softwareImagesService = new SoftwareImagesStub(tmConsumer);
     }
 
+    /**
+     * Creates the SoftwareImages service consumer with no authentication id nor local name prefix.
+     *
+     * @param connectionDetails the connection details of the SoftwareImages service provider
+     * @param comServices the COM services consumer used by this service
+     * @throws MALException if the consumer cannot be created
+     * @throws MALInteractionException if the service returns an error
+     */
     public SoftwareImagesConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices) throws MALException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
+    /**
+     * Returns the COM services consumer used by this service.
+     *
+     * @return the COM services consumer
+     */
     public COMServicesConsumer getCOMServices() {
         return comServices;
     }
@@ -81,6 +104,11 @@ public class SoftwareImagesConsumerServiceImpl extends ConsumerServiceImpl {
         return this.getSoftwareImagesStub();
     }
 
+    /**
+     * Returns the SoftwareImages service stub used to invoke operations on the provider.
+     *
+     * @return the SoftwareImages service stub
+     */
     public SoftwareImagesStub getSoftwareImagesStub() {
         return this.softwareImagesService;
     }

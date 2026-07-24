@@ -34,6 +34,7 @@ import org.ccsds.moims.mo.mc.aggregation.AggregationHelper;
 import org.ccsds.moims.mo.mc.aggregation.consumer.AggregationStub;
 
 /**
+ * Consumer of the Aggregation service.
  *
  * @author Cesar Coelho
  */
@@ -42,6 +43,11 @@ public class AggregationConsumerServiceImpl extends ConsumerServiceImpl {
     private AggregationStub aggregationService = null;
     private COMServicesConsumer comServices;
 
+    /**
+     * Returns the COM services consumer used by this service.
+     *
+     * @return the COM services consumer
+     */
     public COMServicesConsumer getCOMServices() {
         return comServices;
     }
@@ -51,6 +57,11 @@ public class AggregationConsumerServiceImpl extends ConsumerServiceImpl {
         return this.getAggregationStub();
     }
 
+    /**
+     * Returns the Aggregation service stub used to invoke operations on the provider.
+     *
+     * @return the Aggregation service stub
+     */
     public AggregationStub getAggregationStub() {
         return this.aggregationService;
     }
@@ -60,11 +71,31 @@ public class AggregationConsumerServiceImpl extends ConsumerServiceImpl {
         return new AggregationStub(tmConsumer);
     }
 
+    /**
+     * Creates the Aggregation service consumer with no authentication id nor local name prefix.
+     *
+     * @param connectionDetails the connection details of the Aggregation service provider
+     * @param comServices the COM services consumer used by this service
+     * @throws MALException if the consumer cannot be created
+     * @throws MalformedURLException if a provided URI is malformed
+     * @throws MALInteractionException if the service returns an error
+     */
     public AggregationConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
             throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
+    /**
+     * Creates the Aggregation service consumer and starts the consumer connection.
+     *
+     * @param connectionDetails the connection details of the Aggregation service provider
+     * @param comServices the COM services consumer used by this service
+     * @param authenticationId the authentication id of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     * @throws MALException if the consumer cannot be created
+     * @throws MalformedURLException if a provided URI is malformed
+     * @throws MALInteractionException if the service returns an error
+     */
     public AggregationConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix)
             throws MALException, MalformedURLException, MALInteractionException {

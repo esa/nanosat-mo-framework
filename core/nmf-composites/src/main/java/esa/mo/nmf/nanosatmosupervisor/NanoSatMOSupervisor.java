@@ -74,6 +74,12 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             = new CommandExecutorProviderServiceImpl();
 
     /**
+     * Default constructor.
+     */
+    public NanoSatMOSupervisor() {
+    }
+
+    /**
      * Initializes the NanoSat MO Supervisor. The MonitorAndControlAdapter
      * adapter class can be extended for remote monitoring and control with the
      * CCSDS Monitor and Control services. One can also extend the
@@ -280,6 +286,11 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         }
     }
 
+    /**
+     * Returns the AppsLauncher service provider that manages the app lifecycle.
+     *
+     * @return the AppsLauncher service
+     */
     public AppsLauncherProviderServiceImpl getAppsLauncherService() {
         return appsLauncherService;
     }
@@ -327,5 +338,11 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         System.exit(0);
     }
 
+    /**
+     * Initializes the mission-specific Platform services and registers them in the given
+     * COM services stack.
+     *
+     * @param comServices the COM services stack the Platform services register with
+     */
     public abstract void initPlatformServices(COMServicesProvider comServices);
 }

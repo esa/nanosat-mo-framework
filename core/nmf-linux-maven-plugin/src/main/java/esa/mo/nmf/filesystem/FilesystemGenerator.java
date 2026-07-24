@@ -135,10 +135,22 @@ public class FilesystemGenerator {
         System.out.println("File generated: " + destinationFile.getAbsolutePath());
     }
 
+    /**
+     * Adds an artifact to the NMF JARs directory of the generated filesystem.
+     *
+     * @param artifact the artifact to add
+     * @param nmfVersion the NMF version the artifact belongs to
+     */
     public void addArtifactNMF(Artifact artifact, String nmfVersion) {
         this.addArtifact(Deployment.DIR_JARS_NMF, artifact, nmfVersion);
     }
 
+    /**
+     * Adds an artifact to the mission JARs directory of the generated filesystem.
+     *
+     * @param artifact the artifact to add
+     * @param missionVersion the mission version the artifact belongs to
+     */
     public void addArtifactMission(Artifact artifact, String missionVersion) {
         this.addArtifact(Deployment.DIR_JARS_MISSION, artifact, missionVersion);
     }

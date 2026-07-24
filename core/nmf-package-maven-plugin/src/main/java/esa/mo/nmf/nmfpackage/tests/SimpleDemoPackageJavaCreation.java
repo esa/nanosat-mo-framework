@@ -44,6 +44,9 @@ import org.codehaus.plexus.util.FileUtils;
  */
 public class SimpleDemoPackageJavaCreation {
 
+    private SimpleDemoPackageJavaCreation() {
+    }
+
     /**
      * Main command line entry point.
      *
@@ -53,6 +56,13 @@ public class SimpleDemoPackageJavaCreation {
         SimpleDemoPackageJavaCreation.createPackages();
     }
 
+    /**
+     * Downloads a file from the given URL into the working directory.
+     *
+     * @param url the URL to download from
+     * @return the downloaded file
+     * @throws IOException if the download fails
+     */
     public static File downloadFile(URL url) throws IOException {
         ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
         String filename = new File(url.getPath()).getName();
@@ -70,6 +80,13 @@ public class SimpleDemoPackageJavaCreation {
         return new File(filename);
     }
 
+    /**
+     * Extracts a {@code .tar.gz} archive into the given output folder.
+     *
+     * @param input the {@code .tar.gz} file to extract
+     * @param outputFolder the folder to extract into
+     * @throws IOException if the extraction fails
+     */
     public static void extractFileTo(File input, File outputFolder) throws IOException {
         GZIPInputStream zipIS = new GZIPInputStream(new FileInputStream(input));
         TarArchiveInputStream tarInput = new TarArchiveInputStream(zipIS);
@@ -103,6 +120,12 @@ public class SimpleDemoPackageJavaCreation {
         }
     }
 
+    /**
+     * Downloads a Java runtime archive from the given link and builds a {@code java}-type NMF
+     * Package out of it.
+     *
+     * @param link the URL of the Java runtime archive to download
+     */
     public static void createJavaPackage(String link) {
         try {
             // Download files
@@ -144,6 +167,9 @@ public class SimpleDemoPackageJavaCreation {
         }
     }
 
+    /**
+     * Creates the demo {@code java}-type NMF Packages.
+     */
     public static void createPackages() {
         // Files can be downloaded from:
         // https://adoptium.net/temurin/archive/

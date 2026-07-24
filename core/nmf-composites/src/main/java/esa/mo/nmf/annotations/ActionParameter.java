@@ -35,11 +35,32 @@ import org.ccsds.moims.mo.mal.structures.AttributeType;
 @Target(ElementType.PARAMETER)
 public @interface ActionParameter {
 
+    /**
+     * The name of the action parameter. It must be set explicitly because the compiler
+     * removes argument names, so they cannot be parsed automatically.
+     *
+     * @return the parameter name
+     */
     String name(); // sadly, the compiler removes argument names so it is not possible to automaticaly parse them
 
+    /**
+     * A human-readable description of the parameter.
+     *
+     * @return the parameter description
+     */
     String description() default "";
 
+    /**
+     * The MAL attribute type of the parameter's raw value.
+     *
+     * @return the raw attribute type, as one of the {@code AttributeType} constants
+     */
     int rawType() default AttributeType.STRING_VALUE;
 
+    /**
+     * The unit of the parameter's raw value.
+     *
+     * @return the raw unit
+     */
     String rawUnit() default "";
 }

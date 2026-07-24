@@ -42,6 +42,7 @@ import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 
 /**
+ * Consumer of the COM ArchiveSync service.
  *
  * @author Cesar Coelho
  */
@@ -60,15 +61,36 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
         return this.getArchiveSyncStub();
     }
 
+    /**
+     * Returns the ArchiveSync service stub used to invoke operations on the provider.
+     *
+     * @return the ArchiveSync service stub
+     */
     public ArchiveSyncStub getArchiveSyncStub() {
         return archiveSyncService;
     }
 
+    /**
+     * Creates the ArchiveSync service consumer with no authentication id nor local name prefix.
+     *
+     * @param connectionDetails the connection details of the ArchiveSync service provider
+     * @throws MALException if the consumer cannot be created
+     * @throws MalformedURLException if a provided URI is malformed
+     */
     public ArchiveSyncConsumerServiceImpl(SingleConnectionDetails connectionDetails)
             throws MALException, MalformedURLException {
         this(connectionDetails, null, null);
     }
 
+    /**
+     * Creates the ArchiveSync service consumer and starts the consumer connection.
+     *
+     * @param connectionDetails the connection details of the ArchiveSync service provider
+     * @param authenticationId the authentication id of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     * @throws MALException if the consumer cannot be created
+     * @throws MalformedURLException if a provided URI is malformed
+     */
     public ArchiveSyncConsumerServiceImpl(SingleConnectionDetails connectionDetails, Blob authenticationId,
             String localNamePrefix) throws MALException, MalformedURLException {
         this.connectionDetails = connectionDetails;
@@ -91,6 +113,15 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
         this.archiveSyncService = new ArchiveSyncStub(tmConsumer);
     }
 
+    /**
+     * Retrieves the COM objects of the given types created in the given time range from the
+     * remote Archive via the ArchiveSync service.
+     *
+     * @param from the start of the time range (inclusive)
+     * @param until the end of the time range (inclusive)
+     * @param objTypes the COM object types to retrieve
+     * @return the retrieved COM objects, or {@code null} if the retrieval failed
+     */
     public ArrayList<COMObjectStructure> retrieveCOMObjects(Time from, Time until, ObjectTypeList objTypes) {
         ArchiveSyncGenAdapter adapter = new ArchiveSyncGenAdapter();
         Long iTicket;

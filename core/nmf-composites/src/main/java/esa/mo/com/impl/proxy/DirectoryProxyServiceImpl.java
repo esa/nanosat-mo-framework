@@ -45,6 +45,12 @@ import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
 
     /**
+     * Default constructor.
+     */
+    public DirectoryProxyServiceImpl() {
+    }
+
+    /**
      * Synchronizes the current list of providers existing in the remote Central
      * Directory service with the local one. Returns the list of remote
      * providers.
@@ -54,6 +60,10 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
      * @param routedURI The routed URI.
      * @return The list of the providers from the remote Central Directory
      * service
+     * @throws org.ccsds.moims.mo.mal.UnknownException if a referenced object is unknown to
+     * the remote Directory service.
+     * @throws org.ccsds.moims.mo.com.InvalidArgumentException if an argument passed to the
+     * remote Directory service is invalid.
      * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
      * @throws java.net.MalformedURLException if the URI is incorrect.
      * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not

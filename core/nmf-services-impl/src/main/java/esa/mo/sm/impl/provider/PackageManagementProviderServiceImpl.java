@@ -58,6 +58,12 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     private PMBackend backend;
 
     /**
+     * Default constructor.
+     */
+    public PackageManagementProviderServiceImpl() {
+    }
+
+    /**
      * Initializes the Package Management service provider.
      *
      * @param comServices The COM services.
