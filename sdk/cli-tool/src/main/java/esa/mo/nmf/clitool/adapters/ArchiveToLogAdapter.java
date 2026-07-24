@@ -217,8 +217,8 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
         setIsQueryOver(true);
     }
 
-    /*
-     * Resets the adapter to perform another query without creating a second instance
+    /**
+     * Resets the adapter to perform another query without creating a second instance.
      */
     public void resetAdapter() {
         this.isQueryOver = false;

@@ -36,16 +36,32 @@ import org.ccsds.moims.mo.sm.heartbeat.consumer.HeartbeatStub;
 import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementStub;
 
 /**
+ * Container for the software-management and heartbeat CLI subcommands.
+ *
  * @author marcel.mikolajko
  */
 public class SoftwareManagementCommands {
 
     private static final Logger LOGGER = Logger.getLogger(SoftwareManagementCommands.class.getName());
 
+    /** Identifier of the active heartbeat subscription, or {@code null} if none. */
     public static Identifier heartbeatSubscription;
+    /** Identifier of the active app-output subscription, or {@code null} if none. */
     public static Identifier outputSubscription;
 
+    private SoftwareManagementCommands() {
+    }
+
+    /**
+     * Implements the {@code heartbeat subscribe} CLI command.
+     */
     public static class Beat extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public Beat() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -91,6 +107,11 @@ public class SoftwareManagementCommands {
         }
     }
 
+    /**
+     * Returns the PackageManagement service stub of the connected consumer.
+     *
+     * @return the PackageManagement service stub
+     */
     public static PackageManagementStub getPackageManagement() {
         return consumer.getSMServices().getPackageManagementService().getPackageManagementStub();
     }

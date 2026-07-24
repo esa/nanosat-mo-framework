@@ -37,6 +37,7 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 
 /**
+ * Container for the {@code action} CLI subcommands.
  *
  * @author Cesar Coelho
  */
@@ -44,7 +45,19 @@ public class ActionCommands {
 
     private static final Logger LOGGER = Logger.getLogger(ActionCommands.class.getName());
 
+    private ActionCommands() {
+    }
+
+    /**
+     * Implements the {@code action trigger} CLI command.
+     */
     public static class SubmitAction extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public SubmitAction() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -80,7 +93,16 @@ public class ActionCommands {
         }
     }
 
+    /**
+     * Implements the {@code action list} CLI command.
+     */
     public static class ListActions extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public ListActions() {
+        }
+
 
         @Override
         public void run(Args args) {

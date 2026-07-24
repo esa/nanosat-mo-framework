@@ -23,20 +23,39 @@ package esa.mo.nmf.clitool;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mc.structures.AggregationValue;
 
+/**
+ * An aggregation value paired with the timestamp at which it was recorded.
+ */
 public class TimestampedAggregationValue {
 
     private final AggregationValue aggregationValue;
     private final Time timestamp;
 
+    /**
+     * Creates a timestamped aggregation value.
+     *
+     * @param value the aggregation value
+     * @param timestamp the timestamp at which the value was recorded
+     */
     public TimestampedAggregationValue(AggregationValue value, Time timestamp) {
         this.aggregationValue = value;
         this.timestamp = timestamp;
     }
 
+    /**
+     * Returns the aggregation value.
+     *
+     * @return the aggregation value
+     */
     public AggregationValue getAggregationValue() {
         return aggregationValue;
     }
 
+    /**
+     * Returns the timestamp at which the value was recorded.
+     *
+     * @return the timestamp
+     */
     public Time getTimestamp() {
         return timestamp;
     }

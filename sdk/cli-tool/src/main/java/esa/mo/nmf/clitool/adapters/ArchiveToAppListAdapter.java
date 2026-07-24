@@ -80,6 +80,12 @@ public class ArchiveToAppListAdapter extends ArchiveAdapter implements QueryStat
     private HashSet<String> appWithLogs = new HashSet<>();
 
     /**
+     * Default constructor.
+     */
+    public ArchiveToAppListAdapter() {
+    }
+
+    /**
      * Dumps an archive objects output received from an archive query answer
      * (update or response).
      *
@@ -175,7 +181,9 @@ public class ArchiveToAppListAdapter extends ArchiveAdapter implements QueryStat
     }
 
     /**
-     * @return Returns the list of App names with logs.
+     * Returns the list of App names that have logs.
+     *
+     * @return the list of App names with logs.
      */
     public ArrayList<String> getAppWithLogs() {
         return new ArrayList<>(appWithLogs);

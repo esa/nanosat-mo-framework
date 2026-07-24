@@ -38,6 +38,9 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
 /**
+ * Archive adapter that collects the COM objects returned by a query so they can be backed up
+ * into a new database.
+ *
  * @author marcel.mikolajko
  */
 public class ArchiveToBackupAdapter extends ArchiveAdapter implements QueryStatusProvider {
@@ -61,6 +64,12 @@ public class ArchiveToBackupAdapter extends ArchiveAdapter implements QueryStatu
     public ArchiveToBackupAdapter() {
     }
 
+    /**
+     * Stores all the collected COM objects into the given Archive provider.
+     *
+     * @param archive the destination Archive provider
+     * @return {@code true} if all objects were stored successfully
+     */
     public boolean saveDataToNewDatabase(ArchiveProviderServiceImpl archive) {
         boolean result = true;
         for (ArchiveCOMObjectsOutput objects : objectsToProcess) {
@@ -139,6 +148,11 @@ public class ArchiveToBackupAdapter extends ArchiveAdapter implements QueryStatu
         this.isQueryOver = isQueryOver;
     }
 
+    /**
+     * Returns the COM objects collected from the query.
+     *
+     * @return the objects to process
+     */
     public List<ArchiveCOMObjectsOutput> getObjectsToProcess() {
         return objectsToProcess;
     }

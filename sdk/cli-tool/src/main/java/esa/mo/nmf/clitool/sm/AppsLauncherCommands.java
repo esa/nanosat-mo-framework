@@ -50,7 +50,19 @@ public class AppsLauncherCommands {
 
     private static final Logger LOGGER = Logger.getLogger(AppsLauncherCommands.class.getName());
 
+    private AppsLauncherCommands() {
+    }
+
+    /**
+     * Implements the {@code apps-launcher subscribe} CLI command.
+     */
     public static class MonitorExecution extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public MonitorExecution() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -111,7 +123,16 @@ public class AppsLauncherCommands {
         }
     }
 
+    /**
+     * Implements the {@code apps-launcher run} CLI command.
+     */
     public static class RunApp extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public RunApp() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -151,7 +172,16 @@ public class AppsLauncherCommands {
         }
     }
 
+    /**
+     * Implements the {@code apps-launcher stop} CLI command.
+     */
     public static class StopApp extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public StopApp() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -231,7 +261,16 @@ public class AppsLauncherCommands {
         }
     }
 
+    /**
+     * Implements the {@code apps-launcher kill} CLI command.
+     */
     public static class KillApp extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public KillApp() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -271,6 +310,11 @@ public class AppsLauncherCommands {
         }
     }
 
+    /**
+     * Returns the AppsLauncher service stub of the connected consumer.
+     *
+     * @return the AppsLauncher service stub
+     */
     public static AppsLauncherStub getAppsLauncher() {
         return consumer.getSMServices().getAppsLauncherService().getAppsLauncherStub();
     }

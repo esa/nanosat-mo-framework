@@ -65,6 +65,12 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
     /** Map: domain → (name → list of timestamped values). */
     private final Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> parameterValues = new HashMap<>();
 
+    /**
+     * Default constructor.
+     */
+    public ArchiveToParametersAdapter() {
+    }
+
     @Override
     public void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
         for (IdentifierList domainKey : valuesMap.keySet()) {
@@ -133,15 +139,30 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
         this.isQueryOver = isQueryOver;
     }
 
+    /**
+     * Returns the collected parameter names, keyed by domain.
+     *
+     * @return the collected parameter names
+     */
     public Map<IdentifierList, List<Identifier>> getParameterNames() {
         return parameterNames;
     }
 
+    /**
+     * Returns the collected parameter values, keyed by domain and parameter name.
+     *
+     * @return the collected parameter values
+     */
     public Map<IdentifierList, Map<Identifier, List<TimestampedParameterValue>>> getParameterValues() {
         return parameterValues;
     }
 
-    /** Returns a map from definition id to parameter name, for use when resolving aggregation parameter references. */
+    /**
+     * Returns a map from definition id to parameter name, for use when resolving aggregation
+     * parameter references.
+     *
+     * @return the map from domain to (definition id to parameter name)
+     */
     public Map<IdentifierList, Map<Long, Identifier>> getNamesMap() {
         return namesMap;
     }

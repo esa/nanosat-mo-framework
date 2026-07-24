@@ -18,6 +18,9 @@ import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
 import org.ccsds.moims.mo.mc.structures.AggregationDefinition;
 import org.ccsds.moims.mo.mc.structures.AggregationValue;
 
+/**
+ * Archive adapter that collects aggregation definitions and values from a COM Archive query.
+ */
 public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements QueryStatusProvider {
 
     private static final Logger LOGGER = Logger.getLogger(ArchiveToAggregationsAdapter.class.getName());
@@ -30,10 +33,26 @@ public class ArchiveToAggregationsAdapter extends ArchiveAdapter implements Quer
     private final Map<IdentifierList, Map<Long, List<TimestampedAggregationValue>>> aggregationValues = new HashMap<>();
     private final Map<IdentifierList, Map<Long, AggregationDefinition>> aggregationDefinitions = new HashMap<>();
 
+    /**
+     * Default constructor.
+     */
+    public ArchiveToAggregationsAdapter() {
+    }
+
+    /**
+     * Returns the collected aggregation values, keyed by domain and aggregation id.
+     *
+     * @return the collected aggregation values
+     */
     public Map<IdentifierList, Map<Long, List<TimestampedAggregationValue>>> getAggregationValues() {
         return aggregationValues;
     }
 
+    /**
+     * Returns the collected aggregation definitions, keyed by domain and aggregation id.
+     *
+     * @return the collected aggregation definitions
+     */
     public Map<IdentifierList, Map<Long, AggregationDefinition>> getAggregationDefinitions() {
         return aggregationDefinitions;
     }

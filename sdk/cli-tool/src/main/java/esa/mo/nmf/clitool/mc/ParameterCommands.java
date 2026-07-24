@@ -56,15 +56,29 @@ import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
 import org.ccsds.moims.mo.mc.structures.*;
 
 /**
+ * Container for the {@code parameter} CLI subcommands.
  *
  * @author Cesar Coelho
  */
 public class ParameterCommands {
 
     private static final Logger LOGGER = Logger.getLogger(ParameterCommands.class.getName());
+    /** Identifier of the active parameter monitoring subscription, or {@code null} if none. */
     public static Identifier parameterSubscription;
 
+    private ParameterCommands() {
+    }
+
+    /**
+     * Implements the {@code parameter subscribe} CLI command.
+     */
     public static class ParameterMonitorValue extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public ParameterMonitorValue() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -139,7 +153,16 @@ public class ParameterCommands {
         }
     }
 
+    /**
+     * Implements the {@code parameter enable} CLI command.
+     */
     public static class ParameterEnableGeneration extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public ParameterEnableGeneration() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -160,7 +183,16 @@ public class ParameterCommands {
         }
     }
 
+    /**
+     * Implements the {@code parameter disable} CLI command.
+     */
     public static class ParameterDisableGeneration extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public ParameterDisableGeneration() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -181,7 +213,16 @@ public class ParameterCommands {
         }
     }
 
+    /**
+     * Implements the {@code parameter get} CLI command.
+     */
     public static class GetParameters extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public GetParameters() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -387,7 +428,16 @@ public class ParameterCommands {
         }
     }
 
+    /**
+     * Implements the {@code parameter list} CLI command.
+     */
     public static class ListParameters extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public ListParameters() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -437,6 +487,13 @@ public class ParameterCommands {
         }
     }
 
+    /**
+     * Enables or disables the generation of the given parameters.
+     *
+     * @param parameterService the Parameter service stub
+     * @param parameters the parameter names, or {@code null}/empty for all parameters
+     * @param enable {@code true} to enable generation, {@code false} to disable it
+     */
     public static void enableOrDisableParameterGeneration(
             ParameterStub parameterService,
             List<String> parameters, boolean enable) {
@@ -469,7 +526,16 @@ public class ParameterCommands {
         }
     }
 
+    /**
+     * Implements the {@code parameter set} CLI command.
+     */
     public static class SetParameter extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public SetParameter() {
+        }
+
 
         enum ParameterType {
             Integer, String, Long, Float, Double, Boolean

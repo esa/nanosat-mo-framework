@@ -50,7 +50,19 @@ public class PackageManagementCommands {
     private static final Logger LOGGER
             = Logger.getLogger(PackageManagementCommands.class.getName());
 
+    private PackageManagementCommands() {
+    }
+
+    /**
+     * Implements the {@code software-management findPackage} CLI command.
+     */
     public static class FindPackage extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public FindPackage() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -91,7 +103,16 @@ public class PackageManagementCommands {
         }
     }
 
+    /**
+     * Implements the {@code software-management install} CLI command.
+     */
     public static class Install extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public Install() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -166,7 +187,16 @@ public class PackageManagementCommands {
         }
     }
 
+    /**
+     * Implements the {@code software-management uninstall} CLI command.
+     */
     public static class Uninstall extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public Uninstall() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -234,7 +264,16 @@ public class PackageManagementCommands {
         }
     }
 
+    /**
+     * Implements the {@code software-management upgrade} CLI command.
+     */
     public static class Upgrade extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public Upgrade() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -297,6 +336,11 @@ public class PackageManagementCommands {
         }
     }
 
+    /**
+     * Returns the PackageManagement service stub of the connected consumer.
+     *
+     * @return the PackageManagement service stub
+     */
     public static PackageManagementStub getPackageManagement() {
         return consumer.getSMServices()
                 .getPackageManagementService().getPackageManagementStub();

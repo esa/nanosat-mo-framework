@@ -53,6 +53,12 @@ public class ArchiveToActionsAdapter extends ArchiveAdapter implements QueryStat
     /** Map: domain → list of action names. */
     private final Map<IdentifierList, List<Identifier>> actionNames = new HashMap<>();
 
+    /**
+     * Default constructor.
+     */
+    public ArchiveToActionsAdapter() {
+    }
+
     @Override
     public void queryResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
         setIsQueryOver(true);
@@ -102,6 +108,11 @@ public class ArchiveToActionsAdapter extends ArchiveAdapter implements QueryStat
         this.isQueryOver = isQueryOver;
     }
 
+    /**
+     * Returns the collected action names, keyed by domain.
+     *
+     * @return the collected action names
+     */
     public Map<IdentifierList, List<Identifier>> getActionNames() {
         return actionNames;
     }
