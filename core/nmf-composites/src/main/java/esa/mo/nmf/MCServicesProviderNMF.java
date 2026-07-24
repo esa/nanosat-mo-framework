@@ -23,11 +23,7 @@ package esa.mo.nmf;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
-import esa.mo.mc.impl.provider.ActionProviderServiceImpl;
-import esa.mo.mc.impl.provider.AggregationProviderServiceImpl;
-import esa.mo.mc.impl.provider.AlertProviderServiceImpl;
-import esa.mo.mc.impl.provider.ParameterManager;
-import esa.mo.mc.impl.provider.ParameterProviderServiceImpl;
+import esa.mo.mc.impl.provider.*;
 import org.ccsds.moims.mo.mal.MALException;
 
 /**

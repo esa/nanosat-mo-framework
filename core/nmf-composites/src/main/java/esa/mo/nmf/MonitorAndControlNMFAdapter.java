@@ -83,9 +83,9 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
         registration.setMode(MCRegistration.RegistrationMode.DONT_UPDATE_IF_EXISTS);
         registerParameters(registration);
         registerActions(registration);
-        if (registration.comServices != null) {
-            archiveService = registration.comServices.getArchiveService();
-            parameterService = registration.parameterService;
+        if (registration.getCOMServices() != null) {
+            archiveService = registration.getCOMServices().getArchiveService();
+            parameterService = registration.getParameterService();
         }
     }
 

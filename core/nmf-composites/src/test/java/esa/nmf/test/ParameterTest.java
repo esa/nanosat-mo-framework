@@ -21,6 +21,7 @@ package esa.nmf.test;
  * ----------------------------------------------------------------------------
  */
 import esa.mo.nmf.MCRegistration;
+import esa.mo.nmf.MCServicesProviderNMF;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.annotations.Parameter;
 import java.io.IOException;
@@ -81,7 +82,7 @@ public class ParameterTest {
     private static class RegistrationTester extends MCRegistration {
 
         public RegistrationTester() {
-            super(null, null, null, null, null);
+            super(null, new MCServicesProviderNMF());
         }
 
         @Override

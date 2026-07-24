@@ -55,37 +55,25 @@ public class MCRegistration {
     }
 
     private RegistrationMode mode = RegistrationMode.DONT_UPDATE_IF_EXISTS; // default mode
-
-    /** The COM services stack backing the Monitor and Control services. */
-    public final COMServicesProvider comServices;
-    /** The Parameter service the parameter definitions are registered in. */
-    public final ParameterProviderServiceImpl parameterService;
-    /** The Aggregation service the aggregation definitions are registered in. */
-    public final AggregationProviderServiceImpl aggregationService;
-    /** The Alert service the alert definitions are registered in. */
-    public final AlertProviderServiceImpl alertService;
-    /** The Action service the action definitions are registered in. */
-    public final ActionProviderServiceImpl actionService;
+    private final COMServicesProvider comServices;
+    private final ParameterProviderServiceImpl parameterService;
+    private final AggregationProviderServiceImpl aggregationService;
+    private final AlertProviderServiceImpl alertService;
+    private final ActionProviderServiceImpl actionService;
 
     /**
-     * Creates a registration object bound to the given Monitor and Control services.
+     * Creates a registration object bound to the given COM and Monitor and Control services.
      *
-     * @param comServices the COM services stack
-     * @param parameterService the Parameter service
-     * @param aggregationService the Aggregation service
-     * @param alertService the Alert service
-     * @param actionService the Action service
+     * @param comServices the COM services stack backing the Monitor and Control services
+     * @param mcServices the Monitor and Control services stack the definitions are
+     * registered in
      */
-    public MCRegistration(COMServicesProvider comServices,
-            ParameterProviderServiceImpl parameterService,
-            AggregationProviderServiceImpl aggregationService,
-            AlertProviderServiceImpl alertService,
-            ActionProviderServiceImpl actionService) {
+    public MCRegistration(COMServicesProvider comServices, MCServicesProviderNMF mcServices) {
         this.comServices = comServices;
-        this.parameterService = parameterService;
-        this.aggregationService = aggregationService;
-        this.alertService = alertService;
-        this.actionService = actionService;
+        this.parameterService = mcServices.getParameterService();
+        this.aggregationService = mcServices.getAggregationService();
+        this.alertService = mcServices.getAlertService();
+        this.actionService = mcServices.getActionService();
     }
 
     /**
@@ -95,6 +83,24 @@ public class MCRegistration {
      */
     public void setMode(RegistrationMode mode) {
         this.mode = mode;
+    }
+
+    /**
+     * Returns the COM services stack backing the Monitor and Control services.
+     *
+     * @return the COM services stack
+     */
+    public COMServicesProvider getCOMServices() {
+        return comServices;
+    }
+
+    /**
+     * Returns the Parameter service the parameter definitions are registered in.
+     *
+     * @return the Parameter service
+     */
+    public ParameterProviderServiceImpl getParameterService() {
+        return parameterService;
     }
 
     /**
