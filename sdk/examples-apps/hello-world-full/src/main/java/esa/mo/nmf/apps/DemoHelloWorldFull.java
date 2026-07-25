@@ -49,6 +49,9 @@ public class DemoHelloWorldFull {
     private static final String PARAMETER_DESCRIPTION = "My first parameter!";
     private String var = "Hello World!";
 
+    /**
+     * Creates a new {@code DemoHelloWorldFull}.
+     */
     public DemoHelloWorldFull() {
         connector.init(new MCAdapter());
     }
@@ -63,7 +66,16 @@ public class DemoHelloWorldFull {
         DemoHelloWorldFull demo = new DemoHelloWorldFull();
     }
 
+    /**
+     * Monitor and Control adapter for this application.
+     */
     public class MCAdapter extends MonitorAndControlNMFAdapter {
+        /**
+         * Default constructor.
+         */
+        public MCAdapter() {
+        }
+
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {

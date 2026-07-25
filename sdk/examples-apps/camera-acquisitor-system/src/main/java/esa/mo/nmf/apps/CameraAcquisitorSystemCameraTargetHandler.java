@@ -54,7 +54,9 @@ import org.orekit.time.TimeScalesFactory;
  */
 public class CameraAcquisitorSystemCameraTargetHandler {
 
+    /** The action photograph location. */
     public static final String ACTION_PHOTOGRAPH_LOCATION = "camera.photograph-location";
+    /** The photograph location stages. */
     public static final int PHOTOGRAPH_LOCATION_STAGES = 3 + CameraAcquisitorSystemCameraHandler.PHOTOGRAPH_NOW_STAGES;
     private static final int STAGE_WAIT_FOR_PASS = 1;
     private static final int STAGE_ATTITUDE_CORECTION = 2;
@@ -67,6 +69,11 @@ public class CameraAcquisitorSystemCameraTargetHandler {
     // time to keep track of all scheduled photographs
     private final java.util.Timer timer = new java.util.Timer();
 
+    /**
+     * Creates a new {@code CameraAcquisitorSystemCameraTargetHandler}.
+     *
+     * @param casMCAdapter the cas mc adapter
+     */
     public CameraAcquisitorSystemCameraTargetHandler(CameraAcquisitorSystemMCAdapter casMCAdapter) {
         this.casMCAdapter = casMCAdapter;
     }
@@ -81,6 +88,15 @@ public class CameraAcquisitorSystemCameraTargetHandler {
         photographLocation(latitude, longitude, timeStamp, executionId, interaction);
     }
 
+    /**
+     * Executes the photograph location action.
+     *
+     * @param latitude the latitude
+     * @param longitude the longitude
+     * @param timeStamp the time stamp
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     */
     public void photographLocation(double latitude, double longitude, String timeStamp,
             Long executionId, MALInteraction interaction) {
         AbsoluteDate targetDate = new AbsoluteDate(timeStamp, TimeScalesFactory.getUTC());

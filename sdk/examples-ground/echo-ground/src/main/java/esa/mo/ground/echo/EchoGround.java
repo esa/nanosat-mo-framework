@@ -46,6 +46,11 @@ public class EchoGround {
     private static final String ECHO_SPACE_PROVIDER = "App: echo-space";
     private static final Logger LOGGER = Logger.getLogger(EchoGround.class.getName());
 
+    /**
+     * Creates a new {@code EchoGround}.
+     *
+     * @param directoryURI the directory uri
+     */
     public EchoGround(String directoryURI) {
         try {
             GroundMOAdapterImpl gma = null;

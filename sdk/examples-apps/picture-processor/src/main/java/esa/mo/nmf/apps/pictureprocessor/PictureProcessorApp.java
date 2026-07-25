@@ -29,6 +29,9 @@ import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
  */
 public class PictureProcessorApp {
 
+    /**
+     * Creates a new {@code PictureProcessorApp}.
+     */
     public PictureProcessorApp() {
         NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
         connector.init(new PictureProcessorMCAdapter(connector));

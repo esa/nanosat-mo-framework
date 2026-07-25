@@ -36,6 +36,7 @@ import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.*;
 
 /**
+ * Monitor and Control adapter for the benchmark application.
  *
  * @author Cesar Coelho
  */

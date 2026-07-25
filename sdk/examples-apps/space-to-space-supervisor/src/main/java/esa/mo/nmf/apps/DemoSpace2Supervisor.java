@@ -28,6 +28,9 @@ import esa.mo.nmf.spacemoadapter.SpaceMOAdapterImpl;
  */
 public class DemoSpace2Supervisor {
 
+    /**
+     * Creates a new {@code DemoSpace2Supervisor}.
+     */
     public DemoSpace2Supervisor() {
         Space2SupervisorAdapter adapter = new Space2SupervisorAdapter();
         NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();

@@ -42,6 +42,9 @@ public class DemoHelloWorldSimple {
     private String var = "Hello World!";
     private static final String ACTION_GO = "go";
 
+    /**
+     * Creates a new {@code DemoHelloWorldSimple}.
+     */
     public DemoHelloWorldSimple() {
         connector.init(new MCAdapterSimple());
     }
@@ -56,7 +59,16 @@ public class DemoHelloWorldSimple {
         DemoHelloWorldSimple demo = new DemoHelloWorldSimple();
     }
 
+    /**
+     * Monitor and Control adapter for this application.
+     */
     public class MCAdapterSimple extends SimpleMonitorAndControlAdapter {
+        /**
+         * Default constructor.
+         */
+        public MCAdapterSimple() {
+        }
+
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {

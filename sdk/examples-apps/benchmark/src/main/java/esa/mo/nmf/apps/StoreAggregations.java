@@ -42,11 +42,24 @@ import org.ccsds.moims.mo.mc.structures.AggregationParameterSet;
 import org.ccsds.moims.mo.mc.structures.AggregationParameterSetList;
 
 /**
+ * Utility that stores a batch of aggregation definitions for benchmarking.
  *
  * @author Cesar Coelho
  */
 public class StoreAggregations {
+    /**
+     * Default constructor.
+     */
+    public StoreAggregations() {
+    }
 
+
+    /**
+     * Store aggregations.
+     *
+     * @param numberOfObjs the number of objs
+     * @param connector the NMF provider connector
+     */
     public static void storeAggregations(int numberOfObjs, NMFInterface connector) {
         try {
             AggregationDefinitionList defs = new AggregationDefinitionList();

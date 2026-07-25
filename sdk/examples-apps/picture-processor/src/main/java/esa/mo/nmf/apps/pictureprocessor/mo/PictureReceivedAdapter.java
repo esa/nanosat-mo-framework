@@ -34,8 +34,12 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.platform.camera.consumer.CameraAdapter;
 import org.ccsds.moims.mo.platform.structures.Picture;
 
+/**
+ * Monitor and Control adapter for this application.
+ */
 public class PictureReceivedAdapter extends CameraAdapter {
 
+    /** The inifinte timeout. */
     public static final Long INIFINTE_TIMEOUT = null;
 
     private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss_SSSS").withZone(ZoneId.systemDefault());
@@ -43,6 +47,15 @@ public class PictureReceivedAdapter extends CameraAdapter {
     private final Path outputFolder;
     private final PictureProcessingExecutor executor;
 
+    /**
+     * Creates a new {@code PictureReceivedAdapter}.
+     *
+     * @param processEventListener the process event listener
+     * @param processRequestId the process request id
+     * @param outputFolder the output folder
+     * @param minProcessDurationSeconds the min process duration seconds
+     * @param maxProcessDurationSeconds the max process duration seconds
+     */
     public PictureReceivedAdapter(ProcessEventListener processEventListener, 
             Long processRequestId, Path outputFolder,
             Integer minProcessDurationSeconds, Integer maxProcessDurationSeconds) {
@@ -65,6 +78,9 @@ public class PictureReceivedAdapter extends CameraAdapter {
         executor.processPicture(outputFile);
     }
 
+    /**
+     * Stop process.
+     */
     public void stopProcess() {
         executor.destroyProcess();
     }

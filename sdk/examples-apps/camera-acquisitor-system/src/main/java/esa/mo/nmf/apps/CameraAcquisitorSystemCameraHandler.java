@@ -59,8 +59,10 @@ public class CameraAcquisitorSystemCameraHandler {
             CameraAcquisitorSystemCameraHandler.class.getName());
 
     // photographNow action name
+    /** The action photograph now. */
     public static final String ACTION_PHOTOGRAPH_NOW = "camera.photograph-now";
     // photographNow number of stages
+    /** The photograph now stages. */
     public static final int PHOTOGRAPH_NOW_STAGES = 2;
 
     // stage numbers
@@ -72,8 +74,14 @@ public class CameraAcquisitorSystemCameraHandler {
     // Camera settings:
     private final int defaultPictureWidth = 2048;
     private final int defaultPictureHeight = 1944;
+    /** The default camera resolution. */
     public final PixelResolution defaultCameraResolution;
 
+    /**
+     * Creates a new {@code CameraAcquisitorSystemCameraHandler}.
+     *
+     * @param casMCAdapter the cas mc adapter
+     */
     public CameraAcquisitorSystemCameraHandler(CameraAcquisitorSystemMCAdapter casMCAdapter) {
         this.casMCAdapter = casMCAdapter;
         this.defaultCameraResolution

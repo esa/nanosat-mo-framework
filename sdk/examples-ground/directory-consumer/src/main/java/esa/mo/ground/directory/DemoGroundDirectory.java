@@ -47,6 +47,9 @@ public class DemoGroundDirectory
   private GroundMOAdapterImpl gma;
   private static final Logger LOGGER = Logger.getLogger(DemoGroundDirectory.class.getName());
 
+  /**
+   * Creates a new {@code DemoGroundDirectory}.
+   */
   public DemoGroundDirectory()
   {
     try {

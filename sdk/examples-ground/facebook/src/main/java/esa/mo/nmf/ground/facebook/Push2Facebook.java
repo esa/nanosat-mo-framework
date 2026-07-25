@@ -49,6 +49,12 @@ public class Push2Facebook {
     private static final String TOKEN_FILENAME = "token.properties";
     private final String ACCESS_TOKEN;
 
+    /**
+     * Creates a new {@code Push2Facebook}.
+     *
+     * @param directoryURI the directory uri
+     * @param providerName the provider name
+     */
     public Push2Facebook(String directoryURI, String providerName) {
         try {
             registerDataListener(directoryURI, providerName);
@@ -113,7 +119,16 @@ public class Push2Facebook {
         }
     }
 
+    /**
+     * Monitor and Control adapter for this application.
+     */
     public class DataReceivedAdapter extends SimpleDataReceivedListener {
+        /**
+         * Default constructor.
+         */
+        public DataReceivedAdapter() {
+        }
+
 
         @Override
         public void onDataReceived(String parameterName, Serializable data) {

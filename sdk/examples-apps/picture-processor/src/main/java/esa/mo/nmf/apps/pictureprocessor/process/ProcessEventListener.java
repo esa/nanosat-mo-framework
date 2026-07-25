@@ -20,8 +20,17 @@
  */
 package esa.mo.nmf.apps.pictureprocessor.process;
 
+/**
+ * Process Event Listener.
+ */
 public interface ProcessEventListener {
 
+    /**
+     * On process completed.
+     *
+     * @param processRequestId the process request id
+     * @param exitValue the exit value
+     */
     void onProcessCompleted(Long processRequestId, int exitValue);
 
 }

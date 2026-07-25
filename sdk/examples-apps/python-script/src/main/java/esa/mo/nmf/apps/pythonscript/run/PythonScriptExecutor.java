@@ -38,6 +38,9 @@ import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.PumpStreamHandler;
 
+/**
+ * Python Script Executor.
+ */
 public class PythonScriptExecutor {
 
     private static final Logger LOG = Logger.getLogger(PythonScriptExecutor.class.getName());
@@ -52,6 +55,14 @@ public class PythonScriptExecutor {
     private final MCAdapter mcAdapter;
     private final Long id;
 
+    /**
+     * Creates a new {@code PythonScriptExecutor}.
+     *
+     * @param mcAdapter the mc adapter
+     * @param id the id
+     * @param minDurationSeconds the min duration seconds
+     * @param maxDurationSeconds the max duration seconds
+     */
     public PythonScriptExecutor(MCAdapter mcAdapter, Long id,
             Integer minDurationSeconds, Integer maxDurationSeconds) {
         this.minDurationSeconds = toMinDuration(minDurationSeconds);
@@ -61,6 +72,12 @@ public class PythonScriptExecutor {
         this.executor.setWatchdog(new ExecuteWatchdog(maxDurationMillis));
     }
 
+    /**
+     * Run python script.
+     *
+     * @param argument0 the argument0
+     * @return the run python script
+     */
     public boolean runPythonScript(String argument0) {
         LOG.info("Process " + id + " is starting:"
                 + "\n  >> Min duration: " + minDurationSeconds + " seconds"
@@ -92,6 +109,9 @@ public class PythonScriptExecutor {
         return true;
     }
 
+    /**
+     * Destroy process.
+     */
     public void destroyProcess() {
         executor.getWatchdog().destroyProcess();
     }
@@ -114,7 +134,7 @@ public class PythonScriptExecutor {
         String path = AppStorage.getAppUserdataDir() + File.separator + LOG_PATH;
         Path logDir = FileUtils.createDirectoriesIfNotExist(Paths.get(path));
         Path logFileName = Paths.get(logDir.toString(), fileName);
-        return FileUtils.newOutpuStreamSafe(logFileName);
+        return FileUtils.newOutputStreamSafe(logFileName);
     }
 
     private static String generateLogFilename() {

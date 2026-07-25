@@ -30,15 +30,31 @@ public class GroundTrack {
     private final long id;
     private final PositionAndTime[] trackPoints;
 
+    /**
+     * Creates a new {@code GroundTrack}.
+     *
+     * @param id the id
+     * @param track the track
+     */
     public GroundTrack(long id, PositionAndTime[] track) {
         this.id = id;
         this.trackPoints = track;
     }
 
+    /**
+     * Returns the id.
+     *
+     * @return the id
+     */
     public long getId() {
         return id;
     }
 
+    /**
+     * Returns the track.
+     *
+     * @return the track
+     */
     public PositionAndTime[] getTrack() {
         return trackPoints;
     }

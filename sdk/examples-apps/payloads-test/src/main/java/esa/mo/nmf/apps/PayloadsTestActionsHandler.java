@@ -37,6 +37,7 @@ import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.platform.structures.*;
 
 /**
+ * Handles the payload-test actions (ADCS, camera, SDR, optical receiver).
  *
  * @author dmars
  */
@@ -56,10 +57,23 @@ public class PayloadsTestActionsHandler {
 
     private final PayloadsTestMCAdapter payloadsTestMCAdapter;
 
+    /**
+     * Creates a new {@code PayloadsTestActionsHandler}.
+     *
+     * @param payloadsTestMCAdapter the payloads test mc adapter
+     */
     public PayloadsTestActionsHandler(PayloadsTestMCAdapter payloadsTestMCAdapter) {
         this.payloadsTestMCAdapter = payloadsTestMCAdapter;
     }
 
+    /**
+     * Execute adcs mode action.
+     *
+     * @param duration the duration
+     * @param attitudeMode the attitude mode
+     * @param payloadsTestMCAdapter the payloads test mc adapter
+     * @throws ExecutionFailedException if the operation fails
+     */
     public void executeAdcsModeAction(Duration duration,
             AttitudeMode attitudeMode, PayloadsTestMCAdapter payloadsTestMCAdapter) throws ExecutionFailedException {
         if (duration != null) {
@@ -83,6 +97,15 @@ public class PayloadsTestActionsHandler {
         }
     }
 
+    /**
+     * Executes the schedule take picture action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @param scheduleDelay the schedule delay
+     * @param format the format
+     * @param autoExposed the auto exposed
+     */
     public void scheduleTakePicture(Long executionId,
             MALInteraction interaction, Duration scheduleDelay, PictureFormat format, boolean autoExposed) {
         Timer timer = new Timer();
@@ -125,6 +148,14 @@ public class PayloadsTestActionsHandler {
         }, delay);
     }
 
+    /**
+     * Executes the take picture action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @param format the format
+     * @throws ExecutionFailedException if the operation fails
+     */
     public void takePicture(Long executionId,
             MALInteraction interaction, PictureFormat format) throws ExecutionFailedException {
         try {
@@ -144,6 +175,14 @@ public class PayloadsTestActionsHandler {
         }
     }
 
+    /**
+     * Executes the take auto exposed picture action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @param format the format
+     * @throws ExecutionFailedException if the operation fails
+     */
     public void takeAutoExposedPicture(Long executionId,
             MALInteraction interaction, PictureFormat format) throws ExecutionFailedException {
         try {
@@ -163,6 +202,15 @@ public class PayloadsTestActionsHandler {
         }
     }
 
+    /**
+     * Sets the device state.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @param deviceType the device type
+     * @param setOn the set on
+     * @throws ExecutionFailedException if the operation fails
+     */
     public void setDeviceState(Long executionId,
             MALInteraction interaction, UInteger deviceType, boolean setOn) throws ExecutionFailedException {
         try {
@@ -176,6 +224,13 @@ public class PayloadsTestActionsHandler {
         }
     }
 
+    /**
+     * Executes the record sdr data action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @throws ExecutionFailedException if the operation fails
+     */
     public void recordSDRData(Long executionId, MALInteraction interaction) throws ExecutionFailedException {
         try {
             if (!sdrRegistered) {

@@ -26,6 +26,9 @@ import java.util.logging.Logger;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
 import org.apache.commons.exec.ExecuteException;
 
+/**
+ * Logging Execute Result Handler.
+ */
 public class LoggingExecuteResultHandler extends DefaultExecuteResultHandler {
 
     private static final Logger LOG = Logger.getLogger(LoggingExecuteResultHandler.class.getName());
@@ -34,6 +37,13 @@ public class LoggingExecuteResultHandler extends DefaultExecuteResultHandler {
     private final ProcessEventListener processEventListener;
     private final Long processRequestId;
 
+    /**
+     * Creates a new {@code LoggingExecuteResultHandler}.
+     *
+     * @param processEventListener the process event listener
+     * @param processRequestId the process request id
+     * @param processOutputStream the process output stream
+     */
     public LoggingExecuteResultHandler(ProcessEventListener processEventListener,
             Long processRequestId, OutputStream processOutputStream) {
         this.processOutputStream = processOutputStream;

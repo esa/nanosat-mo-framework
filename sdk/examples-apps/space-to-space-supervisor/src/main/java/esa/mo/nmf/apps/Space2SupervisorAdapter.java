@@ -32,6 +32,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Monitor and Control adapter for this application.
+ */
 public class Space2SupervisorAdapter extends MonitorAndControlNMFAdapter {
 
     private static final Logger LOGGER = Logger.getLogger(Space2SupervisorAdapter.class.getName());
@@ -45,9 +48,17 @@ public class Space2SupervisorAdapter extends MonitorAndControlNMFAdapter {
 
     private List<String> parametersNames = new ArrayList<>();
 
+    /**
+     * Creates a new {@code Space2SupervisorAdapter}.
+     */
     public Space2SupervisorAdapter() {
     }
 
+    /**
+     * Sets the connector.
+     *
+     * @param connector the NMF provider connector
+     */
     public void setConnector(NanoSatMOConnectorImpl connector) {
         this.connector = connector;
 
@@ -60,10 +71,18 @@ public class Space2SupervisorAdapter extends MonitorAndControlNMFAdapter {
         });
     }
 
+    /**
+     * Sets the supervisor sma.
+     *
+     * @param supervisorSMA the supervisor sma
+     */
     public void setSupervisorSMA(SpaceMOAdapterImpl supervisorSMA) {
         this.supervisorSMA = supervisorSMA;
     }
 
+    /**
+     * Fetch parameters.
+     */
     public void fetchParameters() {
         LOGGER.log(Level.SEVERE, "Registering for the following parameters: " + PARAMETER_NAMES);
         parametersNames.clear();
@@ -97,6 +116,11 @@ public class Space2SupervisorAdapter extends MonitorAndControlNMFAdapter {
         LOGGER.log(Level.INFO, "Started fetching parameters from supervisor");
     }
 
+    /**
+     * On close.
+     *
+     * @return the on close
+     */
     public Boolean onClose() {
         boolean success = true;
         // Stop fetching data in supervisor

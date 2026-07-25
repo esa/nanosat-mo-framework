@@ -46,10 +46,24 @@ public class CameraAcquisitorSystemGPSHandler extends GPSAdapter {
 
     private final CameraAcquisitorSystemMCAdapter casMCAdapter;
 
+    /**
+     * Creates a new {@code CameraAcquisitorSystemGPSHandler}.
+     *
+     * @param casMCAdapter the cas mc adapter
+     */
     public CameraAcquisitorSystemGPSHandler(CameraAcquisitorSystemMCAdapter casMCAdapter) {
         this.casMCAdapter = casMCAdapter;
     }
 
+    /**
+     * Executes the action arrived action.
+     *
+     * @param name the name
+     * @param attributeValues the attribute values
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @throws ExecutionFailedException if the operation fails
+     */
     public void actionArrived(Identifier name, AttributeValueList attributeValues,
             Long executionId, MALInteraction interaction)  throws ExecutionFailedException {
         throw new ExecutionFailedException("Action service not integrated");

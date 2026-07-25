@@ -25,11 +25,18 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
+ * Bootstraps the Spring application context for the ground application.
  *
  * @author Kevin Otto
  */
 @SpringBootApplication
 public class SpringInitiator {
+    /**
+     * Default constructor.
+     */
+    public SpringInitiator() {
+    }
+
 
     /**
      * Main command line entry point. This Demo should be used with Camera

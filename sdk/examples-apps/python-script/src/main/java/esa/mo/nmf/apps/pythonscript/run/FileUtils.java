@@ -28,10 +28,25 @@ import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * File Utils.
+ */
 public final class FileUtils {
+    /**
+     * Default constructor.
+     */
+    public FileUtils() {
+    }
+
 
     private static final Logger LOG = Logger.getLogger(FileUtils.class.getName());
 
+    /**
+     * Create directories if not exist.
+     *
+     * @param directory the directory
+     * @return the create directories if not exist
+     */
     public static Path createDirectoriesIfNotExist(Path directory) {
         if (Files.exists(directory)) {
             return directory;
@@ -43,7 +58,14 @@ public final class FileUtils {
         }
     }
 
-    public static OutputStream newOutpuStreamSafe(Path file) {
+    /**
+     * Opens an output stream to the given file, returning {@code null} instead of throwing if
+     * it cannot be opened.
+     *
+     * @param file the file to open
+     * @return the output stream, or {@code null} if it could not be opened
+     */
+    public static OutputStream newOutputStreamSafe(Path file) {
         try {
             return Files.newOutputStream(file);
         } catch (IOException e) {
@@ -52,6 +74,11 @@ public final class FileUtils {
         }
     }
 
+    /**
+     * Close safe.
+     *
+     * @param outputStream the output stream
+     */
     public static void closeSafe(OutputStream outputStream) {
         try {
             outputStream.close();

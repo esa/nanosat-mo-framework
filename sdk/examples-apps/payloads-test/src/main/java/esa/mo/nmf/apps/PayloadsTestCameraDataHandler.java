@@ -37,6 +37,7 @@ import org.ccsds.moims.mo.platform.structures.Picture;
 import org.ccsds.moims.mo.platform.structures.PictureFormat;
 
 /**
+ * Receives and stores the camera data for the payload-test application.
  *
  * @author dmars
  */

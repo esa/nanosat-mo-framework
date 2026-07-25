@@ -50,6 +50,9 @@ public class Waveform {
     private long refresh = 1000;
     private boolean started = false;
 
+    /**
+     * Creates a new {@code Waveform}.
+     */
     public Waveform() {
         connector.init(new MCAdapter());
         tasker = new TaskScheduler(1);
@@ -67,11 +70,19 @@ public class Waveform {
         Waveform demo = new Waveform();
     }
 
+    /**
+     * Push val.
+     *
+     * @throws NMFException if the operation fails
+     */
     public void pushVal() throws NMFException {
         double res = amplitude * Math.sin(((double) System.nanoTime() / 1000000000.0) * 2 * Math.PI * frequency);
         connector.pushParameterValue("sine", res);
     }
 
+    /**
+     * Start wave.
+     */
     public void startWave() {
         if (started) {
             return;
@@ -87,6 +98,9 @@ public class Waveform {
         }), 0, refresh, TimeUnit.MICROSECONDS, true); // conversion to milliseconds
     }
 
+    /**
+     * Stop wave.
+     */
     public void stopWave() {
         if (!started) {
             return;
@@ -95,7 +109,16 @@ public class Waveform {
         started = false;
     }
 
+    /**
+     * Monitor and Control adapter for this application.
+     */
     public class MCAdapter extends MonitorAndControlNMFAdapter {
+        /**
+         * Default constructor.
+         */
+        public MCAdapter() {
+        }
+
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {

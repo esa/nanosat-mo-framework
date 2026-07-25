@@ -40,6 +40,9 @@ public class DemoSpace2Space {
         DemoSpace2Space demo = new DemoSpace2Space();
     }
 
+    /**
+     * Creates a new {@code DemoSpace2Space}.
+     */
     public DemoSpace2Space() {
         Space2SpaceAdapter adapter = new Space2SpaceAdapter();
         NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();

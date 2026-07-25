@@ -39,6 +39,9 @@ public class BlankApp {
 
     private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
 
+    /**
+     * Creates a new {@code BlankApp}.
+     */
     public BlankApp() {
         connector.init(new MCAdapter());
     }
@@ -53,7 +56,16 @@ public class BlankApp {
         BlankApp demo = new BlankApp();
     }
 
+    /**
+     * Monitor and Control adapter for this application.
+     */
     public static class MCAdapter extends MonitorAndControlNMFAdapter {
+        /**
+         * Default constructor.
+         */
+        public MCAdapter() {
+        }
+
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {

@@ -47,6 +47,9 @@ public class Demo10secAlert {
     private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
     private final TaskScheduler timer;
 
+    /**
+     * Creates a new {@code Demo10secAlert}.
+     */
     public Demo10secAlert() {
         this.connector.init(new Adapter());
         this.timer = new TaskScheduler(1);

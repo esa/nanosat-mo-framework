@@ -65,6 +65,11 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
     private final Map<Long, PictureReceivedAdapter> processMap = new ConcurrentHashMap<>();
     private final NMFInterface connector;
 
+    /**
+     * Creates a new {@code PictureProcessorMCAdapter}.
+     *
+     * @param connector the NMF provider connector
+     */
     public PictureProcessorMCAdapter(NMFProvider connector) {
         this.connector = connector;
     }

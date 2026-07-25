@@ -32,7 +32,16 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Monitor and Control adapter for this application.
+ */
 public class Space2SpaceAdapter extends MonitorAndControlNMFAdapter {
+    /**
+     * Default constructor.
+     */
+    public Space2SpaceAdapter() {
+    }
+
 
     private static final Logger LOGGER = Logger.getLogger(Space2SpaceAdapter.class.getName());
     private static final String PARAMETER_NAMES = "gps.latitude,gps.longitude,gps.altitude,gps.number-of-satellites-in-view";
@@ -45,6 +54,11 @@ public class Space2SpaceAdapter extends MonitorAndControlNMFAdapter {
 
     private List<String> parametersNames = new ArrayList<>();
 
+    /**
+     * Sets the connector.
+     *
+     * @param connector the NMF provider connector
+     */
     public void setConnector(NanoSatMOConnectorImpl connector) {
         this.connector = connector;
 
@@ -57,10 +71,18 @@ public class Space2SpaceAdapter extends MonitorAndControlNMFAdapter {
         });
     }
 
+    /**
+     * Sets the space app sma.
+     *
+     * @param spaceAppSMA the space app sma
+     */
     public void setSpaceAppSMA(SpaceMOAdapterImpl spaceAppSMA) {
         this.spaceAppSMA = spaceAppSMA;
     }
 
+    /**
+     * Fetch gps parameters.
+     */
     public void fetchGPSParameters() {
         LOGGER.log(Level.SEVERE, "Registering for the following parameters: " + PARAMETER_NAMES);
         parametersNames.clear();
@@ -93,6 +115,11 @@ public class Space2SpaceAdapter extends MonitorAndControlNMFAdapter {
         LOGGER.log(Level.INFO, "Started fetching parameters");
     }
 
+    /**
+     * Close app.
+     *
+     * @return the close app
+     */
     public Boolean closeApp() {
         boolean success = true;
         // Stop fetching data in supervisor

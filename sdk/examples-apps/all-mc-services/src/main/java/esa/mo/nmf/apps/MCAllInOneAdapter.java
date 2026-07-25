@@ -90,6 +90,11 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
 
     private final TaskScheduler periodicAlertTimer = new TaskScheduler(1);
 
+    /**
+     * Creates a new {@code MCAllInOneAdapter}.
+     *
+     * @param nmfProvider the NMF provider connector
+     */
     public MCAllInOneAdapter(final NMFInterface nmfProvider) {
         this.nmf = nmfProvider;
     }
@@ -118,6 +123,9 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         return new UOctet((short) modeEnum.ordinal());
     }
 
+    /**
+     * Start periodic alerts publishing.
+     */
     public void startPeriodicAlertsPublishing() {
         this.periodicAlertTimer.scheduleTask(new Thread(() -> {
             AttributeValueList atts = new AttributeValueList();
@@ -458,6 +466,9 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Start adcs attitude monitoring.
+     */
     public void startAdcsAttitudeMonitoring() {
         try {
             // Subscribe monitorAttitude
@@ -497,7 +508,16 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         return errorNumber;
     }
 
+    /**
+     * Monitor and Control adapter for this application.
+     */
     public class DataReceivedAdapter extends AutonomousADCSAdapter {
+        /**
+         * Default constructor.
+         */
+        public DataReceivedAdapter() {
+        }
+
 
         @Override
         public void monitorAttitudeNotifyReceived(final MALMessageHeader msgHeader,

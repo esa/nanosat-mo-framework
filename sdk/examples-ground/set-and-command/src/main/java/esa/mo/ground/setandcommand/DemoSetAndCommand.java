@@ -39,6 +39,8 @@ public class DemoSetAndCommand {
     private static final Logger LOGGER = Logger.getLogger(DemoSetAndCommand.class.getName());
 
     /**
+     * Connects to the provider at the given directory URI, then sets a parameter and triggers
+     * an action on it.
      *
      * @param directoryURI - supervisor directory URI
      *                     - e.g. "maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory"

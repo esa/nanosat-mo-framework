@@ -48,6 +48,12 @@ import org.ccsds.moims.mo.platform.structures.*;
  * The adapter for the NMF App
  */
 public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
+    /**
+     * Default constructor.
+     */
+    public MCSnapNMFAdapter() {
+    }
+
 
     private NMFInterface connector;
 
@@ -63,6 +69,11 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
     private final float DEFAULT_GAIN_G = 8;
     private final float DEFAULT_GAIN_B = 10;
 
+    /**
+     * Sets the nmf.
+     *
+     * @param connector the NMF provider connector
+     */
     public void setNMF(NMFInterface connector) {
         this.connector = connector;
     }
@@ -173,6 +184,9 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         throw new ExecutionFailedException("Unknown action: " + name.getValue());
     }
 
+    /**
+     * Monitor and Control adapter for this application.
+     */
     public class DataReceivedAdapter extends CameraAdapter {
 
         private final int STAGE_ACK = 1;

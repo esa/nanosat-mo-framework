@@ -51,6 +51,11 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     private final Map<Long, PythonScriptExecutor> processMap = new ConcurrentHashMap<>();
     private final NMFInterface connector;
 
+    /**
+     * Creates a new {@code MCAdapter}.
+     *
+     * @param connector the NMF provider connector
+     */
     public MCAdapter(NMFProvider connector) {
         this.connector = connector;
     }
@@ -84,6 +89,12 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         throw new ExecutionFailedException("Unknown action: " + name.getValue());
     }
 
+    /**
+     * On process completed.
+     *
+     * @param id the id
+     * @param exitCode the exit code
+     */
     public void onProcessCompleted(Long id, int exitCode) {
         processMap.remove(id);
         LOG.info("Process with Request Id: " + id + " exited with code: " + exitCode);

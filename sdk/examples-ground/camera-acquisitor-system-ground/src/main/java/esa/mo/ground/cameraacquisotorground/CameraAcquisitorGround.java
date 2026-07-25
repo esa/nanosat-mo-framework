@@ -184,6 +184,11 @@ public class CameraAcquisitorGround {
     // Coordinates of esoc in darmstadt
     GeodeticPoint esoc = new GeodeticPoint(49.869987, 8.622770, 0);
 
+    /**
+     * Creates a new {@code CameraAcquisitorGround}.
+     *
+     * @param args the command line arguments
+     */
     public CameraAcquisitorGround(ApplicationArguments args) {
         if (args.getSourceArgs().length == 0) {
             LOGGER.log(Level.SEVERE, "No directoryURI given! exiting now");

@@ -39,11 +39,24 @@ import org.ccsds.moims.mo.mc.structures.ParameterValueList;
 import org.ccsds.moims.mo.mc.structures.ValidityState;
 
 /**
+ * Utility that stores a batch of parameter values for benchmarking.
  *
  * @author Cesar Coelho
  */
 public class StoreParameters {
+    /**
+     * Default constructor.
+     */
+    public StoreParameters() {
+    }
 
+
+    /**
+     * Store parameter values.
+     *
+     * @param numberOfObjs the number of objs
+     * @param connector the NMF provider connector
+     */
     public static void storeParameterValues(int numberOfObjs, NMFInterface connector) {
         try {
             ParameterValue pValue = new ParameterValue(ValidityState.VALID,

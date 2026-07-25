@@ -61,6 +61,9 @@ public class PushClock {
     private Calendar calendar;
     private Date date;
 
+    /**
+     * Creates a new {@code PushClock}.
+     */
     public PushClock() {
         connector.init(new MCAdapter());
 
@@ -74,6 +77,11 @@ public class PushClock {
         }), 5, REFRESH_RATE, TimeUnit.SECONDS, true); // conversion to milliseconds
     }
 
+    /**
+     * Push clock.
+     *
+     * @throws NMFException if the operation fails
+     */
     public void pushClock() throws NMFException {
         calendar = GregorianCalendar.getInstance();
         date = new Date();
@@ -107,7 +115,16 @@ public class PushClock {
         PushClock demo = new PushClock();
     }
 
+    /**
+     * Monitor and Control adapter for this application.
+     */
     public static class MCAdapter extends MonitorAndControlNMFAdapter {
+        /**
+         * Default constructor.
+         */
+        public MCAdapter() {
+        }
+
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {

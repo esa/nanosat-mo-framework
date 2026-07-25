@@ -56,6 +56,9 @@ public class DemoGPSData {
     private static final String PARAMETER_GPS_N_SATS_IN_VIEW = "gps.number-of-satellites-in-view";
     private static final String AGGREGATION_GPS = "GPS.Aggregation";
 
+    /**
+     * Creates a new {@code DemoGPSData}.
+     */
     public DemoGPSData() {
         this.connector = new NanoSatMOConnectorImpl();
         this.connector.init(new McAdapter());
@@ -89,7 +92,16 @@ public class DemoGPSData {
         }
     }
 
+    /**
+     * Monitor and Control adapter for this application.
+     */
     public class McAdapter extends MonitorAndControlNMFAdapter {
+        /**
+         * Default constructor.
+         */
+        public McAdapter() {
+        }
+
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {

@@ -21,7 +21,7 @@
 package esa.mo.nmf.apps.pictureprocessor.process;
 
 import static esa.mo.nmf.apps.pictureprocessor.utils.FileUtils.createDirectoriesIfNotExist;
-import static esa.mo.nmf.apps.pictureprocessor.utils.FileUtils.newOutpuStreamSafe;
+import static esa.mo.nmf.apps.pictureprocessor.utils.FileUtils.newOutputStreamSafe;
 import static esa.mo.nmf.apps.pictureprocessor.utils.FileUtils.stripFileNameExtension;
 import esa.mo.nmf.AppStorage;
 import java.io.File;
@@ -38,6 +38,9 @@ import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.exec.PumpStreamHandler;
 
+/**
+ * Picture Processing Executor.
+ */
 public class PictureProcessingExecutor {
 
     private static final Logger LOG = Logger.getLogger(PictureProcessingExecutor.class.getName());
@@ -50,6 +53,14 @@ public class PictureProcessingExecutor {
     private final Long maxDurationMillis;
     private final Long processRequestId;
 
+    /**
+     * Creates a new {@code PictureProcessingExecutor}.
+     *
+     * @param processEventListener the process event listener
+     * @param processRequestId the process request id
+     * @param minProcessDurationSeconds the min process duration seconds
+     * @param maxProcessDurationSeconds the max process duration seconds
+     */
     public PictureProcessingExecutor(ProcessEventListener processEventListener, 
             Long processRequestId, Integer minProcessDurationSeconds, Integer maxProcessDurationSeconds) {
         this.maxDurationMillis = toWatchdogTimeout(maxProcessDurationSeconds);
@@ -60,6 +71,12 @@ public class PictureProcessingExecutor {
         this.executor.setWatchdog(new ExecuteWatchdog(maxDurationMillis));
     }
 
+    /**
+     * Process picture.
+     *
+     * @param picture the picture
+     * @return the process picture
+     */
     public boolean processPicture(Path picture) {
         LOG.info("Process " + processRequestId + " is starting. It will last at least " 
                 + minDurationSeconds + "s and at most " + maxDurationMillis + "ms");
@@ -90,6 +107,9 @@ public class PictureProcessingExecutor {
         return true;
     }
 
+    /**
+     * Destroy process.
+     */
     public void destroyProcess() {
         executor.getWatchdog().destroyProcess();
     }
@@ -112,7 +132,7 @@ public class PictureProcessingExecutor {
         String path = AppStorage.getAppUserdataDir() + File.separator + LOG_PATH;
         Path logFileName = createDirectoriesIfNotExist(Paths.get(path))
                 .resolve(logFileName(stripFileNameExtension(fileName)));
-        return newOutpuStreamSafe(logFileName);
+        return newOutputStreamSafe(logFileName);
     }
 
     private static Path logFileName(Path processInputFile) {

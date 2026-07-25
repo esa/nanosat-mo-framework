@@ -58,10 +58,18 @@ public class EchoSpace {
     private Calendar calendar;
     private Date date;
 
+    /**
+     * Creates a new {@code EchoSpace}.
+     */
     public EchoSpace() {
         connector.init(new MCAdapter());
     }
 
+    /**
+     * Push blob.
+     *
+     * @throws NMFException if the operation fails
+     */
     public void pushBlob() throws NMFException {
         connector.pushParameterValue("data", data);
     }
@@ -76,7 +84,16 @@ public class EchoSpace {
         EchoSpace demo = new EchoSpace();
     }
 
+    /**
+     * Monitor and Control adapter for this application.
+     */
     public class MCAdapter extends MonitorAndControlNMFAdapter {
+        /**
+         * Default constructor.
+         */
+        public MCAdapter() {
+        }
+
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {
