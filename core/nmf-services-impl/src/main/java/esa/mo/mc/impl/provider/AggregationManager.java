@@ -39,6 +39,7 @@ import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
 import org.ccsds.moims.mo.mc.structures.*;
 
 /**
+ * Manages the aggregation definitions of the Aggregation service.
  *
  * @author Cesar Coelho
  */
@@ -54,6 +55,12 @@ public final class AggregationManager extends MCManager {
     private Long uniqueObjIdAVal;
     private final ParameterManager parameterManager;
 
+    /**
+     * Creates a new {@code AggregationManager}.
+     *
+     * @param comServices the COM services
+     * @param parameterManager the parameter manager
+     */
     public AggregationManager(COMServicesProvider comServices, ParameterManager parameterManager) {
         super(comServices);
         this.parameterManager = parameterManager;
@@ -70,6 +77,12 @@ public final class AggregationManager extends MCManager {
         }
     }
 
+    /**
+     * Returns the aggregation definition.
+     *
+     * @param id the id
+     * @return the aggregation definition
+     */
     public AggregationDefinition getAggregationDefinition(Long id) {
         return (AggregationDefinition) this.getDefinition(id);
     }
@@ -176,6 +189,16 @@ public final class AggregationManager extends MCManager {
         sampleCountList.remove(defId);
     }
 
+    /**
+     * Stores the aggregation value in the archive and returns its generated object id.
+     *
+     * @param aVal the a val
+     * @param related the related
+     * @param source the source
+     * @param uri the uri
+     * @param timestamp the timestamp
+     * @return the generated object id
+     */
     public Long storeAndGenerateAValobjId(AggregationValue aVal, Long related,
             ObjectKey source, URI uri, Time timestamp) {
         if (super.getArchiveService() == null) {
@@ -495,7 +518,6 @@ public final class AggregationManager extends MCManager {
     /**
      * Sets the delta-time and the update time at the sampled value.
      *
-     *
      * @param generationMode the mode of the generation (PERIODIC, ADHOC,
      * FILTEREDTIMEOUT)
      * @param sampleInterval
@@ -759,6 +781,15 @@ public final class AggregationManager extends MCManager {
         return newParamSample;
     }
 
+    /**
+     * Adds an aggregation definition and returns its object id.
+     *
+     * @param name the name
+     * @param definition the definition
+     * @param source the source
+     * @param connectionDetails the connection details
+     * @return the assigned object id
+     */
     public Long add(Identifier name, AggregationDefinition definition, ObjectKey source,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
 
@@ -830,6 +861,12 @@ public final class AggregationManager extends MCManager {
         }
     }
 
+    /**
+     * Deletes the aggregation definition with the given id.
+     *
+     * @param defId the def id
+     * @return {@code true} on success
+     */
     public boolean delete(Long defId) {
         if (!this.deleteDefinitionLocally(defId)) {
             return false;
@@ -842,6 +879,14 @@ public final class AggregationManager extends MCManager {
         return true;
     }
 
+    /**
+     * Sets the reporting enabled.
+     *
+     * @param defId the def id
+     * @param status the status
+     * @param source the source
+     * @param connectionDetails the connection details
+     */
     public void setReportingEnabled(Long defId, Boolean status, ObjectKey source,
             SingleConnectionDetails connectionDetails) {
         AggregationDefinition def = this.getAggregationDefinition(defId);
@@ -863,6 +908,13 @@ public final class AggregationManager extends MCManager {
         this.update(defId, newDef, source, connectionDetails);
     }
 
+    /**
+     * Sets the reporting enabled all.
+     *
+     * @param bool the bool
+     * @param source the source
+     * @param connectionDetails the connection details
+     */
     public void setReportingEnabledAll(Boolean bool, ObjectKey source, SingleConnectionDetails connectionDetails) {
         LongList defIds = this.listAllDefinitions();
 
@@ -911,6 +963,13 @@ public final class AggregationManager extends MCManager {
         return true;
     }
 
+    /**
+     * Sets the filter enabled all.
+     *
+     * @param bool the bool
+     * @param source the source
+     * @param connectionDetails the connection details
+     */
     public void setFilterEnabledAll(Boolean bool, ObjectKey source, SingleConnectionDetails connectionDetails) {
         LongList defIds = this.listAllDefinitions();
 

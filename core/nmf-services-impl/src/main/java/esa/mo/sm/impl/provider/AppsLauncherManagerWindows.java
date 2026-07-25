@@ -37,6 +37,11 @@ public class AppsLauncherManagerWindows extends AppsLauncherManager {
 
     private static final Logger LOGGER = Logger.getLogger(AppsLauncherManagerWindows.class.getName());
 
+    /**
+     * Creates a new {@code AppsLauncherManagerWindows}.
+     *
+     * @param comServices the COM services
+     */
     public AppsLauncherManagerWindows(COMServicesProvider comServices) {
         super(comServices);
     }

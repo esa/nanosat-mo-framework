@@ -30,8 +30,14 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 
+/**
+ * Process Execution Handler.
+ */
 public class ProcessExecutionHandler {
 
+    /**
+     * Callbacks.
+     */
     public interface Callbacks {
 
         /**
@@ -69,19 +75,38 @@ public class ProcessExecutionHandler {
     private Callbacks callbacks = null;
     private static final Logger LOGGER = Logger.getLogger(ProcessExecutionHandler.class.getName());
 
+    /**
+     * Creates a new {@code ProcessExecutionHandler}.
+     *
+     * @param callbacks the callbacks
+     * @param objId the object id
+     */
     public ProcessExecutionHandler(final Callbacks callbacks, final Long objId) {
         this.callbacks = callbacks;
         this.objId = objId;
     }
 
+    /**
+     * Returns the object id.
+     *
+     * @return the object id
+     */
     public Long getObjId() {
         return objId;
     }
 
+    /**
+     * Returns the process.
+     *
+     * @return the process
+     */
     public Process getProcess() {
         return process;
     }
 
+    /**
+     * Closes the handled process's output streams.
+     */
     public void close() {
         removeShutdownHook();
         // Collect descendants before killing parent: once the shell wrapper is gone,
@@ -127,11 +152,17 @@ public class ProcessExecutionHandler {
         timer.stopLast();
     }
 
+    /**
+     * Installs a JVM shutdown hook that stops the process.
+     */
     public void installShutdownHook() {
         shutdownHook = new Thread(this::close);
         Runtime.getRuntime().addShutdownHook(shutdownHook);
     }
 
+    /**
+     * Removes the process shutdown hook.
+     */
     public void removeShutdownHook() {
         if (shutdownHook != null) {
             try {
@@ -142,6 +173,13 @@ public class ProcessExecutionHandler {
         }
     }
 
+    /**
+     * Returns the process pid.
+     *
+     * @param p the p
+     * @return the process pid
+     * @throws IOException if the operation fails
+     */
     public static synchronized long getProcessPid(Process p) throws IOException {
         try {
             return p.pid();
@@ -150,6 +188,11 @@ public class ProcessExecutionHandler {
         }
     }
 
+    /**
+     * Starts monitoring the given process, forwarding its output and exit status.
+     *
+     * @param process the process
+     */
     public void monitorProcess(final Process process) {
         this.process = process;
         installShutdownHook();

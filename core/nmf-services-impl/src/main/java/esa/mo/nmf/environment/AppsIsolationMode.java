@@ -29,7 +29,11 @@ package esa.mo.nmf.environment;
  * @author Cesar Coelho
  */
 public class AppsIsolationMode {
+    private AppsIsolationMode() {
+    }
 
+
+    /** The property. */
     public static final String PROPERTY = "esa.mo.nmf.packagemanager.appsIsolation";
 
     /** Apps run as the user that launched the Supervisor. */

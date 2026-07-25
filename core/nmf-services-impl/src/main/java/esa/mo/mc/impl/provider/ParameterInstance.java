@@ -36,6 +36,14 @@ public class ParameterInstance {
     private final ObjectKey source;
     private final Time timestamp;
 
+    /**
+     * Creates a new {@code ParameterInstance}.
+     *
+     * @param name the name
+     * @param pValue the p value
+     * @param source the source
+     * @param timestamp the timestamp
+     */
     public ParameterInstance(final Identifier name, final ParameterValue pValue,
             final ObjectKey source, final Time timestamp) {
         this.name = name;
@@ -44,23 +52,51 @@ public class ParameterInstance {
         this.timestamp = timestamp;
     }
 
+    /**
+     * Creates a new {@code ParameterInstance}.
+     *
+     * @param name the name
+     * @param value the value
+     * @param source the source
+     * @param timestamp the timestamp
+     */
     public ParameterInstance(final Identifier name, final Attribute value,
             final ObjectKey source, final Time timestamp) {
         this(name, new ParameterValue(ValidityState.VALID, value, null), source, timestamp);
     }
 
+    /**
+     * Returns the name.
+     *
+     * @return the name
+     */
     public Identifier getName() {
         return this.name;
     }
 
+    /**
+     * Returns the parameter value.
+     *
+     * @return the parameter value
+     */
     public ParameterValue getParameterValue() {
         return this.parameterValue;
     }
 
+    /**
+     * Returns the source.
+     *
+     * @return the source
+     */
     public ObjectKey getSource() {
         return this.source;
     }
 
+    /**
+     * Returns the timestamp.
+     *
+     * @return the timestamp
+     */
     public Time getTimestamp() {
         return this.timestamp;
     }

@@ -47,8 +47,11 @@ import org.ccsds.moims.mo.mal.structures.UShort;
  */
 public abstract class GENEncoder implements MALEncoder {
 
+    /** The utf8 charset. */
     protected static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
+    /** The encoding exception str. */
     protected static final String ENCODING_EXCEPTION_STR = "Bad encoding";
+    /** The output stream. */
     protected final StreamHolder outputStream;
 
     /**
@@ -649,6 +652,7 @@ public abstract class GENEncoder implements MALEncoder {
      */
     protected abstract static class StreamHolder {
 
+        /** The output stream. */
         protected final OutputStream outputStream;
 
         /**

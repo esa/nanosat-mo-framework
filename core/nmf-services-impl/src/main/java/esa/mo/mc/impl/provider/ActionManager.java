@@ -48,6 +48,7 @@ import org.ccsds.moims.mo.mc.structures.*;
 import org.ccsds.moims.mo.mc.structures.ExecutionStageType;
 
 /**
+ * Manages the action definitions of the Action service.
  *
  * @author Cesar Coelho
  */
@@ -67,6 +68,12 @@ public final class ActionManager extends MCManager {
             MAXIMUM_THREADS_IN_POOL, KEEP_ALIVE_TIME_THREADS_IN_POOL, TimeUnit.SECONDS, new ArrayBlockingQueue<>(
                     MAXIMUM_NUMBER_OF_TASKS_IN_POOL, true), new ActionThreadFactory("ActionsExecutor"));
 
+    /**
+     * Creates a new {@code ActionManager}.
+     *
+     * @param comServices the COM services
+     * @param actions the actions
+     */
     public ActionManager(COMServicesProvider comServices, ActionInvocationListener actions) {
         super(comServices);
         this.actions = actions;
@@ -82,10 +89,24 @@ public final class ActionManager extends MCManager {
     }
 
     // We could use generics to avoid doing this...
+    /**
+     * Returns the action definition.
+     *
+     * @param id the id
+     * @return the action definition
+     */
     public ActionDefinition getActionDefinition(Long id) {
         return (ActionDefinition) this.getDefinition(id);
     }
 
+    /**
+     * Stores the execution request in the archive and returns its generated object id.
+     *
+     * @param execReq the exec req
+     * @param related the related
+     * @param uri the uri
+     * @return the generated object id
+     */
     public Long storeAndGenerateExecReqId(ExecutionRequest execReq, Long related, final URI uri) {
         if (super.getArchiveService() == null) {
             uniqueObjIdAIns++;
@@ -115,6 +136,14 @@ public final class ActionManager extends MCManager {
 
     }
 
+    /**
+     * Adds an action definition to the archive and returns its object id.
+     *
+     * @param actionDefDetails the action def details
+     * @param source the source
+     * @param uri the uri
+     * @return the assigned object id
+     */
     public Long add(ActionDefinition actionDefDetails, ObjectKey source, URI uri) { // requirement: 3.3.2.5
         Long newId = 0L;
         final Identifier name = actionDefDetails.getName();
@@ -145,6 +174,15 @@ public final class ActionManager extends MCManager {
         return newId;
     }
 
+    /**
+     * Updates the action definition with the given id.
+     *
+     * @param id the id
+     * @param definition the definition
+     * @param source the source
+     * @param uri the uri
+     * @return the assigned object id
+     */
     public Long update(Long id, ActionDefinition definition, ObjectKey source, URI uri) { // requirement: 3.3.2.5
         Long newDefId = id;
 
@@ -174,6 +212,13 @@ public final class ActionManager extends MCManager {
         return newDefId;
     }
 
+    /**
+     * Returns whether action definition valid.
+     *
+     * @param oldDef the old def
+     * @param newDef the new def
+     * @return {@code true} on success
+     */
     protected boolean isActionDefinitionValid(ActionDefinition oldDef, ActionDefinition newDef) {
         if (!oldDef.getProgressStepCount().equals(newDef.getProgressStepCount())) {
             return false;
@@ -232,6 +277,13 @@ public final class ActionManager extends MCManager {
 
     }
 
+    /**
+     * Validates the execution request, collecting any invalid-argument indexes.
+     *
+     * @param execReq the exec req
+     * @param errorList the error list
+     * @return {@code true} if valid
+     */
     public boolean checkExecutionRequest(ExecutionRequest execReq, UIntegerList errorList) {
         //TODO extend this method to support the external verification. create a new Interface -> actionservice
         ActionDefinition actionDef = this.getActionDefinition(execReq.getDefinitionId());
@@ -309,6 +361,14 @@ public final class ActionManager extends MCManager {
         return errorList.isEmpty();
     }
 
+    /**
+     * Executes the forward action.
+     *
+     * @param executionId the action instance object id
+     * @param executionRequest the execution request
+     * @param interaction the MAL interaction context
+     * @param connectionDetails the connection details
+     */
     protected void forward(final Long executionId, final ExecutionRequest executionRequest,
             final MALInteraction interaction, final SingleConnectionDetails connectionDetails) {
         final Identifier name = this.getName(executionRequest.getDefinitionId());
@@ -327,6 +387,15 @@ public final class ActionManager extends MCManager {
         });
     }
 
+    /**
+     * Executes the execute action.
+     *
+     * @param executionId the action instance object id
+     * @param executionRequest the execution request
+     * @param interaction the MAL interaction context
+     * @param progressPublisher the progress publisher
+     * @param connectionDetails the connection details
+     */
     protected void execute(final Long executionId, final ExecutionRequest executionRequest,
             final MALInteraction interaction, ActionProviderServiceImpl progressPublisher,
             final SingleConnectionDetails connectionDetails) {
@@ -366,10 +435,26 @@ public final class ActionManager extends MCManager {
 
     }
 
+    /**
+     * Returns the execution request.
+     *
+     * @param id the id
+     * @return the execution request
+     */
     protected ExecutionRequest getExecutionRequest(final Long id) {
         return executionRequests.get(id);
     }
 
+    /**
+     * Stores an execution-status update for the given action execution.
+     *
+     * @param executionId the action instance object id
+     * @param stageType the stage type
+     * @param success the success
+     * @param step the step
+     * @param comment the comment
+     * @param uri the uri
+     */
     public void storeExecutionStatus(final Long executionId, final ExecutionStageType stageType,
             final boolean success, final UShort step, final String comment, final URI uri) {
         if (super.getArchiveService() == null) {

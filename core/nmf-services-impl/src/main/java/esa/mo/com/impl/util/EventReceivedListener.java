@@ -29,6 +29,12 @@ import java.util.EventListener;
  * @author Cesar Coelho
  */
 public abstract class EventReceivedListener implements EventListener {
+    /**
+     * Default constructor.
+     */
+    protected EventReceivedListener() {
+    }
+
 
     /**
      * This interface must be implemented in order to receive the subscribed

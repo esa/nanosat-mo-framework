@@ -13,18 +13,48 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 /*
  * Common interface implemented by the adapters used by getFromArchive helper
  */
+/**
+ * Monitor and Control adapter for this application.
+ */
 public interface HelperArchiveRetrieveAdapterInterface {
 
+    /**
+     * Returns the obj type.
+     *
+     * @return the obj type
+     */
     public ObjectType getObjType();
 
+    /**
+     * Returns the domain.
+     *
+     * @return the domain
+     */
     public IdentifierList getDomain();
 
+    /**
+     * Returns the object body list.
+     *
+     * @return the object body list
+     */
     public ElementList getObjectBodyList();
 
+    /**
+     * Returns the archive details list.
+     *
+     * @return the archive details list
+     */
     public ArchiveDetailsList getArchiveDetailsList();
 
+    /**
+     * Blocks until the retrieval has completed.
+     */
     public void waitUntilReady();
 
+    /**
+     * Returns the persistence object list.
+     * @return the persistence object list
+     */
     public default List<ArchivePersistenceObject> getPersistenceObjectList() {
         ElementList obj = getObjectBodyList();
         ArchiveDetailsList objDetails = getArchiveDetailsList();

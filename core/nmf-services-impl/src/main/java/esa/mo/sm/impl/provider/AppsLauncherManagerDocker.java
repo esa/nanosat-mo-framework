@@ -86,6 +86,11 @@ public class AppsLauncherManagerDocker extends AppsLauncherManager {
         return System.getProperty(NETWORK_PROPERTY, DEFAULT_NETWORK);
     }
 
+    /**
+     * Creates a new {@code AppsLauncherManagerDocker}.
+     *
+     * @param comServices the COM services
+     */
     public AppsLauncherManagerDocker(COMServicesProvider comServices) {
         super(comServices);
     }

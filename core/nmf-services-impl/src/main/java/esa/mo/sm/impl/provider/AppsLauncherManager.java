@@ -55,6 +55,7 @@ import org.ccsds.moims.mo.sm.structures.AppDetails;
 import org.ccsds.moims.mo.sm.structures.AppDetailsList;
 
 /**
+ * Manages the apps known to the AppsLauncher service.
  *
  * @author Cesar Coelho
  */
@@ -79,6 +80,11 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
 
     private AtomicLong uniqueObjIdDef; // Counter
 
+    /**
+     * Creates a new {@code AppsLauncherManager}.
+     *
+     * @param comServices the COM services
+     */
     public AppsLauncherManager(COMServicesProvider comServices) {
         super(comServices);
         File appsFolderPath;
@@ -104,6 +110,10 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         }
     }
 
+    /**
+     * Returns all the definitions.
+     * @return all the app definitions
+     */
     protected AppDetailsList getAll() {
         return (AppDetailsList) this.getAllDefs();
     }
@@ -118,10 +128,24 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         return new AppDetailsList();
     }
 
+    /**
+     * Returns the app details with the given object instance id.
+     *
+     * @param input the object instance id
+     * @return the app details
+     */
     public AppDetails get(Long input) {
         return (AppDetails) this.getDef(input);
     }
 
+    /**
+     * Adds an app definition and returns its object id.
+     *
+     * @param definition the definition
+     * @param source the source
+     * @param uri the uri
+     * @return the assigned object id
+     */
     protected Long addApp(final AppDetails definition, final ObjectKey source, final URI uri) {
         Long objId = null;
         Long related = null;
@@ -210,6 +234,14 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
                 ConfigurationProviderSingleton.getDomain(), archDetails, defs, null);
     }
 
+    /**
+     * Updates the app definition with the given id.
+     *
+     * @param objId the object id
+     * @param definition the definition
+     * @param interaction the MAL interaction context
+     * @return {@code true} on success
+     */
     protected boolean update(final Long objId, final AppDetails definition,
             final MALInteraction interaction) { // requirement: 3.3.2.5
         boolean success = this.updateDef(objId, definition);
@@ -247,10 +279,22 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
                 domain, archiveDetailsList, defs, interaction);
     }
 
+    /**
+     * Deletes the app definition with the given id.
+     *
+     * @param objId the object id
+     * @return {@code true} on success
+     */
     protected boolean delete(Long objId) {
         return this.deleteDef(objId);
     }
 
+    /**
+     * Rescans the apps folders and refreshes the list of available apps.
+     *
+     * @param providerURI the provider uri
+     * @return {@code true} on success
+     */
     protected boolean refreshAvailableAppsList(final URI providerURI) {
         boolean anyChanges = false;
         ArrayList<File> fList = new ArrayList<>();
@@ -352,6 +396,12 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         return anyChanges;
     }
 
+    /**
+     * Returns whether app running.
+     *
+     * @param appId the app id
+     * @return {@code true} on success
+     */
     protected boolean isAppRunning(final Long appId) {
         // get it from the list of available apps
         //AppDetails app = (AppDetails) this.getDef(appId);
@@ -368,24 +418,70 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         return this.get(appId).getRunning();
     }
 
+    /**
+     * Assembles the platform-specific command used to launch an app.
+     *
+     * @param workDir the work dir
+     * @param appName the app name
+     * @param runAs the run as
+     * @param prefix the prefix
+     * @param env the env
+     * @return the assembled command
+     */
     protected abstract String[] assembleCommand(final String workDir, final String appName,
             final String runAs, final String prefix, final String[] env);
 
+    /**
+     * Returns the script extension.
+     * @return the script extension
+     */
     protected abstract String getScriptExtension();
 
+    /**
+     * Assembles the command used to stop a running app.
+     *
+     * @param workDir the work dir
+     * @param appName the app name
+     * @param runAs the run as
+     * @param env the env
+     * @return the assembled command
+     */
     protected String[] assembleAppStopCommand(final String workDir,
             final String appName, final String runAs, final String[] env) {
         return assembleCommand(workDir, appName, runAs, "stop_", env);
     }
 
+    /**
+     * Assembles the command used to start an app.
+     *
+     * @param workDir the work dir
+     * @param appName the app name
+     * @param runAs the run as
+     * @param env the env
+     * @return the assembled command
+     */
     protected String[] assembleAppStartCommand(final String workDir,
             final String appName, final String runAs, final String[] env) {
         return assembleCommand(workDir, appName, runAs, "start_", env);
     }
 
+    /**
+     * Assembles the environment variables for launching an app.
+     *
+     * @param directoryServiceURI the directory service uri
+     * @return the environment variables
+     */
     protected abstract HashMap<String, String> assembleAppLauncherEnvironment(
             final String directoryServiceURI);
 
+    /**
+     * Starts the OS process for the given app.
+     *
+     * @param handler the handler
+     * @param interaction the MAL interaction context
+     * @param directoryServiceURI the directory service uri
+     * @throws IOException if the operation fails
+     */
     protected void startAppProcess(final ProcessExecutionHandler handler,
             final MALInteraction interaction, final String directoryServiceURI) throws IOException {
         // get it from the list of available apps
@@ -415,6 +511,13 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         this.setRunning(handler.getObjId(), true, interaction); // Update the Archive
     }
 
+    /**
+     * Forcibly kills the OS process of the given app.
+     *
+     * @param appInstId the app inst id
+     * @param interaction the MAL interaction context
+     * @return {@code true} on success
+     */
     protected boolean killAppProcess(final Long appInstId, MALInteraction interaction) {
         AppDetails app = (AppDetails) this.getDef(appInstId); // get it from the list of available apps
         String appName = app.getName().getValue();
@@ -443,6 +546,17 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         return true;
     }
 
+    /**
+     * Stops the native OS process of the given app.
+     *
+     * @param appInstId the app inst id
+     * @param interaction the MAL interaction context
+     * @param onlyNativeComponent the only native component
+     * @throws IOException if the operation fails
+     * @throws MALInteractionException if the operation fails
+     * @throws MALException if the operation fails
+     * @return {@code true} on success
+     */
     protected boolean stopNativeApp(final Long appInstId, StopAppInteraction interaction,
             boolean onlyNativeComponent) throws IOException, MALInteractionException, MALException {
         AppDetails app = (AppDetails) this.getDef(appInstId); // get it from the list of available apps
@@ -482,6 +596,16 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         return killAppProcess(appInstId, interaction.getInteraction());
     }
 
+    /**
+     * Requests the given NMF app to shut down gracefully, force-killing it after the timeout.
+     *
+     * @param appInstId the app inst id
+     * @param timeout the timeout
+     * @param interaction the MAL interaction context
+     * @param forceKill the force kill
+     * @throws MALException if a communication error occurs
+     * @throws MALInteractionException if the operation fails
+     */
     protected void stopNMFAppGracefully(final Long appInstId, final Duration timeout,
             final StopAppInteraction interaction, final Consumer<Long> forceKill)
             throws MALException, MALInteractionException {
@@ -607,6 +731,13 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         }
     }
 
+    /**
+     * Sets the running.
+     *
+     * @param appInstId the app inst id
+     * @param running the running
+     * @param interaction the MAL interaction context
+     */
     public void setRunning(Long appInstId, boolean running, MALInteraction interaction) {
         AppDetails previousAppDetails = this.get(appInstId);
         if (previousAppDetails == null) {
@@ -628,6 +759,13 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         this.update(appInstId, newAppDetails, interaction); // Update the Archive
     }
 
+    /**
+     * Returns the single connection details from provider list.
+     *
+     * @param providersList the providers list
+     * @return the single connection details from provider list
+     * @throws IOException if the operation fails
+     */
     public static SingleConnectionDetails getSingleConnectionDetailsFromProviderList(
             ProviderList providersList) throws IOException {
         if (providersList.isEmpty()) { // Throw error!
@@ -711,6 +849,11 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         return new AppDetails(myAppName, null, null, null, null, null);
     }
 
+    /**
+     * Registers a folder to be scanned for installed apps.
+     *
+     * @param folder the folder
+     */
     public final void addFolderWithApps(File folder) {
         if (!foldersWithApps.contains(folder)) {
             foldersWithApps.add(folder);

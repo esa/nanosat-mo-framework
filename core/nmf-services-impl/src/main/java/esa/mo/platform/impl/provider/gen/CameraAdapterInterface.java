@@ -103,6 +103,10 @@ public interface CameraAdapterInterface {
      */
     Duration getMinimumPeriod();
 
+    /**
+     * Returns the extra info.
+     * @return the extra info
+     */
     String getExtraInfo();
 
 }

@@ -49,6 +49,11 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
     private final OSValidator os = new OSValidator();
     private final File setupVarsPath;
 
+    /**
+     * Creates a new {@code AIMovidiusAdapter}.
+     *
+     * @throws IOException if the operation fails
+     */
     public AIMovidiusAdapter() throws IOException {
         // Check if Python3 is installed!
         ShellCommander shellCommander = new ShellCommander();

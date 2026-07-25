@@ -32,6 +32,9 @@ import java.io.ObjectOutputStream;
  *
  */
 public class FileDataSerialization {
+    private FileDataSerialization() {
+    }
+
 
     /**
      * Serializes data to a file

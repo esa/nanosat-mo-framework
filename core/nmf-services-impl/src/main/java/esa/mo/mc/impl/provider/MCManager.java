@@ -45,6 +45,11 @@ public abstract class MCManager {
     private final ArchiveProviderServiceImpl archiveService;
     private final COMServicesProvider comServices;
 
+    /**
+     * Creates the manager backed by the given COM services.
+     *
+     * @param comServices the COM services
+     */
     protected MCManager(COMServicesProvider comServices) {
         this.nameToId = new HashMap<>();
         this.objIdToDef = new HashMap<>();
@@ -59,10 +64,20 @@ public abstract class MCManager {
         }
     }
 
+    /**
+     * Returns the archive service.
+     *
+     * @return the archive service
+     */
     public ArchiveProviderServiceImpl getArchiveService() {
         return this.archiveService;
     }
 
+    /**
+     * Returns the COM services.
+     *
+     * @return the COM services
+     */
     public COMServicesProvider getCOMServices() {
         return this.comServices;
     }
@@ -77,6 +92,12 @@ public abstract class MCManager {
         return this.objIdToDef.containsKey(objId);
     }
 
+    /**
+     * Returns the name.
+     *
+     * @param objId the object id
+     * @return the name
+     */
     public synchronized Identifier getName(Long objId) {
         return this.idToName.get(objId);
     }
@@ -102,6 +123,12 @@ public abstract class MCManager {
         return this.objIdToDef.get(id);
     }
 
+    /**
+     * Returns the id.
+     *
+     * @param name the name
+     * @return the id
+     */
     public synchronized Long getId(Identifier name) {
         return this.nameToId.get(name);
     }
@@ -133,6 +160,12 @@ public abstract class MCManager {
         return true;
     }
 
+    /**
+     * Removes the definition with the given id from the local cache.
+     *
+     * @param id the id
+     * @return {@code true} on success
+     */
     protected synchronized Boolean deleteDefinitionLocally(Long id) {
         Identifier name = this.getName(id);
         this.idToName.remove(id);

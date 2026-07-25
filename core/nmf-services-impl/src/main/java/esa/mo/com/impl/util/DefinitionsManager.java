@@ -39,6 +39,11 @@ public abstract class DefinitionsManager {
     private final ArchiveProviderServiceImpl archiveService;
     private final COMServicesProvider comServices;
 
+    /**
+     * Creates a new {@code DefinitionsManager}.
+     *
+     * @param comServices the COM services
+     */
     public DefinitionsManager(COMServicesProvider comServices) {
         this.defs = new HashMap<>();
 
@@ -51,10 +56,20 @@ public abstract class DefinitionsManager {
         }
     }
 
+    /**
+     * Returns the archive service.
+     *
+     * @return the archive service
+     */
     public ArchiveProviderServiceImpl getArchiveService() {
         return this.archiveService;
     }
 
+    /**
+     * Returns the COM services.
+     *
+     * @return the COM services
+     */
     public COMServicesProvider getCOMServices() {
         return this.comServices;
     }

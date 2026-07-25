@@ -26,6 +26,7 @@ import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mc.structures.AggregationValue;
 
 /**
+ * An aggregation instance holding a set of sampled parameter values.
  *
  * @author Phil Brabbin
  */
@@ -36,6 +37,14 @@ public class AggregationInstance {
     private final ObjectKey source;
     private final Time timestamp;
 
+    /**
+     * Creates a new {@code AggregationInstance}.
+     *
+     * @param name the name
+     * @param pValue the p value
+     * @param source the source
+     * @param timestamp the timestamp
+     */
     public AggregationInstance(final Identifier name, final AggregationValue pValue,
             final ObjectKey source, final Time timestamp) {
         this.name = name;
@@ -44,18 +53,38 @@ public class AggregationInstance {
         this.timestamp = timestamp;
     }
 
+    /**
+     * Returns the name.
+     *
+     * @return the name
+     */
     public Identifier getName() {
         return this.name;
     }
 
+    /**
+     * Returns the aggregation value.
+     *
+     * @return the aggregation value
+     */
     public AggregationValue getAggregationValue() {
         return this.aggregationValue;
     }
 
+    /**
+     * Returns the source.
+     *
+     * @return the source
+     */
     public ObjectKey getSource() {
         return this.source;
     }
 
+    /**
+     * Returns the timestamp.
+     *
+     * @return the timestamp
+     */
     public Time getTimestamp() {
         return this.timestamp;
     }

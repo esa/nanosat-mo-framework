@@ -43,6 +43,11 @@ public class FastObjectType extends FastIndex<Long> {
 
     private final static String TABLE_NAME = "FastObjectType";
 
+    /**
+     * Creates a new {@code FastObjectType}.
+     *
+     * @param dbBackend the database backend
+     */
     public FastObjectType(final DatabaseBackend dbBackend) {
         super(dbBackend, TABLE_NAME);
     }
@@ -81,12 +86,24 @@ public class FastObjectType extends FastIndex<Long> {
         dbBackend.getAvailability().release();
     }
 
+    /**
+     * Returns the object type id.
+     *
+     * @param objectType the object type
+     * @return the object type id
+     */
     public synchronized Integer getObjectTypeId(final ObjectType objectType) {
         final Long longObjType = HelperCOM.generateSubKey(objectType);
         final Integer id = this.fastID.get(longObjType);
         return (id == null) ? this.addNewEntry(longObjType) : id;
     }
 
+    /**
+     * Returns the object type ids.
+     *
+     * @param objectType the object type
+     * @return the object type ids
+     */
     public synchronized IntegerList getObjectTypeIds(final ObjectType objectType) {
         final IntegerList ids = new IntegerList();
 
@@ -116,6 +133,13 @@ public class FastObjectType extends FastIndex<Long> {
         return ids;
     }
 
+    /**
+     * Returns the object type.
+     *
+     * @param id the id
+     * @return the object type
+     * @throws Exception if the operation fails
+     */
     public synchronized ObjectType getObjectType(final Integer id) throws Exception {
         final Long objectType = this.fastIDreverse.get(id);
 

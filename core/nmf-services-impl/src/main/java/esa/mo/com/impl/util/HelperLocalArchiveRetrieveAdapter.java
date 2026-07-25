@@ -11,6 +11,9 @@ import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessage;
 
+/**
+ * Monitor and Control adapter for this application.
+ */
 public class HelperLocalArchiveRetrieveAdapter extends RetrieveInteraction implements
     HelperArchiveRetrieveAdapterInterface {
 
@@ -20,6 +23,13 @@ public class HelperLocalArchiveRetrieveAdapter extends RetrieveInteraction imple
     final ObjectType objType;
     final IdentifierList domain;
 
+    /**
+     * Creates a new {@code HelperLocalArchiveRetrieveAdapter}.
+     *
+     * @param interaction the MAL interaction context
+     * @param objType the obj type
+     * @param domain the domain
+     */
     public HelperLocalArchiveRetrieveAdapter(MALInvoke interaction, final ObjectType objType,
         final IdentifierList domain) {
         super(interaction);

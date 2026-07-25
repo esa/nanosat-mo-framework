@@ -32,6 +32,9 @@ import java.util.logging.Level;
 import java.util.stream.Collectors;
 import org.ccsds.moims.mo.mal.structures.LongList;
 
+/**
+ * Callable Get COM Objects.
+ */
 public final class CallableGetCOMObjects implements Callable<List<COMObjectEntity>> {
 
     // for sqlite. %s will be replaced with proper ids.

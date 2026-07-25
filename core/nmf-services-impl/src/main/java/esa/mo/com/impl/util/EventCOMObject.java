@@ -47,9 +47,24 @@ public class EventCOMObject {
     private Time timestamp;
     private URI sourceURI;
 
+    /**
+     * Creates a new {@code EventCOMObject}.
+     */
     public EventCOMObject() {
     }
 
+    /**
+     * Creates a new {@code EventCOMObject}.
+     *
+     * @param domain the domain
+     * @param objType the obj type
+     * @param objId the object id
+     * @param source the source
+     * @param related the related
+     * @param body the body
+     * @param timestamp the timestamp
+     * @param sourceURI the source uri
+     */
     public EventCOMObject(final IdentifierList domain, final ObjectType objType, final Long objId,
         final ObjectKey source, final Long related, final Element body, final Time timestamp,
         final URI sourceURI) {
@@ -65,70 +80,155 @@ public class EventCOMObject {
         this.sourceURI = sourceURI;
     }
 
+    /**
+     * Returns the domain.
+     *
+     * @return the domain
+     */
     public IdentifierList getDomain() {
         return domain;
     }
 
+    /**
+     * Returns the obj type.
+     *
+     * @return the obj type
+     */
     public ObjectType getObjType() {
         return objType;
     }
 
+    /**
+     * Returns the object id.
+     *
+     * @return the object id
+     */
     public Long getObjId() {
         return objId;
     }
 
+    /**
+     * Returns the source.
+     *
+     * @return the source
+     */
     public ObjectKey getSource() {
         return source;
     }
 
+    /**
+     * Returns the related.
+     *
+     * @return the related
+     */
     public Long getRelated() {
         return related;
     }
 
+    /**
+     * Returns the body.
+     *
+     * @return the body
+     */
     public Element getBody() {
         return body;
     }
 
+    /**
+     * Returns the timestamp.
+     *
+     * @return the timestamp
+     */
     public Time getTimestamp() {
         return timestamp;
     }
 
+    /**
+     * Returns the source uri.
+     *
+     * @return the source uri
+     */
     public URI getSourceURI() {
         return sourceURI;
     }
 
+    /**
+     * Sets the domain.
+     *
+     * @param domain the domain
+     */
     public void setDomain(IdentifierList domain) {
         this.domain = domain;
     }
 
+    /**
+     * Sets the obj type.
+     *
+     * @param objType the obj type
+     */
     public void setObjType(ObjectType objType) {
         this.objType = objType;
     }
 
+    /**
+     * Sets the object id.
+     *
+     * @param objId the object id
+     */
     public void setObjId(Long objId) {
         this.objId = objId;
     }
 
+    /**
+     * Sets the source.
+     *
+     * @param source the source
+     */
     public void setSource(ObjectKey source) {
         this.source = source;
     }
 
+    /**
+     * Sets the related.
+     *
+     * @param related the related
+     */
     public void setRelated(Long related) {
         this.related = related;
     }
 
+    /**
+     * Sets the body.
+     *
+     * @param body the body
+     */
     public void setBody(Element body) {
         this.body = body;
     }
 
+    /**
+     * Sets the timestamp.
+     *
+     * @param timestamp the timestamp
+     */
     public void setTimestamp(Time timestamp) {
         this.timestamp = timestamp;
     }
 
+    /**
+     * Sets the source uri.
+     *
+     * @param sourceURI the source uri
+     */
     public void setSourceURI(URI sourceURI) {
         this.sourceURI = sourceURI;
     }
 
+    /**
+     * Returns the object key.
+     *
+     * @return the object key
+     */
     public ObjectKey getObjectKey() {
         return new ObjectKey(this.objType, this.domain, this.objId);
     }

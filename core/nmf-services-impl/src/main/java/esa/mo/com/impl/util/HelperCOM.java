@@ -32,10 +32,14 @@ import org.ccsds.moims.mo.mal.ServiceInfo;
 import org.ccsds.moims.mo.mal.structures.*;
 
 /**
+ * Helper utilities for the COM services.
  *
  * @author Cesar Coelho
  */
 public class HelperCOM {
+    private HelperCOM() {
+    }
+
 
     /**
      * Evaluates an expression from 2 attribute values.
@@ -344,6 +348,14 @@ public class HelperCOM {
         return a.equals(b);
     }
 
+    /**
+     * Returns the nested object.
+     *
+     * @param in the in
+     * @param fieldName the field name
+     * @return the nested object
+     * @throws NoSuchFieldException if the operation fails
+     */
     public static Object getNestedObject(Object in, String fieldName) throws NoSuchFieldException {
         Object obj = in;
         String[] parts = fieldName.split("\\.");

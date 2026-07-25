@@ -28,16 +28,34 @@ import org.ccsds.moims.mo.platform.structures.*;
  * latitude, longitude and altitude on Earth.
  */
 public class PositionsCalculator {
+    private PositionsCalculator() {
+    }
 
+
+    /** The r. */
     public static final double R = 6371; // Equatorial Radius
+    /** The f. */
     public static final double f = 0.00335281066474748071984552861852; // Flattening
 
+    /**
+     * ECEF Vector.
+     */
     public static class ECEFVector {
 
+        /** The x. */
         public final double x;
+        /** The y. */
         public final double y;
+        /** The z. */
         public final double z;
 
+        /**
+         * Creates a new {@code ECEFVector}.
+         *
+         * @param x the x
+         * @param y the y
+         * @param z the z
+         */
         public ECEFVector(double x, double y, double z) {
             this.x = x;
             this.y = y;
@@ -74,6 +92,12 @@ public class PositionsCalculator {
         return Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
 
+    /**
+     * Converts a latitude/longitude/altitude position to ECEF coordinates.
+     *
+     * @param p the p
+     * @return the lla2 ecef
+     */
     public static ECEFVector LLA2ECEF(Position p) {
         // Information taken from the website:
         // http://nl.mathworks.com/help/aeroblks/llatoecefposition.html?requestedDomain=nl.mathworks.com

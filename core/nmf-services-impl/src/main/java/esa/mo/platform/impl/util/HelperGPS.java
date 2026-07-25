@@ -30,69 +30,142 @@ import org.ccsds.moims.mo.platform.structures.*;
  * A Helper class with some conversions for GPS NMEA sentences
  */
 public class HelperGPS {
+    private HelperGPS() {
+    }
 
+
+    /**
+     * GPGGA GEN COL.
+     */
     public static class GPGGA_GEN_COL {
+        private GPGGA_GEN_COL() {
+        }
 
+
+        /** The header. */
         public final static int HEADER = 0;
+        /** The utc. */
         public final static int UTC = 1;
+        /** The lat. */
         public final static int LAT = 2;
+        /** The lat dir. */
         public final static int LAT_DIR = 3;
+        /** The long. */
         public final static int LONG = 4;
+        /** The long dir. */
         public final static int LONG_DIR = 5;
+        /** The qual. */
         public final static int QUAL = 6;
+        /** The sats in use. */
         public final static int SATS_IN_USE = 7;
+        /** The hdop. */
         public final static int HDOP = 8;
+        /** The altitude. */
         public final static int ALTITUDE = 9;
+        /** The altitude units. */
         public final static int ALTITUDE_UNITS = 10;
+        /** The undulation. */
         public final static int UNDULATION = 11;
+        /** The undulation units. */
         public final static int UNDULATION_UNITS = 12;
+        /** The age corr data. */
         public final static int AGE_CORR_DATA = 13;
+        /** The diff basesid. */
         public final static int DIFF_BASESID = 14;
+        /** The checksum. */
         public final static int CHECKSUM = 15;
     }
 
+    /**
+     * GPGSV COL.
+     */
     public static class GPGSV_COL {
+        private GPGSV_COL() {
+        }
 
+
+        /** The header. */
         public final static int HEADER = 0;
+        /** The number msgs. */
         public final static int NUMBER_MSGS = 1;
+        /** The current msg. */
         public final static int CURRENT_MSG = 2;
+        /** The number sats. */
         public final static int NUMBER_SATS = 3;
+        /** The sat prn. */
         public final static int SAT_PRN = 4;
+        /** The sat elev. */
         public final static int SAT_ELEV = 5;
+        /** The sat az. */
         public final static int SAT_AZ = 6;
+        /** The sat snr. */
         public final static int SAT_SNR = 7;
+        /** The min checksum. */
         public final static int MIN_CHECKSUM = 8;
     }
 
+    /**
+     * BESTXYZ FIELD.
+     */
     public static class BESTXYZ_FIELD {
+        private BESTXYZ_FIELD() {
+        }
 
+
+        /** The psol status. */
         public final static int PSOL_STATUS = 0;
+        /** The pos type. */
         public final static int POS_TYPE = 1;
+        /** The px. */
         public final static int PX = 2;
+        /** The py. */
         public final static int PY = 3;
+        /** The pz. */
         public final static int PZ = 4;
+        /** The px deviation. */
         public final static int PX_DEVIATION = 5;
+        /** The py deviation. */
         public final static int PY_DEVIATION = 6;
+        /** The pz deviation. */
         public final static int PZ_DEVIATION = 7;
+        /** The vsol status. */
         public final static int VSOL_STATUS = 8;
+        /** The vel type. */
         public final static int VEL_TYPE = 9;
+        /** The vx. */
         public final static int VX = 10;
+        /** The vy. */
         public final static int VY = 11;
+        /** The vz. */
         public final static int VZ = 12;
+        /** The vx deviation. */
         public final static int VX_DEVIATION = 13;
+        /** The vy deviation. */
         public final static int VY_DEVIATION = 14;
+        /** The vz deviation. */
         public final static int VZ_DEVIATION = 15;
+        /** The stn id. */
         public final static int STN_ID = 16;
+        /** The v latency. */
         public final static int V_LATENCY = 17;
+        /** The diff age. */
         public final static int DIFF_AGE = 18;
+        /** The sol age. */
         public final static int SOL_AGE = 19;
+        /** The num sv. */
         public final static int NUM_SV = 20;
+        /** The num soln sv. */
         public final static int NUM_SOLN_SV = 21;
+        /** The num ggl1. */
         public final static int NUM_GGL1 = 22;
+        /** The num soln multi sv. */
         public final static int NUM_SOLN_MULTI_SV = 23;
         // number 24 is reserved
+        /** The ext sol stat. */
         public final static int EXT_SOL_STAT = 25;
+        /** The galileo and beidou sig mask. */
         public final static int GALILEO_AND_BEIDOU_SIG_MASK = 26;
+        /** The gps and glonass sig mask. */
         public final static int GPS_AND_GLONASS_SIG_MASK = 27;
     }
 
@@ -260,6 +333,13 @@ public class HelperGPS {
         }
     }
 
+    /**
+     * Converts an NMEA degrees-and-minutes value to decimal degrees.
+     *
+     * @param in the in
+     * @return the deg minutes2 degrees
+     * @throws IOException if the operation fails
+     */
     public static float degMinutes2Degrees(String in) throws IOException {
         int len = in.length();
         if (len < 4 || len > 13) {

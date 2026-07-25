@@ -37,23 +37,44 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
  * @author Cesar Coelho
  */
 public class Deployment {
+    /**
+     * Default constructor.
+     */
+    protected Deployment() {
+    }
 
+
+    /** The dir nmf. */
     public static final String DIR_NMF = "nanosat-mo-framework";
 
+    /** The dir apps. */
     public static final String DIR_APPS = "apps";
+    /** The dir bootloader. */
     public static final String DIR_BOOTLOADER = "bootloader";
+    /** The dir drivers. */
     public static final String DIR_DRIVERS = "drivers";
+    /** The dir etc. */
     public static final String DIR_ETC = "etc";
+    /** The dir jars mission. */
     public static final String DIR_JARS_MISSION = "jars-mission";
+    /** The dir jars nmf. */
     public static final String DIR_JARS_NMF = "jars-nmf";
+    /** The dir jars shared. */
     public static final String DIR_JARS_SHARED = "jars-shared-libraries";
+    /** The dir java. */
     public static final String DIR_JAVA = "java";
+    /** The dir logs. */
     public static final String DIR_LOGS = "logs";
+    /** The dir packages. */
     public static final String DIR_PACKAGES = "packages";
+    /** The dir public. */
     public static final String DIR_PUBLIC = "public";
 
+    /** The role primary. */
     public static final String ROLE_PRIMARY = "primary";
+    /** The role secondary. */
     public static final String ROLE_SECONDARY = "secondary";
+    /** The role factory. */
     public static final String ROLE_FACTORY = "factory";
 
     /**
@@ -67,18 +88,26 @@ public class Deployment {
     private static final String BASELINE_FILE_PREFIX = "baseline-";
     private static final String BASELINE_FILE_SUFFIX = ".properties";
 
+    /** The file baseline primary. */
     public static final String FILE_BASELINE_PRIMARY = BASELINE_FILE_PREFIX + ROLE_PRIMARY + BASELINE_FILE_SUFFIX;
+    /** The file baseline secondary. */
     public static final String FILE_BASELINE_SECONDARY = BASELINE_FILE_PREFIX + ROLE_SECONDARY + BASELINE_FILE_SUFFIX;
+    /** The file baseline factory. */
     public static final String FILE_BASELINE_FACTORY = BASELINE_FILE_PREFIX + ROLE_FACTORY + BASELINE_FILE_SUFFIX;
+    /** The file bootloader config. */
     public static final String FILE_BOOTLOADER_CONFIG = "config.properties";
+    /** The file bootloader state. */
     public static final String FILE_BOOTLOADER_STATE = "state.properties";
+    /** The file boot confirmed. */
     public static final String FILE_BOOT_CONFIRMED = "boot-confirmed";
+    /** The file mission properties. */
     public static final String FILE_MISSION_PROPERTIES = "mission.properties";
 
     private static final String DIR_INSTALLATIONS_TRACKER = "installations-tracker";
 
     private static final String PROPERTY_INSTALLED_RECEIPTS_FOLDER = "esa.mo.nmf.nmfpackage.receipts";
 
+    /** The path nmf. */
     protected static File pathNMF = null;
 
 

@@ -326,6 +326,11 @@ public class BinaryEncoder extends GENEncoder {
             directAdd((byte) 0);
         }
 
+        /**
+         * Returns the output stream.
+         *
+         * @return the output stream
+         */
         public OutputStream getOutputStream() {
             return outputStream;
         }

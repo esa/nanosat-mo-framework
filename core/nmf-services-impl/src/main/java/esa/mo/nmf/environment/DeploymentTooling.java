@@ -27,6 +27,9 @@ import java.io.File;
  * build tooling (e.g. Maven Mojos). Not intended for use in runtime app code.
  */
 public class DeploymentTooling extends Deployment {
+    private DeploymentTooling() {
+    }
+
 
     /**
      * Initialises the NMF root directory. Intended for tooling (e.g. Maven

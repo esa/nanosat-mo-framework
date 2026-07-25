@@ -27,12 +27,12 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 
 /**
+ * Adapter that collects the COM objects returned by an ArchiveSync query.
  *
  * @author Cesar Coelho
  */
@@ -45,11 +45,19 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
     private long lastTimeReceived = 0;
     private long lastknowIndex = 0;
 
+    /**
+     * Creates a new {@code ArchiveSyncGenAdapter}.
+     */
     public ArchiveSyncGenAdapter() {
         this.receivedChunks = new HashMap<>();
         this.completed = new Semaphore(0);
     }
 
+    /**
+     * Creates a new {@code ArchiveSyncGenAdapter}.
+     *
+     * @param estimatedNumberOfChunks the estimated number of chunks
+     */
     public ArchiveSyncGenAdapter(int estimatedNumberOfChunks) {
         this.receivedChunks = new HashMap<>(estimatedNumberOfChunks);
         this.completed = new Semaphore(0);
@@ -129,22 +137,49 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
             "retrieveRangeAgainAckErrorReceived: No idea on how this should be handled...", error);
     }
 
+    /**
+     * Blocks until the query response has been received.
+     *
+     * @throws InterruptedException if the operation fails
+     */
     public void waitUntilResponseReceived() throws InterruptedException {
         completed.acquire();
     }
 
+    /**
+     * Blocks until the query response is received or the given timeout elapses.
+     *
+     * @param waitThisMilliseconds the wait this milliseconds
+     * @return the wait until response received
+     * @throws InterruptedException if the operation fails
+     */
     public boolean waitUntilResponseReceived(long waitThisMilliseconds) throws InterruptedException {
         return completed.tryAcquire(waitThisMilliseconds, TimeUnit.MILLISECONDS);
     }
 
+    /**
+     * Returns how long, in milliseconds, no updates have been received.
+     *
+     * @return the no updates received for this duration
+     */
     public long noUpdatesReceivedForThisDuration() {
         return System.currentTimeMillis() - lastTimeReceived;
     }
 
+    /**
+     * Returns whether the synchronization transaction has completed.
+     *
+     * @return the transaction completed
+     */
     public boolean transactionCompleted() {
         return (numberOfChunks != null);
     }
 
+    /**
+     * Returns whether all the expected chunks have been received.
+     *
+     * @return the received all chunks
+     */
     public boolean receivedAllChunks() {
         long nOfChunks = numberOfChunks.getValue();
 
@@ -157,10 +192,20 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
         return true;
     }
 
+    /**
+     * Returns the last known index.
+     *
+     * @return the last known index
+     */
     public UInteger getLastKnownIndex() {
         return new UInteger(lastknowIndex);
     }
 
+    /**
+     * Returns the missing indexes.
+     *
+     * @return the missing indexes
+     */
     public UIntegerList getMissingIndexes() {
         UIntegerList missingIndexes = new UIntegerList();
         long nOfChunks = numberOfChunks.getValue();
@@ -174,6 +219,11 @@ public class ArchiveSyncGenAdapter extends org.ccsds.moims.mo.com.archivesync.co
         return missingIndexes;
     }
 
+    /**
+     * Returns the received chunks.
+     *
+     * @return the received chunks
+     */
     public ArrayList<byte[]> getReceivedChunks() {
         return new ArrayList<>(receivedChunks.values());
     }

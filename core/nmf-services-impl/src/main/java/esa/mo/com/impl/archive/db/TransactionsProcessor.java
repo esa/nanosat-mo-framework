@@ -51,7 +51,9 @@ import org.ccsds.moims.mo.mal.structures.LongList;
  */
 public class TransactionsProcessor {
 
+    /** The logger. */
     public static Logger LOGGER = Logger.getLogger(TransactionsProcessor.class.getName());
+    /** The db backend. */
     public final DatabaseBackend dbBackend;
 
     // This executor is responsible for the interactions with the db
@@ -67,22 +69,44 @@ public class TransactionsProcessor {
 
     final LinkedBlockingQueue<StoreCOMObjectsContainer> storeQueue;
 
+    /**
+     * Creates a new {@code TransactionsProcessor}.
+     *
+     * @param dbBackend the database backend
+     */
     public TransactionsProcessor(DatabaseBackend dbBackend) {
         this.dbBackend = dbBackend;
         this.storeQueue = new LinkedBlockingQueue<>();
         this.sequencialStoring = new AtomicBoolean(false);
     }
 
+    /**
+     * Submits a task to the general (event-flushing) executor.
+     *
+     * @param task the task
+     */
     public void submitExternalTaskGeneral(final Runnable task) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         generalExecutor.execute(task);
     }
 
+    /**
+     * Submits a task to the single-threaded database-transactions executor.
+     *
+     * @param task the task
+     */
     public void submitExternalTaskDBTransactions(final Runnable task) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         dbTransactionsExecutor.execute(task);
     }
 
+    /**
+     * Submits a task to the external transaction executor.
+     *
+     * @param <T> the result type of the task
+     * @param task the task to submit
+     * @return a future holding the task result
+     */
     public <T> Future<T> submitExternalTransactionExecutorTask(final Callable<T> task) {
         this.sequencialStoring.set(false);
         return dbTransactionsExecutor.submit(task);
@@ -102,8 +126,15 @@ public class TransactionsProcessor {
         }
     }
 
-    public COMObjectEntity getCOMObject(final Integer objTypeId, final Integer domainId,
-            final Long objId) {
+    /**
+     * Returns the com object.
+     *
+     * @param objTypeId the object type id
+     * @param domainId the domain id
+     * @param objId the object id
+     * @return the com object
+     */
+    public COMObjectEntity getCOMObject(final Integer objTypeId, final Integer domainId, final Long objId) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
         LongList ids = new LongList();
@@ -125,10 +156,26 @@ public class TransactionsProcessor {
         return null;
     }
 
+    /**
+     * Returns whether a COM object with the given type, domain and id exists.
+     *
+     * @param objTypeId the object type id
+     * @param domain the domain
+     * @param objId the object id
+     * @return {@code true} if it exists
+     */
     public boolean existsCOMObject(final Integer objTypeId, final Integer domain, final Long objId) {
         return (getCOMObject(objTypeId, domain, objId) != null);
     }
 
+    /**
+     * Returns the com objects.
+     *
+     * @param objTypeId the object type id
+     * @param domainId the domain id
+     * @param ids the ids
+     * @return the com objects
+     */
     public List<COMObjectEntity> getCOMObjects(final Integer objTypeId, final Integer domainId, final LongList ids) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
@@ -144,6 +191,13 @@ public class TransactionsProcessor {
         return null;
     }
 
+    /**
+     * Returns the all com objects.
+     *
+     * @param objTypeId the object type id
+     * @param domainId the domain id
+     * @return all the COM objects
+     */
     public List<COMObjectEntity> getAllCOMObjects(final Integer objTypeId, final Integer domainId) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
@@ -164,11 +218,19 @@ public class TransactionsProcessor {
         return null;
     }
 
+    /**
+     * Returns the all com objects ids.
+     *
+     * @param objTypeId the object type id
+     * @param domainId the domain id
+     * @return all the COM object ids
+     */
     public LongList getAllCOMObjectsIds(final Integer objTypeId, final Integer domainId) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
-        Future<LongList> future = dbTransactionsExecutor.submit(new CallableGetAllCOMObjectIds(this, domainId,
-            objTypeId));
+        Future<LongList> future = dbTransactionsExecutor.submit(
+                new CallableGetAllCOMObjectIds(this, domainId, objTypeId)
+        );
 
         try {
             return future.get();
@@ -179,6 +241,12 @@ public class TransactionsProcessor {
         return null;
     }
 
+    /**
+     * Inserts the given COM objects, then runs the event-publishing callback.
+     *
+     * @param perObjs the per objs
+     * @param publishEvents the publish events
+     */
     public void insert(final ArrayList<COMObjectEntity> perObjs, final Runnable publishEvents) {
         final boolean isSequential = this.sequencialStoring.get();
         final StoreCOMObjectsContainer container = new StoreCOMObjectsContainer(perObjs, isSequential);
@@ -194,19 +262,43 @@ public class TransactionsProcessor {
         dbTransactionsExecutor.execute(new RunnableInsert(this, publishEvents));
     }
 
-    public void remove(final Integer objTypeId, final Integer domainId, final LongList objIds,
-        final Runnable publishEvents) {
+    /**
+     * Removes the COM objects with the given ids.
+     *
+     * @param objTypeId the object type id
+     * @param domainId the domain id
+     * @param objIds the object ids
+     * @param publishEvents the publish events
+     */
+    public void remove(final Integer objTypeId, final Integer domainId, final LongList objIds, final Runnable publishEvents) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
         dbTransactionsExecutor.execute(new RunnableRemove(this, publishEvents, objTypeId, domainId, objIds));
     }
 
+    /**
+     * Updates the given COM objects, then runs the event-publishing callback.
+     *
+     * @param newObjs the new objs
+     * @param publishEvents the publish events
+     */
     public void update(final ArrayList<COMObjectEntity> newObjs, final Runnable publishEvents) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
 
         dbTransactionsExecutor.execute(new RunnableUpdate(this, publishEvents, newObjs));
     }
 
+    /**
+     * Queries the COM objects matching the given types and archive query.
+     *
+     * @param objTypeIds the obj type ids
+     * @param archiveQuery the archive query
+     * @param domainIds the domain ids
+     * @param providerURIId the provider uri id
+     * @param sourceLink the source link
+     * @param filter the filter
+     * @return the matching objects
+     */
     public ArrayList<COMObjectEntity> query(final IntegerList objTypeIds,
             final ArchiveQuery archiveQuery, final IntegerList domainIds,
             final Integer providerURIId,
@@ -226,6 +318,17 @@ public class TransactionsProcessor {
         return null;
     }
 
+    /**
+     * Deletes the COM objects matching the given query and returns the number deleted.
+     *
+     * @param objTypeIds the obj type ids
+     * @param archiveQuery the archive query
+     * @param domainIds the domain ids
+     * @param providerURIId the provider uri id
+     * @param sourceLink the source link
+     * @param filter the filter
+     * @return the number of affected objects
+     */
     public int delete(final IntegerList objTypeIds,
             final ArchiveQuery archiveQuery, final IntegerList domainIds,
             final Integer providerURIId,
@@ -245,6 +348,11 @@ public class TransactionsProcessor {
         return 0;
     }
 
+    /**
+     * Clears the main COM objects table.
+     *
+     * @param task the task
+     */
     public void resetMainTable(final Callable<?> task) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         Future<?> f = dbTransactionsExecutor.submit(task);
@@ -258,6 +366,11 @@ public class TransactionsProcessor {
         }
     }
 
+    /**
+     * Stops accepting new database interactions and runs the given finalising task.
+     *
+     * @param task the task
+     */
     public void stopInteractions(final Callable<?> task) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         Future<?> future = dbTransactionsExecutor.submit(task);
@@ -285,9 +398,8 @@ public class TransactionsProcessor {
 
         @Override
         public Thread newThread(Runnable r) {
-            Thread t = new Thread(group, r,
-                    namePrefix + threadNumber.getAndIncrement(),
-                    0);
+            String name = namePrefix + threadNumber.getAndIncrement();
+            Thread t = new Thread(group, r, name, 0);
             if (t.isDaemon()) {
                 t.setDaemon(false);
             }
@@ -298,6 +410,12 @@ public class TransactionsProcessor {
         }
     }
 
+    /**
+     * Converts the given object to a {@code Long}.
+     *
+     * @param obj the obj
+     * @return the convert2 long
+     */
     public static Long convert2Long(final Object obj) {
         if (obj == null) {
             return null;

@@ -40,6 +40,11 @@ public class AppsLauncherManagerLinux extends AppsLauncherManager {
 
     private boolean sudoAvailable = false;
 
+    /**
+     * Creates a new {@code AppsLauncherManagerLinux}.
+     *
+     * @param comServices the COM services
+     */
     public AppsLauncherManagerLinux(COMServicesProvider comServices) {
         super(comServices);
         try {

@@ -40,26 +40,16 @@ import java.util.stream.Collectors;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.Blob;
-import org.ccsds.moims.mo.mal.structures.Composite;
-import org.ccsds.moims.mo.mal.structures.ElementList;
-import org.ccsds.moims.mo.mal.structures.Enumeration;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.IntegerList;
-import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.Time;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mal.structures.URI;
+import org.ccsds.moims.mo.mal.structures.*;
 
 /**
+ * Manages the storage and retrieval of COM objects in the Archive.
  *
  * @author Cesar Coelho
  */
 public class ArchiveManager {
 
+    /** The logger. */
     public static final Logger LOGGER = Logger.getLogger(ArchiveManager.class.getName());
 
     private final DatabaseBackend dbBackend;
@@ -70,6 +60,9 @@ public class ArchiveManager {
     private final FastObjId fastObjId;
     private final FastObjectType fastObjectType;
 
+    /**
+     * Creates a new {@code ArchiveManager}.
+     */
     public ArchiveManager() {
         this.dbBackend = new DatabaseBackend();
         this.dbProcessor = new TransactionsProcessor(dbBackend);
@@ -81,6 +74,9 @@ public class ArchiveManager {
         this.fastObjectType = new FastObjectType(dbBackend);
     }
 
+    /**
+     * Initializes the archive manager and its fast indexes.
+     */
     public synchronized void init() {
         final ArchiveManager manager = this;
 
@@ -168,6 +164,14 @@ public class ArchiveManager {
         });
     }
 
+    /**
+     * Returns the persistence object.
+     *
+     * @param objType the obj type
+     * @param domain the domain
+     * @param objId the object id
+     * @return the persistence object
+     */
     public synchronized ArchivePersistenceObject getPersistenceObject(
             final ObjectType objType, final IdentifierList domain, final Long objId) {
         final Integer domainId = this.fastDomain.getDomainId(domain);
@@ -181,6 +185,14 @@ public class ArchiveManager {
         return this.convert2ArchivePersistenceObject(comEntity, domain, objId);
     }
 
+    /**
+     * Returns the persistence objects.
+     *
+     * @param objType the obj type
+     * @param domain the domain
+     * @param objIds the object ids
+     * @return the persistence objects
+     */
     public synchronized List<ArchivePersistenceObject> getPersistenceObjects(
             final ObjectType objType, final IdentifierList domain, final LongList objIds) {
         final Integer domainId = this.fastDomain.getDomainId(domain);
@@ -189,6 +201,13 @@ public class ArchiveManager {
         return convert2ArchivePersistenceObjects(comEntities, domain);
     }
 
+    /**
+     * Returns the all persistence objects.
+     *
+     * @param objType the obj type
+     * @param domain the domain
+     * @return all the persistence objects
+     */
     public synchronized List<ArchivePersistenceObject> getAllPersistenceObjects(
             final ObjectType objType, final IdentifierList domain) {
         final Integer domainId = this.fastDomain.getDomainId(domain);
@@ -243,20 +262,51 @@ public class ArchiveManager {
         return new ArchivePersistenceObject(objType, domain, objId, archiveDetails, comEntity.getObject());
     }
 
+    /**
+     * Returns the object.
+     *
+     * @param objType the obj type
+     * @param domain the domain
+     * @param objId the object id
+     * @return the object
+     */
     public Object getObject(final ObjectType objType, final IdentifierList domain, final Long objId) {
         return this.getPersistenceObject(objType, domain, objId).getObject();
     }
 
+    /**
+     * Returns the archive details.
+     *
+     * @param objType the obj type
+     * @param domain the domain
+     * @param objId the object id
+     * @return the archive details
+     */
     public ArchiveDetails getArchiveDetails(final ObjectType objType, final IdentifierList domain, final Long objId) {
         return this.getPersistenceObject(objType, domain, objId).getArchiveDetails();
     }
 
+    /**
+     * Returns whether an object with the given type, domain and id exists in the archive.
+     *
+     * @param objType the obj type
+     * @param domain the domain
+     * @param objId the object id
+     * @return {@code true} if it exists
+     */
     public Boolean objIdExists(final ObjectType objType, final IdentifierList domain, final Long objId) {
         final Integer domainId = this.fastDomain.getDomainId(domain);
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
         return this.dbProcessor.existsCOMObject(objTypeId, domainId, objId);
     }
 
+    /**
+     * Returns the all obj ids.
+     *
+     * @param objType the obj type
+     * @param domain the domain
+     * @return all the object ids
+     */
     public LongList getAllObjIds(final ObjectType objType, final IdentifierList domain) {
         return this.dbProcessor.getAllCOMObjectsIds(
                 this.fastObjectType.getObjectTypeId(objType),
@@ -285,12 +335,31 @@ public class ArchiveManager {
         return new SourceLinkContainer(sourceObjectTypeId, sourceDomainId, sourceObjId);
     }
 
+    /**
+     * Inserts the given entries using the fast index, without generating new ids.
+     *
+     * @param objType the obj type
+     * @param domain the domain
+     * @param lArchiveDetails the l archive details
+     * @param objects the objects
+     * @param interaction the MAL interaction context
+     */
     public void insertEntriesFast(final ObjectType objType, final IdentifierList domain,
             final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
         // It is quite hard to improve this method...
         insertEntries(objType, domain, lArchiveDetails, objects, interaction);
     }
 
+    /**
+     * Inserts the given entries and returns their assigned object ids.
+     *
+     * @param objType the obj type
+     * @param domain the domain
+     * @param lArchiveDetails the l archive details
+     * @param objects the objects
+     * @param interaction the MAL interaction context
+     * @return the assigned object ids
+     */
     public synchronized LongList insertEntries(final ObjectType objType, final IdentifierList domain,
             final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
         final LongList objIds = new LongList(lArchiveDetails.size());
@@ -318,6 +387,15 @@ public class ArchiveManager {
         return objIds;
     }
 
+    /**
+     * Updates the given archive entries.
+     *
+     * @param objType the obj type
+     * @param domain the domain
+     * @param lArchiveDetails the l archive details
+     * @param objects the objects
+     * @param interaction the MAL interaction context
+     */
     public synchronized void updateEntries(final ObjectType objType, final IdentifierList domain,
             final ArchiveDetailsList lArchiveDetails, final ElementList objects, final MALInteraction interaction) {
         final int domainId = this.fastDomain.getDomainId(domain);
@@ -346,6 +424,15 @@ public class ArchiveManager {
         this.dbProcessor.update(newObjs, null);
     }
 
+    /**
+     * Removes the entries with the given ids from the archive.
+     *
+     * @param objType the obj type
+     * @param domain the domain
+     * @param objIds the object ids
+     * @param interaction the MAL interaction context
+     * @return the removed object ids
+     */
     public LongList removeEntries(final ObjectType objType, final IdentifierList domain,
             final LongList objIds, final MALInteraction interaction) {
         final Integer objTypeId = this.fastObjectType.getObjectTypeId(objType);
@@ -355,6 +442,14 @@ public class ArchiveManager {
         return objIds;
     }
 
+    /**
+     * Queries the archive for the objects matching the given type and query.
+     *
+     * @param objType the obj type
+     * @param archiveQuery the archive query
+     * @param filter the filter
+     * @return the matching objects
+     */
     public ArrayList<ArchivePersistenceObject> query(final ObjectType objType,
             final ArchiveQuery archiveQuery, final QueryFilter filter) {
         final ArrayList<COMObjectEntity> perObjs = this.queryCOMObjectEntity(objType, archiveQuery, filter);
@@ -375,6 +470,14 @@ public class ArchiveManager {
         return outs;
     }
 
+    /**
+     * Deletes the COM object entities matching the given query and returns the number deleted.
+     *
+     * @param objType the obj type
+     * @param archiveQuery the archive query
+     * @param filter the filter
+     * @return the number of affected objects
+     */
     public int deleteCOMObjectEntities(final ObjectType objType,
             final ArchiveQuery archiveQuery, final QueryFilter filter) {
         final IntegerList objTypeIds = this.fastObjectType.getObjectTypeIds(objType);
@@ -403,6 +506,14 @@ public class ArchiveManager {
                 domainIds, providerURIId, sourceLink, filter);
     }
 
+    /**
+     * Queries the archive for the COM object entities matching the given type and query.
+     *
+     * @param objType the obj type
+     * @param archiveQuery the archive query
+     * @param filter the filter
+     * @return the matching objects
+     */
     public ArrayList<COMObjectEntity> queryCOMObjectEntity(final ObjectType objType,
             final ArchiveQuery archiveQuery, final QueryFilter filter) {
         final IntegerList objTypeIds = this.fastObjectType.getObjectTypeIds(objType);
@@ -432,6 +543,14 @@ public class ArchiveManager {
         }
     }
 
+    /**
+     * Queries the archive for the COM object entities matching the given types and query.
+     *
+     * @param objTypes the obj types
+     * @param archiveQuery the archive query
+     * @param filter the filter
+     * @return the matching objects
+     */
     public ArrayList<COMObjectEntity> queryCOMObjectEntity(final ObjectTypeList objTypes,
             final ArchiveQuery archiveQuery, final QueryFilter filter) {
         final IntegerList objTypeIds = new IntegerList();
@@ -462,6 +581,14 @@ public class ArchiveManager {
                 providerURIId, sourceLink, filter);
     }
 
+    /**
+     * Filters the given persistence objects against the archive query.
+     *
+     * @param perObjs the per objs
+     * @param filterSet the filter set
+     * @return the filter query
+     * @throws MALInteractionException if the operation fails
+     */
     public static ArrayList<ArchivePersistenceObject> filterQuery(final ArrayList<ArchivePersistenceObject> perObjs,
             final CompositeFilterSet filterSet) throws MALInteractionException {
         if (filterSet == null) {
@@ -519,10 +646,22 @@ public class ArchiveManager {
         return outPerObjs;
     }
 
+    /**
+     * Builds the source {@link org.ccsds.moims.mo.com.structures.ObjectKey} of the given persistence object.
+     *
+     * @param obj the obj
+     * @return the archive per obj2source
+     */
     public static ObjectKey archivePerObj2source(final ArchivePersistenceObject obj) {
         return new ObjectKey(obj.getObjectType(), obj.getDomain(), obj.getObjectId());
     }
 
+    /**
+     * Returns whether the given object type contains a wildcard field.
+     *
+     * @param objType the obj type
+     * @return the object type contains wildcard
+     */
     public static Boolean objectTypeContainsWildcard(final ObjectType objType) {
         return (objType.getArea().getValue() == 0
                 || objType.getService().getValue() == 0
@@ -530,6 +669,12 @@ public class ArchiveManager {
                 || objType.getNumber().getValue() == 0);
     }
 
+    /**
+     * Returns the indexes of the duplicate ids in the given details list.
+     *
+     * @param details the details
+     * @return the check for duplicates
+     */
     public static UIntegerList checkForDuplicates(ArchiveDetailsList details) {
         UIntegerList dupList = new UIntegerList();
 
@@ -550,6 +695,13 @@ public class ArchiveManager {
         return dupList;
     }
 
+    /**
+     * Returns whether composite filter valid.
+     *
+     * @param compositeFilter the composite filter
+     * @param obj the obj
+     * @return the is composite filter valid
+     */
     public static boolean isCompositeFilterValid(CompositeFilter compositeFilter, Object obj) {
         if (compositeFilter.getFieldName().contains("\\.")) {  // Looking into a nested field?
             if (!(obj instanceof Composite)) {
@@ -601,26 +753,56 @@ public class ArchiveManager {
         return true;
     }
 
+    /**
+     * Returns the fast domain.
+     *
+     * @return the fast domain
+     */
     public FastDomain getFastDomain() {
         return fastDomain;
     }
 
+    /**
+     * Returns the fast provider uri.
+     *
+     * @return the fast provider uri
+     */
     public FastProviderURI getFastProviderURI() {
         return fastProviderURI;
     }
 
+    /**
+     * Returns the fast obj id.
+     *
+     * @return the fast obj id
+     */
     public FastObjId getFastObjId() {
         return fastObjId;
     }
 
+    /**
+     * Returns the fast object type.
+     *
+     * @return the fast object type
+     */
     public FastObjectType getFastObjectType() {
         return fastObjectType;
     }
 
+    /**
+     * Returns the database backend.
+     *
+     * @return the database backend
+     */
     public DatabaseBackend getDbBackend() {
         return dbBackend;
     }
 
+    /**
+     * Returns the transactions processor.
+     *
+     * @return the transactions processor
+     */
     public TransactionsProcessor getTransactionsProcessor() {
         return dbProcessor;
     }

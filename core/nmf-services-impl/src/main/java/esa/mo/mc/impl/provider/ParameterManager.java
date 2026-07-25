@@ -55,6 +55,12 @@ public class ParameterManager extends MCManager {
 
     private Long uniqueObjIdPVal;
 
+    /**
+     * Creates a new {@code ParameterManager}.
+     *
+     * @param comServices the COM services
+     * @param parametersMonitoring the parameters monitoring
+     */
     public ParameterManager(COMServicesProvider comServices, ParameterStatusListener parametersMonitoring) {
         super(comServices);
         MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(ParameterHelper.PARAMETER_SERVICE);
@@ -222,6 +228,14 @@ public class ParameterManager extends MCManager {
      * @return The requested parameter value.
      * @throws MALInteractionException If the parameter does not exist.
      */
+    /**
+     * Returns the parameter value.
+     *
+     * @param defId the def id
+     * @return the parameter value
+     * @throws UnknownException if the operation fails
+     * @throws MALInteractionException if the operation fails
+     */
     public ParameterValue getParameterValue(Long defId) throws UnknownException, MALInteractionException {
         return getParameterValue(defId, false);
     }
@@ -236,6 +250,15 @@ public class ParameterManager extends MCManager {
      * will be expired.
      * @return The requested parameter value.
      * @throws MALInteractionException If the parameter does not exist.
+     */
+    /**
+     * Returns the parameter value.
+     *
+     * @param defId the def id
+     * @param aggrExpired the aggr expired
+     * @return the parameter value
+     * @throws UnknownException if the operation fails
+     * @throws MALInteractionException if the operation fails
      */
     public ParameterValue getParameterValue(Long defId, boolean aggrExpired) throws UnknownException, MALInteractionException {
         if (!this.existsDef(defId)) {  // The Parameter does not exist
@@ -404,6 +427,14 @@ public class ParameterManager extends MCManager {
                 expParamValue, expPDef), aggrExpired);
     }
 
+    /**
+     * Adds multiple parameter definitions and returns their object ids.
+     *
+     * @param definitions the definitions
+     * @param source the source
+     * @param connectionDetails the connection details
+     * @return the assigned object ids
+     */
     protected LongList addMultiple(HeterogeneousList definitions,
             ObjectKey source, SingleConnectionDetails connectionDetails) {
         try {
@@ -458,6 +489,15 @@ public class ParameterManager extends MCManager {
         return newIds;
     }
 
+    /**
+     * Adds a parameter definition and returns its object id.
+     *
+     * @param name the name
+     * @param definition the definition
+     * @param source the source
+     * @param connectionDetails the connection details
+     * @return the assigned object id
+     */
     protected Long add(Identifier name, ParameterDefinition definition,
             ObjectKey source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         Long newIdPair;

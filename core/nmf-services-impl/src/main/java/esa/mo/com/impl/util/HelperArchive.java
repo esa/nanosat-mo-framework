@@ -41,7 +41,11 @@ import org.ccsds.moims.mo.mal.structures.*;
  * A Helper class for the COM Archive.
  */
 public class HelperArchive {
+    private HelperArchive() {
+    }
 
+
+    /** The logger. */
     public static final Logger LOGGER = Logger.getLogger(HelperArchive.class.getName());
 
     private enum ToBeReturned {

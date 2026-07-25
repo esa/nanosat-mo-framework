@@ -29,10 +29,25 @@ import org.ccsds.moims.mo.com.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.structures.QueryFilter;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
 
+/**
+ * Callable Delete Query.
+ */
 public class CallableDeleteQuery extends CallableGenericQuery<Integer> {
 
+    /** The logger. */
     public static Logger LOGGER = Logger.getLogger(CallableDeleteQuery.class.getName());
 
+    /**
+     * Creates a new {@code CallableDeleteQuery}.
+     *
+     * @param transactionsProcessor the transactions processor
+     * @param objTypeIds the obj type ids
+     * @param archiveQuery the archive query
+     * @param domainIds the domain ids
+     * @param providerURIId the provider uri id
+     * @param sourceLink the source link
+     * @param filter the filter
+     */
     public CallableDeleteQuery(TransactionsProcessor transactionsProcessor, IntegerList objTypeIds,
         ArchiveQuery archiveQuery, IntegerList domainIds, Integer providerURIId,
         SourceLinkContainer sourceLink, QueryFilter filter) {

@@ -46,6 +46,11 @@ public class AppsLauncherManagerBubblewrap extends AppsLauncherManager {
     private static final String BWRAP_CMD = "/usr/bin/bwrap";
     private static final String DEFAULT_PATH = "/usr/local/bin:/usr/bin:/bin";
 
+    /**
+     * Creates a new {@code AppsLauncherManagerBubblewrap}.
+     *
+     * @param comServices the COM services
+     */
     public AppsLauncherManagerBubblewrap(COMServicesProvider comServices) {
         super(comServices);
     }

@@ -29,25 +29,53 @@ public class OSValidator {
 
     private final String OS = System.getProperty("os.name").toLowerCase();
 
+    /**
+     * Creates a new {@code OSValidator}.
+     */
     public OSValidator() {
     }
 
+    /**
+     * Returns whether windows.
+     *
+     * @return the is windows
+     */
     public boolean isWindows() {
         return (OS.contains("win"));
     }
 
+    /**
+     * Returns whether mac.
+     *
+     * @return the is mac
+     */
     public boolean isMac() {
         return (OS.contains("mac"));
     }
 
+    /**
+     * Returns whether unix.
+     *
+     * @return the is unix
+     */
     public boolean isUnix() {
         return (OS.contains("nix") || OS.contains("nux") || OS.contains("aix"));
     }
 
+    /**
+     * Returns whether solaris.
+     *
+     * @return the is solaris
+     */
     public boolean isSolaris() {
         return (OS.contains("sunos"));
     }
 
+    /**
+     * Returns the os.
+     *
+     * @return the os
+     */
     public String getOS() {
         if (isWindows()) {
             return "win";

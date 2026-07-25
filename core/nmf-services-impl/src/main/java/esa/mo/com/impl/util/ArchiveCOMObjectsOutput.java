@@ -25,6 +25,9 @@ import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 
+/**
+ * Archive COM Objects Output.
+ */
 public class ArchiveCOMObjectsOutput {
 
     private final IdentifierList domain;
@@ -32,6 +35,14 @@ public class ArchiveCOMObjectsOutput {
     private final ArchiveDetailsList archiveDetailsList;
     private final HeterogeneousList objects;
 
+    /**
+     * Creates a new {@code ArchiveCOMObjectsOutput}.
+     *
+     * @param domain the domain
+     * @param objType the obj type
+     * @param archiveDetailsList the archive details list
+     * @param objects the objects
+     */
     public ArchiveCOMObjectsOutput(final IdentifierList domain, final ObjectType objType,
         final ArchiveDetailsList archiveDetailsList, final HeterogeneousList objects) {
         this.domain = domain;
@@ -40,18 +51,38 @@ public class ArchiveCOMObjectsOutput {
         this.objects = objects;
     }
 
+    /**
+     * Returns the domain.
+     *
+     * @return the domain
+     */
     public IdentifierList getDomain() {
         return domain;
     }
 
+    /**
+     * Returns the object type.
+     *
+     * @return the object type
+     */
     public ObjectType getObjectType() {
         return objType;
     }
 
+    /**
+     * Returns the archive details list.
+     *
+     * @return the archive details list
+     */
     public ArchiveDetailsList getArchiveDetailsList() {
         return archiveDetailsList;
     }
 
+    /**
+     * Returns the object bodies.
+     *
+     * @return the object bodies
+     */
     public HeterogeneousList getObjectBodies() {
         return objects;
     }

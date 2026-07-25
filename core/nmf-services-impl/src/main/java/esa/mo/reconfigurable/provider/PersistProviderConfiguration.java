@@ -41,7 +41,6 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
@@ -61,6 +60,13 @@ public class PersistProviderConfiguration {
 
     private LongList objIds;
 
+    /**
+     * Creates a new {@code PersistProviderConfiguration}.
+     *
+     * @param provider the provider
+     * @param confId the conf id
+     * @param archiveService the archive service
+     */
     public PersistProviderConfiguration(final ReconfigurableProvider provider,
             final ObjectKey confId, final ArchiveInheritanceSkeleton archiveService) {
         this.archiveService = archiveService;
@@ -127,10 +133,20 @@ public class PersistProviderConfiguration {
         }
     }
 
+    /**
+     * Returns the conf id.
+     *
+     * @return the conf id
+     */
     public ObjectKey getConfId() {
         return confId;
     }
 
+    /**
+     * Loads the previously persisted provider configuration.
+     *
+     * @throws IOException if the operation fails
+     */
     public void loadPreviousConfigurations() throws IOException {
         // Activate the previous configuration
         this.reloadServiceConfigurations(reconfigurableServices, objIds);

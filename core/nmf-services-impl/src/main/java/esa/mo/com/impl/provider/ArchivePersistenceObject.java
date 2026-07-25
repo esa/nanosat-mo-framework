@@ -47,6 +47,15 @@ public class ArchivePersistenceObject implements Serializable {
     // The Element wrapping was removed!
     private Object object;
 
+    /**
+     * Creates a new {@code ArchivePersistenceObject}.
+     *
+     * @param objectType the object type
+     * @param domain the domain
+     * @param objId the object id
+     * @param archiveDetails the archive details
+     * @param object the object
+     */
     public ArchivePersistenceObject(final ObjectType objectType, final IdentifierList domain,
             final Long objId, final ArchiveDetails archiveDetails, final Object object) {
         this.objectType = objectType;
@@ -63,32 +72,67 @@ public class ArchivePersistenceObject implements Serializable {
         this.object = object;
     }
 
+    /**
+     * Returns the object type.
+     *
+     * @return the object type
+     */
     public ObjectType getObjectType() {
         return this.objectType;
     }
 
+    /**
+     * Returns the object type id.
+     *
+     * @return the object type id
+     */
     public Long getObjectTypeId() {
         return HelperCOM.generateSubKey(this.objectType);
     }
 
+    /**
+     * Returns the domain.
+     *
+     * @return the domain
+     */
     public IdentifierList getDomain() {
         return this.domainId;
     }
 
+    /**
+     * Returns the object id.
+     *
+     * @return the object id
+     */
     public Long getObjectId() {
         return this.objId;
     }
 
+    /**
+     * Returns the archive details.
+     *
+     * @return the archive details
+     */
     public ArchiveDetails getArchiveDetails() {
         final URI uri = (this.providerURI == null) ? null : new URI(providerURI);
         return new ArchiveDetails(objId, new ObjectLinks(relatedLink, sourceLink),
                 new Time(timestampArchiveDetails), uri);
     }
 
+    /**
+     * Returns the object.
+     *
+     * @return the object
+     */
     public Object getObject() {
         return this.object;
     }
 
+    /**
+     * Sets the object.
+     *
+     * @param obj the obj
+     */
     public void setObject(Object obj) {
         this.object = obj;
     }
