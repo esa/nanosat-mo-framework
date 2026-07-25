@@ -39,6 +39,7 @@ import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Element;
 
 /**
+ * Dialog displaying (and optionally editing) a single COM object retrieved from a COM Archive.
  *
  * @author Cesar Coelho
  */
@@ -588,10 +589,20 @@ public final class COMObjectWindow extends javax.swing.JDialog {
     private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Returns the COM object displayed by this window.
+     *
+     * @return the COM object
+     */
     public ArchivePersistenceObject getCOMObject() {
         return comObject;
     }
 
+    /**
+     * Returns the body of the COM object as a MAL element.
+     *
+     * @return the object body
+     */
     public Element getObjectBody() {
         return (Element) Attribute.javaType2Attribute(comObject.getObject());
     }

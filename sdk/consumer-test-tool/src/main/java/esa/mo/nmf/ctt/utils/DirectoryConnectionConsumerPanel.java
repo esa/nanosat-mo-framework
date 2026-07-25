@@ -57,6 +57,8 @@ import org.ccsds.moims.mo.mal.structures.ServiceId;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**
+ * Panel that connects to a Directory service, lists the registered providers and opens a tab
+ * for each one the user connects to.
  *
  * @author Cesar Coelho
  */
@@ -175,6 +177,12 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Sets the Directory URI shown in the text box, falling back to a freshly read URI when
+     * the given one is empty.
+     *
+     * @param uri the URI to display
+     */
     public void setURITextbox(final String uri) {
         if (uri.isEmpty()) {
             String freshUri = readFreshDirectoryURI();
@@ -399,6 +407,14 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         t1.start();
     }//GEN-LAST:event_connectButtonActionPerformed
 
+    /**
+     * Creates a new provider tab panel for the given provider.
+     *
+     * @param provider the provider to create a tab for
+     * @param authenticationId the authentication id, or {@code null}
+     * @param localNamePrefix the prefix for the local name of the consumer
+     * @return the new provider tab panel
+     */
     public ProviderTabPanel createNewProviderTabPanel(Provider provider,
             Blob authenticationId, String localNamePrefix) {
         return new ProviderTabPanel(provider, authenticationId, localNamePrefix);
@@ -496,6 +512,9 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
     }
 
+    /**
+     * Mouse listener that closes the provider connection when its tab close button is clicked.
+     */
     public class CloseMouseHandler implements MouseListener {
 
         private final javax.swing.JPanel panel;

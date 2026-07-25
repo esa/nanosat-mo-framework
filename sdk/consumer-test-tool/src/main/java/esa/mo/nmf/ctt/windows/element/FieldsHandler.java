@@ -36,6 +36,16 @@ import org.ccsds.moims.mo.mal.structures.Enumeration;
  */
 public class FieldsHandler {
 
+    private FieldsHandler() {
+    }
+
+    /**
+     * Converts a raw Java value into the matching MAL attribute, or returns {@code null} if it
+     * cannot be converted.
+     *
+     * @param obj the raw value
+     * @return the MAL attribute, or {@code null} if not convertible
+     */
     public static Object filterRawObject(Object obj) {
         try {
             return HelperAttributes.javaType2Attribute(obj);
@@ -45,6 +55,13 @@ public class FieldsHandler {
         return null;
     }
 
+    /**
+     * Returns the declared fields of the object's class, including those of its immediate
+     * super class unless that super class is {@code Composite}.
+     *
+     * @param obj the object whose fields to return
+     * @return the declared fields
+     */
     public static Field[] getDeclaredFields(Object obj) {
         Field[] fields = obj.getClass().getDeclaredFields();
 
@@ -67,6 +84,13 @@ public class FieldsHandler {
         return fields;
     }
 
+    /**
+     * Returns whether the given field of the object holds a null value.
+     *
+     * @param field the field to inspect
+     * @param obj the object holding the field
+     * @return {@code true} if the field value is null or cannot be read
+     */
     public static boolean isFieldNull(Field field, Object obj) {
         Object objectWithValue;
         try {
@@ -79,6 +103,14 @@ public class FieldsHandler {
         return (objectWithValue == null);
     }
 
+    /**
+     * Reads the value of the given field from the object, defaulting to a freshly created
+     * instance of the field type when the value cannot be read directly.
+     *
+     * @param field the field to read
+     * @param obj the object holding the field
+     * @return the field value, or a new instance of the field type
+     */
     public static Object generateFieldObject(Field field, Object obj) {
         Object rawObj = null;
         Attribute secondObj = null;

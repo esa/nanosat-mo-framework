@@ -36,6 +36,7 @@ import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
 import org.ccsds.moims.mo.mc.structures.*;
 
 /**
+ * Frame for adding or modifying a parameter definition.
  *
  * @author Cesar Coelho
  */
@@ -72,10 +73,24 @@ public class ParameterAddModify extends javax.swing.JFrame {
         MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(service);
     }
 
+    /**
+     * Sets the index of the parameter definition being edited.
+     *
+     * @param in the selected index
+     */
     public void setParameterDefinitionSelectedIndex(int in) {
         this.parameterDefinitionSelectedIndex = in;
     }
 
+    /**
+     * Builds a parameter validity expression from the given operands.
+     *
+     * @param instId the object instance id of the referenced parameter
+     * @param operator the expression operator code
+     * @param useConverted whether the converted value is used
+     * @param value the value to compare against
+     * @return the new parameter expression
+     */
     public ParameterExpression makeNewParameterExpression(Long instId,
             int operator, Boolean useConverted, String value) {
         return new ParameterExpression(
@@ -85,6 +100,9 @@ public class ParameterAddModify extends javax.swing.JFrame {
                 new Union(value));
     }
 
+    /**
+     * Refreshes the parameter combo box from the current parameter table content.
+     */
     public void refreshParametersComboBox() {
         validity1.removeAllItems();
         for (int i = 0; i < parameterTableData.getRowCount(); i++) {
@@ -92,6 +110,11 @@ public class ParameterAddModify extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Populates the form to update the parameter definition selected in the given table.
+     *
+     * @param parameterTable the table holding the selected parameter definition
+     */
     public void setUpdateParameterForm(javax.swing.JTable parameterTable) {
         titleEditParameter.setText("Update Parameter Definition");
         nameTF.setText(parameterTable.getValueAt(parameterDefinitionSelectedIndex, 1).toString());
@@ -109,6 +132,9 @@ public class ParameterAddModify extends javax.swing.JFrame {
         isAddDef = false;
     }
 
+    /**
+     * Resets the form to add a new parameter definition.
+     */
     public void setAddParameterForm() {
         titleEditParameter.setText("Add a new Parameter Definition");
         nameTF.setText("");

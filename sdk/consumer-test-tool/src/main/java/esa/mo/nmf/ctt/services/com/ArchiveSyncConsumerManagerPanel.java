@@ -76,6 +76,9 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         this.serviceCOMArchiveSync = archiveSyncService;
     }
 
+    /**
+     * A single tab showing the COM objects synchronized for one object type and domain.
+     */
     protected class ArchiveSyncTab {
 
         private final ArchiveTablePanel archiveTablePanel = new ArchiveTablePanel(null, serviceCOMArchive);
@@ -126,6 +129,9 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
             tabs.setTabComponentAt(index, pnlTab);
         }
 
+        /**
+         * Releases the resources held by this tab.
+         */
         public synchronized void finalizeAdapter() {
             try {
                 this.finalize();
@@ -134,26 +140,59 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
             }
         }
 
+        /**
+         * Returns the index of the selected table row.
+         *
+         * @return the selected row index
+         */
         public synchronized int getSelectedIndex() {
             return archiveTablePanel.getSelectedRow();
         }
 
+        /**
+         * Sets the COM object type shown in this tab.
+         *
+         * @param objType the COM object type
+         */
         protected void setObjType(ObjectType objType) {
             this.objType = objType;
         }
 
+        /**
+         * Sets the domain shown in this tab.
+         *
+         * @param domain the domain
+         */
         protected void setDomain(IdentifierList domain) {
             this.domain = domain;
         }
 
+        /**
+         * Returns the COM object type shown in this tab.
+         *
+         * @return the COM object type
+         */
         protected ObjectType getObjType() {
             return this.objType;
         }
 
+        /**
+         * Returns the domain shown in this tab.
+         *
+         * @return the domain
+         */
         protected IdentifierList getDomain() {
             return this.domain;
         }
 
+        /**
+         * Adds the given COM objects to this tab's table.
+         *
+         * @param objType the COM object type
+         * @param domain the domain of the objects
+         * @param objDetails the archive details of the objects
+         * @param objBodies the bodies of the objects
+         */
         public synchronized void add(ObjectType objType, IdentifierList domain,
                 ArchiveDetailsList objDetails, HeterogeneousList objBodies) {
             ArchiveCOMObjectsOutput archiveObjectOutput = new ArchiveCOMObjectsOutput(
@@ -164,6 +203,9 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
             repaint();
         }
 
+        /**
+         * Deletes all the objects currently shown in this tab from the Archive.
+         */
         protected void deleteAllInTable() {
             try {
                 isOver.acquire();
@@ -194,6 +236,9 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
 
     }
 
+    /**
+     * Mouse listener that finalizes the tab when its close button is clicked.
+     */
     public class CloseMouseHandler implements MouseListener {
 
         private final ArchiveSyncTab adapter;
@@ -511,6 +556,11 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButtonDeleteAllActionPerformed
 
+    /**
+     * Builds an unfiltered Archive query (all fields wildcarded).
+     *
+     * @return the generated Archive query
+     */
     public static ArchiveQuery generateArchiveQuery() {
         // ArchiveDetails
         ArchiveQuery archiveQuery = new ArchiveQuery(
@@ -526,6 +576,11 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         return archiveQuery;
     }
 
+    /**
+     * Builds a sample composite filter.
+     *
+     * @return the generated composite filter
+     */
     public static CompositeFilter generateCompositeFilter() {
         return new CompositeFilter(
                 "name",

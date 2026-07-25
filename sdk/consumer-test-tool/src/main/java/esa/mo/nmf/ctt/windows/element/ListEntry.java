@@ -37,6 +37,15 @@ public class ListEntry extends Entry {
     private final javax.swing.JToggleButton buttonRemove;
     private javax.swing.JTextField fieldValue;
 
+    /**
+     * Creates an editor for a single element of a list field.
+     *
+     * @param previousWindow the window owning this list entry
+     * @param fieldNameIn the name of the field
+     * @param obj the element value, or {@code null}
+     * @param editable whether the element can be edited
+     * @param objIsNull whether the element value is null
+     */
     public ListEntry(final MOWindow previousWindow, String fieldNameIn,
             Object obj, boolean editable, boolean objIsNull) {
         super(fieldNameIn, obj, true, objIsNull);

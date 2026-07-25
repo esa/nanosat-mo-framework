@@ -36,9 +36,19 @@ import org.ccsds.moims.mo.mal.structures.Union;
  */
 public abstract class Entry extends javax.swing.JPanel {
 
+    /** The value currently held by this field editor. */
     protected Object object = null;
+    /** Whether the field value can be edited by the user. */
     protected boolean editable;
 
+    /**
+     * Creates a field editor panel.
+     *
+     * @param fieldName the name of the field
+     * @param obj the field value, or {@code null} for a not-yet-set field
+     * @param editable whether the field can be edited
+     * @param objIsNull whether the field value is null
+     */
     @SuppressWarnings("unchecked")
     public Entry(String fieldName, Object obj, boolean editable, boolean objIsNull) {
         initComponents();
@@ -169,6 +179,9 @@ public abstract class Entry extends javax.swing.JPanel {
     private void fieldSelectableAttributeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldSelectableAttributeActionPerformed
     }//GEN-LAST:event_fieldSelectableAttributeActionPerformed
 
+    /**
+     * Marks the field as null, disabling its editing components.
+     */
     public final void makeFieldNull() {
         for (int i = 0; i < this.middlePanel.getComponentCount(); i++) {
             this.middlePanel.getComponent(i).setEnabled(false);
@@ -178,14 +191,29 @@ public abstract class Entry extends javax.swing.JPanel {
         this.fieldSelectableAttribute.setEnabled(false);
     }
 
+    /**
+     * Returns the label holding the field name.
+     *
+     * @return the field name label
+     */
     public JLabel getFieldName() {
         return fieldName;
     }
 
+    /**
+     * Returns the label holding the field type.
+     *
+     * @return the field type label
+     */
     public JLabel getFieldType() {
         return fieldType;
     }
 
+    /**
+     * Returns the field type as a string.
+     *
+     * @return the field type text
+     */
     public String getFieldTypeString() {
         return this.fieldType.getText();
     }

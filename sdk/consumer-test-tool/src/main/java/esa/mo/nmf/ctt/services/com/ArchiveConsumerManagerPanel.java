@@ -79,12 +79,25 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         serviceCOMArchive = archiveService;
     }
 
+    /**
+     * Configures the ArchiveSync-related context of this panel.
+     *
+     * @param count the index of this panel's tab
+     * @param serviceTabs the service tabs this panel belongs to
+     * @param services the ground adapter connected to the provider
+     */
     public void setArchiveSyncConfigs(int count, JTabbedPane serviceTabs, GroundMOAdapterImpl services) {
         this.location = count;
         this.serviceTabs = serviceTabs;
         this.services = services;
     }
 
+    /**
+     * Builds a sample aggregation definition with the given name.
+     *
+     * @param name the aggregation name
+     * @return the generated aggregation definition
+     */
     public static AggregationDefinition generateAggregationDefinition(String name) {
         LongList objIdParams = new LongList();
         objIdParams.add(1L);
@@ -138,6 +151,9 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
         return new RangeConversion(points);
     }
 
+    /**
+     * Archive adapter that feeds the query results into this panel's table.
+     */
     protected class ArchiveConsumerAdapter extends ArchiveAdapter {
 
         private final ArchiveTablePanel archiveTablePanel = new ArchiveTablePanel(null, serviceCOMArchive);
@@ -189,6 +205,9 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             tabs.setTabComponentAt(index, pnlTab);
         }
 
+        /**
+         * Releases the resources held by this adapter.
+         */
         public synchronized void finalizeAdapter() {
             try {
                 this.finalize();
@@ -197,14 +216,29 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
             }
         }
 
+        /**
+         * Returns the index of the selected table row.
+         *
+         * @return the selected row index
+         */
         public synchronized int getSelectedIndex() {
             return archiveTablePanel.getSelectedRow();
         }
 
+        /**
+         * Sets the COM object type this adapter queries.
+         *
+         * @param objType the COM object type
+         */
         protected void setObjType(ObjectType objType) {
             this.objType = objType;
         }
 
+        /**
+         * Sets the domain this adapter queries.
+         *
+         * @param domain the domain
+         */
         protected void setDomain(IdentifierList domain) {
             this.domain = domain;
         }
@@ -271,6 +305,9 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                     Level.SEVERE, "queryAckErrorReceived", error);
         }
 
+        /**
+         * Deletes all the objects currently shown in the table from the Archive.
+         */
         protected void deleteAllInTable() {
             try {
                 isOver.acquire();
@@ -299,6 +336,9 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
     }
 
+    /**
+     * Mouse listener that finalizes the adapter when the tab close button is clicked.
+     */
     public class CloseMouseHandler implements MouseListener {
 
         private final ArchiveConsumerAdapter adapter;
@@ -808,6 +848,11 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButtonDeleteAllActionPerformed
 
+    /**
+     * Builds an unfiltered Archive query (all fields wildcarded).
+     *
+     * @return the generated Archive query
+     */
     public static ArchiveQuery generateArchiveQuery() {
         // ArchiveDetails
         return new ArchiveQuery(
@@ -821,6 +866,11 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                 null);
     }
 
+    /**
+     * Builds a sample composite filter.
+     *
+     * @return the generated composite filter
+     */
     public static CompositeFilter generateCompositeFilter() {
         CompositeFilter compositeFilter = new CompositeFilter(
                 "name",

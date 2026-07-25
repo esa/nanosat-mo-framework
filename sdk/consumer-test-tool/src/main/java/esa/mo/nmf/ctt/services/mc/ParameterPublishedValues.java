@@ -40,11 +40,13 @@ import org.ccsds.moims.mo.mc.structures.ParameterValue;
 import org.ccsds.moims.mo.mc.structures.ValidityState;
 
 /**
+ * Panel showing a live grid of the latest published values for the provider's parameters.
  *
  * @author Cesar Coelho
  */
 public class ParameterPublishedValues extends javax.swing.JPanel {
 
+    /** Consumer of the Parameter service. */
     final ParameterConsumerServiceImpl parameterService;
     private final int numberOfColumns = 5;
     private final ParameterLabel[] labels = new ParameterLabel[32 * numberOfColumns];
@@ -56,10 +58,20 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
     // can hold (and their object instance ids do not fit the fixed grid).
     private final java.util.Map<Long, Integer> slotByParamId = new java.util.HashMap<>();
 
+    /**
+     * Returns the labels making up the values grid.
+     *
+     * @return the parameter labels
+     */
     public ParameterLabel[] getLabels() {
         return this.labels;
     }
 
+    /**
+     * Creates the published-values panel.
+     *
+     * @param parameterService the Parameter service consumer to subscribe to
+     */
     public ParameterPublishedValues(final ParameterConsumerServiceImpl parameterService) {
         this.parameterService = parameterService;
         this.setEnabled(false);
@@ -89,6 +101,12 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Subscribes to all the provider's parameter values.
+     *
+     * @throws MALInteractionException if the subscription returns an error
+     * @throws MALException if a communication error occurs
+     */
     public void subscribeToParameters() throws MALInteractionException, MALException {
         // Subscribe to ParametersValues
         subscription = ConnectionConsumer.subscriptionWildcardRandom();
@@ -142,7 +160,16 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
         return (5 * numberOfColumns) * (slot / numberOfColumns) + slot % numberOfColumns;
     }
 
+    /**
+     * Adapter receiving Parameter service PUB/SUB notifications and updating the values grid.
+     */
     public class ParameterConsumerAdapter extends ParameterAdapter {
+
+        /**
+         * Default constructor.
+         */
+        public ParameterConsumerAdapter() {
+        }
 
         @Override
         public void monitorValueNotifyReceived(final MALMessageHeader msgHeader,

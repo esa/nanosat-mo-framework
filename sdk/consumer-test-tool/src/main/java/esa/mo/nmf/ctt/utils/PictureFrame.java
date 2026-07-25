@@ -24,6 +24,7 @@ import javax.swing.ImageIcon;
 import org.ccsds.moims.mo.mal.structures.Blob;
 
 /**
+ * Frame that displays a picture captured through the Camera service.
  *
  * @author Cesar Coelho
  */

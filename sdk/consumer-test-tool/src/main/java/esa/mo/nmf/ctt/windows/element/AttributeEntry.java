@@ -37,6 +37,14 @@ public class AttributeEntry extends Entry {
 
     private final javax.swing.JTextField fieldValue;
 
+    /**
+     * Creates an editor for an attribute field.
+     *
+     * @param fieldName the name of the field
+     * @param obj the attribute value, or {@code null}
+     * @param editable whether the field can be edited
+     * @param objIsNull whether the field value is null
+     */
     public AttributeEntry(String fieldName, Object obj, boolean editable, boolean objIsNull) {
         super(fieldName, obj, editable, objIsNull);
 

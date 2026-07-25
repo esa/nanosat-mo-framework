@@ -44,12 +44,14 @@ import org.ccsds.moims.mo.sm.heartbeat.consumer.BeatSubscriptionKeys;
 import org.ccsds.moims.mo.sm.heartbeat.consumer.HeartbeatAdapter;
 
 /**
+ * Tab panel for a single provider, holding one sub-tab per consumed service.
  *
  * @author Cesar Coelho
  */
 public class ProviderTabPanel extends javax.swing.JPanel {
 
     private static final Logger LOGGER = Logger.getLogger(ProviderTabPanel.class.getName());
+    /** The ground adapter connected to the provider. */
     protected final GroundMOAdapterImpl services;
 
     /**
@@ -64,6 +66,11 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         initComponents();
     }
 
+    /**
+     * Returns the ground adapter connected to the provider.
+     *
+     * @return the ground adapter
+     */
     public GroundMOAdapterImpl getServices() {
         return this.services;
     }
@@ -73,6 +80,9 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                 -> serviceTabs.insertTab(title, null, panel, tooltip, serviceTabs.getTabCount()));
     }
 
+    /**
+     * Connects to the provider and inserts one sub-tab per available service.
+     */
     public void insertServicesTabs() {
         try {
             startTabs();
@@ -83,6 +93,11 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Returns the tabbed pane holding the per-service sub-tabs.
+     *
+     * @return the service tabs
+     */
     public JTabbedPane getTabs() {
         return serviceTabs;
     }

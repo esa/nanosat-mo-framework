@@ -72,6 +72,9 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         initComponents();
     }
 
+    /**
+     * Initializes the panel and subscribes to the Alert service monitoring.
+     */
     public void init() {
         this.listDefinitionAllButtonActionPerformed(null);
 
@@ -296,7 +299,16 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Adapter receiving Alert service PUB/SUB notifications and updating the alerts log.
+     */
     public class AlertConsumerAdapter extends AlertAdapter {
+
+        /**
+         * Default constructor.
+         */
+        public AlertConsumerAdapter() {
+        }
 
         @Override
         public void monitorAlertNotifyReceived(MALMessageHeader msgHeader,

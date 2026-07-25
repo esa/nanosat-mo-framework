@@ -33,17 +33,36 @@ public class ParameterValueLabel implements Serializable {
     private String labelValue = "";
     private boolean inError = false;
 
+    /**
+     * Default constructor.
+     */
     public ParameterValueLabel() {
     }
 
+    /**
+     * Returns the current textual value.
+     *
+     * @return the label value
+     */
     public String getLabelValue() {
         return labelValue;
     }
 
+    /**
+     * Returns whether the current value represents an error.
+     *
+     * @return {@code true} if the value is in error
+     */
     public boolean isInError() {
         return inError;
     }
 
+    /**
+     * Sets a new value and its error state.
+     *
+     * @param newVal the new value
+     * @param isError whether the value represents an error
+     */
     public void setNewValue(final String newVal, final boolean isError) {
         boolean updatelabel = true;
         inError = isError;
@@ -54,6 +73,9 @@ public class ParameterValueLabel implements Serializable {
         }
     }
 
+    /**
+     * Resets the value to empty and clears the error state.
+     */
     public void reset() {
         inError = false;
     }

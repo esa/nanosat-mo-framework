@@ -31,6 +31,7 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mc.structures.*;
 
 /**
+ * Frame for adding or modifying an aggregation definition.
  *
  * @author Cesar Coelho
  */
@@ -67,6 +68,11 @@ public class AggregationAddModify extends javax.swing.JFrame {
         this.setVisible(false);
     }
 
+    /**
+     * Sets the index of the aggregation definition being edited.
+     *
+     * @param in the selected index
+     */
     public void setAggregationDefinitionSelectedIndex(int in) {
         this.aggregationDefinitionSelectedIndex = in;
     }
@@ -96,6 +102,11 @@ public class AggregationAddModify extends javax.swing.JFrame {
         return null; // Not found (it shouldn't occur...)
     }
 
+    /**
+     * Builds the aggregation parameter-set list from the current form content.
+     *
+     * @return the new aggregation parameter-set list
+     */
     public AggregationParameterSetList makeNewAggregationParameterSetList() {
         AggregationParameterSetList aggRefList = new AggregationParameterSetList();
 
@@ -123,6 +134,11 @@ public class AggregationAddModify extends javax.swing.JFrame {
         return aggRefList;
     }
 
+    /**
+     * Populates the form to update the aggregation definition selected in the given table.
+     *
+     * @param aggregationTable the table holding the selected aggregation definition
+     */
     public void setUpdateParameterForm(javax.swing.JTable aggregationTable) {
         titleEditParameter.setText("Update Aggregation Definition");
         aggregationDefinitionSelectedIndex = aggregationTable.getSelectedRow();
@@ -155,6 +171,9 @@ public class AggregationAddModify extends javax.swing.JFrame {
         isAddDef = false;
     }
 
+    /**
+     * Resets the form to add a new aggregation definition.
+     */
     public void setAddParameterForm() {
         titleEditParameter.setText("Add a new Aggregation Definition");
         nameTF.setText("");

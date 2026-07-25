@@ -21,6 +21,7 @@
 package esa.mo.nmf.ctt.utils;
 
 /**
+ * Panel shown at the top of a service tab, offering the common communication controls.
  *
  * @author Cesar Coelho
  */

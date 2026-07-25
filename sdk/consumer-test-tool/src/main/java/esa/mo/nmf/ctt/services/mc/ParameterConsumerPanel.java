@@ -95,6 +95,9 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         return Boolean.TRUE.equals(((ParameterDefinition) obj.getObject()).getReadOnly());
     }
 
+    /**
+     * Initializes the panel and connects to the Parameter service.
+     */
     public void init() {
         this.listDefinitionAllButtonActionPerformed(null);
     }

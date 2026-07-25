@@ -89,6 +89,9 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         initComponents();
     }
 
+    /**
+     * Initializes the panel and subscribes to the Action service execution monitoring.
+     */
     public void init() {
         this.listDefinitionAllButtonActionPerformed(null);
 
@@ -305,7 +308,16 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Adapter receiving Action service PUB/SUB notifications and updating the execution log.
+     */
     public class ActionConsumerAdapter extends ActionAdapter {
+
+        /**
+         * Default constructor.
+         */
+        public ActionConsumerAdapter() {
+        }
 
         @Override
         public void monitorExecutionNotifyReceived(MALMessageHeader msgHeader,

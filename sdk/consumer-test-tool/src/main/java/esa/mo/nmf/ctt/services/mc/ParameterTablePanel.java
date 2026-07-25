@@ -29,6 +29,7 @@ import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mc.structures.ParameterDefinition;
 
 /**
+ * Table panel listing the parameter definitions read from a COM Archive.
  *
  * @author Cesar Coelho
  */
@@ -74,6 +75,11 @@ public class ParameterTablePanel extends SharedTablePanel {
 
     }
 
+    /**
+     * Enables or disables generation for the selected parameter.
+     *
+     * @param status {@code true} to enable, {@code false} to disable
+     */
     public void switchEnabledstatus(boolean status) {
         try {
             semaphore.acquire();
@@ -91,6 +97,11 @@ public class ParameterTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
+    /**
+     * Enables or disables generation for all parameters.
+     *
+     * @param status {@code true} to enable, {@code false} to disable
+     */
     public void switchEnabledstatusAll(boolean status) {
         try {
             semaphore.acquire();
@@ -110,6 +121,13 @@ public class ParameterTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
+    /**
+     * Returns a copy of the given parameter definition with the generation flag overridden.
+     *
+     * @param def the parameter definition to copy
+     * @param generation the new generation-enabled flag
+     * @return the new parameter definition
+     */
     public ParameterDefinition generateNewParameterDef(ParameterDefinition def, boolean generation) {
         return new ParameterDefinition(
                 def.getName(),

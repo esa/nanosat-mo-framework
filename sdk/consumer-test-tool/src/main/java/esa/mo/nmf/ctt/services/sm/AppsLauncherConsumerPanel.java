@@ -106,6 +106,9 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         this.serviceSMAppsLauncher = serviceSMAppsLauncher;
     }
 
+    /**
+     * Initializes the panel and subscribes to the AppsLauncher execution monitoring and events.
+     */
     public void init() {
         this.listAppAllButtonActionPerformed(null);
 
@@ -325,7 +328,16 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_runAppButtonActionPerformed
 
+    /**
+     * Adapter receiving app execution-output notifications and appending them to the log.
+     */
     public class AppsLauncherConsumerAdapter extends AppsLauncherAdapter {
+
+        /**
+         * Default constructor.
+         */
+        public AppsLauncherConsumerAdapter() {
+        }
 
         @Override
         public void monitorExecutionNotifyReceived(MALMessageHeader msgHeader,
@@ -349,10 +361,18 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Adapter that tracks the acknowledgements of a stop-app request for a set of apps.
+     */
     public class StopAdapter extends AppsLauncherAdapter {
 
         LongList apids;
 
+        /**
+         * Creates the stop adapter for the given app instance ids.
+         *
+         * @param apids the instance ids of the apps being stopped
+         */
         public StopAdapter(LongList apids) {
             this.apids = apids;
         }
@@ -402,7 +422,16 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
     }
 
+    /**
+     * Adapter receiving app lifecycle events and refreshing the app statuses in the table.
+     */
     public class MonitorEventsConsumerAdapter extends AppsLauncherAdapter {
+
+        /**
+         * Default constructor.
+         */
+        public MonitorEventsConsumerAdapter() {
+        }
 
         @Override
         public void monitorEventsNotifyReceived(MALMessageHeader msgHeader,

@@ -60,6 +60,9 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         jScrollPane2.setViewportView(packagesTable);
     }
 
+    /**
+     * Initializes the panel and lists the packages available on the provider.
+     */
     public void init() {
         this.listAppAllButtonActionPerformed(null);
     }

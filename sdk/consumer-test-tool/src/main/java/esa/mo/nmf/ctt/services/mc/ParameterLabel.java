@@ -24,7 +24,7 @@ import java.awt.Color;
 import java.io.Serializable;
 
 /**
- *
+ * Swing label showing the latest value of a single parameter, highlighting each update.
  */
 public class ParameterLabel extends javax.swing.JLabel implements Serializable {
 
@@ -34,17 +34,31 @@ public class ParameterLabel extends javax.swing.JLabel implements Serializable {
     private final ParameterValueLabel value;
     private short counter;
 
+    /**
+     * Creates a parameter label.
+     *
+     * @param index the index of the parameter within its published-values grid
+     */
     public ParameterLabel(final int index) {
         super();
         value = new ParameterValueLabel();
         counter = 1;
     }
 
+    /**
+     * Sets a new value and refreshes the displayed label.
+     *
+     * @param newVal the new value
+     * @param isError whether the value represents an error
+     */
     public void setNewValue(final String newVal, final boolean isError) {
         value.setNewValue(newVal, isError);
         displayValue();
     }
 
+    /**
+     * Refreshes the label text and highlight colour from the current value.
+     */
     public void displayValue() {
         String newVal = value.getLabelValue();
 
@@ -74,11 +88,17 @@ public class ParameterLabel extends javax.swing.JLabel implements Serializable {
         setForeground(coloursText[ii]);
     }
 
+    /**
+     * Highlights the label in red to signal an error.
+     */
     public void setRed() {
         setBackground(Color.RED);
         setForeground(Color.BLACK);
     }
 
+    /**
+     * Resets the value to empty and refreshes the label.
+     */
     public void reset() {
         value.reset();
         displayValue();
