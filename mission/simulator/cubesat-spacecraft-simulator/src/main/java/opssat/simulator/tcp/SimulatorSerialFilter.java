@@ -70,12 +70,23 @@ public final class SimulatorSerialFilter {
      * Resource limits for the strict server filter (denial-of-service bounds).
      * A client only sends small individual commands, so a low reference count
      * is ample.
+     *
+     * <p>
+     * <strong>Note:</strong> the JDK enforces {@code maxrefs} and {@code maxbytes}
+     * <em>cumulatively over the whole stream</em>, not per message. The server
+     * keeps a single {@link java.io.ObjectInputStream} open for a client's entire
+     * connection, so these counters grow with every message and will eventually
+     * be reached on a long-lived connection.
      */
+    private static final long SERVER_MAX_DEPTH = 20;
+    private static final long SERVER_MAX_REFS = 2000;
+    private static final long SERVER_MAX_BYTES = 5_000_000;
+    private static final long SERVER_MAX_ARRAY = 100_000;
     private static final String SERVER_LIMITS = String.join(";",
-            "maxdepth=20",
-            "maxrefs=2000",
-            "maxbytes=5000000",
-            "maxarray=100000");
+            "maxdepth=" + SERVER_MAX_DEPTH,
+            "maxrefs=" + SERVER_MAX_REFS,
+            "maxbytes=" + SERVER_MAX_BYTES,
+            "maxarray=" + SERVER_MAX_ARRAY);
 
     /**
      * Resource limits for the client filter. The server sends the whole command
@@ -84,11 +95,15 @@ public final class SimulatorSerialFilter {
      * much higher than on the server. {@code maxbytes} still bounds the total
      * amount deserialized.
      */
+    private static final long CLIENT_MAX_DEPTH = 20;
+    private static final long CLIENT_MAX_REFS = 1_000_000;
+    private static final long CLIENT_MAX_BYTES = 5_000_000;
+    private static final long CLIENT_MAX_ARRAY = 100_000;
     private static final String CLIENT_LIMITS = String.join(";",
-            "maxdepth=20",
-            "maxrefs=1000000",
-            "maxbytes=5000000",
-            "maxarray=100000");
+            "maxdepth=" + CLIENT_MAX_DEPTH,
+            "maxrefs=" + CLIENT_MAX_REFS,
+            "maxbytes=" + CLIENT_MAX_BYTES,
+            "maxarray=" + CLIENT_MAX_ARRAY);
 
     /**
      * The JDK scalar types the protocol carries. {@code Number} is required
@@ -157,9 +172,11 @@ public final class SimulatorSerialFilter {
             "!*");
 
     private static final ObjectInputFilter SERVER_FILTER
-            = logging(ObjectInputFilter.Config.createFilter(SERVER_PATTERN), "server");
+            = logging(ObjectInputFilter.Config.createFilter(SERVER_PATTERN), "server",
+                    SERVER_MAX_DEPTH, SERVER_MAX_REFS, SERVER_MAX_BYTES, SERVER_MAX_ARRAY);
     private static final ObjectInputFilter CLIENT_FILTER
-            = logging(ObjectInputFilter.Config.createFilter(CLIENT_PATTERN), "client");
+            = logging(ObjectInputFilter.Config.createFilter(CLIENT_PATTERN), "client",
+                    CLIENT_MAX_DEPTH, CLIENT_MAX_REFS, CLIENT_MAX_BYTES, CLIENT_MAX_ARRAY);
 
     /**
      * The description of the most recent rejection (class name, or the limit
@@ -205,30 +222,83 @@ public final class SimulatorSerialFilter {
     }
 
     /**
-     * Wraps a filter so a rejection records and logs what was rejected (the
-     * class name, or the resource limit that was exceeded), instead of a bare
-     * "filter status: REJECTED".
+     * Wraps a filter so a rejection records and logs the true reason, instead of
+     * a bare "filter status: REJECTED".
+     *
+     * @param delegate the underlying pattern filter.
+     * @param side "server" or "client", for the message.
+     * @param maxDepth the configured maxdepth limit.
+     * @param maxRefs the configured maxrefs limit.
+     * @param maxBytes the configured maxbytes limit.
+     * @param maxArray the configured maxarray limit.
+     * @return the wrapped, self-diagnosing filter.
      */
-    private static ObjectInputFilter logging(ObjectInputFilter delegate, String side) {
+    private static ObjectInputFilter logging(ObjectInputFilter delegate, String side,
+            long maxDepth, long maxRefs, long maxBytes, long maxArray) {
         return info -> {
             ObjectInputFilter.Status status = delegate.checkInput(info);
             if (status == ObjectInputFilter.Status.REJECTED) {
-                Class<?> rejected = info.serialClass();
-                if (rejected != null) {
-                    lastRejection = "class " + rejected.getName();
-                    LOGGER.log(Level.WARNING,
-                            "Simulator {0} deserialization filter rejected class: {1} "
-                            + "(add it to SimulatorSerialFilter if it is a legitimate message type)",
-                            new Object[]{side, rejected.getName()});
-                } else {
-                    lastRejection = "resource limit (depth=" + info.depth() + ", refs=" + info.references()
-                            + ", bytes=" + info.streamBytes() + ", arrayLength=" + info.arrayLength() + ")";
-                    LOGGER.log(Level.WARNING,
-                            "Simulator {0} deserialization filter rejected stream on a {1}",
-                            new Object[]{side, lastRejection});
-                }
+                String reason = describeRejection(info, maxDepth, maxRefs, maxBytes, maxArray);
+                lastRejection = reason;
+                LOGGER.log(Level.WARNING,
+                        "Simulator {0} deserialization filter REJECTED a stream. Reason: {1}",
+                        new Object[]{side, reason});
             }
             return status;
         };
+    }
+
+    /**
+     * Works out why the filter rejected the stream and returns a human-readable
+     * explanation.
+     *
+     * <p>
+     * A resource-limit breach must be detected explicitly, <strong>not</strong>
+     * inferred from {@code serialClass()}: when the JDK filter trips a limit it
+     * returns REJECTED with {@code serialClass()} still set to whatever class was
+     * being read at that moment. Trusting {@code serialClass()} therefore
+     * misattributes a limit breach to an (often allowlisted) class — e.g.
+     * reporting "rejected class java.lang.Integer" when the real cause is that
+     * the cumulative {@code maxrefs}/{@code maxbytes} of a long-lived stream was
+     * reached. The configured limits are compared against the reported counters
+     * first, and only a genuine allowlist miss is reported as a class rejection.
+     * The full counter snapshot is always included so the cause is diagnosable.
+     */
+    private static String describeRejection(ObjectInputFilter.FilterInfo info,
+            long maxDepth, long maxRefs, long maxBytes, long maxArray) {
+        StringBuilder limits = new StringBuilder();
+        if (maxDepth > 0 && info.depth() > maxDepth) {
+            appendReason(limits, "maxdepth exceeded (" + info.depth() + " > " + maxDepth + ")");
+        }
+        if (maxRefs > 0 && info.references() > maxRefs) {
+            appendReason(limits, "maxrefs exceeded (" + info.references() + " > " + maxRefs + ")");
+        }
+        if (maxBytes > 0 && info.streamBytes() > maxBytes) {
+            appendReason(limits, "maxbytes exceeded (" + info.streamBytes() + " > " + maxBytes + ")");
+        }
+        if (maxArray >= 0 && info.arrayLength() > maxArray) {
+            appendReason(limits, "maxarray exceeded (" + info.arrayLength() + " > " + maxArray + ")");
+        }
+
+        final Class<?> clazz = info.serialClass();
+        final String snapshot = " [depth=" + info.depth() + ", refs=" + info.references()
+                + ", bytes=" + info.streamBytes() + ", arrayLength=" + info.arrayLength()
+                + (clazz != null ? ", class=" + clazz.getName() : "") + "]";
+
+        if (limits.length() != 0) {
+            return "resource limit reached: " + limits + snapshot;
+        }
+        if (clazz != null) {
+            return "class not in allowlist: " + clazz.getName()
+                    + " (add it to SimulatorSerialFilter if it is a legitimate message type)" + snapshot;
+        }
+        return "no allowlist pattern matched" + snapshot;
+    }
+
+    private static void appendReason(StringBuilder sb, String reason) {
+        if (sb.length() != 0) {
+            sb.append("; ");
+        }
+        sb.append(reason);
     }
 }
