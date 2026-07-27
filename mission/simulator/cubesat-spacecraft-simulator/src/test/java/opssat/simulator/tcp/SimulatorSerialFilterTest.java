@@ -139,20 +139,23 @@ public class SimulatorSerialFilterTest {
         assertAllowed(config, SimulatorSerialFilter.clientFilter());
     }
 
-    // The client tolerates the large command catalog; the server does not
+    // A high reference count must be tolerated by both filters
 
     @Test
-    public void testHighReferenceCountAllowedByClientRejectedByServer() throws Exception {
-        // Mirrors the "List" response: the catalog's CommandDescriptors share
-        // objects, producing thousands of back-references (which is what the
-        // maxrefs limit counts). A repeated element reproduces that here.
+    public void testHighReferenceCountAllowedByBothFilters() throws Exception {
+        // The cumulative maxrefs/maxbytes limits were removed: the transport keeps
+        // one ObjectInputStream open for a whole connection, so those stream totals
+        // only ever climbed and eventually rejected legitimate traffic (an
+        // allowlisted Integer keepalive) once maxrefs passed 2000. A message with
+        // thousands of back-references must now be accepted by both filters; the
+        // per-message bounds (maxdepth/maxarray) and the class allowlist remain.
         LinkedList<Object> catalog = new LinkedList<>();
         String shared = "shared-command";
         for (int i = 0; i < 3000; i++) {
             catalog.add(shared);
         }
         assertAllowed(catalog, SimulatorSerialFilter.clientFilter());
-        assertRejected(catalog, SimulatorSerialFilter.serverFilter());
+        assertAllowed(catalog, SimulatorSerialFilter.serverFilter());
     }
 
     // Resource limits apply to both filters

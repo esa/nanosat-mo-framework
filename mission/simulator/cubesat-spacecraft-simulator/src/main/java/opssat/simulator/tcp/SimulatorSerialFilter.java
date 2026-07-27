@@ -56,9 +56,10 @@ import java.util.logging.Logger;
  * </ul>
  *
  * <p>
- * Both filters also cap stream depth, reference count, array length and total
- * byte size to bound denial-of-service, and log the offending class (or exceeded
- * limit) on rejection so a blocked message is diagnosable.
+ * Both filters also cap per-message object-graph depth and array length to bound
+ * denial-of-service, and log the true reason (the exceeded limit, or the class
+ * not in the allowlist, with a counter snapshot) on rejection so a blocked
+ * message is diagnosable.
  *
  * @author Cesar Coelho
  */
@@ -67,43 +68,33 @@ public final class SimulatorSerialFilter {
     private static final Logger LOGGER = Logger.getLogger(SimulatorSerialFilter.class.getName());
 
     /**
-     * Resource limits for the strict server filter (denial-of-service bounds).
-     * A client only sends small individual commands, so a low reference count
-     * is ample.
+     * Resource limits for both filters (denial-of-service bounds).
      *
      * <p>
-     * <strong>Note:</strong> the JDK enforces {@code maxrefs} and {@code maxbytes}
-     * <em>cumulatively over the whole stream</em>, not per message. The server
-     * keeps a single {@link java.io.ObjectInputStream} open for a client's entire
-     * connection, so these counters grow with every message and will eventually
-     * be reached on a long-lived connection.
+     * Only the <em>per-object-graph</em> limits are used: {@code maxdepth} bounds
+     * a single message's nesting depth and {@code maxarray} bounds any single
+     * array allocation. Both reset for every top-level object read, so they bound
+     * one message without accumulating.
+     *
+     * <p>
+     * {@code maxrefs} and {@code maxbytes} are deliberately <strong>not</strong>
+     * used. The JDK enforces them <em>cumulatively over the whole stream</em>, not
+     * per message, and the transport keeps a single
+     * {@link java.io.ObjectInputStream} open for a peer's entire connection. Any
+     * finite value is therefore a countdown that a long-lived connection is
+     * guaranteed to reach — it rejected legitimate traffic (an allowlisted
+     * {@code Integer} keepalive) once {@code maxrefs} accumulated past 2000. The
+     * real per-message size bound comes from {@code maxarray} (a single array is
+     * capped, and the allowlist means every element is a small known DTO), and
+     * the class allowlist — not the stream totals — is what defends against
+     * gadget-chain remote code execution. Do not re-add {@code maxrefs}/
+     * {@code maxbytes} without switching to per-message accounting.
      */
-    private static final long SERVER_MAX_DEPTH = 20;
-    private static final long SERVER_MAX_REFS = 2000;
-    private static final long SERVER_MAX_BYTES = 5_000_000;
-    private static final long SERVER_MAX_ARRAY = 100_000;
-    private static final String SERVER_LIMITS = String.join(";",
-            "maxdepth=" + SERVER_MAX_DEPTH,
-            "maxrefs=" + SERVER_MAX_REFS,
-            "maxbytes=" + SERVER_MAX_BYTES,
-            "maxarray=" + SERVER_MAX_ARRAY);
-
-    /**
-     * Resource limits for the client filter. The server sends the whole command
-     * catalog in a single "List" message — many small CommandDescriptors — which
-     * legitimately holds thousands of object references, so {@code maxrefs} is
-     * much higher than on the server. {@code maxbytes} still bounds the total
-     * amount deserialized.
-     */
-    private static final long CLIENT_MAX_DEPTH = 20;
-    private static final long CLIENT_MAX_REFS = 1_000_000;
-    private static final long CLIENT_MAX_BYTES = 5_000_000;
-    private static final long CLIENT_MAX_ARRAY = 100_000;
-    private static final String CLIENT_LIMITS = String.join(";",
-            "maxdepth=" + CLIENT_MAX_DEPTH,
-            "maxrefs=" + CLIENT_MAX_REFS,
-            "maxbytes=" + CLIENT_MAX_BYTES,
-            "maxarray=" + CLIENT_MAX_ARRAY);
+    private static final long MAX_DEPTH = 20;
+    private static final long MAX_ARRAY = 100_000;
+    private static final String LIMITS = String.join(";",
+            "maxdepth=" + MAX_DEPTH,
+            "maxarray=" + MAX_ARRAY);
 
     /**
      * The JDK scalar types the protocol carries. {@code Number} is required
@@ -131,7 +122,7 @@ public final class SimulatorSerialFilter {
      * collection types they carry. No telemetry DTOs, no package wildcard.
      */
     private static final String SERVER_PATTERN = String.join(";",
-            SERVER_LIMITS,
+            LIMITS,
             "opssat.simulator.util.CommandDescriptor",
             "opssat.simulator.util.CommandResult",
             "opssat.simulator.util.ArgumentDescriptor",
@@ -156,7 +147,7 @@ public final class SimulatorSerialFilter {
      * carry.
      */
     private static final String CLIENT_PATTERN = String.join(";",
-            CLIENT_LIMITS,
+            LIMITS,
             "opssat.simulator.**",
             JDK_SCALARS,
             "java.util.ArrayList",
@@ -172,11 +163,9 @@ public final class SimulatorSerialFilter {
             "!*");
 
     private static final ObjectInputFilter SERVER_FILTER
-            = logging(ObjectInputFilter.Config.createFilter(SERVER_PATTERN), "server",
-                    SERVER_MAX_DEPTH, SERVER_MAX_REFS, SERVER_MAX_BYTES, SERVER_MAX_ARRAY);
+            = logging(ObjectInputFilter.Config.createFilter(SERVER_PATTERN), "server");
     private static final ObjectInputFilter CLIENT_FILTER
-            = logging(ObjectInputFilter.Config.createFilter(CLIENT_PATTERN), "client",
-                    CLIENT_MAX_DEPTH, CLIENT_MAX_REFS, CLIENT_MAX_BYTES, CLIENT_MAX_ARRAY);
+            = logging(ObjectInputFilter.Config.createFilter(CLIENT_PATTERN), "client");
 
     /**
      * The description of the most recent rejection (class name, or the limit
@@ -227,18 +216,13 @@ public final class SimulatorSerialFilter {
      *
      * @param delegate the underlying pattern filter.
      * @param side "server" or "client", for the message.
-     * @param maxDepth the configured maxdepth limit.
-     * @param maxRefs the configured maxrefs limit.
-     * @param maxBytes the configured maxbytes limit.
-     * @param maxArray the configured maxarray limit.
      * @return the wrapped, self-diagnosing filter.
      */
-    private static ObjectInputFilter logging(ObjectInputFilter delegate, String side,
-            long maxDepth, long maxRefs, long maxBytes, long maxArray) {
+    private static ObjectInputFilter logging(ObjectInputFilter delegate, String side) {
         return info -> {
             ObjectInputFilter.Status status = delegate.checkInput(info);
             if (status == ObjectInputFilter.Status.REJECTED) {
-                String reason = describeRejection(info, maxDepth, maxRefs, maxBytes, maxArray);
+                String reason = describeRejection(info);
                 lastRejection = reason;
                 LOGGER.log(Level.WARNING,
                         "Simulator {0} deserialization filter REJECTED a stream. Reason: {1}",
@@ -256,28 +240,20 @@ public final class SimulatorSerialFilter {
      * A resource-limit breach must be detected explicitly, <strong>not</strong>
      * inferred from {@code serialClass()}: when the JDK filter trips a limit it
      * returns REJECTED with {@code serialClass()} still set to whatever class was
-     * being read at that moment. Trusting {@code serialClass()} therefore
-     * misattributes a limit breach to an (often allowlisted) class — e.g.
-     * reporting "rejected class java.lang.Integer" when the real cause is that
-     * the cumulative {@code maxrefs}/{@code maxbytes} of a long-lived stream was
-     * reached. The configured limits are compared against the reported counters
-     * first, and only a genuine allowlist miss is reported as a class rejection.
-     * The full counter snapshot is always included so the cause is diagnosable.
+     * being read at that moment. Trusting {@code serialClass()} would therefore
+     * misattribute a limit breach to an (often allowlisted) class. The configured
+     * limits are compared against the reported counters first, and only a genuine
+     * allowlist miss is reported as a class rejection. The full counter snapshot
+     * (including the cumulative {@code refs}/{@code bytes}, which are no longer
+     * enforced) is always included so the cause is diagnosable.
      */
-    private static String describeRejection(ObjectInputFilter.FilterInfo info,
-            long maxDepth, long maxRefs, long maxBytes, long maxArray) {
+    private static String describeRejection(ObjectInputFilter.FilterInfo info) {
         StringBuilder limits = new StringBuilder();
-        if (maxDepth > 0 && info.depth() > maxDepth) {
-            appendReason(limits, "maxdepth exceeded (" + info.depth() + " > " + maxDepth + ")");
+        if (info.depth() > MAX_DEPTH) {
+            appendReason(limits, "maxdepth exceeded (" + info.depth() + " > " + MAX_DEPTH + ")");
         }
-        if (maxRefs > 0 && info.references() > maxRefs) {
-            appendReason(limits, "maxrefs exceeded (" + info.references() + " > " + maxRefs + ")");
-        }
-        if (maxBytes > 0 && info.streamBytes() > maxBytes) {
-            appendReason(limits, "maxbytes exceeded (" + info.streamBytes() + " > " + maxBytes + ")");
-        }
-        if (maxArray >= 0 && info.arrayLength() > maxArray) {
-            appendReason(limits, "maxarray exceeded (" + info.arrayLength() + " > " + maxArray + ")");
+        if (info.arrayLength() > MAX_ARRAY) {
+            appendReason(limits, "maxarray exceeded (" + info.arrayLength() + " > " + MAX_ARRAY + ")");
         }
 
         final Class<?> clazz = info.serialClass();
