@@ -19,28 +19,27 @@
  *  limitations under the License. 
  *  ----------------------------------------------------------------------------
  */
-package opssat.simulator.peripherals;
-
-import java.util.ArrayList;
-import opssat.simulator.interfaces.IMityARM;
-import opssat.simulator.interfaces.InternalData;
-import opssat.simulator.threading.SimulatorNode;
+package opssat.simulator.interfaces;
 
 /**
  *
  * @author Cezar Suteu
  */
-public class PMityARM extends GenericPeripheral implements IMityARM {
-    public PMityARM(SimulatorNode simulatorNode, String name) {
-        super(simulatorNode, name);
-    }
+public interface IOnBoardRouter {
 
-    @Override
-    @InternalData(internalID = 9001, commandIDs = {"", ""}, argNames = {"cmdID", "data"})
-    public byte[] runRawCommand(int cmdID, byte[] data) {
-        ArrayList<Object> argObject = new ArrayList<>();
-        argObject.add(cmdID);
-        argObject.add(data);
-        return (byte[]) super.getSimulatorNode().runGenericMethod(9001, argObject);
-    }
+    /**
+     * <pre>
+     * Low level command to interact with the On-Board Router.
+     * Input parameters:int cmdID,byte[] data
+     * Return parameters:byte[]
+     * Size of returned parameters: 0
+     * This commands accepts generic structures for the On-Board Router.
+     * </pre>
+     *
+     * @param cmdID
+     * @param data
+     * @return
+     */
+    byte[] runRawCommand(int cmdID, byte[] data);//8001
+
 }

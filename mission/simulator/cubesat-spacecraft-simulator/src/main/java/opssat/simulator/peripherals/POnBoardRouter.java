@@ -19,27 +19,28 @@
  *  limitations under the License. 
  *  ----------------------------------------------------------------------------
  */
-package opssat.simulator.interfaces;
+package opssat.simulator.peripherals;
+
+import java.util.ArrayList;
+import opssat.simulator.interfaces.IOnBoardRouter;
+import opssat.simulator.interfaces.InternalData;
+import opssat.simulator.threading.SimulatorNode;
 
 /**
  *
  * @author Cezar Suteu
  */
-public interface ICCSDSEngine {
+public class POnBoardRouter extends GenericPeripheral implements IOnBoardRouter {
+    public POnBoardRouter(SimulatorNode simulatorNode, String name) {
+        super(simulatorNode, name);
+    }
 
-    /**
-     * <pre>
-     * Low level command to interact with CCSDSEngine.
-     * Input parameters:int cmdID,byte[] data
-     * Return parameters:byte[]
-     * Size of returned parameters: 0
-     * This commands accepts generic structures for CCSDSEngine.
-     * </pre>
-     *
-     * @param cmdID
-     * @param data
-     * @return
-     */
-    byte[] runRawCommand(int cmdID, byte[] data);//8001
-
+    @Override
+    @InternalData(internalID = 8001, commandIDs = {"", ""}, argNames = {"cmdID", "data"})
+    public byte[] runRawCommand(int cmdID, byte[] data) {
+        ArrayList<Object> argObject = new ArrayList<>();
+        argObject.add(cmdID);
+        argObject.add(data);
+        return (byte[]) super.getSimulatorNode().runGenericMethod(8001, argObject);
+    }
 }

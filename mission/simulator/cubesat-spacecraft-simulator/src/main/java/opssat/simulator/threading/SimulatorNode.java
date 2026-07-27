@@ -100,15 +100,13 @@ public class SimulatorNode extends TaskNode {
 
     // Simulator Data Bindings
     // Below is alphabetical order of interfaces, used to map GUI data
-    private final static int INTERFACE_CCSDSENGINE = 0;
+    private final static int INTERFACE_ONBOARDROUTER = 0;
     private final static int INTERFACE_CAMERA = 1;
-    private final static int INTERFACE_FDIR = 2;
-    private final static int INTERFACE_FINEADCS = 3;
-    private final static int INTERFACE_GPS = 4;
-    private final static int INTERFACE_MITTYARM = 5;
-    private final static int INTERFACE_NANOMIND = 6;
-    private final static int INTERFACE_OPTICALRECEIVER = 7;
-    private final static int INTERFACE_SDR = 8;
+    private final static int INTERFACE_FINEADCS = 2;
+    private final static int INTERFACE_GPS = 3;
+    private final static int INTERFACE_DPU = 4;
+    private final static int INTERFACE_OPTICALRECEIVER = 5;
+    private final static int INTERFACE_SDR = 6;
 
     public static final double DEFAULT_OPS_SAT_A = 6886;// [km]
     public static final double EARTH_RADIUS = 6371; // [km]
@@ -480,13 +478,11 @@ public class SimulatorNode extends TaskNode {
     private void loadMethodsFromReflection() {
         this.logger.log(Level.FINE, "loadMethodsFromReflection");
 
-        reflectObjectGetMethods(new PCCSDSEngine(null, "CCSDSEngine"));
+        reflectObjectGetMethods(new POnBoardRouter(null, "On-Board Router"));
         reflectObjectGetMethods(new PCamera(null, "Camera"));
-        reflectObjectGetMethods(new PFDIR(null, "FDIR"));
         reflectObjectGetMethods(new PFineADCS(null, "FineADCS"));
         reflectObjectGetMethods(new PGPS(null, "GPS"));
-        reflectObjectGetMethods(new PMityARM(null, "MityARM"));
-        reflectObjectGetMethods(new PNanomind(null, "Nanomind"));
+        reflectObjectGetMethods(new PDPU(null, "DPU"));
         reflectObjectGetMethods(new POpticalReceiver(null, "OpticalReceiver"));
         reflectObjectGetMethods(new PSDR(null, "SDR"));
 
