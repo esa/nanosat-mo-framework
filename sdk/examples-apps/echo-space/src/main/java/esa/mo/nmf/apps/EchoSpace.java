@@ -36,7 +36,6 @@ import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ParameterDefinition;

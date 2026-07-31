@@ -1,13 +1,8 @@
 package esa.nmf.test;
 
-import java.io.File;
 import java.io.IOException;
-import opssat.simulator.main.ESASimulator;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.orekit.data.DataProvidersManager;
-import org.orekit.data.DirectoryCrawler;
 
 public class GPSSoftSimAdapterTest {
 

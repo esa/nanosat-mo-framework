@@ -21,7 +21,6 @@
 package esa.mo.sm.impl.consumer;
 
 import esa.mo.com.impl.util.COMServicesConsumer;
-import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;

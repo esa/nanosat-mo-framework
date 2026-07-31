@@ -34,7 +34,6 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.*;

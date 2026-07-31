@@ -28,7 +28,6 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.platform.gps.body.GetLastKnownPositionResponse;

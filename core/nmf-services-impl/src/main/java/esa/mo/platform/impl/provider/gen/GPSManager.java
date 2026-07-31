@@ -35,7 +35,6 @@ import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.platform.structures.NearbyPositionAlert;
 import org.ccsds.moims.mo.platform.gps.GPSServiceInfo;
 import org.ccsds.moims.mo.platform.structures.*;

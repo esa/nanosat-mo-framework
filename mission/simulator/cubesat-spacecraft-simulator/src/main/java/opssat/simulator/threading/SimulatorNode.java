@@ -54,7 +54,6 @@ import opssat.simulator.models.OpticalReceiverModel;
 import opssat.simulator.orekit.GPSSatInView;
 import opssat.simulator.orekit.OrekitCore;
 import opssat.simulator.peripherals.*;
-import opssat.simulator.peripherals.PFineADCS.FWRefFineADCS;
 import opssat.simulator.tcp.TCPServerReceiveOnly;
 import opssat.simulator.util.*;
 import org.hipparchus.geometry.euclidean.threed.Vector3D;
