@@ -33,8 +33,8 @@ import java.util.regex.Pattern;
 import java.util.zip.CRC32;
 
 /**
- * Utility methods for handling NMF Packages: CRC computation, locating the App JAR inside a
- * folder and sanitizing zip entry paths.
+ * Utility methods for handling NMF Packages: CRC computation, locating the App
+ * JAR inside a folder, and working out where an entry of a package is written.
  *
  * @author Cesar Coelho
  */
@@ -204,21 +204,4 @@ public class HelperNMFPackage {
         return resolved;
     }
 
-    /**
-     * Normalizes a zip entry path to the platform separator, rejecting paths that could be
-     * used for a Zip Slip attack.
-     *
-     * @param path the zip entry path
-     * @return the sanitized, platform-specific path
-     * @throws IOException if the path contains {@code ..} (a Zip Slip attempt)
-     */
-    public static String sanitizePath(final String path) throws IOException {
-        // Sanitize the path to prevent a ZipSlip attack:
-        if (path.contains("..")) {
-            throw new IOException("Warning! A ZipSlip attack was detected!");
-        }
-
-        String out = path.replace('/', File.separatorChar);
-        return out.replace('\\', File.separatorChar);
-    }
 }

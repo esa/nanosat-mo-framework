@@ -33,6 +33,7 @@ import esa.mo.nmf.nmfpackage.utils.ChecksumGenerator;
 import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import java.io.File;
+import java.nio.file.Path;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -668,14 +669,13 @@ public class NMFPackageManager {
     }
 
     private static void removeFiles(Metadata metadata) throws IOException {
-        File folder = Deployment.getNMFRootDir();
+        final Path root = Deployment.getNMFRootDir().getCanonicalFile().toPath();
         File file;
 
         // Do the files actually match the descriptor?
         for (int i = 0; i < metadata.getFiles().size(); i++) {
             NMFPackageFile entry = metadata.getFiles().get(i);
-            String path = HelperNMFPackage.sanitizePath(entry.getPath());
-            file = new File(folder.getCanonicalPath() + File.separator + path);
+            file = HelperNMFPackage.resolveInside(root, entry.getPath()).toFile();
             NMFPackageManager.removeFile(file);
             File parent = file.getParentFile();
 
@@ -778,8 +778,11 @@ public class NMFPackageManager {
      */
     private static Set<String> touchedBaselineDirs(Metadata metadata) throws IOException {
         Set<String> dirs = new LinkedHashSet<>();
+        final Path root = Deployment.getNMFRootDir().getCanonicalFile().toPath();
+
         for (NMFPackageFile entry : metadata.getFiles()) {
-            String path = HelperNMFPackage.sanitizePath(entry.getPath()).replace('\\', '/');
+            Path resolved = HelperNMFPackage.resolveInside(root, entry.getPath());
+            String path = root.relativize(resolved).toString().replace(File.separatorChar, '/');
             String dir = baselineDirOf(path);
             if (dir != null) {
                 dirs.add(dir);
