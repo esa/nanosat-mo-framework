@@ -344,7 +344,21 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             return;
         }
 
-        final Provider provider = providerList.get(providersList.getSelectedIndex());
+        openProviderTab(tabs, providerList.get(providersList.getSelectedIndex()));
+    }//GEN-LAST:event_connectButtonActionPerformed
+
+    /**
+     * Connects to a provider and opens a tab for it, logging in first where the
+     * provider offers a Login service.
+     *
+     * Reached both from the Connect button of this panel and from the Apps
+     * Launcher panel, which connects to a freshly started App through the
+     * Directory service that the App itself runs.
+     *
+     * @param tabs The tabbed pane that the provider tab is added to.
+     * @param provider The provider to connect to.
+     */
+    public static void openProviderTab(final javax.swing.JTabbedPane tabs, final Provider provider) {
         final int count = tabs.getTabCount();
 
         Thread t1 = new Thread() {
@@ -373,14 +387,14 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                     }
                 }
 
-                ProviderTabPanel providerPanel = createNewProviderTabPanel(provider, authenticationId, localNamePrefix);
+                ProviderTabPanel providerPanel = new ProviderTabPanel(provider, authenticationId, localNamePrefix);
 
                 // -- Close Button --
                 final javax.swing.JPanel pnlTab = new javax.swing.JPanel();
                 pnlTab.setOpaque(false);
                 JLabel label = new JLabel(provider.getProviderName().toString());
                 JLabel closeLabel = new JLabel("x");
-                closeLabel.addMouseListener(new CloseMouseHandler(pnlTab, providerPanel));
+                closeLabel.addMouseListener(new CloseMouseHandler(tabs, pnlTab, providerPanel));
                 closeLabel.setFont(closeLabel.getFont().deriveFont(closeLabel.getFont().getStyle() | Font.BOLD));
 
                 GridBagConstraints gbc = new GridBagConstraints();
@@ -405,7 +419,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         };
 
         t1.start();
-    }//GEN-LAST:event_connectButtonActionPerformed
+    }
 
     /**
      * Creates a new provider tab panel for the given provider.
@@ -420,7 +434,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         return new ProviderTabPanel(provider, authenticationId, localNamePrefix);
     }
 
-    private void errorConnectionProvider(String service, Throwable ex) {
+    private static void errorConnectionProvider(String service, Throwable ex) {
         JOptionPane.showMessageDialog(null,
                 "Could not connect to " + service + " service provider!"
                 + "\nException:\n" + ex + "\n" + ex.getMessage(),
@@ -490,7 +504,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
         }
     }
 
-    private void closeProvider(ProviderTabPanel providerPanel) {
+    private static void closeProvider(ProviderTabPanel providerPanel) {
         try {
             if (providerPanel.getServices().getAuthenticationId() != null) {
                 try {
@@ -515,12 +529,15 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     /**
      * Mouse listener that closes the provider connection when its tab close button is clicked.
      */
-    public class CloseMouseHandler implements MouseListener {
+    public static class CloseMouseHandler implements MouseListener {
 
+        private final javax.swing.JTabbedPane tabs;
         private final javax.swing.JPanel panel;
         private final ProviderTabPanel providerPanel;
 
-        CloseMouseHandler(final javax.swing.JPanel panel, final ProviderTabPanel providerPanel) {
+        CloseMouseHandler(final javax.swing.JTabbedPane tabs, final javax.swing.JPanel panel,
+                final ProviderTabPanel providerPanel) {
+            this.tabs = tabs;
             this.panel = panel;
             this.providerPanel = providerPanel;
         }

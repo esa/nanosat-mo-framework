@@ -28,17 +28,16 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import esa.mo.nmf.ctt.utils.DirectoryConnectionConsumerPanel;
+import org.ccsds.moims.mo.com.structures.Provider;
+import org.ccsds.moims.mo.com.structures.ProviderList;
+import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
-import org.ccsds.moims.mo.mal.structures.BooleanList;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.LongList;
-import org.ccsds.moims.mo.mal.structures.Subscription;
-import org.ccsds.moims.mo.mal.structures.Union;
-import org.ccsds.moims.mo.mal.structures.UpdateHeader;
+import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherAdapter;
@@ -58,6 +57,38 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
     private final AppsLauncherConsumerServiceImpl serviceSMAppsLauncher;
     private AppsLauncherTablePanel appsTable;
     private final HashMap<Long, StringBuffer> outputBuffers = new HashMap<>();
+
+    /**
+     * The URI of the Directory service of each App that has reported one, by
+     * App instance id. An App prints it once it is up, so it only appears here
+     * after the App has finished starting.
+     */
+    private final HashMap<Long, String> appDirectoryURIs = new HashMap<>();
+
+    /**
+     * The name that an App gives to the provider of its Directory service. An
+     * App builds it as its own name followed by the name of the service, so the
+     * URI of the Directory of the App called "hello-world" ends in
+     * "/hello-world-Directory". See ConnectionProvider, which builds it.
+     */
+    private static final String DIRECTORY_SERVICE = "-Directory";
+
+    /**
+     * Matches the URI of the Directory service of one named App, in the output
+     * that the App prints.
+     *
+     * The name of the App is part of the pattern on purpose. The output carries
+     * other URIs that must not be taken for the App: the Central Directory of
+     * the supervisor, which the App reports while registering itself, and the
+     * URIs of the connections that the App closes while shutting down.
+     *
+     * @param appName The name of the App.
+     * @return The pattern that matches the URI of the Directory of that App.
+     */
+    private static java.util.regex.Pattern directoryURIPattern(final String appName) {
+        return java.util.regex.Pattern.compile("(?:mal[a-z]*|rmi)://\\S*/"
+                + java.util.regex.Pattern.quote(appName + DIRECTORY_SERVICE) + "\\b");
+    }
     private Subscription subscription;
     private Subscription eventsSubscription;
 
@@ -89,6 +120,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                     Long objId = appsTable.getCOMObjects().get(selectedRow).getArchiveDetails().getId();
                     appVerboseTextArea.setText(outputBuffers.get(objId).toString());
                     appVerboseTextArea.setCaretPosition(appVerboseTextArea.getDocument().getLength());
+                    refreshConnectButton();
                 }
             }
 
@@ -149,6 +181,135 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
     }
 
     /**
+     * Records the URI of the Directory service of an App, taken from the output
+     * that the App itself prints once it is up.
+     *
+     * @param appId The instance id of the App.
+     * @param appName The name of the App, which its own URI carries.
+     * @param output A piece of the output of that App.
+     */
+    private void rememberDirectoryURI(final Long appId, final String appName, final String output) {
+        java.util.regex.Matcher matcher = directoryURIPattern(appName).matcher(output);
+        String uri = null;
+
+        while (matcher.find()) {
+            uri = matcher.group(); // The last one wins: it is the most recent
+        }
+
+        if (uri != null) {
+            appDirectoryURIs.put(appId, uri);
+        }
+    }
+
+    /**
+     * Forgets where an App was reachable, so that a stopped App is not offered
+     * for connection. An App that is started again reports its URI once more,
+     * which brings the button back by itself.
+     *
+     * @param appId The instance id of the App.
+     */
+    private void forgetDirectoryURI(final Long appId) {
+        appDirectoryURIs.remove(appId);
+        refreshConnectButton();
+    }
+
+    /**
+     * Returns the instance id of the App on the selected row, or null when no
+     * row is selected.
+     */
+    private Long selectedAppId() {
+        int selectedRow = appsTable.getSelectedRow();
+
+        if (selectedRow == -1) {
+            return null;
+        }
+
+        return appsTable.getCOMObjects().get(selectedRow).getArchiveDetails().getId();
+    }
+
+    /**
+     * Enables the connect button only while the selected App has told us where
+     * its Directory service is.
+     */
+    private void refreshConnectButton() {
+        Long appId = selectedAppId();
+        connectAppButton.setEnabled(appId != null && appDirectoryURIs.containsKey(appId));
+    }
+
+    /**
+     * Opens a tab for the App on the selected row, by asking the Directory
+     * service that the App runs for the providers it holds.
+     *
+     * This is the same connection that the Directory tab makes, so an App is
+     * reached without having to go back there and look it up by hand.
+     */
+    private void connectAppButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        final Long appId = selectedAppId();
+
+        if (appId == null) {
+            return;
+        }
+
+        final String uri = appDirectoryURIs.get(appId);
+
+        if (uri == null) {
+            return;
+        }
+
+        final javax.swing.JTabbedPane rootTabs = findRootTabs();
+
+        if (rootTabs == null) {
+            LOGGER.log(Level.WARNING, "The tabs of the tool could not be found.");
+            return;
+        }
+
+        Thread thread = new Thread(() -> {
+            try {
+                ProviderList providers
+                        = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(uri));
+
+                if (providers.isEmpty()) {
+                    javax.swing.SwingUtilities.invokeLater(()
+                            -> JOptionPane.showMessageDialog(this,
+                                    "The App did not register any provider on:\n" + uri,
+                                    "Nothing to connect to", JOptionPane.PLAIN_MESSAGE));
+                    return;
+                }
+
+                for (Provider provider : providers) {
+                    DirectoryConnectionConsumerPanel.openProviderTab(rootTabs, provider);
+                }
+            } catch (Exception ex) {
+                LOGGER.log(Level.SEVERE, "Could not connect to the App on: " + uri, ex);
+                javax.swing.SwingUtilities.invokeLater(()
+                        -> JOptionPane.showMessageDialog(this,
+                                "Could not connect to the App on:\n" + uri
+                                + "\n\nException:\n" + ex,
+                                "Error!", JOptionPane.PLAIN_MESSAGE));
+            }
+        });
+        thread.setName("ConnectToAppThread");
+        thread.start();
+    }
+
+    /**
+     * Returns the outermost tabbed pane of the tool, which is the one that holds
+     * a tab per connected provider. This panel sits inside the service tabs of a
+     * provider, so the pane it is looking for is further up than its own.
+     */
+    private javax.swing.JTabbedPane findRootTabs() {
+        javax.swing.JTabbedPane outermost = null;
+
+        for (java.awt.Container parent = this.getParent(); parent != null; parent = parent.getParent()) {
+            if (parent instanceof javax.swing.JTabbedPane) {
+                outermost = (javax.swing.JTabbedPane) parent;
+            }
+        }
+
+        return outermost;
+    }
+
+    /**
      * This method is called from within the constructor to initialize the
      * formAddModifyParameter. WARNING: Do NOT modify this code. The content of
      * this method is always regenerated by the Form Editor.
@@ -166,6 +327,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         stopAppButton = new javax.swing.JButton();
         killAppButton = new javax.swing.JButton();
         listAppAllButton = new javax.swing.JButton();
+        connectAppButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -181,6 +343,13 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
         jPanel1.setMinimumSize(new java.awt.Dimension(419, 23));
         jPanel1.setPreferredSize(new java.awt.Dimension(419, 23));
+
+        connectAppButton.setText("connect to App");
+        connectAppButton.setToolTipText("Opens a tab for the selected App. "
+                + "Available once the App has reported the URI of its Directory service.");
+        connectAppButton.setEnabled(false);
+        connectAppButton.addActionListener(this::connectAppButtonActionPerformed);
+        jPanel1.add(connectAppButton);
 
         runAppButton.setText("runApp");
         runAppButton.addActionListener(this::runAppButtonActionPerformed);
@@ -271,6 +440,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceSMAppsLauncher.getAppsLauncherStub().killApp(ids);
             appsTable.switchEnabledstatusForApp(false, objId.intValue());
+            forgetDirectoryURI(objId);
 
             for (Long id : ids) {
                 appsTable.reportStatus("Killed!", id.intValue());
@@ -297,6 +467,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                 appsTable.reportStatus("Sending stop request.", id.intValue());
             }
             this.serviceSMAppsLauncher.getAppsLauncherStub().stopApp(ids, null, new StopAdapter(ids));
+            forgetDirectoryURI(objId);
             //appsTable.switchEnabledstatus(false);
         } catch (MALInteractionException | MALException ex) {
             JOptionPane.showMessageDialog(null,
@@ -354,9 +525,11 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
 
             StringBuffer stringBuf = outputBuffers.get(appId);
             stringBuf.append(out);
+            rememberDirectoryURI(appId, appName.getValue(), out);
             javax.swing.SwingUtilities.invokeLater(() -> {
                 appVerboseTextArea.append(out);
                 appVerboseTextArea.setCaretPosition(appVerboseTextArea.getDocument().getLength());
+                refreshConnectButton();
             });
         }
     }
@@ -476,6 +649,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton killAppButton;
+    private javax.swing.JButton connectAppButton;
     private javax.swing.JButton listAppAllButton;
     private javax.swing.JPanel parameterTab;
     private javax.swing.JButton runAppButton;
