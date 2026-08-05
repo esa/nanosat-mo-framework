@@ -28,11 +28,13 @@ Add the parameter inside the plugin's ``<configuration>`` block in the mission f
 
 If ``appsIsolation`` is omitted the default value is ``none``.
 
-Isolation modes
-----------------
+.. note::
 
-none
-~~~~~
+   The isolation mode applies on Linux. When the Supervisor runs on Windows it always uses the Windows app
+   launcher, whatever ``appsIsolation`` is set to.
+
+Isolation mode: none
+--------------------
 
 All NMF Apps run as the same OS user that launched the Supervisor. No additional OS-level separation is
 applied.
@@ -41,8 +43,8 @@ This is the default and is appropriate for development and for running the SDK s
 recommended for a production spacecraft because a misbehaving or compromised app can read and write the files
 of every other app.
 
-linux-userspace
-~~~~~~~~~~~~~~~~
+Isolation mode: linux-userspace
+-------------------------------
 
 Each NMF App runs under a dedicated Linux user account. The account is created automatically by the Package
 Management service when the ``*.nmfpackage`` file is installed; the username is derived from the app name.
@@ -60,8 +62,8 @@ separate home directory and file-permission boundary enforced by the OS kernel.
 This mode is the recommended choice for production missions on Linux hardware. It provides strong per-app
 filesystem isolation with no additional runtime dependencies beyond a standard Linux userland.
 
-bubblewrap
-~~~~~~~~~~~
+Isolation mode: bubblewrap
+--------------------------
 
 Each NMF App runs inside a bubblewrap (``bwrap``) sandbox. The sandbox configuration applied by the NMF is:
 
@@ -84,35 +86,67 @@ Each NMF App runs inside a bubblewrap (``bwrap``) sandbox. The sandbox configura
 Bubblewrap provides stronger isolation than ``linux-userspace`` because it also restricts namespace
 visibility. The trade-off is the dependency on ``bwrap`` being available on the target hardware.
 
-docker-containers
-~~~~~~~~~~~~~~~~~~
+Isolation mode: docker-containers
+---------------------------------
 
-Reserved for a future implementation. Selecting this mode has no effect in the current version.
+Each NMF App runs inside its own Docker container, started by the Supervisor with ``docker run``. The
+container configuration applied by the NMF is:
+
+- The container is named ``nmf-app-<appname>`` and is removed once the app exits (``--rm``).
+- The NMF home directory is bind-mounted at the same absolute path inside the container, so the app's start
+  script finds the shared JARs and its log directory unchanged.
+- The container joins the Docker network configured below (``host`` by default) so that the app can reach the
+  Supervisor's Directory service.
+- The Directory service URI is passed into the container through ``JAVA_OPTS``.
+- Stopping an app stops its container, rather than signalling a process.
+
+**Configuration:**
+
+- ``esa.mo.nmf.packagemanager.docker.image`` — the image the apps run in. Defaults to
+  ``eclipse-temurin:21-jre``. It must provide a JRE the apps can run on and a POSIX shell.
+- ``esa.mo.nmf.packagemanager.docker.network`` — the Docker network the containers join. Defaults to
+  ``host``.
+
+**Requirements:**
+
+- The ``docker`` command must be on the Supervisor's ``PATH``.
+- The Supervisor user must be allowed to talk to the Docker daemon, which usually means membership of the
+  ``docker`` group. Note that this is equivalent to root on the host, so it weakens the boundary between the
+  Supervisor and the OS even as it strengthens the one between the apps.
+
+Docker containers isolate the filesystem and the process tree, and additionally pin the runtime that each app
+sees, which none of the other modes do. The trade-offs are the Docker daemon as a runtime dependency and the
+privilege that access to it carries.
 
 Choosing a mode
 ----------------
 
 .. list-table::
    :header-rows: 1
-   :widths: 20 20 20 20 20
+   :widths: 18 20 18 18 26
 
    * - Mode
      - Filesystem isolation
      - Process isolation
      - Extra dependencies
-     - Recommended for
+     - Use cases
    * - ``none``
      - No
      - No
      - None
-     - Development / simulator
+     - Development and the SDK simulator
    * - ``linux-userspace``
      - Yes (per-user)
      - No
      - ``sudo``, ``adduser``
-     - Production missions
+     - OBC images that cannot take extra packages
    * - ``bubblewrap``
      - Yes (read-only host)
      - Yes (namespaces)
      - ``bwrap``
-     - High-assurance deployments
+     - OBCs where ``bwrap`` can be installed
+   * - ``docker-containers``
+     - Yes (container)
+     - Yes (container)
+     - Docker daemon
+     - Missions already running Docker, or apps needing different Java versions

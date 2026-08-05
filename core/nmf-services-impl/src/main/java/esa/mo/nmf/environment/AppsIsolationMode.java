@@ -42,7 +42,7 @@ public class AppsIsolationMode {
     /** Each app runs under a dedicated Linux user account created at install time. */
     public static final String LINUX_USERSPACE = "linux-userspace";
 
-    /** Each app runs inside a dedicated Docker container (not yet implemented). */
+    /** Each app runs inside a dedicated Docker container. */
     public static final String DOCKER_CONTAINERS = "docker-containers";
 
     /** Each app runs inside a bubblewrap sandbox. */

@@ -77,10 +77,9 @@ public class GenerateFilesystemMojo extends AbstractMojo {
      * Supervisor.</li>
      * <li>{@code linux-userspace} — each app runs under a dedicated Linux user
      * account created at install time.</li>
+     * <li>{@code bubblewrap} — each app runs inside a bubblewrap sandbox.</li>
      * <li>{@code docker-containers} — each app runs inside a dedicated Docker
-     * container (not yet implemented).</li>
-     * <li>{@code bubblewrap} — each app runs inside a bubblewrap sandbox (not
-     * yet implemented).</li>
+     * container.</li>
      * </ul>
      */
     @Parameter(property = "generate-filesystem.appsIsolation", defaultValue = AppsIsolationMode.NONE)
