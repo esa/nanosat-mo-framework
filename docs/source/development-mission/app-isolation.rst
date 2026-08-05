@@ -8,6 +8,39 @@ App Isolation
 The NMF Supervisor can launch each NMF App under one of several isolation strategies. The chosen strategy is
 set once per mission deployment and applies to every app managed by that Supervisor.
 
+Overview
+--------
+
+.. list-table::
+   :header-rows: 1
+   :widths: 18 20 18 18 26
+
+   * - Mode
+     - Filesystem isolation
+     - Process isolation
+     - Extra dependencies
+     - Use cases
+   * - ``none``
+     - No
+     - No
+     - None
+     - Development and the SDK simulator
+   * - ``linux-userspace``
+     - Yes (per-user)
+     - No
+     - ``sudo``, ``adduser``
+     - OBC images that cannot take extra packages
+   * - ``bubblewrap``
+     - Yes (read-only host)
+     - Yes (namespaces)
+     - ``bwrap``
+     - OBCs where ``bwrap`` can be installed
+   * - ``docker-containers``
+     - Yes (container)
+     - Yes (container)
+     - Docker daemon
+     - Missions already running Docker, or apps needing different Java versions
+
 How isolation is configured
 ----------------------------
 
@@ -117,36 +150,3 @@ container configuration applied by the NMF is:
 Docker containers isolate the filesystem and the process tree, and additionally pin the runtime that each app
 sees, which none of the other modes do. The trade-offs are the Docker daemon as a runtime dependency and the
 privilege that access to it carries.
-
-Choosing a mode
-----------------
-
-.. list-table::
-   :header-rows: 1
-   :widths: 18 20 18 18 26
-
-   * - Mode
-     - Filesystem isolation
-     - Process isolation
-     - Extra dependencies
-     - Use cases
-   * - ``none``
-     - No
-     - No
-     - None
-     - Development and the SDK simulator
-   * - ``linux-userspace``
-     - Yes (per-user)
-     - No
-     - ``sudo``, ``adduser``
-     - OBC images that cannot take extra packages
-   * - ``bubblewrap``
-     - Yes (read-only host)
-     - Yes (namespaces)
-     - ``bwrap``
-     - OBCs where ``bwrap`` can be installed
-   * - ``docker-containers``
-     - Yes (container)
-     - Yes (container)
-     - Docker daemon
-     - Missions already running Docker, or apps needing different Java versions
