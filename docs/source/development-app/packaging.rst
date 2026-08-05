@@ -73,7 +73,7 @@ Distribution
 ------------
 
 The ``.nmfpackage`` file is the deliverable; how it reaches the spacecraft is mission-specific. See
-:doc:`../mission-integration/index` for mission-specific guidance.
+:doc:`../specific-missions/index` for mission-specific guidance.
 
 Linux deployment artefacts
 --------------------------

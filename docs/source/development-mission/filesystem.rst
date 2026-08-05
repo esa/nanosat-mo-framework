@@ -100,8 +100,8 @@ Mission project structure
 --------------------------
 
 The ``nmf-linux-maven-plugin`` is being extended to also generate the Maven project structure for new mission
-integrations. Until that feature is complete, the existing missions — :doc:`../mission-integration/ops-sat`
-and :doc:`../mission-integration/phi-sat-2` — are the working references for how to lay out a mission Maven
+integrations. Until that feature is complete, the existing missions — :doc:`../specific-missions/ops-sat`
+and :doc:`../specific-missions/phi-sat-2` — are the working references for how to lay out a mission Maven
 project.
 
 Running as a service

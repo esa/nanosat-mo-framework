@@ -1,6 +1,6 @@
-====================
-Mission Integration
-====================
+==================
+Specific Missions
+==================
 
 This section covers what is required to deploy NMF on a specific spacecraft mission. The base packaging and
 lifecycle mechanisms are mission-agnostic — see :doc:`../development-app/packaging` for those. The pages below

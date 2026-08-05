@@ -1,6 +1,6 @@
-==========================
-NMF on the ɸ-Sat-2 mission
-==========================
+=======
+ɸ-Sat-2
+=======
 
 .. contents:: Table of contents
    :local:

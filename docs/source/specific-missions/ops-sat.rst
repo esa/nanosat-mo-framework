@@ -1,6 +1,6 @@
-============================
-NMF on the OPS-SAT mission
-============================
+=======
+OPS-SAT
+=======
 
 .. contents:: Table of contents
    :local:
