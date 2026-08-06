@@ -168,6 +168,23 @@ public class NMFPackagePMBackend implements PMBackend {
     @Override
     public boolean checkPackageIntegrity(final String packageName) throws UnsupportedOperationException {
         // To do: Check the package integrity!
+        //
+        // Nothing signs an NMF Package today: the signing block in
+        // NMFPackageBuilder is commented out and NMFDigitalSignature
+        // (SHA1withDSA) has no callers. SHA256SUMS catches a corrupted
+        // download but not a tampered one, as anyone can recompute it.
+        //
+        // To do: Look into Post-Quantum Cryptography before this is written.
+        // Nothing has to be migrated, so the scheme can be picked outright:
+        // SLH-DSA (FIPS 205) and LMS/XMSS (NIST SP 800-208) rest on the hash
+        // function alone, ML-DSA (FIPS 204) is smaller and faster but rests
+        // on lattices. Size hardly matters here because a package holds Jars,
+        // so even the tens of kilobytes of SLH-DSA are lost in the noise.
+        // LMS/XMSS hold a one-time key that must never sign twice, which the
+        // build side would have to track across machines.
+        //
+        // Hardest is the key that verifies: it travels with the mission and
+        // outlives the algorithm, so it needs a way of being replaced.
         return true;
     }
 
