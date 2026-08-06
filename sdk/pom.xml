@@ -67,7 +67,7 @@
     <modules>
         <module>examples-apps</module>
         <module>examples-ground</module>
-        <module>all-mc-services-with-sim</module>
+        <module>monolithic-provider</module>
         <module>consumer-test-tool</module>
         <module>cli-tool</module>
         <module>sdk-playground-environment</module>

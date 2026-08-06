@@ -24,10 +24,10 @@
     </parent>
 
     <groupId>int.esa.nmf.sdk</groupId>
-    <artifactId>all-mc-services-with-sim</artifactId>
+    <artifactId>monolithic-provider</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF SDK - Monolithic All MC Services + Simulator</name>
+    <name>ESA NMF SDK - Monolithic Provider</name>
     <description>An example binding all MC Services provider with mission simulator. Running on embedded system is not recommended.</description>
     <url>http://www.esa.int</url>
 
@@ -63,7 +63,7 @@
     </developers>
 
     <properties>
-        <assembly.mainClass>esa.mo.nmf.apps.DemoTestApp</assembly.mainClass>
+        <assembly.mainClass>esa.mo.nmf.apps.MonolithicProviderDemo</assembly.mainClass>
     </properties>
 
     <dependencies>
