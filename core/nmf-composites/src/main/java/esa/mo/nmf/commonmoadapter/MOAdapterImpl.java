@@ -26,7 +26,6 @@ import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.NMFException;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -237,23 +236,6 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                     org.ccsds.moims.mo.mc.aggregation.consumer.MonitorValueSubscriptionKeys keys,
                     org.ccsds.moims.mo.mc.structures.AggregationValue newValue,
                     java.util.Map qosProperties) {
-                if (listener instanceof SimpleAggregationReceivedListener) {
-                    List<ParameterInstance> parameterInstances = new LinkedList<>();
-
-                    AggregationValue aggregationValue = newValue;
-
-                    for (AggregationSetValue aggregationSetValue : aggregationValue.getParameterSetValues()) {
-                        for (AggregationParameterValue aggregationParamValue : aggregationSetValue.getValues()) {
-                            Long paramDefInstId = aggregationParamValue.getParamDefinitionId();
-                            Attribute parameterValue = aggregationParamValue.getValue().getRawValue();
-
-                            // TBD, not sure what to do with this now...
-                        }
-                    }
-
-                    ((SimpleAggregationReceivedListener) listener).onDataReceived(parameterInstances);
-                }
-
                 if (listener instanceof CompleteAggregationReceivedListener) {
                     Time timestamp = Time.now();
                     String aggregationName = keys.getAggregationName().toString();
@@ -284,7 +266,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                         ex);
             }
         }
-        if (listener instanceof SimpleAggregationReceivedListener || listener instanceof CompleteAggregationReceivedListener) {
+        if (listener instanceof CompleteAggregationReceivedListener) {
             // Subscribes to ALL Aggregations
             this.aggregationSubscription = ConnectionConsumer.subscriptionWildcardRandom();
 
