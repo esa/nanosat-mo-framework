@@ -30,7 +30,6 @@ import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
-import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
@@ -103,10 +102,7 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
             AppDetails appObject = (AppDetails) archiveObjectOutput.getObjectBodies().get(i);
             String appName = appObject.getName().getValue();
             Long appInstanceId = archiveObjectOutput.getArchiveDetailsList().get(i).getId();
-            // TODO uncomment when archive sync fixed
-            // IdentifierList appDomain = archiveObjectOutput.getDomain();
-            IdentifierList appDomain = new IdentifierList();
-            appDomain.add(new Identifier("*"));
+            IdentifierList appDomain = archiveObjectOutput.getDomain();
 
             if (this.appName.equals(appName)) {
                 appObjectKey = new ObjectKey(appType, appDomain, appInstanceId);
