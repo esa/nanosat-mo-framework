@@ -18,8 +18,9 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.apps;
+package esa.mo.nmf.monolithic;
 
+import esa.mo.nmf.apps.MCAllInOneAdapter;
 import esa.mo.nmf.provider.NanoSatMOMonolithicSim;
 
 /**

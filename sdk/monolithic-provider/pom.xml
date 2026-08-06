@@ -28,7 +28,7 @@
     <packaging>jar</packaging>
 
     <name>ESA NMF SDK - Monolithic Provider</name>
-    <description>An example binding all MC Services provider with mission simulator. Running on embedded system is not recommended.</description>
+    <description>An example binding all MC Services provider with mission simulator.</description>
     <url>http://www.esa.int</url>
 
     <organization>
@@ -63,7 +63,7 @@
     </developers>
 
     <properties>
-        <assembly.mainClass>esa.mo.nmf.apps.MonolithicProviderDemo</assembly.mainClass>
+        <assembly.mainClass>esa.mo.nmf.monolithic.MonolithicProviderDemo</assembly.mainClass>
     </properties>
 
     <dependencies>
@@ -78,7 +78,6 @@
             <version>${esa.nmf.version}</version>
         </dependency>
     </dependencies>
-
 
     <build>
         <resources></resources>
