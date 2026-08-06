@@ -34,6 +34,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
@@ -85,6 +86,15 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
     private static final String PARAMETER_SUN_VECTOR_Z = "adcs.sun-vector.z";
 
     private static final Duration ATTITUDE_MONITORING_INTERVAL = new Duration(1.0);
+
+    /**
+     * How long to wait for the GPS service to answer with the satellites in
+     * view. The wait has to end on its own, because the value is read from the
+     * thread that samples the parameters, and a hold there stops every other
+     * parameter from being sampled too.
+     */
+    private static final long GPS_REPLY_TIMEOUT_SECONDS = 5;
+
     private static final Logger LOGGER = Logger.getLogger(MCAllInOneAdapter.class.getName());
     private NMFInterface nmf;
 
@@ -281,9 +291,6 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
 
     @Override
     public Attribute onGetValue(Identifier identifier, AttributeType rawType) throws IOException {
-        // Translates NMF core calls for parameter values into calls to the underlying HW
-        // exposed as Platform services
-        // TODO: Optimise the number of calls through a cache
         if (nmf == null) {
             return null;
         }
@@ -311,6 +318,20 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                             nOfSats.add(gpsSatellitesInfo.size());
                             sem.release();
                         }
+
+                        @Override
+                        public void getSatellitesInfoAckErrorReceived(MALMessageHeader msgHeader,
+                                MOErrorException error, java.util.Map qosProperties) {
+                            LOGGER.log(Level.SEVERE, "The satellites in view could not be read!", error);
+                            sem.release();
+                        }
+
+                        @Override
+                        public void getSatellitesInfoResponseErrorReceived(MALMessageHeader msgHeader,
+                                MOErrorException error, java.util.Map qosProperties) {
+                            LOGGER.log(Level.SEVERE, "The satellites in view could not be read!", error);
+                            sem.release();
+                        }
                     }
 
                     try {
@@ -320,9 +341,19 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                     }
 
                     try {
-                        sem.acquire();
+                        if (!sem.tryAcquire(GPS_REPLY_TIMEOUT_SECONDS, TimeUnit.SECONDS)) {
+                            LOGGER.log(Level.SEVERE, "The GPS service did not answer with the "
+                                    + "satellites in view within {0} seconds!", GPS_REPLY_TIMEOUT_SECONDS);
+                            return null;
+                        }
                     } catch (InterruptedException ex) {
-                        LOGGER.log(Level.SEVERE, null, ex);
+                        Thread.currentThread().interrupt();
+                        return null;
+                    }
+
+                    // Empty when the answer was an error, which released the wait above
+                    if (nOfSats.isEmpty()) {
+                        return null;
                     }
 
                     return (Attribute) Attribute.javaType2Attribute(nOfSats.get(0));
@@ -540,8 +571,8 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                 nmf.pushParameterValue(PARAMETER_MAG_Z, magneticField.getZ());
 
                 nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_X, angularVelocity.getX());
-                nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Z, angularVelocity.getY());
-                nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Y, angularVelocity.getZ());
+                nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Y, angularVelocity.getY());
+                nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Z, angularVelocity.getZ());
 
                 nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_A, attitude.getA());
                 nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_B, attitude.getB());
