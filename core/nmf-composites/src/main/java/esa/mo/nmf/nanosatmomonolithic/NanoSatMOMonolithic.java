@@ -75,8 +75,10 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
         LOGGER.log(Level.INFO, this.generateStartBanner());
 
         // Loads: provider.properties; transport.properties
+        // The Monolithic is not deployed with either of them, so their absence
+        // falls back to the default transport instead of being reported.
         NMFProvider.loadMOElements();
-        HelperMisc.loadPropertiesFile();
+        loadPropertiesOrDefaults();
         ConnectionProvider.resetURILinksFile();
 
         // Create provider name to be registerd on the Directory service...

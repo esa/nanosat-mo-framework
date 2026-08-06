@@ -40,7 +40,6 @@ import esa.mo.sm.impl.util.PMBackend;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.configuration.ConfigurationHelper;
@@ -106,12 +105,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
 
         // The Supervisor has no provider.properties of its own, so it sets the
         // transport in-process rather than via HelperMisc (which only warned).
-        // A command-line -D wins, hence putIfAbsent.
-        getTransportDefaults().forEach(System.getProperties()::putIfAbsent);
-
-        // "PropertiesLoadedFlag" is HelperMisc's own skip guard: set it so later
-        // loadPropertiesFile() calls skip the file lookup.
-        System.setProperty("PropertiesLoadedFlag", "true");
+        useDefaultTransport();
         NMFProvider.loadMOElements();
         ConnectionProvider.resetURILinksFile();
 
@@ -247,15 +241,6 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                 + (((float) (System.currentTimeMillis() - super.startTime)) / 1000)
                 + " seconds!");
         LOGGER.log(Level.INFO, "URI: {0}\n", primaryURI);
-    }
-
-    private static Properties getTransportDefaults() {
-        Properties props = new Properties();
-        props.setProperty("org.ccsds.moims.mo.mal.transport.default.protocol", "maltcp://");
-        props.setProperty("org.ccsds.moims.mo.mal.transport.protocol.maltcp", "esa.mo.mal.transport.tcpip.TCPIPTransportFactoryImpl");
-        props.setProperty("org.ccsds.moims.mo.mal.encoding.protocol.maltcp", "esa.mo.mal.encoder.binary.fixed.FixedBinaryStreamFactory");
-        props.setProperty("org.ccsds.moims.mo.mal.transport.tcpip.autohost", "true");
-        return props;
     }
 
     /**

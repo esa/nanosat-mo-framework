@@ -41,6 +41,7 @@ import org.ccsds.moims.mo.com.structures.ObjectKeysList;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
@@ -324,6 +325,57 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
             }
             return null;
         }
+    }
+
+    /**
+     * The transport that is used when there is no transport.properties file to
+     * say otherwise: MAL TCP/IP with the fixed binary encoding.
+     *
+     * @return The properties that select the default transport.
+     */
+    protected static Properties getTransportDefaults() {
+        Properties props = new Properties();
+        props.setProperty("org.ccsds.moims.mo.mal.transport.default.protocol", "maltcp://");
+        props.setProperty("org.ccsds.moims.mo.mal.transport.protocol.maltcp",
+                "esa.mo.mal.transport.tcpip.TCPIPTransportFactoryImpl");
+        props.setProperty("org.ccsds.moims.mo.mal.encoding.protocol.maltcp",
+                "esa.mo.mal.encoder.binary.fixed.FixedBinaryStreamFactory");
+        props.setProperty("org.ccsds.moims.mo.mal.transport.tcpip.autohost", "true");
+        return props;
+    }
+
+    /**
+     * Sets the default transport in this process and stops the properties files
+     * from being looked for afterwards. A property given on the command line is
+     * left as it is, so a -D always wins.
+     */
+    protected static void useDefaultTransport() {
+        getTransportDefaults().forEach(System.getProperties()::putIfAbsent);
+        // "PropertiesLoadedFlag" is the skip guard of the HelperMisc: set it so
+        // that a later loadPropertiesFile() call leaves the files alone.
+        System.setProperty("PropertiesLoadedFlag", "true");
+    }
+
+    /**
+     * Reads the provider and transport properties files, and falls back to the
+     * default transport when neither of them is there.
+     *
+     * A provider that is deployed without those files is not misconfigured, it
+     * simply has nothing to say beyond the defaults, so their absence is passed
+     * over rather than reported. A file that is present is always read.
+     */
+    protected static void loadPropertiesOrDefaults() {
+        boolean hasProvider = new File(System.getProperty("provider.properties",
+                HelperMisc.PROVIDER_PROPERTIES_FILE)).exists();
+        boolean hasTransport = new File(System.getProperty("transport.properties",
+                HelperMisc.TRANSPORT_PROPERTIES_FILE)).exists();
+
+        if (!hasProvider && !hasTransport) {
+            useDefaultTransport();
+            return;
+        }
+
+        HelperMisc.loadPropertiesFile();
     }
 
     /**
