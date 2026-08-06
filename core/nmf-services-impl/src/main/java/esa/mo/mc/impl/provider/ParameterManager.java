@@ -324,7 +324,6 @@ public class ParameterManager extends MCManager {
             return true;  // No test is required
         }
 
-        //TODO: contains the expression defintion or identity-id? -> issue #132, #179
         final Long paramDefId = expression.getParameterId();
         ParameterDefinition pDef = this.getParameterDefinition(paramDefId);
         Attribute value;
@@ -645,21 +644,9 @@ public class ParameterManager extends MCManager {
         //each Raw Value shall be set
         for (ParameterRawValue newRawValue : newRawValues) {
             Long id = newRawValue.getParameterId();
-            //requirement 3.3.9.2.h: create a new ParameterValue
-            //TODO: what happens with the newly crated value? only raw value will be saved in the parameterApplication -> issue #140
-            //            ParameterValue newValue = generateNewParameterValue(newRawValue.getRawValue(), getParameterDefinition(identityId), false);
-            paramValList.add(generateNewParameterValue(newRawValue.getRawValue(),
-                    getParameterDefinition(id), false));
-            names.add(((ParameterDefinition) this.getParameterDefinition(id)).getName());
-            //            parametersMonitoring.onSetValue(getNameFromObjId(identityId), newRawValue.getRawValue(), timestamp);
-            //            parametersMonitoring.onSetValue(getNameFromObjId(identityId), newRawValue.getRawValue());
-            //            Boolean success;
-            //            if (parametersMonitoring != null) {
-            //                success =
-            //            } else {
-            //                success = false;
-            //            }
-            //            successFlags.add(success);
+            ParameterDefinition def = getParameterDefinition(id);
+            paramValList.add(generateNewParameterValue(newRawValue.getRawValue(), def, false));
+            names.add(((ParameterDefinition) def).getName());
         }
 
         // setSuccessful is not being used anywhere... weird

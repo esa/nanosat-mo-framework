@@ -81,11 +81,7 @@ public final class ActionManager extends MCManager {
         if (super.getArchiveService() == null) {  // No Archive?
             this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
             this.uniqueObjIdAIns = 0L; // The zeroth value will not be used (reserved for the wildcard)
-            //            this.load(); // Load the file
-        } else {
-
         }
-
     }
 
     // We could use generics to avoid doing this...
@@ -285,7 +281,6 @@ public final class ActionManager extends MCManager {
      * @return {@code true} if valid
      */
     public boolean checkExecutionRequest(ExecutionRequest execReq, UIntegerList errorList) {
-        //TODO extend this method to support the external verification. create a new Interface -> actionservice
         ActionDefinition actionDef = this.getActionDefinition(execReq.getDefinitionId());
 
         if (errorList != null) {
