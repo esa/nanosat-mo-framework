@@ -54,6 +54,17 @@
     <properties>
         <esa.nmf.version>5.1-SNAPSHOT</esa.nmf.version>
         <nmf.e2e.filesystem>${project.build.directory}/space-filesystem/nanosat-mo-framework</nmf.e2e.filesystem>
+
+        <!-- The upgrade tests boot a second version, which means changing the
+             baseline files and leaving a Supervisor of another version behind.
+             They therefore work on a copy of the filesystem above, so that the
+             other tests keep the single version they are written for. -->
+        <nmf.e2e.filesystem.upgrade>${project.build.directory}/space-filesystem-upgrade/nanosat-mo-framework</nmf.e2e.filesystem.upgrade>
+
+        <!-- The released version that the upgrade tests upgrade from, and the
+             directory its Jars are staged into. -->
+        <nmf.e2e.baseline.version>5.0</nmf.e2e.baseline.version>
+        <nmf.e2e.baseline.jars>${project.build.directory}/nmf-baseline-jars</nmf.e2e.baseline.jars>
     </properties>
 
     <dependencies>
@@ -147,11 +158,127 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <!-- Stages the Jars of the released version that the
+                         upgrade tests upgrade from. Resolved apart from the
+                         dependencies of this module, so that the two versions
+                         never meet on a classpath. -->
+                    <execution>
+                        <id>stage-baseline-version-jars</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>int.esa.ccsds.mo</groupId>
+                                    <artifactId>api-area001-v003-mal</artifactId>
+                                    <version>14.1</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>int.esa.ccsds.mo</groupId>
+                                    <artifactId>encoding-binary</artifactId>
+                                    <version>14.1</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>int.esa.ccsds.mo</groupId>
+                                    <artifactId>encoding-string</artifactId>
+                                    <version>14.1</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>int.esa.ccsds.mo</groupId>
+                                    <artifactId>mal-impl</artifactId>
+                                    <version>14.1</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>int.esa.ccsds.mo</groupId>
+                                    <artifactId>transport-generic</artifactId>
+                                    <version>14.1</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>int.esa.ccsds.mo</groupId>
+                                    <artifactId>transport-rmi</artifactId>
+                                    <version>14.1</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>int.esa.ccsds.mo</groupId>
+                                    <artifactId>transport-tcpip</artifactId>
+                                    <version>14.1</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>int.esa.nmf</groupId>
+                                    <artifactId>barebone-nanosat-mo-supervisor</artifactId>
+                                    <version>${nmf.e2e.baseline.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>int.esa.nmf.core</groupId>
+                                    <artifactId>api-nmf-com</artifactId>
+                                    <version>${nmf.e2e.baseline.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>int.esa.nmf.core</groupId>
+                                    <artifactId>api-nmf-mc</artifactId>
+                                    <version>${nmf.e2e.baseline.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>int.esa.nmf.core</groupId>
+                                    <artifactId>api-nmf-platform</artifactId>
+                                    <version>${nmf.e2e.baseline.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>int.esa.nmf.core</groupId>
+                                    <artifactId>api-nmf-sm</artifactId>
+                                    <version>${nmf.e2e.baseline.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>int.esa.nmf.core</groupId>
+                                    <artifactId>mo-services-xml</artifactId>
+                                    <version>${nmf.e2e.baseline.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>int.esa.nmf.core</groupId>
+                                    <artifactId>nmf-composites</artifactId>
+                                    <version>${nmf.e2e.baseline.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>int.esa.nmf.core</groupId>
+                                    <artifactId>nmf-package-lib</artifactId>
+                                    <version>${nmf.e2e.baseline.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>int.esa.nmf.core</groupId>
+                                    <artifactId>nmf-services-impl</artifactId>
+                                    <version>${nmf.e2e.baseline.version}</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.apache.commons</groupId>
+                                    <artifactId>commons-exec</artifactId>
+                                    <version>1.3</version>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.xerial</groupId>
+                                    <artifactId>sqlite-jdbc</artifactId>
+                                    <version>3.49.1.0</version>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${nmf.e2e.baseline.jars}</outputDirectory>
+                            <stripVersion>false</stripVersion>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
                     <systemPropertyVariables>
                         <nmf.e2e.filesystem>${nmf.e2e.filesystem}</nmf.e2e.filesystem>
+                        <nmf.e2e.filesystem.upgrade>${nmf.e2e.filesystem.upgrade}</nmf.e2e.filesystem.upgrade>
+                        <nmf.e2e.baseline.jars>${nmf.e2e.baseline.jars}</nmf.e2e.baseline.jars>
+                        <nmf.e2e.baseline.version>${nmf.e2e.baseline.version}</nmf.e2e.baseline.version>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>

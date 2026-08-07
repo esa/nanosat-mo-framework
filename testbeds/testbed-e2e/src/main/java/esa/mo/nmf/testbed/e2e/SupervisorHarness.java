@@ -82,7 +82,20 @@ public class SupervisorHarness {
             throw new IOException("System property '" + PROP_FILESYSTEM + "' is not set. "
                     + "Run via Maven (mvn test) so the filesystem is generated first.");
         }
-        nmfDir = new File(path);
+        setUp(new File(path));
+    }
+
+    /**
+     * Starts the Supervisor from a given NMF filesystem and blocks until it is
+     * ready. Used by the tests that work on a filesystem of their own rather
+     * than on the one that the property points at.
+     *
+     * @param filesystem The root of the NMF filesystem to start from.
+     * @throws IOException if the directory does not exist, or the Supervisor
+     * does not become ready within the timeout.
+     */
+    public void setUp(final File filesystem) throws IOException {
+        nmfDir = filesystem;
         if (!nmfDir.exists()) {
             throw new IOException("NMF filesystem directory not found: " + nmfDir.getAbsolutePath());
         }

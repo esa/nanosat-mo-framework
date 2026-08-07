@@ -43,8 +43,10 @@ import org.ccsds.moims.mo.mc.structures.ParameterDefinitionList;
  */
 public class SupervisorInfoMCAdapter extends MonitorAndControlNMFAdapter {
 
-    private static final String PARAM_NMF_VERSION = "nmf.version";
-    private static final String PARAM_NMF_UPTIME = "nmf.uptime";
+    /** Name of the parameter holding the version of the NMF. */
+    public static final String PARAM_NMF_VERSION = "nmf.version";
+    /** Name of the parameter holding the uptime of the Supervisor, in seconds. */
+    public static final String PARAM_NMF_UPTIME = "nmf.uptime";
 
     /**
      * Default constructor.
