@@ -58,8 +58,13 @@ public class SimpleDemoPackageAppCreation {
         // Package 1
         File myAppFile = new File("myApp.filetype");
 
+        // The NMF that the demo App is built against is the one this class is
+        // running on, taken from the manifest rather than written down here.
+        String nmfVersion = Metadata.class.getPackage().getImplementationVersion();
+
         MetadataApp metadata = new MetadataApp("my-test-app", "1.0.0",
-                "noclass", "myJarFile.jar", "128m", "16m", null);
+                "noclass", "myJarFile.jar", "128m", "16m", null,
+                nmfVersion == null ? "unknown" : nmfVersion);
 
         NMFPackageBuilder builder = new NMFPackageBuilder(metadata);
         builder.addFileOrDirectory(myAppFile);

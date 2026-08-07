@@ -42,6 +42,12 @@ public class MetadataApp extends Metadata {
     public static final String APP_MIN_HEAP = "pack.app.minheap";
     /** Property key for the App's dependency JAR filenames, separated by {@code ;}. */
     public static final String APP_DEPENDENCIES = "pack.app.dependencies";
+    /**
+     * Property key for the version of the NMF that the App was built against.
+     * Absent from packages written before metadata version 5, where the version
+     * the App was compiled for is simply not known.
+     */
+    public static final String APP_NMF_VERSION = "pack.app.nmf-version";
 
     /**
      * Constructor for the MetadataApp class.
@@ -53,10 +59,12 @@ public class MetadataApp extends Metadata {
      * @param maxHeap The Maximum Heap of the package.
      * @param minHeap The Minimum Heap of the package.
      * @param dependencies The jar filenames dependencies of the App.
+     * @param nmfVersion The version of the NMF that the App was built against.
      */
     public MetadataApp(final String packageName, final String version,
             final String mainclass, final String mainJar, final String maxHeap,
-            final String minHeap, final ArrayList<String> dependencies) {
+            final String minHeap, final ArrayList<String> dependencies,
+            final String nmfVersion) {
         super(new Properties());
         properties.put(Metadata.PACKAGE_TYPE, Metadata.TYPE_APP);
         properties.put(Metadata.PACKAGE_NAME, packageName);
@@ -65,6 +73,10 @@ public class MetadataApp extends Metadata {
         properties.put(MetadataApp.APP_MAIN_JAR, mainJar);
         properties.put(MetadataApp.APP_MAX_HEAP, maxHeap == null ? "128m" : maxHeap);
         properties.put(MetadataApp.APP_MIN_HEAP, minHeap == null ? "32m" : minHeap);
+
+        if (nmfVersion != null) {
+            properties.put(MetadataApp.APP_NMF_VERSION, nmfVersion);
+        }
 
         if (dependencies != null && !dependencies.isEmpty()) {
             StringBuilder str = new StringBuilder();
@@ -118,6 +130,16 @@ public class MetadataApp extends Metadata {
      */
     public String getAppMinHeap() {
         return properties.getProperty(APP_MIN_HEAP);
+    }
+
+    /**
+     * Returns the version of the NMF that the App was built against.
+     *
+     * @return the NMF version, or {@code null} if the package was written
+     * before metadata version 5 and therefore does not record it
+     */
+    public String getAppNMFVersion() {
+        return properties.getProperty(APP_NMF_VERSION);
     }
 
     /**

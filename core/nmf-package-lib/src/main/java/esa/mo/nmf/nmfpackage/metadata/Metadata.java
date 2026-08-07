@@ -60,8 +60,13 @@ public class Metadata {
     public static final String PACKAGE_TIMESTAMP = "info.creation-timestamp";
     /** Property key for the metadata format version. */
     public static final String PACKAGE_METADATA_VERSION = "info.metadata-version";
-    /** The latest metadata format version written by this library. */
-    public static final String METADATA_VERSION_LATEST = "4";
+    /**
+     * The latest metadata format version written by this library. Version 5
+     * added the version of the NMF that an App was built against, so that the
+     * App can be told apart from the framework it was compiled for; packages
+     * written before it carry no such field.
+     */
+    public static final String METADATA_VERSION_LATEST = "5";
 
     /** Property key for the package name. */
     public static final String PACKAGE_NAME = "info.name";

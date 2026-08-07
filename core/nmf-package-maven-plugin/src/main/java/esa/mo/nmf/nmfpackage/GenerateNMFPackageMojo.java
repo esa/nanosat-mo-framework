@@ -206,7 +206,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         }
 
         MetadataApp metadata = new MetadataApp(name, version,
-                mainClass, mainJar, maxHeap, minHeap, dependencies);
+                mainClass, mainJar, maxHeap, minHeap, dependencies, nmfVersion);
 
         NMFPackageBuilder builder = new NMFPackageBuilder(metadata);
         builder.addFileOrDirectory(myAppFilename);
