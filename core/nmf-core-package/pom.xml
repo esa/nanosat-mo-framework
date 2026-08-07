@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+    You may not use this file except in compliance with the License.
+
+    Except as expressly set forth in this License, the Software is provided to
+    You on an "as is" basis and without warranties of any kind, including without
+    limitation merchantability, fitness for a particular purpose, absence of
+    defects or errors, accuracy or non-infringement of intellectual property rights.
+
+    See the License for the specific language governing permissions and limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>nanosat-mo-framework</artifactId>
+        <version>5.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <groupId>int.esa.nmf.core</groupId>
+    <artifactId>nmf-core-package</artifactId>
+    <packaging>pom</packaging>
+
+    <name>ESA NMF Core - NMF Core Package</name>
+    <description>Packages the NMF core software baseline as an NMF Package, so that a
+        framework upgrade can be delivered on-board through the Package Management
+        service instead of being assembled by hand</description>
+    <url>http://www.esa.int</url>
+
+    <organization>
+        <name>ESA</name>
+        <url>http://www.esa.int</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
+            <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
+        <url>https://github.com/esa/nanosat-mo-framework</url>
+    </scm>
+    <developers>
+        <developer>
+            <id>CesarCoelho</id>
+            <name>César Coelho</name>
+            <url>https://github.com/CesarCoelho</url>
+        </developer>
+    </developers>
+
+    <!-- The single dependency is deliberate: the runtime tree of nmf-composites,
+         together with nmf-composites itself, is exactly the set of JARs that a
+         generated filesystem places in jars-nmf/<version>. Listing them one by one
+         would be a second copy of that set, free to drift from the first. -->
+    <dependencies>
+        <dependency>
+            <groupId>int.esa.nmf.core</groupId>
+            <artifactId>nmf-composites</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>collect-nmf-baseline</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Laid out as jars-nmf/<version> because that is the path
+                                 the package carries, and where installing it stages the
+                                 new baseline on-board. -->
+                            <outputDirectory>${project.build.directory}/jars-nmf/${project.version}</outputDirectory>
+                            <includeScope>runtime</includeScope>
+                            <!-- The baseline is a flat directory of JARs on the classpath
+                                 the bootloader builds; versions stay in the file names. -->
+                            <useSubDirectoryPerArtifact>false</useSubDirectoryPerArtifact>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>int.esa.nmf.core</groupId>
+                <artifactId>nmf-linux-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-nmf-core-package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>generate-nmf-core-package</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Points at the directory collected above. Left at its
+                                 default, the goal would look under target/space-filesystem,
+                                 which only generate-filesystem produces; this module has no
+                                 mission and so generates no filesystem. -->
+                            <jarsNmfDirectory>${project.build.directory}/jars-nmf/${project.version}</jarsNmfDirectory>
+                            <nmfVersion>${project.version}</nmfVersion>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
