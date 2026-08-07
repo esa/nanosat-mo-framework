@@ -22,6 +22,7 @@ package esa.mo.nmf.filesystem;
 
 import esa.mo.nmf.environment.AppsIsolationMode;
 import esa.mo.nmf.environment.Deployment;
+import esa.mo.nmf.environment.SoftwareBaseline;
 import esa.mo.nmf.nmfpackage.utils.ChecksumGenerator;
 import java.io.File;
 import java.io.IOException;
@@ -57,7 +58,7 @@ public class BootloaderGenerator {
     /**
      * The version of the script-to-baseline-files interface contract.
      */
-    public static final String SCHEMA_VERSION = "1";
+    public static final String SCHEMA_VERSION = SoftwareBaseline.SCHEMA_VERSION;
 
     private static final String DEFAULT_MAX_REPORT_FILE_SIZE_KB = "100";
     private static final String DEFAULT_MIN_FREE_DISK_KB = "10240";
