@@ -65,7 +65,11 @@ public class SimulatorHeader implements Serializable {
         this.endDate = new Date();
         this.useOrekitPropagator = true;
         this.celestiaPort = 5909;
-        this.useCelestia = false;
+        // On by default: the server only listens, and costs nothing until
+        // something connects to it, so leaving it off meant the visualisation
+        // could not be used without first finding and editing a file that the
+        // simulator writes for itself.
+        this.useCelestia = true;
     }
 
     public SimulatorHeader(boolean autoStart, Date startDate, Date endDate) {

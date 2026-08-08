@@ -9,13 +9,12 @@ and a container so that nothing has to be installed on the machine.
 
 ### Running it
 
-Three steps, from `sdk/sdk-playground-environment`:
+Two steps, from `sdk/sdk-playground-environment`:
 
-1. **Turn the server on in the simulator.** It writes its configuration on first
-   run, so start the Supervisor once and then edit what it leaves at
-   `_OPS-SAT-SIMULATOR-header.txt`, in the directory the Supervisor runs from,
-   which for the playground is
-   `sdk/sdk-playground-environment/target/space-filesystem/nanosat-mo-framework/`:
+1. **Nothing.** The Celestia server is on by default, on port 5909, and the
+   Orekit propagator it depends on is too. Both are settings of the simulator,
+   in `_OPS-SAT-SIMULATOR-header.txt` in the directory the Supervisor runs from,
+   which it writes for itself on first run:
 
    ```
    orekit=true
@@ -23,9 +22,11 @@ Three steps, from `sdk/sdk-playground-environment`:
    celestiaPort=5909
    ```
 
-   `orekit=true` is not optional. The samples exist only while the Orekit
-   propagator is running, so with Orekit off the server accepts a connection and
-   then has nothing to say.
+   `orekit=true` is not optional: the samples exist only while the propagator is
+   running, so with Orekit off the server accepts a connection and then has
+   nothing to say. Note that the file lives under `target/` for the playground,
+   so a rebuild discards any edit made to it; the defaults come from
+   `SimulatorHeader`.
 
 2. **Start the Supervisor Simulator**: `./run_Supervisor.sh`
 

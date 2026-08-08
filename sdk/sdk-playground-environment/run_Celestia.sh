@@ -8,16 +8,11 @@
 #
 # Order of events:
 #
-#   1. Enable the Celestia server in the simulator. It writes its configuration
-#      on first run, so start the Supervisor once and then edit
-#          target/space-filesystem/nanosat-mo-framework/_OPS-SAT-SIMULATOR-header.txt
-#      which is that file in the directory the Supervisor runs from
-#      setting
-#          orekit=true
-#          celestia=true
-#          celestiaPort=5909
-#      Orekit is not optional: the visualisation data is only produced while its
-#      propagator is running.
+#   1. Nothing to enable. The Celestia server is on by default, on port 5909,
+#      as is the Orekit propagator it needs. Both live in
+#          _OPS-SAT-SIMULATOR-header.txt
+#      in the directory the Supervisor runs from, which for the playground is
+#      under target/ and so is discarded by a rebuild.
 #
 #   2. Start the Supervisor Simulator, from this directory:
 #          ./run_Supervisor.sh
