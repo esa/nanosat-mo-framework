@@ -27,7 +27,7 @@
     <artifactId>broken-app-for-testbeds</artifactId>
     <packaging>jar</packaging>
 
-    <name>ESA NMF Testbeds - Broken App</name>
+    <name>ESA NMF Testbed - Broken App</name>
     <description>A deliberately misbehaving NMF app used by the testbeds to exercise
         non-nominal paths: parameters, actions and aggregations that fail on retrieval,
         and an app that locks during shutdown.</description>
