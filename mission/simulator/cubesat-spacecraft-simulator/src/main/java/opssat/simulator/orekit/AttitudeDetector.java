@@ -17,10 +17,20 @@ import org.orekit.time.AbsoluteDate;
  * @author yannick
  */
 public class AttitudeDetector extends AbstractDetector<AttitudeDetector> {
-    private int position;
+
+    /**
+     * Which of the attitude modes this detector watches, as an index into the
+     * "attitude" additional state.
+     */
+    private final int position;
 
     public AttitudeDetector(int position) {
-        super(DEFAULT_MAXCHECK, DEFAULT_THRESHOLD, DEFAULT_MAX_ITER, null);
+        this(DEFAULT_MAXCHECK, DEFAULT_THRESHOLD, DEFAULT_MAX_ITER, null, position);
+    }
+
+    private AttitudeDetector(double maxCheck, double threshold, int maxIter,
+            EventHandler<? super AttitudeDetector> handler, int position) {
+        super(maxCheck, threshold, maxIter, handler);
         this.position = position;
     }
 
@@ -43,8 +53,23 @@ public class AttitudeDetector extends AbstractDetector<AttitudeDetector> {
         return ss.getAdditionalState("attitude")[position];
     }
 
+    /**
+     * Copies this detector with the settings given.
+     *
+     * Orekit never changes a detector in place: asking for one with a different
+     * handler, or a different check interval, returns a copy made here. The
+     * AttitudesSequence puts its own handler on every detector it is given that
+     * way, and that handler is what performs the switch between attitude
+     * providers.
+     *
+     * Everything therefore has to be carried over. Building a fresh detector
+     * instead loses the handler, so the switch never happens, and resets the
+     * mode watched to the first one, so every detector ends up watching the same
+     * mode. The attitude then never changes, whatever is commanded.
+     */
     @Override
-    protected AttitudeDetector create(double d, double d1, int i, EventHandler<? super AttitudeDetector> eh) {
-        return new AttitudeDetector(0);
+    protected AttitudeDetector create(double maxCheck, double threshold, int maxIter,
+            EventHandler<? super AttitudeDetector> handler) {
+        return new AttitudeDetector(maxCheck, threshold, maxIter, handler, this.position);
     }
 }

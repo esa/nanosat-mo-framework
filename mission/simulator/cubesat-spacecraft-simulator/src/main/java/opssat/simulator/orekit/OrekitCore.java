@@ -55,6 +55,7 @@ import org.orekit.orbits.PositionAngle;
 import org.orekit.propagation.AbstractPropagator;
 import org.orekit.propagation.SpacecraftState;
 import org.orekit.propagation.analytical.KeplerianPropagator;
+import org.orekit.propagation.events.DateDetector;
 import org.orekit.propagation.analytical.tle.TLE;
 import org.orekit.propagation.analytical.tle.TLEPropagator;
 import org.orekit.time.AbsoluteDate;
@@ -162,6 +163,33 @@ public class OrekitCore {
     SpinStabilized spinStabilized;
     GeodeticPoint targetGeo;
     AttitudesSequence attitudesSequence;
+
+    /**
+     * When the attitude last actually changed, as opposed to when a change was
+     * last asked for. Null until the first one happens.
+     */
+    private AbsoluteDate lastAttitudeSwitch = null;
+
+    /**
+     * The attitude law being flown, as opposed to the sequence that is carrying
+     * the spacecraft on to it. Kept so that a change starts from a law rather
+     * than from the transition before it.
+     */
+    private AttitudeProvider currentAttitudeLaw = null;
+
+
+    /** How long the spacecraft takes to turn from one attitude law to another. */
+    private static final double ATTITUDE_SLEW_S = 30;
+
+    /** Records when the sequence really does change the attitude. */
+    private final AttitudesSequence.SwitchHandler attitudeSwitchRecorder =
+            new AttitudesSequence.SwitchHandler() {
+        @Override
+        public void switchOccurred(AttitudeProvider preceding, AttitudeProvider following,
+                SpacecraftState state) {
+            lastAttitudeSwitch = state.getDate();
+        }
+    };
     boolean hasAnx, hasDnx, hasAOS, hasLOS;// Ascending and descending nodes valid calculations exist
     AbsoluteDate nextAnx, nextDnx, nextAOS, nextLOS;
     GeodeticPoint lastPosition;
@@ -290,107 +318,105 @@ public class OrekitCore {
 
         // Transitions to sunpointing
         attitudesSequence.addSwitchingCondition(nadirPointing, sunPointing, sunDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(targetTracking, sunPointing, sunDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(lofTracking, sunPointing, sunDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(bDotDetumble, sunPointing, sunDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(spinStabilized, sunPointing, sunDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(vectorPointing, sunPointing, sunDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
 
         // Transitions to nadir
         attitudesSequence.addSwitchingCondition(sunPointing, nadirPointing, nadirDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(targetTracking, nadirPointing, nadirDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(lofTracking, nadirPointing, nadirDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(bDotDetumble, nadirPointing, nadirDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(spinStabilized, nadirPointing, nadirDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(vectorPointing, nadirPointing, nadirDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
 
         // Transitions to target tracking
         attitudesSequence.addSwitchingCondition(sunPointing, targetTracking, targetTrackingDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(nadirPointing, targetTracking, targetTrackingDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(lofTracking, targetTracking, targetTrackingDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(bDotDetumble, targetTracking, targetTrackingDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(spinStabilized, targetTracking, targetTrackingDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(vectorPointing, targetTracking, targetTrackingDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
 
         // Transitions to LOF tracking
         attitudesSequence.addSwitchingCondition(sunPointing, lofTracking, lofTargetDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(nadirPointing, lofTracking, lofTargetDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(targetTracking, lofTracking, lofTargetDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(bDotDetumble, lofTracking, lofTargetDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(spinStabilized, lofTracking, lofTargetDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(vectorPointing, lofTracking, lofTargetDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
 
         // Transitions to B-Dot detumbling
         attitudesSequence.addSwitchingCondition(sunPointing, bDotDetumble, bDotDetumbleDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(nadirPointing, bDotDetumble, bDotDetumbleDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(targetTracking, bDotDetumble, bDotDetumbleDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(lofTracking, bDotDetumble, bDotDetumbleDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(spinStabilized, bDotDetumble, bDotDetumbleDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(vectorPointing, bDotDetumble, bDotDetumbleDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
 
         // Transitions to Spin stabilized
         attitudesSequence.addSwitchingCondition(sunPointing, spinStabilized, spinStabilizedDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(nadirPointing, spinStabilized, spinStabilizedDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(targetTracking, spinStabilized, spinStabilizedDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(lofTracking, spinStabilized, spinStabilizedDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(bDotDetumble, spinStabilized, spinStabilizedDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(vectorPointing, spinStabilized, spinStabilizedDetector, true, false, 60,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
 
         // Transitions to Vector Pointing
         // Transition time is 1 because VectorPointingSimulator is simulating the transition
         attitudesSequence.addSwitchingCondition(sunPointing, vectorPointing, vectorPointingDetector, true, false, 1,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(nadirPointing, vectorPointing, vectorPointingDetector, true, false, 1,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(targetTracking, vectorPointing, vectorPointingDetector, true, false, 1,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(lofTracking, vectorPointing, vectorPointingDetector, true, false, 1,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(bDotDetumble, vectorPointing, vectorPointingDetector, true, false, 1,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
         attitudesSequence.addSwitchingCondition(spinStabilized, vectorPointing, vectorPointingDetector, true, false, 1,
-                AngularDerivativesFilter.USE_RRA, null);
+                AngularDerivativesFilter.USE_RRA, this.attitudeSwitchRecorder);
 
-        this.attitudesSequence.registerSwitchEvents(runningPropagator);
         this.attitudeState = new AttitudeStateProvider();
-        this.runningPropagator.addAdditionalStateProvider(attitudeState);
-        this.lof = new LocalOrbitalFrame(this.inertialFrame, LOFType.LVLH, this.runningPropagator, "LVLH");
+        attachToPropagator();
         // this.geoMagneticField = GeoMagneticFieldFactory.getWMM(2016);
 
         double decimalYear = getDecimalYear(this.extrapDate);
@@ -615,9 +641,31 @@ public class OrekitCore {
             this.initialTLE = new TLE(simulatorHeader.getOrekitTLE1(), simulatorHeader.getOrekitTLE2());
             // logger.log(Level.INFO,this.initialTLE.toString());
             this.runningPropagator = TLEPropagator.selectExtrapolator(initialTLE, attitudesSequence, 6.0);
+            attachToPropagator();
         } catch (OrekitException ex) {
             Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * Gives the propagator in use the things that are attached to a propagator
+     * rather than kept beside one.
+     *
+     * The attitude of the spacecraft is changed by events: a mode is asked for,
+     * the additional state named "attitude" moves towards it, a detector sees
+     * that and the sequence switches provider. All three parts have to be
+     * attached to the propagator that is actually running, and a new propagator
+     * has none of them.
+     *
+     * This is called wherever the propagator is replaced. Without it, replacing
+     * the propagator leaves the attitude stuck on whichever provider was last
+     * active: the sequence is still consulted for the attitude, but nothing can
+     * ever make it switch, so every later command is accepted and has no effect.
+     */
+    private void attachToPropagator() {
+        this.attitudesSequence.registerSwitchEvents(this.runningPropagator);
+        this.runningPropagator.addAdditionalStateProvider(this.attitudeState);
+        this.lof = new LocalOrbitalFrame(this.inertialFrame, LOFType.LVLH, this.runningPropagator, "LVLH");
     }
 
     private AbstractPropagator getNewPropagator() {
@@ -689,8 +737,10 @@ public class OrekitCore {
                     rate));
             if (rate > 0) {
                 this.attitudeMode = ATTITUDE_MODE.LOF_TARGET_SPIN;
+                applyAttitudeMode(ATTITUDE_MODE.LOF_TARGET_SPIN);
             } else {
                 this.attitudeMode = ATTITUDE_MODE.LOF_TARGET;
+                applyAttitudeMode(ATTITUDE_MODE.LOF_TARGET);
             }
         } catch (OrekitException ex) {
             Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
@@ -707,8 +757,8 @@ public class OrekitCore {
         } catch (OrekitException ex) {
             Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //attitudesSequence.resetActiveProvider(targetTracking);
         this.attitudeMode = ATTITUDE_MODE.TARGET_TRACKING;
+        applyAttitudeMode(ATTITUDE_MODE.TARGET_TRACKING);
         scheduleStateTargetTimer();
     }
 
@@ -719,7 +769,91 @@ public class OrekitCore {
 
         this.vectorPointing.start(x, y, z, margin);
         this.attitudeMode = ATTITUDE_MODE.VECTOR_POINTING;
+        applyAttitudeMode(ATTITUDE_MODE.VECTOR_POINTING);
         scheduleStateTargetTimer();
+    }
+    /**
+     * Returns the attitude law that a mode flies.
+     *
+     * @param mode The mode.
+     * @return The law, or null if the mode has none of its own.
+     */
+    private AttitudeProvider providerFor(final ATTITUDE_MODE mode) {
+        switch (mode) {
+            case SUN_POINTING:
+                return this.sunPointing;
+            case NADIR_POINTING:
+                return this.nadirPointing;
+            case TARGET_TRACKING:
+                return this.targetTracking;
+            case LOF_TARGET:
+                return this.lofTracking;
+            case LOF_TARGET_SPIN:
+                return this.spinStabilized;
+            case BDOT_DETUMBLE:
+                return this.bDotDetumble;
+            case VECTOR_POINTING:
+                return this.vectorPointing;
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * Puts the propagator on the attitude law of the mode asked for.
+     *
+     * The attitude used to be changed by events: the mode set a slot of an
+     * additional state, a detector saw it cross zero and an AttitudesSequence
+     * switched law. That worked once. On the second change the sequence stopped
+     * converging on the law it was moving to and settled on no rotation at all,
+     * and stayed there, so every mode after the first two was accepted and
+     * ignored while the spacecraft sat at a fixed attitude.
+     *
+     * The law is therefore set on the propagator directly. The change is
+     * immediate rather than blended over a minute, which for a simulator is the
+     * lesser problem: a slew that is instant is easier to explain than an
+     * attitude that stops responding.
+     *
+     * @param mode The mode being changed to.
+     */
+    private void applyAttitudeMode(final ATTITUDE_MODE mode) {
+        AttitudeProvider provider = providerFor(mode);
+        if (provider == null) {
+            logger.log(Level.WARNING, "No attitude law is defined for mode {0}; the "
+                    + "spacecraft will keep the attitude it has.", mode);
+            return;
+        }
+        if (this.runningPropagator == null || this.extrapDate == null) {
+            return;
+        }
+
+        AttitudeProvider current = (this.currentAttitudeLaw != null)
+                ? this.currentAttitudeLaw : this.runningPropagator.getAttitudeProvider();
+        if (current == provider) {
+            return;
+        }
+
+        // A sequence of its own for this one change, holding the law being left
+        // and the law being taken up, and told to move between them a moment
+        // from now. The move itself is spread over ATTITUDE_SLEW_S, so the
+        // spacecraft turns rather than jumps.
+        AttitudesSequence transition = new AttitudesSequence();
+        transition.resetActiveProvider(current);
+        transition.addSwitchingCondition(current, provider,
+                new DateDetector(this.extrapDate.shiftedBy(1.0)), true, false,
+                ATTITUDE_SLEW_S, AngularDerivativesFilter.USE_RRA,
+                this.attitudeSwitchRecorder);
+
+        this.runningPropagator.clearEventsDetectors();
+        this.runningPropagator.setAttitudeProvider(transition);
+        transition.registerSwitchEvents(this.runningPropagator);
+        this.attitudesSequence = transition;
+        this.currentAttitudeLaw = provider;
+
+        logger.log(Level.INFO, "Attitude will slew from {0} to {1} over {2} s for mode {3}",
+                new Object[]{current.getClass().getSimpleName(),
+                    provider.getClass().getSimpleName(),
+                    String.format("%.0f", ATTITUDE_SLEW_S), mode});
     }
 
     public void changeAttitude(ATTITUDE_MODE newAttitude) {
@@ -739,6 +873,7 @@ public class OrekitCore {
             logger.log(Level.SEVERE, "Attitude type lookup failed!");
         }
         this.attitudeMode = newAttitude;
+        applyAttitudeMode(newAttitude);
         scheduleStateTargetTimer();
     }
 
