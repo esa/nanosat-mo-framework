@@ -65,6 +65,22 @@
              directory its Jars are staged into. -->
         <nmf.e2e.baseline.version>5.0</nmf.e2e.baseline.version>
         <nmf.e2e.baseline.jars>${project.build.directory}/nmf-baseline-jars</nmf.e2e.baseline.jars>
+
+        <!-- The released App package that the rollback test rolls back to. It is
+             staged rather than built, so that the test rolls back to the very
+             bytes that were published, and not to a rebuild of them. -->
+        <nmf.e2e.baseline.apps>${project.build.directory}/nmf-baseline-apps</nmf.e2e.baseline.apps>
+
+        <!-- The rollback test installs, rolls back and rolls forward an App, so
+             it works on a copy of its own rather than leaving the App of the
+             other tests on whichever version it finished on. -->
+        <nmf.e2e.filesystem.rollback>${project.build.directory}/space-filesystem-rollback/nanosat-mo-framework</nmf.e2e.filesystem.rollback>
+
+        <!-- The version of the App that the rollback test installs first and
+             returns to last. Named here rather than read from whatever is
+             installed, because the tests that run before it leave the App on
+             versions of their own making. -->
+        <nmf.e2e.current.version>${project.version}</nmf.e2e.current.version>
     </properties>
 
     <dependencies>
@@ -267,6 +283,29 @@
                             <stripVersion>false</stripVersion>
                         </configuration>
                     </execution>
+                    <!-- Stages the released App package that the rollback test
+                         rolls back to. One artifactItem is enough here: an App
+                         package carries its own dependencies, so nothing has to
+                         be resolved transitively. -->
+                    <execution>
+                        <id>stage-baseline-app-package</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>int.esa.nmf.sdk</groupId>
+                                    <artifactId>benchmark</artifactId>
+                                    <version>${nmf.e2e.baseline.version}</version>
+                                    <type>nmfpack</type>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${nmf.e2e.baseline.apps}</outputDirectory>
+                            <stripVersion>false</stripVersion>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -279,6 +318,9 @@
                         <nmf.e2e.filesystem.upgrade>${nmf.e2e.filesystem.upgrade}</nmf.e2e.filesystem.upgrade>
                         <nmf.e2e.baseline.jars>${nmf.e2e.baseline.jars}</nmf.e2e.baseline.jars>
                         <nmf.e2e.baseline.version>${nmf.e2e.baseline.version}</nmf.e2e.baseline.version>
+                        <nmf.e2e.baseline.apps>${nmf.e2e.baseline.apps}</nmf.e2e.baseline.apps>
+                        <nmf.e2e.filesystem.rollback>${nmf.e2e.filesystem.rollback}</nmf.e2e.filesystem.rollback>
+                        <nmf.e2e.current.version>${nmf.e2e.current.version}</nmf.e2e.current.version>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>

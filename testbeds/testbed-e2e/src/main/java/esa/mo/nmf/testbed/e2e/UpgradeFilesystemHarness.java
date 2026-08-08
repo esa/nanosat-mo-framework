@@ -27,12 +27,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Properties;
 
 /**
@@ -41,17 +37,19 @@ import java.util.Properties;
  *
  * The tests that boot a second version have to change the baseline files and
  * to leave a Supervisor of another version behind, which the other tests are
- * not written for. This harness therefore never touches the filesystem that
- * {@link SupervisorHarness#PROP_FILESYSTEM} points at: it takes a copy of it,
- * and adds the second version to the copy.
+ * not written for. This harness therefore works on a copy of the generated
+ * filesystem, taken by {@link FilesystemHarness}, and adds the second version
+ * to that copy.
  *
- * The copy is taken rather than a second filesystem generated, so that what is
- * booted is the same filesystem the other tests run against, down to the Apps
- * that were installed into it.
+ * Note that the second version is added under {@code jars-nmf/<version>}, which
+ * is what an upgrade does, but which also puts two versions of the framework
+ * where an App start script looks for one. A test that is not about the NMF
+ * baseline should therefore take a plain {@link FilesystemHarness} instead of
+ * this one.
  *
  * @author Cesar Coelho
  */
-public class UpgradeFilesystemHarness {
+public class UpgradeFilesystemHarness extends FilesystemHarness {
 
     /**
      * Points at the filesystem that the upgrade tests work on, the copy that
@@ -74,7 +72,6 @@ public class UpgradeFilesystemHarness {
      */
     private static final String MISSION_JAR_PREFIX = "barebone-nanosat-mo-supervisor";
 
-    private final File nmfDir;
     private final String baselineVersion;
     private final String developmentVersion;
 
@@ -87,11 +84,7 @@ public class UpgradeFilesystemHarness {
      * version to upgrade from are not staged, or the copy cannot be written.
      */
     public UpgradeFilesystemHarness(final File destination) throws IOException {
-        String source = System.getProperty(SupervisorHarness.PROP_FILESYSTEM);
-        if (source == null) {
-            throw new IOException("System property '" + SupervisorHarness.PROP_FILESYSTEM
-                    + "' is not set. Run via Maven (mvn test) so the filesystem is generated first.");
-        }
+        super(destination);
 
         String jars = System.getProperty(PROP_BASELINE_JARS);
         if (jars == null) {
@@ -103,10 +96,6 @@ public class UpgradeFilesystemHarness {
         if (baselineVersion == null) {
             throw new IOException("System property '" + PROP_BASELINE_VERSION + "' is not set.");
         }
-
-        this.nmfDir = destination;
-        deleteRecursively(destination);
-        copyRecursively(new File(source).toPath(), destination.toPath());
 
         // The version that the filesystem was generated with is the one to
         // upgrade to, and it is already named by the baseline it carries.
@@ -142,15 +131,6 @@ public class UpgradeFilesystemHarness {
         // Without these the Bootloader fails the integrity test and never boots
         ChecksumGenerator.writeChecksumsFile(nmfJars);
         ChecksumGenerator.writeChecksumsFile(missionJars);
-    }
-
-    /**
-     * Returns the root of the filesystem holding both versions.
-     *
-     * @return The root of the filesystem.
-     */
-    public File getNmfDir() {
-        return nmfDir;
     }
 
     /**
@@ -248,43 +228,4 @@ public class UpgradeFilesystemHarness {
                 Deployment.baselineFileName(role));
     }
 
-    private static void copyRecursively(final Path source, final Path destination) throws IOException {
-        Files.walkFileTree(source, new SimpleFileVisitor<Path>() {
-            @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
-                    throws IOException {
-                Files.createDirectories(destination.resolve(source.relativize(dir)));
-                return FileVisitResult.CONTINUE;
-            }
-
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
-                    throws IOException {
-                Path target = destination.resolve(source.relativize(file));
-                Files.copy(file, target, StandardCopyOption.REPLACE_EXISTING,
-                        StandardCopyOption.COPY_ATTRIBUTES);
-                return FileVisitResult.CONTINUE;
-            }
-        });
-    }
-
-    private static void deleteRecursively(final File file) throws IOException {
-        if (!file.exists()) {
-            return;
-        }
-        Files.walkFileTree(file.toPath(), new SimpleFileVisitor<Path>() {
-            @Override
-            public FileVisitResult visitFile(Path path, BasicFileAttributes attrs)
-                    throws IOException {
-                Files.delete(path);
-                return FileVisitResult.CONTINUE;
-            }
-
-            @Override
-            public FileVisitResult postVisitDirectory(Path dir, IOException ex) throws IOException {
-                Files.delete(dir);
-                return FileVisitResult.CONTINUE;
-            }
-        });
-    }
 }
