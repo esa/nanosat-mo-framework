@@ -1,0 +1,8 @@
+{
+    # Points Celestia at the spacecraft as soon as it starts, so that it is
+    # drawn and therefore asked where it is. Nothing else is done here: a
+    # "wait" in this script stops Celestia loading anything at all.
+    select { object "Sol/Earth/OPSSAT" }
+    goto { time 3 distance 12 }
+    follow { }
+}

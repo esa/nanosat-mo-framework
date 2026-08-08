@@ -1,0 +1,202 @@
+#--------------------------------------------------------------------------------
+#
+# Villafranca (antenna 2) station file for Celestia with correct mask and X, Y and Z vectors.
+#
+# @remarks     Created.
+# @author      Filipe Metelo <filipe.metelo @ esa.int>
+# @version     2011.03.31
+#
+#--------------------------------------------------------------------------------
+"Villafranca 2" "Sol/Earth" {
+
+    Class "surfacefeature"
+    Mesh "vi2-tm-mask-600km.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 1000 # 3d model is in [km/1000]
+    
+    Emissive true
+    Visible true
+    Radius 2000
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth"
+        }
+    }
+    FixedPosition [ 4849.800 -335.0000 4116.100 ]
+
+    BodyFrame {
+        TwoVector {
+        Center "Sol/Earth/Villafranca 2"
+            Primary {
+                Axis "-y"
+                RelativePosition {
+                    Target "Sol/Earth"
+                }
+            }
+            Secondary {
+                Axis "-x"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth"
+                        }
+                    }
+                    Vector [ 0 0 1]
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+"X" "Sol/Earth/Villafranca 2" {
+
+    Class "surfacefeature"
+    Mesh "x-vector.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 1000 # 3d model is in [km/1000]
+    Emissive true
+
+    Visible false
+    Radius 2000
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth/Villafranca 2"
+        }
+    }
+    FixedPosition  [ 0 0 0 ]
+
+    BodyFrame {
+        TwoVector {
+        Center "Sol/Earth/Villafranca 2"
+            Primary {
+                Axis "x"
+                RelativePosition {
+                    Target "Sol/Earth"
+                }
+            }
+            Secondary {
+                Axis "y"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth"
+                        }
+                    }
+                    Vector [ 0 0 1]
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+"Y" "Sol/Earth/Villafranca 2" {
+
+    Class "surfacefeature"
+    Mesh "y-vector.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 1000 # 3d model is in [km/1000]
+    Emissive true
+
+    Visible false
+    Radius 2000
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth/Villafranca 2"
+        }
+    }
+    FixedPosition  [ 0 0 0 ]
+
+    BodyFrame {
+        TwoVector {
+        Center "Sol/Earth/Villafranca 2"
+            Primary {
+                Axis "-z"
+                RelativePosition {
+                    Target "Sol/Earth"
+                }
+            }
+            Secondary {
+                Axis "x"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth"
+                        }
+                    }
+                    Vector [ 0 0 1]
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+"Z" "Sol/Earth/Villafranca 2" {
+
+    Class "surfacefeature"
+    Mesh "z-vector.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 1000 # 3d model is in [km/1000]
+    Emissive true
+
+    Visible false
+    Radius 2000
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth/Villafranca 2"
+        }
+    }
+    FixedPosition  [ 0 0 0 ]
+
+    BodyFrame {
+        TwoVector {
+        Center "Sol/Earth/Villafranca 2"
+            Primary {
+                Axis "-y"
+                RelativePosition {
+                    Target "Sol/Earth"
+                }
+            }
+            Secondary {
+                Axis "x"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth"
+                        }
+                    }
+                    Vector [ 0 0 1]
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+

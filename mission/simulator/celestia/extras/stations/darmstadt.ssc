@@ -1,0 +1,211 @@
+#--------------------------------------------------------------------------------
+#
+# Darmstadt station file for Celestia with correct mask and X, Y and Z vectors.
+#
+# @remarks     Created.
+# @author      Filipe Metelo <filipe.metelo @ esa.int>
+# @version     2011.03.11
+#
+# @remarks     Added the X, Y and Z vectors, created the correct mask and automated orientation of the 3d mask model.
+# @author      Filipe Metelo <filipe.metelo @ esa.int>
+# @version     2011.03.23
+#
+# @remarks     Added Darmstadt station, cloned from Darmstadt.
+# @author      Suteu Silviu Cezar <cezar.suteu @ esa.int>
+# @version     2016.07.21
+#
+#--------------------------------------------------------------------------------
+"Darmstadt" "Sol/Earth" {
+
+    Class "surfacefeature"
+    Mesh "kir-tm-mask-600km.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 1000 # 3d model is in [km/1000]
+    
+    Emissive true
+    Visible true
+    Radius 2000
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth"
+        }
+    }
+	FixedPosition [ 4059.693886	615.600397	4871.299898 ]
+
+
+    BodyFrame {
+        TwoVector {
+        Center "Sol/Earth/Darmstadt"
+            Primary {
+                Axis "-y"
+                RelativePosition {
+                    Target "Sol/Earth"
+                }
+            }
+            Secondary {
+                Axis "-x"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth"
+                        }
+                    }
+                    Vector [ 0 0 1]
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+"X" "Sol/Earth/Darmstadt" {
+
+    Class "surfacefeature"
+    Mesh "x-vector.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 1000 # 3d model is in [km/1000]
+    Emissive true
+
+    Visible false
+    Radius 2000
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth/Darmstadt"
+        }
+    }
+    FixedPosition  [ 0 0 0 ]
+
+    BodyFrame {
+        TwoVector {
+        Center "Sol/Earth/Darmstadt"
+            Primary {
+                Axis "x"
+                RelativePosition {
+                    Target "Sol/Earth"
+                }
+            }
+            Secondary {
+                Axis "y"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth"
+                        }
+                    }
+                    Vector [ 0 0 1]
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+"Y" "Sol/Earth/Darmstadt" {
+
+    Class "surfacefeature"
+    Mesh "y-vector.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 1000 # 3d model is in [km/1000]
+    Emissive true
+
+    Visible false
+    Radius 2000
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth/Darmstadt"
+        }
+    }
+    FixedPosition  [ 0 0 0 ]
+
+    BodyFrame {
+        TwoVector {
+        Center "Sol/Earth/Darmstadt"
+            Primary {
+                Axis "-z"
+                RelativePosition {
+                    Target "Sol/Earth"
+                }
+            }
+            Secondary {
+                Axis "x"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth"
+                        }
+                    }
+                    Vector [ 0 0 1]
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+"Z" "Sol/Earth/Darmstadt" {
+
+    Class "surfacefeature"
+    Mesh "z-vector.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 1000 # 3d model is in [km/1000]
+    Emissive true
+
+    Visible false
+    Radius 2000
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth/Darmstadt"
+        }
+    }
+    FixedPosition  [ 0 0 0 ]
+
+    BodyFrame {
+        TwoVector {
+        Center "Sol/Earth/Darmstadt"
+            Primary {
+                Axis "-y"
+                RelativePosition {
+                    Target "Sol/Earth"
+                }
+            }
+            Secondary {
+                Axis "x"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth"
+                        }
+                    }
+                    Vector [ 0 0 1]
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+

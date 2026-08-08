@@ -1,0 +1,432 @@
+#--------------------------------------------------------------------------------
+#
+# OPS-SAT spacecraft file for Celestia with Earth, Sun and Moon pointing vectors and X, Y and Z vectors.
+#
+# @remarks     Created.
+# @author      Filipe Metelo <filipe.metelo @ esa.int>
+# @version     2011.03.11
+#
+# @remarks     Added the Earth, Sun, Moon, X, Y and Z vectors.
+# @author      Filipe Metelo <filipe.metelo @ esa.int>
+# @version     2011.03.23
+#
+# @remarks     Added the velocity vector.
+# @author      Filipe Metelo <filipe.metelo @ esa.int>
+# @version     2011.03.29
+#
+# @remarks     Changed the object scales and radius.
+# @author      Filipe Metelo <filipe.metelo @ esa.int>
+# @version     2011.03.29
+#
+# @remarks     Changed the object to cmod now with proper textures applied.
+# @author      Filipe Metelo <filipe.metelo @ esa.int>
+# @version     2011.05.25
+#
+# @remarks     Updated for the OPS-SAT scenario (spacecraft index 6)
+# @author      Tiago Nogueira <tiago.nogueira @ esa.int>
+# @version     2015.07.27
+#
+#--------------------------------------------------------------------------------
+"OPSSAT" "Sol/Earth"
+{
+    Class "spacecraft"
+    Mesh "OPS-SAT.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 -0.29 0 ]
+    MeshScale 1500 # 3d model is in [km/1000]
+
+    Orientation [ -90 1 0 0 ] # to compensate for the rotation in the 3ds model ...
+
+    Visible true
+    Radius 200
+
+    OrbitFrame {
+        EquatorJ2000 {
+            Center "Sol/Earth"
+        }
+    }
+    ScriptedOrbit {
+        Module "orbitattitude-realtime"
+        Function "RealTimeOrbit"
+
+        SpacecraftIndex 6
+    }
+
+    BodyFrame {
+        EquatorJ2000 {
+            Center "Sol/Earth"
+        }
+    }
+    ScriptedRotation {
+        Module "orbitattitude-realtime"
+        Function "RealTimeRotation"
+
+        SpacecraftIndex 6
+    }
+}
+
+"OPSSATProp" "Sol/Earth"
+{
+    Class "spacecraft"
+    Visible false
+    Radius 1
+
+    OrbitFrame {
+        EquatorJ2000 {
+            Center "Sol/Earth"
+        }
+    }
+    ScriptedOrbit {
+        Module "orbitattitude-realtime"
+        Function "RealTimePropOrbit"
+
+        SpacecraftIndex 6
+    }
+
+    BodyFrame {
+        EquatorJ2000 {
+            Center "Sol/Earth"
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+"Velocity" "Sol/Earth/OPSSAT"
+{
+    Class "surfacefeature"
+    Mesh "violet-vector.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 200 # 3d model is in [km/1000]
+    Emissive true
+
+    Visible true
+    Radius 200
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth/OPSSAT"
+        }
+    }
+    FixedPosition [ 0 0 0 ]
+    
+    BodyFrame {
+        TwoVector {
+            Center "Sol/Earth/OPSSAT"
+            Primary {
+                Axis "y"
+                RelativePosition {
+                    Target "Sol/Earth/OPSSATProp"
+                }
+            }
+            Secondary {
+                Axis "z"
+                RelativePosition {
+                    Target "Sol/Earth"
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+"Earth" "Sol/Earth/OPSSAT"
+{
+    Class "surfacefeature"
+    Mesh "cyan-vector.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 200 # 3d model is in [km/1000]
+    Emissive true
+
+    Visible true
+    Radius 200
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth/OPSSAT"
+        }
+    }
+    FixedPosition [ 0 0 0 ]
+
+    BodyFrame {
+        TwoVector {
+            Center "Sol/Earth/OPSSAT"
+            Primary {
+                Axis "y"
+                RelativePosition {
+                    Target "Sol/Earth"
+                }
+            }
+            Secondary {
+                Axis "z"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth/OPSSAT"
+                        }
+                    }
+                    Vector [ 0 0 1 ]
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+"Moon" "Sol/Earth/OPSSAT"
+{
+    Class "surfacefeature"
+    Mesh "gray-vector.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 200 # 3d model is in [km/1000]
+    Emissive true
+
+    Visible true
+    Radius 200
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth/OPSSAT"
+        }
+    }
+    FixedPosition [ 0 0 0 ]
+
+    BodyFrame {
+        TwoVector {
+            Center "Sol/Earth/OPSSAT"
+            Primary {
+                Axis "y"
+                RelativePosition {
+                    Target "Sol/Earth/Moon"
+                }
+            }
+            Secondary {
+                Axis "x"
+                RelativeVelocity {
+                    Target "Sol/Earth/Moon"
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+"Sun" "Sol/Earth/OPSSAT"
+{
+    Class "surfacefeature"
+    Mesh "yellow-vector.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 200 # 3d model is in [km/1000]
+    Emissive true
+
+    Visible true
+    Radius 200
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth/OPSSAT"
+        }
+    }
+    FixedPosition [ 0 0 0 ]
+
+    BodyFrame {
+        TwoVector {
+            Center "Sol/Earth/OPSSAT"
+            Primary {
+                Axis "y"
+                RelativePosition {
+                    Target "Sol"
+                }
+            }
+            Secondary {
+                Axis "x"
+                RelativeVelocity {
+                    Target "Sol"
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+"X" "Sol/Earth/OPSSAT" {
+
+    Class "surfacefeature"
+    Mesh "red-vector.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 200 # 3d model is in [km/1000]
+    Emissive true
+
+    Visible true
+    Radius 200
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth/OPSSAT"
+        }
+    }
+    FixedPosition  [ 0 0 0 ]
+
+    BodyFrame {
+        TwoVector {
+        Center "Sol/Earth/OPSSAT"
+            Primary {
+            Axis "z"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth/OPSSAT"
+                        }
+                    }
+                    Vector [ 0 0 1 ]
+                }
+            }
+            Secondary {
+                Axis "y"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth/OPSSAT"
+                        }
+                    }
+                    Vector [ -1 0 0 ]
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+"Y" "Sol/Earth/OPSSAT" {
+
+    Class "surfacefeature"
+    Mesh "green-vector.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 200 # 3d model is in [km/1000]
+    Emissive true
+
+    Visible true
+    Radius 200
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth/OPSSAT"
+        }
+    }
+    FixedPosition  [ 0 0 0 ]
+
+    BodyFrame {
+        TwoVector {
+        Center "Sol/Earth/OPSSAT"
+            Primary {
+            Axis "z"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth/OPSSAT"
+                        }
+                    }
+                    Vector [ -1 0 0 ]
+                }
+            }
+            Secondary {
+                Axis "y"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth/OPSSAT"
+                        }
+                    }
+                    Vector [ 0 0 1 ]
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+"Z" "Sol/Earth/OPSSAT" {
+
+    Class "surfacefeature"
+    Mesh "blue-vector.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 200 # 3d model is in [km/1000]
+    Emissive true
+
+    Visible true
+    Radius 200
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth/OPSSAT"
+        }
+    }
+    FixedPosition  [ 0 0 0 ]
+
+    BodyFrame {
+        TwoVector {
+        Center "Sol/Earth/OPSSAT"
+            Primary {
+            Axis "z"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth/OPSSAT"
+                        }
+                    }
+                    Vector [ 0 0 1 ]
+                }
+            }
+            Secondary {
+                Axis "x"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth/OPSSAT"
+                        }
+                    }
+                    Vector [ 1 0 0 ]
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
