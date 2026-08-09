@@ -1,6 +1,4 @@
-[![][NMFImage]][NanoSat MO Framework]
-
-## NanoSat MO Framework - Mission - Simulator
+## NanoSat MO Framework - Mission - Simulator - Orekit
 
 The simulator contains a set of libraries and tools capable of simulating
 most of the spacecraft functionalities available through the NMF.
@@ -9,26 +7,39 @@ This project is also an example implementation of mission-specific components of
 
 The simulator platform is based on the classic CubeSat missions.
 
+The orbit and the attitude are propagated with Orekit. For a simulator without
+that library, which works the orbit out analytically and reports position only,
+see `nmf-mission-simulator-lite`.
+
 ### Repository content
-
-#### [CubeSat GPS Simulator](cubesat-gps-simulator)
-
-Lightweight simulator of the basic orbital parameters, using an analytical solution.
 
 #### [CubeSat Spacecraft Simulator](cubesat-spacecraft-simulator)
 
 Simulates most of the spacecraft functionalities available through the NMF.
 
+#### [Orekit Resources](orekit-resources)
+
+The Orekit library and the reference data it needs to propagate an orbit.
+
 #### [Platform Services Implementation](platform-services-impl)
 
 Implements NMF Platform Services adapter layer, binding it to the simulator.
 
-#### [Nanosat MO Supervisor](nanosat-mo-supervisor)
+#### [Nanosat MO Supervisor](nanosat-mo-supervisor-sim)
+
 Implements Space Applications Supervisor, exposing NMF Platform Services to the space apps.
 
 #### [Nanosat Monolithic](nanosat-monolithic)
 
 Framework for a single, integrated space application, without Supervisor/Apps split.
+
+#### [Image Debayer](image-debayer)
+
+Turns the raw Bayer images of the simulated camera into ordinary pictures.
+
+#### [Celestia](celestia)
+
+Shows the simulated spacecraft flying, in Celestia, running in a container.
 
 ### Building
 
@@ -54,4 +65,3 @@ The NanoSat MO Framework is **licensed** under the **[European Space Agency Publ
 [GitHub]: https://github.com/esa
 [Issues]: https://gitlab.com/esa/NMF/nmf-issues/-/issues
 [website]: http://www.esa.int/
-[NanoSat MO Framework]: https://nanosat-mo-framework.github.io/

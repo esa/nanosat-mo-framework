@@ -1,0 +1,22 @@
+# The simulator writes its configuration next to wherever it is started from.
+# The root .gitignore already covers the ordinary build output, so only the
+# files this simulator generates are listed here.
+#
+# There used to be exceptions below these, keeping the copies in the simulator's
+# own folder "for testing". They named opssat-spacecraft-simulator, a directory
+# renamed to cubesat- long ago, so they never matched anything and those files
+# were never tracked. They are not reinstated here: the files hold machine
+# local state, such as which port Celestia listens on and whether the Orekit
+# propagator is used, and belong to whoever ran the simulator rather than to
+# the repository.
+**/_OPS-SAT-SIMULATOR-header.txt
+**/_OPS-SAT-SIMULATOR-templates.txt
+**/_OPS-SAT-SIMULATOR-scheduler.txt
+**/_OPS-SAT-SIMULATOR-filter.txt
+**/_OPS-SAT-SIMULATOR-scheduler_backup*.txt
+
+# Written to the working directory by the simulator when the platform
+# configuration changes. The other two modules that produce it ignore it in the
+# same way; this module did not, which is how a copy full of one developer's
+# absolute paths came to be committed.
+**/platformsim.properties

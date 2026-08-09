@@ -26,11 +26,11 @@
 set -eu
 
 HERE=$(cd "$(dirname "$0")" && pwd)
-CELESTIA_DIR=$(cd "$HERE/../../mission/simulator/celestia" 2>/dev/null && pwd || true)
+CELESTIA_DIR=$(cd "$HERE/../../nmf-mission-simulator-orekit/celestia" 2>/dev/null && pwd || true)
 PORT=${CELESTIA_PORT:-5909}
 
 if [ -z "$CELESTIA_DIR" ] || [ ! -x "$CELESTIA_DIR/run.sh" ]; then
-    echo "Could not find mission/simulator/celestia/run.sh from $HERE." >&2
+    echo "Could not find nmf-mission-simulator-orekit/celestia/run.sh from $HERE." >&2
     echo "This script expects to be run from inside the NMF source tree." >&2
     exit 1
 fi
@@ -38,7 +38,7 @@ fi
 if ! command -v docker > /dev/null 2>&1; then
     echo "Docker is not installed, and Celestia runs in a container so that it" >&2
     echo "does not have to be installed on this machine." >&2
-    echo "See mission/simulator/celestia/README.md." >&2
+    echo "See nmf-mission-simulator-orekit/celestia/README.md." >&2
     exit 1
 fi
 

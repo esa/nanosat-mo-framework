@@ -53,7 +53,9 @@ core/
   nmf-linux-maven-plugin/   # Maven plugin: generates Linux filesystem layout + bootloader files
   nmf-composites/           # Key composites and the NMF app-facing API (see below)
 nmf-mission-barebone/       # Minimal mission impl for testing NMF features at runtime
-mission/simulator/          # OPS-SAT spacecraft simulator (platform services impl)
+nmf-mission-simulator-lite/ # Analytic orbit simulator (cubesat-gps-simulator)
+nmf-mission-simulator-orekit/ # Orekit-propagated spacecraft simulator (platform services impl,
+                            #   Celestia visualisation)
 sdk/
   consumer-test-tool/       # GUI tool for consuming all NMF services (CTT)
   cli-tool/                 # CLI interface to NMF

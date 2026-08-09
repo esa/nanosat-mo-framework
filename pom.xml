@@ -258,7 +258,8 @@
     <modules>
         <module>core</module>
         <module>nmf-mission-barebone</module>
-        <module>mission/simulator</module>
+        <module>nmf-mission-simulator-lite</module>
+        <module>nmf-mission-simulator-orekit</module>
         <module>sdk</module>
     </modules>
 </project>

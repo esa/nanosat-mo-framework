@@ -15,16 +15,14 @@ under the License. -->
         <groupId>int.esa.nmf</groupId>
         <artifactId>nanosat-mo-framework</artifactId>
         <version>5.1-SNAPSHOT</version>
-        <relativePath>../../../pom.xml</relativePath>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
-
-    <groupId>int.esa.nmf.simulator</groupId>
-    <artifactId>nmf-platform-impl-sim</artifactId>
+    <groupId>int.esa.nmf</groupId>
+    <artifactId>cubesat-gps-simulator</artifactId>
     <packaging>jar</packaging>
-    <name>ESA NMF Sim - Platform Services Implementation</name>
-    <description>The ESA/TU Graz implementation of the Platform services</description>
+    <name>ESA NMF Sim - GPS Simulator</name>
+    <description>A simple simulator providing analitical solution for GPS and attitude measurement instruments on a CubeSat</description>
     <url>http://www.esa.int</url>
-
     <organization>
         <name>ESA</name>
         <url>http://www.esa.int</url>
@@ -43,37 +41,24 @@ under the License. -->
     <developers>
         <developer>
             <id>CesarCoelho</id>
-            <name>César Coelho</name>
+            <name>Cesar Coelho</name>
             <url>https://github.com/CesarCoelho</url>
         </developer>
+        <developer>
+            <id>CezarSuteu</id>
+            <name>Cezar Suteu</name>
+            <email>Cezar.Suteu@esa.int</email>
+            <url>https://github.com/CezarSuteu</url>
+        </developer>
     </developers>
-    <dependencies>        <dependency>
-            <groupId>int.esa.nmf.simulator</groupId>
-            <artifactId>cubesat-spacecraft-simulator</artifactId>
-            <version>5.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.nmf.simulator</groupId>
-            <artifactId>image-debayer</artifactId>
-            <version>5.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.nmf.sdk</groupId>
-            <artifactId>orekit-resources</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-                <dependency>
-            <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nmf-services-impl</artifactId>
-        </dependency>
+    <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-</dependencies>
+    </dependencies>
     <build>
-        <resources></resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

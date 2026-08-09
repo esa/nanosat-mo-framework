@@ -104,7 +104,7 @@ Implementing an adapter
 -----------------------
 
 Create a class that implements the relevant adapter interface. The simulator adapters in
-``mission/simulator/`` are the reference implementations; they demonstrate the method contracts and are
+``nmf-mission-simulator-orekit/`` are the reference implementations; they demonstrate the method contracts and are
 useful as a starting point.
 
 A minimal GPS adapter skeleton:

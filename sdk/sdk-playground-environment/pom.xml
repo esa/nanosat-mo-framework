@@ -70,7 +70,7 @@
     <dependencies>
         <!-- Supervisor — used by generate-filesystem to classify JARs -->
         <dependency>
-            <groupId>int.esa.nmf.simulator</groupId>
+            <groupId>int.esa.nmf</groupId>
             <artifactId>nanosat-mo-supervisor-sim</artifactId>
             <version>${esa.nmf.version}</version>
         </dependency>

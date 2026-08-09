@@ -1,5 +1,3 @@
-[![][NMFImage]][NanoSat MO Framework]
-
 ## NanoSat MO Framework - Mission: Barebone
 
 This is the implementation of the Mission Barebone. It is the simplest possible implementation of the NanoSat MO Framework.
@@ -110,4 +108,3 @@ The NanoSat MO Framework is **licensed** under the **[European Space Agency Publ
 [GitHub]: https://github.com/esa
 [Issues]: https://gitlab.com/esa/NMF/nmf-issues/-/issues
 [website]: http://www.esa.int/
-[NanoSat MO Framework]: https://nanosat-mo-framework.github.io/

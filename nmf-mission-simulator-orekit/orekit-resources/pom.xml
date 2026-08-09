@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
     Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
     You may not use this file except in compliance with the License.
@@ -10,25 +11,36 @@
 
     See the License for the specific language governing permissions and limitations under the License.
 -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>int.esa.nmf</groupId>
         <artifactId>nanosat-mo-framework</artifactId>
         <version>5.1-SNAPSHOT</version>
-        <relativePath>../../../pom.xml</relativePath>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
-    <groupId>int.esa.nmf.simulator</groupId>
-    <artifactId>nanosat-monolithic</artifactId>
+
+    <groupId>int.esa.nmf.sdk</groupId>
+    <artifactId>orekit-resources</artifactId>
     <packaging>jar</packaging>
-    <name>ESA NMF Sim - NanoSat MO Monolithic</name>
-    <description>NanoSat MO Framework for a CubeSat Software Simulator</description>
+
+    <properties>
+        <!-- Heavyweight orbital-data resource: keep it out of the Maven Central deployment bundle. -->
+        <skipPublishing>true</skipPublishing>
+    </properties>
+
+    <name>ESA NMF Sim - Orekit Resources</name>
+    <description>Jar containing the Orekit-Data that is needed as a resource for most of the Orekit applications using it</description>
     <url>http://www.esa.int</url>
+
     <organization>
         <name>ESA</name>
         <url>http://www.esa.int</url>
     </organization>
+
     <licenses>
         <license>
             <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
@@ -36,33 +48,35 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
     <scm>
         <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
         <url>https://github.com/esa/nanosat-mo-framework</url>
     </scm>
+
+    <issueManagement>
+        <system>Gitlab</system>
+        <url>https://gitlab.com/esa/NMF/nmf-issues/-/issues</url>
+    </issueManagement>
+
     <developers>
         <developer>
-            <id>CesarCoelho</id>
-            <name>César Coelho</name>
-            <url>https://github.com/CesarCoelho</url>
+            <id>KevinO</id>
+            <name>Kevin Otto</name>
+            <url>https://github.com/X52p</url>
         </developer>
     </developers>
-    <properties>
-        <assembly.mainClass>esa.mo.nmf.provider.NanoSatMOSupervisorImpl</assembly.mainClass>
-    </properties>
+
     <dependencies>
         <dependency>
-            <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nmf-composites</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>int.esa.nmf.simulator</groupId>
-            <artifactId>nmf-platform-impl-sim</artifactId>
-            <version>${esa.nmf.version}</version>
+            <groupId>org.orekit</groupId>
+            <artifactId>orekit</artifactId>
+            <version>11.3.2</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
+
     <build>
-        <resources></resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

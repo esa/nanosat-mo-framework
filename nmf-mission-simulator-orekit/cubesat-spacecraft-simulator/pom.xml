@@ -13,9 +13,9 @@ the License. -->
         <groupId>int.esa.nmf</groupId>
         <artifactId>nanosat-mo-framework</artifactId>
         <version>5.1-SNAPSHOT</version>
-        <relativePath>../../../pom.xml</relativePath>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
-    <groupId>int.esa.nmf.simulator</groupId>
+    <groupId>int.esa.nmf</groupId>
     <artifactId>cubesat-spacecraft-simulator</artifactId>
     <packaging>jar</packaging>
     <properties>
@@ -55,7 +55,7 @@ the License. -->
     </developers>
     <dependencies>
         <dependency>
-            <groupId>int.esa.nmf.simulator</groupId>
+            <groupId>int.esa.nmf</groupId>
             <artifactId>cubesat-gps-simulator</artifactId>
             <version>${project.version}</version>
         </dependency>

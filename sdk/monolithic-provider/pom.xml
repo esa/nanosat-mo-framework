@@ -68,7 +68,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>int.esa.nmf.simulator</groupId>
+            <groupId>int.esa.nmf</groupId>
             <artifactId>nanosat-monolithic</artifactId>
             <version>${esa.nmf.version}</version>
         </dependency>
