@@ -22,7 +22,7 @@ package esa.mo.platform.impl.provider.softsim;
 
 import esa.mo.platform.impl.provider.gen.CameraAdapterInterface;
 import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
-import esa.opssat.camera.processing.OPSSATCameraDebayering;
+import opssat.simulator.util.ImageLoader;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -123,7 +123,12 @@ public class CameraSoftSimAdapter implements CameraAdapterInterface, SimulatorAd
     }
 
     private byte[] convertImage(byte[] rawImage, final PictureFormat targetFormat) throws IOException {
-        BufferedImage image = OPSSATCameraDebayering.getDebayeredImage(rawImage);
+        // The camera hands back as much of a full width frame as the asked for
+        // resolution amounts to, so the height follows from how much arrived
+        // rather than from what was asked for.
+        final int width = ImageLoader.RESOLUTION_WIDTH;
+        final int height = rawImage.length / 2 / width;
+        BufferedImage image = ImageLoader.debayer(rawImage, width, height);
         byte[] ret = null;
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();

@@ -50,7 +50,6 @@
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
     </properties>
     <modules>
-        <module>image-debayer</module>
         <module>orekit-resources</module>
         <module>cubesat-spacecraft-simulator</module>
         <module>platform-services-impl</module>

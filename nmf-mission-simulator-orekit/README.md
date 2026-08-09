@@ -33,10 +33,6 @@ Implements Space Applications Supervisor, exposing NMF Platform Services to the 
 
 Framework for a single, integrated space application, without Supervisor/Apps split.
 
-#### [Image Debayer](image-debayer)
-
-Turns the raw Bayer images of the simulated camera into ordinary pictures.
-
 #### [Celestia](celestia)
 
 Shows the simulated spacecraft flying, in Celestia, running in a container.

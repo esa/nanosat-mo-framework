@@ -151,6 +151,84 @@ public class ImageLoader {
         return ImageLoader.convertToBayerPattern(temp);
     }
 
+    /**
+     * Turns an IMS-100 bayer frame back into a picture, undoing what
+     * {@link #convertToBayerPattern} does.
+     *
+     * The camera reports one colour per pixel, in the RGGB arrangement: red and
+     * green alternating along the even rows, green and blue along the odd ones.
+     * Each two by two square therefore carries one red, one blue and two green
+     * readings between its four pixels, and a whole colour has to be made from
+     * them. The simplest way is taken here: the square is given one colour,
+     * from its own four readings, and all four pixels are painted with it. It
+     * is the "replication" of the literature, and it is what the simulator has
+     * always used.
+     *
+     * @param data The bayer frame, two bytes per pixel, little endian.
+     * @param width Width of the frame in pixels.
+     * @param height Height of the frame in pixels.
+     * @return The picture.
+     * @throws IllegalArgumentException If the frame is not the size the width
+     * and height call for.
+     */
+    public static BufferedImage debayer(byte[] data, int width, int height)
+            throws IllegalArgumentException {
+        if (data == null) {
+            throw new IllegalArgumentException("Input must not be null!");
+        }
+        if (data.length < width * height * 2) {
+            throw new IllegalArgumentException("Bayer frame holds " + data.length
+                    + " bytes, which is short of the " + (width * height * 2)
+                    + " that " + width + "x" + height + " needs.");
+        }
+
+        // Two bytes to a reading, little endian, and each neighbouring pair is
+        // exchanged to suit the IMS-100, so the pair is read back to front to
+        // put the readings in the order of the picture.
+        //
+        // How many of those sixteen bits carry anything depends on where the
+        // frame came from. A camera gives twelve, low in the word. A frame made
+        // out of an ordinary picture by convertToBayerPattern gives eight, high
+        // in the word, with the lower byte left at zero. Both arrive here, so
+        // the brightest reading in the frame decides how far the readings have
+        // to come down to be eight bit.
+        int[] sample = new int[width * height];
+        int brightest = 0;
+        for (int i = 0; i < sample.length; i++) {
+            int pair = i ^ 1; // the neighbour it was swapped with
+            int reading = ((data[pair * 2 + 1] & 0xFF) << 8) | (data[pair * 2] & 0xFF);
+            sample[i] = reading;
+            if (reading > brightest) {
+                brightest = reading;
+            }
+        }
+
+        int shift = 0;
+        while ((brightest >> shift) > 0xFF) {
+            shift++;
+        }
+        for (int i = 0; i < sample.length; i++) {
+            sample[i] >>= shift;
+        }
+
+        BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        for (int i = 0; i < height - 1; i += 2) {
+            for (int j = 0; j < width - 1; j += 2) {
+                int red = sample[i * width + j + 1];
+                int blue = sample[(i + 1) * width + j];
+                // Two greens are read per square, on opposite corners.
+                int green = (sample[i * width + j] + sample[(i + 1) * width + j + 1]) / 2;
+
+                int rgb = (red << 16) | (green << 8) | blue;
+                output.setRGB(j, i, rgb);
+                output.setRGB(j + 1, i, rgb);
+                output.setRGB(j, i + 1, rgb);
+                output.setRGB(j + 1, i + 1, rgb);
+            }
+        }
+        return output;
+    }
+
     public static byte getRed(int pixel) {
         return (byte) ((pixel & 0x00FF0000) >> 16);
     }
@@ -163,15 +241,4 @@ public class ImageLoader {
         return (byte) (pixel & 0x000000FF);
     }
 
-    /*public static void main(String[] args) {
-    String path = "/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator/src/main/resources/earth.jpg";
-    try {
-      byte[] data = loadNonRawImage(path);
-      BufferedImage bi = OPSSATCameraDebayering.getDebayeredImage(data);
-      ImageIO.write(bi, "jpg", new File("/home/yannick/loadertest.jpg"));
-    } catch (IllegalArgumentException | IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    }*/
 }
