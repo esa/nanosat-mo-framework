@@ -16,7 +16,9 @@
     MeshScale 1000 # 3d model is in [km/1000]
     
     Emissive true
-    Visible true
+    # The 600 km telemetry visibility mask, drawn as a dome over the station.
+    # Set this back to true to see the coverage volume.
+    Visible false
     Radius 2000
 
     OrbitFrame {
