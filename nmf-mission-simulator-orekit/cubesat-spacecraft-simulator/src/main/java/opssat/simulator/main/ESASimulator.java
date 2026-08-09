@@ -37,6 +37,7 @@ import opssat.simulator.peripherals.PSDR;
 import opssat.simulator.threading.CentralNode;
 import opssat.simulator.threading.SimulatorNode;
 import opssat.simulator.util.LoggerFormatter1Line;
+import opssat.simulator.util.SimulatorFiles;
 
 /**
  *
@@ -64,7 +65,7 @@ public class ESASimulator extends GenericSimulator {
     }
 
     private void initProperties() {
-        final String fileName = "_OPS-SAT-SIMULATOR-header.txt";
+        final String fileName = SimulatorFiles.HEADER;
         File propertiesFile = new File(System.getProperty("user.dir"), fileName);
         if (propertiesFile.exists()) {
             // System.out.println(LoggerFormatter1Line.SIMULATOR_PRE_LOG + "PRE_INIT: Header

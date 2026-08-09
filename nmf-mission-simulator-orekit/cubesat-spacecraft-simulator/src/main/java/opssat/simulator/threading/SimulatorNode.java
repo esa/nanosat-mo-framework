@@ -124,8 +124,6 @@ public class SimulatorNode extends TaskNode {
     TCPServerReceiveOnly quaternionTcpServer = null;
 
     String cameraScriptPath = null;
-    private final static String OPS_SAT_SIMULATOR_DATA = File.separator + ".ops-sat-simulator" + File.separator;
-    private final static String OPS_SAT_SIMULATOR_RESOURCES = OPS_SAT_SIMULATOR_DATA + "resources" + File.separator;
 
 
     // Platform sim properties
@@ -163,11 +161,11 @@ public class SimulatorNode extends TaskNode {
     }
 
     public static String getResourcesPath() {
-        return System.getProperty("user.home") + OPS_SAT_SIMULATOR_RESOURCES;
+        return System.getProperty("user.home") + SimulatorFiles.RESOURCES_DIRECTORY;
     }
 
     public static String getDataPath() {
-        return System.getProperty("user.home") + OPS_SAT_SIMULATOR_DATA;
+        return System.getProperty("user.home") + SimulatorFiles.DATA_DIRECTORY;
     }
 
     public static String getWorkingDir() {
@@ -731,24 +729,24 @@ public class SimulatorNode extends TaskNode {
     }
 
     File getSchedulerFile() {
-        return getFileFromDirAndPath(getWorkingDir(), "_OPS-SAT-SIMULATOR-scheduler.txt");
+        return getFileFromDirAndPath(getWorkingDir(), SimulatorFiles.SCHEDULER);
     }
 
     File getSchedulerFileAsBackup() {
         String now = new SimpleDateFormat("yyyy_MMdd_HHmmss").format(new Date());
-        return getFileFromDirAndPath(getWorkingDir(), "_OPS-SAT-SIMULATOR-scheduler_backup_" + now + ".txt");
+        return getFileFromDirAndPath(getWorkingDir(), SimulatorFiles.schedulerBackup(now));
     }
 
     File getTemplatesFile() {
-        return getFileFromDirAndPath(getWorkingDir(), "_OPS-SAT-SIMULATOR-templates.txt");
+        return getFileFromDirAndPath(getWorkingDir(), SimulatorFiles.TEMPLATES);
     }
 
     File getHeaderFile() {
-        return getFileFromDirAndPath(getWorkingDir(), "_OPS-SAT-SIMULATOR-header.txt");
+        return getFileFromDirAndPath(getWorkingDir(), SimulatorFiles.HEADER);
     }
 
     File getCommandsFilterFile() {
-        return getFileFromDirAndPath(getWorkingDir(), "_OPS-SAT-SIMULATOR-filter.txt");
+        return getFileFromDirAndPath(getWorkingDir(), SimulatorFiles.COMMANDS_FILTER);
     }
 
     private boolean isValidCommandID(int commandID) {
