@@ -425,7 +425,14 @@ public class SimulatorNode extends TaskNode {
     private static final int TIMER_DEVICE_DATA_INTERVAL = 1000;
     private static final int TIMER_SCHEDULER_DATA_INTERVAL = 5000;
     private static final int TIMER_SIMULATOR_DATA_INTERVAL = 500;
-    private static final int TIMER_CELESTIA_INTERVAL = 300;
+    /**
+     * How often a position and attitude is produced for the visualisation, in
+     * milliseconds. Lowering this further buys little: the Celestia server
+     * waits for an acknowledgement after every message, and does so by sleeping
+     * in steps of 150 ms, so nothing faster than that arrives however often it
+     * is produced.
+     */
+    private static final int TIMER_CELESTIA_INTERVAL = 200;
 
     Logger logger;
 
