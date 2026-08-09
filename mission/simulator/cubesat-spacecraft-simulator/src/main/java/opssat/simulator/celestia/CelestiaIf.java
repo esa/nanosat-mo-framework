@@ -28,6 +28,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -48,8 +49,8 @@ public class CelestiaIf implements Runnable {
     ArrayList<String> SPACECRAFT_ID;
     final int portOpsSat = 5909;
     final int portNetSat = 5910;
-    final int SLEEP_DURATION_ACK = 150;
-    final int DURATION_ACK_RECOVER = 15000;//After 5 seconds of no confirmation resend the command
+    /** How long to wait for an acknowledgement before resending, in ms. */
+    final int DURATION_ACK_RECOVER = 15000;
     final String DEFAULT_MESSAGE = "connection_alive";
     final String HANDSHAKE_MESSAGE = "connection_successful";
     final String STOP_MESSAGE = "connection_stop";
@@ -109,27 +110,42 @@ public class CelestiaIf implements Runnable {
                         outMsg = this.buildMessage((CelestiaData) data);
                         if (!outMsg.isEmpty()) {
                             this.sendMessage(outMsg);
-                            // wait for acknowledgement from Celestia
 
-                            int waitedTime = 0;
-                            while (!in.ready() && waitedTime < DURATION_ACK_RECOVER) {
-                                Thread.sleep(SLEEP_DURATION_ACK);
-                                waitedTime = waitedTime + SLEEP_DURATION_ACK;
+                            // Wait for the acknowledgement by reading, rather
+                            // than by asking whether anything has arrived yet
+                            // and sleeping if it has not. Reading returns the
+                            // moment the answer does, and returns nothing at all
+                            // the moment the other end closes, so a Celestia that
+                            // has been shut lets go of the port straight away
+                            // instead of after two timeouts. The socket carries
+                            // the timeout, so nothing can wait for ever.
+                            String reply;
+                            try {
+                                reply = in.readLine();
+                            } catch (SocketTimeoutException ex) {
+                                reply = null;
                             }
-                            if (in.ready()) {
-                                retries = 0;
-                                inMsg = in.readLine();
-                            } else {
-                                //No reply
+
+                            if (reply == null) {
+                                if (this.connection.isClosed() || !this.connection.isConnected()) {
+                                    break;
+                                }
+                                // Either nothing came within the timeout, or the
+                                // other end has gone. One resend tells the two
+                                // apart: a client that is still there answers it.
                                 retries = retries + 1;
                                 if (retries <= 1) {
                                     sendQueue.clear();
                                     logger.log(Level.WARNING, "CelestiaIf: No response within [" +
                                         DURATION_ACK_RECOVER + "] ms, resending data message!");
                                 } else {
+                                    logger.log(Level.INFO, "CelestiaIf: Celestia has gone; waiting "
+                                        + "for it to come back.");
                                     break;
                                 }
-
+                            } else {
+                                retries = 0;
+                                inMsg = reply;
                             }
                         }
                     } else {
@@ -190,6 +206,9 @@ public class CelestiaIf implements Runnable {
             logger.log(Level.FINE, "Waiting for connection...");
             connection = this.socket.accept();
             connection.setTcpNoDelay(true);
+            // Bounds the wait for an acknowledgement, which is now done by
+            // reading rather than by polling.
+            connection.setSoTimeout(DURATION_ACK_RECOVER);
             logger.log(Level.INFO, "Connection received from " + connection.getInetAddress().getHostName() +
                 " on port " + connection.getLocalPort());
 
@@ -205,20 +224,17 @@ public class CelestiaIf implements Runnable {
             //4. handshake
             logger.log(Level.FINE, "Handshake - SENT - " + this.HANDSHAKE_MESSAGE);
             sendMessage(this.HANDSHAKE_MESSAGE);
-            int waitedTime = 0;
-            while (!in.ready() && waitedTime < DURATION_ACK_RECOVER) {
-                try {
-                    Thread.sleep(SLEEP_DURATION_ACK);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(CelestiaIf.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                waitedTime = waitedTime + SLEEP_DURATION_ACK;
-            }
-            String message = null;
-            if (in.ready()) {
+
+            // Read for the answer rather than poll for it, as above: a client
+            // that connects and then goes away is noticed at once instead of
+            // holding the connection until the timeout runs out.
+            String message;
+            try {
                 message = in.readLine();
-            } else {
-                //No reply to handshake
+            } catch (SocketTimeoutException ex) {
+                message = null;
+            }
+            if (message == null) {
                 logger.log(Level.FINE, "No reply to handshake");
                 return false;
             }
