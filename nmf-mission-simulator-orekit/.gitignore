@@ -6,9 +6,18 @@
 # own folder "for testing". They named opssat-spacecraft-simulator, a directory
 # renamed to cubesat- long ago, so they never matched anything and those files
 # were never tracked. They are not reinstated here: the files hold machine
-# local state, such as which port Celestia listens on and whether the Orekit
-# propagator is used, and belong to whoever ran the simulator rather than to
-# the repository.
+# local state, such as which port Celestia listens on and how fast the
+# simulation runs, and belong to whoever ran the simulator rather than to the
+# repository.
+**/_SIMULATOR-header.txt
+**/_SIMULATOR-templates.txt
+**/_SIMULATOR-scheduler.txt
+**/_SIMULATOR-filter.txt
+**/_SIMULATOR-scheduler_backup*.txt
+
+# The names these had before the simulator stopped being OPS-SAT's alone. The
+# simulator renames them on its next run, so these lines only matter between
+# updating and running it once. They go when the renaming does, at v6.0.
 **/_OPS-SAT-SIMULATOR-header.txt
 **/_OPS-SAT-SIMULATOR-templates.txt
 **/_OPS-SAT-SIMULATOR-scheduler.txt

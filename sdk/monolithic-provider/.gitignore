@@ -1,4 +1,10 @@
+**/_SIMULATOR-header.txt
+**/_SIMULATOR-scheduler.txt
+**/_SIMULATOR-templates.txt
+**/platformsim.properties
+
+# The names these had before the simulator stopped being OPS-SAT's alone.
+# The simulator renames them on its next run; these go at v6.0.
 **/_OPS-SAT-SIMULATOR-header.txt
 **/_OPS-SAT-SIMULATOR-scheduler.txt
 **/_OPS-SAT-SIMULATOR-templates.txt
-**/platformsim.properties

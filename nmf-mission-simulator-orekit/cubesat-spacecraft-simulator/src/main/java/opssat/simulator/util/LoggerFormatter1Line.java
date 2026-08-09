@@ -35,7 +35,13 @@ public class LoggerFormatter1Line extends Formatter {
     // Create a DateFormat to format the logger timestamp.
     //
     String nodeName;
-    public final static String SIMULATOR_PRE_LOG = "OPS-SAT SoftSim:";
+    /**
+     * What every line of the simulator's logs begins with, before the name of
+     * the node that wrote it. "Sim" rather than "Simulator" on purpose: the
+     * node that writes most of these is itself called Simulator, and "Orekit
+     * Simulator:Simulator" says it twice.
+     */
+    public final static String SIMULATOR_PRE_LOG = "Orekit Sim:";
 
     public LoggerFormatter1Line(String nodeName) {
         this.nodeName = nodeName;

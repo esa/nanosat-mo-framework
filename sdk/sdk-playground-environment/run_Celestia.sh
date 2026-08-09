@@ -10,7 +10,7 @@
 #
 #   1. Nothing to enable. The Celestia server is on by default, on port 5909,
 #      as is the Orekit propagator it needs. Both live in
-#          _OPS-SAT-SIMULATOR-header.txt
+#          _SIMULATOR-header.txt
 #      in the directory the Supervisor runs from, which for the playground is
 #      under target/ and so is discarded by a rebuild.
 #

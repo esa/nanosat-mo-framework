@@ -43,7 +43,7 @@ public interface ISDR {
     Input parameters:String fileName
     Return parameters:void
     Size of returned parameters: 0
-    The filename of the data raw file. It is expected to be found in $HOME/.ops-sat-simulator/data
+    The filename of the data raw file. It is expected to be found in $HOME/.nmf-simulator/data
     </pre>
     */
     void simPreloadFile(String fileName);//6002

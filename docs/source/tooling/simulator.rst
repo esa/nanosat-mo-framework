@@ -24,14 +24,14 @@ Configuration files
 -------------------
 
 On first launch, the simulator generates a set of configuration files in its working directory and unpacks
-resources to ``~/.ops-sat-simulator``. The two main files are:
+resources to ``~/.nmf-simulator``. The two main files are:
 
-- ``_OPS-SAT-SIMULATOR-header.txt`` — general simulator configuration.
+- ``_SIMULATOR-header.txt`` — general simulator configuration.
 - ``platformsim.properties`` — per-service adapter selection and service-specific parameters.
 
 Both use Java properties syntax. Edit the value on the right-hand side of each assignment.
 
-General configuration (``_OPS-SAT-SIMULATOR-header.txt``)
+General configuration (``_SIMULATOR-header.txt``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 - Internal model processing on/off
@@ -116,7 +116,7 @@ General configuration via the UI
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The top of the window shows the real-time factor and simulation start. The ``Edit Header`` button opens a
-dialog covering the same options as ``_OPS-SAT-SIMULATOR-header.txt`` plus the simulation end date. ``Submit
+dialog covering the same options as ``_SIMULATOR-header.txt`` plus the simulation end date. ``Submit
 to server`` applies changes to the running simulator.
 
 Platform configuration via the UI

@@ -36,6 +36,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import opssat.simulator.util.ArgumentTemplate;
 import opssat.simulator.util.CommandDescriptor;
+import opssat.simulator.util.SimulatorFiles;
 import opssat.simulator.util.SimulatorHeader;
 import opssat.simulator.util.SimulatorSchedulerPiece;
 
@@ -51,6 +52,11 @@ class ConfigurationManager {
     }
 
     void loadSimulatorHeader() {
+        // The simulator is not always reached through ESASimulator, so anything
+        // left under the older OPS-SAT names is carried across here as well.
+        // Having already been done costs nothing: there is then nothing to find.
+        SimulatorFiles.migrateLegacyNames(SimulatorNode.getWorkingDir(), node.logger);
+
         File headerFile = node.getHeaderFile();
         if (headerFile.exists()) {
             node.logger.log(Level.FINE, "Header [" + headerFile.toString() + "] found!");

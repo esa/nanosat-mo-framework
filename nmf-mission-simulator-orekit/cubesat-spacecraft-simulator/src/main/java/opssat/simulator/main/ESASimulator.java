@@ -65,6 +65,12 @@ public class ESASimulator extends GenericSimulator {
     }
 
     private void initProperties() {
+        // Before anything is looked for: this is the first thing in the
+        // simulator to reach for the header file, so it is where anything left
+        // under the older OPS-SAT names is carried across.
+        SimulatorFiles.migrateLegacyNames(System.getProperty("user.dir"),
+                Logger.getLogger(ESASimulator.class.getName()));
+
         final String fileName = SimulatorFiles.HEADER;
         File propertiesFile = new File(System.getProperty("user.dir"), fileName);
         if (propertiesFile.exists()) {
@@ -127,7 +133,7 @@ public class ESASimulator extends GenericSimulator {
         initProperties();
         ConcurrentLinkedQueue<Object> qSimToGUI = new ConcurrentLinkedQueue<>();
         ConcurrentLinkedQueue<Object> qGUIToSim = new ConcurrentLinkedQueue<>();
-        simulatorNode = new SimulatorNode(qGUIToSim, qSimToGUI, "Sim", 10, this.simulatorLoggingLevel,
+        simulatorNode = new SimulatorNode(qGUIToSim, qSimToGUI, "Simulator", 10, this.simulatorLoggingLevel,
             this.consoleLoggingLevel);
         initDevices();
 
@@ -141,9 +147,9 @@ public class ESASimulator extends GenericSimulator {
         ConcurrentLinkedQueue<Object> qSimToCentral = new ConcurrentLinkedQueue<>();
         ConcurrentLinkedQueue<Object> qCentralToSim = new ConcurrentLinkedQueue<>();
 
-        simulatorNode = new SimulatorNode(qCentralToSim, qSimToCentral, "Sim", 100, this.simulatorLoggingLevel,
+        simulatorNode = new SimulatorNode(qCentralToSim, qSimToCentral, "Simulator", 100, this.simulatorLoggingLevel,
             this.consoleLoggingLevel);
-        centralNode = new CentralNode(qSimToCentral, qCentralToSim, listenURL, "Cen", 10, this.centralLoggingLevel,
+        centralNode = new CentralNode(qSimToCentral, qCentralToSim, listenURL, "Central", 10, this.centralLoggingLevel,
             this.consoleLoggingLevel, this);
         this.centralNode = centralNode;
         (new Thread(simulatorNode, "sim-" + simulatorNode.getClass().getSimpleName())).start();

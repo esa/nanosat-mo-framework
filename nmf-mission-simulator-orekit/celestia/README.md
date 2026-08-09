@@ -13,7 +13,7 @@ Two steps, from `sdk/sdk-playground-environment`:
 
 1. **Nothing.** The Celestia server is on by default, on port 5909, and the
    Orekit propagator it depends on is too. Both are settings of the simulator,
-   in `_OPS-SAT-SIMULATOR-header.txt` in the directory the Supervisor runs from,
+   in `_SIMULATOR-header.txt` in the directory the Supervisor runs from,
    which it writes for itself on first run:
 
    ```
