@@ -127,6 +127,22 @@ built for. NASA publishes a 21600-wide day map, and it is deliberately not used:
 it cannot be loaded as a single texture. Going beyond the limit means Celestia's
 virtual textures, which is a different piece of work.
 
+The clouds are a separate add-on, fetched at build time for the same reason,
+and unpacked into the image's own `extras` directory rather than the one mounted
+from the host, which belongs to the spacecraft. It is a virtual texture: a
+pyramid of 512 pixel tiles reaching 8192x4096, against the 594 kilobyte map
+Celestia ships.
+
+Add-on credit: **John van Vliet**, via the Celestia Motherlode, built from
+NASA's Blue Marble `cloud_combined_8192.tif`. He states no licence terms; the
+NASA data underneath is public domain.
+
+The add-on brings its own `.ssc`, which reopens the Earth with `Modify` and sets
+`CloudSpeed` to 0. This is worth knowing if the clouds are ever changed: at
+Celestia's default speed of 65 a cloud map at this resolution is dragged into
+white stripes around the globe. Because the add-on handles it, `solarsys.ssc` is
+never edited.
+
 ### Things that cost a day, written down so they do not again
 
 **The methods are called `position` and `orientation`.** Not `positionAtTime` and
