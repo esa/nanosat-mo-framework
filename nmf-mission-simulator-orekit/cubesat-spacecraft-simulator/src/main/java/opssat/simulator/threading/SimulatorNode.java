@@ -123,7 +123,6 @@ public class SimulatorNode extends TaskNode {
     private long benchmarkStartupTime = 0;
     TCPServerReceiveOnly quaternionTcpServer = null;
 
-    String cameraScriptPath = null;
 
 
     // Platform sim properties
@@ -1251,9 +1250,6 @@ public class SimulatorNode extends TaskNode {
                     size = (size > maxSize ? maxSize : size);
                     reloadImageBuffer();
                     globalResult = this.cameraBuffer.getDataAsByteArray(size);
-                    if (this.cameraScriptPath != null) {
-                        new ProcessBuilder(this.cameraScriptPath).start();
-                    }
                     break;
                 }
                 case 3002: {// Origin [ICamera] Method [void simPreloadPicture(String

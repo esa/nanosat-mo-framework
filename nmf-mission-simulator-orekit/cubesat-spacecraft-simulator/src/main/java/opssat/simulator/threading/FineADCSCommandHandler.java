@@ -1337,8 +1337,6 @@ class FineADCSCommandHandler {
                             node.quaternionTcpServer = new TCPServerReceiveOnly(Integer.parseInt(words[1]),
                                     node.logger);
                             node.quaternionTcpServer.start();
-                        } else if ("cameraScript".equals(words[0])) {
-                            node.cameraScriptPath = words[1];
                         } else {
                             throw new IOException("Command not recognised [" + data + "]");
                         }
