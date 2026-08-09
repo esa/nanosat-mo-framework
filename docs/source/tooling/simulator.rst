@@ -27,7 +27,7 @@ On first launch, the simulator generates a set of configuration files in its wor
 resources to ``~/.nmf-simulator``. The two main files are:
 
 - ``_SIMULATOR-header.txt`` — general simulator configuration.
-- ``platformsim.properties`` — per-service adapter selection and service-specific parameters.
+- ``platformsim.properties`` — settings for the simulated Camera.
 
 Both use Java properties syntax. Edit the value on the right-hand side of each assignment.
 
@@ -46,46 +46,15 @@ General configuration (``_SIMULATOR-header.txt``)
 Platform configuration (``platformsim.properties``)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Each Platform service loads exactly one adapter, selected by a per-service ``<key>.adapter`` property. The
-default is the soft-sim adapter; mission-specific deployments override the property to point at a hardware
-adapter class. Property keys follow the service name except for **ADCS, which uses** ``iadcs.adapter``.
+Every Platform service is answered by the simulator, and which adapter answers is not configurable. Until
+2026 each service loaded an adapter named by a ``<key>.adapter`` property in this file, so that the simulator
+could run on a spacecraft or a flatsat with the real hardware answering for itself; see
+:doc:`../development-mission/platform-services` for what replaced it. Those keys are now ignored.
 
-.. list-table::
-   :header-rows: 1
-   :widths: 25 25 50
+What the file still holds are the settings for the simulated Camera, and the simulator writes it itself when
+they change.
 
-   * - Service
-     - Property key
-     - Notes
-   * - Camera
-     - ``camera.adapter``
-     - Soft-sim returns a fixed or random image (see below).
-   * - GPS
-     - ``gps.adapter``
-     - Soft-sim generates NMEA from the simulator's Orekit-driven orbit.
-   * - AutonomousADCS
-     - ``iadcs.adapter``
-     - Note the ``iadcs`` prefix. Soft-sim uses the attitude propagator.
-   * - SoftwareDefinedRadio
-     - ``sdr.adapter``
-     -
-   * - OpticalDataReceiver
-     - ``optrx.adapter``
-     -
-   * - PowerControl
-     - ``power.adapter``
-     -
-   * - ArtificialIntelligence
-     - ``ai.adapter``
-     -
-   * - FPGA
-     - (soft-sim only)
-     - Two simulated partitions (``slot-a``, ``slot-b``), shell version ``sim-v1``.
-   * - SoftwareImages
-     - (soft-sim only)
-     - Two simulated hypervisor partitions (``p1``, ``p2``), configuration ``sim-v1``.
-
-The soft-sim Camera adapter also accepts:
+The keys are:
 
 - ``camerasim.imagemode`` — ``Fixed`` or ``Random``.
 - ``camerasim.imagefile`` — image returned in ``Fixed`` mode.

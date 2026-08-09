@@ -33,19 +33,26 @@ The Supervisor's working directory contains:
 - ``provider.properties`` — provider-side runtime configuration.
 - ``transport.properties`` — MAL transport selection (typically ``maltcp``).
 - ``logging.properties`` — ``java.util.logging`` configuration.
-- ``platformsim.properties`` — per-service Platform adapter selection (sim vs hardware).
+- ``platformsim.properties`` — settings for the simulated Camera; written by the simulator itself.
 - ``providerURIs.properties`` — written at runtime; lists active provider URIs.
 - ``comArchive.db`` — SQLite database backing the COM Archive.
 
 Deleting ``comArchive.db`` before starting the Supervisor produces a fresh archive.
 
-Hybrid mode
------------
+Real hardware
+-------------
 
-The Supervisor with simulator supports **hybrid mode**: some Platform services backed by the simulator, others
-by real hardware. The mode is selected per service via the ``<service>.adapter`` property in
-``platformsim.properties``. This is mainly used in mission-specific test setups where some hardware (e.g. the
-camera) is available and the rest is simulated.
+Every Platform service of the Supervisor with simulator is answered by the simulator. There is no way to put
+real hardware behind some of them and simulate the rest.
+
+Until 2026 there was a **hybrid mode** for exactly that. It named a class per adapter in
+``platformsim.properties`` and loaded each one by name at startup, so that the simulator could run on the
+spacecraft itself, or on a flatsat, with the hardware that was really present answering for itself and the
+rest simulated. OPS-SAT flew that way. The adapters belonged to the mission rather than to this repository.
+
+That route is no longer pursued. A mission that wants its own hardware behind the Platform services now
+provides its own implementation of them, as a dependency the build can see, instead of naming classes in a
+configuration file for the Supervisor to find and load while starting.
 
 Stopping the Supervisor
 -----------------------

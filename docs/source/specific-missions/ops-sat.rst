@@ -62,7 +62,7 @@ Two Supervisor configurations are available:
 - **Standard OPS-SAT Supervisor.** Faster startup. Does not initialise the payload interfaces, so Platform
   services are not functional. Suitable for checking that the app starts and registers correctly.
 - **Hybrid Supervisor with simulator.** Slower startup (initialises Orekit). Provides functional Platform
-  services backed by the simulator. Configurable per-service via ``platformsim.properties``.
+  services backed by the simulator.
 
 Run order: start the Ground MO Proxy first, wait for its Directory Service URI to appear, then start the
 Supervisor. Connect the CTT to the Ground MO Proxy's Directory Service.

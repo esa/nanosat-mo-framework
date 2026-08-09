@@ -232,29 +232,27 @@ dummy data — return ``null`` from the relevant ``get*Service()`` method in the
 propagates a ``SERVICE_NOT_AVAILABLE`` error to any consumer that attempts to use it, which is far more
 useful than silently returning NULL values.
 
-OPS-SAT: runtime adapter selection via property
--------------------------------------------------
+Selecting the provider
+----------------------
 
-On OPS-SAT, a property-based mechanism was added to allow switching Platform service adapters at
-runtime without recompiling the mission layer. This was a mission-specific convenience for an
-experimental in-orbit platform that needed to hot-swap adapter implementations during the mission.
-
-The ``nmf.platform.impl`` Java system property in ``provider.properties`` selects the entire
-``PlatformServicesProviderInterface`` implementation class::
+The ``nmf.platform.impl`` Java system property in ``provider.properties`` names the
+``PlatformServicesProviderInterface`` implementation the Supervisor is to use::
 
     nmf.platform.impl=esa.mo.platform.impl.util.PlatformServicesProviderSoftSim
 
-Within ``PlatformServicesProviderSoftSim``, individual adapter classes can be overridden via
-``platformsim.properties`` in the Supervisor's working directory::
+That is the whole of it. A mission writes one provider, puts its adapters behind it, and names it here.
 
-    camera.adapter=esa.mo.platform.impl.provider.adapters.MyCameraAdapter
-    gps.adapter=esa.mo.platform.impl.provider.adapters.MyGPSAdapter
-    adcs.adapter=esa.mo.platform.impl.provider.adapters.MyADCSAdapter
+Individual adapters used to be replaceable as well, by naming a class each in ``platformsim.properties``,
+which the simulator's provider loaded by name while starting. That was for OPS-SAT, which ran this simulator
+on the spacecraft and on the flatsat: the hardware that was really present answered for itself and the rest
+was simulated. It was removed in 2026 and those keys are now ignored.
 
-This mechanism is **not required** for a new mission. On ɸ-Sat-2, for example, each adapter was
-simply compiled into the mission layer with no runtime switching. The property mechanism is documented
-here because the SDK simulator uses it to swap in soft-sim adapters, and the OPS-SAT configuration
-files reference it.
+The reason is worth stating, since the same idea tends to come back. A class name in a configuration file is
+resolved while the Supervisor starts, on a spacecraft, where nothing can be done about it going wrong; the
+compiler cannot see it, the build cannot check it, and anything able to write that file chooses what gets
+loaded. A provider named once at deployment and compiled against its adapters gives a mission the same
+freedom with none of that. On phi-Sat-2 each adapter was simply compiled into the mission layer, and that is
+the pattern to follow.
 
 For documentation on each individual service's semantics, see
 :doc:`../development-app/platform-services`.
