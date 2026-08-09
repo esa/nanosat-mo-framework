@@ -1,0 +1,65 @@
+-- ---------------------------------------------------------------------------
+-- Copyright (C) 2026      European Space Agency
+--                         European Space Operations Centre
+--                         Darmstadt
+--                         Germany
+-- ---------------------------------------------------------------------------
+-- System                : ESA NanoSat MO Framework
+-- ---------------------------------------------------------------------------
+-- Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft - v2.4
+-- ---------------------------------------------------------------------------
+--
+-- Puts the observer somewhere sensible when Celestia starts, and points it at
+-- the spacecraft.
+--
+-- This is not only for the look of it. The module that talks to the simulator
+-- is driven by Celestia asking where the spacecraft is, and Celestia only asks
+-- about objects it is drawing. Left looking at nothing in particular, it never
+-- asks, and the connection to the simulator is never made.
+--
+-- Left to itself Celestia arrives from whatever direction it likes, which is
+-- often through the Earth. The observer is therefore placed by hand: ten
+-- thousand kilometres from the spacecraft, on the far side from the Earth, so
+-- that looking at the spacecraft means looking on past it to the Earth below.
+-- After that the observer simply follows the spacecraft, as it would if it had
+-- been placed by hand with the mouse.
+-- ---------------------------------------------------------------------------
+
+local VIEWING_DISTANCE_KM = 10000
+
+local observer = celestia:getobserver()
+local spacecraft = celestia:find("Sol/Earth/OPS-SAT")
+local earth = celestia:find("Sol/Earth")
+
+if spacecraft == nil or spacecraft:type() == "null" then
+    celestia:flash("OPS-SAT was not found: is the add-on directory loaded?", 5)
+    return
+end
+
+celestia:select(spacecraft)
+
+if earth ~= nil and earth:type() ~= "null" then
+    local toSpacecraft = earth:getposition():vectorto(spacecraft:getposition())
+    local altitude = earth:getposition():distanceto(spacecraft:getposition())
+
+    if altitude > 0 then
+        -- The vector is not in kilometres, and neither is anything else
+        -- Celestia holds positions in, so it is scaled by the ratio of two
+        -- distances rather than by a length. The units cancel and what comes
+        -- out is the wanted number of kilometres further out along the same
+        -- line.
+        local reach = VIEWING_DISTANCE_KM / altitude
+        local beyond = celestia:newvector(toSpacecraft.x * reach,
+                                          toSpacecraft.y * reach,
+                                          toSpacecraft.z * reach)
+        local viewpoint = spacecraft:getposition():addvector(beyond)
+
+        observer:setposition(viewpoint)
+        observer:lookat(viewpoint, spacecraft:getposition(),
+                        celestia:newvector(0, 1, 0))
+    end
+end
+
+-- From here on the observer keeps station on the spacecraft, which is what it
+-- would do if it had been sent there by hand.
+observer:follow(spacecraft)

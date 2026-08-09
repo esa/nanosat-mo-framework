@@ -151,8 +151,8 @@ exec docker run --rm $TTY_ARGS \
     -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
     -v "$STATE_DIR:/home/celestia" \
     -v "$HERE/extras:/home/celestia/.local/share/celestia/extras:ro" \
-    -v "$HERE/startup.cel:/home/celestia/startup.cel:ro" \
-    -v "$HERE/luahook.lua:/home/celestia/luahook.lua:ro" \
+    -v "$HERE/startup.celx:/opt/nmf/startup.celx:ro" \
+    -v "$HERE/luahook.lua:/opt/nmf/luahook.lua:ro" \
     $XAUTH_ARGS \
     $GPU_ARGS \
     "$IMAGE" \

@@ -43,7 +43,7 @@ if [ -f "${PACKAGED_CONFIG}" ]; then
     # Celestia names it as a file rather than as a module, which is why it is
     # used: it puts the add-on directory on the module search path before the
     # spacecraft definition asks for anything in it.
-    HOOK="${CELESTIA_LUA_HOOK:-${HOME}/luahook.lua}"
+    HOOK="${CELESTIA_LUA_HOOK:-/opt/nmf/luahook.lua}"
     HOOK_LINE=""
     if [ -f "${HOOK}" ]; then
         HOOK_LINE="  LuaHook \"${HOOK}\""
@@ -51,7 +51,7 @@ if [ -f "${PACKAGED_CONFIG}" ]; then
 
     # The script that selects the spacecraft is named in the configuration
     # rather than on the command line: this build takes no --url.
-    STARTUP="${CELESTIA_STARTUP_SCRIPT:-${HOME}/startup.cel}"
+    STARTUP="${CELESTIA_STARTUP_SCRIPT:-/opt/nmf/startup.celx}"
     INIT_SED="s|^\([[:space:]]*\)InitScript.*|\1InitScript \"${STARTUP}\"|"
     if [ ! -f "${STARTUP}" ]; then
         INIT_SED="s|^\([[:space:]]*\)InitScript.*|\1InitScript \"start.cel\"|"

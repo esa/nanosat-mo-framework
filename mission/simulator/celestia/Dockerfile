@@ -72,6 +72,12 @@ ENV HOME=/home/celestia
 RUN mkdir -p ${HOME}/.local/share/celestia/extras \
  && chmod -R 777 ${HOME}
 
+# The startup script and the hook are mounted here rather than into the home
+# directory. The home directory is itself a mount, and a file mounted inside
+# another mount is shadowed by it: Celestia then reads an empty file that Docker
+# left as the mountpoint, and neither the script nor the hook does anything.
+RUN mkdir -p /opt/nmf && chmod 755 /opt/nmf
+
 WORKDIR ${HOME}
 
 COPY entrypoint.sh /usr/local/bin/celestia-entrypoint
