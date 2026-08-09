@@ -175,10 +175,7 @@ class FineADCSCommandHandler {
             case 1017: {// Origin [IFineADCS] Method [byte[] GetAttitudeTelemetry();//1017//High level
                 // command to interact with FineADCS]
                 byte[] result = new byte[28];
-                byte pointingLoopState = 1;
-                if (node.simulatorHeader.isUseOrekitPropagator()) {
-                    pointingLoopState = node.orekitCore.getStateTarget();
-                }
+                byte pointingLoopState = node.orekitCore.getStateTarget();
                 FWRefFineADCS.putByteInByteArray(pointingLoopState,
                         FWRefFineADCS.POINTING_LOOP_IDX.POINTING_LOOP_STATE, result);
                 globalResult = result;
@@ -946,25 +943,19 @@ class FineADCSCommandHandler {
             }
             case 1165: {// Origin [IFineADCS] Method [void opModeSafe();//1165//High level command to
                 // interact with FineADCS]
-                if (node.simulatorHeader.isUseOrekitPropagator()) {
-                    node.orekitCore.changeAttitude(OrekitCore.ATTITUDE_MODE.SUN_POINTING);
-                }
+                node.orekitCore.changeAttitude(OrekitCore.ATTITUDE_MODE.SUN_POINTING);
                 break;
             }
             case 1166: {// Origin [IFineADCS] Method [void opModeMeasure();//1166//High level command to
                 // interact with FineADCS]
-                if (node.simulatorHeader.isUseOrekitPropagator()) {
-                    node.orekitCore.changeAttitude(OrekitCore.ATTITUDE_MODE.NADIR_POINTING);
-                }
+                node.orekitCore.changeAttitude(OrekitCore.ATTITUDE_MODE.NADIR_POINTING);
                 break;
             }
             case 1167: {// Origin [IFineADCS] Method [void opModeDetumble(byte start,long[]
                 // times);//1167//High level command to interact with FineADCS]
                 byte start = (Byte) argObject.get(0);
                 long[] times = (long[]) argObject.get(1);
-                if (node.simulatorHeader.isUseOrekitPropagator()) {
-                    node.orekitCore.changeAttitude(OrekitCore.ATTITUDE_MODE.BDOT_DETUMBLE);
-                }
+                node.orekitCore.changeAttitude(OrekitCore.ATTITUDE_MODE.BDOT_DETUMBLE);
                 break;
             }
             case 1168: {// Origin [IFineADCS] Method [void opModeSunPointing(byte[] mode,long[]
@@ -973,9 +964,7 @@ class FineADCSCommandHandler {
                 byte[] mode = (byte[]) argObject.get(0);
                 long[] times = (long[]) argObject.get(1);
                 float[] targetSunVector = (float[]) argObject.get(2);
-                if (node.simulatorHeader.isUseOrekitPropagator()) {
-                    node.orekitCore.changeAttitude(OrekitCore.ATTITUDE_MODE.SUN_POINTING);
-                }
+                node.orekitCore.changeAttitude(OrekitCore.ATTITUDE_MODE.SUN_POINTING);
                 break;
             }
             case 1169: {// Origin [IFineADCS] Method [byte[] opModeGetSunPointingStatus();//1169//High
@@ -1004,10 +993,8 @@ class FineADCSCommandHandler {
                 byte mode = (Byte) argObject.get(0);
                 long[] times = (long[]) argObject.get(1);
                 float[] targetVector = (float[]) argObject.get(2);
-                if (node.simulatorHeader.isUseOrekitPropagator()) {
-                    node.orekitCore.changeAttitudeLof(targetVector[0],
-                            targetVector[1], targetVector[2], targetVector[6]);
-                }
+                node.orekitCore.changeAttitudeLof(targetVector[0],
+                        targetVector[1], targetVector[2], targetVector[6]);
                 break;
             }
             case 1171: {// Origin [IFineADCS] Method [byte[] opModeGetSpinModeStatus();//1171//High
@@ -1066,9 +1053,7 @@ class FineADCSCommandHandler {
                 // times);//1174//High level command to interact with FineADCS]
                 byte mode = (Byte) argObject.get(0);
                 long[] times = (long[]) argObject.get(1);
-                if (node.simulatorHeader.isUseOrekitPropagator()) {
-                    node.orekitCore.changeAttitude(OrekitCore.ATTITUDE_MODE.NADIR_POINTING);
-                }
+                node.orekitCore.changeAttitude(OrekitCore.ATTITUDE_MODE.NADIR_POINTING);
                 break;
             }
             case 1175: {// Origin [IFineADCS] Method [byte[]
@@ -1134,9 +1119,7 @@ class FineADCSCommandHandler {
                 byte mode = (Byte) argObject.get(0);
                 long[] times = (long[]) argObject.get(1);
                 float[] latitudeLongitude = (float[]) argObject.get(2);
-                if (node.simulatorHeader.isUseOrekitPropagator()) {
-                    node.orekitCore.changeAttitudeTarget(latitudeLongitude[0], latitudeLongitude[1], 0);
-                }
+                node.orekitCore.changeAttitudeTarget(latitudeLongitude[0], latitudeLongitude[1], 0);
                 break;
             }
             case 1179: {// Origin [IFineADCS] Method [byte[]

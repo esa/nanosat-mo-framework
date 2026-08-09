@@ -115,9 +115,6 @@ class ConfigurationManager {
                             case "keplerElements":
                                 node.simulatorHeader.setKeplerElements(String.valueOf(fieldValue));
                                 break;
-                            case "orekit":
-                                node.simulatorHeader.setUseOrekitPropagator(Boolean.parseBoolean(fieldValue));
-                                break;
                             case "orekitPropagator":
                                 node.simulatorHeader.setOrekitPropagator(String.valueOf(fieldValue));
                                 break;

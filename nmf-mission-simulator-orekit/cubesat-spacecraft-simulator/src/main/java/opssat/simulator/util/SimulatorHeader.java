@@ -41,7 +41,6 @@ public class SimulatorHeader implements Serializable {
     private boolean autoStartSystem;
     private boolean autoStartTime;
     private String keplerElements;
-    private boolean useOrekitPropagator;
     private boolean updateInternet;
     private String orekitPropagator;
     private String orekitTLE1;
@@ -63,7 +62,6 @@ public class SimulatorHeader implements Serializable {
         this.autoStartTime = true;
         this.startDate = new Date();
         this.endDate = new Date();
-        this.useOrekitPropagator = true;
         this.celestiaPort = 5909;
         // On by default: the server only listens, and costs nothing until
         // something connects to it, so leaving it off meant the visualisation
@@ -138,8 +136,7 @@ public class SimulatorHeader implements Serializable {
                 + "keplerElements=" + SimulatorNode.DEFAULT_OPS_SAT_A + ";" + SimulatorNode.DEFAULT_OPS_SAT_E + ";"
                 + SimulatorNode.DEFAULT_OPS_SAT_ORBIT_I + ";" + SimulatorNode.DEFAULT_OPS_SAT_RAAN + ";"
                 + SimulatorNode.DEFAULT_OPS_SAT_ARG_PER + ";" + SimulatorNode.DEFAULT_OPS_SAT_TRUE_ANOMALY + "\n"
-                + "#Enable the Orekit library for orbital and attitude simulation\n" + "orekit=" + useOrekitPropagator
-                + "\n" + "#Enable updates from Internet (used for gps constellation TLEs)\n" + "updateFromInternet="
+                + "#Enable updates from Internet (used for gps constellation TLEs)\n" + "updateFromInternet="
                 + updateInternet + "\n" + "#Configuration of the Celestia server\n" + "celestia=" + useCelestia + "\n"
                 + "celestiaPort=" + celestiaPort + "\n" + "#Start and end dates of simulation\n" + "startDate=" + dateFormat
                         .format(startDate) + "\n" + "endDate=" + dateFormat.format(endDate) + "\n"
@@ -232,14 +229,6 @@ public class SimulatorHeader implements Serializable {
 
     public int getSecondStartDate() {
         return DateExtraction.getSecondsFromDate(this.startDate);
-    }
-
-    public boolean isUseOrekitPropagator() {
-        return useOrekitPropagator;
-    }
-
-    public void setUseOrekitPropagator(boolean useOrekitPropagator) {
-        this.useOrekitPropagator = useOrekitPropagator;
     }
 
     public boolean isUseCelestia() {

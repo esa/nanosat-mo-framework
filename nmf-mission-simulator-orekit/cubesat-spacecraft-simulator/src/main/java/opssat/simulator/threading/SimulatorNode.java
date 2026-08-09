@@ -44,9 +44,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.zip.CRC32;
 import java.util.zip.Checksum;
-import opssat.simulator.GPS;
-import opssat.simulator.Orbit;
-import opssat.simulator.OrbitParameters;
 import opssat.simulator.celestia.CelestiaData;
 import opssat.simulator.interfaces.ISimulatorDeviceData;
 import opssat.simulator.interfaces.InternalData;
@@ -93,10 +90,6 @@ public class SimulatorNode extends TaskNode {
     // Orekit
     OrekitCore orekitCore;
 
-    // Models
-    private Orbit darkDusk;
-    private GPS gps;
-
     // Simulator Data Bindings
     // Below is alphabetical order of interfaces, used to map GUI data
     private final static int INTERFACE_ONBOARDROUTER = 0;
@@ -134,8 +127,6 @@ public class SimulatorNode extends TaskNode {
     private final static String OPS_SAT_SIMULATOR_DATA = File.separator + ".ops-sat-simulator" + File.separator;
     private final static String OPS_SAT_SIMULATOR_RESOURCES = OPS_SAT_SIMULATOR_DATA + "resources" + File.separator;
 
-    private final static String OPSSAT_TLE_LINE1 = "1 44878U 19092F   20159.72929773  .00000725  00000-0  41750-4 0  9990";
-    private final static String OPSSAT_TLE_LINE2 = "2 44878  97.4685 343.1680 0015119  36.0805 324.1445 15.15469997 26069";
 
     // Platform sim properties
     private Properties platformProperties;
@@ -239,13 +230,7 @@ public class SimulatorNode extends TaskNode {
     }
 
     LinkedList<GPSSatInView> getSatsInView() {
-        LinkedList<GPSSatInView> tempResult = new LinkedList<>();
-        if (this.simulatorHeader.isUseOrekitPropagator()) {
-            tempResult = this.orekitCore.getSatsInViewAsList();
-        } else {
-            tempResult.add(new GPSSatInView("test", 100000));
-        }
-        return tempResult;
+        return this.orekitCore.getSatsInViewAsList();
     }
 
     /**
@@ -254,20 +239,12 @@ public class SimulatorNode extends TaskNode {
      * @return The current TLE.
      */
     public TLE getTLE() {
-        if (this.simulatorHeader.isUseOrekitPropagator()) {
-            return this.orekitCore.getTLE();
-        } else {
-            Logger.getLogger(SimulatorNode.class.getCanonicalName()).log(Level.WARNING,
-                    "TLE only awailable in Simulator, wenn Using Orekit propagator!");
-            return new TLE(OPSSAT_TLE_LINE1, OPSSAT_TLE_LINE2);
-        }
+        return this.orekitCore.getTLE();
     }
 
     public void runVectorTargetTracking(float x, float y, float z, float margin) {
         logger.log(Level.INFO, "Vector " + x + " " + y + " " + z);
-        if (simulatorHeader.isUseOrekitPropagator()) {
-            this.orekitCore.changeAttitudeVectorTarget(x, y, z, margin);
-        }
+        this.orekitCore.changeAttitudeVectorTarget(x, y, z, margin);
     }
 
     public enum DevDatPBind {
@@ -387,22 +364,20 @@ public class SimulatorNode extends TaskNode {
             OPS_SAT_TRUE_ANOMALY = DEFAULT_OPS_SAT_TRUE_ANOMALY;
 
         }
-        this.darkDusk = new Orbit(OPS_SAT_A, OPS_SAT_ORBIT_I * (Math.PI / 180), (OPS_SAT_RAAN) * (Math.PI / 180),
-                (OPS_SAT_ARG_PER) * (Math.PI / 180), 0, OPS_SAT_TRUE_ANOMALY, simulatorHeader.getStartDateString());
-        this.gps = new GPS(darkDusk);
-
-        if (this.simulatorHeader.isUseOrekitPropagator()) {
-            this.logger.log(Level.FINE, "Calling orekit constructor");
-            try {
-                this.orekitCore = new OrekitCore(OPS_SAT_A * 1000, OPS_SAT_E, OPS_SAT_ORBIT_I, OPS_SAT_ARG_PER,
-                        OPS_SAT_RAAN, OPS_SAT_TRUE_ANOMALY, simulatorHeader, this.logger, this);
-                this.logger.log(Level.FINE, "orekit initialized successfully");
-                this.orekitCore.processPropagateStep(0);
-            } catch (OrekitException exception) {
-                this.logger.log(Level.SEVERE, "orekit initialization failed from [" + exception
-                        + "]! Switching module off");
-                this.simulatorHeader.setUseOrekitPropagator(false);
-            }
+        this.logger.log(Level.FINE, "Calling orekit constructor");
+        try {
+            this.orekitCore = new OrekitCore(OPS_SAT_A * 1000, OPS_SAT_E, OPS_SAT_ORBIT_I, OPS_SAT_ARG_PER,
+                    OPS_SAT_RAAN, OPS_SAT_TRUE_ANOMALY, simulatorHeader, this.logger, this);
+            this.logger.log(Level.FINE, "orekit initialized successfully");
+            this.orekitCore.processPropagateStep(0);
+        } catch (OrekitException exception) {
+            // The propagator is not optional: everything the simulator reports
+            // about where the spacecraft is and which way it is pointing comes
+            // from it. Carrying on without it used to be allowed, and gave a
+            // simulator that answered every question with nothing while looking
+            // perfectly healthy, so it stops here instead.
+            this.logger.log(Level.SEVERE, "Orekit did not start, so the simulator cannot run", exception);
+            throw new IllegalStateException("Orekit did not start, so the simulator cannot run", exception);
         }
         this.opticalReceiverModel = new OpticalReceiverModel("Optical Receiver", this.logger);
         schedulerDataIndex = 0;
@@ -515,7 +490,7 @@ public class SimulatorNode extends TaskNode {
         try {
             this.writeProperties(new File("platformsim.properties"), this.platformProperties);
         } catch (IOException e) {
-            Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, "Could not save platform properties");
+            this.logger.log(Level.SEVERE, "Could not save platform properties", e);
         }
         reloadImageBuffer();
     }
@@ -588,7 +563,7 @@ public class SimulatorNode extends TaskNode {
                 }
 
             } catch (IOException ex) {
-                Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
+                this.logger.log(Level.SEVERE, "Reading the file failed", ex);
             }
             return result;
         } else {
@@ -941,9 +916,7 @@ public class SimulatorNode extends TaskNode {
             if (!benchmarkFinished) {
                 if (counter >= BENCHMARK_START_COUNTER && !benchmarkInProgress) {
                     benchmarkInProgress = true;
-                    if (this.simulatorHeader.isUseOrekitPropagator()) {
-                        this.orekitCore.setConstellationPropagationCounter(0);
-                    }
+                    this.orekitCore.setConstellationPropagationCounter(0);
                     this.logger.log(Level.FINE, "BenchmarkStart;Counter [" + counter + "]");
                     this.logger.log(Level.FINE, "BenchmarkStartup;Counter [" + counter + "];TimeElapsed [" + (System
                             .currentTimeMillis() - benchmarkStartupTime) + "] ms");
@@ -955,22 +928,16 @@ public class SimulatorNode extends TaskNode {
                         benchmarkFinished = true;
                         this.logger.log(Level.FINE, "BenchmarkFinished;TimeElapsed [" + benchmarkTimeElapsed
                                 + "] ms;Counter [" + counter + "];Steps [" + BENCHMARK_COUNTER_EVALUATIONS + "]");
-                        if (this.simulatorHeader.isUseOrekitPropagator()) {
-                            this.logger.log(Level.FINE, "BenchmarkFinished;Orekit GPS constellation propagations ["
-                                    + this.orekitCore.getConstellationPropagationCounter() + "]");
-                        }
+                        this.logger.log(Level.FINE, "BenchmarkFinished;Orekit GPS constellation propagations ["
+                                + this.orekitCore.getConstellationPropagationCounter() + "]");
                     }
                 }
             }
             schedulerPollData();
-            if (simulatorHeader.isUseOrekitPropagator()) {
-                try {
-                    double ts = (timeElapsed) / 1000.0 * simulatorData.getTimeFactor();
-                    //System.out.println("Timestep: " + ts);
-                    orekitCore.processPropagateStep((timeElapsed) / 1000.0 * simulatorData.getTimeFactor());
-                } catch (OrekitException ex) {
-                    Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            try {
+                orekitCore.processPropagateStep((timeElapsed) / 1000.0 * simulatorData.getTimeFactor());
+            } catch (OrekitException ex) {
+                this.logger.log(Level.SEVERE, "Propagating the orbit failed", ex);
             }
         }
         // Job queue
@@ -1031,12 +998,13 @@ public class SimulatorNode extends TaskNode {
         if (super.getTimers().get(TIMER_SCHEDULER_DATA).isElapsed()) {
             pendingPeriodicOut.add(schedulerData);
         }
-        if (super.getTimers().get(TIMER_CELESTIA_DATA).isElapsed() && simulatorHeader.isUseCelestia() && simulatorHeader
-                .isUseOrekitPropagator()) {
+        if (super.getTimers().get(TIMER_CELESTIA_DATA).isElapsed() && simulatorHeader.isUseCelestia()) {
             if (orekitCore.isIsInitialized()) {
                 SimulatorSpacecraftState simulatorSpacecraftState = getSpacecraftState();
-                CelestiaData celestiaData = new CelestiaData(simulatorSpacecraftState.getRv(), simulatorSpacecraftState
-                        .getQ());
+                CelestiaData celestiaData = new CelestiaData(
+                        simulatorSpacecraftState.getRv(),
+                        simulatorSpacecraftState.getQ()
+                );
                 celestiaData.setDate(simulatorData.getCurrentTime());
                 celestiaData.setAnx(orekitCore.getNextAnx());
                 celestiaData.setDnx(orekitCore.getNextDnx());
@@ -1049,6 +1017,7 @@ public class SimulatorNode extends TaskNode {
         if (super.getTimers().get(TIMER_DEVICE_DATA).isElapsed()) {
             this.hMapSDData.get(DevDatPBind.Camera_CameraBuffer).setType(this.cameraBuffer.getDataBufferAsString());
             this.hMapSDData.get(DevDatPBind.Camera_CameraBufferOperatingIndex).setType(this.cameraBuffer.getOperatingIndex());
+
             SimulatorSpacecraftState simulatorSpacecraftState = getSpacecraftState();
             float[] p = new float[3];
             float[] v = new float[3];
@@ -1072,12 +1041,9 @@ public class SimulatorNode extends TaskNode {
             this.hMapSDData.get(DevDatPBind.GPS_Longitude).setType(simulatorSpacecraftState.getLongitude());
             this.hMapSDData.get(DevDatPBind.GPS_Altitude).setType(String.valueOf(simulatorSpacecraftState.getAltitude()));
 
-            if (simulatorHeader.isUseOrekitPropagator()) {
-                this.hMapSDData.get(DevDatPBind.GPS_GS_Elevation).setType(orekitCore.getCurrentGSElevation());
-                this.hMapSDData.get(DevDatPBind.GPS_GS_Azimuth).setType(orekitCore.getCurrentGSAzimuth());
-                this.hMapSDData.get(DevDatPBind.GPS_SatsInView).setType(String.valueOf(orekitCore.getSatsInView()));
-            }
-            this.hMapSDData.get(DevDatPBind.GPS_Altitude).setType(String.valueOf(simulatorSpacecraftState.getAltitude()));
+            this.hMapSDData.get(DevDatPBind.GPS_GS_Elevation).setType(orekitCore.getCurrentGSElevation());
+            this.hMapSDData.get(DevDatPBind.GPS_GS_Azimuth).setType(orekitCore.getCurrentGSAzimuth());
+            this.hMapSDData.get(DevDatPBind.GPS_SatsInView).setType(String.valueOf(orekitCore.getSatsInView()));
             this.hMapSDData.get(DevDatPBind.OpticalReceiver_OperatingBuffer)
                     .setType(this.opticalReceiverModel.getSingleStreamOperatingBuffer().getDataBufferAsString());
             this.hMapSDData.get(DevDatPBind.OpticalReceiver_OperatingBufferIndex)
@@ -1102,58 +1068,49 @@ public class SimulatorNode extends TaskNode {
     }
 
     public SimulatorSpacecraftState getSpacecraftState() {
-        if (this.simulatorHeader.isUseOrekitPropagator()) {
-            GeodeticPoint result = this.orekitCore.getGeodeticPoint();
-            SimulatorSpacecraftState data = new SimulatorSpacecraftState(
-                    toDegrees(result.getLatitude()),
-                    toDegrees(result.getLongitude()),
-                    result.getAltitude());
-            data.setRv(this.orekitCore.getOrbit().getPVCoordinates().getPosition(),
-                    this.orekitCore.getOrbit().getPVCoordinates().getVelocity());
-            float[] q = new float[4];
-            orekitCore.putQuaternionsInVector(q);
-            data.setQ(q);
-            data.setMagField(orekitCore.getMagneticField());
-            data.setMagnetometer(orekitCore.getMagnetometer());
-            data.setRotation(orekitCore.getAttitudeRotation());
-            data.setSunVector(orekitCore.getSunVector());
-            data.setSatsInView(this.orekitCore.getNumberSatsInView());
-            data.setModeOperation(orekitCore.getAttitudeMode().toString());
+        GeodeticPoint result = this.orekitCore.getGeodeticPoint();
+        SimulatorSpacecraftState data = new SimulatorSpacecraftState(
+                toDegrees(result.getLatitude()),
+                toDegrees(result.getLongitude()),
+                result.getAltitude());
+        data.setRv(this.orekitCore.getOrbit().getPVCoordinates().getPosition(),
+                this.orekitCore.getOrbit().getPVCoordinates().getVelocity());
+        float[] q = new float[4];
+        orekitCore.putQuaternionsInVector(q);
+        data.setQ(q);
+        data.setMagField(orekitCore.getMagneticField());
+        data.setMagnetometer(orekitCore.getMagnetometer());
+        data.setRotation(orekitCore.getAttitudeRotation());
+        data.setSunVector(orekitCore.getSunVector());
+        data.setSatsInView(this.orekitCore.getNumberSatsInView());
+        data.setModeOperation(orekitCore.getAttitudeMode().toString());
 
-            if (quaternionTcpServer != null) {
-                String qData = quaternionTcpServer.getData();
-                if (qData != null) {
+        if (quaternionTcpServer != null) {
+            String qData = quaternionTcpServer.getData();
+            if (qData != null) {
 
-                    String[] quaternions = qData.split(" ");
-                    if (quaternions.length == 4) {
-                        q[0] = Float.parseFloat(quaternions[0]);
-                        q[1] = Float.parseFloat(quaternions[1]);
-                        q[2] = Float.parseFloat(quaternions[2]);
-                        q[3] = Float.parseFloat(quaternions[3]);
-                        data.setQ(q);
-                    } else if (quaternions.length == 3) {
-                        // 0 heading
-                        // 1 roll
-                        // 2 pitch
-                        double yaw = Double.parseDouble(quaternions[0]);
-                        double pitch = Double.parseDouble(quaternions[2]);
-                        double roll = Double.parseDouble(quaternions[1]);
-                        // System.out.println("yaw=["+yaw+"] pitch=["+pitch+"] roll=["+roll+"]");
-                        this.orekitCore.putQuaternionsInVectorFromYPR(yaw, pitch, roll, q);
-                        data.setQ(q);
-                    }
+                String[] quaternions = qData.split(" ");
+                if (quaternions.length == 4) {
+                    q[0] = Float.parseFloat(quaternions[0]);
+                    q[1] = Float.parseFloat(quaternions[1]);
+                    q[2] = Float.parseFloat(quaternions[2]);
+                    q[3] = Float.parseFloat(quaternions[3]);
+                    data.setQ(q);
+                } else if (quaternions.length == 3) {
+                    // 0 heading
+                    // 1 roll
+                    // 2 pitch
+                    double yaw = Double.parseDouble(quaternions[0]);
+                    double pitch = Double.parseDouble(quaternions[2]);
+                    double roll = Double.parseDouble(quaternions[1]);
+                    // System.out.println("yaw=["+yaw+"] pitch=["+pitch+"] roll=["+roll+"]");
+                    this.orekitCore.putQuaternionsInVectorFromYPR(yaw, pitch, roll, q);
+                    data.setQ(q);
                 }
             }
-
-            return data;
-
-        } else {
-            OrbitParameters orbitData = this.gps.getPosition(simulatorData.getCurrentTime());
-            return new SimulatorSpacecraftState(
-                    orbitData.getLatitude(),
-                    orbitData.getLongitude(),
-                    orbitData.getAltitude() * 1000);
         }
+
+        return data;
     }
 
     // Globals
@@ -1366,7 +1323,7 @@ public class SimulatorNode extends TaskNode {
                     commandResult.setCommandFailed(true);
             }
         } catch (Exception e) {
-            Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, "Something went wrong...", e);
+            this.logger.log(Level.SEVERE, "Running command [" + c.getInternalID() + "] failed", e);
             String errorString = e.toString();
             commandResult.setOutput(errorString);
             commandResult.setCommandFailed(true);

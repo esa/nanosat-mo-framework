@@ -55,11 +55,6 @@ the License. -->
     </developers>
     <dependencies>
         <dependency>
-            <groupId>int.esa.nmf</groupId>
-            <artifactId>cubesat-gps-simulator</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>int.esa.nmf.sdk</groupId>
             <artifactId>orekit-resources</artifactId>
             <version>${project.version}</version>
