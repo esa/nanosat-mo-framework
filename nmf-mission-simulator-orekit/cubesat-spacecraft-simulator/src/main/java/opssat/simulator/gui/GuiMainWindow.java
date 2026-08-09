@@ -21,11 +21,6 @@
  */
 package opssat.simulator.gui;
 
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -64,8 +59,6 @@ public class GuiMainWindow implements Runnable {
     private final Color colorDescription = Color.WHITE;
     private final String pwd = System.getProperty("user.dir");
     private Properties platformProperties;
-    private JSch ftp;
-    private ChannelSftp sftpChannel;
     private GuiMainWindow window;
 
     JLabel lblSimulatorData;
@@ -406,11 +399,7 @@ public class GuiMainWindow implements Runnable {
                 targetURL = items.get(0);
                 targetPort = Integer.parseInt(items.get(1));
                 parent.setTargetConnection(targetURL, targetPort);
-                // SFTP
-                SFTPInformation ui = new SFTPInformation(GuiMainWindow.this);
-                ui.setBounds(100, 100, 496, 145);
-                ui.setVisible(true);
-                GuiMainWindow.this.frame.setEnabled(false);
+                refreshPlatformProperties();
             } else {
                 txtLoaderPrompt.setText(targetURL + ":" + targetPort);
             }
@@ -567,11 +556,15 @@ public class GuiMainWindow implements Runnable {
                     String chosenName = fc.getSelectedFile().getAbsolutePath();
                     textFieldPath.setText(chosenName);
                 }
-            } else { // use SFTP browser
-                SFTPBrowser browser = new SFTPBrowser(sftpChannel, (String) selectMode.getSelectedItem(), window);
-                browser.setBounds(100, 100, 400, 300);
-                browser.setVisible(true);
-                frame.setEnabled(false);
+            } else {
+                // The picture has to be somewhere the simulator can reach, and
+                // the simulator is on another machine, so there is nothing here
+                // to browse. This used to open an SFTP session to go and look;
+                // that is gone, and the path is typed instead.
+                JOptionPane.showMessageDialog(this.frame,
+                        "The simulator is running on " + targetURL + ", so the picture has to be "
+                        + "chosen there. Type its path on that machine into the field.",
+                        "Browsing is local only", JOptionPane.INFORMATION_MESSAGE);
             }
         });
         sl_panelCameraSettings.putConstraint(SpringLayout.NORTH, btnOpenTargetSelect, 0, SpringLayout.NORTH,
@@ -677,46 +670,6 @@ public class GuiMainWindow implements Runnable {
         }
     }
 
-    /**
-     * Sets the textfield of the camera settings tab (invoked from SFTPBrowser).
-     *
-     * @param path The path to put into the text field.
-     */
-    public void setPathFromSFTP(String path) {
-        textFieldPath.setText(path);
-        this.frame.setEnabled(true);
-    }
-
-    /**
-     * Connects the SFTP client to the server
-     *
-     * @param ui SFTPInformation containing important connection information.
-     * @return true on success, false otherwise
-     */
-    public boolean connectStfp(SFTPInformation ui) {
-        ftp = new JSch();
-        try {
-            ftp.setKnownHosts(ui.getKnownHosts());
-            Session session = ftp.getSession(ui.getUsername(), targetURL, 22);
-            session.setUserInfo(ui);
-            session.connect();
-            Channel channel = session.openChannel("sftp");
-            channel.connect();
-            sftpChannel = (ChannelSftp) channel;
-            refreshPlatformProperties();
-            this.frame.setEnabled(true);
-            return true;
-        } catch (JSchException e1) {
-            e1.printStackTrace();
-            JOptionPane.showMessageDialog(this.frame, "Failed to init connection. Check your username and password!");
-            SFTPInformation nui = new SFTPInformation(this);
-            nui.setBounds(100, 100, 500, 300);
-            nui.setVisible(true);
-            this.frame.setEnabled(false);
-            return false;
-            // this.frame.dispose();
-        }
-    }
 
     /**
      * Reloads the camera properties in the table
