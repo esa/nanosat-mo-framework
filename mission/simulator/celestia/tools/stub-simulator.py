@@ -32,7 +32,7 @@ HANDSHAKE = "connection_successful"
 STOP = "connection_stop"
 PROTOCOL_VERSION = "1.1"
 
-SPACECRAFT = "OPSSAT"
+SPACECRAFT = "OPS-SAT"
 ALTITUDE_KM = 6871.0  # Earth radius plus about 500 km
 
 
