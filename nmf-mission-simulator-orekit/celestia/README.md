@@ -86,7 +86,7 @@ running costs a frame nothing and the spacecraft simply stays where it was.
 | `entrypoint.sh` | Derives a Celestia configuration at startup from the one the package ships |
 | `module-shim.lua` | Answers for the module name at the only paths Celestia searches |
 | `luahook.lua` | Puts the add-on directory on the module search path |
-| `startup.cel` | Selects the spacecraft, so that it is drawn |
+| `startup.celx` | Selects the spacecraft, so that it is drawn, and places the observer looking at it with the Earth's north pole at the top of the image |
 | `extras/` | The spacecraft, the ground stations and the models they draw with |
 | `extras/opssat/celxx/orbitattitude-realtime.lua` | The client: connects, acknowledges, and answers Celestia's questions |
 | `tools/stub-simulator.py` | Stands in for the simulator, for working on this without one |
@@ -164,6 +164,18 @@ and nothing else can work.
 **A `wait` in the startup script stops Celestia loading anything.** `select`,
 `goto` and `follow` are fine. The symptom is an empty universe, which looks like
 a broken installation rather than a broken script.
+
+**`(0, 1, 0)` is the pole of the ecliptic, not of the Earth.** Celestia's own
+axes are not the ones the `.ssc` files are written in: inside Celestia the
+ecliptic is the xz plane and +y is its pole, the Earth's axis being the
+obliquity away from it about +x. Given `(0, 1, 0)` as its up vector the observer
+leaves the Earth leaning by 23.4 degrees, and by any angle at all, upside down
+included, when it is looking anywhere near the pole of the ecliptic, because
+there the up vector is nearly the direction being looked along and what remains
+of it across the view points wherever rounding sends it. `startup.celx`
+therefore uses `(0, cos 23.4392911, -sin 23.4392911)`, and keeps the line of
+sight 25 degrees clear of the Earth's axis so that the same thing cannot happen
+about that one.
 
 **Celestia says nothing when any of this goes wrong.** Its log stays empty. The
 only way to see where a failure is is to have the Lua write a file, and to open

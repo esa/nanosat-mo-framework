@@ -67,8 +67,11 @@ local link = {
     -- Where the spacecraft was last seen, in the frame the .ssc declares.
     -- Kept at a plausible altitude so that something is drawn before the first
     -- message arrives, rather than the spacecraft sitting in the centre of the
-    -- Earth.
-    position = {x = 0, y = 0, z = 7000},
+    -- Earth. Over the equator rather than over a pole, because the startup
+    -- script places the observer from wherever the spacecraft is when Celestia
+    -- first asks, which is usually here: a spacecraft on the axis is the one
+    -- position from which there is no north to put at the top of the image.
+    position = {x = 7000, y = 0, z = 0},
     orientation = {w = 1, x = 0, y = 0, z = 0},
     received = 0
 }

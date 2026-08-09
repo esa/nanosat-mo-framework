@@ -10,7 +10,7 @@
 -- ---------------------------------------------------------------------------
 --
 -- Puts the observer somewhere sensible when Celestia starts, and points it at
--- the spacecraft.
+-- the spacecraft with the Earth's north pole at the top of the image.
 --
 -- This is not only for the look of it. The module that talks to the simulator
 -- is driven by Celestia asking where the spacecraft is, and Celestia only asks
@@ -27,6 +27,52 @@
 
 local VIEWING_DISTANCE_KM = 10000
 
+-- Celestia's own axes are not the ones the .ssc files are written in: inside
+-- Celestia the ecliptic is the xz plane and +y is the pole of the ecliptic, not
+-- of the Earth. The two are the obliquity apart, turned about +x, which is the
+-- direction of the vernal equinox, and that is what these two numbers are.
+--
+-- The difference is the whole point. Given the ecliptic pole as its up vector
+-- the observer leaves the Earth leaning by the obliquity at best, and by any
+-- angle at all when the spacecraft is near the pole of the ecliptic, because
+-- there the up vector is nearly the direction being looked along and what is
+-- left of it after the view direction is taken out points wherever it likes.
+-- That is the Earth arriving upside down.
+local OBLIQUITY = math.rad(23.4392911)
+local NORTH = celestia:newvector(0, math.cos(OBLIQUITY), -math.sin(OBLIQUITY))
+
+-- Somewhere to look from when the spacecraft is over a pole, where the same
+-- argument applies to the Earth's axis as applies above to the ecliptic's: seen
+-- from straight above the pole there is no north in the image to put at the
+-- top. The line of sight is brought this far off the axis so that there is.
+local CLOSEST_TO_AXIS = math.rad(25)
+
+-- Perpendicular to the Earth's axis by construction, being the axis the
+-- obliquity is turned about. Used only if the spacecraft is exactly over a
+-- pole, where every direction off the axis is as good as any other.
+local EQUINOX = celestia:newvector(1, 0, 0)
+
+local function dot(a, b)
+    return a.x * b.x + a.y * b.y + a.z * b.z
+end
+
+local function scaled(v, k)
+    return celestia:newvector(v.x * k, v.y * k, v.z * k)
+end
+
+local function sum(a, b)
+    return celestia:newvector(a.x + b.x, a.y + b.y, a.z + b.z)
+end
+
+--- Returns the direction of a vector, or nil if it has none.
+local function unit(v)
+    local length = math.sqrt(dot(v, v))
+    if length == 0 then
+        return nil
+    end
+    return scaled(v, 1 / length), length
+end
+
 local observer = celestia:getobserver()
 local spacecraft = celestia:find("Sol/Earth/OPS-SAT")
 local earth = celestia:find("Sol/Earth")
@@ -39,24 +85,52 @@ end
 celestia:select(spacecraft)
 
 if earth ~= nil and earth:type() ~= "null" then
-    local toSpacecraft = earth:getposition():vectorto(spacecraft:getposition())
-    local altitude = earth:getposition():distanceto(spacecraft:getposition())
+    local earthPosition = earth:getposition()
+    local spacecraftPosition = spacecraft:getposition()
 
-    if altitude > 0 then
-        -- The vector is not in kilometres, and neither is anything else
-        -- Celestia holds positions in, so it is scaled by the ratio of two
-        -- distances rather than by a length. The units cancel and what comes
-        -- out is the wanted number of kilometres further out along the same
-        -- line.
-        local reach = VIEWING_DISTANCE_KM / altitude
-        local beyond = celestia:newvector(toSpacecraft.x * reach,
-                                          toSpacecraft.y * reach,
-                                          toSpacecraft.z * reach)
-        local viewpoint = spacecraft:getposition():addvector(beyond)
+    local toSpacecraft = earthPosition:vectorto(spacecraftPosition)
+    local altitudeKm = earthPosition:distanceto(spacecraftPosition)
+    local outwards, reach = unit(toSpacecraft)
+
+    if outwards ~= nil and altitudeKm > 0 then
+        -- Neither that vector nor anything else Celestia holds positions in is
+        -- in kilometres, and the same vector has just been measured both ways,
+        -- so the ratio of the two is how much of one there is in the other.
+        local unitsPerKm = reach / altitudeKm
+
+        -- The observer would go straight out along that line, which is fine
+        -- unless the line is the Earth's axis. If it is anywhere near it, the
+        -- view is swung round to a fixed angle off the axis instead, on the
+        -- same side and above the same meridian, so that north still means
+        -- something in the image.
+        local alongAxis = dot(outwards, NORTH)
+        if math.abs(alongAxis) > math.cos(CLOSEST_TO_AXIS) then
+            -- What is left of the line once the axis is taken out of it is the
+            -- meridian it lies above. Straight over the pole there is nothing
+            -- left but rounding, which points in no particular direction and
+            -- is not perpendicular to the axis either, so it is not used: the
+            -- equinox stands in, being perpendicular to the axis by
+            -- construction.
+            local sideways = EQUINOX
+            local acrossAxis = sum(outwards, scaled(NORTH, -alongAxis))
+            if math.sqrt(dot(acrossAxis, acrossAxis)) > 1e-6 then
+                sideways = unit(acrossAxis)
+            end
+
+            local towardsPole = (alongAxis >= 0) and 1 or -1
+            outwards = sum(
+                scaled(NORTH, towardsPole * math.cos(CLOSEST_TO_AXIS)),
+                scaled(sideways, math.sin(CLOSEST_TO_AXIS)))
+        end
+
+        local viewpoint = spacecraftPosition:addvector(
+            scaled(outwards, VIEWING_DISTANCE_KM * unitsPerKm))
 
         observer:setposition(viewpoint)
-        observer:lookat(viewpoint, spacecraft:getposition(),
-                        celestia:newvector(0, 1, 0))
+        -- The up vector needs only to be out of line with the view direction,
+        -- which the swing above has seen to; Celestia takes the part of it that
+        -- is across the view and makes that the top of the image.
+        observer:lookat(viewpoint, spacecraftPosition, NORTH)
     end
 end
 
