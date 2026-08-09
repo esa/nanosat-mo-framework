@@ -83,6 +83,59 @@ WORKDIR ${HOME}
 COPY entrypoint.sh /usr/local/bin/celestia-entrypoint
 RUN chmod +x /usr/local/bin/celestia-entrypoint
 
+
+# A better Earth to look down at.
+#
+# The packaged textures are small: the day map is a couple of megabytes and the
+# night side, which is the one on show when the spacecraft is over the dark half,
+# is forty kilobytes. These are NASA's, and are fetched rather than kept in the
+# repository, which has no business carrying tens of megabytes of imagery.
+#
+# Credit: NASA Earth Observatory. Blue Marble: Next Generation for the day side,
+# Earth at Night for the night side. NASA material is not subject to copyright;
+# NASA asks only to be named as the source, which is what this comment and the
+# README do.
+#
+# Nothing here is allowed to fail quietly. A missing or truncated file would
+# leave an image that looks subtly worse with nothing to say why, so every step
+# is checked and the build stops if anything is wrong.
+#
+# Both are within GL_MAX_TEXTURE_SIZE, which is 16384 on the hardware this was
+# built for. The 21600 wide Blue Marble is deliberately not used: it cannot be
+# loaded as one texture.
+ARG NASA_EARTH_DAY=https://eoimages.gsfc.nasa.gov/images/imagerecords/73000/73909/world.topo.bathy.200412.3x5400x2700.jpg
+ARG NASA_EARTH_NIGHT=https://eoimages.gsfc.nasa.gov/images/imagerecords/79000/79765/dnb_land_ocean_ice.2012.13500x6750.jpg
+
+RUN set -eu; \
+    fetch() { \
+        url="$1"; out="$2"; least="$3"; \
+        curl --fail --location --silent --show-error --retry 3 --retry-delay 2 \
+             --connect-timeout 30 --max-time 600 --output "$out" "$url" \
+          || { echo "FAILED to download $url" >&2; exit 1; }; \
+        size=$(stat -c%s "$out"); \
+        [ "$size" -ge "$least" ] \
+          || { echo "FAILED: $out is $size bytes, expected at least $least" >&2; exit 1; }; \
+        head -c 2 "$out" | od -An -tx1 | tr -d ' \n' | grep -q '^ffd8' \
+          || { echo "FAILED: $out is not a JPEG, the server likely returned an error page" >&2; exit 1; }; \
+        echo "fetched $out ($size bytes)"; \
+    }; \
+    fetch "${NASA_EARTH_DAY}"   /tmp/earth.jpg      2000000; \
+    fetch "${NASA_EARTH_NIGHT}" /tmp/earthnight.jpg 5000000; \
+    for res in medres hires; do \
+        mkdir -p "/usr/share/celestia/textures/$res"; \
+        # The definitions ask for "earth.*", so the packaged ones are removed
+        # rather than left beside these, which would make the choice arbitrary.
+        rm -f "/usr/share/celestia/textures/$res/earth.png" \
+              "/usr/share/celestia/textures/$res/earth.jpg" \
+              "/usr/share/celestia/textures/$res/earthnight.png" \
+              "/usr/share/celestia/textures/$res/earthnight.jpg"; \
+        cp /tmp/earth.jpg      "/usr/share/celestia/textures/$res/earth.jpg"; \
+        cp /tmp/earthnight.jpg "/usr/share/celestia/textures/$res/earthnight.jpg"; \
+    done; \
+    rm -f /tmp/earth.jpg /tmp/earthnight.jpg; \
+    test -s /usr/share/celestia/textures/medres/earth.jpg; \
+    test -s /usr/share/celestia/textures/medres/earthnight.jpg
+
 # Celestia looks for the modules a .ssc names under "?.lua" and "celxx/?.lua",
 # relative to the directory it runs in, which is its own data directory. Nothing
 # mounted from the host is on that path, so the module is answered for from both

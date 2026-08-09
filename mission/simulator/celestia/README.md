@@ -104,6 +104,29 @@ Celestia is not in the Ubuntu archive; it was dropped over its dependency on Qt4
 Ubuntu this machine runs does not matter, because Celestia runs in a container,
 and the image is built on jammy to get those packages.
 
+### The Earth
+
+The Earth textures are not the ones Celestia ships. Those are small, and the
+night side in particular is forty kilobytes, which is what the spacecraft looks
+down at for half of every orbit. Better ones are fetched from NASA when the
+image is built, rather than kept here: this repository has no business carrying
+tens of megabytes of imagery.
+
+Imagery credit: **NASA Earth Observatory** — *Blue Marble: Next Generation* for
+the day side, *Earth at Night* for the night side. NASA material is not subject
+to copyright and NASA asks only to be named as the source.
+
+The build fails if either file cannot be downloaded, is short, or is not
+actually a JPEG. This is deliberate: a silently missing texture would leave an
+image that looks subtly worse with nothing to say why. To point the build at
+different files, override `NASA_EARTH_DAY` or `NASA_EARTH_NIGHT` with
+`--build-arg`.
+
+Both files sit within `GL_MAX_TEXTURE_SIZE`, 16384 on the hardware this was
+built for. NASA publishes a 21600-wide day map, and it is deliberately not used:
+it cannot be loaded as a single texture. Going beyond the limit means Celestia's
+virtual textures, which is a different piece of work.
+
 ### Things that cost a day, written down so they do not again
 
 **The methods are called `position` and `orientation`.** Not `positionAtTime` and
