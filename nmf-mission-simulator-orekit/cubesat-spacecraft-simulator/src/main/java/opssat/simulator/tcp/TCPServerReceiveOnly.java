@@ -24,6 +24,7 @@ package opssat.simulator.tcp;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
@@ -59,8 +60,17 @@ public class TCPServerReceiveOnly extends Thread {
         ServerSocket welcomeSocket = null;
         while (!shouldClose) {
             try {
-                welcomeSocket = new ServerSocket(port);
-                this.logger.log(Level.INFO, "Created ServerSocket on port [" + port + "]");
+                // Bound to the loopback address rather than the wildcard, so
+                // this reaches no further than the machine the simulator runs
+                // on. It is opened on demand, on a port named in a command, and
+                // whatever is sent to it is taken as the spacecraft's attitude
+                // without anything being asked of the sender; on the wildcard
+                // that is an unauthenticated way in from the network. The
+                // simulator's own command server binds the same way, for the
+                // same reason.
+                welcomeSocket = new ServerSocket(port, 10, InetAddress.getLoopbackAddress());
+                this.logger.log(Level.INFO, "Created ServerSocket on [{0}] port [{1}]",
+                        new Object[]{welcomeSocket.getInetAddress(), port});
 
                 Socket connectionSocket;
                 try {
