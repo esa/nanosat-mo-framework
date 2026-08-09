@@ -27,7 +27,7 @@
 # @version     2015.07.27
 #
 #--------------------------------------------------------------------------------
-"OPSSAT" "Sol/Earth"
+"OPS-SAT" "Sol/Earth"
 {
     Class "spacecraft"
     Mesh "OPS-SAT.3ds"
@@ -65,7 +65,7 @@
     }
 }
 
-"OPSSATProp" "Sol/Earth"
+"OPS-SAT-Prop" "Sol/Earth"
 {
     Class "spacecraft"
     Visible false
@@ -95,7 +95,7 @@
     }
 }
 
-"Velocity" "Sol/Earth/OPSSAT"
+"Velocity" "Sol/Earth/OPS-SAT"
 {
     Class "surfacefeature"
     Mesh "violet-vector.3ds"
@@ -109,18 +109,18 @@
 
     OrbitFrame {
         BodyFixed {
-            Center "Sol/Earth/OPSSAT"
+            Center "Sol/Earth/OPS-SAT"
         }
     }
     FixedPosition [ 0 0 0 ]
     
     BodyFrame {
         TwoVector {
-            Center "Sol/Earth/OPSSAT"
+            Center "Sol/Earth/OPS-SAT"
             Primary {
                 Axis "y"
                 RelativePosition {
-                    Target "Sol/Earth/OPSSATProp"
+                    Target "Sol/Earth/OPS-SAT-Prop"
                 }
             }
             Secondary {
@@ -138,7 +138,7 @@
     }
 }
 
-"Earth" "Sol/Earth/OPSSAT"
+"Earth" "Sol/Earth/OPS-SAT"
 {
     Class "surfacefeature"
     Mesh "cyan-vector.3ds"
@@ -152,14 +152,14 @@
 
     OrbitFrame {
         BodyFixed {
-            Center "Sol/Earth/OPSSAT"
+            Center "Sol/Earth/OPS-SAT"
         }
     }
     FixedPosition [ 0 0 0 ]
 
     BodyFrame {
         TwoVector {
-            Center "Sol/Earth/OPSSAT"
+            Center "Sol/Earth/OPS-SAT"
             Primary {
                 Axis "y"
                 RelativePosition {
@@ -171,7 +171,7 @@
                 ConstantVector {
                     Frame {
                         BodyFixed {
-                            Center "Sol/Earth/OPSSAT"
+                            Center "Sol/Earth/OPS-SAT"
                         }
                     }
                     Vector [ 0 0 1 ]
@@ -186,7 +186,7 @@
     }
 }
 
-"Moon" "Sol/Earth/OPSSAT"
+"Moon" "Sol/Earth/OPS-SAT"
 {
     Class "surfacefeature"
     Mesh "gray-vector.3ds"
@@ -200,14 +200,14 @@
 
     OrbitFrame {
         BodyFixed {
-            Center "Sol/Earth/OPSSAT"
+            Center "Sol/Earth/OPS-SAT"
         }
     }
     FixedPosition [ 0 0 0 ]
 
     BodyFrame {
         TwoVector {
-            Center "Sol/Earth/OPSSAT"
+            Center "Sol/Earth/OPS-SAT"
             Primary {
                 Axis "y"
                 RelativePosition {
@@ -229,7 +229,7 @@
     }
 }
 
-"Sun" "Sol/Earth/OPSSAT"
+"Sun" "Sol/Earth/OPS-SAT"
 {
     Class "surfacefeature"
     Mesh "yellow-vector.3ds"
@@ -243,14 +243,14 @@
 
     OrbitFrame {
         BodyFixed {
-            Center "Sol/Earth/OPSSAT"
+            Center "Sol/Earth/OPS-SAT"
         }
     }
     FixedPosition [ 0 0 0 ]
 
     BodyFrame {
         TwoVector {
-            Center "Sol/Earth/OPSSAT"
+            Center "Sol/Earth/OPS-SAT"
             Primary {
                 Axis "y"
                 RelativePosition {
@@ -272,7 +272,7 @@
     }
 }
 
-"X" "Sol/Earth/OPSSAT" {
+"X" "Sol/Earth/OPS-SAT" {
 
     Class "surfacefeature"
     Mesh "red-vector.3ds"
@@ -286,20 +286,20 @@
 
     OrbitFrame {
         BodyFixed {
-            Center "Sol/Earth/OPSSAT"
+            Center "Sol/Earth/OPS-SAT"
         }
     }
     FixedPosition  [ 0 0 0 ]
 
     BodyFrame {
         TwoVector {
-        Center "Sol/Earth/OPSSAT"
+        Center "Sol/Earth/OPS-SAT"
             Primary {
             Axis "z"
                 ConstantVector {
                     Frame {
                         BodyFixed {
-                            Center "Sol/Earth/OPSSAT"
+                            Center "Sol/Earth/OPS-SAT"
                         }
                     }
                     Vector [ 0 0 1 ]
@@ -310,7 +310,7 @@
                 ConstantVector {
                     Frame {
                         BodyFixed {
-                            Center "Sol/Earth/OPSSAT"
+                            Center "Sol/Earth/OPS-SAT"
                         }
                     }
                     Vector [ -1 0 0 ]
@@ -325,7 +325,7 @@
     }
 }
 
-"Y" "Sol/Earth/OPSSAT" {
+"Y" "Sol/Earth/OPS-SAT" {
 
     Class "surfacefeature"
     Mesh "green-vector.3ds"
@@ -339,20 +339,20 @@
 
     OrbitFrame {
         BodyFixed {
-            Center "Sol/Earth/OPSSAT"
+            Center "Sol/Earth/OPS-SAT"
         }
     }
     FixedPosition  [ 0 0 0 ]
 
     BodyFrame {
         TwoVector {
-        Center "Sol/Earth/OPSSAT"
+        Center "Sol/Earth/OPS-SAT"
             Primary {
             Axis "z"
                 ConstantVector {
                     Frame {
                         BodyFixed {
-                            Center "Sol/Earth/OPSSAT"
+                            Center "Sol/Earth/OPS-SAT"
                         }
                     }
                     Vector [ -1 0 0 ]
@@ -363,7 +363,7 @@
                 ConstantVector {
                     Frame {
                         BodyFixed {
-                            Center "Sol/Earth/OPSSAT"
+                            Center "Sol/Earth/OPS-SAT"
                         }
                     }
                     Vector [ 0 0 1 ]
@@ -378,7 +378,7 @@
     }
 }
 
-"Z" "Sol/Earth/OPSSAT" {
+"Z" "Sol/Earth/OPS-SAT" {
 
     Class "surfacefeature"
     Mesh "blue-vector.3ds"
@@ -392,20 +392,20 @@
 
     OrbitFrame {
         BodyFixed {
-            Center "Sol/Earth/OPSSAT"
+            Center "Sol/Earth/OPS-SAT"
         }
     }
     FixedPosition  [ 0 0 0 ]
 
     BodyFrame {
         TwoVector {
-        Center "Sol/Earth/OPSSAT"
+        Center "Sol/Earth/OPS-SAT"
             Primary {
             Axis "z"
                 ConstantVector {
                     Frame {
                         BodyFixed {
-                            Center "Sol/Earth/OPSSAT"
+                            Center "Sol/Earth/OPS-SAT"
                         }
                     }
                     Vector [ 0 0 1 ]
@@ -416,7 +416,7 @@
                 ConstantVector {
                     Frame {
                         BodyFixed {
-                            Center "Sol/Earth/OPSSAT"
+                            Center "Sol/Earth/OPS-SAT"
                         }
                     }
                     Vector [ 1 0 0 ]
