@@ -78,8 +78,8 @@ public class CentralNode extends TaskNode {
 
     private void initCelestia(SimulatorHeader header) {
         super.getLogObject().log(Level.FINE, "Creating Celestia provider");
-        this.celestiaInterfaceServer = new CelestiaIf(this.qToCelestia, header.getCelestiaPort(), "OPS-SAT",
-            super.getLogObject());
+        this.celestiaInterfaceServer = new CelestiaIf(this.qToCelestia, header.getCelestiaHost(),
+            header.getCelestiaPort(), "OPS-SAT", super.getLogObject());
         (new Thread(celestiaInterfaceServer, "sim-" + celestiaInterfaceServer.getClass().getSimpleName())).start();
     }
 

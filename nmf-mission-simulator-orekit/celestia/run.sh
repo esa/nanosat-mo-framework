@@ -5,10 +5,11 @@
 #
 # The image is built on first use. Pass --rebuild to build it again.
 #
-# The container is given the host network, for two reasons: the simulator's
-# Celestia server listens on the host, so 127.0.0.1:5909 has to mean the same
-# thing on both sides, and it makes the X display reachable without further
-# arrangement.
+# The container is given the host network, for two reasons: Celestia listens on
+# 5909 and the simulator dials in from the host, so the port has to mean the
+# same thing on both sides, and it makes the X display reachable without further
+# arrangement. In a bridge network this would instead want -p 5909:5909, which
+# is why the Lua binds all interfaces rather than loopback.
 #
 set -eu
 

@@ -16,9 +16,9 @@ worked on without starting a Supervisor, an Orekit propagator and a mission.
 It flies a circle rather than an orbit: the point is to move the spacecraft
 predictably, not to be right.
 
-    ./stub-simulator.py [--port 5909] [--period 90]
+    ./stub-simulator.py [--host 127.0.0.1] [--port 5909] [--period 90]
 
-It waits for Celestia to connect, greets it, and then sends a sample every
+It dials Celestia, greets it, and then sends a sample every
 half second, waiting for the acknowledgement that the real server waits for.
 """
 
@@ -29,6 +29,7 @@ import sys
 import time
 
 HANDSHAKE = "connection_successful"
+RECONNECT_INTERVAL = 3
 STOP = "connection_stop"
 PROTOCOL_VERSION = "1.1"
 
@@ -91,17 +92,22 @@ def build_message(now, position, velocity, q):
                " ".join(units)))
 
 
-def serve(port, period_s, interval_s):
-    listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    listener.bind(("127.0.0.1", port))
-    listener.listen(1)
-    print("Waiting for Celestia on 127.0.0.1:%d ..." % port, flush=True)
-
+def serve(host, port, period_s, interval_s):
     while True:
-        connection, address = listener.accept()
+        # Celestia listens; the simulator dials in, as CelestiaIf does. A
+        # Celestia which is not up yet is the normal case at startup, so this
+        # retries rather than giving up.
+        try:
+            connection = socket.create_connection((host, port), timeout=2)
+        except OSError as err:
+            print("Celestia not reachable at %s:%d (%s). Retrying."
+                  % (host, port, err), flush=True)
+            time.sleep(RECONNECT_INTERVAL)
+            continue
+
+        connection.settimeout(None)
         connection.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-        print("Connected from %s:%d" % address, flush=True)
+        print("Connected to Celestia at %s:%d" % (host, port), flush=True)
         reader = connection.makefile("r")
 
         try:
@@ -138,10 +144,13 @@ def serve(port, period_s, interval_s):
             print("Connection lost.", flush=True)
         finally:
             connection.close()
+            time.sleep(RECONNECT_INTERVAL)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--host", default="127.0.0.1",
+                        help="where Celestia is listening")
     parser.add_argument("--port", type=int, default=5909)
     parser.add_argument("--period", type=float, default=90.0,
                         help="seconds for one turn around the Earth")
@@ -150,7 +159,7 @@ def main():
     args = parser.parse_args()
 
     try:
-        serve(args.port, args.period, args.interval)
+        serve(args.host, args.port, args.period, args.interval)
     except KeyboardInterrupt:
         print("\nStopped.", flush=True)
         return 0

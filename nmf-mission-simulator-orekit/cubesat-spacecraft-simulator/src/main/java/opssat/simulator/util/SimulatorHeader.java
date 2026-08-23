@@ -47,6 +47,13 @@ public class SimulatorHeader implements Serializable {
     private String orekitTLE2;
     private boolean useCelestia;
     private int celestiaPort;
+
+    /**
+     * Where Celestia is listening. Celestia is the server, so the simulator has to
+     * be told where to dial; loopback is right whenever the two share a network,
+     * which includes Celestia in a container run with --network host.
+     */
+    private String celestiaHost;
     private int timeFactor = 1;
     private Date startDate;
     private Date endDate;
@@ -63,6 +70,7 @@ public class SimulatorHeader implements Serializable {
         this.startDate = new Date();
         this.endDate = new Date();
         this.celestiaPort = 5909;
+        this.celestiaHost = "127.0.0.1";
         // On by default: the server only listens, and costs nothing until
         // something connects to it, so leaving it off meant the visualisation
         // could not be used without first finding and editing a file that the
@@ -138,7 +146,7 @@ public class SimulatorHeader implements Serializable {
                 + SimulatorNode.DEFAULT_OPS_SAT_ARG_PER + ";" + SimulatorNode.DEFAULT_OPS_SAT_TRUE_ANOMALY + "\n"
                 + "#Enable updates from Internet (used for gps constellation TLEs)\n" + "updateFromInternet="
                 + updateInternet + "\n" + "#Configuration of the Celestia server\n" + "celestia=" + useCelestia + "\n"
-                + "celestiaPort=" + celestiaPort + "\n" + "#Start and end dates of simulation\n" + "startDate=" + dateFormat
+                + "celestiaHost=" + celestiaHost + "\n" + "celestiaPort=" + celestiaPort + "\n" + "#Start and end dates of simulation\n" + "startDate=" + dateFormat
                         .format(startDate) + "\n" + "endDate=" + dateFormat.format(endDate) + "\n"
                 + "#Logging level to files found in $USER_HOME/.nmf-simulator/\n"
                 + "#Possible values SEVERE,INFO,FINE,FINER,FINEST,ALL\n" + "centralLogLevel=INFO\n"
@@ -241,6 +249,14 @@ public class SimulatorHeader implements Serializable {
 
     public int getCelestiaPort() {
         return celestiaPort;
+    }
+
+    public String getCelestiaHost() {
+        return celestiaHost;
+    }
+
+    public void setCelestiaHost(String celestiaHost) {
+        this.celestiaHost = celestiaHost;
     }
 
     public void setCelestiaPort(int celestiaPort) {

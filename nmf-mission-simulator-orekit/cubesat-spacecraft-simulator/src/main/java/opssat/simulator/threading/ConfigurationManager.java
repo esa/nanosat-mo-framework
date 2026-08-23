@@ -137,6 +137,9 @@ class ConfigurationManager {
                             case "celestia":
                                 node.simulatorHeader.setUseCelestia(Boolean.parseBoolean(fieldValue));
                                 break;
+                            case "celestiaHost":
+                                node.simulatorHeader.setCelestiaHost(fieldValue);
+                                break;
                             case "celestiaPort":
                                 node.simulatorHeader.setCelestiaPort(Integer.parseInt(fieldValue));
                                 break;

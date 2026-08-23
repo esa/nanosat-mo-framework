@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
@@ -51,6 +51,13 @@ public class CelestiaIf implements Runnable {
     final int portNetSat = 5910;
     /** How long to wait for an acknowledgement before resending, in ms. */
     final int DURATION_ACK_RECOVER = 15000;
+
+    /**
+     * How long to wait for Celestia to answer the dial. Short: a Celestia which is
+     * not running should cost a moment and a retry, not a thread parked in connect
+     * until the operating system gives up on it.
+     */
+    final int DURATION_CONNECT = 2000;
     final String DEFAULT_MESSAGE = "connection_alive";
     final String HANDSHAKE_MESSAGE = "connection_successful";
     final String STOP_MESSAGE = "connection_stop";
@@ -62,16 +69,25 @@ public class CelestiaIf implements Runnable {
 
     ConcurrentLinkedQueue<Object> sendQueue;
 
-    ServerSocket socket;
+    /**
+     * Where Celestia is listening. Celestia is the server: it is the long-running
+     * end, and a simulator may come and go several times while it runs. It is also
+     * what lets more than one simulator show up in the same Celestia without it
+     * having to be told where each of them lives.
+     */
+    private final String host;
+
     Socket connection = null;
     PrintWriter out;
     BufferedReader in;
     private Logger logger;
 
-    public CelestiaIf(ConcurrentLinkedQueue<Object> sendQueue, int listenPort, String mission_ID, Logger logger) {
+    public CelestiaIf(ConcurrentLinkedQueue<Object> sendQueue, String celestiaHost, int celestiaPort,
+            String mission_ID, Logger logger) {
         this.logger = logger;
         this.sendQueue = sendQueue;
-        this.port = listenPort;
+        this.host = celestiaHost;
+        this.port = celestiaPort;
         this.MISSION_ID = mission_ID;
     }
 
@@ -83,9 +99,6 @@ public class CelestiaIf implements Runnable {
                 try {
                     Thread.sleep(3000);
                     try {
-                        if (this.socket != null) {
-                            this.socket.close();
-                        }
                         if (this.connection != null) {
                             this.connection.close();
                         }
@@ -162,7 +175,7 @@ public class CelestiaIf implements Runnable {
                     logger.log(Level.FINE, "Closing all connections...");
                     this.in.close();
                     this.out.close();
-                    this.socket.close();
+                    this.connection.close();
                     logger.log(Level.FINE, "All connections closed.");
                 } catch (IOException ioException) {
                     System.err.println(ioException.toString());
@@ -195,22 +208,17 @@ public class CelestiaIf implements Runnable {
     private boolean openConnection() {
         try {
 
-            //1. create a socket
-            this.socket = new ServerSocket(this.port, 10);
-            logger.log(Level.INFO, "Created ServerSocket for Celestia on port [" + this.port + "] ");
-            //this.socket.setReuseAddress(true); // set reusable socket address     
-            //this.socket.setSoTimeout(60*1000);
-            //this.socket.bind(new InetSocketAddress(), 10); // bind to address              
-
-            //2. Wait for connection            
-            logger.log(Level.FINE, "Waiting for connection...");
-            connection = this.socket.accept();
+            //1. dial Celestia. Bounded, so that a Celestia which is not running
+            //   costs a moment and a retry rather than a thread stuck in connect.
+            logger.log(Level.FINE, "Connecting to Celestia at " + this.host + ":" + this.port);
+            connection = new Socket();
+            connection.connect(new InetSocketAddress(this.host, this.port), DURATION_CONNECT);
             connection.setTcpNoDelay(true);
             // Bounds the wait for an acknowledgement, which is now done by
             // reading rather than by polling.
             connection.setSoTimeout(DURATION_ACK_RECOVER);
-            logger.log(Level.INFO, "Connection received from " + connection.getInetAddress().getHostName() +
-                " on port " + connection.getLocalPort());
+            logger.log(Level.INFO, "Connected to Celestia at " + connection.getInetAddress().getHostAddress()
+                + ":" + connection.getPort());
 
             //3. get Input and Output streams
             //output stream: MO Consumer -> Celestia

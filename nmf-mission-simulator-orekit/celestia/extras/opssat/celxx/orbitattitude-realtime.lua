@@ -49,21 +49,34 @@ if not loaded then
     socket = nil
 end
 
-local HOST = "127.0.0.1"
+-- All interfaces, not loopback. Under `docker run --network host` the two are
+-- the same thing, but binding loopback would rule out ever running this in a
+-- bridge network, where the simulator reaches a published port from outside.
+local HOST = "*"
 local PORT = 5909
 
--- How long to wait before trying the simulator again, in seconds of wall clock.
+-- How long to wait before trying to take the port again, in seconds of wall
+-- clock. Only reached when the bind fails, which in practice means another
+-- Celestia already has it.
 local RECONNECT_INTERVAL = 3
 
 local ACK = "connection_alive"
 local HANDSHAKE = "connection_successful"
 local STOP = "connection_stop"
 
+-- The listening socket, opened once and kept for the session. Celestia is the
+-- server: it is the long-running end, and a simulator may come and go several
+-- times while it runs. Having the simulators dial in is also what lets more
+-- than one of them arrive later without Celestia being told where each lives.
+local server = {
+    socket = nil,
+    nextAttempt = 0
+}
+
 -- Everything this module remembers between frames.
 local link = {
     socket = nil,
     connected = false,
-    nextAttempt = 0,
     -- Where the spacecraft was last seen, in the frame the .ssc declares.
     -- Kept at a plausible altitude so that something is drawn before the first
     -- message arrives, rather than the spacecraft sitting in the centre of the
@@ -86,31 +99,52 @@ local function disconnect()
         link.socket = nil
     end
     link.connected = false
-    link.nextAttempt = os.time() + RECONNECT_INTERVAL
 end
 
---- Opens the connection and reads the greeting. Returns whether it worked.
-local function connect()
-    local sock, err = socket.tcp()
+--- Takes the port, once. Returns whether it is listening.
+local function listen()
+    if server.socket ~= nil then
+        return true
+    end
+    if os.time() < server.nextAttempt then
+        return false
+    end
+
+    local sock, err = socket.bind(HOST, PORT)
     if sock == nil then
+        -- Almost always another Celestia holding the port. Say so once per
+        -- attempt rather than once per frame.
+        io.write("orbitattitude-realtime: cannot listen on ", tostring(PORT),
+                 " (", tostring(err), "). Retrying.\n")
+        server.nextAttempt = os.time() + RECONNECT_INTERVAL
+        return false
+    end
+
+    -- A frame is being drawn: accept must return at once whether or not
+    -- anyone is waiting.
+    sock:settimeout(0)
+    server.socket = sock
+    return true
+end
+
+--- Takes a waiting simulator, if there is one, and completes the handshake.
+--- Returns whether a link is now up.
+local function acceptOne()
+    local sock = server.socket:accept()
+    if sock == nil then
+        -- Nobody waiting, which is the normal case.
         return false
     end
 
     -- Long enough to complete a handshake on the loopback, short enough that a
-    -- simulator which is not there does not hold up a frame.
+    -- simulator which connects and then says nothing does not hold up a frame.
     sock:settimeout(0.25)
 
-    local ok = sock:connect(HOST, PORT)
-    if ok == nil then
-        sock:close()
-        link.nextAttempt = os.time() + RECONNECT_INTERVAL
-        return false
-    end
-
+    -- The simulator speaks first, as it always did: which end dialled does not
+    -- change who greets whom.
     local greeting = sock:receive("*l")
     if greeting == nil or greeting:find(HANDSHAKE, 1, true) == nil then
         sock:close()
-        link.nextAttempt = os.time() + RECONNECT_INTERVAL
         return false
     end
 
@@ -196,11 +230,14 @@ local function poll()
         return
     end
 
-    if not link.connected then
-        if os.time() >= link.nextAttempt then
-            connect()
-        end
+    if not listen() then
         return
+    end
+
+    if not link.connected then
+        if not acceptOne() then
+            return
+        end
     end
 
     while true do

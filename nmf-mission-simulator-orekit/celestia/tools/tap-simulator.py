@@ -11,14 +11,13 @@
 # ---------------------------------------------------------------------------
 """Listens in on what the simulator is sending to Celestia.
 
-Connects to the simulator's Celestia server exactly as Celestia does, answers
-every message so the simulator keeps sending, and prints the attitude and
-position it is given. Nothing is drawn: this is for finding out whether the
+Listens for the simulator exactly as Celestia does, answers every message so
+the simulator keeps sending, and prints the attitude and position it is given. Nothing is drawn: this is for finding out whether the
 simulator is still changing the attitude, which cannot be told apart from
 Celestia failing to apply it by looking at Celestia.
 
-Only one client at a time is accepted by the simulator, so run this instead of
-Celestia, not alongside it.
+The simulator dials one Celestia, and this takes the port Celestia would take,
+so run this instead of Celestia, not alongside it.
 
     ./tap-simulator.py
 
@@ -55,7 +54,17 @@ def main():
                         help="seconds of an unchanging attitude before saying so")
     args = parser.parse_args()
 
-    connection = socket.create_connection((args.host, args.port), timeout=20)
+    # Celestia is the server, so standing in for it means listening and letting
+    # the simulator dial in - the same way round as the real thing.
+    listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    listener.bind((args.host, args.port))
+    listener.listen(1)
+    print("Waiting for the simulator on %s:%d ..." % (args.host, args.port), flush=True)
+
+    connection, address = listener.accept()
+    connection.settimeout(20)
+    print("Simulator connected from %s:%d" % address, flush=True)
     reader = connection.makefile("r")
 
     greeting = reader.readline().strip()
@@ -112,6 +121,6 @@ if __name__ == "__main__":
         sys.exit(main())
     except KeyboardInterrupt:
         print("\nStopped.")
-    except ConnectionRefusedError:
-        print("Nothing is listening. Is the Supervisor Simulator running?")
+    except OSError as err:
+        print("Could not take the port (%s). Is Celestia already running?" % err)
         sys.exit(1)

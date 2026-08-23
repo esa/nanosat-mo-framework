@@ -8,8 +8,8 @@
 #
 # Order of events:
 #
-#   1. Nothing to enable. The Celestia server is on by default, on port 5909,
-#      as is the Orekit propagator it needs. Both live in
+#   1. Nothing to enable. The Celestia link is on by default, to port 5909 on
+#      this machine, as is the Orekit propagator it needs. Both live in
 #          _SIMULATOR-header.txt
 #      in the directory the Supervisor runs from, which for the playground is
 #      under target/ and so is discarded by a rebuild.
@@ -17,11 +17,12 @@
 #   2. Start the Supervisor Simulator, from this directory:
 #          ./run_Supervisor.sh
 #
-#   3. Run this script. Celestia connects to the simulator, and opens looking at
-#      the spacecraft.
+#   3. Run this script. Celestia takes the port, the simulator dials in, and
+#      Celestia opens looking at the spacecraft.
 #
-# The simulator is the server and Celestia the client, so this can be started
-# and stopped as often as needed while the simulator keeps running.
+# Celestia is the server and the simulator the client, so either can be started
+# and stopped while the other keeps running: a simulator that finds nobody
+# listening retries every three seconds.
 #
 set -eu
 
@@ -42,13 +43,14 @@ if ! command -v docker > /dev/null 2>&1; then
     exit 1
 fi
 
-# Not fatal: Celestia waits for the simulator and connects whenever it appears,
-# so it is only worth pointing out.
+# Celestia is the one that listens now, so something already on the port is the
+# thing worth reporting: another Celestia, or a tap-simulator.py left running.
+# Not fatal, because Celestia retries and will take the port when it frees up.
 if command -v ss > /dev/null 2>&1; then
-    if ! ss -ltn 2>/dev/null | grep -q ":${PORT}[[:space:]]"; then
-        echo "Nothing is listening on port ${PORT}, so the simulator's Celestia"
-        echo "server does not appear to be running. Celestia will start anyway and"
-        echo "connect when it does. See the notes at the top of this script."
+    if ss -ltn 2>/dev/null | grep -q ":${PORT}[[:space:]]"; then
+        echo "Something is already listening on port ${PORT}. Celestia needs it to"
+        echo "accept the simulator, and will keep retrying until it is free."
+        echo "See the notes at the top of this script."
         echo
     fi
 fi

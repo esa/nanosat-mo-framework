@@ -11,20 +11,25 @@ and a container so that nothing has to be installed on the machine.
 
 Two steps, from `sdk/sdk-playground-environment`:
 
-1. **Nothing.** The Celestia server is on by default, on port 5909, and the
-   Orekit propagator it depends on is too. Both are settings of the simulator,
-   in `_SIMULATOR-header.txt` in the directory the Supervisor runs from,
-   which it writes for itself on first run:
+1. **Nothing.** The Celestia link is on by default, to port 5909 on the local
+   machine, and the Orekit propagator it depends on is too. Both are settings of
+   the simulator, in `_SIMULATOR-header.txt` in the directory the Supervisor runs
+   from, which it writes for itself on first run:
 
    ```
    orekit=true
    celestia=true
+   celestiaHost=127.0.0.1
    celestiaPort=5909
    ```
 
+   `celestiaHost` is where Celestia is listening. Loopback is right whenever the
+   two share a network, which includes Celestia in a container started by
+   `run.sh`, since that gives the container the host's network.
+
    `orekit=true` is not optional: the samples exist only while the propagator is
-   running, so with Orekit off the server accepts a connection and then has
-   nothing to say. Note that the file lives under `target/` for the playground,
+   running, so with Orekit off the simulator connects and then has nothing to
+   say. Note that the file lives under `target/` for the playground,
    so a rebuild discards any edit made to it; the defaults come from
    `SimulatorHeader`.
 
@@ -32,9 +37,10 @@ Two steps, from `sdk/sdk-playground-environment`:
 
 3. **Start Celestia**: `./run_Celestia.sh`
 
-The simulator is the server and Celestia the client, so Celestia can be started,
-stopped and restarted as often as needed while the simulator keeps running. The
-first run builds the container image, which takes a few minutes.
+Celestia is the server and the simulator the client, so either can be started,
+stopped and restarted while the other keeps running: Celestia holds the port for
+its whole session, and a simulator that finds nobody there retries every three
+seconds. The first run builds the container image, which takes a few minutes.
 
 `run_Celestia.sh` calls `run.sh` in this directory, which can also be used
 directly:
@@ -51,16 +57,20 @@ left to the desktop. Anything else given to the script is passed on to Celestia.
 ### How it works
 
 ```
-SimulatorNode ──samples──▶ queue ──▶ CelestiaIf (server, port 5909)
-                                            ▲
-                                            │ TCP, one client, line protocol
+SimulatorNode ──samples──▶ queue ──▶ CelestiaIf (client)
                                             │
+                                            │ TCP, line protocol, dials out
+                                            ▼
                               orbitattitude-realtime.lua inside Celestia
-                                  (asked for a position every frame)
+                                  (listens on 5909; asked for a position
+                                   every frame)
 ```
 
-The direction is the opposite of what the names suggest: `CelestiaIf` in the
-simulator is the **server**, and the script inside Celestia is the **client**.
+`CelestiaIf` in the simulator dials, and the script inside Celestia **listens**.
+Celestia is the long-running end and a simulator may come and go several times
+while it runs, so that is the way round which needs no arrangement. It is also
+what will let more than one simulator show up in the same Celestia without it
+being told where each of them lives.
 
 Each message is a line and has to be answered before the next one is sent:
 
@@ -88,7 +98,7 @@ running costs a frame nothing and the spacecraft simply stays where it was.
 | `luahook.lua` | Puts the add-on directory on the module search path |
 | `startup.celx` | Selects the spacecraft, so that it is drawn, and places the observer looking at it with the Earth's north pole at the top of the image |
 | `extras/` | The spacecraft, the ground stations and the models they draw with |
-| `extras/opssat/celxx/orbitattitude-realtime.lua` | The client: connects, acknowledges, and answers Celestia's questions |
+| `extras/opssat/celxx/orbitattitude-realtime.lua` | The server: listens, accepts a simulator, acknowledges, and answers Celestia's questions |
 | `tools/stub-simulator.py` | Stands in for the simulator, for working on this without one |
 
 ### Which Celestia, and why it matters
