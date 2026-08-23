@@ -101,12 +101,13 @@ public class AppsLauncherManagerBubblewrap extends AppsLauncherManager {
         // --bind requires the source to exist, but AppStorage only creates it lazily.
         // Binds only this app's subdirectory, not the shared .nmf-apps parent, so
         // other tenants' storage stays hidden.
-        String appHomeDir = System.getProperty("user.home") + File.separator + ".nmf-apps"
-                + File.separator + new File(workDir).getName();
-        mkDirAndSetPermissions(new File(appHomeDir));
-        ret.add("--bind");
-        ret.add(appHomeDir);
-        ret.add(appHomeDir);
+        String appHomeDir = appStorageDirOf(workDir);
+        if (appHomeDir != null) {
+            mkDirAndSetPermissions(new File(appHomeDir));
+            ret.add("--bind");
+            ret.add(appHomeDir);
+            ret.add(appHomeDir);
+        }
 
         ret.add("--tmpfs");
         ret.add("/tmp");
@@ -145,6 +146,33 @@ public class AppsLauncherManagerBubblewrap extends AppsLauncherManager {
         targetEnv.put("JAVA_OPTS",
                 "-D" + Const.CENTRAL_DIRECTORY_URI_PROPERTY + "=" + directoryServiceURI);
         return targetEnv;
+    }
+
+    /**
+     * The storage directory the App will write to, which is what has to be bound.
+     * <p>
+     * The name has to be worked out the same way the App works it out, or the directory
+     * bound here is not the one it uses and it fails exactly as it did before anything was
+     * bound at all. The App takes the <em>canonical</em> name of its working directory -
+     * {@code NanoSatMOConnectorImpl.init()} does
+     * {@code new File(new File("").getCanonicalPath()).getName()}, having been chdir'd
+     * here - puts it in {@code HelperMisc.PROP_MO_APP_NAME}, and {@code AppStorage} builds
+     * the path from that. So this canonicalises too: the two agree for an ordinary
+     * directory, and would part company the moment an App folder is a symbolic link to a
+     * differently named one.
+     *
+     * @param workDir The App's working directory.
+     * @return the directory to bind, or null if it cannot be worked out, in which case
+     * nothing is bound rather than a path that does not exist.
+     */
+    private static String appStorageDirOf(final String workDir) {
+        try {
+            return System.getProperty("user.home") + File.separator + ".nmf-apps"
+                    + File.separator + new File(workDir).getCanonicalFile().getName();
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "Could not resolve the App directory: " + workDir, ex);
+            return null;
+        }
     }
 
     // Mirrors AppStorage.mkDirAndSetPermissions (esa.mo.nmf, not visible here):
