@@ -37,7 +37,6 @@ import java.util.function.Consumer;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.commons.exec.environment.EnvironmentUtils;
 import org.ccsds.moims.mo.com.DuplicateException;
 import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.structures.*;
@@ -496,7 +495,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
                 appFolder.getAbsolutePath(),
                 appName,
                 app.getRunAs(),
-                EnvironmentUtils.toStrings(env));
+                ProcessEnvironment.toStrings(env));
 
         final ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
         pb.environment().clear();
@@ -566,7 +565,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         File appFolder = new File(appsFolderPath + File.separator + app.getName().getValue());
         Map<String, String> env = assembleAppLauncherEnvironment("");
         String[] appLauncherCommand = assembleAppStopCommand(appFolder.getAbsolutePath(),
-                app.getName().getValue(), app.getRunAs(), EnvironmentUtils.toStrings(env));
+                app.getName().getValue(), app.getRunAs(), ProcessEnvironment.toStrings(env));
 
         ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
         pb.environment().clear();
@@ -696,7 +695,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
                     Map<String, String> env = assembleAppLauncherEnvironment("");
                     File appFolder = new File(appsFolderPath + File.separator + curr.getName().getValue());
                     String[] appLauncherCommand = assembleAppStopCommand(appFolder.getAbsolutePath(),
-                            curr.getName().getValue(), curr.getRunAs(), EnvironmentUtils.toStrings(env));
+                            curr.getName().getValue(), curr.getRunAs(), ProcessEnvironment.toStrings(env));
                     ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
                     pb.environment().clear();
                     pb.directory(appFolder);

@@ -285,7 +285,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
     }
 
     @Override
-    public void runApp(LongList appInstIds, MALInteraction interaction) throws UnknownException, InvalidArgumentException, InternalException, MALInteractionException, MALException {
+    public void runApp(LongList appInstIds, MALInteraction interaction) throws UnknownException,
+            InvalidArgumentException, InternalException, MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 

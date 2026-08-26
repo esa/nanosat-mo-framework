@@ -22,20 +22,14 @@ package esa.mo.sm.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.misc.Const;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.apache.commons.exec.environment.EnvironmentUtils;
 
 /**
  * Windows-specific implementation of the Apps Launcher manager.
  */
 public class AppsLauncherManagerWindows extends AppsLauncherManager {
-
-    private static final Logger LOGGER = Logger.getLogger(AppsLauncherManagerWindows.class.getName());
 
     /**
      * Creates a new {@code AppsLauncherManagerWindows}.
@@ -64,25 +58,24 @@ public class AppsLauncherManagerWindows extends AppsLauncherManager {
     @Override
     protected HashMap<String, String> assembleAppLauncherEnvironment(final String directoryServiceURI) {
         final HashMap<String, String> targetEnv = new HashMap<>();
-        try {
-            Map<String, String> parentEnv = EnvironmentUtils.getProcEnvironment();
-            if (parentEnv.containsKey("NMF_LIB")) {
-                targetEnv.put("NMF_LIB", parentEnv.get("NMF_LIB"));
-            }
-            if (parentEnv.containsKey("NMF_HOME")) {
-                targetEnv.put("NMF_HOME", parentEnv.get("NMF_HOME"));
-            }
-            if (parentEnv.containsKey("PATH")) {
-                targetEnv.put("PATH", parentEnv.get("PATH"));
-            }
-            if (parentEnv.containsKey("TEMP")) {
-                targetEnv.put("TEMP", parentEnv.get("TEMP"));
-            }
-            if (parentEnv.containsKey("OS")) {
-                targetEnv.put("OS", parentEnv.get("OS"));
-            }
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "getProcEnvironment failed!", ex);
+        // Variable names are case-insensitive on Windows. The map supplied by the
+        // platform is therefore used directly rather than a copy of it; see
+        // ProcessEnvironment.ofThisProcess().
+        final Map<String, String> parentEnv = ProcessEnvironment.ofThisProcess();
+        if (parentEnv.containsKey("NMF_LIB")) {
+            targetEnv.put("NMF_LIB", parentEnv.get("NMF_LIB"));
+        }
+        if (parentEnv.containsKey("NMF_HOME")) {
+            targetEnv.put("NMF_HOME", parentEnv.get("NMF_HOME"));
+        }
+        if (parentEnv.containsKey("PATH")) {
+            targetEnv.put("PATH", parentEnv.get("PATH"));
+        }
+        if (parentEnv.containsKey("TEMP")) {
+            targetEnv.put("TEMP", parentEnv.get("TEMP"));
+        }
+        if (parentEnv.containsKey("OS")) {
+            targetEnv.put("OS", parentEnv.get("OS"));
         }
         targetEnv.put("JAVA_OPTS",
                 "-D" + Const.CENTRAL_DIRECTORY_URI_PROPERTY + "=" + directoryServiceURI);

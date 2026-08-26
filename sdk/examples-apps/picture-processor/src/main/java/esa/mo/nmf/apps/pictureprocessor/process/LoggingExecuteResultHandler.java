@@ -20,20 +20,23 @@
  */
 package esa.mo.nmf.apps.pictureprocessor.process;
 
-import static esa.mo.nmf.apps.pictureprocessor.utils.FileUtils.closeSafe;
-import java.io.OutputStream;
 import java.util.logging.Logger;
-import org.apache.commons.exec.DefaultExecuteResultHandler;
-import org.apache.commons.exec.ExecuteException;
 
 /**
  * Logging Execute Result Handler.
+ * <p>
+ * Notified on termination of the process, and in turn notifies the listener that
+ * requested its execution. This class previously extended
+ * {@code DefaultExecuteResultHandler} of Apache Commons Exec, which reported
+ * termination through two distinct methods: one for normal completion and one for
+ * failure, the latter carrying an exception. A process terminated for exceeding its
+ * maximum duration does not constitute a distinct form of termination, only a
+ * different exit value, and a single method is therefore declared.
  */
-public class LoggingExecuteResultHandler extends DefaultExecuteResultHandler {
+public class LoggingExecuteResultHandler {
 
     private static final Logger LOG = Logger.getLogger(LoggingExecuteResultHandler.class.getName());
 
-    private final OutputStream processOutputStream;
     private final ProcessEventListener processEventListener;
     private final Long processRequestId;
 
@@ -42,31 +45,21 @@ public class LoggingExecuteResultHandler extends DefaultExecuteResultHandler {
      *
      * @param processEventListener the process event listener
      * @param processRequestId the process request id
-     * @param processOutputStream the process output stream
      */
     public LoggingExecuteResultHandler(ProcessEventListener processEventListener,
-            Long processRequestId, OutputStream processOutputStream) {
-        this.processOutputStream = processOutputStream;
+            Long processRequestId) {
         this.processEventListener = processEventListener;
         this.processRequestId = processRequestId;
     }
 
-    @Override
-    public void onProcessComplete(final int exitValue) {
-        super.onProcessComplete(exitValue);
-        LOG.info("Process execution completed. ExitValue: " + exitValue);
-        handleProcessTermination(exitValue);
-    }
-
-    @Override
-    public void onProcessFailed(final ExecuteException e) {
-        super.onProcessFailed(e);
-        LOG.info("Process execution failed: " + e);
-        handleProcessTermination(e.getExitValue());
-    }
-
-    private void handleProcessTermination(int exitValue) {
-        closeSafe(processOutputStream);
+    /**
+     * Invoked exactly once, on termination of the process for any reason.
+     *
+     * @param exitValue The exit value of the process. Non-zero if the process
+     * failed, and also if it was terminated for exceeding its maximum duration.
+     */
+    public void onProcessEnded(final int exitValue) {
+        LOG.info("Process execution terminated. ExitValue: " + exitValue);
         processEventListener.onProcessCompleted(processRequestId, exitValue);
     }
 }

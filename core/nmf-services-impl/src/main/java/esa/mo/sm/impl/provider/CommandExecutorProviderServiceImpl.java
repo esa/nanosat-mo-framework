@@ -33,7 +33,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.commons.exec.environment.EnvironmentUtils;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -47,6 +46,7 @@ import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorServiceInfo;
 import org.ccsds.moims.mo.sm.commandexecutor.provider.CommandExecutorInheritanceSkeleton;
 import org.ccsds.moims.mo.sm.commandexecutor.provider.MonitorOutputPublisher;
 import org.ccsds.moims.mo.sm.structures.Command;
+import org.ccsds.moims.mo.sm.structures.CommandOutput;
 import org.ccsds.moims.mo.sm.structures.CommandOutputType;
 
 /**
@@ -109,7 +109,8 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
     }
 
     /**
-     * Splits a command line string into the argument array passed to the process builder.
+     * Splits a command line string into the argument array passed to the
+     * process builder.
      *
      * @param command the command line to assemble
      * @return the command split into its arguments
@@ -167,7 +168,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         }
         LOGGER.log(Level.INFO, "Running ''{0}'' in dir: {1}, and env: {2}", new Object[]{
             Arrays.toString(shellCommand), workingDir.getAbsolutePath(),
-            Arrays.toString(EnvironmentUtils.toStrings(env))});
+            Arrays.toString(ProcessEnvironment.toStrings(env))});
         final Process proc;
         try {
             proc = pb.start();
@@ -195,8 +196,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
         // Archive the output chunk as a CommandOutput COM object (for historical queries).
         IdentifierList domain = connection.getPrimaryConnectionDetails().getDomain();
         try {
-            org.ccsds.moims.mo.sm.structures.CommandOutput cmdOutput =
-                    new org.ccsds.moims.mo.sm.structures.CommandOutput(outputType, data, exitCode);
+            CommandOutput cmdOutput = new CommandOutput(outputType, data, exitCode);
             // Link each output chunk to its parent Command via 'related', and let the
             // archive auto-assign a fresh instance id (a command emits many chunks).
             ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(commandId, null,
@@ -237,8 +237,8 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
     }
 
     /**
-     * Listener that logs the acknowledgements and errors of the CommandExecutor service
-     * PUB/SUB publish operations.
+     * Listener that logs the acknowledgements and errors of the CommandExecutor
+     * service PUB/SUB publish operations.
      */
     public static final class PublishInteractionListener
             implements org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener {

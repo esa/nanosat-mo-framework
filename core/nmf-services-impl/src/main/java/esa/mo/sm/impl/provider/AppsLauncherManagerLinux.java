@@ -29,7 +29,6 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.commons.exec.environment.EnvironmentUtils;
 
 /**
  * Linux-specific implementation of the Apps Launcher manager.
@@ -99,19 +98,15 @@ public class AppsLauncherManagerLinux extends AppsLauncherManager {
     @Override
     protected HashMap<String, String> assembleAppLauncherEnvironment(final String directoryServiceURI) {
         final HashMap<String, String> targetEnv = new HashMap<>();
-        try {
-            Map<String, String> parentEnv = EnvironmentUtils.getProcEnvironment();
-            if (parentEnv.containsKey("NMF_LIB")) {
-                targetEnv.put("NMF_LIB", parentEnv.get("NMF_LIB"));
-            }
-            if (parentEnv.containsKey("NMF_HOME")) {
-                targetEnv.put("NMF_HOME", parentEnv.get("NMF_HOME"));
-            }
-            if (parentEnv.containsKey("PATH")) {
-                targetEnv.put("PATH", parentEnv.get("PATH"));
-            }
-        } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "getProcEnvironment failed!", ex);
+        final Map<String, String> parentEnv = ProcessEnvironment.ofThisProcess();
+        if (parentEnv.containsKey("NMF_LIB")) {
+            targetEnv.put("NMF_LIB", parentEnv.get("NMF_LIB"));
+        }
+        if (parentEnv.containsKey("NMF_HOME")) {
+            targetEnv.put("NMF_HOME", parentEnv.get("NMF_HOME"));
+        }
+        if (parentEnv.containsKey("PATH")) {
+            targetEnv.put("PATH", parentEnv.get("PATH"));
         }
         targetEnv.put("JAVA_OPTS",
                 "-D" + Const.CENTRAL_DIRECTORY_URI_PROPERTY + "=" + directoryServiceURI);
