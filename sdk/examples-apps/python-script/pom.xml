@@ -107,8 +107,16 @@
                         </goals>
                         <configuration>
                             <mainClass>${assembly.mainClass}</mainClass>
+                            <!--
+                                Shipped beside the jar, not inside it. A directory
+                                under src/main/resources would also be added to the
+                                jar by Maven, so every file would be uplinked twice:
+                                negligible for a script, not for a payload such as a
+                                model. See edge-ai, which packages ai-model the same
+                                way.
+                            -->
                             <libs>
-                                <lib>${basedir}/src/main/resources/scripts</lib>
+                                <lib>${basedir}/scripts</lib>
                             </libs>
                         </configuration>
                     </execution>

@@ -48,6 +48,12 @@ public class PictureProcessingExecutor {
     private static final String LOG_PATH = "logs";
 
     /**
+     * The directory holding the script and the resources it loads, relative to the
+     * directory the application is started in.
+     */
+    private static final String SCRIPT_DIR = "imageEditor";
+
+    /**
      * Value of {@code maxProcessDurationSeconds} denoting that no maximum duration
      * is imposed on the process.
      */
@@ -97,8 +103,14 @@ public class PictureProcessingExecutor {
                 + minDurationSeconds + " seconds and at most " + describeMaximum() + "."
                 + " Output: " + logFile.getAbsolutePath());
 
-        ProcessBuilder builder = new ProcessBuilder("python", "imageEditor.py",
+        // python3 rather than python: recent distributions ship no "python" at all.
+        ProcessBuilder builder = new ProcessBuilder("python3", "imageEditor.py",
                 picture.toAbsolutePath().toString());
+
+        // The script is packaged into a directory of its own beside the jar, and loads its
+        // font by a name relative to the working directory, so it is run from there. The
+        // picture and the log file are named absolutely and are unaffected.
+        builder.directory(new File(SCRIPT_DIR));
 
         // Standard output and standard error are both redirected to the log file.
         // Redirection also avoids the requirement to consume the process output from
