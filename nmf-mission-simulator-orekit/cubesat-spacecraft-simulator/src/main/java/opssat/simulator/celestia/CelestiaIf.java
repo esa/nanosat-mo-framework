@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
@@ -58,12 +59,26 @@ public class CelestiaIf implements Runnable {
      * until the operating system gives up on it.
      */
     final int DURATION_CONNECT = 2000;
+
+    /**
+     * How long to wait before dialling Celestia again after a failed attempt.
+     */
+    final int DURATION_RETRY = 3000;
     final String DEFAULT_MESSAGE = "connection_alive";
     final String HANDSHAKE_MESSAGE = "connection_successful";
     final String STOP_MESSAGE = "connection_stop";
 
     int port = 0;
     int retries = 0;
+
+    /**
+     * Whether the absence of Celestia has already been reported. Celestia is dialled every
+     * few seconds for as long as the simulator runs, and it is not expected to be there:
+     * reporting each refused connection produces one message per attempt for the whole
+     * session. The first is reported and the rest are suppressed until a connection
+     * succeeds, at which point the next absence is reported again.
+     */
+    private boolean absenceReported = false;
 
     String MISSION_ID;// = "OPS-SAT";
 
@@ -97,7 +112,7 @@ public class CelestiaIf implements Runnable {
         while (true) {
             if (!this.openConnection()) {
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(DURATION_RETRY);
                     try {
                         if (this.connection != null) {
                             this.connection.close();
@@ -250,10 +265,24 @@ public class CelestiaIf implements Runnable {
 
             retries = 0;
 
+        } catch (ConnectException e) {
+            // Nothing is listening, which is the ordinary state of affairs when Celestia
+            // has not been started. Reported once, then not again until it has been.
+            if (!absenceReported) {
+                logger.log(Level.INFO, "Celestia is not listening at " + this.host + ":"
+                        + this.port + ". Retrying every " + (DURATION_RETRY / 1000)
+                        + " seconds, and this will not be reported again until it answers.");
+                absenceReported = true;
+            }
+            return false;
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Error establishing connection1" + e.toString());
+            // Anything else is not the expected absence and is reported as before.
+            logger.log(Level.SEVERE, "Error establishing connection to Celestia at "
+                    + this.host + ":" + this.port, e);
             return false;
         }
+
+        absenceReported = false;
         return true;
     }
 
