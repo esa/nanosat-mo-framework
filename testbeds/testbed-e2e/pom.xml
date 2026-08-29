@@ -64,6 +64,13 @@
         <!-- The released version that the upgrade tests upgrade from, and the
              directory its Jars are staged into. -->
         <nmf.e2e.baseline.version>5.0</nmf.e2e.baseline.version>
+
+        <!-- The MO version that the baseline above was released against. It
+             tracks that release and not the version this build compiles with,
+             so it does not move when the MO dependency is upgraded. It exists
+             only while the baseline is staged Jar by Jar; see the comment on
+             the stage-baseline-version-jars execution below. -->
+        <nmf.e2e.baseline.mo.version>14.1</nmf.e2e.baseline.mo.version>
         <nmf.e2e.baseline.jars>${project.build.directory}/nmf-baseline-jars</nmf.e2e.baseline.jars>
 
         <!-- The released App package that the rollback test rolls back to. It is
@@ -179,7 +186,21 @@
                     <!-- Stages the Jars of the released version that the
                          upgrade tests upgrade from. Resolved apart from the
                          dependencies of this module, so that the two versions
-                         never meet on a classpath. -->
+                         never meet on a classpath.
+
+                         The set is listed by hand because 5.0 predates
+                         nmf-core-package, so no released NMF Package holds it.
+                         The goal below is copy rather than copy-dependencies,
+                         which is what nmf-core-package uses to derive the same
+                         set from a single dependency; copy resolves no
+                         transitive dependency, and declaring the baseline as a
+                         dependency of this module is what the paragraph above
+                         rules out.
+
+                         Once the baseline is a version that publishes an NMF
+                         Package, this whole execution becomes one artifactItem
+                         for that package, and nmf.e2e.baseline.mo.version is
+                         then unused and to be deleted. -->
                     <execution>
                         <id>stage-baseline-version-jars</id>
                         <phase>generate-test-resources</phase>
@@ -191,37 +212,37 @@
                                 <artifactItem>
                                     <groupId>int.esa.ccsds.mo</groupId>
                                     <artifactId>api-area001-v003-mal</artifactId>
-                                    <version>14.1</version>
+                                    <version>${nmf.e2e.baseline.mo.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>int.esa.ccsds.mo</groupId>
                                     <artifactId>encoding-binary</artifactId>
-                                    <version>14.1</version>
+                                    <version>${nmf.e2e.baseline.mo.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>int.esa.ccsds.mo</groupId>
                                     <artifactId>encoding-string</artifactId>
-                                    <version>14.1</version>
+                                    <version>${nmf.e2e.baseline.mo.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>int.esa.ccsds.mo</groupId>
                                     <artifactId>mal-impl</artifactId>
-                                    <version>14.1</version>
+                                    <version>${nmf.e2e.baseline.mo.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>int.esa.ccsds.mo</groupId>
                                     <artifactId>transport-generic</artifactId>
-                                    <version>14.1</version>
+                                    <version>${nmf.e2e.baseline.mo.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>int.esa.ccsds.mo</groupId>
                                     <artifactId>transport-rmi</artifactId>
-                                    <version>14.1</version>
+                                    <version>${nmf.e2e.baseline.mo.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>int.esa.ccsds.mo</groupId>
                                     <artifactId>transport-tcpip</artifactId>
-                                    <version>14.1</version>
+                                    <version>${nmf.e2e.baseline.mo.version}</version>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>int.esa.nmf</groupId>
