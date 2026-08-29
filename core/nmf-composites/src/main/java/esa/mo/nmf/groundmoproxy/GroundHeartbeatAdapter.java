@@ -26,7 +26,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.sm.heartbeat.consumer.BeatSubscriptionKeys;
@@ -107,7 +106,7 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
             final long iDiff = lastBeatAt.getValue() - lastBeatOBT.getValue();
             LOGGER.log(Level.INFO,
                     "(Clocks diff: {0} ms | Round-Trip Delay time: {1} ms | Last beat received at: {2})",
-                    new Object[]{iDiff, lag, HelperTime.time2readableString(lastBeatAt)});
+                    new Object[]{iDiff, lag, lastBeatAt.toReadableString()});
             moProxy.setNmsAliveStatus(true);
         }
     }

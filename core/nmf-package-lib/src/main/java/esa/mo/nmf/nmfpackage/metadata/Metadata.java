@@ -43,7 +43,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.Time;
 
 /**
@@ -109,7 +108,7 @@ public class Metadata {
         this.files = null;
         this.properties = this.newOrderedProperties();
         final Time time = new Time(System.currentTimeMillis());
-        final String timestamp = HelperTime.time2readableString(time);
+        final String timestamp = time.toReadableString();
         this.properties.put(Metadata.PACKAGE_TIMESTAMP, timestamp);
         this.properties.put(PACKAGE_METADATA_VERSION, METADATA_VERSION_LATEST);
         this.properties.putAll(properties);

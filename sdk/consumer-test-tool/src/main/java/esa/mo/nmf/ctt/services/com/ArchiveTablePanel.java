@@ -43,7 +43,6 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Element;
 
@@ -198,7 +197,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         }
 
         if (comObject.getArchiveDetails().getTimestamp() != null) {
-            timestamp = HelperTime.time2readableString(comObject.getArchiveDetails().getTimestamp());
+            timestamp = comObject.getArchiveDetails().getTimestamp().toReadableString();
         }
 
         return new Object[]{timestamp, domain, objType,

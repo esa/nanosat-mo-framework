@@ -30,7 +30,6 @@ import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MOErrorException;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -140,7 +139,7 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
                     if (addTimestamps) {
                         Time timestamp = archiveObjectOutput.getArchiveDetailsList().get(i).getTimestamp();
                         String[] logLines = logObject.split("\n");
-                        logLines[0] = HelperTime.time2readableString(timestamp) + " " + logLines[0];
+                        logLines[0] = timestamp.toReadableString() + " " + logLines[0];
                         if (logLines.length > 1) {
                             for (int j = 1; j < logLines.length; ++j) {
                                 logLines[j] = lineOffset + logLines[j];

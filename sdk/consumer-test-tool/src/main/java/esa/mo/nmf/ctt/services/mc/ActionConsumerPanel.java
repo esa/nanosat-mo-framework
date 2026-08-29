@@ -40,7 +40,6 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
@@ -332,7 +331,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             final Long definitionId = subscriptionKeys.getDefinitionId();
             final Long executionId = subscriptionKeys.getExecutionId();
 
-            final String timestamp = HelperTime.time2readableString(msgHeader.getTimestamp());
+            final String timestamp = msgHeader.getTimestamp().toReadableString();
             final Long finalDefinitionId = definitionId;
             final Long finalExecutionId = executionId;
             final ExecutionStageType stageType = subscriptionKeys.getStageType();

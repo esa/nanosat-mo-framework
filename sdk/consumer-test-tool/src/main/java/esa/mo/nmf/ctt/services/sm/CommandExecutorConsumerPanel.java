@@ -34,7 +34,6 @@ import javax.swing.JOptionPane;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
@@ -241,7 +240,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
                 return;
             }
 
-            final String time = HelperTime.time2readableString(msgHeader.getTimestamp());
+            final String time = msgHeader.getTimestamp().toReadableString();
 
             if (CommandOutputType.STDOUT.equals(outputType)) {
                 addCommandOutput(commandId, time + " stdout:\n" + (data != null ? data : ""));
