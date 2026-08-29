@@ -12,6 +12,50 @@ dir_nmf=$(pwd)/
 dir_home="/home/"
 ###############################################################################
 
+###############################################################################
+# The commands that create and delete users and groups differ between a full
+# Linux distribution and BusyBox. The distribution is detected here rather than
+# declared, because the same mission is deployed to both: the NMF makes the same
+# check when it creates the user of an App (see LinuxUsersGroups.adduser).
+###############################################################################
+if adduser --help 2>&1 | grep -q "BusyBox"; then
+	is_busybox="true"
+	shell_nmf_admin="/bin/sh"
+else
+	is_busybox="false"
+	shell_nmf_admin="/bin/bash"
+fi
+
+# nmf_deluser <user> - deletes the user and its home directory. BusyBox has no
+# option to remove the home directory, so it is removed separately.
+nmf_deluser() {
+	if [ "$is_busybox" = "true" ]; then
+		deluser "$1" && rm -rf "$dir_home$1"
+	else
+		deluser --force --remove-home "$1"
+	fi
+}
+
+# nmf_adduser <user> - adds a system user with a group of its own. BusyBox
+# creates the group in a separate command.
+nmf_adduser() {
+	if [ "$is_busybox" = "true" ]; then
+		addgroup -S "$1"
+		adduser -S -s "$shell_nmf_admin" -G "$1" "$1"
+	else
+		adduser --system --shell "$shell_nmf_admin" --group "$1"
+	fi
+}
+
+# nmf_addgroup <group> - adds a group.
+nmf_addgroup() {
+	if [ "$is_busybox" = "true" ]; then
+		addgroup "$1"
+	else
+		groupadd "$1"
+	fi
+}
+
 # The script must be run as root
 if [ $(whoami) != 'root' ]; then
 	echo "The current user is: $(whoami)"
@@ -22,7 +66,7 @@ fi
 # Check if the NMF Admin User exists
 if id -u "$user_nmf_admin" >/dev/null 2>&1; then
     echo "The user $user_nmf_admin already exists! Let's delete it and create again..."
-	deluser --force --remove-home $user_nmf_admin
+	nmf_deluser $user_nmf_admin
 	RESULT=$?
 
 	if [ $RESULT -eq 0 ]; then
@@ -35,8 +79,7 @@ if id -u "$user_nmf_admin" >/dev/null 2>&1; then
 fi
 
 # Add the NMF Admin User and set password
-#useradd $user_nmf_admin -m -s /bin/bash --user-group
-adduser --system --shell /bin/bash --group $user_nmf_admin
+nmf_adduser $user_nmf_admin
 echo $user_nmf_admin:$user_nmf_admin_password | chpasswd
 
 ###############################################################################
@@ -63,6 +106,7 @@ rule_3="/bin/su - $user_nmf_app_prefix*"
 rule_4="/bin/chmod -R 770 $dir_home*, /bin/chmod -R 750 $dir_nmf*"
 rule_5="/bin/chgrp"
 rule_6="/usr/sbin/chpasswd"
+rule_7="/usr/sbin/addgroup"
 # Note: Rule 3 assumes that the Home directory is : /home/
 # Rule 5 can also be: "/bin/su [!-]*, !/bin/su *root*"
 # The above was obtained here: https://www.sudo.ws/man/1.8.17/sudoers.man.html
@@ -79,11 +123,18 @@ $user_nmf_admin ALL=(ALL) NOPASSWD:$rule_4
 $user_nmf_admin ALL=(ALL) NOPASSWD:$rule_5
 $user_nmf_admin ALL=(ALL) NOPASSWD:$rule_6
 "
+
+# BusyBox adds the group of an App separately, so the rule is only added there.
+if [ "$is_busybox" = "true" ]; then
+	rules_all="$rules_all$user_nmf_admin ALL=(ALL) NOPASSWD:$rule_7
+"
+fi
+
 echo "$rules_all" | sudo tee $rules_path
 chmod 440 $rules_path
 
 # Add NMF App Group:
-groupadd $group_nmf_apps
+nmf_addgroup $group_nmf_apps
 
 # Function to create a directory with: owner + group + permissions
 create_dir(){
