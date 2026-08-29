@@ -51,7 +51,6 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.consumer.MonitorExecutionSubscriptionKeys;
@@ -289,9 +288,9 @@ public class CameraAcquisitorGround {
                     LOGGER.log(Level.SEVERE, "Action does not exist, please check if space application is running");
                 }
                 AttributeValueList arguments = new AttributeValueList();
-                arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(latitude)));
-                arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(longitude)));
-                arguments.add(new AttributeValue((Attribute) HelperAttributes.javaType2Attribute(timeStamp)));
+                arguments.add(new AttributeValue((Attribute) Attribute.javaType2Attribute(latitude)));
+                arguments.add(new AttributeValue((Attribute) Attribute.javaType2Attribute(longitude)));
+                arguments.add(new AttributeValue((Attribute) Attribute.javaType2Attribute(timeStamp)));
 
                 Long actionID = gma.launchAction(objIds.get(0), arguments);
                 if (actionID == null) {

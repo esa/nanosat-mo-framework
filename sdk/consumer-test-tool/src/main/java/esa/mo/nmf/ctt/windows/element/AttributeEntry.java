@@ -54,7 +54,7 @@ public class AttributeEntry extends Entry {
         if (objIsNull) {
             super.makeFieldNull();
         } else {
-            fieldValue.setText(HelperAttributes.attribute2string(obj));
+            fieldValue.setText(Attribute.attribute2string(obj));
         }
 
         if (!editable) {

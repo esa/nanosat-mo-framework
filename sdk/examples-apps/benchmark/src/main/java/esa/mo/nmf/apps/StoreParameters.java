@@ -30,7 +30,6 @@ import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
@@ -60,7 +59,7 @@ public class StoreParameters {
     public static void storeParameterValues(int numberOfObjs, NMFInterface connector) {
         try {
             ParameterValue pValue = new ParameterValue(ValidityState.VALID,
-                    (Attribute) HelperAttributes.javaType2Attribute(123.4567), null);
+                    (Attribute) Attribute.javaType2Attribute(123.4567), null);
 
             ParameterValueList values = new ParameterValueList();
 

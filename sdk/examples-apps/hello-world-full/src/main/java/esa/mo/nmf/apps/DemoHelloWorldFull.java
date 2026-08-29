@@ -24,7 +24,6 @@ import esa.mo.nmf.MCRegistration.RegistrationMode;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.AttributeType;
@@ -93,7 +92,7 @@ public class DemoHelloWorldFull {
         @Override
         public Attribute onGetValue(Identifier identifier, AttributeType rawType) {
             if (PARAMETER_NAME.equals(identifier.getValue())) {
-                return (Attribute) HelperAttributes.javaType2Attribute(var);
+                return (Attribute) Attribute.javaType2Attribute(var);
             }
 
             return null;

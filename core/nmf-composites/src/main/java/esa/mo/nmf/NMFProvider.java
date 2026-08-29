@@ -169,7 +169,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
 
-        Object obj = HelperAttributes.javaType2Attribute(content); // Convert to MAL type if possible
+        Object obj = Attribute.javaType2Attribute(content); // Convert to MAL type if possible
 
         // If it is not a MAL type, then try to convert it into a Blob container
         if (!(obj instanceof Attribute)) {

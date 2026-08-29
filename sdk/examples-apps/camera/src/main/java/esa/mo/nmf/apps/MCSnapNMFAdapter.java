@@ -35,7 +35,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
@@ -132,7 +131,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         }
 
         if (PARAMETER_SNAPS_TAKEN.equals(identifier.getValue())) {
-            return (Attribute) HelperAttributes.javaType2Attribute(snapsTaken.get());
+            return (Attribute) Attribute.javaType2Attribute(snapsTaken.get());
         }
         return null;
     }

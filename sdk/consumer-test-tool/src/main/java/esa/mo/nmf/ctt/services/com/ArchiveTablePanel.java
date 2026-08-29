@@ -42,9 +42,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import org.ccsds.moims.mo.com.structures.ObjectLinks;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
+import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Element;
 
 /**
@@ -159,7 +159,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
 
         for (int i = 0; i < archiveObjectOutput.getArchiveDetailsList().size(); i++) {
             Element objects = (archiveObjectOutput.getObjectBodies() == null) ? null
-                    : (Element) HelperAttributes.javaType2Attribute(archiveObjectOutput.getObjectBodies().get(i));
+                    : (Element) Attribute.javaType2Attribute(archiveObjectOutput.getObjectBodies().get(i));
             ArchivePersistenceObject comObject = new ArchivePersistenceObject(
                     archiveObjectOutput.getObjectType(),
                     archiveObjectOutput.getDomain(),

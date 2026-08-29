@@ -204,7 +204,7 @@ public class ActionArgumentsDialog extends JDialog {
             int typeShortForm = arg.getRawType().getValue();
             String typeName = HelperAttributes.typeShortForm2attributeName(typeShortForm);
             Object proto = HelperAttributes.attributeName2object(typeName);
-            Attribute template = (Attribute) HelperAttributes.javaType2Attribute(proto);
+            Attribute template = (Attribute) Attribute.javaType2Attribute(proto);
 
             try {
                 Attribute value = (Attribute) HelperAttributes.string2attribute(template, text);

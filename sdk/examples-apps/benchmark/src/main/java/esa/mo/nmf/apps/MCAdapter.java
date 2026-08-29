@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
@@ -133,13 +132,13 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     @Override
     public Attribute onGetValue(Identifier identifier, AttributeType rawType) throws IOException {
         if (PARAMETER_PERIODIC.equals(identifier.getValue())) {
-            return (Attribute) HelperAttributes.javaType2Attribute(123.456);
+            return (Attribute) Attribute.javaType2Attribute(123.456);
         }
 
         if (PARAMETER_ARCHIVE_SIZE.equals(identifier.getValue())) {
             File f = connector.getDatabaseLocationInUserDirectory();
             long size = f.length();
-            return (Attribute) HelperAttributes.javaType2Attribute(size);
+            return (Attribute) Attribute.javaType2Attribute(size);
         }
 
         throw new IOException("The value could not be acquired!");

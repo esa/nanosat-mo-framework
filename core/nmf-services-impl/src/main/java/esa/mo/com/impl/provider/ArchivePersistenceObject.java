@@ -68,7 +68,7 @@ public class ArchivePersistenceObject implements Serializable {
 
         this.sourceLink = archiveDetails.getLinks().getSource();
         this.relatedLink = archiveDetails.getLinks().getRelated();
-        //        this.obj = (Element) HelperAttributes.javaType2Attribute(object);
+        //        this.obj = (Element) Attribute.javaType2Attribute(object);
         this.object = object;
     }
 

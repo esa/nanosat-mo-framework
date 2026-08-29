@@ -107,7 +107,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
         parameters.add(new Identifier(parameterName));
 
         // If it is java type, then convert it to Attribute
-        Object midValue = HelperAttributes.javaType2Attribute(content);
+        Object midValue = Attribute.javaType2Attribute(content);
         Attribute rawValue;
 
         if (midValue instanceof Attribute) { // Is the parameter MAL type or something else?
@@ -312,7 +312,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
 
                 for (Serializable object : objects) {
                     // If it is java type, then convert it to Attribute
-                    Object midValue = HelperAttributes.javaType2Attribute(object);
+                    Object midValue = Attribute.javaType2Attribute(object);
                     Byte rawType;
                     Attribute rawValue;
                     if (midValue instanceof Attribute) {
@@ -353,7 +353,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
             // Fill-in the argument values
             for (Serializable object : objects) {
                 // If it is java type, then convert it to Attribute
-                Object midValue = HelperAttributes.javaType2Attribute(object);
+                Object midValue = Attribute.javaType2Attribute(object);
                 Attribute rawValue;
 
                 if (midValue instanceof Attribute) {

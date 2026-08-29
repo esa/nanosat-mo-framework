@@ -25,7 +25,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Enumeration;
 
@@ -48,7 +47,7 @@ public class FieldsHandler {
      */
     public static Object filterRawObject(Object obj) {
         try {
-            return HelperAttributes.javaType2Attribute(obj);
+            return Attribute.javaType2Attribute(obj);
         } catch (IllegalArgumentException ex) {
         }
 
@@ -182,23 +181,23 @@ public class FieldsHandler {
             String name = constructor.getName();
             try {
                 if (name.equals("java.lang.Boolean")) {
-                    return HelperAttributes.javaType2Attribute(constructor.newInstance(true));
+                    return Attribute.javaType2Attribute(constructor.newInstance(true));
                 }
 
                 if (name.equals("java.lang.String")) {
-                    return HelperAttributes.javaType2Attribute(constructor.newInstance(""));
+                    return Attribute.javaType2Attribute(constructor.newInstance(""));
                 }
 
                 if (name.equals("java.lang.Byte")) {
-                    return HelperAttributes.javaType2Attribute(constructor.newInstance((byte) 1));
+                    return Attribute.javaType2Attribute(constructor.newInstance((byte) 1));
                 }
 
                 if (name.equals("java.lang.Long")) {
-                    return HelperAttributes.javaType2Attribute(0L);
+                    return Attribute.javaType2Attribute(0L);
                 }
 
                 Object newObj = constructor.newInstance(1);
-                return HelperAttributes.javaType2Attribute(newObj);
+                return Attribute.javaType2Attribute(newObj);
             } catch (InstantiationException
                     | InvocationTargetException
                     | IllegalArgumentException

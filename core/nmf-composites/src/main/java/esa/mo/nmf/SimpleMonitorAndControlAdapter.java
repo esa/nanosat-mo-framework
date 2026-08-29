@@ -86,7 +86,7 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
             return (Attribute) ret;
         } else {
             // First try to convert it into a MO type...
-            Object moType = HelperAttributes.javaType2Attribute(ret);
+            Object moType = Attribute.javaType2Attribute(ret);
 
             if (moType instanceof Attribute) { // Was it succcessfully converted from Java to Attribute?
                 return (Attribute) moType;

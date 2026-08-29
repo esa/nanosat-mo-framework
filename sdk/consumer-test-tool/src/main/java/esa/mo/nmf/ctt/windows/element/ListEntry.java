@@ -80,7 +80,7 @@ public class ListEntry extends Entry {
             super.middlePanel.add(fieldValue);
 
             this.fieldValue.setEditable(editable);
-            this.fieldValue.setText(HelperAttributes.attribute2string(obj));
+            this.fieldValue.setText(Attribute.attribute2string(obj));
 
             // Set the text
             if (!editable) {
