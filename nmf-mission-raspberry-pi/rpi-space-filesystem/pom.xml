@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>int.esa.nmf</groupId>
+        <artifactId>nanosat-mo-framework</artifactId>
+        <version>5.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
+    </parent>
+
+    <groupId>int.esa.nmf</groupId>
+    <artifactId>rpi-space-filesystem</artifactId>
+    <packaging>jar</packaging>
+
+    <name>NMF Mission Raspberry Pi - Space Filesystem</name>
+
+    <url>http://www.esa.int</url>
+    <organization>
+        <name>ESA</name>
+        <url>http://www.esa.int</url>
+    </organization>
+    <licenses>
+        <license>
+            <name>European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4</name>
+            <url>https://raw.github.com/esa/nanosat-mo-framework/master/LICENCE.md</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:https://github.com/esa/nanosat-mo-framework.git</connection>
+        <url>https://github.com/esa/nanosat-mo-framework</url>
+    </scm>
+    <developers>
+        <developer>
+            <id>CesarCoelho</id>
+            <name>César Coelho</name>
+            <url>https://github.com/CesarCoelho</url>
+        </developer>
+    </developers>
+    <properties>
+        <out.folder.output>space-filesystem</out.folder.output>
+        <out.folder.nmf>nanosat-mo-framework</out.folder.nmf>
+        <mission.outputdir>${project.build.directory}/${out.folder.output}</mission.outputdir>
+    </properties>
+
+    <dependencies>
+        <!-- We need this to run apps: -->
+        <dependency>
+            <groupId>int.esa.nmf.core</groupId>
+            <artifactId>nmf-composites</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>int.esa.nmf</groupId>
+            <artifactId>nmf-platform-impl-sim</artifactId>
+            <version>5.1-SNAPSHOT</version>
+        </dependency>
+        <!-- We need this to run the supervisor: -->
+        <dependency>
+            <groupId>int.esa.nmf</groupId>
+            <artifactId>rpi-supervisor</artifactId>
+            <version>5.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>2.8</version>
+            </extension>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh-external</artifactId>
+                <version>2.8</version>
+            </extension>
+        </extensions>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>1.4</version>
+            </plugin>
+            <plugin>
+                <groupId>int.esa.nmf.core</groupId>
+                <artifactId>nmf-linux-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-space-filesystem</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>generate-filesystem</goal>
+                        </goals>
+                        <configuration>
+                            <supervisorMainClass>esa.mo.nmf.provider.NanoSatMOSupervisorRaspberryPiImpl</supervisorMainClass>
+                            <appsIsolation>linux-userspace</appsIsolation>
+                            <mission>
+                                <missionName>Raspberry Pi</missionName>
+                                <spacecraftName>Raspberry Pi</spacecraftName>
+                                <organizationAbbreviation>esa</organizationAbbreviation>
+                                <organizationName>European Space Agency</organizationName>
+                            </mission>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
+                <executions>
+                    <execution>
+                        <id>add-scripts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${mission.outputdir}/${out.folder.nmf}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/src/main/resources</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <id>deploy-on-rpi</id>
+            <build>
+                <!--   Deploys the generated Space File System    -->
+                <!--   on a remote machine (example: a FlatSat)   -->
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>wagon-maven-plugin</artifactId>
+                        <version>2.0.2</version>
+                        <executions>
+                            <execution>
+                                <id>upload-to-myserver</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>upload</goal>
+                                </goals>
+                                <configuration>
+                                    <fromDir>${mission.outputdir}/${out.folder.nmf}</fromDir>
+                                    <url>scp://root@192.168.0.86/</url>
+                                    <toDir>${out.folder.nmf}</toDir>
+                                    <skip>false</skip>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
