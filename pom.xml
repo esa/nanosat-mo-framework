@@ -261,6 +261,7 @@
         <module>nmf-mission-simulator-lite</module>
         <module>nmf-mission-simulator-orekit</module>
         <module>nmf-mission-raspberry-pi</module>
+        <module>nmf-mission-swarms</module>
         <module>sdk</module>
     </modules>
 </project>

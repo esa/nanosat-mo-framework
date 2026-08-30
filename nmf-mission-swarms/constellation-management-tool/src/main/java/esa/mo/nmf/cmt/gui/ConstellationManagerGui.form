@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="esa.mo.nmf.cmt.gui.ConstellationManagerGui">
+  <grid id="27dc6" binding="cmtPanel" layout-manager="GridLayoutManager" row-count="3" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="577" height="400"/>
+    </constraints>
+    <properties>
+      <foreground color="-16301824"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="658de" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="5" left="5" bottom="5" right="5"/>
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <scrollpane id="21cd8" binding="spNanoSatSegmentsTable">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </scrollpane>
+          <scrollpane id="d1c27">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <horizontalScrollBarPolicy value="31"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="86e2a" class="javax.swing.JTextPane" binding="tpContainerMonitoring">
+                <constraints/>
+                <properties>
+                  <editable value="false"/>
+                  <enabled value="true"/>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
+        </children>
+      </grid>
+      <grid id="f0a10" layout-manager="GridLayoutManager" row-count="1" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="5" bottom="0" right="6"/>
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="532eb" class="javax.swing.JLabel" binding="lblNanoSatSegmentNumber">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <horizontalTextPosition value="0"/>
+              <text value="0"/>
+            </properties>
+          </component>
+          <component id="c4a4" class="javax.swing.JLabel" binding="lblConstellationName">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="NanoSat Segments"/>
+              <toolTipText value="Constellation name"/>
+            </properties>
+          </component>
+          <hspacer id="9e0a0">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </hspacer>
+          <component id="fc2c9" class="javax.swing.JButton" binding="btnPackageManager">
+            <constraints>
+              <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Package Manager"/>
+            </properties>
+          </component>
+          <component id="f246e" class="javax.swing.JButton" binding="btnAppManager">
+            <constraints>
+              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="App Manager"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="2c8dd" class="javax.swing.JMenuBar" binding="menuBar" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="-1" height="25"/>
+            <maximum-size width="-1" height="25"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="a90cc" class="javax.swing.JMenu" binding="menuSimulation" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <horizontalAlignment value="2"/>
+              <text value="Simulation"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="17b83" class="javax.swing.JMenuItem" binding="miRemoveAll">
+                <constraints/>
+                <properties>
+                  <text value="Remove all simulated Segments"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="346b" class="javax.swing.JMenu" binding="menuAddNanoSat" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <horizontalAlignment value="0"/>
+              <text value="NanoSat Segments"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="b7d99" class="javax.swing.JMenuItem" binding="miCreateBasicSim">
+                <constraints/>
+                <properties>
+                  <text value="Create Basic NanoSat Simulation"/>
+                </properties>
+              </component>
+              <component id="e74f7" class="javax.swing.JMenuItem" binding="miCreateAdvancedSim">
+                <constraints/>
+                <properties>
+                  <text value="Create Advanced NanoSat Simulation"/>
+                </properties>
+              </component>
+              <component id="41240" class="javax.swing.JMenuItem" binding="miConnectNanoSat">
+                <constraints/>
+                <properties>
+                  <text value="Connect to NanoSat Segments"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <hspacer id="9b7f8">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </hspacer>
+        </children>
+      </grid>
+      <vspacer id="af6d0">
+        <constraints>
+          <grid row="1" column="2" row-span="2" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+      <vspacer id="ff0a6">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
+    </children>
+  </grid>
+</form>
