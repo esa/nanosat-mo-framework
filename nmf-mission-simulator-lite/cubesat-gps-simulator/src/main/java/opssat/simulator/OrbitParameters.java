@@ -32,6 +32,10 @@ public class OrbitParameters {
     private final double latitude;
     private final double a;
     private final Date time;
+
+    private final Vector positionEarthFixed;
+
+    private final Vector velocityEarthFixed;
     private final Vector velocity;
 
     /**
@@ -44,11 +48,33 @@ public class OrbitParameters {
      * @param time The time.
      */
     public OrbitParameters(double latitude, double longitude, double a, Vector velocity, Date time) {
+        this(latitude, longitude, a, velocity, time, null, null);
+    }
+
+    /**
+     * Constructor that also carries the position and the velocity in the frame
+     * that turns with the Earth, which is the frame a receiver reports in.
+     *
+     * @param latitude The latitude, in degrees.
+     * @param longitude The longitude, in degrees.
+     * @param a The distance to the centre of the Earth, in kilometres.
+     * @param velocity The velocity in the inertial frame, in kilometres per
+     * second.
+     * @param time The time this position is for.
+     * @param positionEarthFixed The position in the Earth-fixed frame, in
+     * kilometres.
+     * @param velocityEarthFixed The velocity in the Earth-fixed frame, in
+     * kilometres per second.
+     */
+    public OrbitParameters(double latitude, double longitude, double a,
+            Vector velocity, Date time, Vector positionEarthFixed, Vector velocityEarthFixed) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.a = a;
         this.velocity = velocity;
         this.time = time;
+        this.positionEarthFixed = positionEarthFixed;
+        this.velocityEarthFixed = velocityEarthFixed;
     }
 
     public double getLongitude() {
@@ -69,6 +95,24 @@ public class OrbitParameters {
 
     public Date getTime() {
         return time;
+    }
+
+    /**
+     * @return The position in the frame that turns with the Earth, in
+     * kilometres, or null when this position was not worked out in it.
+     */
+    public Vector getPositionEarthFixed() {
+        return positionEarthFixed;
+    }
+
+    /**
+     * @return The velocity in the frame that turns with the Earth, in
+     * kilometres per second, or null when this position was not worked out in
+     * it. It differs from the inertial velocity by the turning of the Earth,
+     * which at this altitude is a few percent of the speed.
+     */
+    public Vector getVelocityEarthFixed() {
+        return velocityEarthFixed;
     }
 
     public Vector getVelocity() {

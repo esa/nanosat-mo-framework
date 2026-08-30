@@ -51,5 +51,8 @@
     </properties>
     <modules>
         <module>cubesat-gps-simulator</module>
+        <module>lite-platform-impl</module>
+        <module>lite-supervisor</module>
+        <module>lite-space-filesystem</module>
     </modules>
 </project>

@@ -141,12 +141,35 @@ public class Orbit {
         double lon = this.normalizeAngle(Math.atan2(this.r.y(), this.r.x()) - delta_lst);
         //System.out.println("lat:["+lat+"] lon:["+lon+"]");
 
+        // The receiver of a spacecraft reports where it is in the frame that
+        // turns with the Earth, so the position and the velocity are turned
+        // into it here, where the angle the Earth has turned through is known.
+        double cos = Math.cos(delta_lst);
+        double sin = Math.sin(delta_lst);
+        Vector positionEarthFixed = new Vector(
+                this.r.x() * cos + this.r.y() * sin,
+                -this.r.x() * sin + this.r.y() * cos,
+                this.r.z());
+        Vector velocityTurned = new Vector(
+                this.v.x() * cos + this.v.y() * sin,
+                -this.v.x() * sin + this.v.y() * cos,
+                this.v.z());
+        // A point at rest above the ground still moves in the inertial frame,
+        // by the turning of the Earth, so that much is taken back out.
+        double earthRate = SOLAR_DAY * 2 * Math.PI / (24 * 3600);
+        Vector velocityEarthFixed = new Vector(
+                velocityTurned.x() + earthRate * positionEarthFixed.y(),
+                velocityTurned.y() - earthRate * positionEarthFixed.x(),
+                velocityTurned.z());
+
         return new OrbitParameters(
                 lat * (180 / Math.PI),
                 lon * (180 / Math.PI),
                 newA,
                 this.v,
-                time);
+                time,
+                positionEarthFixed,
+                velocityEarthFixed);
     }
 
     // Calculates ascending node change (RAAN)

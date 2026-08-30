@@ -76,7 +76,9 @@ public class GPS {
         BigDecimal truncated = truncateDecimal(this.position.getA(), 1);
         Vector velocity = this.position.getVelocity();
         OrbitParameters newPosition = new OrbitParameters(latitude, longitude,
-                truncated.doubleValue(), velocity, this.position.getTime());
+                truncated.doubleValue(), velocity, this.position.getTime(),
+                this.position.getPositionEarthFixed(),
+                this.position.getVelocityEarthFixed());
 
         return newPosition;
     }
