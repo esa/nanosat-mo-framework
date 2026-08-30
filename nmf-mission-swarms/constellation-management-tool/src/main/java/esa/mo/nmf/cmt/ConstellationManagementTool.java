@@ -25,6 +25,7 @@ package esa.mo.nmf.cmt;
 import esa.mo.nmf.cmt.gui.ConstellationManagerGui;
 import esa.mo.nmf.cmt.utils.NanoSat;
 import esa.mo.nmf.cmt.utils.NanoSatSimulator;
+import esa.mo.nmf.cmt.utils.SegmentImage;
 import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -117,13 +118,15 @@ public class ConstellationManagementTool {
      * @param name Name of the constellation. Container naming scheme:
      * <name>-sim-<1...n>
      * @param size Constellation size
+     * @param image The image every segment of this constellation runs
      * @throws java.io.IOException if the simulation could not be started.
      */
-    public void addBasicSimulations(String name, int size) throws IOException {
+    public void addBasicSimulations(String name, int size, SegmentImage image) throws IOException {
         try {
             for (int i = 0; i < size; i++) {
                 int nodeNumber = this.constellation.size() + 1;
-                NanoSatSimulator nanoSat = new NanoSatSimulator("nmfsim-" + name + "-" + nodeNumber);
+                NanoSatSimulator nanoSat = new NanoSatSimulator(
+                        "nmfsim-" + name + "-" + nodeNumber, null, image);
                 nanoSat.run();
                 this.constellation.add(nanoSat);
             }
@@ -147,14 +150,16 @@ public class ConstellationManagementTool {
      *
      * @param nanoSatConfigurations string: NanoSat Segment name, string[]:
      * kepler elements
+     * @param image The image every segment of this constellation runs
      */
-    public void addAdvancedSimulations(HashMap<String, String[]> nanoSatConfigurations) {
+    public void addAdvancedSimulations(HashMap<String, String[]> nanoSatConfigurations,
+            SegmentImage image) {
         try {
             for (Map.Entry<String, String[]> config : nanoSatConfigurations.entrySet()) {
                 String name = config.getKey();
                 String[] keplerElements = config.getValue();
 
-                NanoSatSimulator nanoSat = new NanoSatSimulator(name, keplerElements);
+                NanoSatSimulator nanoSat = new NanoSatSimulator(name, keplerElements, image);
                 nanoSat.run();
                 this.constellation.add(nanoSat);
             }

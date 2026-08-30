@@ -31,6 +31,28 @@ import java.io.IOException;
  */
 public abstract class ContainerApi {
 
+    /**
+     * The property that names the container tool to run a segment with, so that
+     * a deployment can pick one without the tool being rebuilt. It is read once,
+     * when the first segment is created.
+     */
+    public static final String TOOL_PROPERTY = "esa.mo.nmf.cmt.containerTool";
+
+    /**
+     * Returns the way segments of this constellation are run.
+     *
+     * @param image The image a segment runs.
+     * @return The container tool that runs it.
+     */
+    public static ContainerApi of(SegmentImage image) {
+        String tool = System.getProperty(TOOL_PROPERTY, "docker");
+
+        if ("kubernetes".equalsIgnoreCase(tool)) {
+            return new KubernetesApi();
+        }
+        return new DockerApi(image.getImage());
+    }
+
     public abstract void run(String name, String[] keplerElements) throws IOException;
 
     public abstract void start(String name) throws IOException;

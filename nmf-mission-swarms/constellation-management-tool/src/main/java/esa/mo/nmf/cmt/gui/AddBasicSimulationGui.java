@@ -26,6 +26,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import esa.mo.nmf.cmt.ConstellationManagementTool;
+import esa.mo.nmf.cmt.utils.SegmentImage;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -37,6 +38,7 @@ public class AddBasicSimulationGui extends JFrame {
     private JTextField tfConstellationSize;
     private JTextField tfConstellationName;
     private JButton btnAddSimulations;
+    private JComboBox<SegmentImage> cbImage;
     private final ConstellationManagementTool ncm;
 
     private static final Logger LOGGER = Logger.getLogger(ConstellationManagementTool.class.getName());
@@ -52,7 +54,8 @@ public class AddBasicSimulationGui extends JFrame {
         this.ncm = ncm;
 
         this.setContentPane(addBasicConstellationPanel);
-        this.setTitle("Create basic Simulation"); this.setSize(400, 140);
+        this.setTitle("Create basic Simulation");
+        this.pack();
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setVisible(true);
@@ -78,7 +81,7 @@ public class AddBasicSimulationGui extends JFrame {
             } else if (size < 1) {
                 throw new NumberFormatException();
             } else {
-                this.ncm.addBasicSimulations(name, size);
+                this.ncm.addBasicSimulations(name, size, (SegmentImage) cbImage.getSelectedItem());
             }
 
             this.dispose();
@@ -108,7 +111,7 @@ public class AddBasicSimulationGui extends JFrame {
      */
     private void $$$setupUI$$$() {
         addBasicConstellationPanel = new JPanel();
-        addBasicConstellationPanel.setLayout(new GridLayoutManager(5, 2, new Insets(5, 5, 5, 5), -1, -1));
+        addBasicConstellationPanel.setLayout(new GridLayoutManager(6, 2, new Insets(5, 5, 5, 5), -1, -1));
         final JLabel label1 = new JLabel();
         label1.setText("Create new basic NanoSat Simulation");
         addBasicConstellationPanel.add(label1, new GridConstraints(0, 0, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -122,11 +125,16 @@ public class AddBasicSimulationGui extends JFrame {
         addBasicConstellationPanel.add(label3, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(87, 19), null, 0, false));
         tfConstellationName = new JTextField();
         addBasicConstellationPanel.add(tfConstellationName, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JLabel label4 = new JLabel();
+        label4.setText("Image:");
+        addBasicConstellationPanel.add(label4, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(87, 19), null, 0, false));
+        cbImage = new JComboBox<>(SegmentImage.values());
+        addBasicConstellationPanel.add(cbImage, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         btnAddSimulations = new JButton();
         btnAddSimulations.setText("Add Simulations to Constellation");
-        addBasicConstellationPanel.add(btnAddSimulations, new GridConstraints(3, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        addBasicConstellationPanel.add(btnAddSimulations, new GridConstraints(4, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
-        addBasicConstellationPanel.add(spacer1, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        addBasicConstellationPanel.add(spacer1, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
     }
 
     /**

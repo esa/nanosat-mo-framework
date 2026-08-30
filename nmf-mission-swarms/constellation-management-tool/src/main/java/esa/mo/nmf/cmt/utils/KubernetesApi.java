@@ -25,30 +25,44 @@ package esa.mo.nmf.cmt.utils;
 
 import java.io.IOException;
 
-// TODO: implement Kubernetes API
+/**
+ * Running the segments of a constellation on Kubernetes, which is not written
+ * yet.
+ * <p>
+ * The methods report that rather than doing nothing: a segment that is silently
+ * never created is a constellation that is silently empty.
+ */
 public class KubernetesApi extends ContainerApi {
+
+    private static String notWritten() {
+        return "The segments of a constellation cannot be run on Kubernetes "
+                + "yet. Unset the " + TOOL_PROPERTY + " property to run them "
+                + "with Docker.";
+    }
 
     public KubernetesApi() {
     }
 
     @Override
     public void run(String name, String[] keplerElements) throws IOException {
-
+        throw new UnsupportedOperationException(notWritten());
     }
 
     public void start(String name) throws IOException {
+        throw new UnsupportedOperationException(notWritten());
     }
 
     @Override
     public void stop(String name) throws IOException {
-
+        throw new UnsupportedOperationException(notWritten());
     }
 
     public String getIPAddress(String name) throws IOException {
-        return null;
+        throw new UnsupportedOperationException(notWritten());
     }
 
     public void remove(String name) throws IOException {
+        throw new UnsupportedOperationException(notWritten());
     }
 
     @Override

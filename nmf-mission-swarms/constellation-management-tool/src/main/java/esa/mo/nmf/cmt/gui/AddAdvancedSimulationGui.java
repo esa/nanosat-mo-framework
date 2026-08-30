@@ -27,6 +27,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import esa.mo.nmf.cmt.ConstellationManagementTool;
+import esa.mo.nmf.cmt.utils.SegmentImage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,6 +46,7 @@ public class AddAdvancedSimulationGui extends JFrame {
     private JTextField tfFilePath;
     private JButton btnChooseFile;
     private JButton btnCreateSimulation;
+    private JComboBox<SegmentImage> cbImage;
 
     public AddAdvancedSimulationGui(ConstellationManagementTool cmt) {
 
@@ -52,7 +54,7 @@ public class AddAdvancedSimulationGui extends JFrame {
 
         this.setContentPane(addAdvancedSimulationGuiPanel);
         this.setTitle("Create advanced Simulation");
-        this.setSize(520, 123);
+        this.pack();
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setVisible(true);
@@ -102,7 +104,8 @@ public class AddAdvancedSimulationGui extends JFrame {
                 }
             }
 
-            this.cmt.addAdvancedSimulations(nanoSatConfigurations);
+            this.cmt.addAdvancedSimulations(nanoSatConfigurations,
+                    (SegmentImage) cbImage.getSelectedItem());
 
             this.dispose();
 
@@ -132,7 +135,7 @@ public class AddAdvancedSimulationGui extends JFrame {
      */
     private void $$$setupUI$$$() {
         addAdvancedSimulationGuiPanel = new JPanel();
-        addAdvancedSimulationGuiPanel.setLayout(new GridLayoutManager(4, 3, new Insets(5, 5, 5, 5), -1, -1));
+        addAdvancedSimulationGuiPanel.setLayout(new GridLayoutManager(5, 3, new Insets(5, 5, 5, 5), -1, -1));
         final JLabel label1 = new JLabel();
         label1.setText("Import a simulation configuration file to create an advanced simulation");
         addAdvancedSimulationGuiPanel.add(label1, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
@@ -144,11 +147,16 @@ public class AddAdvancedSimulationGui extends JFrame {
         btnChooseFile = new JButton();
         btnChooseFile.setText("Open");
         addAdvancedSimulationGuiPanel.add(btnChooseFile, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final JLabel label3 = new JLabel();
+        label3.setText("Image:");
+        addAdvancedSimulationGuiPanel.add(label3, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        cbImage = new JComboBox<>(SegmentImage.values());
+        addAdvancedSimulationGuiPanel.add(cbImage, new GridConstraints(2, 1, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         btnCreateSimulation = new JButton();
         btnCreateSimulation.setText("Create Simulation");
-        addAdvancedSimulationGuiPanel.add(btnCreateSimulation, new GridConstraints(2, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        addAdvancedSimulationGuiPanel.add(btnCreateSimulation, new GridConstraints(3, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
-        addAdvancedSimulationGuiPanel.add(spacer1, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        addAdvancedSimulationGuiPanel.add(spacer1, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
     }
 
     /**

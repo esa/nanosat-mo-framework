@@ -37,6 +37,8 @@ public class NanoSatSimulator extends NanoSat {
     private ContainerApi simulatorApi;
     private String[] keplerElements = null;
 
+    private final SegmentImage image;
+
     /**
      * Initializer Constructor. This class manages the Docker Container which
      * provides the NanoSat segment for the simulated constellation.
@@ -44,7 +46,7 @@ public class NanoSatSimulator extends NanoSat {
      * @param name Container name
      */
     public NanoSatSimulator(String name) {
-        this(name, null);
+        this(name, null, SegmentImage.getDefault());
     }
 
     /**
@@ -55,19 +57,35 @@ public class NanoSatSimulator extends NanoSat {
      * @param keplerElements Orbit parameters for GPS simulation
      */
     public NanoSatSimulator(String name, String[] keplerElements) {
+        this(name, keplerElements, SegmentImage.getDefault());
+    }
+
+    /**
+     * Initializer Constructor. This class manages the Docker Container which
+     * provides the NanoSat segment for the simulated constellation.
+     *
+     * @param name Container name
+     * @param keplerElements Orbit parameters for GPS simulation
+     * @param image The image this segment runs
+     */
+    public NanoSatSimulator(String name, String[] keplerElements, SegmentImage image) {
         this.name = name;
         this.keplerElements = keplerElements;
-
-        // TODO: make API type closable when creating the NanoSat, maybe use factory pattern
-        String image = "nmf/raspberry-pi";
-        this.simulatorApi = new DockerApi(image);
-        // this.simulatorApi = new KubernetesApi();
+        this.image = image;
+        this.simulatorApi = ContainerApi.of(image);
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
                 deleteIfSimulation();
             }
         });
+    }
+
+    /**
+     * @return The image this segment runs.
+     */
+    public SegmentImage getImage() {
+        return image;
     }
 
     /**

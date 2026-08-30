@@ -21,7 +21,7 @@ under the License. -->
     <groupId>int.esa.nmf</groupId>
     <artifactId>lite-platform-impl</artifactId>
     <packaging>jar</packaging>
-    <name>ESA NMF Simulator Lite - Platform Services Implementation</name>
+    <name>ESA NMF Simulator Lite - Platform Services</name>
     <description>The Platform services of the lite simulator, which are the GPS service alone</description>
     <url>http://www.esa.int</url>
 
