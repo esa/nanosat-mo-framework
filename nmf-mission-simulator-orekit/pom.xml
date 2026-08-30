@@ -55,5 +55,6 @@
         <module>platform-services-impl</module>
         <module>nanosat-mo-supervisor-sim</module>
         <module>nanosat-monolithic</module>
+        <module>sim-orekit-space-filesystem</module>
     </modules>
 </project>

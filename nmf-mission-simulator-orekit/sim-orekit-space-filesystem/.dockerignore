@@ -1,0 +1,9 @@
+# Only target/space-filesystem/ is needed as build context.
+src
+*.iml
+target/classes
+target/test-classes
+target/generated-sources
+target/maven-status
+target/maven-archiver
+target/*.jar
