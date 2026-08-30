@@ -79,6 +79,19 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
     }
 
     /**
+     * Initializes the NanoSat MO Supervisor with the default Package Management
+     * services backend, which installs the Apps of the packages directory.
+     *
+     * @param mcAdapter The adapter to connect the actions and parameters to the
+     * corresponding methods and variables of a specific entity.
+     * @param platformServices The Platform services consumer stubs
+     */
+    public void init(MonitorAndControlNMFAdapter mcAdapter,
+            PlatformServicesConsumer platformServices) {
+        this.init(mcAdapter, platformServices, null);
+    }
+
+    /**
      * Initializes the NanoSat MO Supervisor. The MonitorAndControlAdapter
      * adapter class can be extended for remote monitoring and control with the
      * CCSDS Monitor and Control services. One can also extend the
@@ -109,9 +122,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         NMFProvider.loadMOElements();
         ConnectionProvider.resetURILinksFile();
 
-        // Check if we are running as root when we have the NMF in Mode 2
         String user = System.getProperties().getProperty("user.name", "?");
-        //String mode = System.getProperties().getProperty(HelperMisc.PROP_WORK_DIR_STORAGE_MODE, "?");
 
         if ("root".equals(user)) {
             throw new RuntimeException("Do not run the NanoSat MO Supervisor as root!");

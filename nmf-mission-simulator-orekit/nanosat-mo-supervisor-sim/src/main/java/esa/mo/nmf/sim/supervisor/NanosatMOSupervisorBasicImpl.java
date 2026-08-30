@@ -25,7 +25,6 @@ import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.mcadapters.MCSupervisorBasicAdapter;
 import esa.mo.nmf.nanosatmosupervisor.NanoSatMOSupervisor;
-import esa.mo.nmf.nmfpackage.NMFPackagePMBackend;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesProviderSoftSim;
 import java.util.logging.Level;
@@ -77,10 +76,7 @@ public class NanosatMOSupervisorBasicImpl extends NanoSatMOSupervisor {
 
     @Override
     public void init(MonitorAndControlNMFAdapter mcAdapter) {
-        init(mcAdapter,
-                new PlatformServicesConsumer(),
-                new NMFPackagePMBackend("packages", this.getAppsLauncherService())
-        );
+        init(mcAdapter, new PlatformServicesConsumer());
 
         this.startStatusTracking();
     }

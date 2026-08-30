@@ -175,9 +175,6 @@ public class AuxFilesGenerator {
         }
         str.append("\n");
 
-        str.append("# Enables the new Home directory mode: \n");
-        str.append(HelperMisc.PROP_WORK_DIR_STORAGE_MODE + "=" + "2\n\n");
-
         str.append("# NanoSat MO Framework transport configuration\n");
         str.append("helpertools.configurations.provider.transportfilepath=");
         str.append(transportPath);
