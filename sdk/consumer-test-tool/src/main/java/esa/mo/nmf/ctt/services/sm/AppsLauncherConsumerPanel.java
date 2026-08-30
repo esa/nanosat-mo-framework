@@ -519,7 +519,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             final String out = outputStream;
             Identifier appName = keys.getAppName();
             Long appId = keys.getAppId();
-            LOGGER.log(Level.WARNING,
+            LOGGER.log(Level.FINE,
                     "Received output for App Name: {0} (appId: {1})",
                     new Object[]{appName.getValue(), appId});
 
