@@ -13,4 +13,4 @@ kepler_elements="$kepler_A;$kepler_E;$kepler_I;$kepler_RAAN;$kepler_ARG_PER;$kep
 ###############################################################################
 
 echo "Kepler elements set to $kepler_elements"
-sed -i "s/0.0;0.0;0.0;0.0;0.0;0.0/$kepler_elements/g" ./_OPS-SAT-SIMULATOR-header.txt
+sed -i "s/0.0;0.0;0.0;0.0;0.0;0.0/$kepler_elements/g" ./_SIMULATOR-header.txt

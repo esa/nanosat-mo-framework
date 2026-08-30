@@ -101,32 +101,10 @@
                                     <organizationAbbreviation>esa</organizationAbbreviation>
                                     <organizationName>European Space Agency</organizationName>
                                 </mission>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-                <!-- The orbital dynamics configuration is laid over the generated
-                     filesystem, so it is declared after the generator above and
-                     runs after it in the same phase. -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>2.7</version>
-                    <executions>
-                        <execution>
-                            <id>add-orbital-dynamics-configuration</id>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>copy-resources</goal>
-                            </goals>
-                            <configuration>
-                                <outputDirectory>${mission.outputdir}/${out.folder.nmf}</outputDirectory>
-                                <resources>
-                                    <resource>
-                                        <directory>${basedir}/src/main/resources/orbital-dynamics-configuration</directory>
-                                        <filtering>false</filtering>
-                                    </resource>
-                                </resources>
+                                <additionalFiles>
+                                    <additionalFile>${basedir}/src/main/resources/orbital-dynamics-configuration/configure_orbital_dynamics.sh</additionalFile>
+                                    <additionalFile>${basedir}/src/main/resources/orbital-dynamics-configuration/_SIMULATOR-header.txt</additionalFile>
+                                </additionalFiles>
                             </configuration>
                         </execution>
                     </executions>
@@ -152,10 +130,6 @@
                         <groupId>int.esa.nmf.core</groupId>
                         <artifactId>nmf-linux-maven-plugin</artifactId>
                     </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-resources-plugin</artifactId>
-                    </plugin>
                 </plugins>
             </build>
         </profile>
@@ -175,10 +149,6 @@
                     <plugin>
                         <groupId>int.esa.nmf.core</groupId>
                         <artifactId>nmf-linux-maven-plugin</artifactId>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-resources-plugin</artifactId>
                     </plugin>
                     <!-- Then upload it (install phase). -->
                     <plugin>
@@ -227,10 +197,6 @@
                     <plugin>
                         <groupId>int.esa.nmf.core</groupId>
                         <artifactId>nmf-linux-maven-plugin</artifactId>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-resources-plugin</artifactId>
                     </plugin>
                     <!-- Then build the Docker image (install phase). -->
                     <plugin>
