@@ -79,6 +79,22 @@ public class MissionConfiguration {
      */
     private static final String MISSION_KEY_MISSION = "mission.name";
 
+    /**
+     * Key of the spacecraft node in {@code etc/mission.properties}.
+     */
+    private static final String MISSION_KEY_NODE = "spacecraft.node";
+
+    /**
+     * Key in {@code etc/mission.properties} of whether the mission flies more
+     * than one spacecraft.
+     */
+    private static final String MISSION_KEY_FLEET = "mission.fleet";
+
+    /**
+     * The node of a spacecraft whose mission does not say which it is.
+     */
+    private static final String DEFAULT_SPACECRAFT_NODE = "1";
+
     private MissionConfiguration() {
         // Utility class: prevent instantiation.
     }
@@ -97,6 +113,58 @@ public class MissionConfiguration {
                 mission.getProperty(MISSION_KEY_ORGANIZATION), DEFAULT_ORGANIZATION_NAME);
         setIfAbsent(HelperMisc.PROP_MISSION_NAME,
                 mission.getProperty(MISSION_KEY_MISSION), DEFAULT_MISSION_NAME);
+        ensureFleetDomain(mission);
+    }
+
+    /**
+     * Puts the node of the spacecraft into the domain, for a mission that flies
+     * more than one.
+     * <p>
+     * The units of a fleet share a mission name, and the domain is otherwise
+     * built out of the organization, the mission and the App, so two units of
+     * one mission would be addressed identically. The node is what tells them
+     * apart, so it is written between the mission and the App: the units of a
+     * mission stay together, and the App keeps the place it has always had.
+     * <p>
+     * A mission of a single spacecraft is left alone. Its domain has nothing to
+     * disambiguate, and adding a level to it would move every object already in
+     * its archive.
+     *
+     * @param mission The contents of {@code etc/mission.properties}.
+     */
+    private static void ensureFleetDomain(Properties mission) {
+        if (System.getProperty(HelperMisc.PROP_DOMAIN) != null) {
+            return; // The domain was given outright; it is not ours to compose.
+        }
+        if (!Boolean.parseBoolean(mission.getProperty(MISSION_KEY_FLEET))) {
+            return; // One spacecraft: the mission name is enough to address it.
+        }
+
+        String node = mission.getProperty(MISSION_KEY_NODE, DEFAULT_SPACECRAFT_NODE).trim();
+        String organization = System.getProperty(HelperMisc.PROP_ORGANIZATION_NAME);
+        String missionName = System.getProperty(HelperMisc.PROP_MISSION_NAME);
+        String app = System.getProperty(HelperMisc.PROP_MO_APP_NAME);
+
+        // The domain is written as one string and split on the dot, so a value
+        // holding one would quietly become two levels of domain.
+        for (String part : new String[]{organization, missionName, node, app}) {
+            if (part != null && part.contains(".")) {
+                LOGGER.log(Level.WARNING, "The domain of this spacecraft cannot carry "
+                        + "its node, because \"{0}\" contains a dot, which separates "
+                        + "the levels of a domain. The units of this mission will be "
+                        + "addressed identically.", part);
+                return;
+            }
+        }
+
+        StringBuilder domain = new StringBuilder();
+        domain.append(organization).append('.').append(missionName).append('.').append(node);
+        if (app != null) {
+            domain.append('.').append(app);
+        }
+        System.setProperty(HelperMisc.PROP_DOMAIN, domain.toString());
+        LOGGER.log(Level.INFO, "This mission flies more than one spacecraft, so the "
+                + "domain carries the node of this one: {0}", domain);
     }
 
     /**
