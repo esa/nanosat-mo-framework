@@ -40,13 +40,25 @@ public class NanoSatSimulator extends NanoSat {
     private final SegmentImage image;
 
     /**
+     * The node of this spacecraft within the constellation, which is what tells
+     * it apart from the others: they are units of one mission, built from one
+     * image, so they share everything else that names them.
+     */
+    private final int spacecraftNode;
+
+    /**
+     * The node of a spacecraft that is the only one of its mission.
+     */
+    private static final int DEFAULT_SPACECRAFT_NODE = 1;
+
+    /**
      * Initializer Constructor. This class manages the Docker Container which
      * provides the NanoSat segment for the simulated constellation.
      *
      * @param name Container name
      */
     public NanoSatSimulator(String name) {
-        this(name, null, SegmentImage.getDefault());
+        this(name, null, SegmentImage.getDefault(), DEFAULT_SPACECRAFT_NODE);
     }
 
     /**
@@ -57,7 +69,7 @@ public class NanoSatSimulator extends NanoSat {
      * @param keplerElements Orbit parameters for GPS simulation
      */
     public NanoSatSimulator(String name, String[] keplerElements) {
-        this(name, keplerElements, SegmentImage.getDefault());
+        this(name, keplerElements, SegmentImage.getDefault(), DEFAULT_SPACECRAFT_NODE);
     }
 
     /**
@@ -67,11 +79,14 @@ public class NanoSatSimulator extends NanoSat {
      * @param name Container name
      * @param keplerElements Orbit parameters for GPS simulation
      * @param image The image this segment runs
+     * @param spacecraftNode The node of this spacecraft within the constellation
      */
-    public NanoSatSimulator(String name, String[] keplerElements, SegmentImage image) {
+    public NanoSatSimulator(String name, String[] keplerElements, SegmentImage image,
+            int spacecraftNode) {
         this.name = name;
         this.keplerElements = keplerElements;
         this.image = image;
+        this.spacecraftNode = spacecraftNode;
         this.simulatorApi = ContainerApi.of(image);
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -89,6 +104,13 @@ public class NanoSatSimulator extends NanoSat {
     }
 
     /**
+     * @return The node of this spacecraft within the constellation.
+     */
+    public int getSpacecraftNode() {
+        return spacecraftNode;
+    }
+
+    /**
      * Create a Docker Container that will host the NanoSat Segment and start
      * it.
      *
@@ -96,7 +118,7 @@ public class NanoSatSimulator extends NanoSat {
      */
     @Override
     public void run() throws IOException {
-        this.simulatorApi.run(this.name, this.keplerElements);
+        this.simulatorApi.run(this.name, this.keplerElements, this.spacecraftNode);
     }
 
     /**

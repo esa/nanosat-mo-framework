@@ -95,6 +95,18 @@ public class MissionConfiguration {
      */
     private static final String DEFAULT_SPACECRAFT_NODE = "1";
 
+    /**
+     * Name in the environment of whether the mission flies more than one
+     * spacecraft, for a spacecraft that is one of many built from one image.
+     */
+    public static final String ENV_MISSION_FLEET = "MISSION_FLEET";
+
+    /**
+     * Name in the environment of the node of this spacecraft, for a spacecraft
+     * that is one of many built from one image.
+     */
+    public static final String ENV_SPACECRAFT_NODE = "SPACECRAFT_NODE";
+
     private MissionConfiguration() {
         // Utility class: prevent instantiation.
     }
@@ -136,11 +148,13 @@ public class MissionConfiguration {
         if (System.getProperty(HelperMisc.PROP_DOMAIN) != null) {
             return; // The domain was given outright; it is not ours to compose.
         }
-        if (!Boolean.parseBoolean(mission.getProperty(MISSION_KEY_FLEET))) {
+        if (!Boolean.parseBoolean(fromEnvironmentOr(ENV_MISSION_FLEET,
+                mission.getProperty(MISSION_KEY_FLEET)))) {
             return; // One spacecraft: the mission name is enough to address it.
         }
 
-        String node = mission.getProperty(MISSION_KEY_NODE, DEFAULT_SPACECRAFT_NODE).trim();
+        String node = fromEnvironmentOr(ENV_SPACECRAFT_NODE,
+                mission.getProperty(MISSION_KEY_NODE, DEFAULT_SPACECRAFT_NODE)).trim();
         String organization = System.getProperty(HelperMisc.PROP_ORGANIZATION_NAME);
         String missionName = System.getProperty(HelperMisc.PROP_MISSION_NAME);
         String app = System.getProperty(HelperMisc.PROP_MO_APP_NAME);
@@ -165,6 +179,24 @@ public class MissionConfiguration {
         System.setProperty(HelperMisc.PROP_DOMAIN, domain.toString());
         LOGGER.log(Level.INFO, "This mission flies more than one spacecraft, so the "
                 + "domain carries the node of this one: {0}", domain);
+    }
+
+    /**
+     * Reads a value the environment may override.
+     * <p>
+     * The file is written into the image at build time, so every spacecraft
+     * built from one image is the same spacecraft. A spacecraft that is one of
+     * many is told which it is when it is started, in the environment, beside
+     * the orbit it flies.
+     *
+     * @param name The name in the environment.
+     * @param fromFile The value from {@code mission.properties}, or null.
+     * @return The value from the environment, or the one from the file where the
+     * environment says nothing.
+     */
+    private static String fromEnvironmentOr(String name, String fromFile) {
+        String value = System.getenv(name);
+        return (value == null || value.trim().isEmpty()) ? fromFile : value;
     }
 
     /**

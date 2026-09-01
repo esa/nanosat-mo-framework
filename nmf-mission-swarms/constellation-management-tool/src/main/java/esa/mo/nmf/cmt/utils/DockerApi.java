@@ -23,6 +23,7 @@
 package esa.mo.nmf.cmt.utils;
 
 import java.io.BufferedReader;
+import esa.mo.nmf.environment.MissionConfiguration;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.logging.Level;
@@ -32,6 +33,31 @@ import java.util.logging.Logger;
  * This class implements the Docker API for simulating NanoSat segments.
  */
 public class DockerApi extends ContainerApi {
+
+    /**
+     * The network that the segments of a constellation run on. A network of its
+     * own is required because the default bridge does not accept a fixed address.
+     */
+    private static final String NETWORK = "nmf-constellation";
+
+    /**
+     * The first two octets of the addresses on that network.
+     */
+    private static final String PREFIX = "172.28";
+
+    private static final String SUBNET = PREFIX + ".0.0/16";
+
+    /**
+     * The gateway sits at the top of the subnet, which leaves the bottom of it
+     * free for the nodes; taken by default, it would occupy the first address
+     * and the first node could not be given it.
+     */
+    private static final String GATEWAY = PREFIX + ".255.254";
+
+    /**
+     * The highest node the subnet can address, the one below the gateway.
+     */
+    private static final int MAX_NODE = 65533;
 
     private final String image;
 
@@ -48,7 +74,8 @@ public class DockerApi extends ContainerApi {
      * @throws IOException
      */
     @Override
-    public void run(String name, String[] keplerElements) throws IOException {
+    public void run(String name, String[] keplerElements, int spacecraftNode) throws IOException {
+        ensureNetwork();
         StringBuilder strBuilder = new StringBuilder();
         strBuilder.append("docker run ");
 
@@ -60,6 +87,15 @@ public class DockerApi extends ContainerApi {
             strBuilder.append(String.format("--env KEPLER_ARG_PER=%s ", keplerElements[4]));
             strBuilder.append(String.format("--env KEPLER_TRUE_A=%s ", keplerElements[5]));
         }
+
+        // The units of a constellation are one mission built from one image, so
+        // each is told which spacecraft it is; without it they share a domain.
+        strBuilder.append(String.format("--env %s=true ", MissionConfiguration.ENV_MISSION_FLEET));
+        strBuilder.append(String.format("--env %s=%d ", MissionConfiguration.ENV_SPACECRAFT_NODE, spacecraftNode));
+
+        // The address of a node carries its number, so that the node is reachable
+        // at an address known before it is started.
+        strBuilder.append(String.format("--network %s --ip %s ", NETWORK, addressOf(spacecraftNode)));
 
         strBuilder.append(String.format("--name %s -h %s -d %s", name, name, this.image));
 
@@ -83,6 +119,44 @@ public class DockerApi extends ContainerApi {
         if (output.contains("Unable to find image")) {
             throw new IOException(output);
         }
+    }
+
+    /**
+     * Returns the address that a node of the constellation is given.
+     * <p>
+     * The address carries the node number so that a segment can be addressed
+     * from its number alone, without the container being interrogated for it.
+     *
+     * @param spacecraftNode The node number, counting from 1.
+     * @return The address of that node.
+     */
+    public static String addressOf(int spacecraftNode) {
+        if (spacecraftNode < 1 || spacecraftNode > MAX_NODE) {
+            throw new IllegalArgumentException("The node number must be between 1 and "
+                    + MAX_NODE + ", but it is: " + spacecraftNode);
+        }
+        // Nodes above 255 continue into the third octet rather than the subnet
+        // being exhausted at the end of the fourth.
+        return String.format("%s.%d.%d", PREFIX, spacecraftNode / 256, spacecraftNode % 256);
+    }
+
+    /**
+     * Creates the network of the constellation, if it does not exist yet.
+     *
+     * @throws IOException if the network could not be created.
+     */
+    private static void ensureNetwork() throws IOException {
+        String cmd = String.format("docker network ls --filter name=^%s$ --format '{{.Name}}'",
+                NETWORK);
+
+        if (NETWORK.equals(executeCommand(cmd).trim())) {
+            return;
+        }
+
+        executeCommand(String.format("docker network create --subnet %s --gateway %s %s",
+                SUBNET, GATEWAY, NETWORK));
+        Logger.getLogger(DockerApi.class.getName()).log(Level.INFO,
+                "Created the network of the constellation: {0}", NETWORK);
     }
 
     /**

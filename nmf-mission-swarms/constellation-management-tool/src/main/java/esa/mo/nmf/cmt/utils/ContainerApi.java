@@ -53,7 +53,7 @@ public abstract class ContainerApi {
         return new DockerApi(image.getImage());
     }
 
-    public abstract void run(String name, String[] keplerElements) throws IOException;
+    public abstract void run(String name, String[] keplerElements, int spacecraftNode) throws IOException;
 
     public abstract void start(String name) throws IOException;
 

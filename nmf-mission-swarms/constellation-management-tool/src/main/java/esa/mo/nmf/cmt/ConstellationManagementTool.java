@@ -43,6 +43,12 @@ public class ConstellationManagementTool {
     private final Logger LOGGER = Logger.getLogger(ConstellationManagementTool.class.getName());
 
     private final ArrayList<NanoSat> constellation = new ArrayList<NanoSat>();
+
+    /**
+     * The highest node handed out to a spacecraft of this constellation. It only
+     * ever counts up, so that a node is not given to two of them.
+     */
+    private int lastSpacecraftNode = 0;
     private ConstellationManagerGui cmtGui;
 
     /**
@@ -124,9 +130,9 @@ public class ConstellationManagementTool {
     public void addBasicSimulations(String name, int size, SegmentImage image) throws IOException {
         try {
             for (int i = 0; i < size; i++) {
-                int nodeNumber = this.constellation.size() + 1;
+                int nodeNumber = nextSpacecraftNode();
                 NanoSatSimulator nanoSat = new NanoSatSimulator(
-                        "nmfsim-" + name + "-" + nodeNumber, null, image);
+                        "nmfsim-" + name + "-" + nodeNumber, null, image, nodeNumber);
                 nanoSat.run();
                 this.constellation.add(nanoSat);
             }
@@ -159,7 +165,8 @@ public class ConstellationManagementTool {
                 String name = config.getKey();
                 String[] keplerElements = config.getValue();
 
-                NanoSatSimulator nanoSat = new NanoSatSimulator(name, keplerElements, image);
+                NanoSatSimulator nanoSat = new NanoSatSimulator(name, keplerElements, image,
+                        nextSpacecraftNode());
                 nanoSat.run();
                 this.constellation.add(nanoSat);
             }
@@ -227,6 +234,23 @@ public class ConstellationManagementTool {
      *
      * @return constellation
      */
+    /**
+     * Returns the node of the next spacecraft of this constellation.
+     * <p>
+     * The segments are the units of one mission, told apart by their node, so a
+     * node is never handed out twice: it counts up from the highest issued so
+     * far rather than from the number of segments there are now, which would
+     * repeat a node once one of them is removed.
+     * <p>
+     * The nodes are handed out in order, so the same file always describes the
+     * same constellation.
+     *
+     * @return The node of the next spacecraft.
+     */
+    private synchronized int nextSpacecraftNode() {
+        return ++lastSpacecraftNode;
+    }
+
     public ArrayList<NanoSat> getConstellation() {
         return this.constellation;
     }
