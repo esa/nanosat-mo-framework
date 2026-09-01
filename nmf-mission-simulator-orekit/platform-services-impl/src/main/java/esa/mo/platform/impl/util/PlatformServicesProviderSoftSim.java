@@ -94,11 +94,20 @@ public class PlatformServicesProviderSoftSim implements PlatformServicesProvider
         OpticalDataReceiverAdapterInterface optRxAdapter = new OpticalDataReceiverSoftSimAdapter(sim, pcAdapter);
         SoftwareDefinedRadioAdapterInterface sdrAdapter = new SoftwareDefinedRadioSoftSimAdapter(sim, pcAdapter);
 
-        try {
-            aiAdapter = new AIMovidiusAdapter();
-        } catch (IOException ex) {
-            LOGGER.log(Level.INFO, "The AI adapter could not be started!", ex);
+        // The adapter needs python3, which the image of a simulated segment does
+        // not carry. That is expected there, so it is said plainly; anything else
+        // that stops the adapter is not, and is reported with what went wrong.
+        if (!AIMovidiusAdapter.isPython3Available()) {
+            LOGGER.log(Level.WARNING, "The AI adapter could not be started! "
+                    + "python3 was not found.");
             aiAdapter = null;
+        } else {
+            try {
+                aiAdapter = new AIMovidiusAdapter();
+            } catch (IOException ex) {
+                LOGGER.log(Level.WARNING, "The AI adapter could not be started!", ex);
+                aiAdapter = null;
+            }
         }
 
         autonomousADCSService.init(comServices, adcsAdapter);

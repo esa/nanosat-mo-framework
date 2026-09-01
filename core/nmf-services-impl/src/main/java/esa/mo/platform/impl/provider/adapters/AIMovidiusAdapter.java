@@ -54,16 +54,32 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
      *
      * @throws IOException if the operation fails
      */
+    /**
+     * Returns whether python3, which this adapter needs in order to run the
+     * inference script, can be run here.
+     *
+     * @return true if python3 answers, false if it is not installed.
+     */
+    public static boolean isPython3Available() {
+        String out = new ShellCommander().runCommandAndGetOutputMessage("python3 --version");
+        return (out != null) && out.contains("Python ");
+    }
+
     public AIMovidiusAdapter() throws IOException {
         // Check if Python3 is installed!
         ShellCommander shellCommander = new ShellCommander();
         String cmdPython = "python3 --version";
         String out = shellCommander.runCommandAndGetOutputMessage(cmdPython);
+
+        if (out == null || out.trim().isEmpty()) {
+            throw new IOException("python3 was not found, which this adapter needs"
+                    + " in order to run the inference script.");
+        }
+
         String[] splits = out.split("Python ");
 
         if (splits.length <= 1) {
-            throw new IOException("The Python version could not be determined!"
-                    + " The command returned: " + out);
+            throw new IOException("The python3 version could not be read from: " + out);
         }
 
         LOGGER.log(Level.FINE, "The Python3 version is: {0}", splits[1]);
