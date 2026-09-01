@@ -40,14 +40,14 @@ public enum SegmentImage {
      * the orbit out analytically and reports the position, which is all a
      * constellation of many segments usually needs.
      */
-    SIMULATOR_LITE("nmf-mission-simulator-lite", "Simulator, lite"),
+    SIMULATOR_LITE("nmf-mission-simulator-lite", "Lite Simulator"),
 
     /**
      * The spacecraft simulator with the orbital mechanics library. It
      * propagates the orbit and answers the rest of the Platform services, at
      * the cost of the data the propagator carries.
      */
-    SIMULATOR_OREKIT("nmf-mission-simulator-orekit", "Simulator, Orekit"),
+    SIMULATOR_OREKIT("nmf-mission-simulator-orekit", "Orekit Simulator"),
 
     /**
      * The mission with no Platform services at all, for a segment that is only
