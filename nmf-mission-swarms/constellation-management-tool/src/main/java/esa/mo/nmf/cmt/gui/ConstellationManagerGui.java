@@ -75,7 +75,11 @@ public class ConstellationManagerGui extends JFrame {
         this.setTitle("CMT: Constellation Management Tool");
         this.setSize(700, 500);
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        // The tool owns the segments of the constellation, so closing this window
+        // ends the session rather than only this window: other windows of the tool,
+        // and any thread that a connection to a segment has left running, would
+        // otherwise keep it alive and the segments with it.
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setVisible(true);
 
         initNanoSatSegmentTable();
