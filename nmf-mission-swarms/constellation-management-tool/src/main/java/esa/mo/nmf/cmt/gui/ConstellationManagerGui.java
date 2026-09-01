@@ -44,6 +44,28 @@ import java.util.logging.Logger;
 public class ConstellationManagerGui extends JFrame {
 
     private final ConstellationManagementTool cmt;
+
+    /**
+     * How often the output of the shown segment is read again.
+     */
+    private static final long REFRESH_MILLIS = 2000;
+
+    /**
+     * The segment whose output is shown, or null when none is selected.
+     */
+    private volatile String monitoredSegment;
+
+    /**
+     * The output as it is shown, so that the pane is written only when it has
+     * changed and the position within it is not disturbed for nothing.
+     */
+    private volatile String shownOutput = "";
+
+    /**
+     * Woken when the selection changes, so that the output of a segment appears
+     * when it is selected rather than at the next reading.
+     */
+    private final Object refreshLock = new Object();
     private JLabel lblConstellationName;
     private JPanel cmtPanel;
     private JMenuBar menuBar;
@@ -83,6 +105,7 @@ public class ConstellationManagerGui extends JFrame {
         this.setVisible(true);
 
         initNanoSatSegmentTable();
+        startMonitoringOutput();
 
         miCreateBasicSim.addActionListener(new ActionListener() {
             @Override
@@ -178,23 +201,20 @@ public class ConstellationManagerGui extends JFrame {
         this.tblNanoSatSegments.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent listSelectionEvent) {
-                // Logger.getLogger(ConstellationManagementTool.class.getName()).log(Level.INFO, "{0} checked", new Object[]{cmt.getNanoSatSegmentByName(tblNanoSatSegments.getValueAt(tblNanoSatSegments.getSelectedRow(), 1).toString()).getName()});
+                if (listSelectionEvent.getValueIsAdjusting()) {
+                    return;
+                }
+
+                int row = tblNanoSatSegments.getSelectedRow();
+                monitoredSegment = (row == -1) ? null
+                        : tblNanoSatSegments.getValueAt(row, 1).toString();
+                shownOutput = "";
                 tpContainerMonitoring.setText("");
 
-                if (tblNanoSatSegments.getSelectedRow() != -1) {
-                    String containerName = tblNanoSatSegments.getValueAt(tblNanoSatSegments.getSelectedRow(), 1).toString();
-                    // Logger.getLogger(ConstellationManagementTool.class.getName()).log(Level.INFO, "clicking " + containerName);
-
-                    try {
-                        String containerLog = cmt.getNanoSatSegmentByName(containerName).getLogs();
-
-                        if (containerLog != "") {
-                            tpContainerMonitoring.setText(containerLog);
-                        }
-
-                    } catch (IOException ex) {
-
-                    }
+                // The output is read off the event thread, so the selection only
+                // says what to read and asks for it to be read now.
+                synchronized (refreshLock) {
+                    refreshLock.notifyAll();
                 }
             }
         });
@@ -225,6 +245,96 @@ public class ConstellationManagerGui extends JFrame {
      *
      * @param row row to be added to the table
      */
+    /**
+     * Reads the output of the shown segment over and over, so that the pane
+     * follows the segment rather than showing what it said when it was selected.
+     * <p>
+     * The reading runs off the event thread because it starts a process and
+     * waits for it, which on the event thread would stop the tool responding
+     * for as long as it takes.
+     */
+    private void startMonitoringOutput() {
+        Thread reader = new Thread(() -> {
+            while (true) {
+                String segment = monitoredSegment;
+
+                if (segment != null) {
+                    readOutputOf(segment);
+                }
+
+                synchronized (refreshLock) {
+                    try {
+                        refreshLock.wait(REFRESH_MILLIS);
+                    } catch (InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                        return;
+                    }
+                }
+            }
+        }, "CMT segment output");
+
+        reader.setDaemon(true);
+        reader.start();
+    }
+
+    /**
+     * Reads the output of one segment and shows it if it has changed.
+     *
+     * @param segment The name of the segment to read.
+     */
+    private void readOutputOf(String segment) {
+        NanoSat nanoSat = cmt.getNanoSatSegmentByName(segment);
+
+        if (nanoSat == null) {
+            return; // Removed between the selection and this reading.
+        }
+
+        String output;
+
+        try {
+            output = nanoSat.getLogs();
+        } catch (IOException ex) {
+            return; // A segment on its way out; what is shown is kept.
+        }
+
+        if (output.equals(shownOutput) || !segment.equals(monitoredSegment)) {
+            return;
+        }
+
+        shownOutput = output;
+        SwingUtilities.invokeLater(() -> showOutput(segment, output));
+    }
+
+    /**
+     * Writes the output into the pane, keeping the place within it.
+     *
+     * @param segment The segment the output was read from.
+     * @param output The output to show.
+     */
+    private void showOutput(String segment, String output) {
+        if (!segment.equals(monitoredSegment)) {
+            return; // The selection moved on while this was being read.
+        }
+
+        JScrollPane pane = (JScrollPane) SwingUtilities.getAncestorOfClass(
+                JScrollPane.class, tpContainerMonitoring);
+        JScrollBar bar = (pane == null) ? null : pane.getVerticalScrollBar();
+
+        // The pane follows the output while its end is shown; once it has been
+        // scrolled back, the place is kept so that it can be read.
+        boolean atEnd = (bar == null)
+                || (bar.getValue() + bar.getVisibleAmount() >= bar.getMaximum() - 1);
+        int place = (bar == null) ? 0 : bar.getValue();
+
+        tpContainerMonitoring.setText(output);
+
+        if (bar != null) {
+            // After the text is laid out, so that the extent of the bar is the
+            // extent of the new output.
+            SwingUtilities.invokeLater(() -> bar.setValue(atEnd ? bar.getMaximum() : place));
+        }
+    }
+
     private void addRowToNanoSatSegmentList(Object[] row) {
         this.tableModel.addRow(row);
     }
