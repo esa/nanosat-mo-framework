@@ -18,14 +18,17 @@
 -- asks, and the connection to the simulator is never made.
 --
 -- Left to itself Celestia arrives from whatever direction it likes, which is
--- often through the Earth. The observer is therefore placed by hand: five
--- thousand kilometres from the spacecraft, on the far side from the Earth, so
+-- often through the Earth. The observer is therefore placed by hand: fifteen
+-- hundred kilometres from the spacecraft, on the far side from the Earth, so
 -- that looking at the spacecraft means looking on past it to the Earth below.
 -- After that the observer simply follows the spacecraft, as it would if it had
 -- been placed by hand with the mouse.
 -- ---------------------------------------------------------------------------
 
-local VIEWING_DISTANCE_KM = 5000
+-- Near enough that the spacecraft is seen as one: 210 km across at fifteen
+-- hundred kilometres is about a third of the width of the image at Celestia's
+-- usual field of view.
+local VIEWING_DISTANCE_KM = 1500
 
 -- Celestia's own axes are not the ones the .ssc files are written in: inside
 -- Celestia the ecliptic is the xz plane and +y is the pole of the ecliptic, not
