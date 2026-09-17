@@ -119,26 +119,49 @@ public class DockerApi extends ContainerApi {
 
         strBuilder.append(String.format("--name %s -h %s -d %s", name, name, this.image));
 
-        String output = executeCommand(strBuilder.toString());
+        String output;
 
-        if (output.contains("command not found")) {
-            throw new IOException("Please install docker Docker before running the code.");
+        try {
+            output = executeCommand(strBuilder.toString());
+        } catch (IOException ex) {
+            throw explain(ex);
         }
 
         Logger.getLogger(DockerApi.class.getName()).log(Level.INFO, "The output is: {0}", output);
+    }
 
-        if (output.contains("permission denied")) {
-            throw new IOException("Please enable permissions for the user running the code. "
-                    + "Please check it online but usually is something like:\n"
-                    + "\nsudo groupadd docker"
-                    + "\nsudo usermod -aG docker $USER"
-                    + "\nRestart the machine"
-                    + "\nTest with: docker run hello-world");
+    /**
+     * Says what is to be done about a segment that could not be run.
+     * <p>
+     * Docker says what happened; the few failures that are the machine's to put
+     * right are answered here with what to do about them, and everything else
+     * is passed on as Docker told it.
+     *
+     * @param failure What Docker said.
+     * @return The failure to raise instead.
+     */
+    private static IOException explain(IOException failure) {
+        String said = String.valueOf(failure.getMessage());
+
+        if (said.contains("command not found")) {
+            return new IOException("Docker is not installed on this machine, and the segments of "
+                    + "a constellation are containers it runs.");
         }
 
-        if (output.contains("Unable to find image")) {
-            throw new IOException(output);
+        if (said.contains("permission denied") || said.contains("Permission denied")) {
+            return new IOException("The user running this is not allowed to use Docker. "
+                    + "Usually:\n"
+                    + "    sudo groupadd docker\n"
+                    + "    sudo usermod -aG docker $USER\n"
+                    + "then log in again, and test with: docker run hello-world");
         }
+
+        if (said.contains("Unable to find image")) {
+            return new IOException("The image of this segment has not been built on this machine. "
+                    + "Build it with:\n"
+                    + "    mvn -pl <mission>/<module> install -Pdocker");
+        }
+        return failure;
     }
 
     /**
@@ -244,8 +267,11 @@ public class DockerApi extends ContainerApi {
      */
     @Override
     public void stop(String name) throws IOException {
-        String cmd = String.format("docker stop %s", name);
-        executeCommand(cmd);
+        try {
+            executeCommand(String.format("docker stop %s", name));
+        } catch (IOException ex) {
+            ignoreIfGone(ex, name);
+        }
     }
 
     /**
@@ -270,8 +296,36 @@ public class DockerApi extends ContainerApi {
     @Override
     public void remove(String name) throws IOException {
         stop(name);
-        String cmd = String.format("docker rm %s", name);
-        executeCommand(cmd);
+
+        try {
+            executeCommand(String.format("docker rm %s", name));
+        } catch (IOException ex) {
+            ignoreIfGone(ex, name);
+        }
+    }
+
+    /**
+     * Lets a segment that is no longer there pass for one that has been dealt
+     * with.
+     * <p>
+     * A segment is removed by whoever is rid of it first: the constellation
+     * clearing itself, and the shutdown hook the segment registered, both reach
+     * for the same container, and the second finds it gone.
+     *
+     * @param failure What Docker said.
+     * @param name The segment it was asked about.
+     * @throws IOException if the segment is still there and something else was
+     * the matter.
+     */
+    private static void ignoreIfGone(IOException failure, String name) throws IOException {
+        String said = String.valueOf(failure.getMessage());
+
+        if (said.contains("No such container") || said.contains("is already in progress")) {
+            Logger.getLogger(DockerApi.class.getName()).log(Level.FINE,
+                    "This segment was already gone: {0}", name);
+            return;
+        }
+        throw failure;
     }
 
     /**
@@ -292,53 +346,56 @@ public class DockerApi extends ContainerApi {
     }
 
     /**
-     * Execute a command via /bin/bash
+     * Runs a command through /bin/bash and returns what it said.
      * <p>
-     * TODO: check for injections, prettier return sequence
+     * What the command wrote, on either stream, comes back as one piece of
+     * text: Docker answers on the one and explains itself on the other, and
+     * which it uses is no business of the caller's.
+     * <p>
+     * A command that fails is an error rather than an empty answer. Docker
+     * says why it failed and then exits non-zero, and a tool that reads only
+     * the words it expects takes a refusal for a success: a segment that was
+     * never started was once announced at an address it never had.
+     * <p>
+     * TODO: check for injections
      *
-     * @param command command line arguments for docker
-     * @return command line output
-     * @throws IOException
+     * @param command The command line to run.
+     * @return What it wrote, both streams together.
+     * @throws IOException if it could not be run, or ended non-zero. The
+     * message carries the command and what it said.
      */
-    private static String executeCommand(String command) throws IOException {
-        String[] cmd = {"/bin/bash", "-c", command};
-        String cmdOutput = "";
-        String line = null;
+    // Visible for testing: the tests run commands of their own through it.
+    static String executeCommand(String command) throws IOException {
+        ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", command);
+        builder.redirectErrorStream(true);
 
-        try {
-            ProcessBuilder builder = new ProcessBuilder(cmd);
-            Process p = builder.start();
+        Process process = builder.start();
+        StringBuilder output = new StringBuilder();
 
-            try {
-                BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-                BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(process.getInputStream()))) {
+            String line;
 
-                while ((line = stdInput.readLine()) != null) {
-                    cmdOutput += line + "\n";
-                }
-
-                // try to catch any errors
-                if (cmdOutput.equals("")) {
-                    while ((line = stdError.readLine()) != null) {
-                        cmdOutput += line + "\n";
-                    }
-
-                    // if there were errors
-                    if (!cmdOutput.equals("")) {
-                        throw new IOException(cmdOutput);
-                    }
-                }
-
-            } catch (Exception ex) {
+            while ((line = reader.readLine()) != null) {
+                output.append(line).append("\n");
             }
-
-            p.waitFor();
-
-        } catch (IOException | InterruptedException e) {
-            // Process failed;  do not attempt to continue!
-            throw new IOException(e);
         }
 
-        return cmdOutput;
+        int status;
+
+        try {
+            status = process.waitFor();
+        } catch (InterruptedException ex) {
+            // Whoever is waiting for this is going away; the command is left to
+            // finish on its own rather than the interruption being swallowed.
+            Thread.currentThread().interrupt();
+            throw new IOException("Interrupted while waiting for: " + command, ex);
+        }
+
+        if (status != 0) {
+            throw new IOException("This command ended with " + status + ": " + command
+                    + "\n" + output.toString().trim());
+        }
+        return output.toString();
     }
 }
