@@ -40,28 +40,31 @@ public enum SegmentImage {
      * the orbit out analytically and reports the position, which is all a
      * constellation of many segments usually needs.
      */
-    SIMULATOR_LITE("nmf-mission-simulator-lite", "Lite Simulator"),
+    SIMULATOR_LITE("nmf-mission-simulator-lite", "Lite Simulator", "lite"),
 
     /**
      * The spacecraft simulator with the orbital mechanics library. It
      * propagates the orbit and answers the rest of the Platform services, at
      * the cost of the data the propagator carries.
      */
-    SIMULATOR_OREKIT("nmf-mission-simulator-orekit", "Orekit Simulator"),
+    SIMULATOR_OREKIT("nmf-mission-simulator-orekit", "Orekit Simulator", "orekit"),
 
     /**
      * The mission with no Platform services at all, for a segment that is only
      * to be talked to rather than flown.
      */
-    BAREBONE("nmf-mission-barebone", "Barebone");
+    BAREBONE("nmf-mission-barebone", "Barebone", "barebone");
 
     private final String image;
 
     private final String label;
 
-    SegmentImage(String image, String label) {
+    private final String option;
+
+    SegmentImage(String image, String label, String option) {
         this.image = image;
         this.label = label;
+        this.option = option;
     }
 
     /**
@@ -77,6 +80,43 @@ public enum SegmentImage {
     @Override
     public String toString() {
         return label;
+    }
+
+    /**
+     * @return The name this image is given on the command line.
+     */
+    public String getOption() {
+        return option;
+    }
+
+    /**
+     * Returns the image that a command line names.
+     *
+     * @param option The name of the image, as the command line writes it.
+     * @return The image of that name.
+     * @throws IllegalArgumentException if no image goes by that name.
+     */
+    public static SegmentImage fromOption(String option) {
+        for (SegmentImage image : values()) {
+            if (image.option.equalsIgnoreCase(option)) {
+                return image;
+            }
+        }
+        throw new IllegalArgumentException("There is no image named: " + option);
+    }
+
+    /**
+     * @return The names of every image, as the command line writes them.
+     */
+    public static String options() {
+        StringBuilder builder = new StringBuilder();
+        for (SegmentImage image : values()) {
+            if (builder.length() != 0) {
+                builder.append("|");
+            }
+            builder.append(image.option);
+        }
+        return builder.toString();
     }
 
     /**

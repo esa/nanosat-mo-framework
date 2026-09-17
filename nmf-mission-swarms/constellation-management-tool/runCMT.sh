@@ -15,5 +15,5 @@ if [ ! -f "$JAR_PATH" ]; then
 fi
 
 # Run the JAR file
-java -jar "$JAR_PATH"
+java -jar "$JAR_PATH" "$@"
 

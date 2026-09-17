@@ -91,7 +91,13 @@ public class AddBasicSimulationGui extends JFrame {
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(null, "Please enter a valid name for the NanoSat segments.", "Error", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.INFORMATION_MESSAGE);
+            if (ex.toString().contains("permission denied")) {
+                JOptionPane.showMessageDialog(null,
+                        "Failed to initialize the constellation: Do you have permission to use Docker?",
+                        "Error", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }
 

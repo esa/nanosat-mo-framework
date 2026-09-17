@@ -22,11 +22,12 @@
  */
 package esa.mo.nmf.cmt;
 
+import esa.mo.nmf.cmt.cli.ConstellationCli;
 import esa.mo.nmf.cmt.gui.ConstellationManagerGui;
 import esa.mo.nmf.cmt.utils.NanoSat;
 import esa.mo.nmf.cmt.utils.NanoSatSimulator;
 import esa.mo.nmf.cmt.utils.SegmentImage;
-import javax.swing.*;
+import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,34 +50,58 @@ public class ConstellationManagementTool {
      * ever counts up, so that a node is not given to two of them.
      */
     private int lastSpacecraftNode = 0;
-    private ConstellationManagerGui cmtGui;
 
     /**
-     * Initializer Constructor. This Class manages a constellation of
-     * NanoSatellites.
+     * Told when segments are added, or null when nobody is watching, which is
+     * the case when the constellation is run from the command line.
      */
-    public ConstellationManagementTool() {
-        try {
-            // Set cross-platform Java L&F (also called "Metal")
-            //UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-
-        } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, "Failed to start the Constellation Management Tool: ", ex);
-        }
-    }
+    private ConstellationListener listener;
 
     /**
      * Main command line entry point.
+     * <p>
+     * Arguments raise a constellation from the command line and none opens the
+     * window, so that the tool serves a workstation and a headless machine
+     * alike.
      *
      * @param args the command line arguments
      */
     public static void main(final String[] args) {
+        if (args.length != 0) {
+            System.exit(ConstellationCli.run(args));
+        }
+
+        if (GraphicsEnvironment.isHeadless()) {
+            System.err.println("The window cannot be opened on a machine without a display. "
+                    + "Run the constellation from the command line instead: --help");
+            System.exit(ConstellationCli.EXIT_USAGE);
+        }
+
         ConstellationManagementTool cmt = new ConstellationManagementTool();
         cmt.startGui();
     }
 
     public void startGui() {
-        this.cmtGui = new ConstellationManagerGui(this);
+        ConstellationManagerGui gui = new ConstellationManagerGui(this);
+        this.setListener(gui);
+    }
+
+    /**
+     * Sets who is told that the segments of the constellation have changed.
+     *
+     * @param listener The listener, or null for nobody.
+     */
+    public void setListener(ConstellationListener listener) {
+        this.listener = listener;
+    }
+
+    /**
+     * Tells the listener, if there is one, that the segments have changed.
+     */
+    private void constellationChanged() {
+        if (this.listener != null) {
+            this.listener.constellationChanged();
+        }
     }
 
     /**
@@ -140,14 +165,12 @@ public class ConstellationManagementTool {
             LOGGER.log(Level.INFO, "Successfully added nodes to constellation. ");
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "Failed to add nodes to constellation: ", ex);
-            if (ex.toString().contains("permission denied")) {
-                JOptionPane.showMessageDialog(null,
-                        "Failed to initialize the constellation: Do you have permission to use Docker?",
-                        "Error", JOptionPane.INFORMATION_MESSAGE);
-            }
             throw ex;
+        } finally {
+            // The segments that were raised before the failure are part of the
+            // constellation, so they are shown whether the rest arrived or not.
+            this.constellationChanged();
         }
-        this.cmtGui.refreshNanoSatSegmentList();
     }
 
     /**
@@ -157,9 +180,10 @@ public class ConstellationManagementTool {
      * @param nanoSatConfigurations string: NanoSat Segment name, string[]:
      * kepler elements
      * @param image The image every segment of this constellation runs
+     * @throws java.io.IOException if a segment could not be started.
      */
     public void addAdvancedSimulations(HashMap<String, String[]> nanoSatConfigurations,
-            SegmentImage image) {
+            SegmentImage image) throws IOException {
         try {
             for (Map.Entry<String, String[]> config : nanoSatConfigurations.entrySet()) {
                 String name = config.getKey();
@@ -172,18 +196,12 @@ public class ConstellationManagementTool {
             }
 
             int size = nanoSatConfigurations.size();
-
-            JOptionPane.showMessageDialog(null,
-                    "Successfully added " + size + " nodes to the constellation!",
-                    "Success", JOptionPane.INFORMATION_MESSAGE);
             LOGGER.log(Level.INFO, "Successfully added {0} nodes to the constellation!", size);
-
-            this.cmtGui.refreshNanoSatSegmentList();
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "Failed to add nodes to constellation: ", ex);
-            JOptionPane.showMessageDialog(null,
-                    "Failed to add nodes to the constellation: " + ex,
-                    "Error", JOptionPane.INFORMATION_MESSAGE);
+            throw ex;
+        } finally {
+            this.constellationChanged();
         }
     }
 
@@ -205,19 +223,9 @@ public class ConstellationManagementTool {
             }
 
             int size = nanoSatSegmentConnections.size();
-
-            JOptionPane.showMessageDialog(null,
-                    "Successfully added " + size + " nodes to the constellation!",
-                    "Success", JOptionPane.INFORMATION_MESSAGE);
             LOGGER.log(Level.INFO, "Successfully added {0} nodes to the constellation!", size);
-
-            this.cmtGui.refreshNanoSatSegmentList();
-
-        } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, "Failed to add nodes to constellation: ", ex);
-            JOptionPane.showMessageDialog(null,
-                    "Failed to add nodes to the constellation: " + ex,
-                    "Error", JOptionPane.INFORMATION_MESSAGE);
+        } finally {
+            this.constellationChanged();
         }
     }
 

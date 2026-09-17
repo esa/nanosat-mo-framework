@@ -25,6 +25,7 @@ package esa.mo.nmf.cmt.gui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
+import esa.mo.nmf.cmt.ConstellationListener;
 import esa.mo.nmf.cmt.ConstellationManagementTool;
 import esa.mo.nmf.cmt.utils.NanoSat;
 import javax.swing.*;
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ConstellationManagerGui extends JFrame {
+public class ConstellationManagerGui extends JFrame implements ConstellationListener {
 
     private final ConstellationManagementTool cmt;
 
@@ -337,6 +338,14 @@ public class ConstellationManagerGui extends JFrame {
 
     private void addRowToNanoSatSegmentList(Object[] row) {
         this.tableModel.addRow(row);
+    }
+
+    /**
+     * Shows the segments of the constellation again, once they have changed.
+     */
+    @Override
+    public void constellationChanged() {
+        refreshNanoSatSegmentList();
     }
 
     /**

@@ -107,6 +107,9 @@ public class ConnectNanoSatGui extends JFrame {
             this.cmt.connectToNanoSatSegments(nanoSatSegments);
 
             this.dispose();
+            JOptionPane.showMessageDialog(null,
+                    "Successfully added " + nanoSatSegments.size() + " nodes to the constellation!",
+                    "Success", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(ConstellationManagementTool.class.getName()).log(Level.SEVERE,
@@ -116,6 +119,9 @@ public class ConnectNanoSatGui extends JFrame {
             JOptionPane.showMessageDialog(null, "File not found! Please select a valid .csv file.", "Error", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
             Logger.getLogger(ConstellationManagementTool.class.getName()).log(Level.SEVERE, "Failed to add NanoSat Segments to constellation: ", ex);
+            JOptionPane.showMessageDialog(null,
+                    "Failed to add nodes to the constellation: " + ex,
+                    "Error", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
