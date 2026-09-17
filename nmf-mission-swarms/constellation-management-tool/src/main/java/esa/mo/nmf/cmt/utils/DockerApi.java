@@ -59,6 +59,15 @@ public class DockerApi extends ContainerApi {
      */
     private static final int MAX_NODE = 65533;
 
+    /**
+     * The name in the environment that tells a segment where Celestia is.
+     * <p>
+     * It is the name the simulator reads, written out here rather than shared
+     * with it: the constellation is run by whoever holds it, and is not built
+     * against the mission a segment happens to run.
+     */
+    private static final String ENV_CELESTIA_HOST = "CELESTIA_HOST";
+
     private final String image;
 
     public DockerApi(String image) {
@@ -96,6 +105,12 @@ public class DockerApi extends ContainerApi {
         // The address of a node carries its number, so that the node is reachable
         // at an address known before it is started.
         strBuilder.append(String.format("--network %s --ip %s ", NETWORK, addressOf(spacecraftNode)));
+
+        // Celestia runs on the machine that holds the constellation, which a
+        // segment reaches at the gateway of its network. Left to itself the
+        // simulator dials loopback, which within a container of its own reaches
+        // nothing but that container.
+        strBuilder.append(String.format("--env %s=%s ", ENV_CELESTIA_HOST, GATEWAY));
 
         strBuilder.append(String.format("--name %s -h %s -d %s", name, name, this.image));
 

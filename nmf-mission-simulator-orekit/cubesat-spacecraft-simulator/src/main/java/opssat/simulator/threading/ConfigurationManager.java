@@ -165,6 +165,27 @@ class ConfigurationManager {
             node.logger.log(Level.FINE, "Header file was not found!");
             initializeHeader(headerFile);
         }
+        applyEnvironment();
+    }
+
+    /**
+     * Lets the environment say what the header file cannot.
+     * <p>
+     * The file is written into the image at build time, so every spacecraft
+     * built from one image is told the same thing. Where Celestia is differs
+     * between one spacecraft and the next: a segment of a constellation is in a
+     * container of its own, and the loopback address of the file reaches
+     * nothing but that container. The environment therefore has the last word,
+     * and where it says nothing the file stands as it did.
+     */
+    private void applyEnvironment() {
+        String celestiaHost = System.getenv(SimulatorHeader.ENV_CELESTIA_HOST);
+
+        if (celestiaHost != null && !celestiaHost.trim().isEmpty()) {
+            node.simulatorHeader.setCelestiaHost(celestiaHost.trim());
+            node.logger.log(Level.INFO, "Celestia is to be dialled at {0}, as the environment says.",
+                    celestiaHost.trim());
+        }
     }
 
     void loadSimulatorCommandsFilter() {

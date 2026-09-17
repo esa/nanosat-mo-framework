@@ -52,11 +52,26 @@ public class SimulatorHeader implements Serializable {
      * Where Celestia is listening. Celestia is the server, so the simulator has to
      * be told where to dial; loopback is right whenever the two share a network,
      * which includes Celestia in a container run with --network host.
+     * <p>
+     * A simulator that is itself in a container of its own does not share that
+     * network, and loopback then reaches nothing but the container: such a
+     * spacecraft is told where Celestia is when it is started, through
+     * {@link #ENV_CELESTIA_HOST}.
      */
     private String celestiaHost;
     private int timeFactor = 1;
     private Date startDate;
     private Date endDate;
+
+    /**
+     * The name in the environment that says where Celestia is listening.
+     * <p>
+     * It is read in preference to the header file, which is written into the
+     * image at build time and therefore says the same thing for every
+     * spacecraft built from it.
+     */
+    public static final String ENV_CELESTIA_HOST = "CELESTIA_HOST";
+
     public static final String FROM_START_FORMAT = "%05d:%02d:%02d:%02d:%03d";
     public final String DATE_FORMAT = "yyyy:MM:dd HH:mm:ss z";
     private final int MIN_TIME_FACTOR = 1;
