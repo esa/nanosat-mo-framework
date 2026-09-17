@@ -54,7 +54,7 @@ public class AddBasicSimulationGui extends JFrame {
         this.ncm = ncm;
 
         this.setContentPane(addBasicConstellationPanel);
-        this.setTitle("Create basic Simulation");
+        this.setTitle("Create Simulation");
         this.pack();
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -119,7 +119,7 @@ public class AddBasicSimulationGui extends JFrame {
         addBasicConstellationPanel = new JPanel();
         addBasicConstellationPanel.setLayout(new GridLayoutManager(6, 2, new Insets(5, 5, 5, 5), -1, -1));
         final JLabel label1 = new JLabel();
-        label1.setText("Create new basic NanoSat Simulation");
+        label1.setText("Create a new simulation");
         addBasicConstellationPanel.add(label1, new GridConstraints(0, 0, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label2 = new JLabel();
         label2.setText("Number:");

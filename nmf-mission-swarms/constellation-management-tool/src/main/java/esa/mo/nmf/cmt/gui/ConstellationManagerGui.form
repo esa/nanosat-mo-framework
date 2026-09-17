@@ -138,13 +138,13 @@
               <component id="b7d99" class="javax.swing.JMenuItem" binding="miCreateBasicSim">
                 <constraints/>
                 <properties>
-                  <text value="Create Basic NanoSat Simulation"/>
+                  <text value="Create Simulation"/>
                 </properties>
               </component>
-              <component id="e74f7" class="javax.swing.JMenuItem" binding="miCreateAdvancedSim">
+              <component id="e74f7" class="javax.swing.JMenuItem" binding="miCreateSimFromCsv">
                 <constraints/>
                 <properties>
-                  <text value="Create Advanced NanoSat Simulation"/>
+                  <text value="Create Simulation from CSV File"/>
                 </properties>
               </component>
               <component id="41240" class="javax.swing.JMenuItem" binding="miConnectNanoSat">

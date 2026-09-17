@@ -40,20 +40,20 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class AddAdvancedSimulationGui extends JFrame {
+public class AddSimulationFromCsvGui extends JFrame {
     private final ConstellationManagementTool cmt;
-    private JPanel addAdvancedSimulationGuiPanel;
+    private JPanel addSimulationFromCsvPanel;
     private JTextField tfFilePath;
     private JButton btnChooseFile;
     private JButton btnCreateSimulation;
     private JComboBox<SegmentImage> cbImage;
 
-    public AddAdvancedSimulationGui(ConstellationManagementTool cmt) {
+    public AddSimulationFromCsvGui(ConstellationManagementTool cmt) {
 
         this.cmt = cmt;
 
-        this.setContentPane(addAdvancedSimulationGuiPanel);
-        this.setTitle("Create advanced Simulation");
+        this.setContentPane(addSimulationFromCsvPanel);
+        this.setTitle("Create Simulation from CSV File");
         this.pack();
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -64,7 +64,7 @@ public class AddAdvancedSimulationGui extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 String file = "";
                 JFileChooser chooser = new JFileChooser();
-                int clickOpen = chooser.showOpenDialog(addAdvancedSimulationGuiPanel);
+                int clickOpen = chooser.showOpenDialog(addSimulationFromCsvPanel);
 
                 if (clickOpen == JFileChooser.APPROVE_OPTION) {
                     file = chooser.getSelectedFile().getAbsolutePath();
@@ -75,7 +75,7 @@ public class AddAdvancedSimulationGui extends JFrame {
         btnCreateSimulation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                addAdvancedSimulation(tfFilePath.getText());
+                addSimulationFromCsv(tfFilePath.getText());
             }
         });
     }
@@ -85,7 +85,7 @@ public class AddAdvancedSimulationGui extends JFrame {
      *
      * @param path .csv configuration file path
      */
-    private void addAdvancedSimulation(String path) {
+    private void addSimulationFromCsv(String path) {
         HashMap<String, String[]> nanoSatConfigurations = new HashMap<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
@@ -104,7 +104,7 @@ public class AddAdvancedSimulationGui extends JFrame {
                 }
             }
 
-            this.cmt.addAdvancedSimulations(nanoSatConfigurations,
+            this.cmt.addSimulationsWithOrbits(nanoSatConfigurations,
                     (SegmentImage) cbImage.getSelectedItem());
 
             this.dispose();
@@ -140,36 +140,36 @@ public class AddAdvancedSimulationGui extends JFrame {
      * @noinspection ALL
      */
     private void $$$setupUI$$$() {
-        addAdvancedSimulationGuiPanel = new JPanel();
-        addAdvancedSimulationGuiPanel.setLayout(new GridLayoutManager(5, 3, new Insets(5, 5, 5, 5), -1, -1));
+        addSimulationFromCsvPanel = new JPanel();
+        addSimulationFromCsvPanel.setLayout(new GridLayoutManager(5, 3, new Insets(5, 5, 5, 5), -1, -1));
         final JLabel label1 = new JLabel();
-        label1.setText("Import a simulation configuration file to create an advanced simulation");
-        addAdvancedSimulationGuiPanel.add(label1, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        label1.setText("Import a .csv configuration file to create a simulation");
+        addSimulationFromCsvPanel.add(label1, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label2 = new JLabel();
         label2.setText("Configuration .csv:");
-        addAdvancedSimulationGuiPanel.add(label2, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        addSimulationFromCsvPanel.add(label2, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         tfFilePath = new JTextField();
-        addAdvancedSimulationGuiPanel.add(tfFilePath, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        addSimulationFromCsvPanel.add(tfFilePath, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         btnChooseFile = new JButton();
         btnChooseFile.setText("Open");
-        addAdvancedSimulationGuiPanel.add(btnChooseFile, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        addSimulationFromCsvPanel.add(btnChooseFile, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label3 = new JLabel();
         label3.setText("Image:");
-        addAdvancedSimulationGuiPanel.add(label3, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        addSimulationFromCsvPanel.add(label3, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         cbImage = new JComboBox<>(SegmentImage.values());
-        addAdvancedSimulationGuiPanel.add(cbImage, new GridConstraints(2, 1, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        addSimulationFromCsvPanel.add(cbImage, new GridConstraints(2, 1, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         btnCreateSimulation = new JButton();
         btnCreateSimulation.setText("Create Simulation");
-        addAdvancedSimulationGuiPanel.add(btnCreateSimulation, new GridConstraints(3, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        addSimulationFromCsvPanel.add(btnCreateSimulation, new GridConstraints(3, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
-        addAdvancedSimulationGuiPanel.add(spacer1, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        addSimulationFromCsvPanel.add(spacer1, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
     }
 
     /**
      * @noinspection ALL
      */
     public JComponent $$$getRootComponent$$$() {
-        return addAdvancedSimulationGuiPanel;
+        return addSimulationFromCsvPanel;
     }
 
 }

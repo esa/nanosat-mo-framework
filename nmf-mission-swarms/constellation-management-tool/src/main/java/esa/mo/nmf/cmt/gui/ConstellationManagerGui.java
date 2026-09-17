@@ -72,7 +72,7 @@ public class ConstellationManagerGui extends JFrame implements ConstellationList
     private JMenuBar menuBar;
     private JMenu menuAddNanoSat;
     private JMenuItem miCreateBasicSim;
-    private JMenuItem miCreateAdvancedSim;
+    private JMenuItem miCreateSimFromCsv;
     private JMenuItem miConnectNanoSat;
     private JMenu menuSimulation;
     private JMenuItem miStartAll;
@@ -120,10 +120,10 @@ public class ConstellationManagerGui extends JFrame implements ConstellationList
                 ConnectNanoSatGui connectNanoSat = new ConnectNanoSatGui(cmt);
             }
         });
-        miCreateAdvancedSim.addActionListener(new ActionListener() {
+        miCreateSimFromCsv.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                AddAdvancedSimulationGui addAdvancedSimulationGui = new AddAdvancedSimulationGui(cmt);
+                AddSimulationFromCsvGui addSimulationFromCsvGui = new AddSimulationFromCsvGui(cmt);
             }
         });
         miRemoveAll.addActionListener(new ActionListener() {
@@ -457,11 +457,11 @@ public class ConstellationManagerGui extends JFrame implements ConstellationList
         menuAddNanoSat.setText("NanoSat Segments");
         menuBar.add(menuAddNanoSat, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         miCreateBasicSim = new JMenuItem();
-        miCreateBasicSim.setText("Create Basic NanoSat Simulation");
+        miCreateBasicSim.setText("Create Simulation");
         menuAddNanoSat.add(miCreateBasicSim);
-        miCreateAdvancedSim = new JMenuItem();
-        miCreateAdvancedSim.setText("Create Advanced NanoSat Simulation");
-        menuAddNanoSat.add(miCreateAdvancedSim);
+        miCreateSimFromCsv = new JMenuItem();
+        miCreateSimFromCsv.setText("Create Simulation from CSV File");
+        menuAddNanoSat.add(miCreateSimFromCsv);
         miConnectNanoSat = new JMenuItem();
         miConnectNanoSat.setText("Connect to NanoSat Segments");
         menuAddNanoSat.add(miConnectNanoSat);

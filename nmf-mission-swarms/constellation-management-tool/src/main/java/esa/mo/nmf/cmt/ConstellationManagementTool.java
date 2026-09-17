@@ -182,7 +182,7 @@ public class ConstellationManagementTool {
      * @param image The image every segment of this constellation runs
      * @throws java.io.IOException if a segment could not be started.
      */
-    public void addAdvancedSimulations(HashMap<String, String[]> nanoSatConfigurations,
+    public void addSimulationsWithOrbits(HashMap<String, String[]> nanoSatConfigurations,
             SegmentImage image) throws IOException {
         try {
             for (Map.Entry<String, String[]> config : nanoSatConfigurations.entrySet()) {

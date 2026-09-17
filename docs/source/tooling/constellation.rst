@@ -83,11 +83,12 @@ From the window
 Started with no arguments, the tool opens a window that lists the segments of the constellation and their
 addresses, and shows the output of the selected one.
 
-- **Add NanoSat → Create basic simulation** raises a number of segments, the same way ``--nodes`` does.
-- **Add NanoSat → Create advanced simulation** raises segments from a ``.csv`` file that gives each of them
-  a name and its six Keplerian elements, for a constellation whose orbits are chosen rather than shared.
-- **Add NanoSat → Connect to NanoSat** adds segments that are already running elsewhere, from a ``.csv``
-  file of names and addresses.
+- **Add NanoSat → Create Simulation** creates a number of segments, the same way ``--nodes`` does.
+- **Add NanoSat → Create Simulation from CSV File** creates segments from a ``.csv`` file that gives each of
+  them a name and its six Keplerian elements, for a constellation whose orbits are chosen rather than
+  shared.
+- **Add NanoSat → Connect to NanoSat Segments** adds segments that are already running elsewhere, from a
+  ``.csv`` file of names and addresses.
 - **Package Manager** and **App Manager** install NMF packages and run apps on the selected segments.
 
 Closing the window ends the session and removes the simulated segments with it.
