@@ -107,6 +107,18 @@ public class MissionConfiguration {
      */
     public static final String ENV_SPACECRAFT_NODE = "SPACECRAFT_NODE";
 
+    /**
+     * Name in the environment of the name of this individual spacecraft, for a
+     * spacecraft that is one of many built from one image.
+     * <p>
+     * It is named here, where the environment of a spacecraft's designation is
+     * defined, but resolved by {@code configure_mission.sh} into
+     * {@code etc/mission.properties} rather than here: the domain is built from
+     * the mission and the node, and nothing in the runtime addresses a
+     * spacecraft by its own name.
+     */
+    public static final String ENV_SPACECRAFT_NAME = "SPACECRAFT_NAME";
+
     private MissionConfiguration() {
         // Utility class: prevent instantiation.
     }

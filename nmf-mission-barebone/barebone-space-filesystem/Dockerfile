@@ -26,11 +26,14 @@ RUN useradd --system --create-home --home-dir /home/nmf nmf
 COPY --chown=nmf:nmf target/space-filesystem/nanosat-mo-framework/ /nanosat-mo-framework/
 
 WORKDIR /nanosat-mo-framework
-RUN chmod +x start_supervisor.sh
+RUN chmod +x start_supervisor.sh configure_mission.sh
 
 USER nmf
 
 # The Supervisor's maltcp Directory port.
 EXPOSE 1024
 
-ENTRYPOINT ["tini", "--", "./start_supervisor.sh"]
+# The designation of the spacecraft is written from the environment before the
+# Supervisor is started, so that a segment of a constellation knows which of the
+# fleet it is; the Supervisor replaces the shell so that it keeps PID 1's signals.
+ENTRYPOINT ["tini", "--", "/bin/sh", "-c", "./configure_mission.sh && exec ./start_supervisor.sh"]

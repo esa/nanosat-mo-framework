@@ -50,6 +50,14 @@ public class BootloaderGenerator {
     public static final String BOOTLOADER_SCRIPT = "start_supervisor.sh";
 
     /**
+     * Makes the mission designation of a spacecraft say which of a fleet it is,
+     * from what it is told when it is started. A spacecraft started with
+     * nothing to say keeps the designation it was built with, so it costs a
+     * mission of one spacecraft nothing.
+     */
+    public static final String MISSION_SCRIPT = "configure_mission.sh";
+
+    /**
      * The provisioning and hardening script for the linux-userspace apps
      * isolation mode. Only generated when that mode is selected.
      */
@@ -93,6 +101,10 @@ public class BootloaderGenerator {
             String supervisorMainClass, String appsIsolation) throws IOException {
         // The bootloader script: a static resource, copied verbatim
         copyResource(BOOTLOADER_SCRIPT);
+
+        // The designation script, likewise: it reads the environment at start
+        // and writes what it says into etc/mission.properties.
+        copyResource(MISSION_SCRIPT);
 
         // The bootloader domain: the three baseline files and the config
         File bootloaderDir = new File(nmfRootDir, Deployment.DIR_BOOTLOADER);

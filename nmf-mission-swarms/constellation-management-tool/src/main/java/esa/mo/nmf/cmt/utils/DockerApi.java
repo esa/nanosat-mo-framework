@@ -23,6 +23,7 @@
 package esa.mo.nmf.cmt.utils;
 
 import java.io.BufferedReader;
+import esa.mo.nmf.cmt.ConstellationManagementTool;
 import esa.mo.nmf.environment.MissionConfiguration;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -101,6 +102,8 @@ public class DockerApi extends ContainerApi {
         // each is told which spacecraft it is; without it they share a domain.
         strBuilder.append(String.format("--env %s=true ", MissionConfiguration.ENV_MISSION_FLEET));
         strBuilder.append(String.format("--env %s=%d ", MissionConfiguration.ENV_SPACECRAFT_NODE, spacecraftNode));
+        strBuilder.append(String.format("--env %s=%s ", MissionConfiguration.ENV_SPACECRAFT_NAME,
+                spacecraftName(name)));
 
         // The address of a node carries its number, so that the node is reachable
         // at an address known before it is started.
@@ -134,6 +137,22 @@ public class DockerApi extends ContainerApi {
         if (output.contains("Unable to find image")) {
             throw new IOException(output);
         }
+    }
+
+    /**
+     * Returns the name the spacecraft of a segment carries.
+     * <p>
+     * A segment is a container as well as a spacecraft, and the two are named
+     * for different readers: the container carries what tells it apart from
+     * everything else the machine runs, and the spacecraft only what it was
+     * asked to be called.
+     *
+     * @param name The name of the container.
+     * @return The name of the spacecraft within it.
+     */
+    private static String spacecraftName(String name) {
+        return name.startsWith(ConstellationManagementTool.SEGMENT_PREFIX)
+                ? name.substring(ConstellationManagementTool.SEGMENT_PREFIX.length()) : name;
     }
 
     /**

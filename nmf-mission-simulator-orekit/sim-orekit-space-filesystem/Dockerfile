@@ -33,13 +33,14 @@ RUN useradd --system --create-home --home-dir /home/nmf nmf
 COPY --chown=nmf:nmf target/space-filesystem/nanosat-mo-framework/ /nanosat-mo-framework/
 
 WORKDIR /nanosat-mo-framework
-RUN chmod +x start_supervisor.sh configure_orbital_dynamics.sh
+RUN chmod +x start_supervisor.sh configure_orbital_dynamics.sh configure_mission.sh
 
 USER nmf
 
 # The Supervisor's maltcp Directory port.
 EXPOSE 1024
 
-# The orbit is written into the simulator configuration before the Supervisor is
-# started, and the Supervisor replaces the shell so that it keeps PID 1's signals.
-ENTRYPOINT ["tini", "--", "/bin/sh", "-c", "./configure_orbital_dynamics.sh && exec ./start_supervisor.sh"]
+# The orbit and the designation of the spacecraft are written into its configuration
+# before the Supervisor is started, and the Supervisor replaces the shell so that it
+# keeps PID 1's signals.
+ENTRYPOINT ["tini", "--", "/bin/sh", "-c", "./configure_orbital_dynamics.sh && ./configure_mission.sh && exec ./start_supervisor.sh"]
