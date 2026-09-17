@@ -105,6 +105,34 @@ public class ConstellationManagementTool {
     }
 
     /**
+     * What the name of every simulated segment opens with, so that the
+     * containers of a constellation are told at a glance from whatever else the
+     * machine is running.
+     */
+    public static final String SEGMENT_PREFIX = "nmfsim-";
+
+    /**
+     * Returns the name a simulated segment carries.
+     * <p>
+     * A segment is named after what it was asked to be called, reduced to the
+     * letters and digits of it, because the name reaches a container tool that
+     * accepts little else.
+     *
+     * @param name The name it was asked to be called.
+     * @return The name it carries.
+     * @throws IllegalArgumentException if nothing of the name is left.
+     */
+    public static String segmentName(String name) {
+        String reduced = name.replaceAll("[^a-zA-Z0-9]+", "");
+
+        if (reduced.isEmpty()) {
+            throw new IllegalArgumentException("The name of the segment has no letter or digit "
+                    + "in it: " + name);
+        }
+        return SEGMENT_PREFIX + reduced;
+    }
+
+    /**
      * Returns a NanoSat Object by its name.
      *
      * @param name NanoSat Name
@@ -157,7 +185,7 @@ public class ConstellationManagementTool {
             for (int i = 0; i < size; i++) {
                 int nodeNumber = nextSpacecraftNode();
                 NanoSatSimulator nanoSat = new NanoSatSimulator(
-                        "nmfsim-" + name + "-" + nodeNumber, null, image, nodeNumber);
+                        segmentName(name) + "-" + nodeNumber, null, image, nodeNumber);
                 nanoSat.run();
                 this.constellation.add(nanoSat);
             }
@@ -182,11 +210,11 @@ public class ConstellationManagementTool {
      * @param image The image every segment of this constellation runs
      * @throws java.io.IOException if a segment could not be started.
      */
-    public void addSimulationsWithOrbits(HashMap<String, String[]> nanoSatConfigurations,
+    public void addSimulationsWithOrbits(Map<String, String[]> nanoSatConfigurations,
             SegmentImage image) throws IOException {
         try {
             for (Map.Entry<String, String[]> config : nanoSatConfigurations.entrySet()) {
-                String name = config.getKey();
+                String name = segmentName(config.getKey());
                 String[] keplerElements = config.getValue();
 
                 NanoSatSimulator nanoSat = new NanoSatSimulator(name, keplerElements, image,

@@ -60,12 +60,32 @@ The constellation lives as long as the command does: interrupting it removes the
 not left with containers nobody is watching. Those URIs are consumed by the :doc:`ctt`, the :doc:`cli`, or
 an NMF ground application, as any other provider is.
 
+Every segment raised this way flies the orbit its image was built with. To give each of them its own, write
+a file naming them and pass it with ``--csv`` instead:
+
+.. code-block:: text
+
+   # name;A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg]
+   leader;7021.0;0.0;98.05;340.0;0.0;0.0
+   follower;7021.0;0.0;98.05;340.0;0.0;15.0
+
+.. code-block:: bash
+
+   ./runCMT.sh --csv orbits.csv --image orekit
+
+Blank lines and lines opening with ``#`` are passed over. The segments are raised in the order the file
+gives them, each named after its line, so the same file always raises the same constellation. The elements
+reach the simulator of a segment as ``KEPLER_*`` variables in its environment.
+
 =========================== ==============================================================================
 Option                      Meaning
 =========================== ==============================================================================
-``--nodes <count>``         How many segments the constellation is made of. Required.
-``--name <name>``           What the segments are called after: a segment is named
-                            ``nmfsim-<name>-<node>``. Only letters and digits are kept.
+``--nodes <count>``         How many segments the constellation is made of, all of them flying the
+                            orbit their image was built with.
+``--csv <file>``            A file giving each segment its own orbit, a line to a segment. Raises
+                            a segment named ``nmfsim-<name>`` for each line.
+``--name <name>``           What the segments are called after, with ``--nodes``: a segment is
+                            named ``nmfsim-<name>-<node>``. Only letters and digits are kept.
                             Default: ``constellation``
 ``--image <name>``          The image every segment runs, from the table above. Default: ``lite``
 ``--container-tool <tool>`` What runs the segments, ``docker`` or ``kubernetes``. Default: ``docker``
@@ -86,7 +106,7 @@ addresses, and shows the output of the selected one.
 - **Add NanoSat → Create Simulation** creates a number of segments, the same way ``--nodes`` does.
 - **Add NanoSat → Create Simulation from CSV File** creates segments from a ``.csv`` file that gives each of
   them a name and its six Keplerian elements, for a constellation whose orbits are chosen rather than
-  shared.
+  shared. It reads the same file as ``--csv``.
 - **Add NanoSat → Connect to NanoSat Segments** adds segments that are already running elsewhere, from a
   ``.csv`` file of names and addresses.
 - **Package Manager** and **App Manager** install NMF packages and run apps on the selected segments.

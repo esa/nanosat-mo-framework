@@ -21,6 +21,7 @@
 package esa.mo.nmf.cmt.cli;
 
 import esa.mo.nmf.cmt.utils.SegmentImage;
+import java.io.File;
 
 /**
  * What a command line asks a constellation to be.
@@ -42,6 +43,8 @@ public class ConstellationOptions {
 
     private final int nodes;
 
+    private final File csv;
+
     private final String name;
 
     private final SegmentImage image;
@@ -50,9 +53,10 @@ public class ConstellationOptions {
 
     private final boolean help;
 
-    private ConstellationOptions(int nodes, String name, SegmentImage image, String containerTool,
-            boolean help) {
+    private ConstellationOptions(int nodes, File csv, String name, SegmentImage image,
+            String containerTool, boolean help) {
         this.nodes = nodes;
+        this.csv = csv;
         this.name = name;
         this.image = image;
         this.containerTool = containerTool;
@@ -70,7 +74,8 @@ public class ConstellationOptions {
      */
     public static ConstellationOptions parse(String[] args) {
         Integer nodes = null;
-        String name = DEFAULT_NAME;
+        File csv = null;
+        String name = null;
         SegmentImage image = SegmentImage.getDefault();
         String containerTool = null;
 
@@ -78,12 +83,15 @@ public class ConstellationOptions {
             String arg = args[i];
 
             if ("--help".equals(arg) || "-h".equals(arg)) {
-                return new ConstellationOptions(0, name, image, containerTool, true);
+                return new ConstellationOptions(0, null, DEFAULT_NAME, image, containerTool, true);
             }
 
             switch (arg) {
                 case "--nodes":
                     nodes = readNodes(value(args, i++));
+                    break;
+                case "--csv":
+                    csv = new File(value(args, i++));
                     break;
                 case "--name":
                     name = readName(value(args, i++));
@@ -99,11 +107,31 @@ public class ConstellationOptions {
             }
         }
 
-        if (nodes == null) {
-            throw new IllegalArgumentException("The number of segments to raise is missing: --nodes");
+        if (nodes == null && csv == null) {
+            throw new IllegalArgumentException("The constellation to raise is not said: give "
+                    + "--nodes for segments that share an orbit, or --csv for a file that gives "
+                    + "each of them its own.");
         }
 
-        return new ConstellationOptions(nodes, name, image, containerTool, false);
+        if (nodes != null && csv != null) {
+            throw new IllegalArgumentException("A constellation is raised either from a number of "
+                    + "segments or from a file describing them, not from both: --nodes and --csv");
+        }
+
+        if (csv != null) {
+            if (name != null) {
+                throw new IllegalArgumentException("The segments of a file are named by the file "
+                        + "itself, so there is no name to give them: --name and --csv");
+            }
+
+            if (!csv.isFile()) {
+                throw new IllegalArgumentException("This file is not there to be read: "
+                        + csv.getPath());
+            }
+        }
+
+        return new ConstellationOptions(nodes == null ? 0 : nodes, csv,
+                name == null ? DEFAULT_NAME : name, image, containerTool, false);
     }
 
     /**
@@ -163,11 +191,17 @@ public class ConstellationOptions {
     public static String usage() {
         return "Usage: runCMT.sh --nodes <count> [--name <name>] [--image <" + SegmentImage.options()
                 + ">] [--container-tool <docker|kubernetes>]\n"
+                + "       runCMT.sh --csv <file> [--image <" + SegmentImage.options()
+                + ">] [--container-tool <docker|kubernetes>]\n"
                 + "       runCMT.sh --help\n"
                 + "       runCMT.sh                (opens the window)\n"
                 + "\n"
-                + "  --nodes           How many segments the constellation is made of.\n"
-                + "  --name            What the segments are called after. Default: " + DEFAULT_NAME + "\n"
+                + "  --nodes           How many segments the constellation is made of, all of them\n"
+                + "                    flying the orbit their image was built with.\n"
+                + "  --csv             A file giving each segment its own orbit, a line to a segment:\n"
+                + "                    name;A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg]\n"
+                + "  --name            What the segments are called after, with --nodes. Default: "
+                + DEFAULT_NAME + "\n"
                 + "  --image           The image every segment runs. Default: "
                 + SegmentImage.getDefault().getOption() + "\n"
                 + "  --container-tool  What runs the segments. Default: " + DEFAULT_CONTAINER_TOOL + "\n"
@@ -175,8 +209,20 @@ public class ConstellationOptions {
                 + "The constellation stays up until this command is interrupted, which removes it.";
     }
 
+    /**
+     * @return How many segments were asked for, or zero when a file says which
+     * they are instead.
+     */
     public int getNodes() {
         return nodes;
+    }
+
+    /**
+     * @return The file giving each segment its own orbit, or null when a number
+     * of segments was asked for instead.
+     */
+    public File getCsv() {
+        return csv;
     }
 
     public String getName() {

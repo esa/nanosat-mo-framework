@@ -24,7 +24,9 @@ import esa.mo.nmf.cmt.ConstellationManagementTool;
 import esa.mo.nmf.cmt.utils.ContainerApi;
 import esa.mo.nmf.cmt.utils.NanoSat;
 import esa.mo.nmf.cmt.utils.NanoSatSimulator;
+import esa.mo.nmf.cmt.utils.SegmentOrbits;
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -85,7 +87,16 @@ public class ConstellationCli {
         ConstellationManagementTool cmt = new ConstellationManagementTool();
 
         try {
-            cmt.addBasicSimulations(options.getName(), options.getNodes(), options.getImage());
+            if (options.getCsv() != null) {
+                Map<String, String[]> orbits = SegmentOrbits.read(options.getCsv());
+                cmt.addSimulationsWithOrbits(orbits, options.getImage());
+            } else {
+                cmt.addBasicSimulations(options.getName(), options.getNodes(), options.getImage());
+            }
+        } catch (IllegalArgumentException ex) {
+            System.err.println("The file does not describe a constellation that can be raised: "
+                    + ex.getMessage());
+            return EXIT_USAGE;
         } catch (IOException ex) {
             System.err.println("The constellation could not be raised: " + ex.getMessage());
 

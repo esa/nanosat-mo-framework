@@ -28,15 +28,15 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import esa.mo.nmf.cmt.ConstellationManagementTool;
 import esa.mo.nmf.cmt.utils.SegmentImage;
+import esa.mo.nmf.cmt.utils.SegmentOrbits;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -86,21 +86,13 @@ public class AddSimulationFromCsvGui extends JFrame {
      * @param path .csv configuration file path
      */
     private void addSimulationFromCsv(String path) {
-        HashMap<String, String[]> nanoSatConfigurations = new HashMap<>();
+        try {
+            Map<String, String[]> nanoSatConfigurations = SegmentOrbits.read(new File(path));
 
-        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
-            String line = "#";
-
-            while ((line = br.readLine()) != null) {
-                if (line.length() < 1 || line.charAt(0) == '#') {
-                    // comment or blank - ignore this line
-                } else {
-                    String[] values = line.split(";");
-                    if (nanoSatConfigurations.get(values[0]) != null || !this.cmt.isNanoSatSegmentNameUnique(values[0])) {
-                        throw new IllegalArgumentException("Duplicated NanoSat Segment! Names must be unique.");
-                    } else {
-                        nanoSatConfigurations.put(values[0], new String[]{values[1], values[2], values[3], values[4], values[5], values[6]});
-                    }
+            for (String name : nanoSatConfigurations.keySet()) {
+                if (!this.cmt.isNanoSatSegmentNameUnique(ConstellationManagementTool.segmentName(name))) {
+                    throw new IllegalArgumentException("A segment of the constellation already goes "
+                            + "by this name: " + name);
                 }
             }
 
@@ -114,7 +106,8 @@ public class AddSimulationFromCsvGui extends JFrame {
 
         } catch (IllegalArgumentException ex) {
             Logger.getLogger(ConstellationManagementTool.class.getName()).log(Level.SEVERE, "Failed to add NanoSat Segments to constellation: ", ex.getMessage());
-            JOptionPane.showMessageDialog(null, "Failed to add NanoSat Segments to constellation: Names must be unique!", "Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Failed to add NanoSat Segments to constellation: "
+                    + ex.getMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "File not found! Please select a valid .csv file.", "Error", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {

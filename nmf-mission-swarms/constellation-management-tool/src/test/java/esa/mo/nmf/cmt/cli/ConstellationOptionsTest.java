@@ -21,16 +21,23 @@
 package esa.mo.nmf.cmt.cli;
 
 import esa.mo.nmf.cmt.utils.SegmentImage;
+import java.io.File;
+import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 /**
  * What the command line of the constellation is read as.
  */
 public class ConstellationOptionsTest {
+
+    @Rule
+    public final TemporaryFolder folder = new TemporaryFolder();
 
     @Test
     public void theNumberOfSegmentsIsEnough() {
@@ -69,7 +76,35 @@ public class ConstellationOptionsTest {
     }
 
     @Test
-    public void theNumberOfSegmentsIsRequired() {
+    public void aFileOfOrbitsIsRead() throws IOException {
+        File csv = folder.newFile("orbits.csv");
+        ConstellationOptions options = ConstellationOptions.parse(new String[]{
+            "--csv", csv.getPath(), "--image", "orekit"});
+
+        assertEquals(csv, options.getCsv());
+        assertEquals(0, options.getNodes());
+        assertEquals(SegmentImage.SIMULATOR_OREKIT, options.getImage());
+    }
+
+    @Test
+    public void aConstellationComesFromANumberOrAFileButNotBoth() throws IOException {
+        File csv = folder.newFile("orbits.csv");
+        assertRefused(new String[]{"--nodes", "2", "--csv", csv.getPath()});
+    }
+
+    @Test
+    public void theSegmentsOfAFileAreNamedByIt() throws IOException {
+        File csv = folder.newFile("orbits.csv");
+        assertRefused(new String[]{"--csv", csv.getPath(), "--name", "swarm"});
+    }
+
+    @Test
+    public void aFileThatIsNotThereIsRefused() {
+        assertRefused(new String[]{"--csv", folder.getRoot().getPath() + "/missing.csv"});
+    }
+
+    @Test
+    public void aConstellationHasToBeAskedForOneWayOrTheOther() {
         assertRefused(new String[]{"--name", "swarm"});
     }
 
