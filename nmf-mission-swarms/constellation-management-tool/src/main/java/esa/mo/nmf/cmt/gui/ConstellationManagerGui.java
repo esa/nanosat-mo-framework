@@ -26,6 +26,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import esa.mo.nmf.cmt.ConstellationListener;
+import esa.mo.nmf.cmt.cli.ConstellationCli;
 import esa.mo.nmf.cmt.ConstellationManagementTool;
 import esa.mo.nmf.cmt.utils.NanoSat;
 import javax.swing.*;
@@ -338,6 +339,21 @@ public class ConstellationManagerGui extends JFrame implements ConstellationList
 
     private void addRowToNanoSatSegmentList(Object[] row) {
         this.tableModel.addRow(row);
+    }
+
+    /**
+     * Says why the tool will not open, and ends the session.
+     * <p>
+     * The window manages the constellation it raises itself, and cannot take
+     * over segments it did not: a machine already holding one is a machine this
+     * window has nothing to offer.
+     *
+     * @param message What is the matter, as the tool tells it.
+     */
+    public static void refuseToStart(String message) {
+        JOptionPane.showMessageDialog(null, message, "A constellation is already running",
+                JOptionPane.WARNING_MESSAGE);
+        System.exit(ConstellationCli.EXIT_FAILED);
     }
 
     /**

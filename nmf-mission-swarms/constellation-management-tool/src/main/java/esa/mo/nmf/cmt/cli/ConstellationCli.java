@@ -84,6 +84,13 @@ public class ConstellationCli {
             System.setProperty(ContainerApi.TOOL_PROPERTY, options.getContainerTool());
         }
 
+        try {
+            ConstellationManagementTool.checkNoConstellationIsRunning();
+        } catch (IllegalStateException ex) {
+            System.err.println(ex.getMessage());
+            return EXIT_FAILED;
+        }
+
         ConstellationManagementTool cmt = new ConstellationManagementTool();
 
         try {

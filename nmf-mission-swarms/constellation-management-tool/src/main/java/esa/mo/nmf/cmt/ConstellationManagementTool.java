@@ -24,6 +24,7 @@ package esa.mo.nmf.cmt;
 
 import esa.mo.nmf.cmt.cli.ConstellationCli;
 import esa.mo.nmf.cmt.gui.ConstellationManagerGui;
+import esa.mo.nmf.cmt.utils.ContainerApi;
 import esa.mo.nmf.cmt.utils.NanoSat;
 import esa.mo.nmf.cmt.utils.NanoSatSimulator;
 import esa.mo.nmf.cmt.utils.SegmentImage;
@@ -31,6 +32,7 @@ import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -75,6 +77,13 @@ public class ConstellationManagementTool {
             System.err.println("The window cannot be opened on a machine without a display. "
                     + "Run the constellation from the command line instead: --help");
             System.exit(ConstellationCli.EXIT_USAGE);
+        }
+
+        try {
+            checkNoConstellationIsRunning();
+        } catch (IllegalStateException ex) {
+            ConstellationManagerGui.refuseToStart(ex.getMessage());
+            return;
         }
 
         ConstellationManagementTool cmt = new ConstellationManagementTool();
@@ -130,6 +139,42 @@ public class ConstellationManagementTool {
                     + "in it: " + name);
         }
         return SEGMENT_PREFIX + reduced;
+    }
+
+    /**
+     * Makes sure this machine is not already holding a constellation.
+     * <p>
+     * One machine holds one: the segments of a constellation are numbered from
+     * one and are addressed by that number, so a second raised beside the first
+     * would be asking for addresses the first already has. Docker refuses them,
+     * and what would be left is half a constellation that nobody asked for.
+     * <p>
+     * A machine whose container tool cannot be asked is taken to hold nothing:
+     * the tool then fails where it always did, at raising the segments, rather
+     * than refusing to raise any because Docker did not answer.
+     *
+     * @throws IllegalStateException if a constellation is already there. The
+     * message names its segments and says how to be rid of them.
+     */
+    public static void checkNoConstellationIsRunning() {
+        List<String> segments;
+
+        try {
+            segments = ContainerApi.existingSegments();
+        } catch (IOException | UnsupportedOperationException ex) {
+            Logger.getLogger(ConstellationManagementTool.class.getName()).log(Level.FINE,
+                    "The container tool could not be asked what it holds: ", ex);
+            return;
+        }
+
+        if (segments.isEmpty()) {
+            return;
+        }
+
+        throw new IllegalStateException("A constellation of " + segments.size()
+                + " segment(s) is already running. A machine holds one at a time.\n"
+                + "Stop it first: interrupt the command holding it, or run:\n"
+                + "    docker rm -f $(docker ps -aq --filter name=^" + SEGMENT_PREFIX + ")");
     }
 
     /**

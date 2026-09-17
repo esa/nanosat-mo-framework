@@ -24,6 +24,7 @@
 package esa.mo.nmf.cmt.utils;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * This abstract class is used to provide multiple APIs for simulating the
@@ -52,6 +53,31 @@ public abstract class ContainerApi {
         }
         return new DockerApi(image.getImage());
     }
+
+    /**
+     * Returns the segments already on this machine, whoever raised them.
+     * <p>
+     * A machine holds one constellation at a time: the segments of one are
+     * numbered from one and addressed by that number, so a second raised beside
+     * it would be asking for addresses the first already has.
+     *
+     * @return The names of the segments that are there, running or stopped, or
+     * an empty list when the machine holds none.
+     * @throws IOException if the container tool could not be asked.
+     */
+    public static List<String> existingSegments() throws IOException {
+        // The image is not part of the question: what is asked for is what the
+        // machine already holds, whatever it was raised from.
+        return of(SegmentImage.getDefault()).segments();
+    }
+
+    /**
+     * Returns the segments this container tool holds.
+     *
+     * @return Their names, running or stopped.
+     * @throws IOException if the tool could not be asked.
+     */
+    public abstract List<String> segments() throws IOException;
 
     public abstract void run(String name, String[] keplerElements, int spacecraftNode) throws IOException;
 

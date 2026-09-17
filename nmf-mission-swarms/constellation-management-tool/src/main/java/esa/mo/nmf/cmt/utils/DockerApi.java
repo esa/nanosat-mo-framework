@@ -27,6 +27,8 @@ import esa.mo.nmf.cmt.ConstellationManagementTool;
 import esa.mo.nmf.environment.MissionConfiguration;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -137,6 +139,34 @@ public class DockerApi extends ContainerApi {
         if (output.contains("Unable to find image")) {
             throw new IOException(output);
         }
+    }
+
+    /**
+     * Returns the segments this machine holds, running or stopped.
+     * <p>
+     * They are looked for by the name every segment carries, rather than by
+     * anything this tool remembers: the segments of a constellation outlive the
+     * run of the tool that raised them, and it is the machine that holds them.
+     *
+     * @return Their names, in the order Docker gives them.
+     * @throws IOException if Docker could not be asked.
+     */
+    @Override
+    public List<String> segments() throws IOException {
+        String output = executeCommand(String.format(
+                "docker ps -a --filter name=^%s --format '{{.Names}}'",
+                ConstellationManagementTool.SEGMENT_PREFIX));
+
+        List<String> segments = new ArrayList<>();
+
+        for (String line : output.split("\n")) {
+            String name = line.trim();
+
+            if (!name.isEmpty()) {
+                segments.add(name);
+            }
+        }
+        return segments;
     }
 
     /**

@@ -24,6 +24,7 @@
 package esa.mo.nmf.cmt.utils;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Running the segments of a constellation on Kubernetes, which is not written
@@ -41,6 +42,11 @@ public class KubernetesApi extends ContainerApi {
     }
 
     public KubernetesApi() {
+    }
+
+    @Override
+    public List<String> segments() throws IOException {
+        throw new UnsupportedOperationException(notWritten());
     }
 
     @Override
