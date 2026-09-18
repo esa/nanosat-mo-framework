@@ -64,6 +64,16 @@ public class CelestiaIf implements Runnable {
      * How long to wait before dialling Celestia again after a failed attempt.
      */
     final int DURATION_RETRY = 3000;
+
+    /**
+     * How long to wait when the simulator has produced nothing yet, in ms.
+     * <p>
+     * It is the period at which a position is produced, so that this thread
+     * wakes as one arrives rather than beating against the loop that produces
+     * them: waiting longer than that period dropped a position now and then and
+     * sent the next one late, and the spacecraft moved in uneven steps.
+     */
+    final int DURATION_IDLE = 100;
     final String DEFAULT_MESSAGE = "connection_alive";
     final String HANDSHAKE_MESSAGE = "connection_successful";
     final String STOP_MESSAGE = "connection_stop";
@@ -177,7 +187,7 @@ public class CelestiaIf implements Runnable {
                             }
                         }
                     } else {
-                        Thread.sleep(150);
+                        Thread.sleep(DURATION_IDLE);
                     }
 
                 } while (!inMsg.equals(this.STOP_MESSAGE)); // keep connection until STOP_MESSAGE received from Celestia

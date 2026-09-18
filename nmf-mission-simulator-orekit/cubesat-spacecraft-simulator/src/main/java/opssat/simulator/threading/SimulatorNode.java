@@ -399,12 +399,15 @@ public class SimulatorNode extends TaskNode {
     private static final int TIMER_SIMULATOR_DATA_INTERVAL = 500;
     /**
      * How often a position and attitude is produced for the visualisation, in
-     * milliseconds. Lowering this further buys little: the Celestia server
-     * waits for an acknowledgement after every message, and does so by sleeping
-     * in steps of 150 ms, so nothing faster than that arrives however often it
-     * is produced.
+     * milliseconds.
+     * <p>
+     * It is the period of the loop that produces it, so one is produced every
+     * time round. A longer period only means the loop passing without one, and
+     * a shorter one means a period elapsing without a loop to notice it: what
+     * either buys is a visualisation that moves in steps of uneven length,
+     * which is what the eye reads as a spacecraft that stutters.
      */
-    private static final int TIMER_CELESTIA_INTERVAL = 200;
+    private static final int TIMER_CELESTIA_INTERVAL = 100;
 
     Logger logger;
 
