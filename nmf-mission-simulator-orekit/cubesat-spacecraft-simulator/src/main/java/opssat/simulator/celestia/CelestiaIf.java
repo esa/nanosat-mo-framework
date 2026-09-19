@@ -361,9 +361,7 @@ public class CelestiaIf implements Runnable {
                     + dateTime.getMinute() + ":"
                     + dateTime.getSecond();
             */
-            dataStringValue.append(" ").append(data.getYears()).append("/").append(data.getMonths()).append("/").append(
-                data.getDays()).append("-").append(data.getHours()).append(":").append(data.getMinutes()).append(":")
-                .append(data.getSeconds());
+            dataStringValue.append(" ").append(data.getWireDate());
 
             dataStringUnit.append(" ").append("UTC");
 

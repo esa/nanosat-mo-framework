@@ -25,6 +25,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import opssat.simulator.util.DateExtraction;
@@ -35,6 +36,19 @@ import opssat.simulator.util.DateExtraction;
  */
 public class CelestiaData implements Serializable {
     public static final String DATE_FORMAT = "yyyy/MM/dd-HH:mm:ss";
+
+    /**
+     * The moment of a sample as it goes on the wire: ISO 8601, to the
+     * millisecond, in UTC.
+     * <p>
+     * To the millisecond because samples are produced ten times a second and
+     * the second alone says nothing about where in it each of them falls. In
+     * UTC, and saying so, because the reader is elsewhere and a moment written
+     * without its zone is a moment only its writer can place. The date is
+     * joined to the time by a T rather than a space: the message these go into
+     * is read as a list of words.
+     */
+    private static final String WIRE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
     float[] rv;
     float[] q;
@@ -108,6 +122,15 @@ public class CelestiaData implements Serializable {
 
     public int getSeconds() {
         return DateExtraction.getSecondsFromDate(this.date);
+    }
+
+    /**
+     * @return The moment of this sample, ISO 8601 to the millisecond, in UTC.
+     */
+    public String getWireDate() {
+        SimpleDateFormat format = new SimpleDateFormat(WIRE_FORMAT);
+        format.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return format.format(this.date);
     }
 
     public String getDate() {

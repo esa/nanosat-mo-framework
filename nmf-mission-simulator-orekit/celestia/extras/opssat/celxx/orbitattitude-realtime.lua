@@ -273,7 +273,13 @@ local function showStatus()
     local text = link.mode or ""
 
     if link.stamp ~= nil then
-        text = text .. "\n" .. link.stamp
+        -- The wire keeps what ISO 8601 asks for: a T between the date and the
+        -- time, and a Z for the zone. Read off a screen, a space is easier on
+        -- the eye, and there is only one clock here for the Z to distinguish
+        -- it from.
+        local when = string.gsub(link.stamp, "T", " ")
+        when = string.gsub(when, "Z$", "")
+        text = text .. "\n" .. when
     end
 
     if text == "" then
