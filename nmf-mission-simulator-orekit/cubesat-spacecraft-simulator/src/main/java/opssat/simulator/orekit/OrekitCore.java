@@ -179,7 +179,7 @@ public class OrekitCore {
 
 
     /** How long the spacecraft takes to turn from one attitude law to another. */
-    private static final double ATTITUDE_SLEW_S = 30;
+    private static final double ATTITUDE_SLEW_S = 20;
 
     /** Records when the sequence really does change the attitude. */
     private final AttitudesSequence.SwitchHandler attitudeSwitchRecorder =
