@@ -32,6 +32,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ArchiveQuery;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
+import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
@@ -81,15 +82,37 @@ public class ActionCommands {
 
             Serializable[] objs = new Serializable[inputArguments.size()];
             for (int i = 0; i < inputArguments.size(); i++) {
-                String inputValue = inputArguments.get(i);
-                try {
-                    objs[i] = Long.valueOf(inputValue);
-                } catch (NumberFormatException ex) {
-                    objs[i] = inputValue;
-                }
+                objs[i] = argumentOf(inputArguments.get(i));
             }
 
             consumer.launchAction(actionName, objs);
+        }
+
+        /**
+         * Reads an argument as the type it is written in.
+         * <p>
+         * A number is a number, and a number with an s after it is a length of
+         * time: actions that take one ask for a MO Duration, which is not a
+         * number and cannot be passed as one, so it has to be recognisable on a
+         * command line. Anything else is text.
+         *
+         * @param value The argument as it was written.
+         * @return What to send.
+         */
+        private static Serializable argumentOf(String value) {
+            if (value.length() > 1 && value.endsWith("s")) {
+                try {
+                    return new Duration(Double.parseDouble(value.substring(0, value.length() - 1)));
+                } catch (NumberFormatException ex) {
+                    // Not a length of time after all: it only ends in an s.
+                }
+            }
+
+            try {
+                return Long.valueOf(value);
+            } catch (NumberFormatException ex) {
+                return value;
+            }
         }
     }
 
