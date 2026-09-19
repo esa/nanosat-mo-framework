@@ -73,6 +73,29 @@ local server = {
     nextAttempt = 0
 }
 
+-- What the spacecraft is doing, shown in the corner of the screen: the mode it
+-- is flying, and the moment of the last position to arrive.
+--
+-- Celestia is asked once a frame and each asking lasts a little longer than a
+-- frame, so what is shown stays up rather than blinking.
+local SHOW_STATUS = true
+local STATUS_SHOWN_FOR = 0.2
+
+-- Which corner, and how far in from it.
+--
+-- The left-hand one, because Celestia lays the text out rightwards from the
+-- point named here: from the left that is simply the text, while from the
+-- right it is the text hanging off the edge unless the offset is made to
+-- match its width, which changes with what it says.
+--
+-- The offsets are not pixels. They are of the order of sixteen pixels each,
+-- so these are a couple of dozen pixels in from the left and some sixty up
+-- from the bottom, which clears Celestia's own line about the speed.
+local STATUS_LEFT = -1
+local STATUS_BOTTOM = -1
+local STATUS_FROM_LEFT = 2
+local STATUS_FROM_BOTTOM = 4
+
 -- Everything this module remembers between frames.
 local link = {
     socket = nil,
@@ -220,7 +243,47 @@ local function apply(parameters)
         link.orientation.z = qz
     end
 
+    -- What the simulator says of itself: the propagator and the attitude mode,
+    -- as "Time|x1|Kepler|NADIR_POINTING". The mode is the last of those.
+    local info = parameters["INFO"]
+
+    if info ~= nil then
+        local mode = string.match(info, "([^|]+)$")
+
+        if mode ~= nil then
+            link.mode = mode
+        end
+    end
+
+    -- The moment this sample is of, by the simulator's clock.
+    link.stamp = parameters["SIM_EPOCH_TIME"] or link.stamp
+
     link.received = link.received + 1
+end
+
+--- Shows what the spacecraft is doing, in the corner of the screen.
+---
+--- A commanded turn is otherwise only to be recognised by the spacecraft
+--- beginning to move, which is some seconds after the mode has changed.
+local function showStatus()
+    if not SHOW_STATUS or celestia == nil then
+        return
+    end
+
+    local text = link.mode or ""
+
+    if link.stamp ~= nil then
+        text = text .. "\n" .. link.stamp
+    end
+
+    if text == "" then
+        return
+    end
+
+    pcall(function()
+        celestia:print(text, STATUS_SHOWN_FOR, STATUS_LEFT, STATUS_BOTTOM,
+                       STATUS_FROM_LEFT, STATUS_FROM_BOTTOM)
+    end)
 end
 
 --- Takes whatever the simulator has sent since the last frame, answers each
@@ -320,6 +383,7 @@ function RealTimeOrbit(parameters)
     -- what Celestia wants here, so the numbers are passed straight through.
     function orbit:position(tjd)
         poll()
+        showStatus()
         return link.position.x, link.position.y, link.position.z
     end
 
