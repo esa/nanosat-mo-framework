@@ -978,6 +978,14 @@ public class SimulatorNode extends TaskNode {
                 celestiaData.setAos(orekitCore.getNextAOS());
                 celestiaData.setLos(orekitCore.getNextLOS());
                 celestiaData.setInfo("Time|x" + this.simulatorData.getTimeFactor() + "|" + orekitCore.getOrekitInfo());
+                // Only the newest is worth sending. One of these is produced
+                // almost every time round the loop and only one thing leaves
+                // the queue per turn, so any still waiting when the next is
+                // made never catches up: the picture of the spacecraft fell
+                // behind by a second for every five it ran, until a commanded
+                // turn took half a minute to appear on a view that was
+                // otherwise moving perfectly smoothly.
+                pendingPeriodicOut.removeIf(pending -> pending instanceof CelestiaData);
                 pendingPeriodicOut.add(celestiaData);
             }
         }

@@ -138,7 +138,13 @@ public class CelestiaData implements Serializable {
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        // A copy, because the simulator keeps one Date for the time it is at
+        // and moves it on every time round its loop. Held by reference, every
+        // sample ever made would carry that one moment, and each would say it
+        // was of the instant it happened to be written out at: a sample that
+        // had waited in a queue arrived looking as fresh as one just made, and
+        // nothing downstream could tell how old what it was drawing was.
+        this.date = (date == null) ? null : new Date(date.getTime());
     }
 
     public void setDate(String date) {
