@@ -76,10 +76,20 @@ public class CentralNode extends TaskNode {
         this.parent = sim;
     }
 
+    /**
+     * What a spacecraft calls itself when nothing else names it.
+     * <p>
+     * It was the name of the mission this simulator was written for, which
+     * ended in 2024, and which any spacecraft simulated since has been
+     * announcing itself as. What is simulated is a cubesat; a spacecraft that
+     * is one of many is told its own name when it is started.
+     */
+    private static final String DEFAULT_SPACECRAFT_NAME = "cubesat";
+
     private void initCelestia(SimulatorHeader header) {
         super.getLogObject().log(Level.FINE, "Creating Celestia provider");
         this.celestiaInterfaceServer = new CelestiaIf(this.qToCelestia, header.getCelestiaHost(),
-            header.getCelestiaPort(), "OPS-SAT", super.getLogObject());
+            header.getCelestiaPort(), DEFAULT_SPACECRAFT_NAME, super.getLogObject());
         (new Thread(celestiaInterfaceServer, "sim-" + celestiaInterfaceServer.getClass().getSimpleName())).start();
     }
 

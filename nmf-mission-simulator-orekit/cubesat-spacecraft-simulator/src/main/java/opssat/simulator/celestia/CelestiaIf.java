@@ -121,8 +121,7 @@ public class CelestiaIf implements Runnable {
      * <p>
      * A segment of a constellation is told what it is called when it is
      * started, every segment being built from one image. A spacecraft that is
-     * told nothing falls back to the mission it belongs to, which is what a
-     * mission of one spacecraft has always been called here.
+     * told nothing falls back to the mission it belongs to.
      *
      * @return The name, with any space in it closed up: the message it goes
      * into is read as a list of words.
@@ -242,13 +241,20 @@ public class CelestiaIf implements Runnable {
 
         this.SPACECRAFT_ID = new ArrayList<>();
 
-        if (MISSION_ID.equals("OPS-SAT")) {
-            this.SPACECRAFT_ID.add("OPS-SAT");
-        } else if (MISSION_ID.equals("NetSat")) {
+        if (MISSION_ID.equals("NetSat")) {
+            // The one mission here that flies more than one spacecraft from a
+            // single simulator. Kept as it was.
             this.SPACECRAFT_ID.add("NETSAT1");
             this.SPACECRAFT_ID.add("NETSAT2");
             this.SPACECRAFT_ID.add("NETSAT3");
             this.SPACECRAFT_ID.add("NETSAT4");
+        } else {
+            // One spacecraft, named as it names itself. This used to be a list
+            // of the missions known by name, and a mission that was not among
+            // them got no identifier at all: the messages were then built for
+            // no spacecraft and nothing was sent, while everything reported
+            // itself perfectly well.
+            this.SPACECRAFT_ID.add(spacecraftName());
         }
 
     }
