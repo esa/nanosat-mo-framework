@@ -140,3 +140,13 @@ end
 -- From here on the observer keeps station on the spacecraft, which is what it
 -- would do if it had been sent there by hand.
 observer:follow(spacecraft)
+
+-- Celestia sets its clock when the process starts and runs it on from there, so
+-- everything it does before the first frame is drawn -- reading the solar
+-- system, the textures, the add-ons -- is time the clock has already spent. It
+-- arrives about a minute behind this machine's and stays there, which shows in
+-- every attitude that is held against something: a spacecraft pointing at the
+-- Earth is drawn pointing where the Earth was a minute ago.
+--
+-- The clock is therefore set again here, now that all of that is done.
+celestia:settime(celestia:getsystemtime())
