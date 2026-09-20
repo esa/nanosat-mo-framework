@@ -42,6 +42,26 @@ RUN apt-get update \
       unzip \
  && rm -rf /var/lib/apt/lists/*
 
+# The spacecraft Celestia is shipped with, less the Space Station.
+#
+# They are add-ons of the celestia-common package, and several of them orbit
+# the Earth: Friendship 7 and Gemini and Skylab, Hubble and Mir. They drift
+# through a view of the spacecraft being simulated, labelled as prominently as
+# it is, and none of them has anything to do with the mission being flown. The
+# Station is kept because it gives the eye something real to judge the size of
+# a cubesat against.
+#
+# What is left alone is elsewhere in the solar system and never in frame:
+# Apollo 11 at the Moon, Mars Odyssey and MGS at Mars, Cassini and Galileo
+# further out. The JohnVV directory is not a spacecraft at all but the cloud
+# texture of the Earth.
+RUN rm -f /usr/share/celestia/extras/shroxclassic.ssc \
+          /usr/share/celestia/extras/skylab.ssc \
+ && rm -rf /usr/share/celestia/extras-standard/hubble \
+           /usr/share/celestia/extras-standard/mir \
+ && test -d /usr/share/celestia/extras-standard/iss \
+      || { echo "FAILED: the Space Station was meant to be kept" >&2; exit 1; }
+
 # Celestia scripts have no networking of their own, and the interface to the
 # simulator is a socket, so LuaSocket is installed above. Celestia embeds
 # LuaJIT, which is Lua 5.1, so the 5.1 tree is the one to point at. The trailing
