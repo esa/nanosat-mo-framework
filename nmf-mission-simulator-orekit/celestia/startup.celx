@@ -77,11 +77,11 @@ local function unit(v)
 end
 
 local observer = celestia:getobserver()
-local spacecraft = celestia:find("Sol/Earth/OPS-SAT")
+local spacecraft = celestia:find("Sol/Earth/cubesat-1")
 local earth = celestia:find("Sol/Earth")
 
 if spacecraft == nil or spacecraft:type() == "null" then
-    celestia:flash("OPS-SAT was not found: is the add-on directory loaded?", 5)
+    celestia:flash("cubesat-1 was not found: is the add-on directory loaded?", 5)
     return
 end
 

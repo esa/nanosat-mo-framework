@@ -1,6 +1,7 @@
 #--------------------------------------------------------------------------------
 #
-# OPS-SAT spacecraft file for Celestia with Earth, Sun and Moon pointing vectors and X, Y and Z vectors.
+# The spacecraft of a constellation, for Celestia, with Earth, Sun and Moon pointing
+# vectors and X, Y and Z vectors on the first of them.
 #
 # @remarks     Created.
 # @author      Filipe Metelo <filipe.metelo @ esa.int>
@@ -27,7 +28,7 @@
 # @version     2015.07.27
 #
 #--------------------------------------------------------------------------------
-"OPS-SAT" "Sol/Earth"
+"cubesat-1" "Sol/Earth"
 {
     Class "spacecraft"
     Mesh "OPS-SAT.3ds"
@@ -53,6 +54,7 @@
         Function "RealTimeOrbit"
 
         SpacecraftIndex 6
+        Slot 1
     }
 
     BodyFrame {
@@ -65,10 +67,11 @@
         Function "RealTimeRotation"
 
         SpacecraftIndex 6
+        Slot 1
     }
 }
 
-"OPS-SAT-Prop" "Sol/Earth"
+"cubesat-1-Prop" "Sol/Earth"
 {
     Class "spacecraft"
     Visible false
@@ -98,7 +101,154 @@
     }
 }
 
-"Velocity" "Sol/Earth/OPS-SAT"
+#--------------------------------------------------------------------------------
+#
+# Spacecraft 2 of a constellation. One Celestia draws them all: each is driven by
+# whichever simulator took slot 2, and stands inside the Earth, out of sight,
+# until one does. The name here is fixed when this file is read, so it says the
+# slot rather than the spacecraft; what the spacecraft is called is written on
+# the screen, from the name the simulator gives.
+#
+#--------------------------------------------------------------------------------
+"cubesat-2" "Sol/Earth"
+{
+    Class "spacecraft"
+    Mesh "OPS-SAT.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 -0.29 0 ]
+    MeshScale 300 # 3d model is in [km/1000]
+
+    Orientation [ -90 1 0 0 ] # to compensate for the rotation in the 3ds model ...
+
+    Visible true
+    Radius 40
+
+    OrbitFrame {
+        EquatorJ2000 {
+            Center "Sol/Earth"
+        }
+    }
+    ScriptedOrbit {
+        Module "orbitattitude-realtime"
+        Function "RealTimeOrbit"
+
+        SpacecraftIndex 6
+        Slot 2
+    }
+
+    BodyFrame {
+        EquatorJ2000 {
+            Center "Sol/Earth"
+        }
+    }
+    ScriptedRotation {
+        Module "orbitattitude-realtime"
+        Function "RealTimeRotation"
+
+        SpacecraftIndex 6
+        Slot 2
+    }
+}
+
+#--------------------------------------------------------------------------------
+#
+# Spacecraft 3 of a constellation. One Celestia draws them all: each is driven by
+# whichever simulator took slot 3, and stands inside the Earth, out of sight,
+# until one does. The name here is fixed when this file is read, so it says the
+# slot rather than the spacecraft; what the spacecraft is called is written on
+# the screen, from the name the simulator gives.
+#
+#--------------------------------------------------------------------------------
+"cubesat-3" "Sol/Earth"
+{
+    Class "spacecraft"
+    Mesh "OPS-SAT.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 -0.29 0 ]
+    MeshScale 300 # 3d model is in [km/1000]
+
+    Orientation [ -90 1 0 0 ] # to compensate for the rotation in the 3ds model ...
+
+    Visible true
+    Radius 40
+
+    OrbitFrame {
+        EquatorJ2000 {
+            Center "Sol/Earth"
+        }
+    }
+    ScriptedOrbit {
+        Module "orbitattitude-realtime"
+        Function "RealTimeOrbit"
+
+        SpacecraftIndex 6
+        Slot 3
+    }
+
+    BodyFrame {
+        EquatorJ2000 {
+            Center "Sol/Earth"
+        }
+    }
+    ScriptedRotation {
+        Module "orbitattitude-realtime"
+        Function "RealTimeRotation"
+
+        SpacecraftIndex 6
+        Slot 3
+    }
+}
+
+#--------------------------------------------------------------------------------
+#
+# Spacecraft 4 of a constellation. One Celestia draws them all: each is driven by
+# whichever simulator took slot 4, and stands inside the Earth, out of sight,
+# until one does. The name here is fixed when this file is read, so it says the
+# slot rather than the spacecraft; what the spacecraft is called is written on
+# the screen, from the name the simulator gives.
+#
+#--------------------------------------------------------------------------------
+"cubesat-4" "Sol/Earth"
+{
+    Class "spacecraft"
+    Mesh "OPS-SAT.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 -0.29 0 ]
+    MeshScale 300 # 3d model is in [km/1000]
+
+    Orientation [ -90 1 0 0 ] # to compensate for the rotation in the 3ds model ...
+
+    Visible true
+    Radius 40
+
+    OrbitFrame {
+        EquatorJ2000 {
+            Center "Sol/Earth"
+        }
+    }
+    ScriptedOrbit {
+        Module "orbitattitude-realtime"
+        Function "RealTimeOrbit"
+
+        SpacecraftIndex 6
+        Slot 4
+    }
+
+    BodyFrame {
+        EquatorJ2000 {
+            Center "Sol/Earth"
+        }
+    }
+    ScriptedRotation {
+        Module "orbitattitude-realtime"
+        Function "RealTimeRotation"
+
+        SpacecraftIndex 6
+        Slot 4
+    }
+}
+
+"Velocity" "Sol/Earth/cubesat-1"
 {
     Class "surfacefeature"
     Mesh "violet-vector.3ds"
@@ -112,18 +262,18 @@
 
     OrbitFrame {
         BodyFixed {
-            Center "Sol/Earth/OPS-SAT"
+            Center "Sol/Earth/cubesat-1"
         }
     }
     FixedPosition [ 0 0 0 ]
     
     BodyFrame {
         TwoVector {
-            Center "Sol/Earth/OPS-SAT"
+            Center "Sol/Earth/cubesat-1"
             Primary {
                 Axis "y"
                 RelativePosition {
-                    Target "Sol/Earth/OPS-SAT-Prop"
+                    Target "Sol/Earth/cubesat-1-Prop"
                 }
             }
             Secondary {
@@ -141,7 +291,7 @@
     }
 }
 
-"Earth" "Sol/Earth/OPS-SAT"
+"Earth" "Sol/Earth/cubesat-1"
 {
     Class "surfacefeature"
     Mesh "cyan-vector.3ds"
@@ -155,14 +305,14 @@
 
     OrbitFrame {
         BodyFixed {
-            Center "Sol/Earth/OPS-SAT"
+            Center "Sol/Earth/cubesat-1"
         }
     }
     FixedPosition [ 0 0 0 ]
 
     BodyFrame {
         TwoVector {
-            Center "Sol/Earth/OPS-SAT"
+            Center "Sol/Earth/cubesat-1"
             Primary {
                 Axis "y"
                 RelativePosition {
@@ -174,7 +324,7 @@
                 ConstantVector {
                     Frame {
                         BodyFixed {
-                            Center "Sol/Earth/OPS-SAT"
+                            Center "Sol/Earth/cubesat-1"
                         }
                     }
                     Vector [ 0 0 1 ]
@@ -189,7 +339,7 @@
     }
 }
 
-"Moon" "Sol/Earth/OPS-SAT"
+"Moon" "Sol/Earth/cubesat-1"
 {
     Class "surfacefeature"
     Mesh "gray-vector.3ds"
@@ -203,14 +353,14 @@
 
     OrbitFrame {
         BodyFixed {
-            Center "Sol/Earth/OPS-SAT"
+            Center "Sol/Earth/cubesat-1"
         }
     }
     FixedPosition [ 0 0 0 ]
 
     BodyFrame {
         TwoVector {
-            Center "Sol/Earth/OPS-SAT"
+            Center "Sol/Earth/cubesat-1"
             Primary {
                 Axis "y"
                 RelativePosition {
@@ -232,7 +382,7 @@
     }
 }
 
-"Sun" "Sol/Earth/OPS-SAT"
+"Sun" "Sol/Earth/cubesat-1"
 {
     Class "surfacefeature"
     Mesh "yellow-vector.3ds"
@@ -246,14 +396,14 @@
 
     OrbitFrame {
         BodyFixed {
-            Center "Sol/Earth/OPS-SAT"
+            Center "Sol/Earth/cubesat-1"
         }
     }
     FixedPosition [ 0 0 0 ]
 
     BodyFrame {
         TwoVector {
-            Center "Sol/Earth/OPS-SAT"
+            Center "Sol/Earth/cubesat-1"
             Primary {
                 Axis "y"
                 RelativePosition {
@@ -275,7 +425,7 @@
     }
 }
 
-"X" "Sol/Earth/OPS-SAT" {
+"X" "Sol/Earth/cubesat-1" {
 
     Class "surfacefeature"
     Mesh "red-vector.3ds"
@@ -289,20 +439,20 @@
 
     OrbitFrame {
         BodyFixed {
-            Center "Sol/Earth/OPS-SAT"
+            Center "Sol/Earth/cubesat-1"
         }
     }
     FixedPosition  [ 0 0 0 ]
 
     BodyFrame {
         TwoVector {
-        Center "Sol/Earth/OPS-SAT"
+        Center "Sol/Earth/cubesat-1"
             Primary {
             Axis "z"
                 ConstantVector {
                     Frame {
                         BodyFixed {
-                            Center "Sol/Earth/OPS-SAT"
+                            Center "Sol/Earth/cubesat-1"
                         }
                     }
                     Vector [ 0 0 1 ]
@@ -313,7 +463,7 @@
                 ConstantVector {
                     Frame {
                         BodyFixed {
-                            Center "Sol/Earth/OPS-SAT"
+                            Center "Sol/Earth/cubesat-1"
                         }
                     }
                     Vector [ -1 0 0 ]
@@ -328,7 +478,7 @@
     }
 }
 
-"Y" "Sol/Earth/OPS-SAT" {
+"Y" "Sol/Earth/cubesat-1" {
 
     Class "surfacefeature"
     Mesh "green-vector.3ds"
@@ -342,20 +492,20 @@
 
     OrbitFrame {
         BodyFixed {
-            Center "Sol/Earth/OPS-SAT"
+            Center "Sol/Earth/cubesat-1"
         }
     }
     FixedPosition  [ 0 0 0 ]
 
     BodyFrame {
         TwoVector {
-        Center "Sol/Earth/OPS-SAT"
+        Center "Sol/Earth/cubesat-1"
             Primary {
             Axis "z"
                 ConstantVector {
                     Frame {
                         BodyFixed {
-                            Center "Sol/Earth/OPS-SAT"
+                            Center "Sol/Earth/cubesat-1"
                         }
                     }
                     Vector [ -1 0 0 ]
@@ -366,7 +516,7 @@
                 ConstantVector {
                     Frame {
                         BodyFixed {
-                            Center "Sol/Earth/OPS-SAT"
+                            Center "Sol/Earth/cubesat-1"
                         }
                     }
                     Vector [ 0 0 1 ]
@@ -381,7 +531,7 @@
     }
 }
 
-"Z" "Sol/Earth/OPS-SAT" {
+"Z" "Sol/Earth/cubesat-1" {
 
     Class "surfacefeature"
     Mesh "blue-vector.3ds"
@@ -395,20 +545,20 @@
 
     OrbitFrame {
         BodyFixed {
-            Center "Sol/Earth/OPS-SAT"
+            Center "Sol/Earth/cubesat-1"
         }
     }
     FixedPosition  [ 0 0 0 ]
 
     BodyFrame {
         TwoVector {
-        Center "Sol/Earth/OPS-SAT"
+        Center "Sol/Earth/cubesat-1"
             Primary {
             Axis "z"
                 ConstantVector {
                     Frame {
                         BodyFixed {
-                            Center "Sol/Earth/OPS-SAT"
+                            Center "Sol/Earth/cubesat-1"
                         }
                     }
                     Vector [ 0 0 1 ]
@@ -419,7 +569,7 @@
                 ConstantVector {
                     Frame {
                         BodyFixed {
-                            Center "Sol/Earth/OPS-SAT"
+                            Center "Sol/Earth/cubesat-1"
                         }
                     }
                     Vector [ 1 0 0 ]

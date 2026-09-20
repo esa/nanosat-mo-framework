@@ -138,40 +138,69 @@ local STATUS_SHOWN_FOR = 0.2
 local STATUS_LEFT = -1
 local STATUS_BOTTOM = -1
 local STATUS_FROM_LEFT = 2
-local STATUS_FROM_BOTTOM = 4
+local STATUS_FROM_BOTTOM = 9
 
-local link = {
-    socket = nil,
-    connected = false,
-    -- What is shown in the corner: the attitude mode the simulator reports,
-    -- and the moment of the last position as it wrote it.
-    mode = nil,
-    shownStamp = nil,
-    -- The positions and attitudes lately arrived, oldest first, each with the
-    -- moment it is of and the moment it arrived. The spacecraft is drawn
-    -- between two of them that are both already here.
-    buffer = {},
-    -- How late delivery has lately been running, in seconds, and how far
-    -- behind the newest sample the spacecraft is being drawn. The lag follows
-    -- the interval plus that lateness, at the rate SLEW allows.
-    jitter = nil,
-    rate = nil,
-    lag = nil,
-    -- The clock the picture is drawn by, and when it was last advanced.
-    moment = nil,
-    momentAt = nil,
+-- How many spacecraft this can draw at once.
+--
+-- One Celestia serves a whole constellation: the segments each dial in, and
+-- each is given a slot of its own. The number is fixed because the objects
+-- they drive are declared in opssat.ssc, which Celestia reads once when it
+-- starts, so there can be no more of them than are written there.
+local MAX_SLOTS = 4
 
-    -- Where the spacecraft is drawn before any position has arrived.
-    -- Kept at a plausible altitude so that something is drawn before the first
-    -- message arrives, rather than the spacecraft sitting in the centre of the
-    -- Earth. Over the equator rather than over a pole, because the startup
-    -- script places the observer from wherever the spacecraft is when Celestia
-    -- first asks, which is usually here: a spacecraft on the axis is the one
-    -- position from which there is no north to put at the top of the image.
-    position = {x = 7000, y = 0, z = 0},
-    orientation = {w = 1, x = 0, y = 0, z = 0},
-    received = 0
-}
+--- Everything remembered about one spacecraft between frames.
+---
+--- @param number Which slot this is, counting from one.
+local function newSlot(number)
+    return {
+        number = number,
+        -- The name the simulator gave in its greeting, or nil where it gave
+        -- none. It is what the slot is labelled with, and what lets a segment
+        -- that comes back find the slot it had before.
+        name = nil,
+        socket = nil,
+        connected = false,
+        -- What is shown beside the spacecraft: the attitude mode the simulator
+        -- reports, and the moment of the last position as it wrote it.
+        mode = nil,
+        shownStamp = nil,
+        -- The positions and attitudes lately arrived, oldest first, each with
+        -- the moment it is of and the moment it arrived. The spacecraft is
+        -- drawn between two of them that are both already here.
+        buffer = {},
+        -- How late delivery has lately been running, in seconds, and how far
+        -- behind the newest sample the spacecraft is being drawn. The lag
+        -- follows the interval plus that lateness, at the rate SLEW allows.
+        jitter = nil,
+        rate = nil,
+        lag = nil,
+        -- The clock the picture is drawn by, and when it was last advanced.
+        moment = nil,
+        momentAt = nil,
+
+        -- Where the spacecraft is drawn before any position has arrived.
+        --
+        -- A slot no simulator has taken is hidden at the centre of the Earth,
+        -- where the planet covers it: drawn in orbit it would be a spacecraft
+        -- reported without existing. The first is the exception, and is put at
+        -- a plausible altitude, because the startup script places the observer
+        -- from wherever it is when Celestia first asks: from the centre of the
+        -- Earth there is no direction to be placed along, and the observer is
+        -- left wherever Celestia began, which is nowhere near the Earth. Over
+        -- the equator rather than over a pole, because a spacecraft on the
+        -- axis is the one position from which there is no north to put at the
+        -- top of the image.
+        position = (number == 1) and {x = 7000, y = 0, z = 0} or {x = 0, y = 0, z = 0},
+        orientation = {w = 1, x = 0, y = 0, z = 0},
+        received = 0
+    }
+end
+
+local slots = {}
+
+for i = 1, MAX_SLOTS do
+    slots[i] = newSlot(i)
+end
 
 --- The clock this module measures by, in seconds, or nil where there is none.
 --
@@ -256,12 +285,57 @@ end
 -- The link to the simulator
 -- ---------------------------------------------------------------------------
 
-local function disconnect()
-    if link.socket ~= nil then
-        link.socket:close()
-        link.socket = nil
+local function disconnect(slot)
+    if slot.socket ~= nil then
+        slot.socket:close()
+        slot.socket = nil
     end
-    link.connected = false
+    slot.connected = false
+    -- What was learned about the pace of a link dies with it; the next
+    -- simulator to take this slot may run at another rate altogether.
+    slot.buffer = {}
+    slot.jitter = nil
+    slot.rate = nil
+    slot.lag = nil
+    slot.moment = nil
+    slot.momentAt = nil
+end
+
+-- The spacecraft turned away for want of a slot, so that each is reported
+-- once rather than at every attempt it makes.
+local refused = {}
+
+--- The slot a simulator of this name should have.
+---
+--- A segment that comes back after its Celestia was restarted, or after a
+--- moment's trouble on the link, finds the slot it had before rather than
+--- whichever happens to be free: the spacecraft it drives stays the same one.
+---
+--- @param name The name it gave, or nil where it gave none.
+--- @return The slot, or nil when they are all taken.
+local function slotFor(name)
+    if name ~= nil then
+        for _, slot in ipairs(slots) do
+            if not slot.connected and slot.name == name then
+                return slot
+            end
+        end
+    end
+
+    for _, slot in ipairs(slots) do
+        if not slot.connected and slot.name == nil then
+            return slot
+        end
+    end
+
+    -- Every slot has been used before and none is free of a name; the first
+    -- that is not in use will do, and takes the new name.
+    for _, slot in ipairs(slots) do
+        if not slot.connected then
+            return slot
+        end
+    end
+    return nil
 end
 
 --- Takes the port, once. Returns whether it is listening.
@@ -311,14 +385,49 @@ local function acceptOne()
         return false
     end
 
+    -- A simulator that knows its own name says so after the greeting. One that
+    -- does not is still welcome: it is given a slot and labelled by its number.
+    local name = string.match(greeting, HANDSHAKE .. "%s+(%S+)")
+    local slot = slotFor(name)
+
+    if slot == nil then
+        -- Every slot is taken. Refusing is the honest answer: accepted and
+        -- never read, the simulator would sit waiting for acknowledgements
+        -- that never came, and report itself connected all the while.
+        --
+        -- Said once for each spacecraft turned away. They come back every few
+        -- seconds for as long as they run, and saying so each time buries
+        -- everything else in the log.
+        local who = tostring(name or "a simulator that did not say")
+
+        if not refused[who] then
+            io.write("orbitattitude-realtime: no slot free for ", who,
+                     "; this Celestia draws ", tostring(MAX_SLOTS),
+                     " spacecraft and all of them are taken.\n")
+            io.flush()
+            refused[who] = true
+        end
+        sock:close()
+        return false
+    end
+
     -- The simulator waits for an answer to the greeting before it sends data.
     sock:send(ACK .. "\n")
 
     -- From here on nothing is allowed to block: a frame is being drawn.
     sock:settimeout(0)
 
-    link.socket = sock
-    link.connected = true
+    slot.socket = sock
+    slot.connected = true
+
+    if name ~= nil then
+        slot.name = name
+        refused[name] = nil
+    end
+
+    io.write("orbitattitude-realtime: slot ", tostring(slot.number), " is ",
+             tostring(slot.name or "a simulator that did not say"), "\n")
+    io.flush()
     return true
 end
 
@@ -365,14 +474,14 @@ end
 ---
 --- What arrives becomes the newest of the two samples the spacecraft is drawn
 --- between, and what was newest becomes the older of them.
-local function apply(parameters)
+local function apply(slot, parameters)
     local x = tonumber(parameters["X_ICF"])
     local y = tonumber(parameters["Y_ICF"])
     local z = tonumber(parameters["Z_ICF"])
     if x ~= nil and y ~= nil and z ~= nil then
-        link.position.x = x
-        link.position.y = y
-        link.position.z = z
+        slot.position.x = x
+        slot.position.y = y
+        slot.position.z = z
     end
 
     local qs = tonumber(parameters["QS_ICF"])
@@ -380,10 +489,10 @@ local function apply(parameters)
     local qy = tonumber(parameters["QY_ICF"])
     local qz = tonumber(parameters["QZ_ICF"])
     if qs ~= nil and qx ~= nil and qy ~= nil and qz ~= nil then
-        link.orientation.w = qs
-        link.orientation.x = qx
-        link.orientation.y = qy
-        link.orientation.z = qz
+        slot.orientation.w = qs
+        slot.orientation.x = qx
+        slot.orientation.y = qy
+        slot.orientation.z = qz
     end
 
     -- The velocity is the simulator's own, sent beside the position. It is what
@@ -398,7 +507,7 @@ local function apply(parameters)
 
     -- Kept only when it is far enough past the one before it: an even interval
     -- draws a steadier curve than every sample at an uneven one.
-    local newest = link.buffer[#link.buffer]
+    local newest = slot.buffer[#slot.buffer]
 
     if stamp ~= nil and newest ~= nil and stamp - newest.stamp < SAMPLE_EVERY then
         stamp = nil
@@ -423,10 +532,10 @@ local function apply(parameters)
                 local r = covered / framed
 
                 if r > 0.001 and r < 1000 then
-                    if link.rate == nil then
-                        link.rate = r
+                    if slot.rate == nil then
+                        slot.rate = r
                     else
-                        link.rate = link.rate + (r - link.rate) * RATE_SETTLE
+                        slot.rate = slot.rate + (r - slot.rate) * RATE_SETTLE
                     end
                 end
             end
@@ -439,33 +548,33 @@ local function apply(parameters)
             -- Taken at once when it grows, and eased down by degrees: a late
             -- sample has to be answered immediately, while a run of prompt ones
             -- only means the lag can afford to come down, which is no hurry.
-            local late = framed * (link.rate or 1) - covered
+            local late = framed * (slot.rate or 1) - covered
 
             if late < 0 then
                 late = 0
             end
 
-            if link.jitter == nil or late > link.jitter then
-                link.jitter = late
+            if slot.jitter == nil or late > slot.jitter then
+                slot.jitter = late
             else
-                link.jitter = link.jitter + (late - link.jitter) * PACE_RELEASE
+                slot.jitter = slot.jitter + (late - slot.jitter) * PACE_RELEASE
             end
         end
 
-        link.buffer[#link.buffer + 1] = {
+        slot.buffer[#slot.buffer + 1] = {
             at = at,
             stamp = stamp,
-            x = link.position.x, y = link.position.y, z = link.position.z,
+            x = slot.position.x, y = slot.position.y, z = slot.position.z,
             vx = vx, vy = vy, vz = vz,
-            qw = link.orientation.w, qx = link.orientation.x,
-            qy = link.orientation.y, qz = link.orientation.z
+            qw = slot.orientation.w, qx = slot.orientation.x,
+            qy = slot.orientation.y, qz = slot.orientation.z
         }
 
         -- Only the last few are of any use: the picture is drawn a couple of
         -- intervals behind, and what is older than that is never asked for
         -- again.
-        while #link.buffer > KEPT do
-            table.remove(link.buffer, 1)
+        while #slot.buffer > KEPT do
+            table.remove(slot.buffer, 1)
         end
     end
 
@@ -477,16 +586,16 @@ local function apply(parameters)
         local mode = string.match(info, "([^|]+)$")
 
         if mode ~= nil then
-            link.mode = mode
+            slot.mode = mode
         end
     end
 
     -- The moment as the simulator wrote it, kept for the corner of the screen.
     -- The drawing uses the moment read out of it, a number of seconds; this is
     -- the text of it.
-    link.shownStamp = parameters["SIM_EPOCH_TIME"] or link.shownStamp
+    slot.shownStamp = parameters["SIM_EPOCH_TIME"] or slot.shownStamp
 
-    link.received = link.received + 1
+    slot.received = slot.received + 1
 end
 
 -- ---------------------------------------------------------------------------
@@ -497,8 +606,8 @@ end
 ---
 --- @return The fraction, from 0 at the older sample to 1 at the newer, and the
 --- seconds between the two; or nil when there are not two to draw between.
-local function between()
-    local buffer = link.buffer
+local function between(slot)
+    local buffer = slot.buffer
     local newest = buffer[#buffer]
 
     if newest == nil or #buffer < 2 then
@@ -511,7 +620,7 @@ local function between()
         return nil
     end
 
-    local rate = link.rate or 1
+    local rate = slot.rate or 1
     local wall = now()
 
     if wall == nil then
@@ -521,12 +630,12 @@ local function between()
     -- Behind the newest sample by a couple of intervals, plus however late
     -- delivery has lately been running. Two intervals is what makes the one
     -- being drawn an interval whose ends both arrived before it began.
-    link.lag = BEHIND * span + (link.jitter or 0)
+    slot.lag = BEHIND * span + (slot.jitter or 0)
 
-    if link.lag < MIN_LAG then
-        link.lag = MIN_LAG
-    elseif link.lag > MAX_LAG then
-        link.lag = MAX_LAG
+    if slot.lag < MIN_LAG then
+        slot.lag = MIN_LAG
+    elseif slot.lag > MAX_LAG then
+        slot.lag = MAX_LAG
     end
 
     -- The moment being drawn runs on a clock of its own: it advances with this
@@ -535,16 +644,16 @@ local function between()
     -- whenever a late sample arrives, and a step back is a spacecraft that
     -- twitches; a clock that is only nudged runs a little slow or fast for a
     -- moment instead.
-    local target = newest.stamp + (wall - newest.at) * rate - link.lag
+    local target = newest.stamp + (wall - newest.at) * rate - slot.lag
 
-    if link.moment == nil then
-        link.moment = target
+    if slot.moment == nil then
+        slot.moment = target
     else
-        local elapsed = (wall - link.momentAt) * rate
+        local elapsed = (wall - slot.momentAt) * rate
 
-        link.moment = link.moment + elapsed
+        slot.moment = slot.moment + elapsed
 
-        local drift = target - link.moment
+        local drift = target - slot.moment
         local most = elapsed * SLEW
 
         if drift > most then
@@ -553,20 +662,20 @@ local function between()
             drift = -most
         end
 
-        link.moment = link.moment + drift
+        slot.moment = slot.moment + drift
     end
 
-    link.momentAt = wall
+    slot.momentAt = wall
 
     -- The two samples the moment falls between. Both are already here: that is
     -- the whole point of drawing this far back.
     local older, newer = buffer[1], buffer[2]
 
     for i = 1, #buffer - 1 do
-        if buffer[i].stamp <= link.moment and link.moment <= buffer[i + 1].stamp then
+        if buffer[i].stamp <= slot.moment and slot.moment <= buffer[i + 1].stamp then
             older, newer = buffer[i], buffer[i + 1]
             break
-        elseif link.moment > buffer[i + 1].stamp then
+        elseif slot.moment > buffer[i + 1].stamp then
             older, newer = buffer[i], buffer[i + 1]
         end
     end
@@ -577,7 +686,7 @@ local function between()
         return nil
     end
 
-    local fraction = (link.moment - older.stamp) / reach
+    local fraction = (slot.moment - older.stamp) / reach
 
     -- Before the oldest sample, and past the newest when the next is late: the
     -- spacecraft is held at the end it has rather than carried beyond it.
@@ -597,11 +706,11 @@ end
 --- sample gives way to the next.
 ---
 --- @return Three numbers, in km, in the frame the .ssc declares.
-local function positionNow()
-    local fraction, span, older, newer = between()
+local function positionNow(slot)
+    local fraction, span, older, newer = between(slot)
 
     if fraction == nil then
-        return link.position.x, link.position.y, link.position.z
+        return slot.position.x, slot.position.y, slot.position.z
     end
 
     local s = fraction
@@ -628,11 +737,11 @@ end
 --- taken the short way round from one sample to the next.
 ---
 --- @return A table of w, x, y, z, as the rest of this module passes attitudes.
-local function orientationNow()
-    local fraction, _, older, newer = between()
+local function orientationNow(slot)
+    local fraction, _, older, newer = between(slot)
 
     if fraction == nil then
-        return link.orientation
+        return slot.orientation
     end
 
     local dot = older.qw * newer.qw + older.qx * newer.qx
@@ -669,16 +778,48 @@ local function orientationNow()
     local norm = math.sqrt(w * w + x * x + y * y + z * z)
 
     if norm == 0 then
-        return link.orientation
+        return slot.orientation
     end
     return {w = w / norm, x = x / norm, y = y / norm, z = z / norm}
 end
 
 --- Takes whatever the simulator has sent since the last frame, answers each
 --- message, and keeps the newest. Called once per frame and never waits.
+--- Takes whatever one simulator has sent since the last frame, and answers
+--- each message. Never waits: a frame is being drawn.
+local function readFrom(slot)
+    while true do
+        local line, err = slot.socket:receive("*l")
+
+        if line == nil then
+            if err == "timeout" then
+                -- Nothing more to read this frame, which is the normal case.
+                return
+            end
+            -- The other end has gone away.
+            disconnect(slot)
+            return
+        end
+
+        if line:find(STOP, 1, true) ~= nil then
+            disconnect(slot)
+            return
+        end
+
+        local parameters = parseMessage(line)
+        if parameters ~= nil then
+            apply(slot, parameters)
+            -- Every message has to be answered or the simulator resends it and
+            -- then gives up.
+            if slot.socket:send(ACK .. "\n") == nil then
+                disconnect(slot)
+                return
+            end
+        end
+    end
+end
+
 local function poll()
-    -- What instant this frame is for. Everything the picture is timed by is
-    -- measured against it.
     if socket == nil then
         return
     end
@@ -687,39 +828,16 @@ local function poll()
         return
     end
 
-    if not link.connected then
-        if not acceptOne() then
-            return
-        end
+    -- Everyone waiting is taken, not merely the first: a constellation dials
+    -- in all at once, and one taken per frame would leave the rest holding a
+    -- connection nobody reads.
+    while acceptOne() do
+        -- Taking them until there are none left, or no slot to put them in.
     end
 
-    while true do
-        local line, err = link.socket:receive("*l")
-
-        if line == nil then
-            if err == "timeout" then
-                -- Nothing more to read this frame, which is the normal case.
-                return
-            end
-            -- The other end has gone away.
-            disconnect()
-            return
-        end
-
-        if line:find(STOP, 1, true) ~= nil then
-            disconnect()
-            return
-        end
-
-        local parameters = parseMessage(line)
-        if parameters ~= nil then
-            apply(parameters)
-            -- Every message has to be answered or the simulator resends it and
-            -- then gives up.
-            if link.socket:send(ACK .. "\n") == nil then
-                disconnect()
-                return
-            end
+    for _, slot in ipairs(slots) do
+        if slot.connected then
+            readFrom(slot)
         end
     end
 end
@@ -756,30 +874,75 @@ end
 -- What Celestia asks for
 -- ---------------------------------------------------------------------------
 
---- Shows what the spacecraft is doing, in the corner of the screen.
+-- What each slot drives, as Celestia shows it on screen. Those names are fixed
+-- when opssat.ssc is read, before any simulator has spoken, so they can say
+-- only which slot a spacecraft is in; what it is called is written beside them
+-- in the corner.
+--
+-- Hanging the real name on the object itself was tried and is not open to us:
+-- Celestia runs this module in a Lua state apart from the one its scripts run
+-- in, and reaching for the objects from here brings the whole program down
+-- rather than failing in a way that can be caught.
+local SLOT_OBJECTS = {"cubesat-1", "cubesat-2", "cubesat-3", "cubesat-4"}
+
+--- Says what each spacecraft is, and what it is doing, in the corner.
 ---
 --- A commanded turn is otherwise only to be recognised by the spacecraft
---- beginning to move, which is some seconds after the mode has changed.
+--- beginning to move, which is some seconds after the mode has changed. With
+--- a constellation there is the further question of which of them is which:
+--- the catalogue names are fixed when Celestia reads opssat.ssc and cannot
+--- say, so the names the simulators give are written here instead.
 local function showStatus()
     if not SHOW_STATUS or celestia == nil then
         return
     end
 
-    local text = link.mode or ""
+    local lines = {}
 
-    if link.shownStamp ~= nil then
+    for _, slot in ipairs(slots) do
+        if slot.connected or slot.received > 0 then
+            -- The name on screen first, then the name the simulator gave, so
+            -- that the spacecraft in the picture can be told from the list.
+            local line = (SLOT_OBJECTS[slot.number] or slot.number) .. " = "
+                    .. tostring(slot.name or "a simulator that did not say")
+
+            if slot.mode ~= nil then
+                line = line .. "  " .. slot.mode
+            end
+
+            if not slot.connected then
+                line = line .. "  (gone)"
+            end
+            lines[#lines + 1] = line
+        end
+    end
+
+    if #lines == 0 then
+        return
+    end
+
+    -- The moment of the newest position any of them has sent. They keep their
+    -- own clocks and run within a moment of each other, so one line serves for
+    -- all and says whether the picture is live.
+    local newest = nil
+
+    for _, slot in ipairs(slots) do
+        if slot.shownStamp ~= nil and (newest == nil or slot.shownStamp > newest) then
+            newest = slot.shownStamp
+        end
+    end
+
+    if newest ~= nil then
         -- The wire keeps what ISO 8601 asks for: a T between the date and the
         -- time, and a Z for the zone. Read off a screen, a space is easier on
         -- the eye, and there is only one clock here for the Z to distinguish
         -- it from.
-        local when = string.gsub(link.shownStamp, "T", " ")
+        local when = string.gsub(newest, "T", " ")
         when = string.gsub(when, "Z$", "")
-        text = text .. "\n" .. when
+        lines[#lines + 1] = when
     end
 
-    if text == "" then
-        return
-    end
+    local text = table.concat(lines, "\n")
 
     pcall(function()
         celestia:print(text, STATUS_SHOWN_FOR, STATUS_LEFT, STATUS_BOTTOM,
@@ -788,8 +951,53 @@ local function showStatus()
 end
 
 --- Named by the ScriptedOrbit in opssat.ssc.
+-- How often the links are read and the labels written, in seconds. Frames are
+-- drawn a hundred times a second or more and positions arrive ten times a
+-- second: reading every frame, for every spacecraft, is a great many system
+-- calls to find nothing.
+local POLL_EVERY = 0.01
+
+local lastPolled = 0
+
+--- Reads the links and writes the labels, a hundred times a second at most.
+---
+--- Every spacecraft calls this, rather than one of them doing it for the rest:
+--- Celestia asks only about objects it is drawing, and a slot no simulator has
+--- taken is hidden inside the Earth, so the one chosen to do the work might be
+--- the one never asked.
+local function pollOnce()
+    local t = now()
+
+    if t ~= nil and t - lastPolled < POLL_EVERY then
+        return
+    end
+
+    lastPolled = t or 0
+    poll()
+    showStatus()
+end
+
+--- Which slot the object asking belongs to.
+---
+--- opssat.ssc gives each spacecraft a Slot of its own, so that the object and
+--- the simulator driving it stay paired. A definition that names none is the
+--- single spacecraft this module used to draw, which is slot one.
+local function slotOf(parameters)
+    local number = 1
+
+    if type(parameters) == "table" and tonumber(parameters.Slot) ~= nil then
+        number = tonumber(parameters.Slot)
+    end
+
+    if number < 1 or number > MAX_SLOTS then
+        number = 1
+    end
+    return slots[number]
+end
+
 function RealTimeOrbit(parameters)
     local orbit = {}
+    local slot = slotOf(parameters)
 
     -- Far enough out to cover any orbit the simulator is likely to propagate.
     -- Celestia uses this to decide when the object is worth drawing, not where
@@ -803,9 +1011,8 @@ function RealTimeOrbit(parameters)
     -- The simulator sends kilometres in the frame the .ssc declares, which is
     -- what Celestia wants here, so the numbers are passed straight through.
     function orbit:position(tjd)
-        poll()
-        showStatus()
-        return positionNow()
+        pollOnce()
+        return positionNow(slot)
     end
 
     return orbit
@@ -815,6 +1022,7 @@ end
 -- luacheck: globals RealTimeRotation
 function RealTimeRotation(parameters)
     local rotation = {}
+    local slot = slotOf(parameters)
 
     -- The attitude comes from outside and does not repeat, so Celestia is told
     -- not to treat it as periodic.
@@ -828,8 +1036,8 @@ function RealTimeRotation(parameters)
     -- are composed here.
     --
     function rotation:orientation(tjd)
-        poll()
-        return toCelestiaFrame(orientationNow())
+        pollOnce()
+        return toCelestiaFrame(orientationNow(slot))
     end
 
     return rotation

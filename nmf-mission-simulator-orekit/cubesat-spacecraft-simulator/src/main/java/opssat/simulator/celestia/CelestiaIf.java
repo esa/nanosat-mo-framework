@@ -116,6 +116,32 @@ public class CelestiaIf implements Runnable {
         this.MISSION_ID = mission_ID;
     }
 
+    /**
+     * The name of this spacecraft, as one word.
+     * <p>
+     * A segment of a constellation is told what it is called when it is
+     * started, every segment being built from one image. A spacecraft that is
+     * told nothing falls back to the mission it belongs to, which is what a
+     * mission of one spacecraft has always been called here.
+     *
+     * @return The name, with any space in it closed up: the message it goes
+     * into is read as a list of words.
+     */
+    /**
+     * Whether Celestia having no room for this spacecraft has been reported.
+     * As with its absence: said once, and not again until it answers.
+     */
+    private boolean refusalReported = false;
+
+    private String spacecraftName() {
+        String name = System.getenv("SPACECRAFT_NAME");
+
+        if (name == null || name.trim().isEmpty()) {
+            name = this.MISSION_ID;
+        }
+        return name.trim().replaceAll("\\s+", "-");
+    }
+
     @Override
     public void run() {
         this.init();
@@ -242,8 +268,6 @@ public class CelestiaIf implements Runnable {
             // Bounds the wait for an acknowledgement, which is now done by
             // reading rather than by polling.
             connection.setSoTimeout(DURATION_ACK_RECOVER);
-            logger.log(Level.INFO, "Connected to Celestia at " + connection.getInetAddress().getHostAddress()
-                + ":" + connection.getPort());
 
             //3. get Input and Output streams
             //output stream: MO Consumer -> Celestia
@@ -255,8 +279,13 @@ public class CelestiaIf implements Runnable {
             this.in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
             //4. handshake
-            logger.log(Level.FINE, "Handshake - SENT - " + this.HANDSHAKE_MESSAGE);
-            sendMessage(this.HANDSHAKE_MESSAGE);
+            // The spacecraft says which one it is, so that a Celestia drawing
+            // a constellation can tell them apart and give each the same slot
+            // again when it comes back. A Celestia that does not read the name
+            // is none the worse: it looks for the greeting within the line.
+            String greeting = this.HANDSHAKE_MESSAGE + " " + spacecraftName();
+            logger.log(Level.FINE, "Handshake - SENT - " + greeting);
+            sendMessage(greeting);
 
             // Read for the answer rather than poll for it, as above: a client
             // that connects and then goes away is noticed at once instead of
@@ -268,10 +297,27 @@ public class CelestiaIf implements Runnable {
                 message = null;
             }
             if (message == null) {
-                logger.log(Level.FINE, "No reply to handshake");
+                // Celestia let the connection be made and then let it go
+                // without a word, which is what it does when it has no room
+                // for another spacecraft: it draws a fixed number of them, and
+                // they are all taken. Said once, like the absence above, or a
+                // spacecraft that is one too many fills the log with it.
+                if (!refusalReported) {
+                    logger.log(Level.INFO, "Celestia at " + this.host + ":" + this.port
+                            + " did not answer the greeting of " + spacecraftName()
+                            + ", which it does when it is already drawing as many spacecraft as "
+                            + "it has room for. Retrying every " + (DURATION_RETRY / 1000)
+                            + " seconds, and this will not be reported again until it answers.");
+                    refusalReported = true;
+                }
                 return false;
             }
             logger.log(Level.FINE, "Handshake - RECEIVED - " + message);
+
+            // Connected, and agreed to: the greeting was answered.
+            logger.log(Level.INFO, "Connected to Celestia at " + connection.getInetAddress().getHostAddress()
+                + ":" + connection.getPort());
+            refusalReported = false;
 
             retries = 0;
 
