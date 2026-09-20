@@ -320,47 +320,14 @@ public class SimulatorNode extends TaskNode {
         // (orbital period: 1.63 hours)
         // (double a, double i, double RAAN, double arg_per, double true_anomaly,
         // initial epoch)
-        double OPS_SAT_A = DEFAULT_OPS_SAT_A;
-        double OPS_SAT_E = 0;
-        double OPS_SAT_ORBIT_I = 98.05;// [deg]
-        double OPS_SAT_RAAN = 340;// [deg]
-        double OPS_SAT_ARG_PER = 0;// [deg]
-        double OPS_SAT_TRUE_ANOMALY = 0;// [deg]
-        // Try to obtain kepler elements from default
-        boolean keplerElementsOk = true;
-        boolean displayKeplerElementsWarning = false;
-        if (simulatorHeader.getKeplerElements() != null) {
-            String[] list = simulatorHeader.getKeplerElements().split(";");
-            if (list.length == 6) {
-                OPS_SAT_A = Double.parseDouble(list[0]);
-                OPS_SAT_E = Double.parseDouble(list[1]);
-                OPS_SAT_ORBIT_I = Double.parseDouble(list[2]);
-                OPS_SAT_RAAN = Double.parseDouble(list[3]);
-                OPS_SAT_ARG_PER = Double.parseDouble(list[4]);
-                OPS_SAT_TRUE_ANOMALY = Double.parseDouble(list[5]);
+        double[] orbit = orbitOf(simulatorHeader.getKeplerElements(), this.logger);
+        double OPS_SAT_A = orbit[0];
+        double OPS_SAT_E = orbit[1];
+        double OPS_SAT_ORBIT_I = orbit[2];
+        double OPS_SAT_RAAN = orbit[3];
+        double OPS_SAT_ARG_PER = orbit[4];
+        double OPS_SAT_TRUE_ANOMALY = orbit[5];
 
-            } else {
-                displayKeplerElementsWarning = true;
-                keplerElementsOk = false;
-            }
-        } else {
-            keplerElementsOk = false;
-        }
-        if (keplerElementsOk) {
-            this.logger.log(Level.FINE, "Keplerian elements loaded successfuly from header file.");
-        } else {
-            if (displayKeplerElementsWarning) {
-                this.logger.log(Level.WARNING,
-                        "Errors found during parsing of simulator header. Loading default OPS-SAT keplerian elements.");
-            }
-            OPS_SAT_A = DEFAULT_OPS_SAT_A;
-            OPS_SAT_E = DEFAULT_OPS_SAT_E;
-            OPS_SAT_ORBIT_I = DEFAULT_OPS_SAT_ORBIT_I;
-            OPS_SAT_RAAN = DEFAULT_OPS_SAT_RAAN;
-            OPS_SAT_ARG_PER = DEFAULT_OPS_SAT_ARG_PER;
-            OPS_SAT_TRUE_ANOMALY = DEFAULT_OPS_SAT_TRUE_ANOMALY;
-
-        }
         this.logger.log(Level.FINE, "Calling orekit constructor");
         try {
             this.orekitCore = new OrekitCore(OPS_SAT_A * 1000, OPS_SAT_E, OPS_SAT_ORBIT_I, OPS_SAT_ARG_PER,
@@ -1114,6 +1081,70 @@ public class SimulatorNode extends TaskNode {
     }
 
     // Globals
+    /**
+     * Reads the orbit a header file gives, or the one this simulator flies when
+     * it gives none it can fly.
+     * <p>
+     * The elements are read as they are written, in the order
+     * A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg]. What is not an orbit
+     * is not flown: a semi-major axis within the Earth is no orbit at all, and
+     * the one a spacecraft is most often given by accident is zero, which is
+     * the placeholder an image carries until it is told where to fly. Left to
+     * the propagator, that produced a position of NaN and a spacecraft that
+     * never moved, reported as healthily as any other.
+     *
+     * @param elements The elements as the header file writes them, or null.
+     * @param logger Where to say what was made of them.
+     * @return The six elements, in the order above.
+     */
+    static double[] orbitOf(final String elements, final java.util.logging.Logger logger) {
+        final double[] fallback = {DEFAULT_OPS_SAT_A, DEFAULT_OPS_SAT_E, DEFAULT_OPS_SAT_ORBIT_I,
+            DEFAULT_OPS_SAT_RAAN, DEFAULT_OPS_SAT_ARG_PER, DEFAULT_OPS_SAT_TRUE_ANOMALY};
+
+        if (elements == null) {
+            return fallback;
+        }
+
+        String[] list = elements.split(";");
+
+        if (list.length != 6) {
+            logger.log(Level.WARNING, "The orbit in the header file has {0} elements where six are "
+                    + "asked for, so the default orbit is flown instead: {1}",
+                    new Object[]{list.length, elements});
+            return fallback;
+        }
+
+        double[] read = new double[6];
+
+        for (int i = 0; i < read.length; i++) {
+            try {
+                read[i] = Double.parseDouble(list[i].trim());
+            } catch (NumberFormatException ex) {
+                logger.log(Level.WARNING, "An element of the orbit in the header file is not a "
+                        + "number, so the default orbit is flown instead: {0}", elements);
+                return fallback;
+            }
+        }
+
+        if (read[0] <= EARTH_RADIUS) {
+            logger.log(Level.WARNING, "The orbit in the header file passes within the Earth, its "
+                    + "semi-major axis being {0} km, so the default orbit is flown instead. A "
+                    + "spacecraft is given its own orbit through the KEPLER_A and the rest of that "
+                    + "family in its environment.", read[0]);
+            return fallback;
+        }
+
+        if (read[1] < 0 || read[1] >= 1) {
+            logger.log(Level.WARNING, "The orbit in the header file is not one a spacecraft stays "
+                    + "in, its eccentricity being {0}, so the default orbit is flown instead.",
+                    read[1]);
+            return fallback;
+        }
+
+        logger.log(Level.FINE, "Keplerian elements loaded successfuly from header file.");
+        return read;
+    }
+
     public Object runGenericMethod(int internalID, ArrayList<Object> argObject) {
         CommandDescriptor c = new CommandDescriptor("external", "external",
                 "external", internalID, super.getLogObject());
