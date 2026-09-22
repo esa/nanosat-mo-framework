@@ -167,16 +167,13 @@ public class ConstellationCli {
 
         try {
             String uri = DockerApi.runConstellationDirectory(DIRECTORY_NAME, nodes);
-            LOGGER.log(Level.INFO, "The Directory service of the constellation was started in "
-                    + "the container {0}. To see its log: docker logs {0}", DIRECTORY_NAME);
-            System.out.println();
-            System.out.println("The whole constellation is at:");
-            System.out.println("    " + uri);
+            LOGGER.log(Level.INFO, "The Directory service of the constellation was started!"
+                    + "\n  >> Container: {0}"
+                    + "\n  >> Logs available with: docker logs {0}\n", DIRECTORY_NAME);
+            LOGGER.log(Level.INFO, "Directory URI: {0}", uri);
         } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "The Directory service of the constellation could not be "
-                    + "started, so the constellation has no one address to be reached at. Every "
-                    + "segment is up and reachable at its own, written out above.\n{0}",
-                    ex.getMessage());
+            LOGGER.log(Level.SEVERE, "The Directory service of the "
+                    + "constellation could not be started!", ex.getMessage());
         }
     }
 
@@ -212,7 +209,6 @@ public class ConstellationCli {
         }
 
         System.out.println();
-        System.out.println("The constellation is up. Interrupt this command to remove it.");
     }
 
     /**
@@ -232,8 +228,8 @@ public class ConstellationCli {
             try {
                 DockerApi.removeConstellationDirectory(DIRECTORY_NAME);
             } catch (IOException ex) {
-                System.err.println("The Directory service of the constellation could not be "
-                        + "removed: " + ex.getMessage());
+                System.err.println("The Directory service of the constellation"
+                        + " could not be removed: " + ex.getMessage());
             }
             interrupted.countDown();
         }));

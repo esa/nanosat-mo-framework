@@ -235,7 +235,7 @@ public class ConstellationManagementTool {
                 this.constellation.add(nanoSat);
             }
 
-            LOGGER.log(Level.INFO, "Successfully added nodes to constellation. ");
+            LOGGER.log(Level.INFO, "Successfully added nodes to constellation.");
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "Failed to add nodes to constellation: ", ex);
             throw ex;
