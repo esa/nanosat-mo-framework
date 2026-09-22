@@ -128,11 +128,10 @@ public class ConstellationCli {
                     + ex.getMessage());
             return EXIT_USAGE;
         } catch (IOException ex) {
-            System.err.println("The constellation could not be raised: " + ex.getMessage());
-
-            if (ex.toString().contains("permission denied")) {
-                System.err.println("Has the user running this command been given the use of Docker?");
-            }
+            String hint = ex.toString().contains("permission denied")
+                    ? "\nHas the user running this command been given the use of Docker?" : "";
+            LOGGER.log(Level.SEVERE, "The constellation could not be raised.\n{0}{1}",
+                    new Object[]{ex.getMessage(), hint});
 
             // The segments that did come up are of a constellation that is not
             // there, so they are taken down rather than left behind.
@@ -172,8 +171,9 @@ public class ConstellationCli {
             try {
                 nodes.add(nanoSat.getDirectoryServiceURIString());
             } catch (IOException ex) {
-                System.err.println("The address of this segment could not be read, so it will not "
-                        + "be in the Directory service of the constellation: " + nanoSat.getName());
+                LOGGER.log(Level.WARNING, "The address of this segment could not be read, so it "
+                        + "will not be in the Directory service of the constellation: {0}",
+                        nanoSat.getName());
             }
         }
 
