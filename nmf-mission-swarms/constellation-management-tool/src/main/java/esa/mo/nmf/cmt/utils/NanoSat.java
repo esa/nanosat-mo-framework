@@ -133,7 +133,12 @@ public class NanoSat {
      * @throws IOException
      */
     public String getDirectoryServiceURIString() throws IOException {
-        Logger.getLogger(NanoSat.class.getName()).log(Level.INFO, "The IP Adress is: {0}", this.getIPAddress());
+        // Said as a detail rather than as news. It is asked for once a segment,
+        // and what it announces is in the address it returns and in the list of
+        // segments that is written out from it: a constellation of any size
+        // said it twice over, between the lines of its own report.
+        Logger.getLogger(NanoSat.class.getName()).log(Level.FINE,
+                "The address of this segment is: {0}", this.getIPAddress());
         return ("maltcp://" + this.getIPAddress() + ":1024/nanosat-mo-supervisor-Directory");
     }
 

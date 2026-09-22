@@ -40,6 +40,15 @@
         </developer>
     </developers>
 
+    <properties>
+        <assembly.mainClass>esa.mo.nmf.groundmoproxy.ConstellationDirectory</assembly.mainClass>
+        <!-- Image name for the docker profile; the tag is the project version. -->
+        <docker.image.name>nmf-constellation-directory</docker.image.name>
+        <!-- Container build tool; override with -Ddocker.executable=podman or a
+             full path if it is not on the PATH. -->
+        <docker.executable>docker</docker.executable>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>int.esa.nmf.core</groupId>
@@ -87,6 +96,72 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.7</version>
             </plugin>
+            <!-- Activate assembly plugin, configured by parent to emit a jar with dependencies -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>${assembly.mainClass}</mainClass>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <finalName>${project.artifactId}</finalName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <!-- Builds the container the constellation is answered for from.
+             Consumes the jar built above, so build the module first:
+               mvn -pl nmf-mission-swarms/swarms-proxy install -Pdocker -->
+        <profile>
+            <id>docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>docker-build</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>${docker.executable}</executable>
+                                    <workingDirectory>${project.basedir}</workingDirectory>
+                                    <arguments>
+                                        <argument>build</argument>
+                                        <argument>-t</argument>
+                                        <argument>${docker.image.name}:${project.version}</argument>
+                                        <argument>-t</argument>
+                                        <argument>${docker.image.name}:latest</argument>
+                                        <argument>.</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

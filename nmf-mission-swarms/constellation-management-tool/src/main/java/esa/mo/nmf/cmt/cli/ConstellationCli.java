@@ -22,12 +22,17 @@ package esa.mo.nmf.cmt.cli;
 
 import esa.mo.nmf.cmt.ConstellationManagementTool;
 import esa.mo.nmf.cmt.utils.ContainerApi;
+import esa.mo.nmf.cmt.utils.DockerApi;
 import esa.mo.nmf.cmt.utils.NanoSat;
 import esa.mo.nmf.cmt.utils.NanoSatSimulator;
 import esa.mo.nmf.cmt.utils.SegmentOrbits;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Raises a constellation from the command line.
@@ -40,6 +45,8 @@ import java.util.concurrent.CountDownLatch;
  * nobody is watching.
  */
 public class ConstellationCli {
+
+    private static final Logger LOGGER = Logger.getLogger(ConstellationCli.class.getName());
 
     /**
      * The constellation was raised and has been removed again.
@@ -118,8 +125,59 @@ public class ConstellationCli {
         }
 
         report(cmt);
+        answerForTheConstellation(cmt);
         awaitInterruption();
         return EXIT_OK;
+    }
+
+    /**
+     * The container that answers for the constellation, named so that it is
+     * recognisable beside the segments and removed with them.
+     */
+    private static final String DIRECTORY_NAME = ConstellationManagementTool.SEGMENT_PREFIX
+            + "constellation-directory";
+
+    /**
+     * Raises the one Directory service that answers for the whole
+     * constellation, so that it is reached at one address rather than at one
+     * address per segment.
+     * <p>
+     * A constellation that could not be answered for is still a constellation:
+     * every segment is up and reachable at the address written out above, so a
+     * failure here is said and passed over rather than taken as a failure to
+     * raise it.
+     *
+     * @param cmt The tool holding the constellation.
+     */
+    private static void answerForTheConstellation(ConstellationManagementTool cmt) {
+        List<String> nodes = new ArrayList<>();
+
+        for (NanoSat nanoSat : cmt.getConstellation()) {
+            try {
+                nodes.add(nanoSat.getDirectoryServiceURIString());
+            } catch (IOException ex) {
+                System.err.println("The address of this segment could not be read, so it will not "
+                        + "be in the Directory service of the constellation: " + nanoSat.getName());
+            }
+        }
+
+        if (nodes.isEmpty()) {
+            return;
+        }
+
+        try {
+            String uri = DockerApi.runConstellationDirectory(DIRECTORY_NAME, nodes);
+            LOGGER.log(Level.INFO, "The Directory service of the constellation was started in "
+                    + "the container {0}. To see its log: docker logs {0}", DIRECTORY_NAME);
+            System.out.println();
+            System.out.println("The whole constellation is at:");
+            System.out.println("    " + uri);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "The Directory service of the constellation could not be "
+                    + "started, so the constellation has no one address to be reached at. Every "
+                    + "segment is up and reachable at its own, written out above.\n{0}",
+                    ex.getMessage());
+        }
     }
 
     /**
@@ -168,6 +226,15 @@ public class ConstellationCli {
         CountDownLatch interrupted = new CountDownLatch(1);
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("Removing the segments of the constellation...");
+
+            // The one that answers for them is a container like the rest, and
+            // is of no use once there is nothing left to answer for.
+            try {
+                DockerApi.removeConstellationDirectory(DIRECTORY_NAME);
+            } catch (IOException ex) {
+                System.err.println("The Directory service of the constellation could not be "
+                        + "removed: " + ex.getMessage());
+            }
             interrupted.countDown();
         }));
 

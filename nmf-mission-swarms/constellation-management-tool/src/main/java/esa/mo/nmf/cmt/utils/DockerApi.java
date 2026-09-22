@@ -71,6 +71,22 @@ public class DockerApi extends ContainerApi {
      */
     private static final String ENV_CELESTIA_HOST = "CELESTIA_HOST";
 
+    /**
+     * The image that answers for the constellation. Built from the swarms
+     * proxy: mvn -pl nmf-mission-swarms/swarms-proxy install -Pdocker
+     */
+    private static final String DIRECTORY_IMAGE = "nmf-constellation-directory";
+
+    /**
+     * Where that one answers, which is the address below the gateway.
+     * <p>
+     * It is not a node and is not numbered among them: the nodes are given the
+     * bottom of the subnet and count upwards, so the top of it is free. The
+     * address is fixed so that the constellation is always found at the same
+     * place.
+     */
+    private static final String DIRECTORY_ADDRESS = PREFIX + ".255.253";
+
     private final String image;
 
     public DockerApi(String image) {
@@ -127,7 +143,7 @@ public class DockerApi extends ContainerApi {
             throw explain(ex);
         }
 
-        Logger.getLogger(DockerApi.class.getName()).log(Level.INFO, "The output is: {0}", output);
+        Logger.getLogger(DockerApi.class.getName()).log(Level.FINE, "Docker said: {0}", output);
     }
 
     /**
@@ -190,6 +206,71 @@ public class DockerApi extends ContainerApi {
             }
         }
         return segments;
+    }
+
+    /**
+     * Raises the container that answers for the whole constellation.
+     * <p>
+     * It is a server and runs as one, beside the segments rather than inside
+     * whatever raised them: its logs are its own, the COM Archive it brings
+     * with it is written inside it, and it is taken down with the segments.
+     *
+     * @param name The name to give the container.
+     * @param nodes The Directory service of each segment, as the segments
+     * themselves advertise it.
+     * @return The address its Directory service will answer at.
+     * @throws IOException if the container could not be run.
+     */
+    public static String runConstellationDirectory(String name, List<String> nodes)
+            throws IOException {
+        ensureNetwork();
+
+        StringBuilder strBuilder = new StringBuilder("docker run ");
+        strBuilder.append(String.format("--network %s --ip %s ", NETWORK, DIRECTORY_ADDRESS));
+        strBuilder.append(String.format("--name %s -h %s -d %s", name, name, DIRECTORY_IMAGE));
+
+        for (String node : nodes) {
+            strBuilder.append(" ").append(node);
+        }
+
+        String output;
+
+        try {
+            output = executeCommand(strBuilder.toString());
+        } catch (IOException ex) {
+            if (String.valueOf(ex.getMessage()).contains("Unable to find image")) {
+                // Said here rather than by explain(), which knows only that an
+                // image is missing: this one is built from a module of the
+                // framework, and saying which spares the reader the search.
+                throw new IOException("The image that answers for a constellation has not been "
+                        + "built on this machine. Build it with:\n"
+                        + "    mvn -pl nmf-mission-swarms/swarms-proxy install -Pdocker\n"
+                        + "and raise the constellation again. The segments themselves need "
+                        + "nothing: they are up, and each is reachable at its own address.");
+            }
+            throw explain(ex);
+        }
+
+        Logger.getLogger(DockerApi.class.getName()).log(Level.FINE, "Docker said: {0}", output);
+        return String.format("maltcp://%s:1024/constellation-directory-Directory", DIRECTORY_ADDRESS);
+    }
+
+    /**
+     * Removes the container that answers for the constellation.
+     * <p>
+     * One that was never raised is not an error: the constellation may have
+     * been raised before this container existed, or the image may not be
+     * built on this machine.
+     *
+     * @param name The name it was given.
+     * @throws IOException if it is there and could not be removed.
+     */
+    public static void removeConstellationDirectory(String name) throws IOException {
+        try {
+            executeCommand(String.format("docker rm -f %s", name));
+        } catch (IOException ex) {
+            ignoreIfGone(ex, name);
+        }
     }
 
     /**
@@ -256,7 +337,7 @@ public class DockerApi extends ContainerApi {
     public void start(String name) throws IOException {
         String cmd = String.format("docker start %s", name);
         String output = executeCommand(cmd);
-        Logger.getLogger(DockerApi.class.getName()).log(Level.INFO, "The output is: {0}", output);
+        Logger.getLogger(DockerApi.class.getName()).log(Level.FINE, "Docker said: {0}", output);
     }
 
     /**
