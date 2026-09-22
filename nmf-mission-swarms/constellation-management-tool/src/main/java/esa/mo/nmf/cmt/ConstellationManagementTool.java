@@ -32,6 +32,7 @@ import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -111,6 +112,20 @@ public class ConstellationManagementTool {
         if (this.listener != null) {
             this.listener.constellationChanged();
         }
+    }
+
+    /**
+     * How long it has been since a moment, in seconds, to the millisecond.
+     * <p>
+     * Written with a dot for a decimal point whatever the machine is set to,
+     * so that a time reads the same wherever it is reported.
+     *
+     * @param startedAt The moment, as given by {@link System#nanoTime()}.
+     * @return The seconds since, as text.
+     */
+    private static String secondsSince(long startedAt) {
+        double seconds = (System.nanoTime() - startedAt) / 1_000_000_000.0;
+        return String.format(Locale.ROOT, "%.3f", seconds);
     }
 
     /**
@@ -237,6 +252,8 @@ public class ConstellationManagementTool {
      * @throws java.io.IOException if the simulation could not be started.
      */
     public void addBasicSimulations(String name, int size, SegmentImage image) throws IOException {
+        long startedAt = System.nanoTime();
+
         try {
             for (int i = 0; i < size; i++) {
                 int nodeNumber = nextSpacecraftNode();
@@ -247,7 +264,8 @@ public class ConstellationManagementTool {
                 this.segmentRaised(nanoSat);
             }
 
-            LOGGER.log(Level.INFO, "Successfully added nodes to constellation.");
+            LOGGER.log(Level.INFO, "Successfully added nodes to constellation in: {0} seconds",
+                    secondsSince(startedAt));
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "Failed to add nodes to constellation: ", ex);
             throw ex;
@@ -269,6 +287,8 @@ public class ConstellationManagementTool {
      */
     public void addSimulationsWithOrbits(Map<String, String[]> nanoSatConfigurations,
             SegmentImage image) throws IOException {
+        long startedAt = System.nanoTime();
+
         try {
             for (Map.Entry<String, String[]> config : nanoSatConfigurations.entrySet()) {
                 String name = segmentName(config.getKey());
@@ -282,7 +302,8 @@ public class ConstellationManagementTool {
             }
 
             int size = nanoSatConfigurations.size();
-            LOGGER.log(Level.INFO, "Successfully added {0} nodes to the constellation!", size);
+            LOGGER.log(Level.INFO, "Successfully added {0} nodes to the constellation in: "
+                    + "{1} seconds", new Object[]{size, secondsSince(startedAt)});
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "Failed to add nodes to constellation: ", ex);
             throw ex;
