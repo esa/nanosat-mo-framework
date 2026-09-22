@@ -36,6 +36,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -85,6 +86,8 @@ public class ConstellationManagerGui extends JFrame implements ConstellationList
     private JButton btnAppManager;
     private JMenuItem miRemoveAll;
     private JTextPane tpContainerMonitoring;
+    private JTextField tfDirectoryServiceURI;
+    private JButton btnCopyDirectoryURI;
     private DefaultTableModel tableModel;
 
     /**
@@ -125,6 +128,17 @@ public class ConstellationManagerGui extends JFrame implements ConstellationList
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 AddSimulationFromCsvGui addSimulationFromCsvGui = new AddSimulationFromCsvGui(cmt);
+            }
+        });
+        btnCopyDirectoryURI.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                String uri = tfDirectoryServiceURI.getText();
+
+                if (!uri.isEmpty()) {
+                    Toolkit.getDefaultToolkit().getSystemClipboard()
+                            .setContents(new StringSelection(uri), null);
+                }
             }
         });
         miRemoveAll.addActionListener(new ActionListener() {
@@ -365,11 +379,23 @@ public class ConstellationManagerGui extends JFrame implements ConstellationList
     }
 
     /**
+     * Shows the one address the whole constellation is reached at, or nothing
+     * where there is no constellation up or it could not be answered for.
+     */
+    private void showDirectoryServiceURI() {
+        String uri = cmt.getDirectoryServiceURI();
+        tfDirectoryServiceURI.setText(uri == null ? "" : uri);
+        tfDirectoryServiceURI.setCaretPosition(0);
+        btnCopyDirectoryURI.setEnabled(uri != null && !uri.isEmpty());
+    }
+
+    /**
      * Refreshes the table that shows the NanoSat segments of the constellation.
      */
     public void refreshNanoSatSegmentList() {
         this.tableModel.setRowCount(0);
         lblNanoSatSegmentNumber.setText(String.valueOf(0));
+        showDirectoryServiceURI();
         cmt.getConstellation().forEach(nanoSat -> {
             if (nanoSat.isActive()) {
                 String ipAddress = "null";
@@ -438,7 +464,7 @@ public class ConstellationManagerGui extends JFrame implements ConstellationList
         tpContainerMonitoring.setText("");
         scrollPane1.setViewportView(tpContainerMonitoring);
         final JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridLayoutManager(1, 5, new Insets(0, 5, 0, 6), -1, -1));
+        panel2.setLayout(new GridLayoutManager(2, 5, new Insets(0, 5, 0, 6), -1, -1));
         cmtPanel.add(panel2, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         lblNanoSatSegmentNumber = new JLabel();
         lblNanoSatSegmentNumber.setHorizontalTextPosition(0);
@@ -456,6 +482,17 @@ public class ConstellationManagerGui extends JFrame implements ConstellationList
         btnAppManager = new JButton();
         btnAppManager.setText("App Manager");
         panel2.add(btnAppManager, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        btnCopyDirectoryURI = new JButton();
+        btnCopyDirectoryURI.setEnabled(false);
+        btnCopyDirectoryURI.setText("Copy");
+        btnCopyDirectoryURI.setToolTipText("Copy the address of the constellation to the clipboard");
+        panel2.add(btnCopyDirectoryURI, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        tfDirectoryServiceURI = new JTextField();
+        tfDirectoryServiceURI.setBackground(new Color(-1));
+        tfDirectoryServiceURI.setEditable(false);
+        tfDirectoryServiceURI.setText("");
+        tfDirectoryServiceURI.setToolTipText("The one address the whole constellation is reached at");
+        panel2.add(tfDirectoryServiceURI, new GridConstraints(1, 1, 1, 4, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         menuBar = new JMenuBar();
         menuBar.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
         cmtPanel.add(menuBar, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_NORTH, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 25), new Dimension(-1, 25), 0, false));
