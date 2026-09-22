@@ -132,6 +132,13 @@ public class ConstellationCli {
                     + ex.getMessage());
             return EXIT_USAGE;
         } catch (IOException ex) {
+            // Interrupted while raising it. What became of the constellation is
+            // said by the tool as it goes, so there is nothing to add and
+            // nothing went wrong.
+            if (ConstellationManagementTool.isShuttingDown()) {
+                return EXIT_OK;
+            }
+
             String hint = ex.toString().contains("permission denied")
                     ? "\nHas the user running this command been given the use of Docker?" : "";
             LOGGER.log(Level.SEVERE, "The constellation could not be raised.\n{0}{1}",

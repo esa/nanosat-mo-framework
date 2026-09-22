@@ -451,7 +451,20 @@ public class ConstellationManagementTool {
                 int nodeNumber = nextSpacecraftNode();
                 NanoSatSimulator nanoSat = new NanoSatSimulator(
                         segmentName(name) + "-" + nodeNumber, null, image, nodeNumber);
-                nanoSat.run();
+
+                try {
+                    nanoSat.run();
+                } catch (IOException ex) {
+                    // An interrupt from a terminal reaches every process of the
+                    // group, the container tool among them, so the segment
+                    // being raised at that moment dies of the same key that
+                    // stopped this. It is the end of the constellation, not a
+                    // failure to raise it.
+                    if (shuttingDown) {
+                        break;
+                    }
+                    throw ex;
+                }
 
                 // The tool may have been asked to end while this one was being
                 // raised, in which case the hook that would have taken it down
@@ -469,7 +482,9 @@ public class ConstellationManagementTool {
                     secondsSince(startedAt));
             this.raiseDirectoryService();
         } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "Failed to add nodes to constellation: ", ex);
+            if (!shuttingDown) {
+                LOGGER.log(Level.SEVERE, "Failed to add nodes to constellation: ", ex);
+            }
             throw ex;
         } finally {
             // The segments that were raised before the failure are part of the
@@ -503,7 +518,15 @@ public class ConstellationManagementTool {
 
                 NanoSatSimulator nanoSat = new NanoSatSimulator(name, keplerElements, image,
                         nextSpacecraftNode());
-                nanoSat.run();
+
+                try {
+                    nanoSat.run();
+                } catch (IOException ex) {
+                    if (shuttingDown) {
+                        break;
+                    }
+                    throw ex;
+                }
 
                 if (shuttingDown) {
                     nanoSat.deleteIfSimulation();
@@ -519,7 +542,9 @@ public class ConstellationManagementTool {
                     + "{1} seconds", new Object[]{size, secondsSince(startedAt)});
             this.raiseDirectoryService();
         } catch (IOException ex) {
-            LOGGER.log(Level.SEVERE, "Failed to add nodes to constellation: ", ex);
+            if (!shuttingDown) {
+                LOGGER.log(Level.SEVERE, "Failed to add nodes to constellation: ", ex);
+            }
             throw ex;
         } finally {
             this.constellationChanged();
