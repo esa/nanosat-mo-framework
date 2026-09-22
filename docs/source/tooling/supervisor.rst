@@ -35,9 +35,13 @@ The Supervisor's working directory contains:
 - ``logging.properties`` — ``java.util.logging`` configuration.
 - ``platformsim.properties`` — settings for the simulated Camera; written by the simulator itself.
 - ``providerURIs.properties`` — written at runtime; lists active provider URIs.
-- ``comArchive.db`` — SQLite database backing the COM Archive.
 
-Deleting ``comArchive.db`` before starting the Supervisor produces a fresh archive.
+The COM Archive is not written here. It is kept in the NMF internal directory of the provider,
+``~/.nmf-apps/nanosat-mo-supervisor/nmf-internal/``, in a SQLite database whose name follows the
+major version of the NMF: ``comArchive_v5.db`` under NMF 5. A new major version therefore starts an
+archive of its own and leaves the previous one beside it.
+
+Deleting that file before starting the Supervisor produces a fresh archive.
 
 Real hardware
 -------------

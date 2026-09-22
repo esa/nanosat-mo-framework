@@ -29,10 +29,9 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends tini \
     && rm -rf /var/lib/apt/lists/*
 
-# Run as a user of no privilege, owning the directory it works in. The COM
-# Archive of the service is written there, and is of no interest outside this
-# container: what the service knows it learns again from the segments whenever
-# it starts.
+# Run as an unprivileged user that owns the directory it works in. The service
+# keeps no state on disk: its COM Archive is held in memory, because it rebuilds
+# what it knows from the segments every time it starts.
 RUN useradd --system --create-home --home-dir /home/nmf nmf
 
 WORKDIR /home/nmf

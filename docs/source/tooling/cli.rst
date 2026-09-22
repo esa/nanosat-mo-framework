@@ -48,7 +48,7 @@ Dump a local COM Archive to JSON:
 .. code-block:: bash
 
    ./run_CLI.sh archive dump \
-       -l target/space-filesystem/nanosat-mo-framework/comArchive.db dump.json
+       -l ~/.nmf-apps/nanosat-mo-supervisor/nmf-internal/comArchive_v5.db dump.json
 
 Subscribe to a remote app's stdout:
 

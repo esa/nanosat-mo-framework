@@ -126,6 +126,12 @@ public class ConstellationDirectory {
         setIfUnset("helpertools.configurations.NetworkZone", "Ground");
         setIfUnset("helpertools.configurations.DeviceName", "Workstation");
 
+        // Keep the COM Archive in memory. This service rebuilds what it knows
+        // from the segments every time it starts, so there is nothing worth
+        // keeping on disk. Without this, the archive would be written as a
+        // file in whatever directory the service was started from.
+        setIfUnset("esa.nmf.archive.persistence.jdbc.url", "jdbc:sqlite::memory:");
+
         // A provider.properties beside whoever started this still has the last
         // word, so a deployment can say something else.
         HelperMisc.loadPropertiesFile();
