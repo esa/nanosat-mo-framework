@@ -25,6 +25,7 @@ package esa.mo.nmf.cmt;
 import esa.mo.nmf.cmt.cli.ConstellationCli;
 import esa.mo.nmf.cmt.gui.ConstellationManagerGui;
 import esa.mo.nmf.cmt.utils.ContainerApi;
+import esa.mo.nmf.cmt.utils.DockerApi;
 import esa.mo.nmf.cmt.utils.NanoSat;
 import esa.mo.nmf.cmt.utils.NanoSatSimulator;
 import esa.mo.nmf.cmt.utils.SegmentImage;
@@ -128,6 +129,81 @@ public class ConstellationManagementTool {
         return String.format(Locale.ROOT, "%.3f", seconds);
     }
 
+    private String directoryServiceURI;
+
+    private boolean directoryServiceRemovalRegistered;
+
+    /**
+     * @return The one address the whole constellation is reached at, or null
+     * where there is no constellation or it could not be answered for.
+     */
+    public String getDirectoryServiceURI() {
+        return directoryServiceURI;
+    }
+
+    /**
+     * Raises the one Directory service that answers for the whole
+     * constellation, so that it is reached at one address rather than at one
+     * address per segment.
+     * <p>
+     * A constellation that could not be answered for is still a constellation:
+     * every segment is up and reachable at its own address, so a failure here
+     * is reported and passed over rather than taken as a failure to raise it.
+     */
+    private void raiseDirectoryService() {
+        List<String> nodes = new ArrayList<>();
+
+        for (NanoSat nanoSat : this.constellation) {
+            try {
+                nodes.add(nanoSat.getDirectoryServiceURIString());
+            } catch (IOException ex) {
+                LOGGER.log(Level.WARNING, "The address of this segment could not be read, so it "
+                        + "will not be in the Directory service of the constellation: {0}",
+                        nanoSat.getName());
+            }
+        }
+
+        if (nodes.isEmpty()) {
+            return;
+        }
+
+        try {
+            directoryServiceURI = DockerApi.runConstellationDirectory(DIRECTORY_NAME, nodes);
+            LOGGER.log(Level.INFO, "The Directory service of the constellation was started!"
+                    + "\n  >> Container: {0}"
+                    + "\n  >> Logs available with: docker logs {0}\n", DIRECTORY_NAME);
+            LOGGER.log(Level.INFO, "Directory URI: {0}", directoryServiceURI);
+
+            // A segment takes itself down through a hook of its own, whatever
+            // becomes of the tool. The Directory service is a container like
+            // them and needs the same, or closing the window leaves it running
+            // and the next constellation is refused for it.
+            if (!directoryServiceRemovalRegistered) {
+                Runtime.getRuntime().addShutdownHook(new Thread(this::removeDirectoryService));
+                directoryServiceRemovalRegistered = true;
+            }
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "The Directory service of the "
+                    + "constellation could not be started!\n{0}", ex.getMessage());
+        }
+    }
+
+    /**
+     * Removes the Directory service that answers for the constellation. It
+     * exists to serve the segments, so it goes when they do.
+     */
+    public void removeDirectoryService() {
+        directoryServiceURI = null;
+
+        try {
+            DockerApi.removeConstellationDirectory(DIRECTORY_NAME);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "The Directory service of the constellation could not be "
+                    + "removed. Its container is still running and has to be removed by hand: "
+                    + "docker rm -f {0}\n{1}", new Object[]{DIRECTORY_NAME, ex.getMessage()});
+        }
+    }
+
     /**
      * Tells the listener, if there is one, that a segment has been raised.
      *
@@ -145,6 +221,12 @@ public class ConstellationManagementTool {
      * machine is running.
      */
     public static final String SEGMENT_PREFIX = "nmfsim-";
+
+    /**
+     * The container that answers for the whole constellation, named so that it
+     * is recognisable beside the segments and removed with them.
+     */
+    public static final String DIRECTORY_NAME = SEGMENT_PREFIX + "constellation-directory";
 
     /**
      * Returns the name a simulated segment carries.
@@ -233,6 +315,7 @@ public class ConstellationManagementTool {
      * Removes all simulated NanoSat Segments.
      */
     public void removeAllSimulations() {
+        this.removeDirectoryService();
         this.constellation.forEach(nanoSat -> {
             if (nanoSat.isActive()) {
                 Logger.getLogger(ConstellationManagementTool.class.getName()).log(
@@ -266,6 +349,7 @@ public class ConstellationManagementTool {
 
             LOGGER.log(Level.INFO, "Successfully added nodes to constellation in: {0} seconds",
                     secondsSince(startedAt));
+            this.raiseDirectoryService();
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "Failed to add nodes to constellation: ", ex);
             throw ex;
@@ -304,6 +388,7 @@ public class ConstellationManagementTool {
             int size = nanoSatConfigurations.size();
             LOGGER.log(Level.INFO, "Successfully added {0} nodes to the constellation in: "
                     + "{1} seconds", new Object[]{size, secondsSince(startedAt)});
+            this.raiseDirectoryService();
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "Failed to add nodes to constellation: ", ex);
             throw ex;
