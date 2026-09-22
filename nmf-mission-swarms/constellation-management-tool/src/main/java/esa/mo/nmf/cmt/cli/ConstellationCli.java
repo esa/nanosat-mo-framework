@@ -173,7 +173,7 @@ public class ConstellationCli {
             LOGGER.log(Level.INFO, "Directory URI: {0}", uri);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "The Directory service of the "
-                    + "constellation could not be started!", ex.getMessage());
+                    + "constellation could not be started!\n{0}", ex.getMessage());
         }
     }
 
