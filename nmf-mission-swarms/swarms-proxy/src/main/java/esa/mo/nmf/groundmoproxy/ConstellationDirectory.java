@@ -44,27 +44,24 @@ import org.ccsds.moims.mo.mal.structures.URI;
 /**
  * One Directory service for a whole constellation.
  * <p>
- * A consumer that wants to reach a constellation has otherwise to be given the
- * address of every spacecraft in it, one at a time. This stands in front of
- * them and answers for all of them: it is given the Directory service of each
- * node once, asks each what it is, and publishes them together in a Directory
- * service of its own. A consumer connects to this one address and finds the
- * constellation.
+ * Without this, a consumer has to be given the address of every spacecraft in
+ * the constellation, one at a time. This service is given the Directory service
+ * of each node once, queries each of them, and publishes the results together
+ * in a Directory service of its own. A consumer connects to this single address
+ * and finds the whole constellation.
  * <p>
- * What it publishes is the <em>Supervisor</em> of each node and nothing else.
- * The apps of a node are the node's own business, and are found through the
- * node once it has been chosen; gathered here they would bury the spacecraft
- * among their apps, which is the thing a constellation most needs to show.
+ * Only the <em>Supervisor</em> of each node is published. The apps of a node are
+ * found through that node once it has been selected; publishing them all here
+ * would hide the spacecraft among their apps.
  * <p>
- * The addresses published are the ones the nodes give, so a consumer that picks
- * a node talks to that spacecraft directly. Nothing is routed through here: the
- * traffic of a constellation has no reason to pass through one ground process,
- * and this one is not in the way of it.
+ * The published addresses are the ones the nodes provide, so a consumer that
+ * selects a node talks to that spacecraft directly. No traffic is routed
+ * through this service.
  * <p>
- * This is not {@link GroundMOProxy}, and does not replace it. That one serves a
- * single spacecraft and does a great deal more, bridging protocols, mirroring
- * the COM Archive and re-routing the Action service of every app. What is
- * wanted here is the opposite: one thing that says what spacecraft there are.
+ * This is not a {@link GroundMOProxy} and does not replace it. That class serves
+ * a single spacecraft and does much more: it bridges protocols, mirrors the COM
+ * Archive, and re-routes the Action service of every app. This class only
+ * reports which spacecraft exist.
  *
  * @author Cesar Coelho
  */
@@ -73,19 +70,18 @@ public class ConstellationDirectory {
     private static final Logger LOGGER = Logger.getLogger(ConstellationDirectory.class.getName());
 
     /**
-     * The name this registers itself under in its own Directory service, so
-     * that a consumer can tell what it is looking at.
+     * The name this service registers itself under in its own Directory
+     * service, so that a consumer can identify it.
      */
     public static final String NAME = "Constellation Directory";
 
     /**
-     * How often a node that has not answered yet is asked again, in
+     * How often a node that has not answered yet is queried again, in
      * milliseconds.
      * <p>
-     * The nodes of a constellation are started just before this is, and a
-     * spacecraft takes a moment to have a Directory service worth asking. A
-     * node that is not there when this starts is therefore not a node that is
-     * missing, it is one that is still coming up.
+     * The nodes are started just before this service, and a spacecraft needs a
+     * moment before its Directory service is ready. A node that does not answer
+     * at startup is therefore usually still starting up rather than missing.
      */
     private static final long RETRY_PERIOD = 5000;
 
@@ -94,22 +90,22 @@ public class ConstellationDirectory {
     private final DirectoryProxyServiceImpl directoryService = new DirectoryProxyServiceImpl();
 
     /**
-     * The nodes not yet answered for. A node leaves this list once its
-     * Supervisor has been published, and is not asked again.
+     * The nodes that have not answered yet. A node is removed from this set
+     * once its Supervisor has been published, and is not queried again.
      */
     private final Set<URI> pending = new LinkedHashSet<>();
 
     private Timer timer;
 
     /**
-     * Reads the configuration, as every provider here does: which transport to
-     * speak, and what to call itself.
+     * Reads the configuration: which transport to use, and what this service
+     * calls itself.
      * <p>
-     * What it needs to run at all is settled first, and only where nothing has
-     * settled it already. This is started from wherever a constellation is
-     * raised, which is not always a directory with a provider.properties in
-     * it, and the transport it would fall back to without one is not the
-     * transport a constellation is reached over.
+     * Defaults are applied first, and only for properties that are not already
+     * set. This service is started from wherever the constellation is raised,
+     * which does not always contain a provider.properties file, and the
+     * transport it would otherwise fall back to is not the one a constellation
+     * is reached over.
      */
     public ConstellationDirectory() {
         setIfUnset("org.ccsds.moims.mo.mal.factory.class",
@@ -141,7 +137,7 @@ public class ConstellationDirectory {
      * Sets a property only where nothing has set it already.
      *
      * @param key The property.
-     * @param value What it is to be, where it is nothing.
+     * @param value The value to set when the property is not set.
      */
     private static void setIfUnset(final String key, final String value) {
         if (System.getProperty(key) == null) {
@@ -150,10 +146,10 @@ public class ConstellationDirectory {
     }
 
     /**
-     * Starts the Directory service and publishes what the nodes say they are.
+     * Starts the Directory service and publishes what the nodes report.
      * <p>
-     * Nodes that do not answer yet are asked again every few seconds until
-     * they do, so that the order in which a constellation and this are started
+     * Nodes that do not answer are queried again every few seconds until they
+     * do, so the order in which the constellation and this service are started
      * does not matter.
      *
      * @param nodes The Directory service of each node of the constellation.
@@ -163,7 +159,7 @@ public class ConstellationDirectory {
         localCOMServices.init();
         directoryService.init(localCOMServices);
 
-        // So that a consumer looking at this list can see what is answering it.
+        // Register this service too, so a consumer can see what is answering.
         directoryService.loadURIs(NAME, NMFProviderType.PROXY);
 
         if (nodes != null) {
@@ -172,7 +168,7 @@ public class ConstellationDirectory {
 
         LOGGER.log(Level.INFO, "The constellation has {0} node(s). Asking each what it is...",
                 pending.size());
-        askThePending();
+        askPendingNodes();
 
         if (!pending.isEmpty()) {
             timer = new Timer("ConstellationDirectoryTimer", true);
@@ -180,7 +176,7 @@ public class ConstellationDirectory {
                 @Override
                 public void run() {
                     synchronized (ConstellationDirectory.this) {
-                        askThePending();
+                        askPendingNodes();
 
                         if (pending.isEmpty()) {
                             cancel();
@@ -195,9 +191,9 @@ public class ConstellationDirectory {
     }
 
     /**
-     * Asks every node that has not answered yet, and publishes those that do.
+     * Queries every node that has not answered yet, and publishes those that do.
      */
-    private void askThePending() {
+    private void askPendingNodes() {
         for (URI node : new ArrayList<>(pending)) {
             int published = publishSupervisorOf(node);
 
@@ -208,7 +204,7 @@ public class ConstellationDirectory {
     }
 
     /**
-     * Asks one node what it is, and publishes its Supervisor.
+     * Queries one node and publishes its Supervisor.
      *
      * @param node The Directory service of the node.
      * @return How many providers of that node were published.
@@ -219,9 +215,9 @@ public class ConstellationDirectory {
         try {
             providers = NMFConsumer.retrieveProvidersFromDirectory(node);
         } catch (Exception ex) {
-            // Not there yet, or not there at all. Either way it is asked again;
-            // said at the level of a detail, because a constellation starting
-            // up says this of every node until it is ready.
+            // The node is either still starting up or not running at all.
+            // Either way it will be queried again, so this is logged as a
+            // detail: every node reports this until the constellation is ready.
             LOGGER.log(Level.FINE, "This node has not answered yet: " + node, ex);
             return 0;
         }
@@ -234,8 +230,8 @@ public class ConstellationDirectory {
             }
 
             try {
-                // Published as the node gives it, addresses and all: a consumer
-                // that picks this node talks to the spacecraft itself.
+                // Published exactly as the node provided it, addresses
+                // included, so a consumer talks to the spacecraft directly.
                 directoryService.add(new Provider(null,
                         nameOf(provider),
                         provider.getDomain(),
@@ -252,9 +248,9 @@ public class ConstellationDirectory {
         }
 
         if (published == 0 && !providers.isEmpty()) {
-            LOGGER.log(Level.WARNING, "The node at {0} answered with {1} provider(s), none of them "
-                    + "a Supervisor. A node of a constellation is a spacecraft, and a spacecraft "
-                    + "is reached through its Supervisor.",
+            LOGGER.log(Level.WARNING, "The node at {0} answered with {1} provider(s), none of "
+                    + "them a Supervisor. Each node of a constellation is a spacecraft, and a "
+                    + "spacecraft is reached through its Supervisor.",
                     new Object[]{node, providers.size()});
         }
         return published;
@@ -263,22 +259,22 @@ public class ConstellationDirectory {
     /**
      * The name a node is published under.
      * <p>
-     * Every Supervisor of a constellation calls itself the same thing, being
-     * the same software: what tells them apart is the domain, which carries
-     * the node of the spacecraft. A consumer that chooses a provider by name
-     * would be offered one name for the whole constellation, so the node is
-     * put into the name as well.
+     * Every Supervisor in a constellation reports the same name, because they
+     * all run the same software. What distinguishes them is the domain, which
+     * contains the node number. A consumer selecting a provider by name would
+     * otherwise see the same name for the whole constellation, so the node
+     * number is added to the name.
      *
-     * @param provider The provider as its node gave it.
+     * @param provider The provider as reported by its node.
      * @return The name to publish it under.
      */
     private static Identifier nameOf(final Provider provider) {
         IdentifierList domain = provider.getDomain();
 
-        // A spacecraft of a fleet has its node in the domain, between the
-        // mission it belongs to and what it calls itself:
-        // esa.simulator-lite.3.nanosat-mo-supervisor. A mission of one
-        // spacecraft has no node there, and there is nothing to tell apart.
+        // A spacecraft in a fleet carries its node number in the domain,
+        // between the mission name and the provider name, as in
+        // esa.simulator-lite.3.nanosat-mo-supervisor. A single-spacecraft
+        // mission has no node number there, and nothing to distinguish.
         if (domain == null || domain.size() < 4) {
             return provider.getProviderName();
         }
@@ -304,19 +300,19 @@ public class ConstellationDirectory {
     /**
      * Main command line entry point.
      *
-     * @param args The Directory service of each node of the constellation, one
-     * for each, as the Constellation Management Tool writes them out.
+     * @param args The address of the Directory service of each node of the
+     * constellation, as printed by the Constellation Management Tool.
      * @throws Exception if the Directory service could not be started.
      */
     public static void main(final String args[]) throws Exception {
         if (args.length == 0) {
-            System.out.println("Usage: give the Directory service of every node of the "
-                    + "constellation, one after another:");
+            System.out.println("Usage: pass the Directory service address of every node "
+                    + "of the constellation:");
             System.out.println("    maltcp://172.28.0.1:1024/nanosat-mo-supervisor-Directory "
                     + "maltcp://172.28.0.2:1024/nanosat-mo-supervisor-Directory ...");
             System.out.println();
-            System.out.println("They are the addresses the Constellation Management Tool prints "
-                    + "when it raises the constellation.");
+            System.out.println("These are the addresses printed by the Constellation Management "
+                    + "Tool when it raises the constellation.");
             return;
         }
 
