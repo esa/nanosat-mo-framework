@@ -89,11 +89,18 @@ public class NanoSatSimulator extends NanoSat {
         this.spacecraftNode = spacecraftNode;
         this.simulatorApi = ContainerApi.of(image);
 
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() {
-                deleteIfSimulation();
-            }
-        });
+        try {
+            Runtime.getRuntime().addShutdownHook(new Thread() {
+                public void run() {
+                    deleteIfSimulation();
+                }
+            });
+        } catch (IllegalStateException ex) {
+            // The tool is already ending. A segment made now is one the caller
+            // takes down itself, and a hook cannot be added at this point
+            // anyway: without this, the throw reached the top of the thread
+            // that raises the constellation and was printed as a crash.
+        }
     }
 
     /**

@@ -131,7 +131,53 @@ public class ConstellationManagementTool {
 
     private String directoryServiceURI;
 
-    private boolean directoryServiceRemovalRegistered;
+    private boolean removalRegistered;
+
+    /**
+     * Arranges for the constellation to be removed, and what became of it said,
+     * whenever the tool ends.
+     * <p>
+     * Every segment takes itself down through a hook of its own and the
+     * Directory service needs the same, or closing the window leaves it running
+     * and the next constellation is refused for it. This is registered before
+     * the first segment is raised rather than after the last, so that a tool
+     * interrupted while it is still raising the constellation also says what
+     * became of it.
+     */
+    private synchronized void removeConstellationWhenTheToolEnds() {
+        if (removalRegistered) {
+            return;
+        }
+
+        try {
+            Runtime.getRuntime().addShutdownHook(new Thread(this::removeConstellationAndReport));
+            removalRegistered = true;
+        } catch (IllegalStateException ex) {
+            // Asked to end before it even began. The segments raised from here
+            // are taken down by the loop that raises them.
+        }
+    }
+
+    /**
+     * Whether the tool has been asked to end.
+     * <p>
+     * A shutdown hook runs on a thread of its own while the thread that raises
+     * the constellation carries on, so an interrupted tool would otherwise go
+     * on raising segments that the hooks of the segments before them have
+     * already been and gone for.
+     */
+    private static volatile boolean shuttingDown;
+
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> shuttingDown = true));
+    }
+
+    /**
+     * @return Whether the tool has been asked to end.
+     */
+    public static boolean isShuttingDown() {
+        return shuttingDown;
+    }
 
     /**
      * @return The one address the whole constellation is reached at, or null
@@ -151,6 +197,10 @@ public class ConstellationManagementTool {
      * is reported and passed over rather than taken as a failure to raise it.
      */
     private void raiseDirectoryService() {
+        if (shuttingDown) {
+            return;
+        }
+
         List<String> nodes = new ArrayList<>();
 
         for (NanoSat nanoSat : this.constellation) {
@@ -174,14 +224,6 @@ public class ConstellationManagementTool {
                     + "\n  >> Logs available with: docker logs {0}\n", DIRECTORY_NAME);
             LOGGER.log(Level.INFO, "Directory URI: {0}", directoryServiceURI);
 
-            // A segment takes itself down through a hook of its own, whatever
-            // becomes of the tool. The Directory service is a container like
-            // them and needs the same, or closing the window leaves it running
-            // and the next constellation is refused for it.
-            if (!directoryServiceRemovalRegistered) {
-                Runtime.getRuntime().addShutdownHook(new Thread(this::removeDirectoryService));
-                directoryServiceRemovalRegistered = true;
-            }
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "The Directory service of the "
                     + "constellation could not be started!\n{0}", ex.getMessage());
@@ -201,6 +243,68 @@ public class ConstellationManagementTool {
             LOGGER.log(Level.SEVERE, "The Directory service of the constellation could not be "
                     + "removed. Its container is still running and has to be removed by hand: "
                     + "docker rm -f {0}\n{1}", new Object[]{DIRECTORY_NAME, ex.getMessage()});
+        }
+    }
+
+    /**
+     * How long the containers of the constellation are given to go, in
+     * milliseconds, before what is left of them is reported.
+     */
+    private static final long REMOVAL_TIMEOUT = 15000;
+
+    /**
+     * Removes the constellation and says what became of it.
+     * <p>
+     * Every segment also takes itself down through a hook of its own, and the
+     * hooks of a shutdown run at the same time as each other, so none of them
+     * is in a position to say that the constellation is gone. This one removes
+     * what is there and then asks the container tool what is left, so that
+     * whoever interrupted the tool is told the answer rather than left to
+     * wonder whether the segments are still running.
+     * <p>
+     * It is written out rather than logged. The logger keeps a shutdown hook of
+     * its own which closes its handlers, and it runs alongside this one, so a
+     * record logged here is as likely to be thrown away as printed.
+     */
+    private void removeConstellationAndReport() {
+        System.out.println("Removing the constellation...");
+        this.removeAllSimulations();
+
+        List<String> left;
+        long giveUpAt = System.currentTimeMillis() + REMOVAL_TIMEOUT;
+
+        // The hooks of the segments are removing the same containers, so what
+        // is still listed may be on its way out already.
+        while (true) {
+            try {
+                left = ContainerApi.existingSegments();
+            } catch (IOException | UnsupportedOperationException ex) {
+                System.out.println("The constellation was removed, but the container tool could "
+                        + "not be asked what is left of it: " + ex.getMessage());
+                return;
+            }
+
+            if (left.isEmpty() || System.currentTimeMillis() > giveUpAt) {
+                break;
+            }
+
+            try {
+                Thread.sleep(250);
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        }
+
+        if (left.isEmpty()) {
+            System.out.println("The constellation was removed. No container of it is left "
+                    + "running.");
+        } else {
+            System.out.println(left.size() + " container(s) of the constellation are still "
+                    + "there: " + String.join(", ", left));
+            System.out.println("Remove them with:");
+            System.out.println("    docker rm -f $(docker ps -aq --filter name=^"
+                    + SEGMENT_PREFIX + ")");
         }
     }
 
@@ -336,13 +440,27 @@ public class ConstellationManagementTool {
      */
     public void addBasicSimulations(String name, int size, SegmentImage image) throws IOException {
         long startedAt = System.nanoTime();
+        this.removeConstellationWhenTheToolEnds();
 
         try {
             for (int i = 0; i < size; i++) {
+                if (shuttingDown) {
+                    break;
+                }
+
                 int nodeNumber = nextSpacecraftNode();
                 NanoSatSimulator nanoSat = new NanoSatSimulator(
                         segmentName(name) + "-" + nodeNumber, null, image, nodeNumber);
                 nanoSat.run();
+
+                // The tool may have been asked to end while this one was being
+                // raised, in which case the hook that would have taken it down
+                // has already run. It is taken down here instead.
+                if (shuttingDown) {
+                    nanoSat.deleteIfSimulation();
+                    break;
+                }
+
                 this.constellation.add(nanoSat);
                 this.segmentRaised(nanoSat);
             }
@@ -372,15 +490,26 @@ public class ConstellationManagementTool {
     public void addSimulationsWithOrbits(Map<String, String[]> nanoSatConfigurations,
             SegmentImage image) throws IOException {
         long startedAt = System.nanoTime();
+        this.removeConstellationWhenTheToolEnds();
 
         try {
             for (Map.Entry<String, String[]> config : nanoSatConfigurations.entrySet()) {
                 String name = segmentName(config.getKey());
                 String[] keplerElements = config.getValue();
 
+                if (shuttingDown) {
+                    break;
+                }
+
                 NanoSatSimulator nanoSat = new NanoSatSimulator(name, keplerElements, image,
                         nextSpacecraftNode());
                 nanoSat.run();
+
+                if (shuttingDown) {
+                    nanoSat.deleteIfSimulation();
+                    break;
+                }
+
                 this.constellation.add(nanoSat);
                 this.segmentRaised(nanoSat);
             }

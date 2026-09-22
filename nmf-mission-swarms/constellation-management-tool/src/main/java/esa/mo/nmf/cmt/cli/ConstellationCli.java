@@ -175,17 +175,23 @@ public class ConstellationCli {
      * <p>
      * The segments are removed by the shutdown hook each of them registers, so
      * there is nothing to do here but wait for the machine to ask this command
-     * to end.
+     * to end. A command interrupted before it got this far is already ending,
+     * and returns at once.
      */
     private static void awaitInterruption() {
         CountDownLatch interrupted = new CountDownLatch(1);
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            System.out.println("Removing the segments of the constellation...");
 
-            // The segments and the Directory service each remove themselves
-            // through a hook of their own, so there is nothing to do here.
-            interrupted.countDown();
-        }));
+        try {
+            // The tool removes the constellation through a hook of its own and
+            // says what became of it, so there is nothing to do here but let
+            // the command return.
+            Runtime.getRuntime().addShutdownHook(new Thread(interrupted::countDown));
+        } catch (IllegalStateException ex) {
+            // Interrupted while the constellation was still being raised. There
+            // is nothing left to wait for: the tool is already ending, and the
+            // hooks that take the segments down are running as this returns.
+            return;
+        }
 
         try {
             interrupted.await();
