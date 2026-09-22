@@ -234,13 +234,15 @@ public class ConstellationCli {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("Removing the segments of the constellation...");
 
-            // The one that answers for them is a container like the rest, and
-            // is of no use once there is nothing left to answer for.
+            // The Directory service exists to serve the segments, so it is
+            // removed along with them.
             try {
                 DockerApi.removeConstellationDirectory(DIRECTORY_NAME);
             } catch (IOException ex) {
-                System.err.println("The Directory service of the constellation"
-                        + " could not be removed: " + ex.getMessage());
+                LOGGER.log(Level.SEVERE, "The Directory service of the constellation could not "
+                        + "be removed. Its container is still running and has to be removed by "
+                        + "hand: docker rm -f {0}\n{1}",
+                        new Object[]{DIRECTORY_NAME, ex.getMessage()});
             }
             interrupted.countDown();
         }));
