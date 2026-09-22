@@ -113,6 +113,13 @@ public class ConstellationCli {
             }
         });
 
+        // Said before anything is raised. Every segment of a constellation runs
+        // the same image, and which one it is decides what the spacecraft can
+        // do, so it is named rather than left to be worked out from --image or
+        // from what the default happens to be today.
+        LOGGER.log(Level.INFO, "Every segment runs the image: {0} ({1})",
+                new Object[]{options.getImage().getImage(), options.getImage()});
+
         try {
             if (options.getCsv() != null) {
                 Map<String, String[]> orbits = SegmentOrbits.read(options.getCsv());
