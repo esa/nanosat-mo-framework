@@ -20,6 +20,8 @@
  */
 package esa.mo.nmf.cmt;
 
+import esa.mo.nmf.cmt.utils.NanoSat;
+
 /**
  * Told when the segments of the constellation have changed.
  * <p>
@@ -32,4 +34,16 @@ public interface ConstellationListener {
      * Called once the segments of the constellation have been added or removed.
      */
     void constellationChanged();
+
+    /**
+     * Called as each segment is raised, before the rest of them are.
+     * <p>
+     * Raising a segment takes a moment, so a constellation of any size takes
+     * several. This reports each one as it arrives, rather than leaving the
+     * caller with nothing to show until the last of them is up.
+     *
+     * @param segment The segment that was just raised.
+     */
+    default void segmentRaised(NanoSat segment) {
+    }
 }

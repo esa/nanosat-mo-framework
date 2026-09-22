@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.cmt.cli;
 
+import esa.mo.nmf.cmt.ConstellationListener;
 import esa.mo.nmf.cmt.ConstellationManagementTool;
 import esa.mo.nmf.cmt.utils.ContainerApi;
 import esa.mo.nmf.cmt.utils.DockerApi;
@@ -100,6 +101,21 @@ public class ConstellationCli {
 
         ConstellationManagementTool cmt = new ConstellationManagementTool();
 
+        // Raising a segment takes a moment and a constellation takes as many,
+        // so each is written out as it arrives rather than all of them at the
+        // end. A large constellation otherwise shows nothing for seconds.
+        System.out.println();
+        cmt.setListener(new ConstellationListener() {
+            @Override
+            public void constellationChanged() {
+            }
+
+            @Override
+            public void segmentRaised(NanoSat segment) {
+                System.out.println(rowFor(segment));
+            }
+        });
+
         try {
             if (options.getCsv() != null) {
                 Map<String, String[]> orbits = SegmentOrbits.read(options.getCsv());
@@ -124,7 +140,7 @@ public class ConstellationCli {
             return EXIT_FAILED;
         }
 
-        report(cmt);
+        System.out.println();
         answerForTheConstellation(cmt);
         awaitInterruption();
         return EXIT_OK;
@@ -178,37 +194,32 @@ public class ConstellationCli {
     }
 
     /**
-     * Writes out where each segment of the constellation is to be reached.
+     * The line that says where one segment is to be reached.
      *
-     * @param cmt The tool holding the constellation.
+     * @param nanoSat The segment.
+     * @return The line to write out for it.
      */
-    private static void report(ConstellationManagementTool cmt) {
-        System.out.println();
+    private static String rowFor(NanoSat nanoSat) {
+        String node = (nanoSat instanceof NanoSatSimulator)
+                ? String.valueOf(((NanoSatSimulator) nanoSat).getSpacecraftNode()) : "?";
+        String address;
 
-        for (NanoSat nanoSat : cmt.getConstellation()) {
-            String node = (nanoSat instanceof NanoSatSimulator)
-                    ? String.valueOf(((NanoSatSimulator) nanoSat).getSpacecraftNode()) : "?";
-            String address;
-
-            try {
-                address = nanoSat.getIPAddress();
-            } catch (IOException ex) {
-                address = "unknown";
-            }
-
-            String directory;
-
-            try {
-                directory = nanoSat.getDirectoryServiceURIString();
-            } catch (IOException ex) {
-                directory = "unknown";
-            }
-
-            System.out.println(String.format("node %-4s %-28s %-16s %s",
-                    node, nanoSat.getName(), address, directory));
+        try {
+            address = nanoSat.getIPAddress();
+        } catch (IOException ex) {
+            address = "unknown";
         }
 
-        System.out.println();
+        String directory;
+
+        try {
+            directory = nanoSat.getDirectoryServiceURIString();
+        } catch (IOException ex) {
+            directory = "unknown";
+        }
+
+        return String.format("node %-4s %-28s %-16s %s",
+                node, nanoSat.getName(), address, directory);
     }
 
     /**

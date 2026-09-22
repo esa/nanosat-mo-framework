@@ -114,6 +114,17 @@ public class ConstellationManagementTool {
     }
 
     /**
+     * Tells the listener, if there is one, that a segment has been raised.
+     *
+     * @param nanoSat The segment that was just raised.
+     */
+    private void segmentRaised(NanoSat nanoSat) {
+        if (this.listener != null) {
+            this.listener.segmentRaised(nanoSat);
+        }
+    }
+
+    /**
      * What the name of every simulated segment opens with, so that the
      * containers of a constellation are told at a glance from whatever else the
      * machine is running.
@@ -233,6 +244,7 @@ public class ConstellationManagementTool {
                         segmentName(name) + "-" + nodeNumber, null, image, nodeNumber);
                 nanoSat.run();
                 this.constellation.add(nanoSat);
+                this.segmentRaised(nanoSat);
             }
 
             LOGGER.log(Level.INFO, "Successfully added nodes to constellation.");
@@ -266,6 +278,7 @@ public class ConstellationManagementTool {
                         nextSpacecraftNode());
                 nanoSat.run();
                 this.constellation.add(nanoSat);
+                this.segmentRaised(nanoSat);
             }
 
             int size = nanoSatConfigurations.size();
