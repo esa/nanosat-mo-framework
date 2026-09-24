@@ -48,7 +48,10 @@ public class PackageManagementTablePanel extends SharedTablePanel {
     }
 
     @Override
-    public void removeAllEntries() {
+    public synchronized void removeAllEntries() {
+        // Synchronized as the method it overrides is: the rest of the table is
+        // guarded on this panel, and an override that is not takes the rows
+        // away while another thread is reading them.
         while (tableData.getRowCount() != 0) {
             tableData.removeRow(tableData.getRowCount() - 1);
         }
