@@ -179,13 +179,10 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
             final Time timestamp = Time.now();
 
-            final UpdateHeaderList hdrlst = new UpdateHeaderList();
             URI source = connection.getConnectionDetails().getProviderURI();
             UpdateHeader updateHeader = new UpdateHeader(new Identifier(source.getValue()),
                     connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
 
-            BooleanList bools = new BooleanList();
-            bools.add(isInside);
             publisher.publish(updateHeader, isInside);
         } catch (IllegalArgumentException | MALException | MALInteractionException ex) {
             LOGGER.log(Level.WARNING,

@@ -212,16 +212,6 @@ public class GuiSimulatorHeaderEdit {
     private void createAndShowGUI() {
 
         final String[] labels = {"System enabled: ", "Time running: ", "Time factor: ", "Start date: ", "End date: "};
-        ArrayList<Object> data;
-        data = new ArrayList<>();
-
-        int timeFactor = simulatorHeader.getTimeFactor();
-        data.add(timeFactor);
-        Date startDate = simulatorHeader.getStartDate();
-        data.add(startDate);
-        Date endDate = simulatorHeader.getEndDate();
-        data.add(endDate);
-
         int labelsLength = labels.length;
         final List<JTextField> textFields = new ArrayList<>();
 

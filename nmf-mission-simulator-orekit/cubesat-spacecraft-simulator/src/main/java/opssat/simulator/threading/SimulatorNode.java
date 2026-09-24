@@ -68,7 +68,6 @@ public class SimulatorNode extends TaskNode {
     private int counter;
     private boolean sendList;
     private boolean sendHeader;
-    private LinkedList<File> interfaceFilesList;
     LinkedList<CommandDescriptor> commandsList;
     HashMap<Integer, CommandDescriptor> commandsById;
     private LinkedList<CommandDescriptor> commandsQueue;
@@ -395,7 +394,6 @@ public class SimulatorNode extends TaskNode {
         super.getTimers().put(TIMER_CELESTIA_DATA, new SimulatorTimer(TIMER_CELESTIA_DATA, TIMER_CELESTIA_INTERVAL));
         // super.getTimers().put(TIMER_SCIENCE1_DATA, new
         // SimulatorTimer(TIMER_SCIENCE1_DATA, TIMER_SCIENCE1_DATA_INTERVAL));
-        interfaceFilesList = new LinkedList<>();
         simulatorDevices = new LinkedList<>();
         commandsList = new LinkedList<>();
         commandsQueue = new LinkedList<>();
