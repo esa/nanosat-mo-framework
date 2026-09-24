@@ -115,6 +115,18 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
+                    <!-- Run each test class in its own JVM, as the COM testbed
+                         does and for the same reason: these tests stand up full
+                         MAL providers and consumers on the RMI transport, whose
+                         state is process-global, and one fork shared between
+                         classes lets that state leak from one to the next. -->
+                    <reuseForks>false</reuseForks>
+                    <!-- Safety net: a stuck MAL interaction ends the fork rather
+                         than the job. Without this the testbed hung on JDK 11
+                         until GitHub killed the job at fifteen minutes, which
+                         says only that time ran out; a fork that times out says
+                         which class was in the middle of it. -->
+                    <forkedProcessTimeoutInSeconds>300</forkedProcessTimeoutInSeconds>
                     <systemPropertyVariables>
                         <testbed.provider>esa.mo.mc.testbed.NMFMCServicesFactory</testbed.provider>
                         <testbed.consumer>esa.mo.mc.testbed.NMFMCServicesFactory</testbed.consumer>
