@@ -562,10 +562,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             return false;
         }
 
-        if (configurationObjectDetails == null) {
-            return false;
-        }
-
         // Is the size 1?
         // 1 because we just have Apps as configuration objects in this service
         if (configurationObjectDetails.size() != 1) {

@@ -259,23 +259,23 @@ public class MultiThreadedSocketServer extends Thread {
                                 + myClientSocket.getInetAddress().getHostName());
                         m_bRunThread = false;
                     }
-                    if (clientCommand != null) {
-                        if (clientCommand instanceof Integer) {
-                        } else {
-                            logger.log(Level.ALL, "Received data");
-                            if (clientCommand != null) {
-                                this.parent.getParentFromGUIQ().add(clientCommand);
-                                if (clientCommand.equals("refreshConfig")) {
-                                    parent.parent.getParentSimulator().getSimulatorNode().updatePlatformConfig();
-                                    continue;
-                                }
-                                this.parent.putDataOnForAllClients("OnServer;UserInput;"
-                                        + CommandDescriptor.makeConsoleDescriptionForObj(clientCommand));
-                                if (clientCommand instanceof CommandDescriptor) {
+                    // An Integer carries nothing for the simulator to act on and
+                    // is passed over; everything else is a command from the
+                    // client.
+                    if (clientCommand != null && !(clientCommand instanceof Integer)) {
+                        logger.log(Level.FINEST, "Received data");
+                        this.parent.getParentFromGUIQ().add(clientCommand);
 
-                                    this.listCommands.add(((CommandDescriptor) clientCommand).getMethodBody());
-                                }
-                            }
+                        if (clientCommand.equals("refreshConfig")) {
+                            parent.parent.getParentSimulator().getSimulatorNode().updatePlatformConfig();
+                            continue;
+                        }
+
+                        this.parent.putDataOnForAllClients("OnServer;UserInput;"
+                                + CommandDescriptor.makeConsoleDescriptionForObj(clientCommand));
+
+                        if (clientCommand instanceof CommandDescriptor) {
+                            this.listCommands.add(((CommandDescriptor) clientCommand).getMethodBody());
                         }
                     }
 

@@ -1154,10 +1154,6 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             return false;
         }
 
-        if (configurationObjectDetails == null) {
-            return false;
-        }
-
         // Is the size 1?
         if (configurationObjectDetails.size() != 1) {
             return false;

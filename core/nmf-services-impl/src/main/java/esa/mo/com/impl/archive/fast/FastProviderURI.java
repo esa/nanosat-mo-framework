@@ -65,12 +65,15 @@ public class FastProviderURI extends FastIndex<String> {
         if (id == 0) {
             return null;
         }
-        final URI providerURI = new URI(this.fastIDreverse.get(id));
+        // The id is looked up first: an id this does not hold gives nothing
+        // back, and wrapping that in a URI would hand out a URI of nothing
+        // rather than saying so.
+        final String providerURI = this.fastIDreverse.get(id);
 
         if (providerURI == null) {
-            throw new Exception();
+            throw new Exception("There is no provider URI for the id: " + id);
         }
 
-        return providerURI;
+        return new URI(providerURI);
     }
 }

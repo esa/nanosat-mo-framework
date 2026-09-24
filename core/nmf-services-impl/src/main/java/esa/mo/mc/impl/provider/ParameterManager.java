@@ -719,14 +719,10 @@ public class ParameterManager extends MCManager {
      *
      * @param rawValue The raw value.
      * @param pDef The definition it should get the conversion from.
-     * @return The converted value. null if no Conversion service is available.
+     * @return The converted value, or null where the definition asks for no
+     * conversion.
      */
     private Attribute getConvertedValue(final Attribute rawValue, final ParameterDefinition pDef) {
-        // Is the Conversion service available for use?
-        if (conversionService == null) {
-            return null;
-        }
-
         return conversionService.generateConvertedValue(rawValue, pDef.getConversion());
     }
 

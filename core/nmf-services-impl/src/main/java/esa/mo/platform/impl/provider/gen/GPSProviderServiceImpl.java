@@ -504,10 +504,6 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             return false;
         }
 
-        if (configurationObjectDetails == null) {
-            return false;
-        }
-
         // 1 because we just have NearbyPosition as configuration objects in this
         // service
         if (configurationObjectDetails.size() != 1) {

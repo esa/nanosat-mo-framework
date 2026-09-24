@@ -95,7 +95,9 @@ public final class MOWindow extends javax.swing.JDialog {
             }
             String string;
 
-            if (service != null && area != null) {
+            // A service is only looked up from an area, so having one means
+            // there was an area to ask for it.
+            if (service != null) {
                 string = "Area: " + area.getName()
                         + "        Service: " + service.getName()
                         + "        TypeId: " + typeId.getSFP();
