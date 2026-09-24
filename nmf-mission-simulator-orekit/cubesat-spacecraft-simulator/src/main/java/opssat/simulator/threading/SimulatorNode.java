@@ -781,7 +781,8 @@ public class SimulatorNode extends TaskNode {
             buffer.append(tabs.toString());
             buffer.append("[");
             for (int i = 0; i < Array.getLength(o); i++) {
-                if (i < 0) {
+                // Between the values and not in front of the first one.
+                if (i > 0) {
                     buffer.append(",");
                 }
                 Object value = Array.get(o, i);
