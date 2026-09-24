@@ -36,7 +36,7 @@ public class TestFileDataSerialization {
     @Test(expected = IllegalArgumentException.class)
     public void testSerializeDataOut1() {
         try {
-            FileDataSerialization.serializeDataOut(null, new String("I am an object."));
+            FileDataSerialization.serializeDataOut(null, "I am an object.");
         } catch (IOException e) {
             e.printStackTrace();
             fail();

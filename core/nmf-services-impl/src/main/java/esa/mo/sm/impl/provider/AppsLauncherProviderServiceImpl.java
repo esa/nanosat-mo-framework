@@ -243,7 +243,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                     "Generating update for the App: {0} (Identifier: {1})",
                     new Object[]{appObjId, new Identifier(appName)});
 
-            String outputList = new String();
+            String outputList = "";
 
             AttributeList keyValues = new AttributeList();
             keyValues.add(new Identifier(appName));
