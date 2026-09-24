@@ -456,22 +456,38 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
 
     private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
 
-        ArchivePersistenceObject comObject
-                = ((ArchiveTablePanel) tabs.getSelectedComponent()).getSelectedCOMObject();
+        Component selected = tabs.getSelectedComponent();
 
+        // The Home tab is a panel of its own and holds no objects, so there is
+        // nothing on it to delete. Asking it for one is a cast that throws.
+        if (!(selected instanceof ArchiveTablePanel)) {
+            return;
+        }
+
+        ArchiveTablePanel tablePanel = (ArchiveTablePanel) selected;
+
+        // A table with no row chosen answers the question with the row -1,
+        // which is not a row it holds.
+        if (tablePanel.getSelectedRow() == -1) {
+            return;
+        }
+
+        ArchivePersistenceObject comObject = tablePanel.getSelectedCOMObject();
         LongList objIds = new LongList();
         objIds.add(comObject.getObjectId());
 
-        /*
         try {
-            serviceCOMArchive.getArchiveStub().delete(comObject.getObjectType(), comObject.getDomain(), objIds);
-        } catch (MALInteractionException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
-        } catch (MALException ex) {
-            LOGGER.log(Level.SEVERE, null, ex);
+            serviceCOMArchive.getArchiveStub().delete(comObject.getObjectType(),
+                    comObject.getDomain(), objIds);
+        } catch (MALInteractionException | MALException ex) {
+            LOGGER.log(Level.SEVERE, "The object could not be deleted from the Archive, so it "
+                    + "is left in the table: it is still there to be deleted.", ex);
+            return;
         }
-         */
-        ((ArchiveTablePanel) tabs.getSelectedComponent()).removeSelectedEntry();
+
+        // Taken off the table only once the Archive has let it go, so that the
+        // table shows what the Archive holds.
+        tablePanel.removeSelectedEntry();
 
     }//GEN-LAST:event_jButtonDeleteActionPerformed
 
