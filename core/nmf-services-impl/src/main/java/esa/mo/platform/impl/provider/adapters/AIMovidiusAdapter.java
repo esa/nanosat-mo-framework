@@ -223,7 +223,7 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
 
             if (!terminated) {
                 Logger.getLogger(AIMovidiusAdapter.class.getName()).log(Level.SEVERE,
-                        "Timeout reached: The process is stuck..."
+                        "Timeout reached: The process is stuck... "
                         + "The adapter will kill the process!");
 
                 p.destroyForcibly();
