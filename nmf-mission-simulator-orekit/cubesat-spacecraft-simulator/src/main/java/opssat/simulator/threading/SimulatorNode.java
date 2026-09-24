@@ -495,48 +495,50 @@ public class SimulatorNode extends TaskNode {
         }
     }
 
-    private ArrayList<String> readLinesFromInputStream(InputStream fileName) {
+    private ArrayList<String> readLinesFromInputStream(InputStream stream) {
+        if (stream == null) {
+            // Said without naming the stream: there is not one to name. It used
+            // to be asked for its name here, which is a call on nothing.
+            this.logger.log(Level.WARNING, "There is no input stream to read the descriptions "
+                    + "from, so none were read.");
+            return null;
+        }
 
-        if (fileName != null) {
-            ArrayList<String> result = new ArrayList<>();
-            try {
-                BufferedReader in = new BufferedReader(new InputStreamReader(fileName));
-                String description = null;
-                boolean skipRead;
-                String line;
-                while ((line = in.readLine()) != null) {
-                    skipRead = false;
-                    if (line.equals("/**")) {
-                        description = "";
-                        skipRead = true;
-                    } else if (line.equals("*/")) {
-                        skipRead = true;
-                    } else {
-                        String[] lineWords = line.split(" ");
-                        if (lineWords.length > 1) {
-                            if (lineWords[0].equals("void") || lineWords[0].equals("byte[]")) {
-                                String[] lineWords2 = line.split("//");
-                                if (lineWords2.length > 1) {
-                                    int internalID = Integer.parseInt(lineWords2[1]);
-                                    putDescriptionIntoMethod(description, internalID);
-                                }
+        ArrayList<String> result = new ArrayList<>();
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(stream));
+            String description = null;
+            boolean skipRead;
+            String line;
+            while ((line = in.readLine()) != null) {
+                skipRead = false;
+                if (line.equals("/**")) {
+                    description = "";
+                    skipRead = true;
+                } else if (line.equals("*/")) {
+                    skipRead = true;
+                } else {
+                    String[] lineWords = line.split(" ");
+                    if (lineWords.length > 1) {
+                        if (lineWords[0].equals("void") || lineWords[0].equals("byte[]")) {
+                            String[] lineWords2 = line.split("//");
+                            if (lineWords2.length > 1) {
+                                int internalID = Integer.parseInt(lineWords2[1]);
+                                putDescriptionIntoMethod(description, internalID);
                             }
                         }
                     }
-                    if (!skipRead && !line.contains("<pre>") && !line.contains("</pre>")) {
-                        description += line + "\n";
-
-                    }
                 }
+                if (!skipRead && !line.contains("<pre>") && !line.contains("</pre>")) {
+                    description += line + "\n";
 
-            } catch (IOException ex) {
-                this.logger.log(Level.SEVERE, "Reading the file failed", ex);
+                }
             }
-            return result;
-        } else {
-            this.logger.log(Level.WARNING, "InputStream [" + fileName.toString() + "] could not be accessed!");
-            return null;
+
+        } catch (IOException ex) {
+            this.logger.log(Level.SEVERE, "Reading the file failed", ex);
         }
+        return result;
     }
 
     private void loadMethodsDescriptionFromResources() {
