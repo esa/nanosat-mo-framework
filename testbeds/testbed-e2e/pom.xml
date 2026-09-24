@@ -118,6 +118,17 @@
             <version>${esa.nmf.version}</version>
             <type>nmfpack</type>
         </dependency>
+        <!-- The spacecraft simulator, for the attitude test below. It moved
+             here from the simulator's own module because it propagates an
+             orbit for several hundred steps, which is an integration test and
+             took four of the thirty seconds of a full build of the framework.
+             The testbeds are not in that build. -->
+        <dependency>
+            <groupId>int.esa.nmf</groupId>
+            <artifactId>cubesat-spacecraft-simulator</artifactId>
+            <version>${esa.nmf.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

@@ -18,10 +18,11 @@
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-package opssat.simulator.orekit;
+package esa.mo.nmf.testbed.e2e.tests;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
+import opssat.simulator.orekit.OrekitCore;
 import opssat.simulator.threading.SimulatorNode;
 import opssat.simulator.util.SimulatorHeader;
 import org.junit.Assert;
@@ -41,6 +42,11 @@ import org.junit.Test;
  * mode asked for. Coming back to a mode that has been flown before has to give
  * the same attitude as before, give or take the movement of the orbit, and it
  * is that returning which used to fail.
+ *
+ * It lives in a testbed rather than beside the simulator because it
+ * propagates the orbit through five commands of seventy-five seconds each:
+ * four seconds of the thirty a full build of the framework takes, for one
+ * test. The testbeds are built and run on their own.
  *
  * @author Cesar Coelho
  */
