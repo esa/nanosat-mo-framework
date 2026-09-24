@@ -3,6 +3,7 @@ import time
 from openvino.inference_engine import IECore
 from datetime import datetime
 import os
+import sys
 import argparse
 
 parser = argparse.ArgumentParser(description='Runs AI inference on a Myriad device for a set of tiles')
@@ -44,7 +45,7 @@ print("Available devices: ", devices)
 
 if len(devices) == 0:
     print("There are no available devices! Make sure the MYRIAD device is plugged correctly!")
-    exit(1)
+    sys.exit(1)
 
 # Read the network from IR files
 print("\nReading the network...")
