@@ -461,8 +461,9 @@ public class SimulatorNode extends TaskNode {
     }
 
     public void writeProperties(File file, Properties props) throws IOException {
-        FileOutputStream fos = new FileOutputStream(file);
-        props.store(fos, null);
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            props.store(fos, null);
+        }
     }
 
     /**

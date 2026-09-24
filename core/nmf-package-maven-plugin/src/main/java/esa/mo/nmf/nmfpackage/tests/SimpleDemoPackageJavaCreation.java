@@ -64,15 +64,21 @@ public class SimpleDemoPackageJavaCreation {
      * @throws IOException if the download fails
      */
     public static File downloadFile(URL url) throws IOException {
-        ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
         String filename = new File(url.getPath()).getName();
-        FileOutputStream fileOutputStream = new FileOutputStream(filename);
 
         Logger.getLogger(SimpleDemoPackageJavaCreation.class.getName()).log(
                 Level.INFO, "Downloading file: " + url.toString());
 
         long timestamp = System.currentTimeMillis();
-        fileOutputStream.getChannel().transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+
+        // Both are closed, and the one reading from the network as surely as
+        // the one writing to the disk: a download that fails part way through
+        // held the socket open as well as the file.
+        try (ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
+                FileOutputStream fileOutputStream = new FileOutputStream(filename)) {
+            fileOutputStream.getChannel().transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+        }
+
         timestamp = System.currentTimeMillis() - timestamp;
         Logger.getLogger(SimpleDemoPackageJavaCreation.class.getName()).log(
                 Level.INFO, "Downloaded in " + timestamp + " ms!");
