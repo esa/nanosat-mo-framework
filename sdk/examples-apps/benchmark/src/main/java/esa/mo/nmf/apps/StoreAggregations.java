@@ -65,7 +65,7 @@ public class StoreAggregations {
             AggregationDefinitionList defs = new AggregationDefinitionList();
             AggregationParameterSetList aaa = new AggregationParameterSetList();
             LongList parameters = new LongList();
-            parameters.add(new Long(65));
+            parameters.add(65L);
             AggregationParameterSet aa = new AggregationParameterSet(
                     null,
                     parameters,

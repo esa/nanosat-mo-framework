@@ -566,7 +566,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         ArchiveQuery archiveQuery = new ArchiveQuery(
                 null,
                 null,
-                new Long(0),
+                0L,
                 null,
                 null,
                 null,

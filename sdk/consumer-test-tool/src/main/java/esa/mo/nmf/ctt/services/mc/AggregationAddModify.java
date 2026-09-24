@@ -559,7 +559,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
         } else {  // Well, then we are updating a previous selected definition
             Logger.getLogger(AggregationAddModify.class.getName()).log(Level.INFO, null, "updateDefinition started (Aggregation)");
             LongList objIds = new LongList();
-            objIds.add(new Long(aggregationTableData.getValueAt(aggregationDefinitionSelectedIndex, 0).toString()));
+            objIds.add(Long.valueOf(aggregationTableData.getValueAt(aggregationDefinitionSelectedIndex, 0).toString()));
             aggregationService.updateDefinition(objIds, aDefs);  // Execute the update
             aggregationTableData.removeRow(aggregationDefinitionSelectedIndex);
             aggregationTableData.insertRow(aggregationDefinitionSelectedIndex,
