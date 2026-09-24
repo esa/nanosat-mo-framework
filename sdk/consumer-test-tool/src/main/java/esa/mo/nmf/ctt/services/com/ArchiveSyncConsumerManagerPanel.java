@@ -130,17 +130,6 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         }
 
         /**
-         * Releases the resources held by this tab.
-         */
-        public synchronized void finalizeAdapter() {
-            try {
-                this.finalize();
-            } catch (Throwable ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
-            }
-        }
-
-        /**
          * Returns the index of the selected table row.
          *
          * @return the selected row index
@@ -237,7 +226,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
     }
 
     /**
-     * Mouse listener that finalizes the tab when its close button is clicked.
+     * Mouse listener that closes the tab when its close button is clicked.
      */
     public class CloseMouseHandler implements MouseListener {
 
@@ -254,14 +243,9 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
                 JPanel panel = adapter.getPanel();
 
                 if (component == panel) {
+                    // Removing the tab is the whole of it: the adapter holds
+                    // nothing that has to be given back.
                     tabs.remove(i);
-                    adapter.finalizeAdapter();
-
-                    try {
-                        super.finalize();
-                    } catch (Throwable ex) {
-                        LOGGER.log(Level.SEVERE, null, ex);
-                    }
                     return;
                 }
             }
