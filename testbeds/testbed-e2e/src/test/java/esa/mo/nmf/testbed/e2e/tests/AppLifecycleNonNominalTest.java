@@ -33,6 +33,10 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.LOGGER;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SEP;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_SEP;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_MSG;
 
 /**
  * End-to-end tests for non-nominal NMF App shutdown, using the
@@ -44,7 +48,7 @@ import org.junit.Test;
  * genuinely hung app is force-killed by the Supervisor once a non-NULL timeout
  * elapses.
  */
-public class AppLifecycleNonNominalTest extends NMFTest {
+public class AppLifecycleNonNominalTest {
 
     private static final long ACTION_TIMEOUT_MS = 15_000;
 

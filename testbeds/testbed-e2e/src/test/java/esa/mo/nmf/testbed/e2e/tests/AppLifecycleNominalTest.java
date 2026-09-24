@@ -34,6 +34,10 @@ import org.junit.BeforeClass;
 import org.junit.AfterClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.LOGGER;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SEP;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_SEP;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_MSG;
 
 /**
  * End-to-end tests for nominal NMF App lifecycle transitions.
@@ -41,7 +45,7 @@ import org.junit.Test;
  * Each test manages its own start/stop cycle independently. The Supervisor is
  * started once for the whole class and torn down at the end.
  */
-public class AppLifecycleNominalTest extends NMFTest {
+public class AppLifecycleNominalTest {
 
     private static final long STOP_TIMEOUT_MS = 20_000;
     private static final long EVENT_TIMEOUT_MS = 20_000;

@@ -42,6 +42,10 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.LOGGER;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SEP;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_SEP;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_MSG;
 
 /**
  * End-to-end tests for the default Supervisor MC set: parameters that every
@@ -49,7 +53,7 @@ import org.junit.Test;
  * contract). Verifies they are present alongside the mission-specific
  * parameters, readable, and read-only.
  */
-public class DefaultSupervisorMCTest extends NMFTest {
+public class DefaultSupervisorMCTest {
 
     private static final SupervisorHarness harness = new SupervisorHarness();
 

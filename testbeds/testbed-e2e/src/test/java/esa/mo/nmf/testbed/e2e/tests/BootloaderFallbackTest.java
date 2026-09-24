@@ -34,6 +34,8 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.LOGGER;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SEP;
 
 /**
  * End-to-end tests for the fallback ladder of the NMF Bootloader (REC.01-05):
@@ -44,7 +46,7 @@ import org.junit.runners.MethodSorters;
  * repeatedly, exactly like a service manager would.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class BootloaderFallbackTest extends NMFTest {
+public class BootloaderFallbackTest {
 
     private static final SupervisorHarness harness = new SupervisorHarness();
 

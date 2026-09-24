@@ -42,6 +42,10 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.LOGGER;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SEP;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_SEP;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_MSG;
 
 /**
  * Installs an App, takes it back to a previously released version, and brings
@@ -77,7 +81,7 @@ import org.junit.runners.MethodSorters;
  * @author Cesar Coelho
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class AppRollbackTest extends NMFTest {
+public class AppRollbackTest {
 
     /** Name of the App taken back and forth between versions. */
     private static final String APP = "benchmark";

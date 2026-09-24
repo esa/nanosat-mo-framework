@@ -45,6 +45,10 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.LOGGER;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SEP;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_SEP;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_MSG;
 
 /**
  * End-to-end test of an upgrade of the NMF and of the way back from it: the
@@ -70,7 +74,7 @@ import org.junit.runners.MethodSorters;
  * left with the single version they are written for.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class NMFUpgradeRollbackTest extends NMFTest {
+public class NMFUpgradeRollbackTest {
 
 
     /**

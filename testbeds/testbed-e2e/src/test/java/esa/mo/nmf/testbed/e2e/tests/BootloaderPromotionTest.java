@@ -34,6 +34,10 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.LOGGER;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SEP;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_SEP;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_MSG;
 
 /**
  * End-to-end test for the bootloader's baseline promotion: on a confirmed boot
@@ -46,7 +50,7 @@ import org.junit.Test;
  * primary any number of times before the next reboot without ever pushing an
  * un-booted version into the secondary.
  */
-public class BootloaderPromotionTest extends NMFTest {
+public class BootloaderPromotionTest {
 
     private static final SupervisorHarness harness = new SupervisorHarness();
 
