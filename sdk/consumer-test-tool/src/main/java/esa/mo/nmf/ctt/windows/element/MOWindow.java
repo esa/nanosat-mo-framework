@@ -417,8 +417,8 @@ public final class MOWindow extends javax.swing.JDialog {
             return list;
         }
 
-        // Composite not list
-        if (this.receivedObj instanceof Composite && !(this.receivedObj instanceof ElementList)) {
+        // A Composite that is not a list: the lists returned above.
+        if (this.receivedObj instanceof Composite) {
             Field[] fields = FieldsHandler.getDeclaredFields(this.receivedObj);
 
             if (fields.length < START_INDEX) {
@@ -460,11 +460,6 @@ public final class MOWindow extends javax.swing.JDialog {
         }
 
         AttributeEntry moAttribute = (AttributeEntry) componentsPanel.getComponent(0);
-
-        if (this.receivedObj instanceof Attribute && !(this.receivedObj instanceof ElementList)) {
-            return moAttribute.getObject();
-        }
-
         return moAttribute.getObject();
     }
 
