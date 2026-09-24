@@ -169,7 +169,7 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
         try {
             logFile = new FileWriter(logFilePath);
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, String.format("Error opening the LOG file", logFilePath), e);
+            LOGGER.log(Level.SEVERE, String.format("Error opening the LOG file: %s", logFilePath), e);
             logFile = null;
         }
     }
