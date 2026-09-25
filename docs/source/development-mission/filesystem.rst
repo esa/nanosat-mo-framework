@@ -120,7 +120,7 @@ explicitly:
 .. code-block:: xml
 
     <properties>
-      <esa.nmf.version>5.1-SNAPSHOT</esa.nmf.version>
+      <esa.nmf.version>5.1</esa.nmf.version>
     </properties>
 
 ``setup_linux_userspace.sh``
