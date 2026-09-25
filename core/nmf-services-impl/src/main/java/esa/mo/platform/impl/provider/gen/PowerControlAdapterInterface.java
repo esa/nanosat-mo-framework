@@ -32,11 +32,32 @@ import org.ccsds.moims.mo.platform.structures.*;
  */
 public interface PowerControlAdapterInterface {
 
+    /**
+     * Returns the device map.
+     * @return the device map
+     */
     Map<Identifier, Device> getDeviceMap();
 
+    /**
+     * Enable devices.
+     *
+     * @param devices the devices
+     * @throws IOException if the operation fails
+     */
     void enableDevices(DeviceList devices) throws IOException;
 
+    /**
+     * Returns whether device enabled.
+     *
+     * @param deviceType the device type
+     * @return {@code true} on success
+     */
     boolean isDeviceEnabled(DeviceType deviceType);
 
+    /**
+     * Start status tracking.
+     *
+     * @param connection the NMF provider connector
+     */
     void startStatusTracking(ConnectionConsumer connection);
 }

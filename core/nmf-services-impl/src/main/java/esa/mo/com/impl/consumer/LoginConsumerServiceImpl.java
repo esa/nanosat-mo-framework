@@ -34,6 +34,7 @@ import org.ccsds.moims.mo.mal.helpertools.misc.ConsumerServiceImpl;
 import org.ccsds.moims.mo.mal.structures.Blob;
 
 /**
+ * Consumer of the COM Login service.
  *
  * @author Cesar Coelho
  */
@@ -42,8 +43,19 @@ public class LoginConsumerServiceImpl extends ConsumerServiceImpl {
     private LoginStub loginService = null;
     private COMServicesConsumer comServices;
 
+    /**
+     * Creates the Login service consumer and starts the consumer connection.
+     *
+     * @param connectionDetails the connection details of the Login service provider
+     * @param comServices the COM services consumer used by this service
+     * @param authenticationId the authentication id of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     * @throws MALException if the consumer cannot be created
+     * @throws MalformedURLException if a provided URI is malformed
+     * @throws MALInteractionException if the service returns an error
+     */
     public LoginConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-            COMServicesConsumer comServices, Blob authenticationId, 
+            COMServicesConsumer comServices, Blob authenticationId,
             String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
@@ -66,11 +78,25 @@ public class LoginConsumerServiceImpl extends ConsumerServiceImpl {
         this.loginService = new LoginStub(tmConsumer);
     }
 
+    /**
+     * Creates the Login service consumer with no authentication id nor local name prefix.
+     *
+     * @param connectionDetails the connection details of the Login service provider
+     * @param comServices the COM services consumer used by this service
+     * @throws MALException if the consumer cannot be created
+     * @throws MalformedURLException if a provided URI is malformed
+     * @throws MALInteractionException if the service returns an error
+     */
     public LoginConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
             throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
+    /**
+     * Returns the COM services consumer used by this service.
+     *
+     * @return the COM services consumer
+     */
     public COMServicesConsumer getCOMServices() {
         return comServices;
     }
@@ -85,6 +111,11 @@ public class LoginConsumerServiceImpl extends ConsumerServiceImpl {
         return this.getLoginStub();
     }
 
+    /**
+     * Returns the Login service stub used to invoke operations on the provider.
+     *
+     * @return the Login service stub
+     */
     public LoginStub getLoginStub() {
         return this.loginService;
     }

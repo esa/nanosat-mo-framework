@@ -68,7 +68,7 @@ public class BootloaderMCAdapter extends MonitorAndControlNMFAdapter {
     private static final Logger LOGGER = Logger.getLogger(BootloaderMCAdapter.class.getName());
 
     private static final String PREFIX = "bootloader.";
-    private static final String ACTION_SET_PRIMARY = "bootloader.setPrimaryBaseline";
+    private static final String ACTION_SET_PRIMARY = "bootloader.set-primary-baseline";
     private static final String ACTION_RESTART = "bootloader.restart";
 
     private static final String[] ROLES = {

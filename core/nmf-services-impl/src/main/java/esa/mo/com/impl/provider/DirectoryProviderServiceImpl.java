@@ -58,9 +58,17 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     private boolean initialiased = false;
     private boolean running = false;
     private final ConnectionProvider connection = new ConnectionProvider();
+    /** The providers currently advertised, keyed by their COM object instance id. */
     protected final Map<Long, Provider> providersAvailable = new ConcurrentHashMap<>();
+    /** Mutex guarding access to {@link #providersAvailable}. */
     protected final Object MUTEX = new Object();
     private COMServicesProvider comServices;
+
+    /**
+     * Default constructor.
+     */
+    public DirectoryProviderServiceImpl() {
+    }
 
     /**
      * Creates the MAL objects, the publisher used to create updates and starts
@@ -109,6 +117,12 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         return null; // Not found!
     }
 
+    /**
+     * Builds a {@link ServiceId} from a list of three integers (area, service and version).
+     *
+     * @param keys the area number, service number and area version, in that order
+     * @return the corresponding service id
+     */
     public static ServiceId generateServiceKey(final IntegerList keys) {
         return new ServiceId(new UShort(keys.get(0)), new UShort(keys.get(1)), new UOctet(keys.get(2).shortValue()));
     }
@@ -330,6 +344,14 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         }
     }
 
+    /**
+     * Withdraws all the currently advertised providers from the Directory.
+     *
+     * @throws UnknownException if a provider to remove is unknown
+     * @throws InvalidArgumentException if an argument is invalid
+     * @throws MALInteractionException if the service returns an error
+     * @throws MALException if a communication error occurs
+     */
     public void withdrawAllProviders() throws UnknownException, InvalidArgumentException, MALInteractionException, MALException {
         synchronized (MUTEX) {
             for (Long key : providersAvailable.keySet()) {
@@ -338,10 +360,23 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         }
     }
 
+    /**
+     * Advertises this provider in the Directory using the global connection details.
+     *
+     * @param providerName the name to advertise the provider under
+     * @return the published provider
+     */
     public Provider loadURIs(final String providerName) {
         return loadURIs(providerName, null);
     }
 
+    /**
+     * Advertises this provider in the Directory using the global connection details.
+     *
+     * @param providerName the name to advertise the provider under
+     * @param providerType the type of provider, or {@code null} for the default
+     * @return the published provider
+     */
     public Provider loadURIs(final String providerName, final NMFProviderType providerType) {
         ServicesConnectionDetails primaryConnectionDetails = ConnectionProvider.getGlobalProvidersDetailsPrimary();
         ServicesConnectionDetails secondaryAddresses = ConnectionProvider.getGlobalProvidersDetailsSecondary();

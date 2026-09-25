@@ -41,6 +41,16 @@ public class GPSConsumerServiceImpl extends ConsumerServiceImpl {
     private GPSStub gpsService = null;
     private COMServicesConsumer comServices;
 
+    /**
+     * Creates the GPS service consumer and starts the consumer connection.
+     *
+     * @param connectionDetails the connection details of the GPS service provider
+     * @param comServices the COM services consumer used by this service
+     * @param authenticationId the authentication id of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     * @throws MALException if the consumer cannot be created
+     * @throws MALInteractionException if the service returns an error
+     */
     public GPSConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices,
             Blob authenticationId,
@@ -67,11 +77,24 @@ public class GPSConsumerServiceImpl extends ConsumerServiceImpl {
         this.gpsService = new GPSStub(tmConsumer);
     }
 
+    /**
+     * Creates the GPS service consumer with no authentication id nor local name prefix.
+     *
+     * @param connectionDetails the connection details of the GPS service provider
+     * @param comServices the COM services consumer used by this service
+     * @throws MALException if the consumer cannot be created
+     * @throws MALInteractionException if the service returns an error
+     */
     public GPSConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices) throws MALException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
+    /**
+     * Returns the COM services consumer used by this service.
+     *
+     * @return the COM services consumer
+     */
     public COMServicesConsumer getCOMServices() {
         return comServices;
     }
@@ -81,6 +104,11 @@ public class GPSConsumerServiceImpl extends ConsumerServiceImpl {
         return this.getGPSStub();
     }
 
+    /**
+     * Returns the GPS service stub used to invoke operations on the provider.
+     *
+     * @return the GPS service stub
+     */
     public GPSStub getGPSStub() {
         return this.gpsService;
     }

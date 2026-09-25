@@ -25,7 +25,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Enumeration;
 
@@ -36,15 +35,32 @@ import org.ccsds.moims.mo.mal.structures.Enumeration;
  */
 public class FieldsHandler {
 
+    private FieldsHandler() {
+    }
+
+    /**
+     * Converts a raw Java value into the matching MAL attribute, or returns {@code null} if it
+     * cannot be converted.
+     *
+     * @param obj the raw value
+     * @return the MAL attribute, or {@code null} if not convertible
+     */
     public static Object filterRawObject(Object obj) {
         try {
-            return HelperAttributes.javaType2Attribute(obj);
+            return Attribute.javaType2Attribute(obj);
         } catch (IllegalArgumentException ex) {
         }
 
         return null;
     }
 
+    /**
+     * Returns the declared fields of the object's class, including those of its immediate
+     * super class unless that super class is {@code Composite}.
+     *
+     * @param obj the object whose fields to return
+     * @return the declared fields
+     */
     public static Field[] getDeclaredFields(Object obj) {
         Field[] fields = obj.getClass().getDeclaredFields();
 
@@ -67,6 +83,13 @@ public class FieldsHandler {
         return fields;
     }
 
+    /**
+     * Returns whether the given field of the object holds a null value.
+     *
+     * @param field the field to inspect
+     * @param obj the object holding the field
+     * @return {@code true} if the field value is null or cannot be read
+     */
     public static boolean isFieldNull(Field field, Object obj) {
         Object objectWithValue;
         try {
@@ -79,6 +102,14 @@ public class FieldsHandler {
         return (objectWithValue == null);
     }
 
+    /**
+     * Reads the value of the given field from the object, defaulting to a freshly created
+     * instance of the field type when the value cannot be read directly.
+     *
+     * @param field the field to read
+     * @param obj the object holding the field
+     * @return the field value, or a new instance of the field type
+     */
     public static Object generateFieldObject(Field field, Object obj) {
         Object rawObj = null;
         Attribute secondObj = null;
@@ -150,23 +181,23 @@ public class FieldsHandler {
             String name = constructor.getName();
             try {
                 if (name.equals("java.lang.Boolean")) {
-                    return HelperAttributes.javaType2Attribute(constructor.newInstance(true));
+                    return Attribute.javaType2Attribute(constructor.newInstance(true));
                 }
 
                 if (name.equals("java.lang.String")) {
-                    return HelperAttributes.javaType2Attribute(constructor.newInstance(""));
+                    return Attribute.javaType2Attribute(constructor.newInstance(""));
                 }
 
                 if (name.equals("java.lang.Byte")) {
-                    return HelperAttributes.javaType2Attribute(constructor.newInstance((byte) 1));
+                    return Attribute.javaType2Attribute(constructor.newInstance((byte) 1));
                 }
 
                 if (name.equals("java.lang.Long")) {
-                    return HelperAttributes.javaType2Attribute(0L);
+                    return Attribute.javaType2Attribute(0L);
                 }
 
                 Object newObj = constructor.newInstance(1);
-                return HelperAttributes.javaType2Attribute(newObj);
+                return Attribute.javaType2Attribute(newObj);
             } catch (InstantiationException
                     | InvocationTargetException
                     | IllegalArgumentException

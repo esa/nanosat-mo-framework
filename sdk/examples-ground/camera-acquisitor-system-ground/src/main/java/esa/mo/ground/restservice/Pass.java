@@ -48,27 +48,58 @@ public class Pass implements EventHandler<BooleanDetector> {
 
     private boolean startIsSet = false;
 
+    /**
+     * Creates a new {@code Pass}.
+     *
+     * @param notBeforeDate the not before date
+     * @param worstCaseRotationTimeSeconds the worst case rotation time seconds
+     */
     public Pass(AbsoluteDate notBeforeDate, long worstCaseRotationTimeSeconds) {
         this.notBeforeDate = notBeforeDate;
         this.worstCaseRotationTimeSeconds = worstCaseRotationTimeSeconds;
     }
 
+    /**
+     * Returns the result time.
+     *
+     * @return the result time
+     */
     public String getResultTime() {
         return resultTime;
     }
 
+    /**
+     * Returns the pass start.
+     *
+     * @return the pass start
+     */
     public AbsoluteDate getPassStart() {
         return passStart;
     }
 
+    /**
+     * Returns the pass end.
+     *
+     * @return the pass end
+     */
     public AbsoluteDate getPassEnd() {
         return passEnd;
     }
 
+    /**
+     * Returns the optimal time.
+     *
+     * @return the optimal time
+     */
     public AbsoluteDate getOptimalTime() {
         return optimalTime;
     }
 
+    /**
+     * Returns whether time found.
+     *
+     * @return the is time found
+     */
     public boolean isTimeFound() {
         return timeFound;
     }

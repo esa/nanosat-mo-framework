@@ -1,0 +1,94 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2022      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ----------------------------------------------------------------------------
+ *
+ * Author: N Wiegand (https://github.com/Klabau)
+ */
+
+package esa.mo.nmf.cmt.utils;
+
+import java.io.IOException;
+import java.util.List;
+
+/**
+ * This abstract class is used to provide multiple APIs for simulating the
+ * NanoSat segments. Implement this class to create a new API.
+ */
+public abstract class ContainerApi {
+
+    /**
+     * The property that names the container tool to run a segment with, so that
+     * a deployment can pick one without the tool being rebuilt. It is read once,
+     * when the first segment is created.
+     */
+    public static final String TOOL_PROPERTY = "esa.mo.nmf.cmt.containerTool";
+
+    /**
+     * Returns the way segments of this constellation are run.
+     *
+     * @param image The image a segment runs.
+     * @return The container tool that runs it.
+     */
+    public static ContainerApi of(SegmentImage image) {
+        String tool = System.getProperty(TOOL_PROPERTY, "docker");
+
+        if ("kubernetes".equalsIgnoreCase(tool)) {
+            return new KubernetesApi();
+        }
+        return new DockerApi(image.getImage());
+    }
+
+    /**
+     * Returns the segments already on this machine, whoever raised them.
+     * <p>
+     * A machine holds one constellation at a time: the segments of one are
+     * numbered from one and addressed by that number, so a second raised beside
+     * it would be asking for addresses the first already has.
+     *
+     * @return The names of the segments that are there, running or stopped, or
+     * an empty list when the machine holds none.
+     * @throws IOException if the container tool could not be asked.
+     */
+    public static List<String> existingSegments() throws IOException {
+        // The image is not part of the question: what is asked for is what the
+        // machine already holds, whatever it was raised from.
+        return of(SegmentImage.getDefault()).segments();
+    }
+
+    /**
+     * Returns the segments this container tool holds.
+     *
+     * @return Their names, running or stopped.
+     * @throws IOException if the tool could not be asked.
+     */
+    public abstract List<String> segments() throws IOException;
+
+    public abstract void run(String name, String[] keplerElements, int spacecraftNode) throws IOException;
+
+    public abstract void start(String name) throws IOException;
+
+    public abstract void stop(String name) throws IOException;
+
+    public abstract String getIPAddress(String name) throws IOException;
+
+    public abstract void remove(String name) throws IOException;
+
+    public abstract String getLogs(String name) throws IOException;
+
+}

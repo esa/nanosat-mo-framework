@@ -136,7 +136,7 @@ Bootloader baseline commanding
 The bootloader parameters are read-only; the **primary** baseline is commanded through an action instead,
 so the request can be validated before acceptance and its progress reported:
 
-- ``bootloader.setPrimaryBaseline(nmf-version, mission-version, java, main-class)`` — sets the baseline the
+- ``bootloader.set-primary-baseline(nmf-version, mission-version, java, main-class)`` — sets the baseline the
   bootloader boots next. The action validates, as reported stages, that the requested framework and mission
   versions are installed and pass their ``SHA256SUMS`` integrity tests and that the Java runtime executes;
   any failure rejects the whole command and leaves the baseline file untouched. It writes only the

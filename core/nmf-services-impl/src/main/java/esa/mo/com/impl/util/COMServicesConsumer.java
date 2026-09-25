@@ -49,6 +49,12 @@ public class COMServicesConsumer {
     private LoginConsumerServiceImpl loginService;
 
     /**
+     * Default constructor.
+     */
+    public COMServicesConsumer() {
+    }
+
+    /**
      * Initializes all the COM services consumer side automatically from the
      * connectionConsumer holding the details of the connections.
      *
@@ -100,18 +106,38 @@ public class COMServicesConsumer {
         }
     }
 
+    /**
+     * Returns the Archive service consumer.
+     *
+     * @return the Archive service consumer, or {@code null} if not initialized
+     */
     public ArchiveConsumerServiceImpl getArchiveService() {
         return this.archiveService;
     }
 
+    /**
+     * Returns the ArchiveSync service consumer.
+     *
+     * @return the ArchiveSync service consumer, or {@code null} if not initialized
+     */
     public ArchiveSyncConsumerServiceImpl getArchiveSyncService() {
         return this.archiveSyncService;
     }
 
+    /**
+     * Returns the Directory service consumer.
+     *
+     * @return the Directory service consumer, or {@code null} if not initialized
+     */
     public DirectoryConsumerServiceImpl getDirectoryService() {
         return this.directoryService;
     }
 
+    /**
+     * Returns the Login service consumer.
+     *
+     * @return the Login service consumer, or {@code null} if not initialized
+     */
     public LoginConsumerServiceImpl getLoginService() {
         return this.loginService;
     }
@@ -125,10 +151,20 @@ public class COMServicesConsumer {
         this.archiveService = archiveService;
     }
 
+    /**
+     * Sets manually the Directory consumer service.
+     *
+     * @param directoryService the Directory service consumer
+     */
     public void setDirectoryService(DirectoryConsumerServiceImpl directoryService) {
         this.directoryService = directoryService;
     }
 
+    /**
+     * Sets manually the Login consumer service.
+     *
+     * @param loginService the Login service consumer
+     */
     public void setLoginService(LoginConsumerServiceImpl loginService) {
         this.loginService = loginService;
     }
@@ -155,6 +191,11 @@ public class COMServicesConsumer {
         }
     }
 
+    /**
+     * Propagates the authentication id to all the initialized COM service consumers.
+     *
+     * @param authenticationId the authentication id of the logged in user
+     */
     public void setAuthenticationId(Blob authenticationId) {
         if (this.archiveService != null) {
             this.archiveService.setAuthenticationId(authenticationId);

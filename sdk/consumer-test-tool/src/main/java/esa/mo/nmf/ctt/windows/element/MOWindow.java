@@ -95,7 +95,9 @@ public final class MOWindow extends javax.swing.JDialog {
             }
             String string;
 
-            if (service != null && area != null) {
+            // A service is only looked up from an area, so having one means
+            // there was an area to ask for it.
+            if (service != null) {
                 string = "Area: " + area.getName()
                         + "        Service: " + service.getName()
                         + "        TypeId: " + typeId.getSFP();
@@ -219,6 +221,9 @@ public final class MOWindow extends javax.swing.JDialog {
         throw new IOException("Weird!");
     }
 
+    /**
+     * Resizes the window height to fit the number of field components.
+     */
     public void refreshVerticalSize() {
         // This is needed for screens that have the zoom property set
         // sizeFactor used to be a static 23
@@ -229,6 +234,9 @@ public final class MOWindow extends javax.swing.JDialog {
         this.repaint();
     }
 
+    /**
+     * Widens the window to fit the widest field type currently displayed.
+     */
     public void refreshHorizontalSize() {
         for (int i = 0; i < componentsPanel.getComponentCount(); i++) {
             Entry entry = (Entry) componentsPanel.getComponent(i);
@@ -247,6 +255,11 @@ public final class MOWindow extends javax.swing.JDialog {
         this.repaint();
     }
 
+    /**
+     * Returns the panel holding the field-editor components.
+     *
+     * @return the components panel
+     */
     public javax.swing.JPanel getComponentsPanel() {
         return this.componentsPanel;
     }
@@ -376,6 +389,12 @@ public final class MOWindow extends javax.swing.JDialog {
         }
     }
 
+    /**
+     * Builds and returns the MO object represented by the current field values.
+     *
+     * @return the edited MO object
+     * @throws InterruptedIOException if the window was closed without confirming
+     */
     @SuppressWarnings({"unchecked", "unchecked"})
     public Object getObject() throws InterruptedIOException {
         if (closeButtonPressed) {
@@ -398,8 +417,8 @@ public final class MOWindow extends javax.swing.JDialog {
             return list;
         }
 
-        // Composite not list
-        if (this.receivedObj instanceof Composite && !(this.receivedObj instanceof ElementList)) {
+        // A Composite that is not a list: the lists returned above.
+        if (this.receivedObj instanceof Composite) {
             Field[] fields = FieldsHandler.getDeclaredFields(this.receivedObj);
 
             if (fields.length < START_INDEX) {
@@ -441,11 +460,6 @@ public final class MOWindow extends javax.swing.JDialog {
         }
 
         AttributeEntry moAttribute = (AttributeEntry) componentsPanel.getComponent(0);
-
-        if (this.receivedObj instanceof Attribute && !(this.receivedObj instanceof ElementList)) {
-            return moAttribute.getObject();
-        }
-
         return moAttribute.getObject();
     }
 

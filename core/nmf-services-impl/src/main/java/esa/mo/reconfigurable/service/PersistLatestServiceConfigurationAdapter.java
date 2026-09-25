@@ -26,9 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.provider.ArchiveInheritanceSkeleton;
 import org.ccsds.moims.mo.com.configuration.ConfigurationServiceInfo;
-import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ConfigurationService;
-import org.ccsds.moims.mo.com.structures.ObjectKeysList;
 import org.ccsds.moims.mo.com.DuplicateException;
 import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mal.MALException;
@@ -51,6 +49,14 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
 
     private final ExecutorService executor;
 
+    /**
+     * Creates a new {@code PersistLatestServiceConfigurationAdapter}.
+     *
+     * @param service the service
+     * @param serviceConfigObjId the service config obj id
+     * @param archiveService the archive service
+     * @param executor the executor
+     */
     public PersistLatestServiceConfigurationAdapter(final ReconfigurableService service, final Long serviceConfigObjId,
             final ArchiveInheritanceSkeleton archiveService, final ExecutorService executor) {
         this.archiveService = archiveService;
@@ -58,6 +64,11 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
         this.executor = executor;
     }
 
+    /**
+     * Returns the configuration object inst id.
+     *
+     * @return the configuration object inst id
+     */
     public Long getConfigurationObjectInstId() {
         return this.serviceConfigObjId;
     }
@@ -94,6 +105,12 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
         });
     }
 
+    /**
+     * Stores the given service's default configuration under the given object id.
+     *
+     * @param defaultObjId the default obj id
+     * @param service the service
+     */
     public final void storeDefaultServiceConfiguration(final Long defaultObjId, final ReconfigurableService service) {
         try {
             // Store the Service Configuration with embedded config objects

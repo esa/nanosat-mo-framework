@@ -29,13 +29,13 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.*;
 
 /**
+ * Monitor and Control adapter for the benchmark application.
  *
  * @author Cesar Coelho
  */
@@ -44,14 +44,14 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     private final NanoSatMOConnectorImpl connector;
     //    private static int NUMBER_OF_OBJS = 5000;
     private static final int NUMBER_OF_OBJS = 10000;
-    private static final String PARAMETER_PERIODIC = "Periodic_Parameter";
-    private static final String PARAMETER_ARCHIVE_SIZE = "COM_Archive.size";
-    private static final String ACTION_STORE_AGGS = "StoreAggregations";
-    private static final String ACTION_STORE_PARS = "StoreParameters";
+    private static final String PARAMETER_PERIODIC = "benchmark.periodic-parameter";
+    private static final String PARAMETER_ARCHIVE_SIZE = "benchmark.com-archive-size";
+    private static final String ACTION_STORE_AGGS = "benchmark.store-aggregations";
+    private static final String ACTION_STORE_PARS = "benchmark.store-parameters";
     private static final String ACTION_SHUTDOWN_GRACEFULLY = "shutdown.gracefully";
     private static final String ACTION_SHUTDOWN_EXIT_0 = "shutdown.system.exit.0";
     private static final String ACTION_SHUTDOWN_EXIT_X = "shutdown.system.exit.x";
-    private static final String ACTION_GO = "Go";
+    private static final String ACTION_GO = "benchmark.go";
     private static final int TOTAL_N_OF_STAGES = 5;
     private static final int SLEEP_TIME = 2;
 
@@ -132,13 +132,13 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     @Override
     public Attribute onGetValue(Identifier identifier, AttributeType rawType) throws IOException {
         if (PARAMETER_PERIODIC.equals(identifier.getValue())) {
-            return (Attribute) HelperAttributes.javaType2Attribute(123.456);
+            return (Attribute) Attribute.javaType2Attribute(123.456);
         }
 
         if (PARAMETER_ARCHIVE_SIZE.equals(identifier.getValue())) {
             File f = connector.getDatabaseLocationInUserDirectory();
             long size = f.length();
-            return (Attribute) HelperAttributes.javaType2Attribute(size);
+            return (Attribute) Attribute.javaType2Attribute(size);
         }
 
         throw new IOException("The value could not be acquired!");

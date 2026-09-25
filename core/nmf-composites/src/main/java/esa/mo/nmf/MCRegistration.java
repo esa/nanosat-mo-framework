@@ -48,31 +48,59 @@ public class MCRegistration {
      * The possible registration modes.
      */
     public enum RegistrationMode {
-        UPDATE_IF_EXISTS, DONT_UPDATE_IF_EXISTS
+        /** Update the existing definition when a definition with the same name already exists. */
+        UPDATE_IF_EXISTS,
+        /** Keep the existing definition when a definition with the same name already exists. */
+        DONT_UPDATE_IF_EXISTS
     }
 
     private RegistrationMode mode = RegistrationMode.DONT_UPDATE_IF_EXISTS; // default mode
+    private final COMServicesProvider comServices;
+    private final ParameterProviderServiceImpl parameterService;
+    private final AggregationProviderServiceImpl aggregationService;
+    private final AlertProviderServiceImpl alertService;
+    private final ActionProviderServiceImpl actionService;
 
-    public final COMServicesProvider comServices;
-    public final ParameterProviderServiceImpl parameterService;
-    public final AggregationProviderServiceImpl aggregationService;
-    public final AlertProviderServiceImpl alertService;
-    public final ActionProviderServiceImpl actionService;
-
-    public MCRegistration(COMServicesProvider comServices,
-            ParameterProviderServiceImpl parameterService,
-            AggregationProviderServiceImpl aggregationService,
-            AlertProviderServiceImpl alertService,
-            ActionProviderServiceImpl actionService) {
+    /**
+     * Creates a registration object bound to the given COM and Monitor and Control services.
+     *
+     * @param comServices the COM services stack backing the Monitor and Control services
+     * @param mcServices the Monitor and Control services stack the definitions are
+     * registered in
+     */
+    public MCRegistration(COMServicesProvider comServices, MCServicesProviderNMF mcServices) {
         this.comServices = comServices;
-        this.parameterService = parameterService;
-        this.aggregationService = aggregationService;
-        this.alertService = alertService;
-        this.actionService = actionService;
+        this.parameterService = mcServices.getParameterService();
+        this.aggregationService = mcServices.getAggregationService();
+        this.alertService = mcServices.getAlertService();
+        this.actionService = mcServices.getActionService();
     }
 
+    /**
+     * Sets the mode used when a definition with the same name already exists.
+     *
+     * @param mode the registration mode to use
+     */
     public void setMode(RegistrationMode mode) {
         this.mode = mode;
+    }
+
+    /**
+     * Returns the COM services stack backing the Monitor and Control services.
+     *
+     * @return the COM services stack
+     */
+    public COMServicesProvider getCOMServices() {
+        return comServices;
+    }
+
+    /**
+     * Returns the Parameter service the parameter definitions are registered in.
+     *
+     * @return the Parameter service
+     */
+    public ParameterProviderServiceImpl getParameterService() {
+        return parameterService;
     }
 
     /**

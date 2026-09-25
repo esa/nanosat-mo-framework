@@ -49,6 +49,8 @@ import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 
 /**
+ * Panel holding the connection controls and the per-service tabs for a directly-connected
+ * consumer.
  *
  * @author Cesar Coelho
  */

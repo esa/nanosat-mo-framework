@@ -28,11 +28,17 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mc.structures.ActionDefinition;
 
 /**
+ * Table panel listing the configuration objects stored in a COM Archive.
  *
  * @author Cesar Coelho
  */
 public class ConfigurationTablePanel extends SharedTablePanel {
 
+    /**
+     * Creates the configuration table panel.
+     *
+     * @param archiveService the COM Archive service the configurations are read from
+     */
     public ConfigurationTablePanel(ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }

@@ -38,6 +38,11 @@ public class Args {
 
     private final List<String> tokens;
 
+    /**
+     * Creates an argument holder from the given tokens.
+     *
+     * @param tokens the command line tokens
+     */
     public Args(String[] tokens) {
         this.tokens = new ArrayList<>(Arrays.asList(tokens));
     }
@@ -46,6 +51,9 @@ public class Args {
      * Finds the first occurrence of any of the given names, removes it and its
      * following value from the token list, and returns the value. Returns
      * {@code null} if none of the names is present.
+     *
+     * @param names the accepted names of the option (for example {@code -r}, {@code --remote})
+     * @return the option value, or {@code null} if the option is not present
      */
     public String option(String... names) {
         for (int i = 0; i < tokens.size() - 1; i++) {
@@ -62,6 +70,9 @@ public class Args {
     /**
      * Returns {@code true} and removes the token if any of the given names is
      * present; otherwise returns {@code false}.
+     *
+     * @param names the accepted names of the flag
+     * @return {@code true} if the flag was present (and consumed)
      */
     public boolean flag(String... names) {
         for (int i = 0; i < tokens.size(); i++) {
@@ -78,6 +89,8 @@ public class Args {
     /**
      * Returns all remaining tokens after named options and flags have been
      * consumed. These are the positional arguments for the current command.
+     *
+     * @return the remaining positional arguments
      */
     public List<String> positionals() {
         return new ArrayList<>(tokens);
@@ -86,11 +99,19 @@ public class Args {
     /**
      * Returns the Nth remaining token (0-based), or {@code null} if there are
      * fewer than {@code index + 1} tokens left.
+     *
+     * @param index the 0-based index of the positional argument
+     * @return the positional argument, or {@code null} if there is none at that index
      */
     public String positional(int index) {
         return index < tokens.size() ? tokens.get(index) : null;
     }
 
+    /**
+     * Returns whether there are no tokens left.
+     *
+     * @return {@code true} if no tokens remain
+     */
     public boolean isEmpty() {
         return tokens.isEmpty();
     }

@@ -24,7 +24,6 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.mcadapters.MCSupervisorBasicAdapter;
 import esa.mo.nmf.nanosatmosupervisor.NanoSatMOSupervisor;
-import esa.mo.nmf.nmfpackage.NMFPackagePMBackend;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import java.util.logging.Logger;
 
@@ -37,6 +36,12 @@ import java.util.logging.Logger;
 public class BareboneSupervisorImpl extends NanoSatMOSupervisor {
 
     private static final Logger LOGGER = Logger.getLogger(BareboneSupervisorImpl.class.getName());
+
+    /**
+     * Default constructor.
+     */
+    public BareboneSupervisorImpl() {
+    }
 
     /**
      * Main command line entry point.
@@ -52,10 +57,7 @@ public class BareboneSupervisorImpl extends NanoSatMOSupervisor {
 
     @Override
     public void init(MonitorAndControlNMFAdapter mcAdapter) {
-        init(mcAdapter,
-                new PlatformServicesConsumer(),
-                new NMFPackagePMBackend("packages", this.getAppsLauncherService())
-        );
+        init(mcAdapter, new PlatformServicesConsumer());
     }
 
     @Override

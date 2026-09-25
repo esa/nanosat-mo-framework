@@ -32,6 +32,12 @@ import java.io.Serializable;
 public abstract class SimpleDataReceivedListener implements DataReceivedListener {
 
     /**
+     * Default constructor.
+     */
+    public SimpleDataReceivedListener() {
+    }
+
+    /**
      * This interface must be implemented in order to receive the parameter
      * content from the Parameter service coming via the monitorValue operation
      *

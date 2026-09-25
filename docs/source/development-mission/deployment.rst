@@ -44,7 +44,7 @@ The recommended path from development to flight is:
 
 4. **Flight model.** Final software validation on the actual flight unit before launch.
 
-For the concrete example of this progression applied to OPS-SAT, see :doc:`../mission-integration/ops-sat`.
+For the concrete example of this progression, see :doc:`../specific-missions/ops-sat`.
 
 Transport and the Ground MO Proxy
 -----------------------------------
@@ -66,5 +66,5 @@ See :doc:`../development-ground/ground-mo-proxy` for the ground side of this con
 Further reading
 ----------------
 
-- :doc:`../mission-integration/ops-sat` — complete worked example for the ESA OPS-SAT mission.
-- :doc:`../mission-integration/phi-sat-2` — worked example for the ESA ɸ-Sat-2 mission.
+- :doc:`../specific-missions/ops-sat` — complete worked example for the ESA OPS-SAT mission.
+- :doc:`../specific-missions/phi-sat-2` — worked example for the ESA ɸ-Sat-2 mission.

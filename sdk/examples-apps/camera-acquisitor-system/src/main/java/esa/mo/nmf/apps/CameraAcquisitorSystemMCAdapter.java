@@ -59,103 +59,184 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
         this.cameraTargetHandler.recoverLastState();
     }
 
+    /**
+     * Exposure Type Mode Enum.
+     */
     public enum ExposureTypeModeEnum {
-        CUSTOM, AUTOMATIC // maybe implement hdr?
+        /** The CUSTOM value. */
+        CUSTOM,
+        /** The AUTOMATIC value. */
+        AUTOMATIC  // maybe implement hdr?
     }
 
     // ----------------------------------- Parameters -----------------------------------------------
 
-    @Parameter(description = "The red channel gain", reportingEnabled = false)
+    @Parameter(name = "camera.gain.red", description = "The red channel gain", reportingEnabled = false)
     private float gainRed = 8.0f;
 
-    @Parameter(description = "The green channel gain", reportingEnabled = false)
+    @Parameter(name = "camera.gain.green", description = "The green channel gain", reportingEnabled = false)
     private float gainGreen = 8.0f;
 
-    @Parameter(description = "The blue channel gain", reportingEnabled = false)
+    @Parameter(name = "camera.gain.blue", description = "The blue channel gain", reportingEnabled = false)
     private float gainBlue = 8.0f;
 
-    @Parameter(description = "The camera's exposure Type (CUSTOM = 0, AUTOMATIC = 1)", reportingEnabled = false)
+    @Parameter(name = "camera.exposure-type", description = "The camera's exposure Type (CUSTOM = 0, AUTOMATIC = 1)", reportingEnabled = false)
     private byte exposureType = 0;
 
-    @Parameter(description = "The camera's exposure time (only used if exposureType is CUSTOM)",
+    @Parameter(name = "camera.exposure-time", description = "The camera's exposure time (only used if exposureType is CUSTOM)",
                reportingEnabled = false)
     private float exposureTime = 0.003f;
 
-    @Parameter(description = "The maximum time (in milliseconds) the satellite will take to establish a lock and rotate",
+    @Parameter(name = "worst-case-rotation-time-ms", description = "The maximum time (in milliseconds) the satellite will take to establish a lock and rotate",
                reportingEnabled = false)
     private long worstCaseRotationTimeMS = 1000000;
 
-    @Parameter(description = "The time (in milliseconds) the satellite will keep pointing at a given target after passing over it",
+    @Parameter(name = "adcs.attitude-safety-margin-ms", description = "The time (in milliseconds) the satellite will keep pointing at a given target after passing over it",
                reportingEnabled = false)
     private long attitudeSafetyMarginMS = 20000;
 
-    @Parameter(description = "The width (x resolution) of the picture taken by the camera", reportingEnabled = false)
+    @Parameter(name = "camera.picture-width", description = "The width (x resolution) of the picture taken by the camera", reportingEnabled = false)
     private int pictureWidth = 2048;
 
-    @Parameter(description = "The height (y resolution) of the picture taken by the camera", reportingEnabled = false)
+    @Parameter(name = "camera.picture-height", description = "The height (y resolution) of the picture taken by the camera", reportingEnabled = false)
     private int pictureHeight = 1944;
 
-    @Parameter(description = "The picture type to use (uses PictureFormat ENUM: RAW=0, RGB24=1, BMP=2, PNG=3, JPG=4)",
+    @Parameter(name = "camera.picture-type", description = "The picture type to use (uses PictureFormat ENUM: RAW=0, RGB24=1, BMP=2, PNG=3, JPG=4)",
                reportingEnabled = false)
     private int pictureType = 3;
 
     // ----------------------------------------------------------------------------------------------
+    /**
+     * Returns the picture type.
+     *
+     * @return the picture type
+     */
     public PictureFormat getPictureType() {
         return new PictureFormat(pictureType);
     }
 
+    /**
+     * Returns the gain red.
+     *
+     * @return the gain red
+     */
     public float getGainRed() {
         return gainRed;
     }
 
+    /**
+     * Returns the gain green.
+     *
+     * @return the gain green
+     */
     public float getGainGreen() {
         return gainGreen;
     }
 
+    /**
+     * Returns the gain blue.
+     *
+     * @return the gain blue
+     */
     public float getGainBlue() {
         return gainBlue;
     }
 
+    /**
+     * Returns the exposure type.
+     *
+     * @return the exposure type
+     */
     public ExposureTypeModeEnum getExposureType() {
         return ExposureTypeModeEnum.values()[exposureType];
     }
 
+    /**
+     * Returns the exposure time.
+     *
+     * @return the exposure time
+     */
     public float getExposureTime() {
         return exposureTime;
     }
 
+    /**
+     * Returns the picture width.
+     *
+     * @return the picture width
+     */
     public int getPictureWidth() {
         return pictureWidth;
     }
 
+    /**
+     * Returns the picture height.
+     *
+     * @return the picture height
+     */
     public int getPictureHeight() {
         return pictureHeight;
     }
 
+    /**
+     * Returns the worst case rotation time ms.
+     *
+     * @return the worst case rotation time ms
+     */
     public long getWorstCaseRotationTimeMS() {
         return worstCaseRotationTimeMS;
     }
 
+    /**
+     * Returns the worst case rotation time seconds.
+     *
+     * @return the worst case rotation time seconds
+     */
     public long getWorstCaseRotationTimeSeconds() {
         return worstCaseRotationTimeMS / 1000;
     }
 
+    /**
+     * Returns the camera handler.
+     *
+     * @return the camera handler
+     */
     public CameraAcquisitorSystemCameraHandler getCameraHandler() {
         return cameraHandler;
     }
 
+    /**
+     * Returns the camera target handler.
+     *
+     * @return the camera target handler
+     */
     public CameraAcquisitorSystemCameraTargetHandler getCameraTargetHandler() {
         return cameraTargetHandler;
     }
 
+    /**
+     * Returns the gps handler.
+     *
+     * @return the gps handler
+     */
     public CameraAcquisitorSystemGPSHandler getGpsHandler() {
         return gpsHandler;
     }
 
+    /**
+     * Returns the connector.
+     *
+     * @return the connector
+     */
     public NMFInterface getConnector() {
         return connector;
     }
 
+    /**
+     * Creates a new {@code CameraAcquisitorSystemMCAdapter}.
+     *
+     * @param connector the NMF provider connector
+     */
     public CameraAcquisitorSystemMCAdapter(final NMFInterface connector) {
         try {
             // load orekit-data wich is required for many parts of orekit to work.
@@ -176,6 +257,15 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
 
     }
 
+    /**
+     * Executes the photograph location action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @param targetLatitude the target latitude
+     * @param targetLongitude the target longitude
+     * @param timeStamp the time stamp
+     */
     @Action(description = "queues a new photograph target at the Specified Timestamp",
             stepCount = CameraAcquisitorSystemCameraTargetHandler.PHOTOGRAPH_LOCATION_STAGES,
             name = CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION)
@@ -188,6 +278,13 @@ public class CameraAcquisitorSystemMCAdapter extends MonitorAndControlNMFAdapter
             executionId, interaction);
     }
 
+    /**
+     * Executes the photograph now action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @throws ExecutionFailedException if the operation fails
+     */
     @Action(description = "takes a photograph immediately",
             stepCount = CameraAcquisitorSystemCameraHandler.PHOTOGRAPH_NOW_STAGES)
     public void photographNow(Long executionId, MALInteraction interaction) throws ExecutionFailedException {

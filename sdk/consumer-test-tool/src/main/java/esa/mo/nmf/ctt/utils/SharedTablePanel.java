@@ -47,14 +47,20 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 
 /**
+ * Base panel showing a table of COM objects retrieved from a COM Archive. Subclasses define
+ * the table columns and how each COM object is turned into a row.
  *
  * @author Cesar Coelho
  */
 public abstract class SharedTablePanel extends javax.swing.JPanel {
 
+    /** The table model holding the displayed rows. */
     protected DefaultTableModel tableData;
+    /** The COM objects backing the table rows, in row order. */
     protected List<ArchivePersistenceObject> comObjects;
+    /** Guards concurrent access to the table content. */
     protected Semaphore semaphore = new Semaphore(1);
+    /** The COM Archive service the objects are retrieved from. */
     protected final ArchiveConsumerServiceImpl archiveService;
 
     /**
@@ -91,6 +97,11 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         table.setRowSorter(sorter);
     }
 
+    /**
+     * Returns the model index of the selected row.
+     *
+     * @return the selected row model index, or {@code -1} if none is selected
+     */
     public synchronized int getSelectedRow() {
         int index = table.getSelectedRow();
         if (index == -1) {
@@ -99,6 +110,13 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         return table.getRowSorter().convertRowIndexToModel(index);
     }
 
+    /**
+     * Clears the table and repopulates it with the COM objects of the given ids, sorted by id.
+     *
+     * @param ids the object instance ids to retrieve
+     * @param domain the domain of the objects
+     * @param objType the COM object type
+     */
     public void refreshTableWithIdsPairs(LongList ids, IdentifierList domain, ObjectType objType) {
         this.removeAllEntries(); // RemoveAll
 
@@ -125,6 +143,13 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Clears the table and repopulates it with the COM objects of the given ids.
+     *
+     * @param objIds the object instance ids to retrieve
+     * @param domain the domain of the objects
+     * @param objType the COM object type
+     */
     public void refreshTableWithIds(LongList objIds, IdentifierList domain, ObjectType objType) {
         // RemoveAll
         this.removeAllEntries();
@@ -149,22 +174,47 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Returns the COM Archive service the objects are retrieved from.
+     *
+     * @return the COM Archive service
+     */
     protected ArchiveConsumerServiceImpl getArchiveService() {
         return this.archiveService;
     }
 
+    /**
+     * Returns the object instance id of the COM object in the selected row.
+     *
+     * @return the selected object's instance id
+     */
     public Long getSelectedDefinitionObjId() {
         return comObjects.get(getSelectedRow()).getObjectId();
     }
 
+    /**
+     * Returns the COM objects backing the table rows.
+     *
+     * @return the COM objects, in row order
+     */
     public List<ArchivePersistenceObject> getCOMObjects() {
         return comObjects;
     }
 
+    /**
+     * Returns the COM object in the selected row.
+     *
+     * @return the selected COM object
+     */
     public ArchivePersistenceObject getSelectedCOMObject() {
         return comObjects.get(getSelectedRow());
     }
 
+    /**
+     * Returns the first COM object in the table.
+     *
+     * @return the first COM object, or {@code null} if the table is empty
+     */
     public ArchivePersistenceObject getFirstCOMObject() {
         if (comObjects != null) {
             if (!comObjects.isEmpty()) {
@@ -174,6 +224,11 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         return null;
     }
 
+    /**
+     * Returns the COM object referenced as the source of the first COM object in the table.
+     *
+     * @return the source COM object, or {@code null} if the table is empty
+     */
     public ArchivePersistenceObject getSourceFromFirstCOMObject() {
         if (comObjects == null || comObjects.isEmpty()) {
             return null;
@@ -188,15 +243,26 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         );
     }
 
+    /**
+     * Returns the underlying Swing table.
+     *
+     * @return the table
+     */
     public synchronized JTable getTable() {
         return table;
     }
 
+    /**
+     * Removes the selected row and its backing COM object.
+     */
     public synchronized void removeSelectedEntry() {
         comObjects.remove(this.getSelectedRow());
         tableData.removeRow(this.getSelectedRow());
     }
 
+    /**
+     * Removes all rows and their backing COM objects.
+     */
     public synchronized void removeAllEntries() {
         while (tableData.getRowCount() != 0) {
             comObjects.remove(tableData.getRowCount() - 1);
@@ -204,6 +270,11 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Adds a row for each COM object contained in the given archive query output.
+     *
+     * @param archiveObjectOutput the archive query output to add, may be {@code null}
+     */
     protected final void addEntries(final ArchiveCOMObjectsOutput archiveObjectOutput) {
         if (archiveObjectOutput == null) {
             return;
@@ -228,8 +299,16 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Adds a single COM object as a row. Subclasses define how it maps to columns.
+     *
+     * @param comObject the COM object to add
+     */
     public abstract void addEntry(final ArchivePersistenceObject comObject);
 
+    /**
+     * Defines the table columns and content model. Called by subclasses during setup.
+     */
     public abstract void defineTableContent();
 
     /**

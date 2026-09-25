@@ -36,10 +36,8 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
 import org.ccsds.moims.mo.mal.structures.AttributeList;
-import org.ccsds.moims.mo.mal.structures.AttributeTypeList;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.QoSLevel;
 import org.ccsds.moims.mo.mal.structures.SessionType;
 import org.ccsds.moims.mo.mal.structures.UInteger;
@@ -71,6 +69,12 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
     private Timer publishTimer = new Timer();
     private final AtomicLong uniqueObjId = new AtomicLong(System.currentTimeMillis());
     private SoftwareDefinedRadioAdapterInterface adapter;
+
+    /**
+     * Default constructor.
+     */
+    public SoftwareDefinedRadioProviderServiceImpl() {
+    }
 
     /**
      * Initializes the Software-defined Radio service.
@@ -198,7 +202,18 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
         }
     }
 
+    /**
+     * Listener that logs the acknowledgements and errors of the SoftwareDefinedRadio service PUB/SUB
+     * publish operations.
+     */
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
+
+        /**
+         * Default constructor.
+         */
+        public PublishInteractionListener() {
+        }
+
 
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header, 

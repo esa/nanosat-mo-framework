@@ -81,6 +81,12 @@ public class GenerateNMFCorePackageMojo extends AbstractMojo {
     @Parameter(property = "generate-nmf-core-package.jarsNmfDirectory")
     private File jarsNmfDirectory;
 
+    /**
+     * Default constructor.
+     */
+    public GenerateNMFCorePackageMojo() {
+    }
+
     @Override
     public void execute() throws MojoExecutionException {
         getLog().info("Generating NMF core package...");
@@ -128,7 +134,7 @@ public class GenerateNMFCorePackageMojo extends AbstractMojo {
         File packageFile = builder.createPackage(targetFolder);
 
         if (packageFile != null && packageFile.exists()) {
-            projectHelper.attachArtifact(project, Const.NMF_PACKAGE_SUFFIX, "nmf-core", packageFile);
+            projectHelper.attachArtifact(project, Const.NMF_PACKAGE_SUFFIX, packageFile);
             getLog().info("Attached artifact: " + packageFile.getName());
         }
     }

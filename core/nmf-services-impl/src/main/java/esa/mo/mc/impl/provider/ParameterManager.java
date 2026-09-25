@@ -55,6 +55,12 @@ public class ParameterManager extends MCManager {
 
     private Long uniqueObjIdPVal;
 
+    /**
+     * Creates a new {@code ParameterManager}.
+     *
+     * @param comServices the COM services
+     * @param parametersMonitoring the parameters monitoring
+     */
     public ParameterManager(COMServicesProvider comServices, ParameterStatusListener parametersMonitoring) {
         super(comServices);
         MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(ParameterHelper.PARAMETER_SERVICE);
@@ -222,6 +228,14 @@ public class ParameterManager extends MCManager {
      * @return The requested parameter value.
      * @throws MALInteractionException If the parameter does not exist.
      */
+    /**
+     * Returns the parameter value.
+     *
+     * @param defId the def id
+     * @return the parameter value
+     * @throws UnknownException if the operation fails
+     * @throws MALInteractionException if the operation fails
+     */
     public ParameterValue getParameterValue(Long defId) throws UnknownException, MALInteractionException {
         return getParameterValue(defId, false);
     }
@@ -236,6 +250,15 @@ public class ParameterManager extends MCManager {
      * will be expired.
      * @return The requested parameter value.
      * @throws MALInteractionException If the parameter does not exist.
+     */
+    /**
+     * Returns the parameter value.
+     *
+     * @param defId the def id
+     * @param aggrExpired the aggr expired
+     * @return the parameter value
+     * @throws UnknownException if the operation fails
+     * @throws MALInteractionException if the operation fails
      */
     public ParameterValue getParameterValue(Long defId, boolean aggrExpired) throws UnknownException, MALInteractionException {
         if (!this.existsDef(defId)) {  // The Parameter does not exist
@@ -301,7 +324,6 @@ public class ParameterManager extends MCManager {
             return true;  // No test is required
         }
 
-        //TODO: contains the expression defintion or identity-id? -> issue #132, #179
         final Long paramDefId = expression.getParameterId();
         ParameterDefinition pDef = this.getParameterDefinition(paramDefId);
         Attribute value;
@@ -404,6 +426,14 @@ public class ParameterManager extends MCManager {
                 expParamValue, expPDef), aggrExpired);
     }
 
+    /**
+     * Adds multiple parameter definitions and returns their object ids.
+     *
+     * @param definitions the definitions
+     * @param source the source
+     * @param connectionDetails the connection details
+     * @return the assigned object ids
+     */
     protected LongList addMultiple(HeterogeneousList definitions,
             ObjectKey source, SingleConnectionDetails connectionDetails) {
         try {
@@ -458,6 +488,15 @@ public class ParameterManager extends MCManager {
         return newIds;
     }
 
+    /**
+     * Adds a parameter definition and returns its object id.
+     *
+     * @param name the name
+     * @param definition the definition
+     * @param source the source
+     * @param connectionDetails the connection details
+     * @return the assigned object id
+     */
     protected Long add(Identifier name, ParameterDefinition definition,
             ObjectKey source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         Long newIdPair;
@@ -605,21 +644,9 @@ public class ParameterManager extends MCManager {
         //each Raw Value shall be set
         for (ParameterRawValue newRawValue : newRawValues) {
             Long id = newRawValue.getParameterId();
-            //requirement 3.3.9.2.h: create a new ParameterValue
-            //TODO: what happens with the newly crated value? only raw value will be saved in the parameterApplication -> issue #140
-            //            ParameterValue newValue = generateNewParameterValue(newRawValue.getRawValue(), getParameterDefinition(identityId), false);
-            paramValList.add(generateNewParameterValue(newRawValue.getRawValue(),
-                    getParameterDefinition(id), false));
-            names.add(((ParameterDefinition) this.getParameterDefinition(id)).getName());
-            //            parametersMonitoring.onSetValue(getNameFromObjId(identityId), newRawValue.getRawValue(), timestamp);
-            //            parametersMonitoring.onSetValue(getNameFromObjId(identityId), newRawValue.getRawValue());
-            //            Boolean success;
-            //            if (parametersMonitoring != null) {
-            //                success =
-            //            } else {
-            //                success = false;
-            //            }
-            //            successFlags.add(success);
+            ParameterDefinition def = getParameterDefinition(id);
+            paramValList.add(generateNewParameterValue(newRawValue.getRawValue(), def, false));
+            names.add(((ParameterDefinition) def).getName());
         }
 
         // setSuccessful is not being used anywhere... weird
@@ -692,14 +719,10 @@ public class ParameterManager extends MCManager {
      *
      * @param rawValue The raw value.
      * @param pDef The definition it should get the conversion from.
-     * @return The converted value. null if no Conversion service is available.
+     * @return The converted value, or null where the definition asks for no
+     * conversion.
      */
     private Attribute getConvertedValue(final Attribute rawValue, final ParameterDefinition pDef) {
-        // Is the Conversion service available for use?
-        if (conversionService == null) {
-            return null;
-        }
-
         return conversionService.generateConvertedValue(rawValue, pDef.getConversion());
     }
 

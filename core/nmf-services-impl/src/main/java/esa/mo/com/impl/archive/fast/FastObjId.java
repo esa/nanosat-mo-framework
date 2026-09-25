@@ -38,11 +38,19 @@ public class FastObjId {
     private final DatabaseBackend dbBackend;
     private HashMap<Key, Long> fastID;
 
+    /**
+     * Creates a new {@code FastObjId}.
+     *
+     * @param dbBackend the database backend
+     */
     public FastObjId(final DatabaseBackend dbBackend) {
         this.dbBackend = dbBackend;
         this.fastID = new HashMap<>();
     }
 
+    /**
+     * Clears the cached object ids.
+     */
     public synchronized void resetFastIDs() {
         this.fastID = new HashMap<>();
     }
@@ -78,6 +86,12 @@ public class FastObjId {
         this.fastID.put(key, objId);
     }
 
+    /**
+     * Removes the cached ids for the given object type and domain.
+     *
+     * @param objectTypeId the object type id
+     * @param domain the domain
+     */
     public synchronized void delete(final Integer objectTypeId, final Integer domain) {
         Key key = new Key(objectTypeId, domain);
         this.fastID.remove(key);
@@ -123,6 +137,14 @@ public class FastObjId {
         return this.newUniqueID(objectTypeId, domain);
     }
 
+    /**
+     * Returns the unique obj id.
+     *
+     * @param objTypeId the object type id
+     * @param domain the domain
+     * @param objId the object id
+     * @return the unique obj id
+     */
     public synchronized Long getUniqueObjId(final Integer objTypeId, final Integer domain, final Long objId) {
         if (objId == 0) { // requirement: 3.4.6.2.5
             return this.generateUniqueObjId(objTypeId, domain);

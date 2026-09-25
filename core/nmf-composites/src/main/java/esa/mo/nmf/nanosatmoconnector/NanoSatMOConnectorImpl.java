@@ -69,6 +69,12 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
     private Subscription shutdownSubscription;
 
     /**
+     * Default constructor.
+     */
+    public NanoSatMOConnectorImpl() {
+    }
+
+    /**
      * Initializes the NanoSat MO Connector. The MonitorAndControlAdapter
      * adapter class can be extended for remote monitoring and control with the
      * CCSDS Monitor and Control services. One can also extend the
@@ -308,11 +314,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         }
 
         if (mcAdapter != null) {
-            MCRegistration registration = new MCRegistration(comServices,
-                    mcServices.getParameterService(),
-                    mcServices.getAggregationService(),
-                    mcServices.getAlertService(),
-                    mcServices.getActionService());
+            MCRegistration registration = new MCRegistration(comServices, mcServices);
             mcAdapter.initialRegistrations(registration);
             mcAdapter.restoreParameterValuesFromArchive();
         }

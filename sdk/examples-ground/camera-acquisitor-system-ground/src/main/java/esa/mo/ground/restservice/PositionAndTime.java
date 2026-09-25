@@ -33,14 +33,26 @@ import org.orekit.time.AbsoluteDate;
 @JsonIgnoreProperties(value = {"orekitDate", "location"})
 public class PositionAndTime {
 
+    /** The orekit date. */
     public final AbsoluteDate orekitDate;
+    /** The date. */
     public final String date;
 
+    /** The location. */
     public final GeodeticPoint location;
+    /** The latitude. */
     public final double latitude;
+    /** The longitude. */
     public final double longitude;
+    /** The altitude. */
     public final double altitude;
 
+    /**
+     * Creates a new {@code PositionAndTime}.
+     *
+     * @param orekitDate the orekit date
+     * @param location the location
+     */
     public PositionAndTime(AbsoluteDate orekitDate, GeodeticPoint location) {
         this.orekitDate = orekitDate;
         this.date = orekitDate.toString();
@@ -51,26 +63,56 @@ public class PositionAndTime {
         altitude = location.getAltitude();
     }
 
+    /**
+     * Returns the orekit date.
+     *
+     * @return the orekit date
+     */
     public AbsoluteDate getOrekitDate() {
         return orekitDate;
     }
 
+    /**
+     * Returns the date.
+     *
+     * @return the date
+     */
     public String getDate() {
         return date;
     }
 
+    /**
+     * Returns the location.
+     *
+     * @return the location
+     */
     public GeodeticPoint getLocation() {
         return location;
     }
 
+    /**
+     * Returns the latitude.
+     *
+     * @return the latitude
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     * Returns the longitude.
+     *
+     * @return the longitude
+     */
     public double getLongitude() {
         return longitude;
     }
 
+    /**
+     * Returns the altitude.
+     *
+     * @return the altitude
+     */
     public double getAltitude() {
         return altitude;
     }

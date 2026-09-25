@@ -64,10 +64,31 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
     private FPGAConsumerServiceImpl fpgaService;
     private SoftwareImagesConsumerServiceImpl softwareImagesService;
 
+    /**
+     * Default constructor.
+     */
+    public PlatformServicesConsumer() {
+    }
+
+    /**
+     * Initializes all the Platform service consumers with no authentication id nor local
+     * name prefix.
+     *
+     * @param connectionConsumer the connection details of the Platform service providers
+     * @param comServices the COM services consumer used by the Platform services
+     */
     public void init(ConnectionConsumer connectionConsumer, COMServicesConsumer comServices) {
         init(connectionConsumer, comServices, null, null);
     }
 
+    /**
+     * Initializes all the Platform service consumers advertised in the connection details.
+     *
+     * @param connectionConsumer the connection details of the Platform service providers
+     * @param comServices the COM services consumer used by the Platform services
+     * @param authenticationID the authentication id of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumers
+     */
     public void init(ConnectionConsumer connectionConsumer,
             COMServicesConsumer comServices, Blob authenticationID, String localNamePrefix) {
         SingleConnectionDetails details;
@@ -234,39 +255,84 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
     }
 
     // Setters
+    /**
+     * Sets manually the ArtificialIntelligence service consumer.
+     *
+     * @param aiService the ArtificialIntelligence service consumer
+     */
     public void setArtificialIntelligenceService(ArtificialIntelligenceConsumerServiceImpl aiService) {
         this.aiService = aiService;
     }
 
+    /**
+     * Sets manually the AutonomousADCS service consumer.
+     *
+     * @param autonomousADCSService the AutonomousADCS service consumer
+     */
     public void setAutonomousADCSService(AutonomousADCSConsumerServiceImpl autonomousADCSService) {
         this.autonomousADCSService = autonomousADCSService;
     }
 
+    /**
+     * Sets manually the Camera service consumer.
+     *
+     * @param cameraService the Camera service consumer
+     */
     public void setCameraService(CameraConsumerServiceImpl cameraService) {
         this.cameraService = cameraService;
     }
 
+    /**
+     * Sets manually the GPS service consumer.
+     *
+     * @param gpsService the GPS service consumer
+     */
     public void setGPSService(GPSConsumerServiceImpl gpsService) {
         this.gpsService = gpsService;
     }
 
+    /**
+     * Sets manually the OpticalDataReceiver service consumer.
+     *
+     * @param odrService the OpticalDataReceiver service consumer
+     */
     public void setOpticalDataReceiverService(OpticalDataReceiverConsumerServiceImpl odrService) {
         this.odrService = odrService;
     }
 
+    /**
+     * Sets manually the SoftwareDefinedRadio service consumer.
+     *
+     * @param sdrService the SoftwareDefinedRadio service consumer
+     */
     public void setSoftwareDefinedRadioService(SoftwareDefinedRadioConsumerServiceImpl sdrService) {
         this.sdrService = sdrService;
     }
 
+    /**
+     * Sets manually the PowerControl service consumer.
+     *
+     * @param powerControlService the PowerControl service consumer
+     */
     public void setPowerControlService(PowerControlConsumerServiceImpl powerControlService) {
         this.powerControlService = powerControlService;
     }
 
 
+    /**
+     * Sets manually the FPGA service consumer.
+     *
+     * @param fpgaService the FPGA service consumer
+     */
     public void setFPGAService(FPGAConsumerServiceImpl fpgaService) {
         this.fpgaService = fpgaService;
     }
 
+    /**
+     * Sets manually the SoftwareImages service consumer.
+     *
+     * @param softwareImagesService the SoftwareImages service consumer
+     */
     public void setSoftwareImagesService(SoftwareImagesConsumerServiceImpl softwareImagesService) {
         this.softwareImagesService = softwareImagesService;
     }
@@ -313,6 +379,11 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
         }
     }
 
+    /**
+     * Propagates the authentication id to all the initialized Platform service consumers.
+     *
+     * @param authenticationId the authentication id of the logged in user
+     */
     public void setAuthenticationId(Blob authenticationId) {
         if (this.aiService != null) {
             this.aiService.setAuthenticationId(authenticationId);

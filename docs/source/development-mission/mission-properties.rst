@@ -9,6 +9,7 @@ The NMF on-board filesystem contains a ``mission.properties`` file in the ``etc/
 describes the spacecraft environment where the software is running and it includes:
 
 - **Mission Name** — The name of the mission.
+- **Fleet** — Whether the mission flies more than one spacecraft.
 - **Spacecraft Name** — The name of this individual spacecraft.
 - **Spacecraft Node** — This spacecraft's unit number within the mission.
 - **Spacecraft SCID** — The spacecraft's CCSDS Spacecraft Identifier (SCID), if registered.
@@ -44,6 +45,14 @@ values that differ from unit to unit.
        fleet, or a single satellite). There is no CCSDS registry for missions, so this name is chosen by the
        operator — in practice it is the common prefix of the spacecraft names (e.g. ``Phi-Sat-2``,
        ``Sentinel-1``, ``Galileo``).
+   * - ``mission.fleet``
+     - mission
+     - no
+     - Whether the mission flies more than one spacecraft. ``false`` when not set. A mission of one
+       spacecraft is addressed by its name alone, because there is nothing to tell apart; the units of a
+       fleet share a mission name, so ``spacecraft.node`` joins the MO domain to keep them distinct
+       (see :ref:`mission-properties-domain`). Turning it on changes the domain of the spacecraft, and so
+       the domain the objects already in its archive were stored under.
    * - ``spacecraft.name``
      - spacecraft
      - yes
@@ -88,6 +97,7 @@ setup):
       <supervisorMainClass>...</supervisorMainClass>
       <mission>
         <missionName>OPS-SAT</missionName>
+        <fleet>false</fleet>
         <spacecraftName>OPS-SAT</spacecraftName>
         <spacecraftNode>1</spacecraftNode>
         <spacecraftScid>0x032A</spacecraftScid>
@@ -99,8 +109,35 @@ setup):
 The configuration elements are camelCase and map onto the dotted property keys of the generated file
 (``missionName`` becomes ``mission.name``, ``spacecraftName`` becomes ``spacecraft.name``,
 ``organizationAbbreviation`` becomes ``organization.abbreviation``, and so on). ``missionName``,
-``spacecraftName`` and ``organizationAbbreviation`` are required; ``spacecraftNode`` defaults to ``1``, and
-``spacecraftScid`` and ``organizationName`` are omitted from the file when not set.
+``spacecraftName`` and ``organizationAbbreviation`` are required; ``spacecraftNode`` defaults to ``1``, ``fleet``
+defaults to ``false``, and ``spacecraftScid`` and ``organizationName`` are omitted from the file when not
+set.
+
+.. _mission-properties-domain:
+
+The domain of a spacecraft
+--------------------------
+
+MO addresses a provider by a domain, which the NMF builds out of the organization, the mission and the App:
+
+.. code-block:: text
+
+    ESA . Phi-Sat-2 . nanosat-mo-supervisor
+
+The units of a fleet share the first two, so on a mission of more than one spacecraft that domain would
+address them all identically. Setting ``mission.fleet = true`` puts the node of the spacecraft between the
+mission and the App, which keeps the units of a mission together and leaves the App where it has always
+been:
+
+.. code-block:: text
+
+    ESA . Sentinel-1 . 2 . nanosat-mo-supervisor
+
+Every part of the domain is separated by a dot, so no value may contain one. Where one does, the node is
+left out and a warning is logged, rather than the domain quietly gaining a level.
+
+A mission of a single spacecraft is left as it is: its domain has nothing to disambiguate, and adding a
+level to it would move every object already in its archive.
 
 .. _mission-properties-ccsds:
 
@@ -140,6 +177,7 @@ mission has just one unit:
 .. code-block:: properties
 
     mission.name              = OPS-SAT
+    mission.fleet             = false
     spacecraft.name           = OPS-SAT
     spacecraft.node           = 1
     spacecraft.scid           = 0x032A                            # from the SANA registry
@@ -154,6 +192,7 @@ written as ``Phi`` to keep the value ASCII:
 .. code-block:: properties
 
     mission.name              = Phi-Sat-2
+    mission.fleet             = false
     spacecraft.name           = Phi-Sat-2
     spacecraft.node           = 1
     organization.abbreviation = ESA
@@ -166,6 +205,7 @@ broadcast in the navigation signal):
 .. code-block:: properties
 
     mission.name              = Galileo
+    mission.fleet             = true
     spacecraft.name           = GSAT0201
     spacecraft.node           = 201
     spacecraft.scid           = 0xNNNN                            # from the SANA registry
@@ -180,6 +220,7 @@ becomes an integer ``spacecraft.node`` (Sentinel-1A is ``1``, Sentinel-1B is ``2
 .. code-block:: properties
 
     mission.name              = Sentinel-1
+    mission.fleet             = true
     spacecraft.name           = Sentinel-1B
     spacecraft.node           = 2
     spacecraft.scid           = 0xNNNN                            # from the SANA registry
@@ -192,6 +233,7 @@ becomes an integer ``spacecraft.node`` (Sentinel-1A is ``1``, Sentinel-1B is ``2
 .. code-block:: properties
 
     mission.name              = Novaradar
+    mission.fleet             = true
     spacecraft.name           = Novaradar-X94
     spacecraft.node           = 94
     spacecraft.scid           = 0x0140
@@ -205,6 +247,7 @@ names below are fictitious):
 .. code-block:: properties
 
     mission.name              = Linkstar
+    mission.fleet             = true
     spacecraft.name           = Linkstar-30000
     spacecraft.node           = 30000
     organization.abbreviation = Linkstar

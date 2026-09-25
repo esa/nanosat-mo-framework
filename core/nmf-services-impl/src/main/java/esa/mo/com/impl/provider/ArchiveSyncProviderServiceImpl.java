@@ -86,10 +86,22 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
     private int objectsLimit;
 
+    /**
+     * Creates the ArchiveSync service provider with no authentication id nor local name prefix.
+     *
+     * @param connectionToArchiveService the connection details of the local Archive service
+     */
     public ArchiveSyncProviderServiceImpl(SingleConnectionDetails connectionToArchiveService) {
         this(connectionToArchiveService, null, null);
     }
 
+    /**
+     * Creates the ArchiveSync service provider.
+     *
+     * @param connectionToArchiveService the connection details of the local Archive service
+     * @param authenticationId the authentication id of the logged in user
+     * @param localNamePrefix the prefix for the local name of the provider
+     */
     public ArchiveSyncProviderServiceImpl(SingleConnectionDetails connectionToArchiveService,
             Blob authenticationId, String localNamePrefix) {
         this.latestSync = new Time(0);

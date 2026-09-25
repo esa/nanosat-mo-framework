@@ -1,0 +1,585 @@
+#--------------------------------------------------------------------------------
+#
+# The spacecraft of a constellation, for Celestia, with Earth, Sun and Moon pointing
+# vectors and X, Y and Z vectors on the first of them.
+#
+# @remarks     Created.
+# @author      Filipe Metelo <filipe.metelo @ esa.int>
+# @version     2011.03.11
+#
+# @remarks     Added the Earth, Sun, Moon, X, Y and Z vectors.
+# @author      Filipe Metelo <filipe.metelo @ esa.int>
+# @version     2011.03.23
+#
+# @remarks     Added the velocity vector.
+# @author      Filipe Metelo <filipe.metelo @ esa.int>
+# @version     2011.03.29
+#
+# @remarks     Changed the object scales and radius.
+# @author      Filipe Metelo <filipe.metelo @ esa.int>
+# @version     2011.03.29
+#
+# @remarks     Changed the object to cmod now with proper textures applied.
+# @author      Filipe Metelo <filipe.metelo @ esa.int>
+# @version     2011.05.25
+#
+# @remarks     Updated for the OPS-SAT scenario (spacecraft index 6)
+# @author      Tiago Nogueira <tiago.nogueira @ esa.int>
+# @version     2015.07.27
+#
+#--------------------------------------------------------------------------------
+"cubesat-1" "Sol/Earth"
+{
+    Class "spacecraft"
+    Mesh "OPS-SAT.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 -0.29 0 ]
+    # The model is in metres, so a true scale would be 0.001 and the spacecraft
+    # would be 0.7 m across: invisible beside a 12742 km Earth. It is drawn far
+    # larger than life so that it can be seen at all, at 0.7 x 300 = 210 km.
+    MeshScale 300 # 3d model is in [km/1000]
+
+    Orientation [ -90 1 0 0 ] # to compensate for the rotation in the 3ds model ...
+
+    Visible true
+    Radius 40
+
+    OrbitFrame {
+        EquatorJ2000 {
+            Center "Sol/Earth"
+        }
+    }
+    ScriptedOrbit {
+        Module "orbitattitude-realtime"
+        Function "RealTimeOrbit"
+
+        SpacecraftIndex 6
+        Slot 1
+    }
+
+    BodyFrame {
+        EquatorJ2000 {
+            Center "Sol/Earth"
+        }
+    }
+    ScriptedRotation {
+        Module "orbitattitude-realtime"
+        Function "RealTimeRotation"
+
+        SpacecraftIndex 6
+        Slot 1
+    }
+}
+
+"cubesat-1-Prop" "Sol/Earth"
+{
+    Class "spacecraft"
+    Visible false
+    Radius 1
+
+    OrbitFrame {
+        EquatorJ2000 {
+            Center "Sol/Earth"
+        }
+    }
+    ScriptedOrbit {
+        Module "orbitattitude-realtime"
+        Function "RealTimePropOrbit"
+
+        SpacecraftIndex 6
+    }
+
+    BodyFrame {
+        EquatorJ2000 {
+            Center "Sol/Earth"
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+#--------------------------------------------------------------------------------
+#
+# Spacecraft 2 of a constellation. One Celestia draws them all: each is driven by
+# whichever simulator took slot 2, and stands inside the Earth, out of sight,
+# until one does. The name here is fixed when this file is read, so it says the
+# slot rather than the spacecraft; what the spacecraft is called is written on
+# the screen, from the name the simulator gives.
+#
+#--------------------------------------------------------------------------------
+"cubesat-2" "Sol/Earth"
+{
+    Class "spacecraft"
+    Mesh "OPS-SAT.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 -0.29 0 ]
+    MeshScale 300 # 3d model is in [km/1000]
+
+    Orientation [ -90 1 0 0 ] # to compensate for the rotation in the 3ds model ...
+
+    Visible true
+    Radius 40
+
+    OrbitFrame {
+        EquatorJ2000 {
+            Center "Sol/Earth"
+        }
+    }
+    ScriptedOrbit {
+        Module "orbitattitude-realtime"
+        Function "RealTimeOrbit"
+
+        SpacecraftIndex 6
+        Slot 2
+    }
+
+    BodyFrame {
+        EquatorJ2000 {
+            Center "Sol/Earth"
+        }
+    }
+    ScriptedRotation {
+        Module "orbitattitude-realtime"
+        Function "RealTimeRotation"
+
+        SpacecraftIndex 6
+        Slot 2
+    }
+}
+
+#--------------------------------------------------------------------------------
+#
+# Spacecraft 3 of a constellation. One Celestia draws them all: each is driven by
+# whichever simulator took slot 3, and stands inside the Earth, out of sight,
+# until one does. The name here is fixed when this file is read, so it says the
+# slot rather than the spacecraft; what the spacecraft is called is written on
+# the screen, from the name the simulator gives.
+#
+#--------------------------------------------------------------------------------
+"cubesat-3" "Sol/Earth"
+{
+    Class "spacecraft"
+    Mesh "OPS-SAT.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 -0.29 0 ]
+    MeshScale 300 # 3d model is in [km/1000]
+
+    Orientation [ -90 1 0 0 ] # to compensate for the rotation in the 3ds model ...
+
+    Visible true
+    Radius 40
+
+    OrbitFrame {
+        EquatorJ2000 {
+            Center "Sol/Earth"
+        }
+    }
+    ScriptedOrbit {
+        Module "orbitattitude-realtime"
+        Function "RealTimeOrbit"
+
+        SpacecraftIndex 6
+        Slot 3
+    }
+
+    BodyFrame {
+        EquatorJ2000 {
+            Center "Sol/Earth"
+        }
+    }
+    ScriptedRotation {
+        Module "orbitattitude-realtime"
+        Function "RealTimeRotation"
+
+        SpacecraftIndex 6
+        Slot 3
+    }
+}
+
+#--------------------------------------------------------------------------------
+#
+# Spacecraft 4 of a constellation. One Celestia draws them all: each is driven by
+# whichever simulator took slot 4, and stands inside the Earth, out of sight,
+# until one does. The name here is fixed when this file is read, so it says the
+# slot rather than the spacecraft; what the spacecraft is called is written on
+# the screen, from the name the simulator gives.
+#
+#--------------------------------------------------------------------------------
+"cubesat-4" "Sol/Earth"
+{
+    Class "spacecraft"
+    Mesh "OPS-SAT.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 -0.29 0 ]
+    MeshScale 300 # 3d model is in [km/1000]
+
+    Orientation [ -90 1 0 0 ] # to compensate for the rotation in the 3ds model ...
+
+    Visible true
+    Radius 40
+
+    OrbitFrame {
+        EquatorJ2000 {
+            Center "Sol/Earth"
+        }
+    }
+    ScriptedOrbit {
+        Module "orbitattitude-realtime"
+        Function "RealTimeOrbit"
+
+        SpacecraftIndex 6
+        Slot 4
+    }
+
+    BodyFrame {
+        EquatorJ2000 {
+            Center "Sol/Earth"
+        }
+    }
+    ScriptedRotation {
+        Module "orbitattitude-realtime"
+        Function "RealTimeRotation"
+
+        SpacecraftIndex 6
+        Slot 4
+    }
+}
+
+"Velocity" "Sol/Earth/cubesat-1"
+{
+    Class "surfacefeature"
+    Mesh "violet-vector.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 40 # 3d model is in [km/1000]
+    Emissive true
+
+    Visible true
+    Radius 40
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth/cubesat-1"
+        }
+    }
+    FixedPosition [ 0 0 0 ]
+    
+    BodyFrame {
+        TwoVector {
+            Center "Sol/Earth/cubesat-1"
+            Primary {
+                Axis "y"
+                RelativePosition {
+                    Target "Sol/Earth/cubesat-1-Prop"
+                }
+            }
+            Secondary {
+                Axis "z"
+                RelativePosition {
+                    Target "Sol/Earth"
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+"Earth" "Sol/Earth/cubesat-1"
+{
+    Class "surfacefeature"
+    Mesh "cyan-vector.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 40 # 3d model is in [km/1000]
+    Emissive true
+
+    Visible true
+    Radius 40
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth/cubesat-1"
+        }
+    }
+    FixedPosition [ 0 0 0 ]
+
+    BodyFrame {
+        TwoVector {
+            Center "Sol/Earth/cubesat-1"
+            Primary {
+                Axis "y"
+                RelativePosition {
+                    Target "Sol/Earth"
+                }
+            }
+            Secondary {
+                Axis "z"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth/cubesat-1"
+                        }
+                    }
+                    Vector [ 0 0 1 ]
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+"Moon" "Sol/Earth/cubesat-1"
+{
+    Class "surfacefeature"
+    Mesh "gray-vector.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 40 # 3d model is in [km/1000]
+    Emissive true
+
+    Visible true
+    Radius 40
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth/cubesat-1"
+        }
+    }
+    FixedPosition [ 0 0 0 ]
+
+    BodyFrame {
+        TwoVector {
+            Center "Sol/Earth/cubesat-1"
+            Primary {
+                Axis "y"
+                RelativePosition {
+                    Target "Sol/Earth/Moon"
+                }
+            }
+            Secondary {
+                Axis "x"
+                RelativeVelocity {
+                    Target "Sol/Earth/Moon"
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+"Sun" "Sol/Earth/cubesat-1"
+{
+    Class "surfacefeature"
+    Mesh "yellow-vector.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 40 # 3d model is in [km/1000]
+    Emissive true
+
+    Visible true
+    Radius 40
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth/cubesat-1"
+        }
+    }
+    FixedPosition [ 0 0 0 ]
+
+    BodyFrame {
+        TwoVector {
+            Center "Sol/Earth/cubesat-1"
+            Primary {
+                Axis "y"
+                RelativePosition {
+                    Target "Sol"
+                }
+            }
+            Secondary {
+                Axis "x"
+                RelativeVelocity {
+                    Target "Sol"
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+"X" "Sol/Earth/cubesat-1" {
+
+    Class "surfacefeature"
+    Mesh "red-vector.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 40 # 3d model is in [km/1000]
+    Emissive true
+
+    Visible true
+    Radius 40
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth/cubesat-1"
+        }
+    }
+    FixedPosition  [ 0 0 0 ]
+
+    BodyFrame {
+        TwoVector {
+        Center "Sol/Earth/cubesat-1"
+            Primary {
+            Axis "z"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth/cubesat-1"
+                        }
+                    }
+                    Vector [ 0 0 1 ]
+                }
+            }
+            Secondary {
+                Axis "y"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth/cubesat-1"
+                        }
+                    }
+                    Vector [ -1 0 0 ]
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+"Y" "Sol/Earth/cubesat-1" {
+
+    Class "surfacefeature"
+    Mesh "green-vector.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 40 # 3d model is in [km/1000]
+    Emissive true
+
+    Visible true
+    Radius 40
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth/cubesat-1"
+        }
+    }
+    FixedPosition  [ 0 0 0 ]
+
+    BodyFrame {
+        TwoVector {
+        Center "Sol/Earth/cubesat-1"
+            Primary {
+            Axis "z"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth/cubesat-1"
+                        }
+                    }
+                    Vector [ -1 0 0 ]
+                }
+            }
+            Secondary {
+                Axis "y"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth/cubesat-1"
+                        }
+                    }
+                    Vector [ 0 0 1 ]
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}
+
+"Z" "Sol/Earth/cubesat-1" {
+
+    Class "surfacefeature"
+    Mesh "blue-vector.3ds"
+    NormalizeMesh false
+    MeshCenter [ 0 0 0 ] # 3d model origin is [0 0 0]
+    MeshScale 40 # 3d model is in [km/1000]
+    Emissive true
+
+    Visible true
+    Radius 40
+
+    OrbitFrame {
+        BodyFixed {
+            Center "Sol/Earth/cubesat-1"
+        }
+    }
+    FixedPosition  [ 0 0 0 ]
+
+    BodyFrame {
+        TwoVector {
+        Center "Sol/Earth/cubesat-1"
+            Primary {
+            Axis "z"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth/cubesat-1"
+                        }
+                    }
+                    Vector [ 0 0 1 ]
+                }
+            }
+            Secondary {
+                Axis "x"
+                ConstantVector {
+                    Frame {
+                        BodyFixed {
+                            Center "Sol/Earth/cubesat-1"
+                        }
+                    }
+                    Vector [ 1 0 0 ]
+                }
+            }
+        }
+    }
+    FixedRotation {
+        Inclination 0
+        AscendingNode 0
+        MeridianAngle 0
+    }
+}

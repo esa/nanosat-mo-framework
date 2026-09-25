@@ -39,6 +39,7 @@ import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
 import org.ccsds.moims.mo.mc.structures.AlertDefinition;
 
 /**
+ * Manages the alert definitions of the Alert service.
  *
  * @author Cesar Coelho
  */
@@ -46,6 +47,11 @@ public final class AlertManager extends MCManager {
 
     private Long uniqueObjIdDef; // Counter (different for every Definition)
 
+    /**
+     * Creates a new {@code AlertManager}.
+     *
+     * @param comServices the COM services
+     */
     public AlertManager(COMServicesProvider comServices) {
         super(comServices);
 
@@ -57,10 +63,24 @@ public final class AlertManager extends MCManager {
 
     }
 
+    /**
+     * Returns the alert definition from def id.
+     *
+     * @param defId the def id
+     * @return the alert definition from def id
+     */
     public AlertDefinition getAlertDefinitionFromDefId(Long defId) {
         return (AlertDefinition) this.getDefinition(defId);
     }
 
+    /**
+     * Adds an alert definition and returns its object id.
+     *
+     * @param definition the definition
+     * @param source the source
+     * @param connectionDetails the connection details
+     * @return the assigned object id
+     */
     public Long add(AlertDefinition definition, ObjectKey source,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         Long newIdPair = 0L;
@@ -94,6 +114,14 @@ public final class AlertManager extends MCManager {
         return newIdPair;
     }
 
+    /**
+     * Updates the alert definition with the given id.
+     *
+     * @param id the id
+     * @param definition the definition
+     * @param source the source
+     * @param connectionDetails the connection details
+     */
     public void update(final Long id, final AlertDefinition definition, final ObjectKey source,
             final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         if (super.getArchiveService() == null) { //only update locally
@@ -117,6 +145,14 @@ public final class AlertManager extends MCManager {
         }
     }
 
+    /**
+     * Sets the reporting enabled.
+     *
+     * @param defId the def id
+     * @param bool the bool
+     * @param source the source
+     * @param connectionDetails the connection details
+     */
     public void setReportingEnabled(final Long defId, final Boolean bool,
             final ObjectKey source, final SingleConnectionDetails connectionDetails) {
         // requirement: 3.3.2.5
@@ -136,6 +172,13 @@ public final class AlertManager extends MCManager {
         this.update(defId, newDef, source, connectionDetails);
     }
 
+    /**
+     * Sets the reporting enabled all.
+     *
+     * @param bool the bool
+     * @param source the source
+     * @param connectionDetails the connection details
+     */
     public void setReportingEnabledAll(final Boolean bool, final ObjectKey source,
             final SingleConnectionDetails connectionDetails) {
         LongList defIds = new LongList();

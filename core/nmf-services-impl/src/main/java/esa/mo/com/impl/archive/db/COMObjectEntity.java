@@ -20,7 +20,6 @@
  */
 package esa.mo.com.impl.archive.db;
 
-import esa.mo.com.impl.archive.db.SourceLinkContainer;
 import esa.mo.com.impl.archive.encoding.BinaryDecoder;
 import esa.mo.com.impl.archive.encoding.BinaryEncoder;
 import java.io.ByteArrayOutputStream;
@@ -56,6 +55,19 @@ public class COMObjectEntity implements Serializable {
     private Integer sourceLinkDomainId;
     private Long sourceLinkObjId;
 
+    /**
+     * Creates a new {@code COMObjectEntity} from an unencoded object body, serializing it into
+     * the internal binary representation. The source link may be {@code null}.
+     *
+     * @param objectTypeId the object type id
+     * @param domain the domain id
+     * @param objId the object instance id
+     * @param timestampArchiveDetails the archive details timestamp
+     * @param providerURI the provider URI id
+     * @param sourceLink the source object link, or {@code null} if none
+     * @param relatedLink the related object link, or {@code null} if none
+     * @param object the object body to serialize
+     */
     public COMObjectEntity(Integer objectTypeId, Integer domain, Long objId,
             Long timestampArchiveDetails, Integer providerURI,
             SourceLinkContainer sourceLink, Long relatedLink, Object object) {
@@ -90,6 +102,19 @@ public class COMObjectEntity implements Serializable {
         }
     }
 
+    /**
+     * Creates a new {@code COMObjectEntity} from an already-encoded object body, storing the
+     * bytes directly without re-encoding. The source link must not be {@code null}.
+     *
+     * @param objectTypeId the object type id
+     * @param domain the domain id
+     * @param objId the object instance id
+     * @param timestampArchiveDetails the archive details timestamp
+     * @param providerURI the provider URI id
+     * @param sourceLink the source object link
+     * @param relatedLink the related object link, or {@code null} if none
+     * @param object the already-encoded object body
+     */
     public COMObjectEntity(Integer objectTypeId, Integer domain, Long objId,
             Long timestampArchiveDetails, Integer providerURI,
             SourceLinkContainer sourceLink, Long relatedLink, byte[] object) {
@@ -108,47 +133,84 @@ public class COMObjectEntity implements Serializable {
         this.objBody = object;
     }
 
-    public static COMObjectEntityPK generatePK(final Integer objectTypeId, final Integer domain, final Long objId) {
-        return new COMObjectEntityPK(objectTypeId, domain, objId);
-    }
-
-    public COMObjectEntityPK getPrimaryKey() {
-        return new COMObjectEntityPK(this.objectTypeId, this.domainId, this.objId);
-    }
-
+    /**
+     * Returns the object type id.
+     *
+     * @return the object type id
+     */
     public Integer getObjectTypeId() {
         return this.objectTypeId;
     }
 
+    /**
+     * Returns the domain id.
+     *
+     * @return the domain id
+     */
     public Integer getDomainId() {
         return this.domainId;
     }
 
+    /**
+     * Returns the object id.
+     *
+     * @return the object id
+     */
     public Long getObjectId() {
         return this.objId;
     }
 
+    /**
+     * Returns the related link.
+     *
+     * @return the related link
+     */
     public Long getRelatedLink() {
         return this.relatedLink;
     }
 
+    /**
+     * Returns the source link.
+     *
+     * @return the source link
+     */
     public SourceLinkContainer getSourceLink() {
         final Integer domainIdLocal = (sourceLinkDomainId != null) ? sourceLinkDomainId : null;
         return new SourceLinkContainer(sourceLinkObjectTypeId, domainIdLocal, sourceLinkObjId);
     }
 
+    /**
+     * Returns the provider uri.
+     *
+     * @return the provider uri
+     */
     public Integer getProviderURI() {
         return (this.providerURI);
     }
 
+    /**
+     * Returns the timestamp.
+     *
+     * @return the timestamp
+     */
     public FineTime getTimestamp() {
         return new FineTime(this.timestampArchiveDetails);
     }
 
+    /**
+     * Returns the object encoded.
+     *
+     * @return the object encoded
+     */
     public byte[] getObjectEncoded() {
         return this.objBody;
     }
 
+    /**
+     * Returns the object.
+     *
+     * @return the object
+     */
     public Object getObject() {
         Element elem = null;
 

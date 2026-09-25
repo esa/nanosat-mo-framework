@@ -28,11 +28,17 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mc.structures.AggregationDefinition;
 
 /**
+ * Table panel listing the aggregation definitions read from a COM Archive.
  *
  * @author Cesar Coelho
  */
 public class AggregationTablePanel extends SharedTablePanel {
 
+    /**
+     * Creates the aggregation table panel.
+     *
+     * @param archiveService the COM Archive service the aggregation definitions are read from
+     */
     public AggregationTablePanel(ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }
@@ -67,6 +73,11 @@ public class AggregationTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
+    /**
+     * Enables or disables generation for the selected aggregation.
+     *
+     * @param status {@code true} to enable, {@code false} to disable
+     */
     public void switchEnabledstatus(boolean status) {
         try {
             semaphore.acquire();
@@ -84,6 +95,11 @@ public class AggregationTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
+    /**
+     * Enables or disables generation for all aggregations.
+     *
+     * @param status {@code true} to enable, {@code false} to disable
+     */
     public void switchEnabledstatusAll(boolean status) {
         try {
             semaphore.acquire();
@@ -103,6 +119,11 @@ public class AggregationTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
+    /**
+     * Enables or disables filtering for the selected aggregation.
+     *
+     * @param status {@code true} to enable, {@code false} to disable
+     */
     public void switchFilterEnabledStatus(boolean status) {
         try {
             semaphore.acquire();
@@ -120,6 +141,11 @@ public class AggregationTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
+    /**
+     * Enables or disables filtering for all aggregations.
+     *
+     * @param status {@code true} to enable, {@code false} to disable
+     */
     public void switchFilterEnabledstatusAll(boolean status) {
         try {
             semaphore.acquire();
@@ -139,6 +165,15 @@ public class AggregationTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
+    /**
+     * Returns a copy of the given aggregation definition with the filter and generation flags
+     * overridden.
+     *
+     * @param def the aggregation definition to copy
+     * @param filter the new filter-enabled flag
+     * @param generation the new generation-enabled flag
+     * @return the new aggregation definition
+     */
     public AggregationDefinition generateNewAggregationDef(
             AggregationDefinition def, boolean filter, boolean generation) {
         return new AggregationDefinition(

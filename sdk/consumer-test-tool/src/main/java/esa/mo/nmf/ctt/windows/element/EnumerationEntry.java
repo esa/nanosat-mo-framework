@@ -35,6 +35,14 @@ public class EnumerationEntry extends Entry {
 
     private javax.swing.JComboBox comboBox;
 
+    /**
+     * Creates an editor for an enumeration field.
+     *
+     * @param fieldNameIn the name of the field
+     * @param obj the enumeration value, or {@code null}
+     * @param editable whether the field can be edited
+     * @param objIsNull whether the field value is null
+     */
     public EnumerationEntry(String fieldNameIn, Element obj, boolean editable, boolean objIsNull) {
         super(fieldNameIn, obj, editable, objIsNull);
 

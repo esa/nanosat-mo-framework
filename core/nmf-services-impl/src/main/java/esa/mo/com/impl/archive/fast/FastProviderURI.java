@@ -31,10 +31,21 @@ public class FastProviderURI extends FastIndex<String> {
 
     private final static String TABLE_NAME = "FastProviderURI";
 
+    /**
+     * Creates a new {@code FastProviderURI}.
+     *
+     * @param dbBackend the database backend
+     */
     public FastProviderURI(final DatabaseBackend dbBackend) {
         super(dbBackend, TABLE_NAME);
     }
 
+    /**
+     * Returns the provider uri id.
+     *
+     * @param providerURI the provider uri
+     * @return the provider uri id
+     */
     public synchronized Integer getProviderURIId(final URI providerURI) {
         if (providerURI == null) {
             return 0;
@@ -43,16 +54,26 @@ public class FastProviderURI extends FastIndex<String> {
         return (id == null) ? this.addNewEntry(providerURI.getValue()) : id;
     }
 
+    /**
+     * Returns the provider uri.
+     *
+     * @param id the id
+     * @return the provider uri
+     * @throws Exception if the operation fails
+     */
     public synchronized URI getProviderURI(final Integer id) throws Exception {
         if (id == 0) {
             return null;
         }
-        final URI providerURI = new URI(this.fastIDreverse.get(id));
+        // The id is looked up first: an id this does not hold gives nothing
+        // back, and wrapping that in a URI would hand out a URI of nothing
+        // rather than saying so.
+        final String providerURI = this.fastIDreverse.get(id);
 
         if (providerURI == null) {
-            throw new Exception();
+            throw new Exception("There is no provider URI for the id: " + id);
         }
 
-        return providerURI;
+        return new URI(providerURI);
     }
 }

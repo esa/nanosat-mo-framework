@@ -45,25 +45,43 @@ import org.ccsds.moims.mo.sm.SMHelper;
 import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
 
 /**
+ * Base class for the CLI-Tool commands. Holds the shared connection state and provides the
+ * helpers to connect to a remote provider or a local COM Archive and to query the archive.
+ *
  * @author marcel.mikolajko
  */
 public abstract class BaseCommand {
 
     private static final Logger LOGGER = Logger.getLogger(BaseCommand.class.getName());
 
+    /** URI of the remote provider to connect to (from {@code -r}/{@code --remote}). */
     public String providerURI;
+    /** Path to the local COM Archive database file (from {@code -l}/{@code --local}). */
     public String databaseFile;
+    /** Name of the provider to select when several are registered (from {@code -p}/{@code --provider}). */
     public String providerName;
 
+    /** The ground adapter connected to the remote provider. */
     public static GroundMOAdapterImpl consumer;
+    /** The domain of the connected provider. */
     public static IdentifierList domain;
 
+    /** Consumer of the local COM Archive service. */
     public static ArchiveConsumerServiceImpl localArchive;
+    /** The local COM Archive service provider backing {@link #localArchive}. */
     public static ArchiveProviderServiceImpl localArchiveProvider;
+
+    /**
+     * Default constructor.
+     */
+    protected BaseCommand() {
+    }
 
     /**
      * Consumes the shared base options (-r/--remote, -l/--local, -p/--provider)
      * from the supplied Args instance, populating the corresponding fields.
+     *
+     * @param args the parsed command line arguments
      */
     protected void parseBaseOptions(Args args) {
         providerURI   = args.option("-r", "--remote");
@@ -71,8 +89,19 @@ public abstract class BaseCommand {
         providerName  = args.option("-p", "--provider");
     }
 
+    /**
+     * Runs the command with the given parsed arguments.
+     *
+     * @param args the parsed command line arguments
+     */
     public abstract void run(Args args);
 
+    /**
+     * Initializes a local COM Archive service provider backed by the given SQLite database file.
+     *
+     * @param databaseFile the path to the SQLite database file
+     * @return {@code true} if the provider was initialized successfully
+     */
     public boolean initLocalArchiveProvider(String databaseFile) {
         HelperMisc.loadPropertiesFile();
         System.setProperty(HelperMisc.PROP_MO_APP_NAME, CLITool.APP_NAME);
@@ -96,6 +125,12 @@ public abstract class BaseCommand {
         return true;
     }
 
+    /**
+     * Initializes a local COM Archive provider and a consumer connected to it.
+     *
+     * @param databaseFile the path to the SQLite database file
+     * @return {@code true} if the local consumer was initialized successfully
+     */
     public boolean initLocalConsumer(String databaseFile) {
         if (!initLocalArchiveProvider(databaseFile)) {
             return false;
@@ -120,6 +155,13 @@ public abstract class BaseCommand {
         return true;
     }
 
+    /**
+     * Connects to the remote provider identified by {@link #providerURI} (selecting it by
+     * {@link #providerName} when several are registered) and performs the login if the
+     * provider requires it.
+     *
+     * @return {@code true} if the remote consumer was created and connected successfully
+     */
     public boolean initRemoteConsumer() {
         try {
             HelperMisc.loadPropertiesFile();
@@ -191,6 +233,10 @@ public abstract class BaseCommand {
         return true;
     }
 
+    /**
+     * Deregisters any active subscriptions and closes the remote consumer and the local
+     * archive connections.
+     */
     public static void closeConsumer() {
         if (consumer != null) {
             IdentifierList ids = new IdentifierList();

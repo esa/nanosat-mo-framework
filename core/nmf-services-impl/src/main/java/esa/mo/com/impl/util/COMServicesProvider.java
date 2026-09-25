@@ -36,6 +36,12 @@ public class COMServicesProvider {
     private final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
 
     /**
+     * Default constructor.
+     */
+    public COMServicesProvider() {
+    }
+
+    /**
      * Initializes all the COM services automatically.
      *
      * @throws org.ccsds.moims.mo.mal.MALException if the services could not be initialized.
@@ -49,18 +55,38 @@ public class COMServicesProvider {
         directoryService.init(this);
     }
 
+    /**
+     * Returns the Archive service provider.
+     *
+     * @return the Archive service provider, or {@code null} if not initialized
+     */
     public ArchiveProviderServiceImpl getArchiveService() {
         return this.archiveService;
     }
 
+    /**
+     * Returns the ArchiveSync service provider.
+     *
+     * @return the ArchiveSync service provider, or {@code null} if not initialized
+     */
     public ArchiveSyncProviderServiceImpl getArchiveSyncService() {
         return this.archiveSyncService;
     }
 
+    /**
+     * Returns the Directory service provider.
+     *
+     * @return the Directory service provider
+     */
     public DirectoryProviderServiceImpl getDirectoryService() {
         return this.directoryService;
     }
 
+    /**
+     * Initializes the ArchiveSync service, backing it with the Archive service's manager.
+     *
+     * @throws MALException if the ArchiveSync service could not be initialized
+     */
     public void initArchiveSync() throws MALException {
         archiveSyncService = new ArchiveSyncProviderServiceImpl(archiveService.getConnection().getConnectionDetails());
         this.archiveSyncService.init(archiveService.getArchiveManager());
@@ -75,6 +101,9 @@ public class COMServicesProvider {
         this.archiveService = archiveService;
     }
 
+    /**
+     * Closes all the COM service providers.
+     */
     public void closeAll() {
         this.archiveService.close();
     }

@@ -23,20 +23,39 @@ package esa.mo.nmf.clitool;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mc.structures.ParameterValue;
 
+/**
+ * A parameter value paired with the timestamp at which it was recorded.
+ */
 public class TimestampedParameterValue {
 
     private final String parameterValue;
     private final Long timestamp;
 
+    /**
+     * Creates a timestamped parameter value from a {@link ParameterValue} and its timestamp.
+     *
+     * @param value the parameter value
+     * @param timestamp the timestamp at which the value was recorded
+     */
     public TimestampedParameterValue(ParameterValue value, Time timestamp) {
         this.parameterValue = String.valueOf(value.getRawValue());
         this.timestamp = timestamp.getValue();
     }
 
+    /**
+     * Returns the parameter value as a string.
+     *
+     * @return the parameter value
+     */
     public String getParameterValue() {
         return parameterValue;
     }
 
+    /**
+     * Returns the timestamp at which the value was recorded.
+     *
+     * @return the timestamp, in milliseconds
+     */
     public Long getTimestamp() {
         return timestamp;
     }

@@ -28,10 +28,16 @@ import org.ccsds.moims.mo.com.structures.PaginationFilter;
 import org.ccsds.moims.mo.com.structures.QueryFilter;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
 
+/**
+ * Callable Generic Query.
+ * @param <T> the result type
+ */
 public abstract class CallableGenericQuery<T> implements Callable<T> {
 
+    /** The logger. */
     public static Logger LOGGER = Logger.getLogger(CallableDeleteQuery.class.getName());
 
+    /** The transactions processor. */
     protected final TransactionsProcessor transactionsProcessor;
     private final IntegerList objTypeIds;
     private final ArchiveQuery archiveQuery;
@@ -40,6 +46,17 @@ public abstract class CallableGenericQuery<T> implements Callable<T> {
     private final SourceLinkContainer sourceLink;
     private final QueryFilter filter;
 
+    /**
+     * Creates a new {@code CallableGenericQuery}.
+     *
+     * @param transactionsProcessor the transactions processor
+     * @param objTypeIds the obj type ids
+     * @param archiveQuery the archive query
+     * @param domainIds the domain ids
+     * @param providerURIId the provider uri id
+     * @param sourceLink the source link
+     * @param filter the filter
+     */
     public CallableGenericQuery(TransactionsProcessor transactionsProcessor, final IntegerList objTypeIds,
         final ArchiveQuery archiveQuery, final IntegerList domainIds, final Integer providerURIId,
         final SourceLinkContainer sourceLink, final QueryFilter filter) {
@@ -52,8 +69,20 @@ public abstract class CallableGenericQuery<T> implements Callable<T> {
         this.filter = filter;
     }
 
+    /**
+     * Executes the query and returns the typed result.
+     *
+     * @param queryString the query string
+     * @return the query result
+     */
     protected abstract T innerCall(String queryString);
 
+    /**
+     * Assembles the SQL query prefix selecting the given fields.
+     *
+     * @param fieldsList the fields list
+     * @return the query prefix
+     */
     protected abstract String assembleQueryPrefix(String fieldsList);
 
     @Override
@@ -130,6 +159,13 @@ public abstract class CallableGenericQuery<T> implements Callable<T> {
         // return perObjs;
     }
 
+    /**
+     * Builds an SQL {@code IN} clause matching the field against the list of values.
+     *
+     * @param field the field
+     * @param list the list
+     * @return the generate query string from lists
+     */
     public static String generateQueryStringFromLists(final String field, final IntegerList list) {
         if (list.isEmpty()) {
             return "";

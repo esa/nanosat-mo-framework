@@ -6,6 +6,7 @@
 **/libs/
 **/.svn/
 **/providerURIs.properties
+**/providerURIsSecondary.properties
 *.iml
 **/.idea
 */**/nbactions*.xml

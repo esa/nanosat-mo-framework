@@ -1,0 +1,152 @@
+-- ---------------------------------------------------------------------------
+-- Copyright (C) 2026      European Space Agency
+--                         European Space Operations Centre
+--                         Darmstadt
+--                         Germany
+-- ---------------------------------------------------------------------------
+-- System                : ESA NanoSat MO Framework
+-- ---------------------------------------------------------------------------
+-- Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft - v2.4
+-- ---------------------------------------------------------------------------
+--
+-- Puts the observer somewhere sensible when Celestia starts, and points it at
+-- the spacecraft with the Earth's north pole at the top of the image.
+--
+-- This is not only for the look of it. The module that talks to the simulator
+-- is driven by Celestia asking where the spacecraft is, and Celestia only asks
+-- about objects it is drawing. Left looking at nothing in particular, it never
+-- asks, and the connection to the simulator is never made.
+--
+-- Left to itself Celestia arrives from whatever direction it likes, which is
+-- often through the Earth. The observer is therefore placed by hand: fifteen
+-- hundred kilometres from the spacecraft, on the far side from the Earth, so
+-- that looking at the spacecraft means looking on past it to the Earth below.
+-- After that the observer simply follows the spacecraft, as it would if it had
+-- been placed by hand with the mouse.
+-- ---------------------------------------------------------------------------
+
+-- Near enough that the spacecraft is seen as one: 210 km across at fifteen
+-- hundred kilometres is about a third of the width of the image at Celestia's
+-- usual field of view.
+local VIEWING_DISTANCE_KM = 1500
+
+-- Celestia's own axes are not the ones the .ssc files are written in: inside
+-- Celestia the ecliptic is the xz plane and +y is the pole of the ecliptic, not
+-- of the Earth. The two are the obliquity apart, turned about +x, which is the
+-- direction of the vernal equinox, and that is what these two numbers are.
+--
+-- The difference is the whole point. Given the ecliptic pole as its up vector
+-- the observer leaves the Earth leaning by the obliquity at best, and by any
+-- angle at all when the spacecraft is near the pole of the ecliptic, because
+-- there the up vector is nearly the direction being looked along and what is
+-- left of it after the view direction is taken out points wherever it likes.
+-- That is the Earth arriving upside down.
+local OBLIQUITY = math.rad(23.4392911)
+local NORTH = celestia:newvector(0, math.cos(OBLIQUITY), -math.sin(OBLIQUITY))
+
+-- Somewhere to look from when the spacecraft is over a pole, where the same
+-- argument applies to the Earth's axis as applies above to the ecliptic's: seen
+-- from straight above the pole there is no north in the image to put at the
+-- top. The line of sight is brought this far off the axis so that there is.
+local CLOSEST_TO_AXIS = math.rad(25)
+
+-- Perpendicular to the Earth's axis by construction, being the axis the
+-- obliquity is turned about. Used only if the spacecraft is exactly over a
+-- pole, where every direction off the axis is as good as any other.
+local EQUINOX = celestia:newvector(1, 0, 0)
+
+local function dot(a, b)
+    return a.x * b.x + a.y * b.y + a.z * b.z
+end
+
+local function scaled(v, k)
+    return celestia:newvector(v.x * k, v.y * k, v.z * k)
+end
+
+local function sum(a, b)
+    return celestia:newvector(a.x + b.x, a.y + b.y, a.z + b.z)
+end
+
+--- Returns the direction of a vector, or nil if it has none.
+local function unit(v)
+    local length = math.sqrt(dot(v, v))
+    if length == 0 then
+        return nil
+    end
+    return scaled(v, 1 / length), length
+end
+
+local observer = celestia:getobserver()
+local spacecraft = celestia:find("Sol/Earth/cubesat-1")
+local earth = celestia:find("Sol/Earth")
+
+if spacecraft == nil or spacecraft:type() == "null" then
+    celestia:flash("cubesat-1 was not found: is the add-on directory loaded?", 5)
+    return
+end
+
+celestia:select(spacecraft)
+
+if earth ~= nil and earth:type() ~= "null" then
+    local earthPosition = earth:getposition()
+    local spacecraftPosition = spacecraft:getposition()
+
+    local toSpacecraft = earthPosition:vectorto(spacecraftPosition)
+    local altitudeKm = earthPosition:distanceto(spacecraftPosition)
+    local outwards, reach = unit(toSpacecraft)
+
+    if outwards ~= nil and altitudeKm > 0 then
+        -- Neither that vector nor anything else Celestia holds positions in is
+        -- in kilometres, and the same vector has just been measured both ways,
+        -- so the ratio of the two is how much of one there is in the other.
+        local unitsPerKm = reach / altitudeKm
+
+        -- The observer would go straight out along that line, which is fine
+        -- unless the line is the Earth's axis. If it is anywhere near it, the
+        -- view is swung round to a fixed angle off the axis instead, on the
+        -- same side and above the same meridian, so that north still means
+        -- something in the image.
+        local alongAxis = dot(outwards, NORTH)
+        if math.abs(alongAxis) > math.cos(CLOSEST_TO_AXIS) then
+            -- What is left of the line once the axis is taken out of it is the
+            -- meridian it lies above. Straight over the pole there is nothing
+            -- left but rounding, which points in no particular direction and
+            -- is not perpendicular to the axis either, so it is not used: the
+            -- equinox stands in, being perpendicular to the axis by
+            -- construction.
+            local sideways = EQUINOX
+            local acrossAxis = sum(outwards, scaled(NORTH, -alongAxis))
+            if math.sqrt(dot(acrossAxis, acrossAxis)) > 1e-6 then
+                sideways = unit(acrossAxis)
+            end
+
+            local towardsPole = (alongAxis >= 0) and 1 or -1
+            outwards = sum(
+                scaled(NORTH, towardsPole * math.cos(CLOSEST_TO_AXIS)),
+                scaled(sideways, math.sin(CLOSEST_TO_AXIS)))
+        end
+
+        local viewpoint = spacecraftPosition:addvector(
+            scaled(outwards, VIEWING_DISTANCE_KM * unitsPerKm))
+
+        observer:setposition(viewpoint)
+        -- The up vector needs only to be out of line with the view direction,
+        -- which the swing above has seen to; Celestia takes the part of it that
+        -- is across the view and makes that the top of the image.
+        observer:lookat(viewpoint, spacecraftPosition, NORTH)
+    end
+end
+
+-- From here on the observer keeps station on the spacecraft, which is what it
+-- would do if it had been sent there by hand.
+observer:follow(spacecraft)
+
+-- Celestia sets its clock when the process starts and runs it on from there, so
+-- everything it does before the first frame is drawn -- reading the solar
+-- system, the textures, the add-ons -- is time the clock has already spent. It
+-- arrives about a minute behind this machine's and stays there, which shows in
+-- every attitude that is held against something: a spacecraft pointing at the
+-- Earth is drawn pointing where the Earth was a minute ago.
+--
+-- The clock is therefore set again here, now that all of that is done.
+celestia:settime(celestia:getsystemtime())

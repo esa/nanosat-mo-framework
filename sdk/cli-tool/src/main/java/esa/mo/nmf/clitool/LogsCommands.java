@@ -49,7 +49,19 @@ public class LogsCommands {
     private static final Logger LOGGER =
             Logger.getLogger(LogsCommands.class.getName());
 
+    private LogsCommands() {
+    }
+
+    /**
+     * Implements the {@code log list} CLI command.
+     */
     public static class ListLogs extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public ListLogs() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -102,7 +114,16 @@ public class LogsCommands {
         }
     }
 
+    /**
+     * Implements the {@code log get} CLI command.
+     */
     public static class GetLogs extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public GetLogs() {
+        }
+
 
         @Override
         public void run(Args args) {

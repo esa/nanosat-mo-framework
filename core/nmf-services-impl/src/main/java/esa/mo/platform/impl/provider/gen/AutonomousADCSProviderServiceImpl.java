@@ -81,6 +81,12 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     private long lastActuatorsTmTime = 0;
 
     /**
+     * Default constructor.
+     */
+    public AutonomousADCSProviderServiceImpl() {
+    }
+
+    /**
      * creates the MAL objects, the publisher used to create updates and starts
      * the publishing thread
      *
@@ -357,6 +363,11 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
     }
 
+    /**
+     * Returns the remaining duration of the current attitude control operation.
+     *
+     * @return the remaining duration, or {@code null} if no operation is active
+     */
     public synchronized Duration getAttitudeControlRemainingDuration() {
         if (attitudeControlEndTime == 0) {
             return null; // Return null if the time left is unknown...

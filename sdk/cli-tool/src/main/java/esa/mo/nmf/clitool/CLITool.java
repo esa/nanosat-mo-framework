@@ -21,12 +21,24 @@
 package esa.mo.nmf.clitool;
 
 /**
+ * Entry point of the NMF CLI-Tool. Parses the command line and dispatches it to the matching
+ * command implementation.
+ *
  * @author marcel.mikolajko
  */
 public class CLITool {
 
+    /** The MO application name used by the CLI-Tool. */
     public static final String APP_NAME = "cli-consumer";
 
+    private CLITool() {
+    }
+
+    /**
+     * Main command line entry point.
+     *
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
         System.out.println("(1) The CLI Tool is starting...");

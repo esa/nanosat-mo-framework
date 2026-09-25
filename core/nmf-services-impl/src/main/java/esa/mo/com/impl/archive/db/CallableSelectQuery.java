@@ -30,8 +30,22 @@ import org.ccsds.moims.mo.com.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.structures.QueryFilter;
 import org.ccsds.moims.mo.mal.structures.IntegerList;
 
+/**
+ * Callable Select Query.
+ */
 public class CallableSelectQuery extends CallableGenericQuery<ArrayList<COMObjectEntity>> {
 
+    /**
+     * Creates a new {@code CallableSelectQuery}.
+     *
+     * @param transactionsProcessor the transactions processor
+     * @param objTypeIds the obj type ids
+     * @param archiveQuery the archive query
+     * @param domainIds the domain ids
+     * @param providerURIId the provider uri id
+     * @param sourceLink the source link
+     * @param filter the filter
+     */
     public CallableSelectQuery(TransactionsProcessor transactionsProcessor, IntegerList objTypeIds,
             ArchiveQuery archiveQuery, IntegerList domainIds, Integer providerURIId,
             SourceLinkContainer sourceLink, QueryFilter filter) {

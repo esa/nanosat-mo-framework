@@ -73,6 +73,9 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         jScrollPane2.setViewportView(aggregationTable);
     }
 
+    /**
+     * Initializes the panel and subscribes to the Aggregation service value monitoring.
+     */
     public void init() {
         this.listDefinitionAllButtonActionPerformed(null);
 
@@ -631,7 +634,16 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_getValueButtonAgg1ActionPerformed
 
+    /**
+     * Adapter receiving Aggregation service PUB/SUB notifications and updating the panel.
+     */
     public class AggregationConsumerAdapter extends AggregationAdapter {
+
+        /**
+         * Default constructor.
+         */
+        public AggregationConsumerAdapter() {
+        }
 
         @Override
         public void monitorValueNotifyReceived(
@@ -695,6 +707,11 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Returns the table listing the aggregation definitions.
+     *
+     * @return the aggregation table
+     */
     public AggregationTablePanel getAggregationTable() {
         return aggregationTable;
     }

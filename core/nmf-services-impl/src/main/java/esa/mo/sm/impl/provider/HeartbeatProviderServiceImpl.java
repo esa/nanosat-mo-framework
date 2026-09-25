@@ -33,10 +33,8 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.provider.MALPublishInteractionListener;
-import org.ccsds.moims.mo.mal.structures.AttributeTypeList;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.NullableAttributeList;
 import org.ccsds.moims.mo.mal.structures.QoSLevel;
 import org.ccsds.moims.mo.mal.structures.SessionType;
@@ -66,8 +64,15 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
     private boolean running = false;
     private final ConnectionProvider connection = new ConnectionProvider();
     private Timer timer;
+    /** The heartbeat publish period, in milliseconds. */
     protected long period = 10000; // 10 seconds
     private IntSupplier timeFactorSupplier = () -> 1;
+
+    /**
+     * Default constructor.
+     */
+    public HeartbeatProviderServiceImpl() {
+    }
 
     /**
      * Creates the MAL objects, the publisher used to create updates and starts
@@ -167,7 +172,18 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
         this.timeFactorSupplier = supplier;
     }
 
+    /**
+     * Listener that logs the acknowledgements and errors of the Heartbeat service PUB/SUB
+     * publish operations.
+     */
     public static final class PublishInteractionListener implements MALPublishInteractionListener {
+
+        /**
+         * Default constructor.
+         */
+        public PublishInteractionListener() {
+        }
+
 
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header,

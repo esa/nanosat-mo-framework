@@ -23,11 +23,7 @@ package esa.mo.nmf;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
-import esa.mo.mc.impl.provider.ActionProviderServiceImpl;
-import esa.mo.mc.impl.provider.AggregationProviderServiceImpl;
-import esa.mo.mc.impl.provider.AlertProviderServiceImpl;
-import esa.mo.mc.impl.provider.ParameterManager;
-import esa.mo.mc.impl.provider.ParameterProviderServiceImpl;
+import esa.mo.mc.impl.provider.*;
 import org.ccsds.moims.mo.mal.MALException;
 
 /**
@@ -37,13 +33,28 @@ import org.ccsds.moims.mo.mal.MALException;
  */
 public class MCServicesProviderNMF {
 
-    private ParameterManager parameterManager;
-
     private final ActionProviderServiceImpl actionService = new ActionProviderServiceImpl();
     private final ParameterProviderServiceImpl parameterService = new ParameterProviderServiceImpl();
     private final AlertProviderServiceImpl alertService = new AlertProviderServiceImpl();
     private final AggregationProviderServiceImpl aggregationService = new AggregationProviderServiceImpl();
+    private ParameterManager parameterManager;
 
+    /**
+     * Creates the Monitor and Control services holder. The services must be initialized
+     * with one of the {@code init} methods before use.
+     */
+    public MCServicesProviderNMF() {
+    }
+
+    /**
+     * Initializes the Monitor and Control services using separate action and parameter
+     * listeners.
+     *
+     * @param comServices the COM services stack backing the M&amp;C services
+     * @param actions the listener handling action invocations
+     * @param monitoringParameters the listener providing parameter values
+     * @throws MALException if any of the services fails to initialize
+     */
     public void init(COMServicesProvider comServices, ActionInvocationListener actions,
             ParameterStatusListener monitoringParameters) throws MALException {
         parameterManager = new ParameterManager(comServices, monitoringParameters);
@@ -53,6 +64,14 @@ public class MCServicesProviderNMF {
         aggregationService.init(comServices, parameterManager);
     }
 
+    /**
+     * Initializes the Monitor and Control services using a single Monitor and Control
+     * adapter that handles both actions and parameters.
+     *
+     * @param comServices the COM services stack backing the M&amp;C services
+     * @param adapter the Monitor and Control adapter handling actions and parameters
+     * @throws MALException if any of the services fails to initialize
+     */
     public void init(final COMServicesProvider comServices,
             final MonitorAndControlNMFAdapter adapter) throws MALException {
         parameterManager = new ParameterManager(comServices, adapter);
@@ -62,18 +81,38 @@ public class MCServicesProviderNMF {
         aggregationService.init(comServices, parameterManager);
     }
 
+    /**
+     * Returns the Action service provider.
+     *
+     * @return the Action service
+     */
     public ActionProviderServiceImpl getActionService() {
         return this.actionService;
     }
 
+    /**
+     * Returns the Parameter service provider.
+     *
+     * @return the Parameter service
+     */
     public ParameterProviderServiceImpl getParameterService() {
         return this.parameterService;
     }
 
+    /**
+     * Returns the Alert service provider.
+     *
+     * @return the Alert service
+     */
     public AlertProviderServiceImpl getAlertService() {
         return this.alertService;
     }
 
+    /**
+     * Returns the Aggregation service provider.
+     *
+     * @return the Aggregation service
+     */
     public AggregationProviderServiceImpl getAggregationService() {
         return this.aggregationService;
     }

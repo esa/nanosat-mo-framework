@@ -52,6 +52,16 @@ public class Helper {
 
     private static final Logger LOGGER = Logger.getLogger(Helper.class.getName());
 
+    private Helper() {
+    }
+
+    /**
+     * Checks that exactly one app matches the provided name, printing the available apps when
+     * the match is ambiguous or missing.
+     *
+     * @param matchingApps the object instance ids of the apps matching the requested name
+     * @return {@code true} if exactly one app matched
+     */
     public static boolean checkProvider(LongList matchingApps) {
         if (matchingApps.size() != 1) {
             System.out.println("Could not find any apps matching provided name!");
@@ -73,6 +83,15 @@ public class Helper {
         return true;
     }
 
+    /**
+     * Retrieves the details of the apps registered in the given COM Archive, keyed by app name.
+     *
+     * @param archive the COM Archive stub to query
+     * @return the app details keyed by app name
+     * @throws MALInteractionException if the archive returns an error
+     * @throws MALException if a communication error occurs
+     * @throws InterruptedException if the querying thread is interrupted
+     */
     public static Map<String, ProviderAppDetails> getProvidersDetails(ArchiveStub archive)
             throws MALInteractionException, MALException, InterruptedException {
         final Object lock = new Object();

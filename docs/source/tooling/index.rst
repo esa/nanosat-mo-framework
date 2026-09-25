@@ -12,4 +12,5 @@ This section documents the tools that ship with the NMF SDK. They are used by bo
    simulator
    ctt
    cli
+   constellation
    ides

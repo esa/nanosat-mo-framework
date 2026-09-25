@@ -51,9 +51,13 @@ import org.ccsds.moims.mo.sm.SMHelper;
  */
 public class NMFConsumer {
 
+    /** Consumer of the COM services (Archive, Directory, ...) offered by the provider. */
     protected final COMServicesConsumer comServices = new COMServicesConsumer();
+    /** Consumer of the Monitor and Control services offered by the provider. */
     protected final MCServicesConsumer mcServices = new MCServicesConsumer();
+    /** Consumer of the Platform services offered by the provider. */
     protected final PlatformServicesConsumer platformServices = new PlatformServicesConsumer();
+    /** Consumer of the Software Management services offered by the provider. */
     protected final SMServicesConsumer smServices = new SMServicesConsumer();
     private final ConnectionConsumer connection;
     private final Blob authenticationId;
@@ -108,6 +112,10 @@ public class NMFConsumer {
         this.localNamePrefix = localNamePrefix;
     }
 
+    /**
+     * Loads the consumer properties and initializes the consumers for the COM, Monitor and
+     * Control, Software Management and Platform services.
+     */
     public void init() {
         try {
             HelperMisc.loadConsumerProperties();
@@ -306,6 +314,11 @@ public class NMFConsumer {
         MALContextFactory.getElementsRegistry().loadFullArea(PlatformHelper.PLATFORM_AREA);
     }
 
+    /**
+     * Sets the authentication id used for all the underlying service consumers.
+     *
+     * @param authenticationId the authentication id of the logged in user
+     */
     public void setAuthenticationId(Blob authenticationId) {
         this.comServices.setAuthenticationId(authenticationId);
         this.connection.setAuthenticationId(authenticationId);
@@ -314,6 +327,11 @@ public class NMFConsumer {
         this.smServices.setAuthenticationId(authenticationId);
     }
 
+    /**
+     * Returns the authentication id used by this consumer.
+     *
+     * @return the authentication id, or {@code null} if none was set
+     */
     public Blob getAuthenticationId() {
         return authenticationId;
     }

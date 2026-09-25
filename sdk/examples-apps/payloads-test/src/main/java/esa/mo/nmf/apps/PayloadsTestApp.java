@@ -24,7 +24,16 @@ import esa.mo.nmf.commonmoadapter.MOAdapterImpl;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 
+/**
+ * NMF application entry point.
+ */
 public class PayloadsTestApp {
+    /**
+     * Default constructor.
+     */
+    public PayloadsTestApp() {
+    }
+
 
     /**
      * Main command line entry point.

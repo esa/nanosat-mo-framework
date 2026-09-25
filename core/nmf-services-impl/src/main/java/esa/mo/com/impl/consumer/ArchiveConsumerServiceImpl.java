@@ -32,6 +32,7 @@ import org.ccsds.moims.mo.mal.helpertools.misc.ConsumerServiceImpl;
 import org.ccsds.moims.mo.mal.structures.Blob;
 
 /**
+ * Consumer of the COM Archive service.
  *
  * @author Cesar Coelho
  */
@@ -49,14 +50,35 @@ public class ArchiveConsumerServiceImpl extends ConsumerServiceImpl {
         return this.getArchiveStub();
     }
 
+    /**
+     * Returns the Archive service stub used to invoke operations on the provider.
+     *
+     * @return the Archive service stub
+     */
     public ArchiveStub getArchiveStub() {
         return archiveService;
     }
 
+    /**
+     * Creates the Archive service consumer with no authentication id nor local name prefix.
+     *
+     * @param connectionDetails the connection details of the Archive service provider
+     * @throws MALException if the consumer cannot be created
+     * @throws MalformedURLException if a provided URI is malformed
+     */
     public ArchiveConsumerServiceImpl(SingleConnectionDetails connectionDetails) throws MALException, MalformedURLException {
         this(connectionDetails, null, null);
     }
 
+    /**
+     * Creates the Archive service consumer and starts the consumer connection.
+     *
+     * @param connectionDetails the connection details of the Archive service provider
+     * @param authenticationId the authentication id of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     * @throws MALException if the consumer cannot be created
+     * @throws MalformedURLException if a provided URI is malformed
+     */
     public ArchiveConsumerServiceImpl(SingleConnectionDetails connectionDetails, Blob authenticationId,
             String localNamePrefix) throws MALException, MalformedURLException {
         this.connectionDetails = connectionDetails;

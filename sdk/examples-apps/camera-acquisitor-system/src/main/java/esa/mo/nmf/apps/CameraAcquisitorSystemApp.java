@@ -28,6 +28,12 @@ import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
  * @author Kevin Otto
  */
 public class CameraAcquisitorSystemApp {
+    /**
+     * Default constructor.
+     */
+    public CameraAcquisitorSystemApp() {
+    }
+
 
     /**
      * Main command line entry point.

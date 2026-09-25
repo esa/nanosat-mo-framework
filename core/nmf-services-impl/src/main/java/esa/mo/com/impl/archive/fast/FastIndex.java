@@ -38,19 +38,35 @@ import java.util.logging.Logger;
  */
 public abstract class FastIndex<T> {
 
+    /** The logger. */
     protected static final Logger LOGGER = Logger.getLogger(FastIndex.class.getName());
+    /** The query delete. */
     protected final String QUERY_DELETE;
+    /** The query select. */
     protected final String QUERY_SELECT;
+    /** The query insert. */
     protected final String QUERY_INSERT;
+    /** The create table. */
     protected final String CREATE_TABLE;
 
+    /** The insert stmt. */
     protected PreparedStatement insertStmt;
 
+    /** The db backend. */
     protected final DatabaseBackend dbBackend;
+    /** The unique id. */
     protected AtomicInteger uniqueId = new AtomicInteger(0);
+    /** The fast id. */
     protected HashMap<T, Integer> fastID;
+    /** The fast i dreverse. */
     protected HashMap<Integer, T> fastIDreverse;
 
+    /**
+     * Creates a new {@code FastIndex}.
+     *
+     * @param dbBackend the database backend
+     * @param table the table
+     */
     public FastIndex(final DatabaseBackend dbBackend, String table) {
         this.fastID = new HashMap<>();
         this.fastIDreverse = new HashMap<>();
@@ -63,6 +79,9 @@ public abstract class FastIndex<T> {
             " (id INTEGER NOT NULL, value VARCHAR, PRIMARY KEY (id))";
     }
 
+    /**
+     * Initializes the in-memory index.
+     */
     public synchronized void init() {
         // Retrieve all the ids and providerURIs from the Database
         try {
@@ -94,14 +113,29 @@ public abstract class FastIndex<T> {
         dbBackend.getAvailability().release();
     }
 
+    /**
+     * Returns whether the given value is present in the index.
+     *
+     * @param value the value
+     * @return {@code true} if it exists
+     */
     public synchronized boolean exists(final T value) {
         return (this.fastID.get(value) != null);
     }
 
+    /**
+     * Returns whether the given key is present in the index.
+     *
+     * @param key the key
+     * @return {@code true} if it exists
+     */
     public synchronized boolean exists(final Integer key) {
         return (this.fastIDreverse.get(key) != null);
     }
 
+    /**
+     * Clears the index.
+     */
     public synchronized void resetTable() {
         this.fastID = new HashMap<>();
         this.fastIDreverse = new HashMap<>();
@@ -115,6 +149,13 @@ public abstract class FastIndex<T> {
         }
     }
 
+    /**
+     * Returns the value.
+     *
+     * @param key the key
+     * @return the value
+     * @throws Exception if the operation fails
+     */
     public synchronized T getValue(final Integer key) throws Exception {
         final T value = this.fastIDreverse.get(key);
 
@@ -125,6 +166,13 @@ public abstract class FastIndex<T> {
         return value;
     }
 
+    /**
+     * Returns the key.
+     *
+     * @param value the value
+     * @return the key
+     * @throws Exception if the operation fails
+     */
     public synchronized Integer getKey(final T value) throws Exception {
         final Integer key = this.fastID.get(value);
 
@@ -135,6 +183,12 @@ public abstract class FastIndex<T> {
         return key;
     }
 
+    /**
+     * Adds the given value to the index and returns its assigned key.
+     *
+     * @param value the value
+     * @return the assigned key
+     */
     public Integer addNewEntry(final T value) {
         final int key = uniqueId.incrementAndGet();
         this.fastID.put(value, key);

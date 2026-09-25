@@ -48,6 +48,9 @@ public class ChecksumGenerator {
 
     private static final char[] HEX = "0123456789abcdef".toCharArray();
 
+    private ChecksumGenerator() {
+    }
+
     /**
      * Writes the SHA256SUMS file of a directory, covering every regular file
      * directly inside it (subdirectories and a pre-existing SHA256SUMS file

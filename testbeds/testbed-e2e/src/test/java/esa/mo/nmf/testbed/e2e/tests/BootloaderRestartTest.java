@@ -38,6 +38,10 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.LOGGER;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SEP;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_SEP;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_MSG;
 
 /**
  * End-to-end test for the generic {@code bootloader.restart} action: invoking
@@ -45,7 +49,7 @@ import org.junit.Test;
  * ({@code start_supervisor.sh}) recognises and re-executes, booting the current
  * primary baseline again.
  */
-public class BootloaderRestartTest extends NMFTest {
+public class BootloaderRestartTest {
 
     private static final SupervisorHarness harness = new SupervisorHarness();
     private static final String ACTION_RESTART = "bootloader.restart";

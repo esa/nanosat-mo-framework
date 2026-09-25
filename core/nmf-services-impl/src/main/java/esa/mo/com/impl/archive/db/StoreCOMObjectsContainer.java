@@ -31,15 +31,31 @@ public class StoreCOMObjectsContainer {
     private final ArrayList<COMObjectEntity> perObjs;
     private final boolean continuous;
 
+    /**
+     * Creates a new {@code StoreCOMObjectsContainer}.
+     *
+     * @param perObjs the per objs
+     * @param continuous the continuous
+     */
     public StoreCOMObjectsContainer(final ArrayList<COMObjectEntity> perObjs, final boolean continuous) {
         this.perObjs = perObjs;
         this.continuous = continuous;
     }
 
+    /**
+     * Returns the per objs.
+     *
+     * @return the per objs
+     */
     public ArrayList<COMObjectEntity> getPerObjs() {
         return perObjs;
     }
 
+    /**
+     * Returns whether continuous.
+     *
+     * @return the is continuous
+     */
     public boolean isContinuous() {
         return continuous;
     }

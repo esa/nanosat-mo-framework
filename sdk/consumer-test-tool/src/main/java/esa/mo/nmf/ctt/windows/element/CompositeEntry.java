@@ -32,6 +32,14 @@ public class CompositeEntry extends Entry {
 
     private final javax.swing.JToggleButton button;
 
+    /**
+     * Creates an editor for a composite (MO structure) field.
+     *
+     * @param fieldName the name of the field
+     * @param obj the composite value, or {@code null}
+     * @param editable whether the field can be edited
+     * @param objIsNull whether the field value is null
+     */
     public CompositeEntry(String fieldName, Element obj, boolean editable, boolean objIsNull) {
         super(fieldName, obj, editable, objIsNull);
 

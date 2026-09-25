@@ -42,12 +42,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import org.ccsds.moims.mo.com.structures.ObjectLinks;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
+import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Element;
 
 /**
+ * Table panel showing the raw COM objects returned by a COM Archive query.
  *
  * @author Cesar Coelho
  */
@@ -114,19 +114,39 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         this.addEntries(archiveObjectOutput);
     }
 
+    /**
+     * Returns the selected view row index.
+     *
+     * @return the selected row index, or {@code -1} if none is selected
+     */
     public int getSelectedRow() {
         return archiveTable.getSelectedRow();
     }
 
+    /**
+     * Returns the COM object in the selected row.
+     *
+     * @return the selected COM object
+     */
     public ArchivePersistenceObject getSelectedCOMObject() {
         int modelRow = archiveTable.convertRowIndexToModel(this.getSelectedRow());
         return this.comObjects.get(modelRow);
     }
 
+    /**
+     * Returns all the COM objects shown in the table.
+     *
+     * @return the COM objects, in row order
+     */
     public List<ArchivePersistenceObject> getAllCOMObjects() {
         return this.comObjects;
     }
 
+    /**
+     * Adds a row for each COM object contained in the given archive query output.
+     *
+     * @param archiveObjectOutput the archive query output to add, may be {@code null}
+     */
     protected void addEntries(ArchiveCOMObjectsOutput archiveObjectOutput) {
         if (archiveObjectOutput == null) {
             return;
@@ -138,7 +158,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
 
         for (int i = 0; i < archiveObjectOutput.getArchiveDetailsList().size(); i++) {
             Element objects = (archiveObjectOutput.getObjectBodies() == null) ? null
-                    : (Element) HelperAttributes.javaType2Attribute(archiveObjectOutput.getObjectBodies().get(i));
+                    : (Element) Attribute.javaType2Attribute(archiveObjectOutput.getObjectBodies().get(i));
             ArchivePersistenceObject comObject = new ArchivePersistenceObject(
                     archiveObjectOutput.getObjectType(),
                     archiveObjectOutput.getDomain(),
@@ -177,7 +197,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         }
 
         if (comObject.getArchiveDetails().getTimestamp() != null) {
-            timestamp = HelperTime.time2readableString(comObject.getArchiveDetails().getTimestamp());
+            timestamp = comObject.getArchiveDetails().getTimestamp().toReadableString();
         }
 
         return new Object[]{timestamp, domain, objType,
@@ -196,16 +216,25 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
         semaphore.release();
     }
 
+    /**
+     * Sorts the table by the timestamp column, most recent first.
+     */
     public void sortByTimestamp() {
         javax.swing.SwingUtilities.invokeLater(() ->
                 archiveTable.getRowSorter().setSortKeys(
                         Arrays.asList(new RowSorter.SortKey(0, SortOrder.DESCENDING))));
     }
 
+    /**
+     * Removes the selected row.
+     */
     public void removeSelectedEntry() {
         archiveTableData.removeRow(archiveTable.convertRowIndexToModel(this.getSelectedRow()));
     }
 
+    /**
+     * Removes all rows.
+     */
     public void removeAllEntries() {
         while (archiveTableData.getRowCount() != 0) {
             archiveTableData.removeRow(archiveTableData.getRowCount() - 1);

@@ -41,6 +41,7 @@ import org.ccsds.moims.mo.com.structures.ObjectKeysList;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
+import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.UInteger;
@@ -60,20 +61,39 @@ import org.ccsds.moims.mo.sm.SMHelper;
  */
 public abstract class NMFProvider implements ReconfigurableProvider, NMFInterface {
 
+    /** Error message used when the Monitor and Control services have not been initialized. */
     protected final static String MC_SERVICES_NOT_INITIALIZED = "The M&C services were not initialized!";
-    protected final static Long DEFAULT_PROVIDER_CONFIGURATION_OBJID = (long) 1;  // The objId of the configuration to be used by the provider
+    /** The objId of the configuration to be used by the provider. */
+    protected final static Long DEFAULT_PROVIDER_CONFIGURATION_OBJID = (long) 1;
+    /** The COM services stack (Archive, Directory, ...) provided by this provider. */
     protected final COMServicesProvider comServices = new COMServicesProvider();
+    /** The Heartbeat service exposing the provider's liveness. */
     protected final HeartbeatProviderServiceImpl heartbeatService = new HeartbeatProviderServiceImpl();
+    /** The Directory service advertising this provider's services. */
     protected final DirectoryProviderServiceImpl directoryService = new DirectoryProviderServiceImpl();
+    /** The Monitor and Control services stack; {@code null} until {@link #startMCServices} is called. */
     protected MCServicesProviderNMF mcServices;
+    /** Consumer of the Platform services offered by the Supervisor. */
     protected PlatformServicesConsumer platformServices;
+    /** Listener notified when the app is requested to close; {@code null} if none is set. */
     protected CloseAppListener closeAppAdapter = null;
+    /** Listener notified when the provider configuration changes; {@code null} if none is set. */
     protected ConfigurationChangeListener providerConfigurationAdapter = null;
+    /** The name this provider registers under in the Directory service. */
     protected String providerName;
+    /** Provider start time, in milliseconds since the epoch. */
     protected long startTime;
 
+    /** Handles persistence of the provider configuration across restarts. */
     protected PersistProviderConfiguration providerConfiguration;
+    /** The reconfigurable services whose configuration is persisted and restored. */
     protected final ArrayList<ReconfigurableService> reconfigurableServices = new ArrayList<>();
+
+    /**
+     * Default constructor for the generic NMF provider.
+     */
+    protected NMFProvider() {
+    }
 
     /**
      * Initializes the NMF provider using a monitoring and control adapter that
@@ -149,7 +169,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
             throw new NMFException(MC_SERVICES_NOT_INITIALIZED);
         }
 
-        Object obj = HelperAttributes.javaType2Attribute(content); // Convert to MAL type if possible
+        Object obj = Attribute.javaType2Attribute(content); // Convert to MAL type if possible
 
         // If it is not a MAL type, then try to convert it into a Blob container
         if (!(obj instanceof Attribute)) {
@@ -167,6 +187,14 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);
     }
 
+    /**
+     * Pushes a set of parameter values to the Parameter service in a single call.
+     *
+     * @param parameters the parameter instances to push
+     * @param storeIt {@code true} to also store the values in the COM Archive
+     * @return {@code true} if the values were successfully pushed
+     * @throws NMFException if the Monitor and Control services are not initialized
+     */
     public Boolean pushMultipleParameterValues(final ArrayList<ParameterInstance> parameters,
             final boolean storeIt) throws NMFException {
         if (this.getMCServices() == null) {
@@ -176,6 +204,14 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         return this.getMCServices().getParameterService().pushMultipleParameterValues(parameters, storeIt);
     }
 
+    /**
+     * Creates and initializes the Monitor and Control services from the given adapter and
+     * registers them as reconfigurable services. Does nothing if {@code mcAdapter} is
+     * {@code null}.
+     *
+     * @param mcAdapter the Monitor and Control adapter, or {@code null} to skip M&amp;C setup
+     * @throws MALException if the Monitor and Control services fail to initialize
+     */
     public final void startMCServices(MonitorAndControlNMFAdapter mcAdapter) throws MALException {
         if (mcAdapter != null) {
             mcServices = new MCServicesProviderNMF();
@@ -229,6 +265,11 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         this.closeAppAdapter = closeAppAdapter;
     }
 
+    /**
+     * Returns the listener notified when the app is requested to close.
+     *
+     * @return the close-app listener, or {@code null} if none is set
+     */
     public CloseAppListener getCloseAppListener() {
         return this.closeAppAdapter;
     }
@@ -287,6 +328,57 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
     }
 
     /**
+     * The transport that is used when there is no transport.properties file to
+     * say otherwise: MAL TCP/IP with the fixed binary encoding.
+     *
+     * @return The properties that select the default transport.
+     */
+    protected static Properties getTransportDefaults() {
+        Properties props = new Properties();
+        props.setProperty("org.ccsds.moims.mo.mal.transport.default.protocol", "maltcp://");
+        props.setProperty("org.ccsds.moims.mo.mal.transport.protocol.maltcp",
+                "esa.mo.mal.transport.tcpip.TCPIPTransportFactoryImpl");
+        props.setProperty("org.ccsds.moims.mo.mal.encoding.protocol.maltcp",
+                "esa.mo.mal.encoder.binary.fixed.FixedBinaryStreamFactory");
+        props.setProperty("org.ccsds.moims.mo.mal.transport.tcpip.autohost", "true");
+        return props;
+    }
+
+    /**
+     * Sets the default transport in this process and stops the properties files
+     * from being looked for afterwards. A property given on the command line is
+     * left as it is, so a -D always wins.
+     */
+    protected static void useDefaultTransport() {
+        getTransportDefaults().forEach(System.getProperties()::putIfAbsent);
+        // "PropertiesLoadedFlag" is the skip guard of the HelperMisc: set it so
+        // that a later loadPropertiesFile() call leaves the files alone.
+        System.setProperty("PropertiesLoadedFlag", "true");
+    }
+
+    /**
+     * Reads the provider and transport properties files, and falls back to the
+     * default transport when neither of them is there.
+     *
+     * A provider that is deployed without those files is not misconfigured, it
+     * simply has nothing to say beyond the defaults, so their absence is passed
+     * over rather than reported. A file that is present is always read.
+     */
+    protected static void loadPropertiesOrDefaults() {
+        boolean hasProvider = new File(System.getProperty("provider.properties",
+                HelperMisc.PROVIDER_PROPERTIES_FILE)).exists();
+        boolean hasTransport = new File(System.getProperty("transport.properties",
+                HelperMisc.TRANSPORT_PROPERTIES_FILE)).exists();
+
+        if (!hasProvider && !hasTransport) {
+            useDefaultTransport();
+            return;
+        }
+
+        HelperMisc.loadPropertiesFile();
+    }
+
+    /**
      * Loads the MO Elements for all the sets of services.
      */
     public static void loadMOElements() {
@@ -308,6 +400,13 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         t1.start();
     }
 
+    /**
+     * Writes the Central Directory service URI (and an optional secondary URI) to the file
+     * read back by {@link #readCentralDirectoryServiceURI()}.
+     *
+     * @param centralDirectoryURI the primary Central Directory service URI
+     * @param secondaryURI an optional secondary URI written on the first line, or {@code null}
+     */
     public final void writeCentralDirectoryServiceURI(final String centralDirectoryURI, final String secondaryURI) {
         String filename = Const.FILENAME_CENTRAL_DIRECTORY_SERVICE;
 

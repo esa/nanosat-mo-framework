@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 The NanoSat MO Framework (NMF) is a Java software framework for small satellites based on CCSDS Mission Operations (MO) services. It enables apps running on a spacecraft to be started/stopped from the ground. Apps have specific Parameters, Actions and Alerts that can be monitored and controlled. The NMF has a set of MO services (Monitor & Control, Platform, COM, Software Management).
 
 - **Documentation**: https://nanosat-mo-framework.readthedocs.io/en/latest/
-- **Version**: 5.0 (`int.esa.nmf` group ID)
+- **Version**: 5.1 (`int.esa.nmf` group ID)
 - **Java**: 11 (source/target)
 - **License**: ESA-PL Weak Copyleft v2.4
 
@@ -53,7 +53,9 @@ core/
   nmf-linux-maven-plugin/   # Maven plugin: generates Linux filesystem layout + bootloader files
   nmf-composites/           # Key composites and the NMF app-facing API (see below)
 nmf-mission-barebone/       # Minimal mission impl for testing NMF features at runtime
-mission/simulator/          # OPS-SAT spacecraft simulator (platform services impl)
+nmf-mission-simulator-lite/ # Analytic orbit simulator (cubesat-gps-simulator)
+nmf-mission-simulator-orekit/ # Orekit-propagated spacecraft simulator (platform services impl,
+                            #   Celestia visualisation)
 sdk/
   consumer-test-tool/       # GUI tool for consuming all NMF services (CTT)
   cli-tool/                 # CLI interface to NMF
@@ -146,7 +148,7 @@ Service XML definitions in `core/mo-services-xml/` are the authoritative source;
 
 ## NMF Package System
 
-Space apps are deployed as `.nmfpackage` files (ZIP archives) built by the `nmf-package-maven-plugin`. The Supervisor's `PackageManagement` service installs/uninstalls them and verifies their integrity via the CRC checksums in the bundled `package-metadata.properties`. Six package types are supported (`app`, `dependency`, `java`, `mission`, `nmf`, `delta`); most code deals with `app`. The `nmf-linux-maven-plugin` generates the Linux filesystem layout, the bootloader baseline files, and `setup_linux_userspace.sh` (linux-userspace isolation only) for initial hardware deployment; it is being extended to also generate the project structure for new mission integrations.
+Space apps are deployed as `.nmfpackage` files (ZIP archives) built by the `nmf-package-maven-plugin`. The Supervisor's `PackageManagement` service installs/uninstalls them and verifies their integrity via the CRC checksums in the bundled `package-metadata.properties`. Six package types are supported (`app`, `dependency`, `java`, `mission`, `nmf`, `delta`); most code deals with `app`. The two baseline types are produced by the `nmf-linux-maven-plugin`: `generate-nmf-core-package` packages `jars-nmf/<version>` and `generate-mission-package` packages `jars-mission/<version>`, both reading what `generate-filesystem` sorted. Installing one stages the baseline beside the running version without activating it. The `nmf-linux-maven-plugin` generates the Linux filesystem layout, the bootloader baseline files, and `setup_linux_userspace.sh` (linux-userspace isolation only) for initial hardware deployment; it is being extended to also generate the project structure for new mission integrations.
 
 ## Architectural patterns
 

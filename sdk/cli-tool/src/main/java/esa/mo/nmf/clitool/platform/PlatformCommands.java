@@ -46,13 +46,27 @@ import org.ccsds.moims.mo.platform.gps.consumer.GPSStub;
 import org.ccsds.moims.mo.platform.structures.*;
 
 /**
+ * Container for the platform CLI subcommands (gps, adcs, camera).
+ *
  * @author marcel.mikolajko
  */
 public class PlatformCommands {
 
     static Logger LOGGER = Logger.getLogger(PlatformCommands.class.getName());
 
+    private PlatformCommands() {
+    }
+
+    /**
+     * Implements the {@code camera take-picture} CLI command.
+     */
     public static class TakePicture extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public TakePicture() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -173,7 +187,16 @@ public class PlatformCommands {
         }
     }
 
+    /**
+     * Implements the {@code adcs get-status} CLI command.
+     */
     public static class GetStatus extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public GetStatus() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -217,7 +240,16 @@ public class PlatformCommands {
         }
     }
 
+    /**
+     * Implements the {@code gps get-nmea-sentence} CLI command.
+     */
     public static class GetNMEASentence extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public GetNMEASentence() {
+        }
+
 
         @Override
         public void run(Args args) {

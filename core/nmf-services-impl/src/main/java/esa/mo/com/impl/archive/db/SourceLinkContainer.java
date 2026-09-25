@@ -35,36 +35,78 @@ public class SourceLinkContainer {
     private IntegerList domainIds;
     private IntegerList objectTypeIds;
 
+    /**
+     * Creates a new {@code SourceLinkContainer}.
+     *
+     * @param objectTypeId the object type id
+     * @param domainId the domain id
+     * @param objId the object id
+     */
     public SourceLinkContainer(final Integer objectTypeId, final Integer domainId, final Long objId) {
         this.objectTypeId = objectTypeId;
         this.domainId = domainId;
         this.objId = objId;
     }
 
+    /**
+     * Returns the object type id.
+     *
+     * @return the object type id
+     */
     public Integer getObjectTypeId() {
         return objectTypeId;
     }
 
+    /**
+     * Returns the domain id.
+     *
+     * @return the domain id
+     */
     public Integer getDomainId() {
         return domainId;
     }
 
+    /**
+     * Returns the object id.
+     *
+     * @return the object id
+     */
     public Long getObjId() {
         return objId;
     }
 
+    /**
+     * Returns the domain ids.
+     *
+     * @return the domain ids
+     */
     public IntegerList getDomainIds() {
         return domainIds;
     }
 
+    /**
+     * Sets the domain ids.
+     *
+     * @param domainIds the domain ids
+     */
     public void setDomainIds(final IntegerList domainIds) {
         this.domainIds = domainIds;
     }
 
+    /**
+     * Returns the object type ids.
+     *
+     * @return the object type ids
+     */
     public IntegerList getObjectTypeIds() {
         return objectTypeIds;
     }
 
+    /**
+     * Sets the object type ids.
+     *
+     * @param objectTypeIds the object type ids
+     */
     public void setObjectTypeIds(final IntegerList objectTypeIds) {
         this.objectTypeIds = objectTypeIds;
     }

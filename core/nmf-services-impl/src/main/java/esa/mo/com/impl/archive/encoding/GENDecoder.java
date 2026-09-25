@@ -44,8 +44,14 @@ import org.ccsds.moims.mo.mal.structures.Union;
  */
 public abstract class GENDecoder implements MALDecoder {
 
+    /** The source buffer. */
     protected final BufferHolder sourceBuffer;
 
+    /**
+     * Creates a decoder reading from the given buffer holder.
+     *
+     * @param sourceBuffer the source buffer
+     */
     protected GENDecoder(BufferHolder sourceBuffer) {
         this.sourceBuffer = sourceBuffer;
     }
@@ -340,6 +346,13 @@ public abstract class GENDecoder implements MALDecoder {
         return null;
     }
 
+    /**
+     * Decodes an attribute of the given MAL type from the buffer.
+     *
+     * @param typeval the typeval
+     * @throws MALException if the operation fails
+     * @return the decoded attribute
+     */
     protected Attribute internalDecodeAttribute(final int typeval) throws MALException {
         switch (typeval) {
             case Attribute._BLOB_TYPE_SHORT_FORM:
@@ -412,6 +425,13 @@ public abstract class GENDecoder implements MALDecoder {
         return decodeLong();
     }
 
+    /**
+     * Decodes the attribute type identifier from the given byte.
+     *
+     * @param value the value
+     * @return the internal decode attribute type
+     * @throws MALException if the operation fails
+     */
     public int internalDecodeAttributeType(byte value) throws MALException {
         return value;
     }
@@ -431,6 +451,12 @@ public abstract class GENDecoder implements MALDecoder {
      * the fields differently from this encoding.
      */
     public abstract static class BufferHolder {
+        /**
+         * Default constructor.
+         */
+        protected BufferHolder() {
+        }
+
 
         /**
          * Gets a string from the incoming stream.

@@ -28,11 +28,16 @@ import javax.swing.table.DefaultTableModel;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 
 /**
+ * Table panel listing the packages known to the PackageManagement service and whether each is
+ * installed.
  *
  * @author Cesar Coelho
  */
 public class PackageManagementTablePanel extends SharedTablePanel {
 
+    /**
+     * Creates the package-management table panel.
+     */
     public PackageManagementTablePanel() {
         super(null);
     }
@@ -43,18 +48,32 @@ public class PackageManagementTablePanel extends SharedTablePanel {
     }
 
     @Override
-    public void removeAllEntries() {
+    public synchronized void removeAllEntries() {
+        // Synchronized as the method it overrides is: the rest of the table is
+        // guarded on this panel, and an override that is not takes the rows
+        // away while another thread is reading them.
         while (tableData.getRowCount() != 0) {
             tableData.removeRow(tableData.getRowCount() - 1);
         }
     }
 
+    /**
+     * Returns the name of the package in the selected row.
+     *
+     * @return the selected package name
+     */
     public Identifier getSelectedPackage() {
         int index = this.getSelectedRow();
         // The name is on column 0
         return (Identifier) tableData.getValueAt(index, 0);
     }
 
+    /**
+     * Adds a package row to the table.
+     *
+     * @param name the package name
+     * @param isInstalled whether the package is installed
+     */
     public void addEntry(final Identifier name, final boolean isInstalled) {
         try {
             semaphore.acquire();
@@ -67,6 +86,11 @@ public class PackageManagementTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
+    /**
+     * Updates the installed status shown for the selected package.
+     *
+     * @param status {@code true} if the package is installed
+     */
     public void switchEnabledstatus(boolean status) {
         try {
             semaphore.acquire();
@@ -106,6 +130,11 @@ public class PackageManagementTablePanel extends SharedTablePanel {
         super.getTable().setModel(tableData);
     }
 
+    /**
+     * Returns the table model backing this panel.
+     *
+     * @return the table model
+     */
     public DefaultTableModel getTableData() {
         return tableData;
     }

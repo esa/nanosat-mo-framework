@@ -34,10 +34,14 @@ import org.ccsds.moims.mo.mal.structures.ServiceId;
 import org.ccsds.moims.mo.mal.structures.StringList;
 
 /**
+ * Common helper utilities shared across the service implementations.
  *
  * @author Cesar Coelho
  */
 public class HelperCommon {
+    private HelperCommon() {
+    }
+
 
     private static final Logger LOGGER = Logger.getLogger(HelperCommon.class.getName());
 

@@ -21,7 +21,6 @@
 package esa.mo.sm.impl.consumer;
 
 import esa.mo.com.impl.util.COMServicesConsumer;
-import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
@@ -34,6 +33,7 @@ import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherHelper;
 import org.ccsds.moims.mo.sm.appslauncher.consumer.AppsLauncherStub;
 
 /**
+ * Consumer of the AppsLauncher service.
  *
  * @author Cesar Coelho
  */
@@ -42,6 +42,16 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
     private AppsLauncherStub appLauncherService = null;
     private COMServicesConsumer comServices;
 
+    /**
+     * Creates the AppsLauncher service consumer and starts the consumer connection.
+     *
+     * @param connectionDetails the connection details of the AppsLauncher service provider
+     * @param comServices the COM services consumer used by this service
+     * @param authenticationId the authentication id of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     * @throws MALException if the consumer cannot be created
+     * @throws MALInteractionException if the service returns an error
+     */
     public AppsLauncherConsumerServiceImpl(final SingleConnectionDetails connectionDetails,
             final COMServicesConsumer comServices, final Blob authenticationId,
             final String localNamePrefix) throws MALException, MALInteractionException {
@@ -65,11 +75,24 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
         this.appLauncherService = new AppsLauncherStub(tmConsumer);
     }
 
+    /**
+     * Creates the AppsLauncher service consumer with no authentication id nor local name prefix.
+     *
+     * @param connectionDetails the connection details of the AppsLauncher service provider
+     * @param comServices the COM services consumer used by this service
+     * @throws MALException if the consumer cannot be created
+     * @throws MALInteractionException if the service returns an error
+     */
     public AppsLauncherConsumerServiceImpl(final SingleConnectionDetails connectionDetails,
             final COMServicesConsumer comServices) throws MALException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
+    /**
+     * Returns the COM services consumer used by this service.
+     *
+     * @return the COM services consumer
+     */
     public COMServicesConsumer getCOMServices() {
         return comServices;
     }
@@ -79,6 +102,11 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
         return this.getAppsLauncherStub();
     }
 
+    /**
+     * Returns the AppsLauncher service stub used to invoke operations on the provider.
+     *
+     * @return the AppsLauncher service stub
+     */
     public AppsLauncherStub getAppsLauncherStub() {
         return this.appLauncherService;
     }

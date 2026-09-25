@@ -37,6 +37,14 @@ public class OneInstanceLock {
     private static FileChannel channel;
     private static FileLock lock;
 
+    /**
+     * Acquires an exclusive lock on the {@code application.lck} file in the app's internal
+     * directory, ensuring a single running instance, and registers a shutdown hook to
+     * release it.
+     *
+     * @throws RuntimeException if another instance already holds the lock or the lock file
+     * cannot be created
+     */
     public OneInstanceLock() {
         try {
             File internalDir = AppStorage.getAppNMFInternalDir();
@@ -58,6 +66,9 @@ public class OneInstanceLock {
         }
     }
 
+    /**
+     * Releases the instance lock and closes the underlying file channel.
+     */
     public static void unlockFile() {
         // release and delete file lock
         try {

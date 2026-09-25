@@ -30,7 +30,6 @@ import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
-import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
@@ -101,14 +100,14 @@ public class ArchiveToAppAdapter extends ArchiveAdapter implements QueryStatusPr
         // look for the App by name
         for (int i = 0; i < archiveObjectOutput.getObjectBodies().size(); i++) {
             AppDetails appObject = (AppDetails) archiveObjectOutput.getObjectBodies().get(i);
-            String appName = appObject.getName().getValue();
+            String candidateName = appObject.getName().getValue();
             Long appInstanceId = archiveObjectOutput.getArchiveDetailsList().get(i).getId();
-            // TODO uncomment when archive sync fixed
-            // IdentifierList appDomain = archiveObjectOutput.getDomain();
-            IdentifierList appDomain = new IdentifierList();
-            appDomain.add(new Identifier("*"));
+            IdentifierList appDomain = archiveObjectOutput.getDomain();
 
-            if (this.appName.equals(appName)) {
+            // The field is the App being looked for, the local the one being
+            // looked at. Named apart because they were both appName, and the
+            // two are told apart only by a this. that is easily left off.
+            if (this.appName.equals(candidateName)) {
                 appObjectKey = new ObjectKey(appType, appDomain, appInstanceId);
                 setIsQueryOver(true);
             }

@@ -24,6 +24,8 @@ import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.Parameter;
 import com.restfb.Version;
+import com.restfb.exception.FacebookException;
+import com.restfb.exception.FacebookOAuthException;
 import com.restfb.types.FacebookType;
 import esa.mo.nmf.commonmoadapter.SimpleDataReceivedListener;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
@@ -49,6 +51,12 @@ public class Push2Facebook {
     private static final String TOKEN_FILENAME = "token.properties";
     private final String ACCESS_TOKEN;
 
+    /**
+     * Creates a new {@code Push2Facebook}.
+     *
+     * @param directoryURI the directory uri
+     * @param providerName the provider name
+     */
     public Push2Facebook(String directoryURI, String providerName) {
         try {
             registerDataListener(directoryURI, providerName);
@@ -113,7 +121,16 @@ public class Push2Facebook {
         }
     }
 
+    /**
+     * Monitor and Control adapter for this application.
+     */
     public class DataReceivedAdapter extends SimpleDataReceivedListener {
+        /**
+         * Default constructor.
+         */
+        public DataReceivedAdapter() {
+        }
+
 
         @Override
         public void onDataReceived(String parameterName, Serializable data) {
@@ -122,16 +139,23 @@ public class Push2Facebook {
                 new Object[]{parameterName, data.toString()});
 
             // Get the Token here: https://developers.facebook.com/tools/explorer/
+            // Making the client neither connects nor checks the token: whether
+            // the token is any good is only known once something is posted.
             FacebookClient facebookClient = new DefaultFacebookClient(ACCESS_TOKEN, Version.VERSION_2_4);
+            FacebookType publishMessageResponse;
 
-            if (facebookClient == null) {
-                LOGGER.log(Level.INFO, "The facebookClient is null! The access token might be incorrect...\n");
-            } else {
-                LOGGER.log(Level.INFO, "The facebookClient is connected!\n");
+            try {
+                publishMessageResponse = facebookClient.publish("me/feed", FacebookType.class,
+                    Parameter.with("message", data.toString()));
+            } catch (FacebookOAuthException ex) {
+                LOGGER.log(Level.SEVERE, "Facebook refused the access token, so nothing was posted. "
+                    + "The token is read from the property access_token, in " + TOKEN_FILENAME
+                    + ", and is made at https://developers.facebook.com/tools/explorer/\n", ex);
+                return;
+            } catch (FacebookException ex) {
+                LOGGER.log(Level.SEVERE, "Nothing was posted on Facebook.\n", ex);
+                return;
             }
-
-            FacebookType publishMessageResponse = facebookClient.publish("me/feed", FacebookType.class, Parameter.with(
-                "message", data.toString()));
 
             String str = "";
 

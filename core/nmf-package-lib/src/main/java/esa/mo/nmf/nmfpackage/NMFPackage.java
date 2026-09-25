@@ -23,9 +23,11 @@ package esa.mo.nmf.nmfpackage;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -143,8 +145,10 @@ public class NMFPackage {
      * @throws IOException If the files could not be extracted.
      */
     public void extractFiles(File toFolder) throws IOException {
-        File newFile;
         byte[] buffer = new byte[8192];
+
+        // Worked out once, and every file of the package lands under it
+        final Path destination = toFolder.getCanonicalFile().toPath();
 
         // Iterate through the files, unpack them into the right folders
         ArrayList<NMFPackageFile> files = this.getMetadata().getFiles();
@@ -152,32 +156,21 @@ public class NMFPackage {
         for (int i = 0; i < files.size(); i++) {
             NMFPackageFile file = files.get(i);
             ZipEntry entry = this.getZipFileEntry(file.getPath());
+            Path newFile = HelperNMFPackage.resolveInside(destination, entry.getName());
 
-            String path = HelperNMFPackage.sanitizePath(entry.getName());
-            newFile = new File(toFolder, path).getCanonicalFile();
-            File parent = newFile.getParentFile();
-            // Validate that the new file resides within the intended directory
-            if (!newFile.toPath().normalize().startsWith(toFolder.toPath().normalize())) {
-                throw new IOException("Invalid zip entry: " + entry.getName());
+            Files.createDirectories(newFile.getParent());
+            System.out.println("   >> Copying file to: " + newFile);
+
+            try (InputStream zis = zipFile.getInputStream(entry);
+                    OutputStream fos = Files.newOutputStream(newFile)) {
+                int len;
+
+                while ((len = zis.read(buffer)) > 0) {
+                    fos.write(buffer, 0, len);
+                }
             }
 
-            if (!parent.exists()) {
-                parent.mkdirs();
-            }
-
-            System.out.println("   >> Copying file to: " + newFile.getCanonicalPath());
-
-            FileOutputStream fos = new FileOutputStream(newFile);
-            InputStream zis = zipFile.getInputStream(entry);
-            int len;
-
-            while ((len = zis.read(buffer)) > 0) {
-                fos.write(buffer, 0, len);
-            }
-
-            fos.close();
-
-            long crc = HelperNMFPackage.calculateCRCFromFile(newFile.getCanonicalPath());
+            long crc = HelperNMFPackage.calculateCRCFromFile(newFile.toString());
 
             // We will also need to double check the CRCs again against the real files!
             // Just to double-check.. better safe than sorry!
@@ -186,4 +179,5 @@ public class NMFPackage {
             }
         }
     }
+
 }

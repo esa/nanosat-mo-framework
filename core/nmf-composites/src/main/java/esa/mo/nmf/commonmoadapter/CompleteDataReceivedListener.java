@@ -31,6 +31,12 @@ import esa.mo.mc.impl.provider.ParameterInstance;
 public abstract class CompleteDataReceivedListener implements DataReceivedListener {
 
     /**
+     * Default constructor.
+     */
+    public CompleteDataReceivedListener() {
+    }
+
+    /**
      * This interface must be implemented in order to receive the parameter
      * content from the Parameter service coming via the monitorValue operation.
      *

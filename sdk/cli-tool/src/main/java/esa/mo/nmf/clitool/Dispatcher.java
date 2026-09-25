@@ -38,6 +38,9 @@ import esa.mo.nmf.clitool.sm.SoftwareManagementCommands;
  */
 public class Dispatcher {
 
+    private Dispatcher() {
+    }
+
     private static final String HELP =
             "Usage: cli-tool <group> <command> [options...]\n"
             + "\n"
@@ -59,6 +62,12 @@ public class Dispatcher {
             + "  -l, --local <file>      Local SQLite database file\n"
             + "  -p, --provider <name>   Provider name (when directory has multiple)\n";
 
+    /**
+     * Routes the raw command line arguments to the matching command and runs it.
+     *
+     * @param rawArgs the raw command line arguments ({@code <group> <command> [options...]})
+     * @return the process exit code
+     */
     public static int dispatch(String[] rawArgs) {
         if (rawArgs.length == 0 || isHelp(rawArgs[0])) {
             System.out.print(HELP);

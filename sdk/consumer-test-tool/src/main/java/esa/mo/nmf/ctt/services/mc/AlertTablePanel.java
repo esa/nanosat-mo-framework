@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mc.structures.AlertDefinition;
 
 /**
+ * Table panel listing the alert definitions read from a COM Archive.
  *
  * @author Cesar Coelho
  */
@@ -69,6 +70,11 @@ public class AlertTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
+    /**
+     * Enables or disables generation for the selected alert.
+     *
+     * @param status {@code true} to enable, {@code false} to disable
+     */
     public void switchEnabledstatus(boolean status) {
         try {
             semaphore.acquire();
@@ -86,6 +92,11 @@ public class AlertTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
+    /**
+     * Enables or disables generation for all alerts.
+     *
+     * @param status {@code true} to enable, {@code false} to disable
+     */
     public void switchEnabledstatusAll(boolean status) {
         try {
             semaphore.acquire();
@@ -105,6 +116,12 @@ public class AlertTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
+    /**
+     * Returns the COM object whose object instance id matches the given definition id.
+     *
+     * @param definitionId the object instance id to look up
+     * @return the matching COM object, or {@code null} if none matches
+     */
     public ArchivePersistenceObject getCOMObjectById(Long definitionId) {
         try {
             semaphore.acquire();
@@ -122,6 +139,13 @@ public class AlertTablePanel extends SharedTablePanel {
         return result;
     }
 
+    /**
+     * Returns a copy of the given alert definition with the generation flag overridden.
+     *
+     * @param def the alert definition to copy
+     * @param generation the new generation-enabled flag
+     * @return the new alert definition
+     */
     public AlertDefinition generateNewAlertDef(AlertDefinition def, boolean generation) {
         return new AlertDefinition(
                 def.getName(),

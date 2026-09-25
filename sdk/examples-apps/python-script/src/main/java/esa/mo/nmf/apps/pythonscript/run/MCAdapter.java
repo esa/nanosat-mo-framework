@@ -44,13 +44,18 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
     private static final Logger LOG = Logger.getLogger(MCAdapter.class.getName());
 
-    private static final String ACTION_RUN_PYTHON_SCRIPT = "RunPythonScript";
-    private static final String ACTION_DESTROY_PROCESS = "DestroyProcess";
+    private static final String ACTION_RUN_PYTHON_SCRIPT = "run-python-script";
+    private static final String ACTION_DESTROY_PROCESS = "destroy-process";
     private static final int TOTAL_STAGES = 1;
 
     private final Map<Long, PythonScriptExecutor> processMap = new ConcurrentHashMap<>();
     private final NMFInterface connector;
 
+    /**
+     * Creates a new {@code MCAdapter}.
+     *
+     * @param connector the NMF provider connector
+     */
     public MCAdapter(NMFProvider connector) {
         this.connector = connector;
     }
@@ -84,6 +89,12 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         throw new ExecutionFailedException("Unknown action: " + name.getValue());
     }
 
+    /**
+     * On process completed.
+     *
+     * @param id the id
+     * @param exitCode the exit code
+     */
     public void onProcessCompleted(Long id, int exitCode) {
         processMap.remove(id);
         LOG.info("Process with Request Id: " + id + " exited with code: " + exitCode);

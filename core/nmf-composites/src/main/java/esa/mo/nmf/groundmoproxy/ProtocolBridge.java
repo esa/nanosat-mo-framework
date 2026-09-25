@@ -46,6 +46,21 @@ public class ProtocolBridge {
     private MALEndpoint epA;
     private MALEndpoint epB;
 
+    /**
+     * Default constructor.
+     */
+    public ProtocolBridge() {
+    }
+
+    /**
+     * Initializes the bridge by creating a transport and endpoint for each protocol and
+     * cross-linking them so that messages received on one side are forwarded to the other.
+     *
+     * @param protocolA the first transport protocol (for example {@code maltcp})
+     * @param protocolB the second transport protocol (for example {@code malspp})
+     * @param properties the transport properties passed to both transports
+     * @throws Exception if a transport or endpoint cannot be created or started
+     */
     public void init(final String protocolA, final String protocolB, final Map properties) throws Exception {
         transportA = createTransport(protocolA, properties);
         transportB = createTransport(protocolB, properties);
@@ -60,11 +75,27 @@ public class ProtocolBridge {
         epB.startMessageDelivery();
     }
 
+    /**
+     * Creates a MAL transport for the given protocol.
+     *
+     * @param protocol the transport protocol
+     * @param properties the transport properties
+     * @return the created transport
+     * @throws Exception if the transport cannot be created
+     */
     protected static MALTransport createTransport(final String protocol, final Map properties) throws Exception {
         System.out.println("Creating transport " + protocol);
         return MALTransportFactory.newFactory(protocol).createTransport(properties);
     }
 
+    /**
+     * Creates a MAL endpoint on the given transport.
+     *
+     * @param protocol the transport protocol, used for logging
+     * @param trans the transport to create the endpoint on
+     * @return the created endpoint
+     * @throws Exception if the endpoint cannot be created
+     */
     protected static MALEndpoint createEndpoint(String protocol, MALTransport trans) throws Exception {
         System.out.println("Creating endpoint for transport " + protocol);
         MALEndpoint ep = trans.createEndpoint("ProtocolBridge", null, null);
@@ -73,18 +104,36 @@ public class ProtocolBridge {
         return ep;
     }
 
+    /**
+     * Returns the routing URI of the first protocol's endpoint.
+     *
+     * @return the URI of the first endpoint
+     */
     public URI getRoutingProtocolA() {
         return epA.getURI();
     }
 
+    /**
+     * Returns the routing URI of the second protocol's endpoint.
+     *
+     * @return the URI of the second endpoint
+     */
     public URI getRoutingProtocolB() {
         return epB.getURI();
     }
 
+    /**
+     * Message listener that forwards every message it receives to a destination endpoint.
+     */
     protected static class BridgeMessageHandler implements MALMessageListener {
 
         private final MALEndpoint destination;
 
+        /**
+         * Creates the handler.
+         *
+         * @param destination the endpoint the received messages are forwarded to
+         */
         public BridgeMessageHandler(MALEndpoint destination) {
             this.destination = destination;
         }
@@ -130,6 +179,15 @@ public class ProtocolBridge {
         }
     }
 
+    /**
+     * Clones a source message into a new message addressed to the destination endpoint,
+     * rewriting the {@code from} and {@code to} fields for forwarding.
+     *
+     * @param destination the endpoint the message is forwarded to
+     * @param srcMessage the source message to clone
+     * @return the cloned message ready to be sent to the destination
+     * @throws MALException if the message cannot be cloned
+     */
     protected static MALMessage cloneForwardMessage(MALEndpoint destination, MALMessage srcMessage)
         throws MALException {
         MALMessageHeader sourceHdr = srcMessage.getHeader();

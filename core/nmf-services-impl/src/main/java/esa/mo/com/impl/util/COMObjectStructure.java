@@ -31,6 +31,9 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.URI;
 
+/**
+ * COM Object Structure.
+ */
 public class COMObjectStructure {
 
     private final ObjectType objType;
@@ -44,6 +47,14 @@ public class COMObjectStructure {
 
     private final Element object;
 
+    /**
+     * Creates a new {@code COMObjectStructure}.
+     *
+     * @param domain the domain
+     * @param objType the obj type
+     * @param archiveDetails the archive details
+     * @param object the object
+     */
     public COMObjectStructure(final IdentifierList domain, final ObjectType objType,
             final ArchiveDetails archiveDetails, final Element object) {
         this.objType = objType;
@@ -58,6 +69,11 @@ public class COMObjectStructure {
         this.object = object;
     }
 
+    /**
+     * Creates a new {@code COMObjectStructure}.
+     *
+     * @param archivePersistenceObject the archive persistence object
+     */
     public COMObjectStructure(final ArchivePersistenceObject archivePersistenceObject) {
         this(archivePersistenceObject.getDomain(),
                 archivePersistenceObject.getObjectType(),
@@ -65,44 +81,94 @@ public class COMObjectStructure {
                 (Element) archivePersistenceObject.getObject());
     }
 
+    /**
+     * Returns the obj type.
+     *
+     * @return the obj type
+     */
     public ObjectType getObjType() {
         return objType;
     }
 
+    /**
+     * Returns the domain.
+     *
+     * @return the domain
+     */
     public IdentifierList getDomain() {
         return domain;
     }
 
+    /**
+     * Returns the object id.
+     *
+     * @return the object id
+     */
     public Long getObjId() {
         return objId;
     }
 
+    /**
+     * Returns the source link.
+     *
+     * @return the source link
+     */
     public ObjectKey getSourceLink() {
         return sourceLink;
     }
 
+    /**
+     * Returns the related link.
+     *
+     * @return the related link
+     */
     public Long getRelatedLink() {
         return relatedLink;
     }
 
+    /**
+     * Returns the timestamp.
+     *
+     * @return the timestamp
+     */
     public Time getTimestamp() {
         return timestamp;
     }
 
+    /**
+     * Returns the provider uri.
+     *
+     * @return the provider uri
+     */
     public URI getProviderURI() {
         return providerURI;
     }
 
+    /**
+     * Returns the object.
+     *
+     * @return the object
+     */
     public Element getObject() {
         return object;
     }
 
+    /**
+     * Returns the objects heterogeneous list.
+     *
+     * @return the objects heterogeneous list
+     */
     public HeterogeneousList getObjectsHeterogeneousList() {
         HeterogeneousList bodies = new HeterogeneousList();
         bodies.add(object);
         return bodies;
     }
 
+    /**
+     * Returns the archive details.
+     *
+     * @return the archive details
+     */
     public ArchiveDetails getArchiveDetails() {
         ObjectLinks objDetails = new ObjectLinks(relatedLink, sourceLink);
         return new ArchiveDetails(objId, objDetails, timestamp, providerURI);

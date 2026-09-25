@@ -29,6 +29,9 @@ public class SnapNMF {
 
     private final NanoSatMOConnectorImpl connector;
 
+    /**
+     * Creates a new {@code SnapNMF}.
+     */
     public SnapNMF() {
         MCSnapNMFAdapter adapter = new MCSnapNMFAdapter();
         connector = new NanoSatMOConnectorImpl();

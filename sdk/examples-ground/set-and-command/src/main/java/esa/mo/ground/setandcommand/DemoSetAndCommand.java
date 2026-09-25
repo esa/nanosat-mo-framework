@@ -39,6 +39,8 @@ public class DemoSetAndCommand {
     private static final Logger LOGGER = Logger.getLogger(DemoSetAndCommand.class.getName());
 
     /**
+     * Connects to the provider at the given directory URI, then sets a parameter and triggers
+     * an action on it.
      *
      * @param directoryURI - supervisor directory URI
      *                     - e.g. "maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory"
@@ -62,13 +64,13 @@ public class DemoSetAndCommand {
             if (gma != null) {
                 // Set a parameter with a string value
                 String parameterValue = "The parameter was set!";
-                gma.setParameter("A_Parameter", parameterValue);
+                gma.setParameter("a-parameter", parameterValue);
 
                 // Send a command with a Double argument
                 double value = 1.35565;
                 Double[] values = new Double[1];
                 values[0] = value;
-                gma.launchAction("Go", values);
+                gma.launchAction("go", values);
             } else {
                 LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - " +
                     PROVIDER_HELLO_WORLD);

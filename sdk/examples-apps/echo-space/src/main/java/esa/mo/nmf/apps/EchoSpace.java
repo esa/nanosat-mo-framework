@@ -36,7 +36,6 @@ import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ParameterDefinition;
@@ -58,12 +57,20 @@ public class EchoSpace {
     private Calendar calendar;
     private Date date;
 
+    /**
+     * Creates a new {@code EchoSpace}.
+     */
     public EchoSpace() {
         connector.init(new MCAdapter());
     }
 
+    /**
+     * Push blob.
+     *
+     * @throws NMFException if the operation fails
+     */
     public void pushBlob() throws NMFException {
-        connector.pushParameterValue("Data", data);
+        connector.pushParameterValue("data", data);
     }
 
     /**
@@ -76,14 +83,23 @@ public class EchoSpace {
         EchoSpace demo = new EchoSpace();
     }
 
+    /**
+     * Monitor and Control adapter for this application.
+     */
     public class MCAdapter extends MonitorAndControlNMFAdapter {
+        /**
+         * Default constructor.
+         */
+        public MCAdapter() {
+        }
+
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {
             ParameterDefinitionList pddl = new ParameterDefinitionList();
 
             pddl.add(new ParameterDefinition(
-                    new Identifier("Data"), "The sent data", new AttributeType(1),
+                    new Identifier("data"), "The sent data", new AttributeType(1),
                     null, true, new Duration(), null, null, false));
             registrationObject.registerParameters(pddl);
         }
@@ -101,7 +117,7 @@ public class EchoSpace {
 
         @Override
         public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
-            if (!identifiers.get(0).getValue().equals("Data")) {
+            if (!identifiers.get(0).getValue().equals("data")) {
                 return false;
             }
 

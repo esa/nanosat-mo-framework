@@ -31,6 +31,9 @@ public class BenchmarkApp {
 
     private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
 
+    /**
+     * Creates a new {@code BenchmarkApp}.
+     */
     public BenchmarkApp() {
         connector.init(new MCAdapter(connector));
     }

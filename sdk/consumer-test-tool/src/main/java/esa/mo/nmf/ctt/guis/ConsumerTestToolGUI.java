@@ -39,6 +39,7 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 public class ConsumerTestToolGUI extends javax.swing.JFrame {
 
     private static final Logger LOGGER = Logger.getLogger(ConsumerTestToolGUI.class.getName());
+    /** The connection consumer shared across the tool's tabs. */
     protected ConnectionConsumer connection = new ConnectionConsumer();
 
     /**
@@ -82,6 +83,11 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Inserts a Directory-service connection tab, pre-filled with the given default URI.
+     *
+     * @param defaultURI the default Directory service URI to display
+     */
     public void insertDirectoryServiceTab(final String defaultURI) {
         final DirectoryConnectionConsumerPanel directoryTab
                 = new DirectoryConnectionConsumerPanel(connection, tabs);
@@ -92,6 +98,11 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
         directoryTab.setURITextbox(defaultURI);
     }
 
+    /**
+     * Returns the main tabbed pane of the tool.
+     *
+     * @return the tabs
+     */
     public JTabbedPane getTabs() {
         return tabs;
     }

@@ -48,6 +48,9 @@ import org.ccsds.moims.mo.mal.structures.*;
  * @author Cesar Coelho
  */
 public class EncodeDecode {
+    private EncodeDecode() {
+    }
+
 
     private static final Logger LOGGER = Logger.getLogger(EncodeDecode.class.getName());
 
@@ -107,6 +110,14 @@ public class EncodeDecode {
         return decodeFromByteArray(dictionary, archiveSyncService, domain, bytes);
     }
 
+    /**
+     * Encodes and compresses the given COM object entities into a byte array.
+     *
+     * @param entities the entities
+     * @param manager the manager
+     * @param dictionary the dictionary
+     * @return the encode to compressed byte array
+     */
     public static byte[] encodeToCompressedByteArray(final List<COMObjectEntity> entities,
             ArchiveManager manager, Dictionary dictionary) {
         if (entities.isEmpty()) {
@@ -147,6 +158,15 @@ public class EncodeDecode {
         return new byte[0]; // Return an empty byte array
     }
 
+    /**
+     * Decodes and decompresses the given chunks into a list of COM object structures.
+     *
+     * @param chunks the chunks
+     * @param dictionary the dictionary
+     * @param archiveSyncService the archive sync service
+     * @param domain the domain
+     * @return the decode from compressed byte array list
+     */
     public static ArrayList<COMObjectStructure> decodeFromCompressedByteArrayList(List<byte[]> chunks,
             Dictionary dictionary, ArchiveSyncStub archiveSyncService, IdentifierList domain) {
         if (chunks.isEmpty()) {

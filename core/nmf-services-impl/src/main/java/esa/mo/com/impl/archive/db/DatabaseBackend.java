@@ -37,6 +37,7 @@ import java.util.logging.Logger;
  */
 public class DatabaseBackend {
 
+    /** The logger. */
     public static final Logger LOGGER = Logger.getLogger(DatabaseBackend.class.getName());
 
     private static final String DRIVER_CLASS_NAME = "org.sqlite.JDBC"; // SQLite JDBC Driver
@@ -58,11 +59,15 @@ public class DatabaseBackend {
     private final String password;
     private Connection serverConnection;
     private boolean indexCreated = false;
+    /** The is postgres. */
     public boolean isPostgres = false;
 
     // Prepared statements storage for currently active connection
     private PreparedStatements preparedStatements;
 
+    /**
+     * Creates a new {@code DatabaseBackend}.
+     */
     public DatabaseBackend() {
         String urlP = System.getProperty("esa.nmf.archive.persistence.jdbc.url");
 
@@ -104,14 +109,29 @@ public class DatabaseBackend {
         return new File(DATABASE_LOCATION_NAME);
     }
 
+    /**
+     * Returns the availability.
+     *
+     * @return the availability
+     */
     public Semaphore getAvailability() {
         return availability;
     }
 
+    /**
+     * Returns the connection.
+     *
+     * @return the connection
+     */
     public Connection getConnection() {
         return serverConnection;
     }
 
+    /**
+     * Returns the prepared statements.
+     *
+     * @return the prepared statements
+     */
     public PreparedStatements getPreparedStatements() {
         return preparedStatements;
     }
@@ -149,6 +169,9 @@ public class DatabaseBackend {
 
     }
 
+    /**
+     * Creates the database indexes if they do not already exist.
+     */
     public void createIndexesIfFirstTime() {
         if (indexCreated) {
             return;

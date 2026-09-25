@@ -31,20 +31,15 @@ integration, tooling, and reference material.
    :maxdepth: 1
    :caption: Deployment
 
-   mission-integration/index
+   specific-missions/index
    tooling/index
 
 .. toctree::
    :maxdepth: 1
-   :caption: Reference
+   :caption: Additional Information
 
    reference/index
    background/index
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Archive
-
    removed-features/index
 
 Indices and tables

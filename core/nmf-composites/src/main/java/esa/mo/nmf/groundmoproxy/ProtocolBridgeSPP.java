@@ -42,7 +42,9 @@ import org.ccsds.moims.mo.mal.transport.MALTransport;
 public class ProtocolBridgeSPP extends ProtocolBridge {
 
     private static final Logger LOGGER = Logger.getLogger(ProtocolBridgeSPP.class.getName());
+    /** System property name for the start of the SPP APID range assigned to virtual URIs. */
     public static final String PROPERTY_APID_RANGE_START = "esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.start";
+    /** System property name for the end of the SPP APID range assigned to virtual URIs. */
     public static final String PROPERTY_APID_RANGE_END = "esa.mo.nmf.groundmoproxy.protocolbrige.spp.apid.end";
     private static final String PROTOCOL_SPP = "malspp";
     private MALTransport transportA;
@@ -50,6 +52,21 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
     private MALEndpoint epB;
     private VirtualSPPURIsManager virtualSPPURI;
 
+    /**
+     * Default constructor.
+     */
+    public ProtocolBridgeSPP() {
+    }
+
+    /**
+     * Initializes the SPP bridge between the SPP transport and the given protocol, allocating
+     * virtual SPP URIs from the APID range set through {@link #PROPERTY_APID_RANGE_START} and
+     * {@link #PROPERTY_APID_RANGE_END}.
+     *
+     * @param protocol the non-SPP transport protocol to bridge with (for example {@code maltcp})
+     * @param properties the transport properties passed to both transports
+     * @throws Exception if the APID range is not set or a transport/endpoint cannot be created
+     */
     public void init(final String protocol, final Map properties) throws Exception {
         transportA = createTransport(PROTOCOL_SPP, properties);
         transportB = createTransport(protocol, properties);
@@ -75,15 +92,30 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
         epB.startMessageDelivery();
     }
 
+    /**
+     * Returns the routing URI of the non-SPP endpoint.
+     *
+     * @return the URI of the non-SPP endpoint
+     */
     public URI getRoutingProtocol() {
         return epB.getURI();
     }
 
+    /**
+     * Message listener bridging between an SPP endpoint and a non-SPP endpoint, translating
+     * the addressing in both directions.
+     */
     protected class BridgeMessageHandlerSPP implements MALMessageListener {
 
         private final MALEndpoint epSPP;
         private final MALEndpoint epOther;
 
+        /**
+         * Creates the handler.
+         *
+         * @param epSPP the SPP-side endpoint
+         * @param epOther the non-SPP-side endpoint
+         */
         public BridgeMessageHandlerSPP(MALEndpoint epSPP, MALEndpoint epOther) {
             this.epSPP = epSPP;
             this.epOther = epOther;
@@ -163,6 +195,16 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
 
     }
 
+    /**
+     * Clones a non-SPP source message into a new message addressed to an SPP endpoint,
+     * setting the {@code from} field to the given virtual SPP URI.
+     *
+     * @param destination the SPP endpoint the message is forwarded to
+     * @param srcMessage the source message to clone
+     * @param virtualURI the virtual SPP URI used as the {@code from} of the cloned message
+     * @return the cloned message ready to be sent over SPP
+     * @throws MALException if the message cannot be cloned
+     */
     protected static MALMessage cloneForwardMessageToSPP(final MALEndpoint destination, final MALMessage srcMessage,
         final String virtualURI) throws MALException {
         MALMessageHeader sourceHdr = srcMessage.getHeader();
@@ -209,6 +251,16 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
         return destMessage;
     }
 
+    /**
+     * Clones an SPP source message into a new message addressed to a non-SPP endpoint,
+     * restoring the original destination URI.
+     *
+     * @param destination the non-SPP endpoint the message is forwarded to
+     * @param srcMessage the source message to clone
+     * @param reverse the destination URI to address the cloned message to
+     * @return the cloned message ready to be sent to the non-SPP endpoint
+     * @throws MALException if the message cannot be cloned
+     */
     protected static MALMessage cloneForwardMessageFromSPP(final MALEndpoint destination, final MALMessage srcMessage,
         final URI reverse) throws MALException {
         MALMessageHeader sourceHdr = srcMessage.getHeader();

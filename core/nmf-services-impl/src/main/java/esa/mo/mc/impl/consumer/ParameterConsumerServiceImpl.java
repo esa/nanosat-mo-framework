@@ -36,6 +36,7 @@ import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
 
 /**
+ * Consumer of the Parameter service.
  *
  * @author Cesar Coelho
  */
@@ -44,6 +45,11 @@ public class ParameterConsumerServiceImpl extends ConsumerServiceImpl {
     private ParameterStub parameterService = null;
     private COMServicesConsumer comServices;
 
+    /**
+     * Returns the COM services consumer used by this service.
+     *
+     * @return the COM services consumer
+     */
     public COMServicesConsumer getCOMServices() {
         return comServices;
     }
@@ -53,6 +59,11 @@ public class ParameterConsumerServiceImpl extends ConsumerServiceImpl {
         return this.getParameterStub();
     }
 
+    /**
+     * Returns the Parameter service stub used to invoke operations on the provider.
+     *
+     * @return the Parameter service stub
+     */
     public ParameterStub getParameterStub() {
         return this.parameterService;
     }
@@ -62,11 +73,31 @@ public class ParameterConsumerServiceImpl extends ConsumerServiceImpl {
         return new ParameterStub(tmConsumer);
     }
 
+    /**
+     * Creates the Parameter service consumer with no authentication id nor local name prefix.
+     *
+     * @param connectionDetails the connection details of the Parameter service provider
+     * @param comServices the COM services consumer used by this service
+     * @throws MALException if the consumer cannot be created
+     * @throws MalformedURLException if a provided URI is malformed
+     * @throws MALInteractionException if the service returns an error
+     */
     public ParameterConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
             throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
+    /**
+     * Creates the Parameter service consumer and starts the consumer connection.
+     *
+     * @param connectionDetails the connection details of the Parameter service provider
+     * @param comServices the COM services consumer used by this service
+     * @param authenticationId the authentication id of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     * @throws MALException if the consumer cannot be created
+     * @throws MalformedURLException if a provided URI is malformed
+     * @throws MALInteractionException if the service returns an error
+     */
     public ParameterConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix)
             throws MALException, MalformedURLException, MALInteractionException {

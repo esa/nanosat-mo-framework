@@ -41,6 +41,9 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface {
     private long lastPositionTime = 0;
     private long lastSatInfoTime = 0;
 
+    /**
+     * Creates a new {@code GPSNMEAonlyAdapter}.
+     */
     public GPSNMEAonlyAdapter() {
         resultCacheValidityMs = Integer.parseInt(System.getProperty(Const.PLATFORM_GNSS_CACHING_PERIOD, "1000"));
     }

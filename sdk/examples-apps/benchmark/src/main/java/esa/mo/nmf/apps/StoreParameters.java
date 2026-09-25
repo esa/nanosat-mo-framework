@@ -30,7 +30,6 @@ import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
@@ -39,15 +38,28 @@ import org.ccsds.moims.mo.mc.structures.ParameterValueList;
 import org.ccsds.moims.mo.mc.structures.ValidityState;
 
 /**
+ * Utility that stores a batch of parameter values for benchmarking.
  *
  * @author Cesar Coelho
  */
 public class StoreParameters {
+    /**
+     * Default constructor.
+     */
+    public StoreParameters() {
+    }
 
+
+    /**
+     * Store parameter values.
+     *
+     * @param numberOfObjs the number of objs
+     * @param connector the NMF provider connector
+     */
     public static void storeParameterValues(int numberOfObjs, NMFInterface connector) {
         try {
             ParameterValue pValue = new ParameterValue(ValidityState.VALID,
-                    (Attribute) HelperAttributes.javaType2Attribute(123.4567), null);
+                    (Attribute) Attribute.javaType2Attribute(123.4567), null);
 
             ParameterValueList values = new ParameterValueList();
 

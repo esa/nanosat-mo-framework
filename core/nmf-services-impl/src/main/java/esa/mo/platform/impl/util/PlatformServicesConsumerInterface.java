@@ -37,23 +37,77 @@ import org.ccsds.moims.mo.platform.softwareimages.consumer.SoftwareImagesStub;
  */
 public interface PlatformServicesConsumerInterface {
 
+    /**
+     * Returns the AI service stub, connecting to the provider on first use.
+     *
+     * @return the AI service stub
+     * @throws IOException if the connection to the provider cannot be established
+     */
     ArtificialIntelligenceStub getAIService() throws IOException;
 
+    /**
+     * Returns the AutonomousADCS service stub, connecting to the provider on first use.
+     *
+     * @return the AutonomousADCS service stub
+     * @throws IOException if the connection to the provider cannot be established
+     */
     AutonomousADCSStub getAutonomousADCSService() throws IOException;
 
+    /**
+     * Returns the Camera service stub, connecting to the provider on first use.
+     *
+     * @return the Camera service stub
+     * @throws IOException if the connection to the provider cannot be established
+     */
     CameraStub getCameraService() throws IOException;
 
+    /**
+     * Returns the GPS service stub, connecting to the provider on first use.
+     *
+     * @return the GPS service stub
+     * @throws IOException if the connection to the provider cannot be established
+     */
     GPSStub getGPSService() throws IOException;
 
+    /**
+     * Returns the OpticalDataReceiver service stub, connecting to the provider on first use.
+     *
+     * @return the OpticalDataReceiver service stub
+     * @throws IOException if the connection to the provider cannot be established
+     */
     OpticalDataReceiverStub getOpticalDataReceiverService() throws IOException;
 
+    /**
+     * Returns the SoftwareDefinedRadio service stub, connecting to the provider on first use.
+     *
+     * @return the SoftwareDefinedRadio service stub
+     * @throws IOException if the connection to the provider cannot be established
+     */
     SoftwareDefinedRadioStub getSoftwareDefinedRadioService() throws IOException;
 
+    /**
+     * Returns the PowerControl service stub, connecting to the provider on first use.
+     *
+     * @return the PowerControl service stub
+     * @throws IOException if the connection to the provider cannot be established
+     */
     PowerControlStub getPowerControlService() throws IOException;
 
 
+    /**
+     * Returns the FPGA service stub, connecting to the provider on first use.
+     *
+     * @return the FPGA service stub
+     * @throws IOException if the connection to the provider cannot be established
+     */
     FPGAStub getFPGAService() throws IOException;
 
+    /**
+     * Returns the SoftwareImages service stub, connecting to the provider on first use.
+     *
+     * @return the SoftwareImages service stub
+     * @throws IOException if the connection to the provider cannot be established
+     */
     SoftwareImagesStub getSoftwareImagesService() throws IOException;
 
 }

@@ -77,20 +77,22 @@ public class GenerateFilesystemMojo extends AbstractMojo {
      * Supervisor.</li>
      * <li>{@code linux-userspace} — each app runs under a dedicated Linux user
      * account created at install time.</li>
+     * <li>{@code bubblewrap} — each app runs inside a bubblewrap sandbox.</li>
      * <li>{@code docker-containers} — each app runs inside a dedicated Docker
-     * container (not yet implemented).</li>
-     * <li>{@code bubblewrap} — each app runs inside a bubblewrap sandbox (not
-     * yet implemented).</li>
+     * container.</li>
      * </ul>
      */
     @Parameter(property = "generate-filesystem.appsIsolation", defaultValue = AppsIsolationMode.NONE)
     private String appsIsolation;
 
     /**
-     * The set of libraries to be added
+     * Files of the mission to add to the root of the generated filesystem, each
+     * given as a path. A directory is added under its own name, a file on its
+     * own. They are added last, so a mission can also replace what the generator
+     * wrote.
      */
-    @Parameter(property = "generate-filesystem.libs")
-    private List<String> libs;
+    @Parameter(property = "generate-filesystem.additionalFiles")
+    private List<File> additionalFiles;
 
     /**
      * The mission and spacecraft designation written into
@@ -98,6 +100,12 @@ public class GenerateFilesystemMojo extends AbstractMojo {
      */
     @Parameter
     private Mission mission;
+
+    /**
+     * Default constructor.
+     */
+    public GenerateFilesystemMojo() {
+    }
 
     @Override
     public void execute() throws MojoExecutionException {
@@ -224,6 +232,16 @@ public class GenerateFilesystemMojo extends AbstractMojo {
             bootloader.generate(nmfVersion, missionVersion, supervisorMainClass, appsIsolation);
         } catch (IOException ex) {
             throw new MojoExecutionException(ex);
+        }
+
+        if (additionalFiles != null) {
+            for (File file : additionalFiles) {
+                if (!file.exists()) {
+                    throw new MojoExecutionException("The additionalFiles entry does not exist: " + file);
+                }
+                getLog().info("  >> Adding to the filesystem root: " + file);
+                filesystem.addFileOrDirectory(file);
+            }
         }
     }
 }

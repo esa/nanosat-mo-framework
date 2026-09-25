@@ -41,6 +41,16 @@ public class AutonomousADCSConsumerServiceImpl extends ConsumerServiceImpl {
     private AutonomousADCSStub autonomousADCSService = null;
     private COMServicesConsumer comServices;
 
+    /**
+     * Creates the AutonomousADCS service consumer and starts the consumer connection.
+     *
+     * @param connectionDetails the connection details of the AutonomousADCS service provider
+     * @param comServices the COM services consumer used by this service
+     * @param authenticationID the authentication id of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     * @throws MALException if the consumer cannot be created
+     * @throws MALInteractionException if the service returns an error
+     */
     public AutonomousADCSConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices, Blob authenticationID,
             String localNamePrefix) throws MALException, MALInteractionException {
@@ -66,11 +76,24 @@ public class AutonomousADCSConsumerServiceImpl extends ConsumerServiceImpl {
         this.autonomousADCSService = new AutonomousADCSStub(tmConsumer);
     }
 
+    /**
+     * Creates the AutonomousADCS service consumer with no authentication id nor local name prefix.
+     *
+     * @param connectionDetails the connection details of the AutonomousADCS service provider
+     * @param comServices the COM services consumer used by this service
+     * @throws MALException if the consumer cannot be created
+     * @throws MALInteractionException if the service returns an error
+     */
     public AutonomousADCSConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices) throws MALException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
+    /**
+     * Returns the COM services consumer used by this service.
+     *
+     * @return the COM services consumer
+     */
     public COMServicesConsumer getCOMServices() {
         return comServices;
     }
@@ -80,6 +103,11 @@ public class AutonomousADCSConsumerServiceImpl extends ConsumerServiceImpl {
         return this.getAutonomousADCSStub();
     }
 
+    /**
+     * Returns the AutonomousADCS service stub used to invoke operations on the provider.
+     *
+     * @return the AutonomousADCS service stub
+     */
     public AutonomousADCSStub getAutonomousADCSStub() {
         return this.autonomousADCSService;
     }

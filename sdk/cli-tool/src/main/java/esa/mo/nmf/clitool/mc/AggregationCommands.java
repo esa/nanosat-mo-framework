@@ -45,14 +45,26 @@ import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
 import org.ccsds.moims.mo.mc.structures.*;
 
 /**
+ * Container for the {@code aggregation} CLI subcommands.
  *
  * @author Cesar Coelho
  */
 public class AggregationCommands {
 
     private static final Logger LOGGER = Logger.getLogger(AggregationCommands.class.getName());
+    /** Identifier of the active aggregation monitoring subscription, or {@code null} if none. */
     public static Identifier aggregationSubscription;
 
+    private AggregationCommands() {
+    }
+
+    /**
+     * Enables or disables the generation of the given aggregations.
+     *
+     * @param aggregationService the Aggregation service stub
+     * @param aggregations the aggregation names, or {@code null}/empty for all aggregations
+     * @param enable {@code true} to enable generation, {@code false} to disable it
+     */
     public static void enableOrDisableAggregationGeneration(
             AggregationStub aggregationService, List<String> aggregations, boolean enable) {
         IdentifierList request = new IdentifierList();
@@ -84,7 +96,16 @@ public class AggregationCommands {
         }
     }
 
+    /**
+     * Implements the {@code aggregation enable} CLI command.
+     */
     public static class AggregationEnableGeneration extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public AggregationEnableGeneration() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -105,7 +126,16 @@ public class AggregationCommands {
         }
     }
 
+    /**
+     * Implements the {@code aggregation disable} CLI command.
+     */
     public static class AggregationDisableGeneration extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public AggregationDisableGeneration() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -126,7 +156,16 @@ public class AggregationCommands {
         }
     }
 
+    /**
+     * Implements the {@code aggregation subscribe} CLI command.
+     */
     public static class AggregationMonitorValue extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public AggregationMonitorValue() {
+        }
+
 
         @Override
         public void run(Args args) {

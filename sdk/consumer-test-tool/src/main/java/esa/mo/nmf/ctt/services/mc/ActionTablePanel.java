@@ -28,11 +28,17 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mc.structures.ActionDefinition;
 
 /**
+ * Table panel listing the action definitions read from a COM Archive.
  *
  * @author Cesar Coelho
  */
 public class ActionTablePanel extends SharedTablePanel {
 
+    /**
+     * Creates the action table panel.
+     *
+     * @param archiveService the COM Archive service the action definitions are read from
+     */
     public ActionTablePanel(ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }

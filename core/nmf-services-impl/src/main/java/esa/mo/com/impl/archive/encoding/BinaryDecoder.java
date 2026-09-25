@@ -36,8 +36,11 @@ import org.ccsds.moims.mo.mal.structures.*;
  */
 public class BinaryDecoder extends GENDecoder {
 
+    /** The logger. */
     protected static final java.util.logging.Logger LOGGER = Logger.getLogger(BinaryDecoder.class.getName());
+    /** The utf8 charset. */
     protected static final Charset UTF8_CHARSET = StandardCharsets.UTF_8;
+    /** The block size. */
     protected static final int BLOCK_SIZE = 65536;
 
     /**
@@ -239,6 +242,7 @@ public class BinaryDecoder extends GENDecoder {
      * constructors) if they encode the fields differently from this encoding.
      */
     protected static class BinaryBufferHolder extends BufferHolder {
+        /** The buf. */
         protected final InputReader buf;
 
         /**
@@ -264,6 +268,11 @@ public class BinaryDecoder extends GENDecoder {
             this.buf = buf;
         }
 
+        /**
+         * Returns the buf.
+         *
+         * @return the buf
+         */
         public InputReader getBuf() {
             return buf;
         }
@@ -386,11 +395,19 @@ public class BinaryDecoder extends GENDecoder {
         }
     }
 
+    /**
+     * Input Reader.
+     */
     protected static class InputReader {
+        /** The input stream. */
         protected final java.io.InputStream inputStream;
+        /** The buf. */
         protected byte[] buf;
+        /** The offset. */
         protected int offset;
+        /** The content length. */
         protected int contentLength;
+        /** The force realloc. */
         protected boolean forceRealloc = false;
 
         /**
@@ -409,16 +426,34 @@ public class BinaryDecoder extends GENDecoder {
             this.contentLength = length;
         }
 
+        /**
+         * Sets the force realloc.
+         *
+         * @param forceRealloc the force realloc
+         */
         public void setForceRealloc(boolean forceRealloc) {
             this.forceRealloc = forceRealloc;
         }
 
+        /**
+         * Reads the next byte (8 bits) from the buffer.
+         *
+         * @return the next byte
+         * @throws MALException if the buffer cannot be read
+         */
         public byte get8() throws MALException {
             checkBuffer(1);
 
             return buf[offset++];
         }
 
+        /**
+         * Reads the given number of bytes directly from the buffer.
+         *
+         * @param size the size
+         * @return the direct get bytes
+         * @throws MALException if the operation fails
+         */
         public byte[] directGetBytes(final int size) throws MALException {
             if (size >= 0) {
                 checkBuffer(size);
@@ -503,6 +538,11 @@ public class BinaryDecoder extends GENDecoder {
             return buf;
         }
 
+        /**
+         * Returns the offset.
+         *
+         * @return the offset
+         */
         public int getOffset() {
             return offset;
         }

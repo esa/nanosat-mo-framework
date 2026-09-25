@@ -72,4 +72,4 @@ Four communication patterns appear repeatedly in NMF deployments:
    :align: center
 
 For ground deployments where the consumer is on a network separate from the space link, a **GroundMOProxy**
-bridges the two. See the Mission Integration section for mission-specific topologies.
+bridges the two. See the Specific Missions section for mission-specific topologies.

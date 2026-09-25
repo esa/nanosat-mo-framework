@@ -42,6 +42,11 @@ public class FastDomain extends FastIndex<IdentifierList> {
 
     private final static String TABLE_NAME = "FastDomain";
 
+    /**
+     * Creates a new {@code FastDomain}.
+     *
+     * @param dbBackend the database backend
+     */
     public FastDomain(final DatabaseBackend dbBackend) {
         super(dbBackend, TABLE_NAME);
     }
@@ -104,11 +109,23 @@ public class FastDomain extends FastIndex<IdentifierList> {
         return domainId;
     }
 
+    /**
+     * Returns the domain id.
+     *
+     * @param domain the domain
+     * @return the domain id
+     */
     public synchronized Integer getDomainId(final IdentifierList domain) {
         final Integer id = this.fastID.get(domain);
         return (id == null) ? this.addNewDomain(domain) : id;
     }
 
+    /**
+     * Returns the domain ids.
+     *
+     * @param inputDomain the input domain
+     * @return the domain ids
+     */
     public synchronized IntegerList getDomainIds(final IdentifierList inputDomain) {
         final IntegerList ids = new IntegerList();
 
@@ -135,6 +152,13 @@ public class FastDomain extends FastIndex<IdentifierList> {
         return ids;
     }
 
+    /**
+     * Returns the domain.
+     *
+     * @param key the key
+     * @return the domain
+     * @throws Exception if the operation fails
+     */
     public synchronized IdentifierList getDomain(Integer key) throws Exception {
         return super.getValue(key);
     }

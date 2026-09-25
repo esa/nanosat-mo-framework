@@ -99,7 +99,7 @@ initialisation() {
         [ -n "$_v" ] && BOOT_MAX_ATTEMPTS=$_v
         _v=$(get_prop promotion-soak-s "$CONFIG_FILE")
         [ -n "$_v" ] && PROMOTION_SOAK_S=$_v
-        CONFIG_STATUS="loaded from $CONFIG_FILE"
+        CONFIG_STATUS="$CONFIG_FILE"
     fi
 
     # Daily report size cap (BAA.06): suppress after a single notice

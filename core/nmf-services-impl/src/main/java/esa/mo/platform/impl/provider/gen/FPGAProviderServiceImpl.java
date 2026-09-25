@@ -96,6 +96,12 @@ public class FPGAProviderServiceImpl extends FPGAInheritanceSkeleton {
     private final Map<String, Occupancy> occupancies = new HashMap<>();
 
     /**
+     * Default constructor.
+     */
+    public FPGAProviderServiceImpl() {
+    }
+
+    /**
      * Initializes the FPGA service.
      *
      * @param comServices The COM services provider, for archiving the

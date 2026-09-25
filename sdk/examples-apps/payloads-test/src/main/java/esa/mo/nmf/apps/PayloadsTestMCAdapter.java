@@ -84,48 +84,57 @@ import org.ccsds.moims.mo.platform.structures.*;
 public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
     // comma separated list of supervisor parameters to proxy
+    /** The supervisor parameter proxy prop. */
     public static final String SUPERVISOR_PARAMETER_PROXY_PROP = "esa.mo.nanosatmoframework.proxy.supervisor.parameters";
+    /** The aggregation mag. */
     public static final String AGGREGATION_MAG = "Magnetometer_Aggregation";
+    /** The aggregation gps. */
     public static final String AGGREGATION_GPS = "GPS_Aggregation";
+    /** The aggregation eclipsed. */
     public static final String AGGREGATION_ECLIPSED = "Eclipsed_Aggregation";
+    /** The aggregation iadcs telemetry. */
     public static final String AGGREGATION_IADCS_TELEMETRY = "iADCS_Telemetry_Aggregation";
-    private static final String PARAMETER_ADCS_MODE = "ADCS_ModeOperation";
-    private static final String PARAMETER_ADCS_DURATION = "ADCS_RemainingControlDuration";
-    private static final String PARAMETER_ANGULAR_VELOCITY_X = "AngularVelocity_X";
-    private static final String PARAMETER_ANGULAR_VELOCITY_Y = "AngularVelocity_Y";
-    private static final String PARAMETER_ANGULAR_VELOCITY_Z = "AngularVelocity_Z";
-    private static final String PARAMETER_ATTITUDE_Q_A = "AttitudeQuaternion_a";
-    private static final String PARAMETER_ATTITUDE_Q_B = "AttitudeQuaternion_b";
-    private static final String PARAMETER_ATTITUDE_Q_C = "AttitudeQuaternion_c";
-    private static final String PARAMETER_ATTITUDE_Q_D = "AttitudeQuaternion_d";
-    private static final String PARAMETER_MAG_X = "MagneticField_X";
-    private static final String PARAMETER_MAG_Y = "MagneticField_Y";
-    private static final String PARAMETER_MAG_Z = "MagneticField_Z";
-    private static final String PARAMETER_MTQ_X = "MagnetorquerMoment_X";
-    private static final String PARAMETER_MTQ_Y = "MagnetorquerMoment_Y";
-    private static final String PARAMETER_MTQ_Z = "MagnetorquerMoment_Z";
-    private static final String PARAMETER_SUN_VECTOR_X = "SunVector_X";
-    private static final String PARAMETER_SUN_VECTOR_Y = "SunVector_Y";
-    private static final String PARAMETER_SUN_VECTOR_Z = "SunVector_Z";
+    private static final String PARAMETER_ADCS_MODE = "adcs.mode-operation";
+    private static final String PARAMETER_ADCS_DURATION = "adcs.remaining-control-duration";
+    private static final String PARAMETER_ANGULAR_VELOCITY_X = "adcs.angular-velocity.x";
+    private static final String PARAMETER_ANGULAR_VELOCITY_Y = "adcs.angular-velocity.y";
+    private static final String PARAMETER_ANGULAR_VELOCITY_Z = "adcs.angular-velocity.z";
+    private static final String PARAMETER_ATTITUDE_Q_A = "adcs.attitude-quaternion.a";
+    private static final String PARAMETER_ATTITUDE_Q_B = "adcs.attitude-quaternion.b";
+    private static final String PARAMETER_ATTITUDE_Q_C = "adcs.attitude-quaternion.c";
+    private static final String PARAMETER_ATTITUDE_Q_D = "adcs.attitude-quaternion.d";
+    private static final String PARAMETER_MAG_X = "magnetometer.field.x";
+    private static final String PARAMETER_MAG_Y = "magnetometer.field.y";
+    private static final String PARAMETER_MAG_Z = "magnetometer.field.z";
+    private static final String PARAMETER_MTQ_X = "adcs.magnetorquer-moment.x";
+    private static final String PARAMETER_MTQ_Y = "adcs.magnetorquer-moment.y";
+    private static final String PARAMETER_MTQ_Z = "adcs.magnetorquer-moment.z";
+    private static final String PARAMETER_SUN_VECTOR_X = "adcs.sun-vector.x";
+    private static final String PARAMETER_SUN_VECTOR_Y = "adcs.sun-vector.y";
+    private static final String PARAMETER_SUN_VECTOR_Z = "adcs.sun-vector.z";
 
     private static final Duration ATTITUDE_MONITORING_INTERVAL = new Duration(1.0);
     private static final Logger LOGGER = Logger.getLogger(PayloadsTestMCAdapter.class.getName());
 
     private static final float DEFAULT_CAMERA_GAIN = 1.0f;
     private static final float DEFAULT_CAMERA_EXPOSURE_TIME = 0.1f;
+    /** The nmf. */
     public final NMFInterface nmf;
 
+    /** The pictures taken. */
     public final AtomicInteger picturesTaken = new AtomicInteger(0);
 
     private final int defaultPictureWidth = 2048;
     private final int defaultPictureHeight = 1944;
+    /** The default camera resolution. */
     public final PixelResolution defaultCameraResolution;
 
     private final PayloadsTestActionsHandler actionsHandler;
+    /** The simple commanding interface. */
     public SimpleCommandingInterface simpleCommandingInterface;
 
     //------------ Camera Parameters ------------
-    @Parameter(
+    @Parameter(name = "camera.number-of-pictures-taken", 
             description = "The number of pictures taken",
             reportingEnabled = false,
             onGetFunction = "onGetPicturesTaken",
@@ -133,25 +142,29 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             reportIntervalSeconds = 10)
     Integer NumberOfPicturesTaken = 0;
 
-    @Parameter(
+    /** The camera gain r. */
+    @Parameter(name = "camera.gain.r", 
             description = "Camera red channel gain",
             reportingEnabled = false,
             reportIntervalSeconds = 10)
     public float cameraGainR = DEFAULT_CAMERA_GAIN;
 
-    @Parameter(
+    /** The camera gain g. */
+    @Parameter(name = "camera.gain.g", 
             description = "Camera green channel gain",
             reportingEnabled = false,
             reportIntervalSeconds = 10)
     public float cameraGainG = DEFAULT_CAMERA_GAIN;
 
-    @Parameter(
+    /** The camera gain b. */
+    @Parameter(name = "camera.gain.b", 
             description = "Camera blue channel gain",
             reportingEnabled = false,
             reportIntervalSeconds = 10)
     public float cameraGainB = DEFAULT_CAMERA_GAIN;
 
-    @Parameter(
+    /** The camera exposure time. */
+    @Parameter(name = "camera.exposure-time", 
             description = "Camera exposure time",
             reportingEnabled = false,
             reportIntervalSeconds = 10)
@@ -290,7 +303,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
     final static Float ECLIPSED_EPSILON = 0.001f;
 
     @Parameter(
-            name = "Supervisor TM Polling Enabled",
+            name = "supervisor.tm-polling-enabled",
             description = "Enables pooling telemetry data from the supervisor",
             reportingEnabled = false)
     Boolean supervisorTMPollingEnabled = false;
@@ -396,7 +409,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             aggregations = {AGGREGATION_IADCS_TELEMETRY})
     Float sunVectorZ = 0.0f;
 
-    @Parameter(
+    @Parameter(name = "adcs.state-target", 
             description = "True when achieved desired pointing mode, false otherwise",
             reportingEnabled = false,
             onGetFunction = "onGetStateTarget",
@@ -436,7 +449,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             aggregations = {AGGREGATION_IADCS_TELEMETRY})
     Float mtqDipoleMomentZ = 0.0f;
 
-    @Parameter(
+    @Parameter(name = "adcs.mtq-state", 
             description = "Current state of the magnetorquers",
             reportingEnabled = false,
             onGetFunction = "onGetMtqState",
@@ -446,6 +459,11 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
     UInteger mtqState = new UInteger(0);
     //------------
 
+    /**
+     * Creates a new {@code PayloadsTestMCAdapter}.
+     *
+     * @param nmfProvider the NMF provider connector
+     */
     public PayloadsTestMCAdapter(final NMFInterface nmfProvider) {
         this.defaultCameraResolution = new PixelResolution(
                 new UInteger(defaultPictureWidth),
@@ -538,6 +556,11 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         return new ParameterConversion(AttributeType.STRING, convertedUnit, conditionalConversions);
     }
 
+    /**
+     * Subscribe to supervisor parameters.
+     *
+     * @param supervisorURI the supervisor uri
+     */
     public void subscribeToSupervisorParameters(URI supervisorURI) {
         if (supervisorURI != null && supervisorURI.getValue().startsWith("malspp")) {
             LOGGER.log(Level.INFO,
@@ -583,8 +606,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 eclipsedParameters.add(new Identifier("CADC0890"));
                 eclipsedParameters.add(new Identifier("CADC0892"));
                 eclipsedParameters.add(new Identifier("CADC0894"));
-                LongList payloadsTestIds = this.parameterService.listDefinition(eclipsedParameters,
-                        null);
+                LongList payloadsTestIds = this.parameterService.listDefinition(eclipsedParameters, null);
 
                 Map<String, Long> nameToId = new HashMap<>();
                 for (int i = 0; i < eclipsedParameters.size(); ++i) {
@@ -679,6 +701,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     //-------------------------------------- onGet Functions----------------------------------------
+    /**
+     * Supplies the eclipsed parameter value.
+     */
     public void onGetEclipsed() {
         eclipsed = IPD1Theta < ECLIPSED_EPSILON
                 && IPD2Theta < ECLIPSED_EPSILON
@@ -688,6 +713,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 && IPD6Theta < ECLIPSED_EPSILON;
     }
 
+    /**
+     * On gps sats in view.
+     */
     public void onGPSSatsInView() {
         final Semaphore sem = new Semaphore(0);
         class GPSAdapterImpl extends GPSAdapter {
@@ -728,6 +756,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the latitude parameter value.
+     */
     public void onGetLatitude() {
         try {
             GPSStub gps = nmf.getPlatformServices().getGPSService();
@@ -738,6 +769,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the longitude parameter value.
+     */
     public void onGetLongitude() {
         try {
             GPSStub gps = nmf.getPlatformServices().getGPSService();
@@ -748,6 +782,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the altitude parameter value.
+     */
     public void onGetAltitude() {
         try {
             final Semaphore sem = new Semaphore(0);
@@ -771,6 +808,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the gps elapsed time parameter value.
+     */
     public void onGetGPSElapsedTime() {
         try {
             GPSStub gps = nmf.getPlatformServices().getGPSService();
@@ -781,6 +821,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the magnetic field x parameter value.
+     */
     public void onGetMagneticField_X() {
         try {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
@@ -792,6 +835,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the magnetic field y parameter value.
+     */
     public void onGetMagneticField_Y() {
         try {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
@@ -803,6 +849,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the magnetic field z parameter value.
+     */
     public void onGetMagneticField_Z() {
         try {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
@@ -815,10 +864,16 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the pictures taken parameter value.
+     */
     public void onGetPicturesTaken() {
         NumberOfPicturesTaken = picturesTaken.get();
     }
 
+    /**
+     * Supplies the attitude quat a parameter value.
+     */
     public void onGetAttitudeQuatA() {
         try {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
@@ -831,6 +886,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the attitude quat b parameter value.
+     */
     public void onGetAttitudeQuatB() {
         try {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
@@ -843,6 +901,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the attitude quat c parameter value.
+     */
     public void onGetAttitudeQuatC() {
         try {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
@@ -855,6 +916,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the attitude quat d parameter value.
+     */
     public void onGetAttitudeQuatD() {
         try {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
@@ -867,6 +931,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the angular velocity x parameter value.
+     */
     public void onGetAngularVelocityX() {
         try {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
@@ -879,6 +946,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the angular velocity y parameter value.
+     */
     public void onGetAngularVelocityY() {
         try {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
@@ -891,6 +961,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the angular velocity z parameter value.
+     */
     public void onGetAngularVelocityZ() {
         try {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
@@ -903,6 +976,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the sun vector x parameter value.
+     */
     public void onGetSunVectorX() {
         try {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
@@ -915,6 +991,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the sun vector y parameter value.
+     */
     public void onGetSunVectorY() {
         try {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
@@ -927,6 +1006,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the sun vector z parameter value.
+     */
     public void onGetSunVectorZ() {
         try {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
@@ -939,6 +1021,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the state target parameter value.
+     */
     public void onGetStateTarget() {
         try {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
@@ -951,6 +1036,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the mtq dipole moment x parameter value.
+     */
     public void onGetMtqDipoleMomentX() {
         try {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
@@ -963,6 +1051,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the mtq dipole moment y parameter value.
+     */
     public void onGetMtqDipoleMomentY() {
         try {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
@@ -975,6 +1066,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the mtq dipole moment z parameter value.
+     */
     public void onGetMtqDipoleMomentZ() {
         try {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
@@ -987,6 +1081,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Supplies the mtq state parameter value.
+     */
     public void onGetMtqState() {
         try {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
@@ -1000,7 +1097,15 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     //----------------------------------- Actions ---------------------------------------------------
-    @Action(description = "Changes the spacecraft's attitude to sun pointing mode.")
+    /**
+     * Executes the adcs sun pointing mode action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @param holdDuration the hold duration
+      * @throws ExecutionFailedException if the action execution fails
+     */
+    @Action(name = "adcs.mode.sun-pointing", description = "Changes the spacecraft's attitude to sun pointing mode.")
     public void adcs_SunPointingMode(Long executionId,
             MALInteraction interaction,
             @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration)
@@ -1009,7 +1114,15 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 holdDuration, new AttitudeModeSunPointing(), this);
     }
 
-    @Action(description = "Changes the spacecraft's attitude to nadir pointing mode.")
+    /**
+     * Executes the adcs nadir pointing mode action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @param holdDuration the hold duration
+      * @throws ExecutionFailedException if the action execution fails
+     */
+    @Action(name = "adcs.mode.nadir-pointing", description = "Changes the spacecraft's attitude to nadir pointing mode.")
     public void adcs_NadirPointingMode(Long executionId,
             MALInteraction interaction,
             @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration)
@@ -1018,7 +1131,19 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 holdDuration, new AttitudeModeNadirPointing(), this);
     }
 
-    @Action(description = "Changes the spacecraft's attitude to vector pointing mode.")
+    /**
+     * Executes the adcs vector pointing mode action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @param holdDuration the hold duration
+     * @param x the x
+     * @param y the y
+     * @param z the z
+     * @param margin the margin
+      * @throws ExecutionFailedException if the action execution fails
+     */
+    @Action(name = "adcs.mode.vector-pointing", description = "Changes the spacecraft's attitude to vector pointing mode.")
     public void adcs_VectorPointingMode(Long executionId,
             MALInteraction interaction,
             @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration,
@@ -1031,7 +1156,25 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 new AttitudeModeVectorPointing(new VectorF3D(x, y, z), margin), this);
     }
 
-    @Action(description = "Changes the spacecraft's attitude to inertial pointing mode")
+    /**
+     * Executes the adcs inertial pointing mode action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @param holdDuration the hold duration
+     * @param losx the losx
+     * @param losy the losy
+     * @param losz the losz
+     * @param flightx the flightx
+     * @param flighty the flighty
+     * @param flightz the flightz
+     * @param quatA the quat a
+     * @param quatB the quat b
+     * @param quatC the quat c
+     * @param quatD the quat d
+      * @throws ExecutionFailedException if the action execution fails
+     */
+    @Action(name = "adcs.mode.inertial-pointing", description = "Changes the spacecraft's attitude to inertial pointing mode")
     public void adcs_InertialPointingMode(Long executionId,
             MALInteraction interaction,
             @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration,
@@ -1050,14 +1193,32 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 losy, losz), new VectorF3D(flightx, flighty, flightz), new Quaternion(quatA, quatB, quatC, quatD)), this);
     }
 
-    @Action(description = "Changes the spacecraft's attitude to BDot mode")
+    /**
+     * Executes the adcs b dot mode action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @param holdDuration the hold duration
+      * @throws ExecutionFailedException if the action execution fails
+     */
+    @Action(name = "adcs.mode.b-dot", description = "Changes the spacecraft's attitude to BDot mode")
     public void adcs_BDotMode(Long executionId, MALInteraction interaction,
             @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration)
             throws ExecutionFailedException {
         actionsHandler.executeAdcsModeAction(holdDuration, new AttitudeModeBDot(), this);
     }
 
-    @Action(description = "Changes the spacecraft's attitude to target tracking mode")
+    /**
+     * Executes the adcs target tracking mode action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @param holdDuration the hold duration
+     * @param latitude the latitude
+     * @param longitude the longitude
+      * @throws ExecutionFailedException if the action execution fails
+     */
+    @Action(name = "adcs.mode.target-tracking", description = "Changes the spacecraft's attitude to target tracking mode")
     public void adcs_TargetTrackingMode(Long executionId,
             MALInteraction interaction,
             @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration,
@@ -1068,7 +1229,19 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 new AttitudeModeTargetTracking(latitude, longitude), this);
     }
 
-    @Action(description = "Changes the spacecraft's attitude to single spinning mode")
+    /**
+     * Executes the adcs single spinning mode action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @param holdDuration the hold duration
+     * @param bodyAxisX the body axis x
+     * @param bodyAxisY the body axis y
+     * @param bodyAxisZ the body axis z
+     * @param angularVelocity the angular velocity
+      * @throws ExecutionFailedException if the action execution fails
+     */
+    @Action(name = "adcs.mode.single-spinning", description = "Changes the spacecraft's attitude to single spinning mode")
     public void adcs_SingleSpinningMode(Long executionId,
             MALInteraction interaction,
             @ActionParameter(name = "Hold Duration", rawUnit = "seconds") Duration holdDuration,
@@ -1083,13 +1256,27 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                         angularVelocity), this);
     }
 
-    @Action(description = "Unsets the spacecraft's attitude.")
+    /**
+     * Executes the adcs unset attitude action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @throws ExecutionFailedException if the operation fails
+     */
+    @Action(name = "adcs.mode.unset-attitude", description = "Unsets the spacecraft's attitude.")
     public void adcs_UnsetAttitude(Long executionId,
             MALInteraction interaction) throws ExecutionFailedException {
         actionsHandler.executeAdcsModeAction(null, null, this);
     }
 
-    @Action(description = "Schedule JPG picture acquisition.")
+    /**
+     * Executes the schedule take picture jpg action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @param acquisitionDelay the acquisition delay
+     */
+    @Action(name = "camera.schedule-take-picture.jpg", description = "Schedule JPG picture acquisition.")
     public void scheduleTakePictureJPG(Long executionId,
             MALInteraction interaction,
             @ActionParameter(name = "Execution delay") Duration acquisitionDelay) {
@@ -1097,7 +1284,14 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 interaction, acquisitionDelay, PictureFormat.JPG, false);
     }
 
-    @Action(description = "Schedule JPG picture acquisition.")
+    /**
+     * Executes the schedule take picture auto exposed jpg action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @param acquisitionDelay the acquisition delay
+     */
+    @Action(name = "camera.schedule-take-picture-auto-exposed.jpg", description = "Schedule JPG picture acquisition.")
     public void scheduleTakePictureAutoExposedJPG(Long executionId,
             MALInteraction interaction,
             @ActionParameter(name = "Execution delay") Duration acquisitionDelay) {
@@ -1105,6 +1299,13 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 interaction, acquisitionDelay, PictureFormat.JPG, true);
     }
 
+    /**
+     * Executes the take picture raw action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+      * @throws ExecutionFailedException if the action execution fails
+     */
     @Action(description = "Uses the NMF Camera service to take a picture in RAW format.",
             stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
     public void takePicture_RAW(Long executionId, MALInteraction interaction)
@@ -1112,6 +1313,13 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         actionsHandler.takePicture(executionId, interaction, PictureFormat.RAW);
     }
 
+    /**
+     * Executes the take picture jpg action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+      * @throws ExecutionFailedException if the action execution fails
+     */
     @Action(description = "Uses the NMF Camera service to take a picture in JPG format.",
             stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
     public void takePicture_JPG(Long executionId, MALInteraction interaction)
@@ -1119,6 +1327,13 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         actionsHandler.takePicture(executionId, interaction, PictureFormat.JPG);
     }
 
+    /**
+     * Executes the take picture bmp action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+      * @throws ExecutionFailedException if the action execution fails
+     */
     @Action(description = "Uses the NMF Camera service to take a picture in BMP format.",
             stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
     public void takePicture_BMP(Long executionId, MALInteraction interaction)
@@ -1126,6 +1341,13 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         actionsHandler.takePicture(executionId, interaction, PictureFormat.BMP);
     }
 
+    /**
+     * Executes the take auto exposed picture raw action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @throws ExecutionFailedException if the operation fails
+     */
     @Action(description = "Uses the NMF Camera service to take an auto exposed picture in RAW format.",
             stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
     public void takeAutoExposedPicture_RAW(Long executionId,
@@ -1134,6 +1356,13 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 PictureFormat.RAW);
     }
 
+    /**
+     * Executes the take auto exposed picture jpg action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @throws ExecutionFailedException if the operation fails
+     */
     @Action(description = "Uses the NMF Camera service to take an auto exposed picture in JPG format.",
             stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
     public void takeAutoExposedPicture_JPG(Long executionId,
@@ -1142,6 +1371,13 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 PictureFormat.JPG);
     }
 
+    /**
+     * Executes the take auto exposed picture bmp action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @throws ExecutionFailedException if the operation fails
+     */
     @Action(description = "Uses the NMF Camera service to take an auto exposed picture in BMP format.",
             stepCount = PayloadsTestActionsHandler.TOTAL_STAGES)
     public void takeAutoExposedPicture_BMP(Long executionId,
@@ -1150,7 +1386,15 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 PictureFormat.BMP);
     }
 
-    @Action(description = "Use NMF PowerControl to switch a device On.")
+    /**
+     * Executes the power on device action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @param deviceType the device type
+     * @throws ExecutionFailedException if the operation fails
+     */
+    @Action(name = "power.on-device", description = "Use NMF PowerControl to switch a device On.")
     public void powerOnDevice(Long executionId,
             MALInteraction interaction,
             @ActionParameter(name = "DeviceType") UInteger deviceType) throws ExecutionFailedException {
@@ -1158,7 +1402,15 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 interaction, deviceType, true);
     }
 
-    @Action(description = "Use NMF PowerControl to switch a device Off.")
+    /**
+     * Executes the power off device action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @param deviceType the device type
+     * @throws ExecutionFailedException if the operation fails
+     */
+    @Action(name = "power.off-device", description = "Use NMF PowerControl to switch a device Off.")
     public void powerOffDevice(Long executionId,
             MALInteraction interaction,
             @ActionParameter(name = "DeviceType") UInteger deviceType) throws ExecutionFailedException {
@@ -1166,7 +1418,14 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 interaction, deviceType, false);
     }
 
-    @Action(description = "Record Optical RX samples.")
+    /**
+     * Executes the record opt rx data action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @throws ExecutionFailedException if the operation fails
+     */
+    @Action(name = "optical-rx.record-opt-rx-data", description = "Record Optical RX samples.")
     public void recordOptRXData(Long executionId,
             MALInteraction interaction) throws ExecutionFailedException {
         try {
@@ -1179,12 +1438,22 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
-    @Action(description = "Record SDR samples.")
+    /**
+     * Executes the record sdr data action.
+     *
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+      * @throws ExecutionFailedException if the action execution fails
+     */
+    @Action(name = "sdr.record-sdr-data", description = "Record SDR samples.")
     public void recordSDRData(Long executionId, MALInteraction interaction)
             throws ExecutionFailedException {
         actionsHandler.recordSDRData(executionId, interaction);
     }
 
+    /**
+     * Start adcs attitude monitoring.
+     */
     public void startAdcsAttitudeMonitoring() {
         try {
             // Subscribe monitorAttitude
@@ -1201,7 +1470,16 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * ADCS Data Handler.
+     */
     public class ADCSDataHandler extends AutonomousADCSAdapter {
+        /**
+         * Default constructor.
+         */
+        public ADCSDataHandler() {
+        }
+
 
         @Override
         public void monitorAttitudeNotifyReceived(
@@ -1266,6 +1544,11 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Sets the simple commanding interface.
+     *
+     * @param arg the arg
+     */
     public void setSimpleCommandingInterface(SimpleCommandingInterface arg) {
         simpleCommandingInterface = arg;
     }

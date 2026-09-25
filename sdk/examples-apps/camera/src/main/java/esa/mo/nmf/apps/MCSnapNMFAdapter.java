@@ -35,7 +35,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
@@ -48,12 +47,18 @@ import org.ccsds.moims.mo.platform.structures.*;
  * The adapter for the NMF App
  */
 public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
+    /**
+     * Default constructor.
+     */
+    public MCSnapNMFAdapter() {
+    }
+
 
     private NMFInterface connector;
 
-    private static final String PARAMETER_SNAPS_TAKEN = "NumberOfSnapsTaken";
-    private static final String ACTION_TAKE_PICTURE_RAW = "TakeSnap.RAW";
-    private static final String ACTION_TAKE_PICTURE_JPG = "TakeSnap.JPG";
+    private static final String PARAMETER_SNAPS_TAKEN = "camera.number-of-snaps-taken";
+    private static final String ACTION_TAKE_PICTURE_RAW = "camera.take-snap.raw";
+    private static final String ACTION_TAKE_PICTURE_JPG = "camera.take-snap.jpg";
 
     private final AtomicInteger snapsTaken = new AtomicInteger(0);
     private final int width = 2048;
@@ -63,6 +68,11 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
     private final float DEFAULT_GAIN_G = 8;
     private final float DEFAULT_GAIN_B = 10;
 
+    /**
+     * Sets the nmf.
+     *
+     * @param connector the NMF provider connector
+     */
     public void setNMF(NMFInterface connector) {
         this.connector = connector;
     }
@@ -121,7 +131,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         }
 
         if (PARAMETER_SNAPS_TAKEN.equals(identifier.getValue())) {
-            return (Attribute) HelperAttributes.javaType2Attribute(snapsTaken.get());
+            return (Attribute) Attribute.javaType2Attribute(snapsTaken.get());
         }
         return null;
     }
@@ -173,6 +183,9 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
         throw new ExecutionFailedException("Unknown action: " + name.getValue());
     }
 
+    /**
+     * Monitor and Control adapter for this application.
+     */
     public class DataReceivedAdapter extends CameraAdapter {
 
         private final int STAGE_ACK = 1;

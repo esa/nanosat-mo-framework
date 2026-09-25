@@ -40,6 +40,12 @@ public class SimpleGround {
 
     private final Logger LOGGER = Logger.getLogger(SimpleGround.class.getName());
 
+    /**
+     * Creates a new {@code SimpleGround}.
+     *
+     * @param directoryURI the directory uri
+     * @param providerName the provider name
+     */
     public SimpleGround(String directoryURI, String providerName) {
         try {
             ProviderList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(directoryURI));

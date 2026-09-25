@@ -79,6 +79,46 @@ public class MissionConfiguration {
      */
     private static final String MISSION_KEY_MISSION = "mission.name";
 
+    /**
+     * Key of the spacecraft node in {@code etc/mission.properties}.
+     */
+    private static final String MISSION_KEY_NODE = "spacecraft.node";
+
+    /**
+     * Key in {@code etc/mission.properties} of whether the mission flies more
+     * than one spacecraft.
+     */
+    private static final String MISSION_KEY_FLEET = "mission.fleet";
+
+    /**
+     * The node of a spacecraft whose mission does not say which it is.
+     */
+    private static final String DEFAULT_SPACECRAFT_NODE = "1";
+
+    /**
+     * Name in the environment of whether the mission flies more than one
+     * spacecraft, for a spacecraft that is one of many built from one image.
+     */
+    public static final String ENV_MISSION_FLEET = "MISSION_FLEET";
+
+    /**
+     * Name in the environment of the node of this spacecraft, for a spacecraft
+     * that is one of many built from one image.
+     */
+    public static final String ENV_SPACECRAFT_NODE = "SPACECRAFT_NODE";
+
+    /**
+     * Name in the environment of the name of this individual spacecraft, for a
+     * spacecraft that is one of many built from one image.
+     * <p>
+     * It is named here, where the environment of a spacecraft's designation is
+     * defined, but resolved by {@code configure_mission.sh} into
+     * {@code etc/mission.properties} rather than here: the domain is built from
+     * the mission and the node, and nothing in the runtime addresses a
+     * spacecraft by its own name.
+     */
+    public static final String ENV_SPACECRAFT_NAME = "SPACECRAFT_NAME";
+
     private MissionConfiguration() {
         // Utility class: prevent instantiation.
     }
@@ -97,6 +137,78 @@ public class MissionConfiguration {
                 mission.getProperty(MISSION_KEY_ORGANIZATION), DEFAULT_ORGANIZATION_NAME);
         setIfAbsent(HelperMisc.PROP_MISSION_NAME,
                 mission.getProperty(MISSION_KEY_MISSION), DEFAULT_MISSION_NAME);
+        ensureFleetDomain(mission);
+    }
+
+    /**
+     * Puts the node of the spacecraft into the domain, for a mission that flies
+     * more than one.
+     * <p>
+     * The units of a fleet share a mission name, and the domain is otherwise
+     * built out of the organization, the mission and the App, so two units of
+     * one mission would be addressed identically. The node is what tells them
+     * apart, so it is written between the mission and the App: the units of a
+     * mission stay together, and the App keeps the place it has always had.
+     * <p>
+     * A mission of a single spacecraft is left alone. Its domain has nothing to
+     * disambiguate, and adding a level to it would move every object already in
+     * its archive.
+     *
+     * @param mission The contents of {@code etc/mission.properties}.
+     */
+    private static void ensureFleetDomain(Properties mission) {
+        if (System.getProperty(HelperMisc.PROP_DOMAIN) != null) {
+            return; // The domain was given outright; it is not ours to compose.
+        }
+        if (!Boolean.parseBoolean(fromEnvironmentOr(ENV_MISSION_FLEET,
+                mission.getProperty(MISSION_KEY_FLEET)))) {
+            return; // One spacecraft: the mission name is enough to address it.
+        }
+
+        String node = fromEnvironmentOr(ENV_SPACECRAFT_NODE,
+                mission.getProperty(MISSION_KEY_NODE, DEFAULT_SPACECRAFT_NODE)).trim();
+        String organization = System.getProperty(HelperMisc.PROP_ORGANIZATION_NAME);
+        String missionName = System.getProperty(HelperMisc.PROP_MISSION_NAME);
+        String app = System.getProperty(HelperMisc.PROP_MO_APP_NAME);
+
+        // The domain is written as one string and split on the dot, so a value
+        // holding one would quietly become two levels of domain.
+        for (String part : new String[]{organization, missionName, node, app}) {
+            if (part != null && part.contains(".")) {
+                LOGGER.log(Level.WARNING, "The domain of this spacecraft cannot carry "
+                        + "its node, because \"{0}\" contains a dot, which separates "
+                        + "the levels of a domain. The units of this mission will be "
+                        + "addressed identically.", part);
+                return;
+            }
+        }
+
+        StringBuilder domain = new StringBuilder();
+        domain.append(organization).append('.').append(missionName).append('.').append(node);
+        if (app != null) {
+            domain.append('.').append(app);
+        }
+        System.setProperty(HelperMisc.PROP_DOMAIN, domain.toString());
+        LOGGER.log(Level.INFO, "This mission flies more than one spacecraft, so the "
+                + "domain carries the node of this one: {0}", domain);
+    }
+
+    /**
+     * Reads a value the environment may override.
+     * <p>
+     * The file is written into the image at build time, so every spacecraft
+     * built from one image is the same spacecraft. A spacecraft that is one of
+     * many is told which it is when it is started, in the environment, beside
+     * the orbit it flies.
+     *
+     * @param name The name in the environment.
+     * @param fromFile The value from {@code mission.properties}, or null.
+     * @return The value from the environment, or the one from the file where the
+     * environment says nothing.
+     */
+    private static String fromEnvironmentOr(String name, String fromFile) {
+        String value = System.getenv(name);
+        return (value == null || value.trim().isEmpty()) ? fromFile : value;
     }
 
     /**

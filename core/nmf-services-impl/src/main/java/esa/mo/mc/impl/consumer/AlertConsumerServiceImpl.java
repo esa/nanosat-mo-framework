@@ -34,6 +34,7 @@ import org.ccsds.moims.mo.mc.alert.AlertHelper;
 import org.ccsds.moims.mo.mc.alert.consumer.AlertStub;
 
 /**
+ * Consumer of the Alert service.
  *
  * @author Cesar Coelho
  */
@@ -42,6 +43,11 @@ public class AlertConsumerServiceImpl extends ConsumerServiceImpl {
     private AlertStub alertService = null;
     private COMServicesConsumer comServices;
 
+    /**
+     * Returns the COM services consumer used by this service.
+     *
+     * @return the COM services consumer
+     */
     public COMServicesConsumer getCOMServices() {
         return comServices;
     }
@@ -51,6 +57,11 @@ public class AlertConsumerServiceImpl extends ConsumerServiceImpl {
         return this.getAlertStub();
     }
 
+    /**
+     * Returns the Alert service stub used to invoke operations on the provider.
+     *
+     * @return the Alert service stub
+     */
     public AlertStub getAlertStub() {
         return this.alertService;
     }
@@ -60,11 +71,31 @@ public class AlertConsumerServiceImpl extends ConsumerServiceImpl {
         return new AlertStub(tmConsumer);
     }
 
+    /**
+     * Creates the Alert service consumer with no authentication id nor local name prefix.
+     *
+     * @param connectionDetails the connection details of the Alert service provider
+     * @param comServices the COM services consumer used by this service
+     * @throws MALException if the consumer cannot be created
+     * @throws MalformedURLException if a provided URI is malformed
+     * @throws MALInteractionException if the service returns an error
+     */
     public AlertConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
             throws MALException, MalformedURLException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
+    /**
+     * Creates the Alert service consumer and starts the consumer connection.
+     *
+     * @param connectionDetails the connection details of the Alert service provider
+     * @param comServices the COM services consumer used by this service
+     * @param authenticationId the authentication id of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     * @throws MALException if the consumer cannot be created
+     * @throws MalformedURLException if a provided URI is malformed
+     * @throws MALInteractionException if the service returns an error
+     */
     public AlertConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix)
             throws MALException, MalformedURLException, MALInteractionException {

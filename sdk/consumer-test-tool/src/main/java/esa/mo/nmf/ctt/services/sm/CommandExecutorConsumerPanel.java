@@ -34,7 +34,6 @@ import javax.swing.JOptionPane;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.Subscription;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
@@ -97,6 +96,9 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
         this.serviceSMCommandExecutor = serviceSMCommandExecutor;
     }
 
+    /**
+     * Initializes the panel and subscribes to the CommandExecutor output monitoring.
+     */
     public void init() {
         // Subscribe to monitorOutput PUBSUB to receive command output in real-time.
         final Subscription subscription = ConnectionConsumer.subscriptionWildcardRandom();
@@ -215,7 +217,16 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_runCommandButtonActionPerformed
 
+    /**
+     * Adapter receiving command stdout/stderr notifications and appending them to the log.
+     */
     public class MonitorOutputAdapterImpl extends CommandExecutorAdapter {
+
+        /**
+         * Default constructor.
+         */
+        public MonitorOutputAdapterImpl() {
+        }
 
         @Override
         public synchronized void monitorOutputNotifyReceived(MALMessageHeader msgHeader,
@@ -229,7 +240,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
                 return;
             }
 
-            final String time = HelperTime.time2readableString(msgHeader.getTimestamp());
+            final String time = msgHeader.getTimestamp().toReadableString();
 
             if (CommandOutputType.STDOUT.equals(outputType)) {
                 addCommandOutput(commandId, time + " stdout:\n" + (data != null ? data : ""));
@@ -251,7 +262,16 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Adapter receiving the responses of the submitted commands.
+     */
     public class CommandExecutorConsumerAdapter extends CommandExecutorAdapter {
+
+        /**
+         * Default constructor.
+         */
+        public CommandExecutorConsumerAdapter() {
+        }
 
         @Override
         public void runCommandResponseReceived(MALMessageHeader msgHeader, Long commandInstId, Map qosProperties) {

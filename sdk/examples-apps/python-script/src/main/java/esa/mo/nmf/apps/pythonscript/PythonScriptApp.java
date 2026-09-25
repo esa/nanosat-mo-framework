@@ -28,6 +28,9 @@ import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
  */
 public class PythonScriptApp {
 
+    /**
+     * Creates a new {@code PythonScriptApp}.
+     */
     public PythonScriptApp() {
         NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
         connector.init(new MCAdapter(connector));

@@ -34,7 +34,6 @@ import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UShort;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.*;
@@ -47,12 +46,17 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
 
     private static final Logger LOG = Logger.getLogger(MCAdapter.class.getName());
 
-    private static final String ACTION_START_AI = "AI_Start";
-    private static final String ACTION_CANCEL_AI = "AI_Cancel";
+    private static final String ACTION_START_AI = "ai.start";
+    private static final String ACTION_CANCEL_AI = "ai.cancel";
     private static final int TOTAL_STAGES = 1;
 
     private final NMFInterface connector;
 
+    /**
+     * Creates a new {@code MCAdapter}.
+     *
+     * @param connector the NMF provider connector
+     */
     public MCAdapter(NMFProvider connector) {
         this.connector = connector;
     }
@@ -103,11 +107,23 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         throw new ExecutionFailedException("Unknown action: " + name.getValue());
     }
 
+    /**
+     * On process completed.
+     *
+     * @param id the id
+     * @param exitCode the exit code
+     */
     public void onProcessCompleted(Long id, int exitCode) {
         LOG.info("Process with Request Id: " + id + " exited with code: " + exitCode);
         publishParameter(id.toString(), exitCode);
     }
 
+    /**
+     * Trigger ai inference.
+     *
+     * @param executionId the action instance object id
+     * @param attributeValues the attribute values
+     */
     public void triggerAIInference(Long executionId, AttributeValueList attributeValues) {
         /*
         int minProcessingDurationSeconds = getAs(attributeValues.get(0));

@@ -24,14 +24,12 @@ import esa.mo.nmf.MCRegistration.RegistrationMode;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ParameterDefinition;
@@ -45,10 +43,13 @@ import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
 public class DemoHelloWorldFull {
 
     private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
-    private static final String PARAMETER_NAME = "A_Parameter";
+    private static final String PARAMETER_NAME = "a-parameter";
     private static final String PARAMETER_DESCRIPTION = "My first parameter!";
     private String var = "Hello World!";
 
+    /**
+     * Creates a new {@code DemoHelloWorldFull}.
+     */
     public DemoHelloWorldFull() {
         connector.init(new MCAdapter());
     }
@@ -63,7 +64,16 @@ public class DemoHelloWorldFull {
         DemoHelloWorldFull demo = new DemoHelloWorldFull();
     }
 
+    /**
+     * Monitor and Control adapter for this application.
+     */
     public class MCAdapter extends MonitorAndControlNMFAdapter {
+        /**
+         * Default constructor.
+         */
+        public MCAdapter() {
+        }
+
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {
@@ -82,7 +92,7 @@ public class DemoHelloWorldFull {
         @Override
         public Attribute onGetValue(Identifier identifier, AttributeType rawType) {
             if (PARAMETER_NAME.equals(identifier.getValue())) {
-                return (Attribute) HelperAttributes.javaType2Attribute(var);
+                return (Attribute) Attribute.javaType2Attribute(var);
             }
 
             return null;

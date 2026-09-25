@@ -33,6 +33,10 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.LOGGER;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SEP;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_SEP;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_MSG;
 
 /**
  * End-to-end tests that exercise retrieval of deliberately broken MC items from
@@ -40,7 +44,7 @@ import org.junit.Test;
  * aggregation that all fail on retrieval, each checked against a healthy
  * counterpart used as a control.
  */
-public class BrokenRetrievalTest extends NMFTest {
+public class BrokenRetrievalTest {
 
     private static final long ACTION_TIMEOUT_MS = 15_000;
 

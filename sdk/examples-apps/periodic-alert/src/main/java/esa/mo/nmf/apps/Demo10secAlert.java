@@ -33,7 +33,6 @@ import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
-import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
@@ -47,13 +46,16 @@ public class Demo10secAlert {
     private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
     private final TaskScheduler timer;
 
+    /**
+     * Creates a new {@code Demo10secAlert}.
+     */
     public Demo10secAlert() {
         this.connector.init(new Adapter());
         this.timer = new TaskScheduler(1);
 
         this.timer.scheduleTask(new Thread(() -> {
             try {
-                connector.publishAlertEvent("10SecondsAlert", null);
+                connector.publishAlertEvent("10-seconds-alert", null);
             } catch (NMFException ex) {
                 Logger.getLogger(Demo10secAlert.class.getName()).log(Level.SEVERE,
                     "The Alert could not be published to the consumer!", ex);

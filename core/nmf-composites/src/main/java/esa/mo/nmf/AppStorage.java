@@ -62,6 +62,9 @@ public class AppStorage {
 
     private final static String FOLDER_USERDATA = "user-data";
 
+    private AppStorage() {
+    }
+
     /**
      * Returns the absolute path to the application-specific Cache directory.
      *

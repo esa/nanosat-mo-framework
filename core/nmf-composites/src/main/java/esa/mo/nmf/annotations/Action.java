@@ -42,7 +42,7 @@ import java.lang.annotation.Target;
  * <p>
  * Example:
  * <pre>
- * <b>&#64;Action(name = "Clock.setTimeUsingDeltaMilliseconds",
+ * <b>&#64;Action(name = "clock.set-time-using-delta-milliseconds",
  *   description = "Sets the clock using a diff between the on-board time and the desired time.")</b>
  * public void setTimeUsingDeltaMilliseconds(
  *     Long executionId,
@@ -62,9 +62,24 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface Action {
 
+    /**
+     * The name of the action. Defaults to the annotated method's name when left empty.
+     *
+     * @return the action name
+     */
     String name() default "";
 
+    /**
+     * A human-readable description of what the action does.
+     *
+     * @return the action description
+     */
     String description() default "";
 
+    /**
+     * The number of progress stages the action reports; {@code 0} for a single-step action.
+     *
+     * @return the number of progress stages
+     */
     int stepCount() default 0;
 }

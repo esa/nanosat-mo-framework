@@ -30,6 +30,12 @@ import java.util.HashSet;
  * @author yannick
  */
 public class Quota extends HashMap<Long, Integer> {
+    /**
+     * Default constructor.
+     */
+    public Quota() {
+    }
+
 
     /**
      * This method resets the quota to 0 for all provided IDs.

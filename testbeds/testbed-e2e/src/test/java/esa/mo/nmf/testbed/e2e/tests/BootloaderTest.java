@@ -33,13 +33,17 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.LOGGER;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SEP;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_SEP;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_MSG;
 
 /**
  * End-to-end tests for the NMF Bootloader: boots the Supervisor through the
  * bootloader script and verifies the Boot Report and the runtime state
  * against the NMF Bootloader Specification.
  */
-public class BootloaderTest extends NMFTest {
+public class BootloaderTest {
 
     private static final SupervisorHarness harness = new SupervisorHarness();
 

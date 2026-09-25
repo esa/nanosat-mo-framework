@@ -55,6 +55,12 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
     private static final Logger LOGGER = Logger.getLogger(NanoSatMOMonolithic.class.getName());
 
     /**
+     * Default constructor.
+     */
+    public NanoSatMOMonolithic() {
+    }
+
+    /**
      * Initializes the NanoSat MO Monolithic. The MonitorAndControlAdapter
      * adapter class can be extended for remote monitoring and control with the
      * CCSDS Monitor and Control services. One can also extend the
@@ -69,8 +75,10 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
         LOGGER.log(Level.INFO, this.generateStartBanner());
 
         // Loads: provider.properties; transport.properties
+        // The Monolithic is not deployed with either of them, so their absence
+        // falls back to the default transport instead of being reported.
         NMFProvider.loadMOElements();
-        HelperMisc.loadPropertiesFile();
+        loadPropertiesOrDefaults();
         ConnectionProvider.resetURILinksFile();
 
         // Create provider name to be registerd on the Directory service...
@@ -138,11 +146,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
         }
 
         if (mcAdapter != null) {
-            MCRegistration registration = new MCRegistration(comServices,
-                    mcServices.getParameterService(),
-                    mcServices.getAggregationService(),
-                    mcServices.getAlertService(),
-                    mcServices.getActionService());
+            MCRegistration registration = new MCRegistration(comServices, mcServices);
             mcAdapter.initialRegistrations(registration);
         }
 
@@ -190,6 +194,12 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
         System.exit(0);
     }
 
+    /**
+     * Initializes the mission-specific Platform services and registers them in the given
+     * COM services stack.
+     *
+     * @param comServices the COM services stack the Platform services register with
+     */
     public abstract void initPlatformServices(COMServicesProvider comServices);
 
 }

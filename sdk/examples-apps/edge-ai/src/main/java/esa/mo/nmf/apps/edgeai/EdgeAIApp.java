@@ -27,6 +27,9 @@ import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
  */
 public class EdgeAIApp {
 
+    /**
+     * Creates a new {@code EdgeAIApp}.
+     */
     public EdgeAIApp() {
         NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
         MCAdapter adapter = new MCAdapter(connector);

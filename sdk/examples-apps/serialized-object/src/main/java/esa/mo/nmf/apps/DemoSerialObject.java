@@ -41,6 +41,9 @@ public class DemoSerialObject {
     private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
     private final static String PARAMETER = "MyParameter";
 
+    /**
+     * Creates a new {@code DemoSerialObject}.
+     */
     public DemoSerialObject() {
         connector.init(new MCAdapter());
     }
@@ -55,7 +58,16 @@ public class DemoSerialObject {
         DemoSerialObject demo = new DemoSerialObject();
     }
 
+    /**
+     * Monitor and Control adapter for this application.
+     */
     public static class MCAdapter extends SimpleMonitorAndControlAdapter {
+        /**
+         * Default constructor.
+         */
+        public MCAdapter() {
+        }
+
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {

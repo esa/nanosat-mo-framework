@@ -57,6 +57,12 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
     private final ArrayList<String> modelPaths = new ArrayList();
 
     /**
+     * Default constructor.
+     */
+    public ArtificialIntelligenceProviderServiceImpl() {
+    }
+
+    /**
      * creates the MAL objects, the publisher used to create updates and starts
      * the publishing thread
      *

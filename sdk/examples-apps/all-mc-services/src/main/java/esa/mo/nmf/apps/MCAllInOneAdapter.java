@@ -34,6 +34,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
@@ -54,42 +55,56 @@ import org.ccsds.moims.mo.platform.structures.*;
  */
 public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
 
-    private static final String ACTION_5_STAGES = "5StagesAction";
-    private static final String ACTION_NADIR_POINTING_MODE = "ADCS_NadirPointingMode";
-    private static final String ACTION_SUN_POINTING_MODE = "ADCS_SunPointingMode";
-    private static final String ACTION_UNSET = "ADCS_UnsetAttitude";
+    private static final String ACTION_5_STAGES = "5-stages-action";
+    private static final String ACTION_NADIR_POINTING_MODE = "adcs.mode.nadir-pointing";
+    private static final String ACTION_SUN_POINTING_MODE = "adcs.mode.sun-pointing";
+    private static final String ACTION_UNSET = "adcs.mode.unset-attitude";
     private static final String AGGREGATION_GPS = "GPS_Aggregation";
     private static final String AGGREGATION_MAG = "Magnetometer_Aggregation";
-    private static final String PARAMETER_ADCS_MODE = "ADCS_ModeOperation";
-    private static final String PARAMETER_ADCS_DURATION = "ADCS_RemainingControlDuration";
-    private static final String PARAMETER_ANGULAR_VELOCITY_X = "AngularVelocity_X";
-    private static final String PARAMETER_ANGULAR_VELOCITY_Y = "AngularVelocity_Y";
-    private static final String PARAMETER_ANGULAR_VELOCITY_Z = "AngularVelocity_Z";
-    private static final String PARAMETER_ATTITUDE_Q_A = "AttitudeQuaternion_a";
-    private static final String PARAMETER_ATTITUDE_Q_B = "AttitudeQuaternion_b";
-    private static final String PARAMETER_ATTITUDE_Q_C = "AttitudeQuaternion_c";
-    private static final String PARAMETER_ATTITUDE_Q_D = "AttitudeQuaternion_d";
-    private static final String PARAMETER_GPS_ALTITUDE = "GPS_Altitude";
-    private static final String PARAMETER_GPS_ELAPSED_TIME = "GPS_ElapsedTime";
-    private static final String PARAMETER_GPS_LATITUDE = "GPS_Latitude";
-    private static final String PARAMETER_GPS_LONGITUDE = "GPS_Longitude";
-    private static final String PARAMETER_GPS_N_SATS_IN_VIEW = "GPS_NumberOfSatellitesInView";
-    private static final String PARAMETER_MAG_X = "MagneticField_X";
-    private static final String PARAMETER_MAG_Y = "MagneticField_Y";
-    private static final String PARAMETER_MAG_Z = "MagneticField_Z";
-    private static final String PARAMETER_MTQ_X = "MagnetorquerMoment_X";
-    private static final String PARAMETER_MTQ_Y = "MagnetorquerMoment_Y";
-    private static final String PARAMETER_MTQ_Z = "MagnetorquerMoment_Z";
-    private static final String PARAMETER_SUN_VECTOR_X = "SunVector_X";
-    private static final String PARAMETER_SUN_VECTOR_Y = "SunVector_Y";
-    private static final String PARAMETER_SUN_VECTOR_Z = "SunVector_Z";
+    private static final String PARAMETER_ADCS_MODE = "adcs.mode-operation";
+    private static final String PARAMETER_ADCS_DURATION = "adcs.remaining-control-duration";
+    private static final String PARAMETER_ANGULAR_VELOCITY_X = "adcs.angular-velocity.x";
+    private static final String PARAMETER_ANGULAR_VELOCITY_Y = "adcs.angular-velocity.y";
+    private static final String PARAMETER_ANGULAR_VELOCITY_Z = "adcs.angular-velocity.z";
+    private static final String PARAMETER_ATTITUDE_Q_A = "adcs.attitude-quaternion.a";
+    private static final String PARAMETER_ATTITUDE_Q_B = "adcs.attitude-quaternion.b";
+    private static final String PARAMETER_ATTITUDE_Q_C = "adcs.attitude-quaternion.c";
+    private static final String PARAMETER_ATTITUDE_Q_D = "adcs.attitude-quaternion.d";
+    private static final String PARAMETER_GPS_ALTITUDE = "gps.altitude";
+    private static final String PARAMETER_GPS_ELAPSED_TIME = "gps.elapsed-time";
+    private static final String PARAMETER_GPS_LATITUDE = "gps.latitude";
+    private static final String PARAMETER_GPS_LONGITUDE = "gps.longitude";
+    private static final String PARAMETER_GPS_N_SATS_IN_VIEW = "gps.number-of-satellites-in-view";
+    private static final String PARAMETER_MAG_X = "magnetometer.field.x";
+    private static final String PARAMETER_MAG_Y = "magnetometer.field.y";
+    private static final String PARAMETER_MAG_Z = "magnetometer.field.z";
+    private static final String PARAMETER_MTQ_X = "adcs.magnetorquer-moment.x";
+    private static final String PARAMETER_MTQ_Y = "adcs.magnetorquer-moment.y";
+    private static final String PARAMETER_MTQ_Z = "adcs.magnetorquer-moment.z";
+    private static final String PARAMETER_SUN_VECTOR_X = "adcs.sun-vector.x";
+    private static final String PARAMETER_SUN_VECTOR_Y = "adcs.sun-vector.y";
+    private static final String PARAMETER_SUN_VECTOR_Z = "adcs.sun-vector.z";
 
     private static final Duration ATTITUDE_MONITORING_INTERVAL = new Duration(1.0);
+
+    /**
+     * How long to wait for the GPS service to answer with the satellites in
+     * view. The wait has to end on its own, because the value is read from the
+     * thread that samples the parameters, and a hold there stops every other
+     * parameter from being sampled too.
+     */
+    private static final long GPS_REPLY_TIMEOUT_SECONDS = 5;
+
     private static final Logger LOGGER = Logger.getLogger(MCAllInOneAdapter.class.getName());
     private NMFInterface nmf;
 
     private final TaskScheduler periodicAlertTimer = new TaskScheduler(1);
 
+    /**
+     * Creates a new {@code MCAllInOneAdapter}.
+     *
+     * @param nmfProvider the NMF provider connector
+     */
     public MCAllInOneAdapter(final NMFInterface nmfProvider) {
         this.nmf = nmfProvider;
     }
@@ -118,6 +133,9 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         return new UOctet((short) modeEnum.ordinal());
     }
 
+    /**
+     * Start periodic alerts publishing.
+     */
     public void startPeriodicAlertsPublishing() {
         this.periodicAlertTimer.scheduleTask(new Thread(() -> {
             AttributeValueList atts = new AttributeValueList();
@@ -125,7 +143,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
             atts.add(att);
 
             try {
-                nmf.publishAlertEvent("10SecondsAlert", atts);
+                nmf.publishAlertEvent("10-seconds-alert", atts);
             } catch (NMFException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
@@ -273,9 +291,6 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
 
     @Override
     public Attribute onGetValue(Identifier identifier, AttributeType rawType) throws IOException {
-        // Translates NMF core calls for parameter values into calls to the underlying HW
-        // exposed as Platform services
-        // TODO: Optimise the number of calls through a cache
         if (nmf == null) {
             return null;
         }
@@ -303,6 +318,20 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                             nOfSats.add(gpsSatellitesInfo.size());
                             sem.release();
                         }
+
+                        @Override
+                        public void getSatellitesInfoAckErrorReceived(MALMessageHeader msgHeader,
+                                MOErrorException error, java.util.Map qosProperties) {
+                            LOGGER.log(Level.SEVERE, "The satellites in view could not be read!", error);
+                            sem.release();
+                        }
+
+                        @Override
+                        public void getSatellitesInfoResponseErrorReceived(MALMessageHeader msgHeader,
+                                MOErrorException error, java.util.Map qosProperties) {
+                            LOGGER.log(Level.SEVERE, "The satellites in view could not be read!", error);
+                            sem.release();
+                        }
                     }
 
                     try {
@@ -312,9 +341,19 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                     }
 
                     try {
-                        sem.acquire();
+                        if (!sem.tryAcquire(GPS_REPLY_TIMEOUT_SECONDS, TimeUnit.SECONDS)) {
+                            LOGGER.log(Level.SEVERE, "The GPS service did not answer with the "
+                                    + "satellites in view within {0} seconds!", GPS_REPLY_TIMEOUT_SECONDS);
+                            return null;
+                        }
                     } catch (InterruptedException ex) {
-                        LOGGER.log(Level.SEVERE, null, ex);
+                        Thread.currentThread().interrupt();
+                        return null;
+                    }
+
+                    // Empty when the answer was an error, which released the wait above
+                    if (nOfSats.isEmpty()) {
+                        return null;
                     }
 
                     return (Attribute) Attribute.javaType2Attribute(nOfSats.get(0));
@@ -458,6 +497,9 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
+    /**
+     * Start adcs attitude monitoring.
+     */
     public void startAdcsAttitudeMonitoring() {
         try {
             // Subscribe monitorAttitude
@@ -497,7 +539,16 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         return errorNumber;
     }
 
+    /**
+     * Monitor and Control adapter for this application.
+     */
     public class DataReceivedAdapter extends AutonomousADCSAdapter {
+        /**
+         * Default constructor.
+         */
+        public DataReceivedAdapter() {
+        }
+
 
         @Override
         public void monitorAttitudeNotifyReceived(final MALMessageHeader msgHeader,
@@ -520,8 +571,8 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                 nmf.pushParameterValue(PARAMETER_MAG_Z, magneticField.getZ());
 
                 nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_X, angularVelocity.getX());
-                nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Z, angularVelocity.getY());
-                nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Y, angularVelocity.getZ());
+                nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Y, angularVelocity.getY());
+                nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Z, angularVelocity.getZ());
 
                 nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_A, attitude.getA());
                 nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_B, attitude.getB());

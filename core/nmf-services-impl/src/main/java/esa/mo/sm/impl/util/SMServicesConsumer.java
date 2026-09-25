@@ -49,6 +49,12 @@ public class SMServicesConsumer {
     private HeartbeatConsumerServiceImpl heartbeatService;
 
     /**
+     * Default constructor.
+     */
+    public SMServicesConsumer() {
+    }
+
+    /**
      * Initializes the Software Management services.
      *
      * @param connectionConsumer The connection details.
@@ -102,18 +108,38 @@ public class SMServicesConsumer {
         }
     }
 
+    /**
+     * Returns the PackageManagement service consumer.
+     *
+     * @return the PackageManagement service consumer, or {@code null} if not initialized
+     */
     public PackageManagementConsumerServiceImpl getPackageManagementService() {
         return this.packageManagementService;
     }
 
+    /**
+     * Returns the AppsLauncher service consumer.
+     *
+     * @return the AppsLauncher service consumer, or {@code null} if not initialized
+     */
     public AppsLauncherConsumerServiceImpl getAppsLauncherService() {
         return this.appsLauncherService;
     }
 
+    /**
+     * Returns the CommandExecutor service consumer.
+     *
+     * @return the CommandExecutor service consumer, or {@code null} if not initialized
+     */
     public CommandExecutorConsumerServiceImpl getCommandExecutorService() {
         return this.commandExecutorService;
     }
 
+    /**
+     * Returns the Heartbeat service consumer.
+     *
+     * @return the Heartbeat service consumer, or {@code null} if not initialized
+     */
     public HeartbeatConsumerServiceImpl getHeartbeatService() {
         return this.heartbeatService;
     }
@@ -157,6 +183,11 @@ public class SMServicesConsumer {
         }
     }
 
+    /**
+     * Propagates the authentication id to all the initialized SM service consumers.
+     *
+     * @param authenticationId the authentication id of the logged in user
+     */
     public void setAuthenticationId(Blob authenticationId) {
         if (this.packageManagementService != null) {
             this.packageManagementService.setAuthenticationId(authenticationId);

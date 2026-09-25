@@ -50,12 +50,15 @@ import org.ccsds.moims.mo.platform.structures.SatelliteInfoList;
 public class DemoGPSData {
 
     private final NanoSatMOConnectorImpl connector;
-    private static final String PARAMETER_GPS_LATITUDE = "GPS.Latitude";
-    private static final String PARAMETER_GPS_LONGITUDE = "GPS.Longitude";
-    private static final String PARAMETER_GPS_ALTITUDE = "GPS.Altitude";
-    private static final String PARAMETER_GPS_N_SATS_IN_VIEW = "GPS.NumberOfSatellitesInView";
+    private static final String PARAMETER_GPS_LATITUDE = "gps.latitude";
+    private static final String PARAMETER_GPS_LONGITUDE = "gps.longitude";
+    private static final String PARAMETER_GPS_ALTITUDE = "gps.altitude";
+    private static final String PARAMETER_GPS_N_SATS_IN_VIEW = "gps.number-of-satellites-in-view";
     private static final String AGGREGATION_GPS = "GPS.Aggregation";
 
+    /**
+     * Creates a new {@code DemoGPSData}.
+     */
     public DemoGPSData() {
         this.connector = new NanoSatMOConnectorImpl();
         this.connector.init(new McAdapter());
@@ -89,7 +92,16 @@ public class DemoGPSData {
         }
     }
 
+    /**
+     * Monitor and Control adapter for this application.
+     */
     public class McAdapter extends MonitorAndControlNMFAdapter {
+        /**
+         * Default constructor.
+         */
+        public McAdapter() {
+        }
+
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {

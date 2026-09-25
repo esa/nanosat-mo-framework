@@ -54,8 +54,10 @@ public class SoftwareBaseline {
     public static final String SCHEMA_VERSION = "1";
 
     private static final String KEY_SCHEMA_VERSION = "schema-version";
-    private static final String KEY_NMF_VERSION = "nmf-version";
-    private static final String KEY_MISSION_VERSION = "mission-version";
+    /** Key of the NMF version in a baseline file. */
+    public static final String KEY_NMF_VERSION = "nmf-version";
+    /** Key of the mission version in a baseline file. */
+    public static final String KEY_MISSION_VERSION = "mission-version";
     private static final String KEY_JAVA = "java";
     private static final String KEY_MAIN_CLASS = "main-class";
 
@@ -146,22 +148,47 @@ public class SoftwareBaseline {
                 StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
     }
 
+    /**
+     * Returns the schema version.
+     *
+     * @return the schema version
+     */
     public String getSchemaVersion() {
         return schemaVersion;
     }
 
+    /**
+     * Returns the nmf version.
+     *
+     * @return the nmf version
+     */
     public String getNmfVersion() {
         return nmfVersion;
     }
 
+    /**
+     * Returns the mission version.
+     *
+     * @return the mission version
+     */
     public String getMissionVersion() {
         return missionVersion;
     }
 
+    /**
+     * Returns the Java runtime version.
+     *
+     * @return the Java runtime version
+     */
     public String getJava() {
         return java;
     }
 
+    /**
+     * Returns the main class.
+     *
+     * @return the main class
+     */
     public String getMainClass() {
         return mainClass;
     }

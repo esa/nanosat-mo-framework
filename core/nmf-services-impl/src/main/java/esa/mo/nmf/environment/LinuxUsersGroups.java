@@ -35,6 +35,9 @@ import java.util.logging.Logger;
  * @author Cesar Coelho
  */
 public class LinuxUsersGroups {
+    private LinuxUsersGroups() {
+    }
+
 
     private static final String PERMISSION_DENIED = "Permission denied";
 
@@ -108,6 +111,13 @@ public class LinuxUsersGroups {
         LinuxUsersGroups.printCommandAndOutput(cmd2, out2);
     }
 
+    /**
+     * Adds the given user to the given group.
+     *
+     * @param username the username
+     * @param extraGroup the extra group
+     * @throws IOException if the operation fails
+     */
     public static void addUserToGroup(String username, String extraGroup) throws IOException {
         // Note: usermod does not exist in some trimmed Linux versions
         // Therefore we will be using the adduser equivalent functionality
@@ -117,6 +127,13 @@ public class LinuxUsersGroups {
         LinuxUsersGroups.printCommandAndOutput(cmd, out);
     }
 
+    /**
+     * Sets the given user's password (via {@code chpasswd}).
+     *
+     * @param username the username
+     * @param password the password
+     * @throws IOException if the operation fails
+     */
     public static void chpasswd(String username, String password) throws IOException {
         String[] cmd1 = {"chpasswd", "-h"};
         String out1 = runCommand(cmd1);
@@ -181,6 +198,14 @@ public class LinuxUsersGroups {
         LinuxUsersGroups.printCommandAndOutput(cmd, out);
     }
 
+    /**
+     * Changes the group ownership of the given path (via {@code chgrp}).
+     *
+     * @param recursive the recursive
+     * @param newGroup the new group
+     * @param path the path
+     * @throws IOException if the operation fails
+     */
     public static void chgrp(boolean recursive, String newGroup, String path) throws IOException {
         String[] cmd = {"sudo", "chgrp", recursive ? "--recursive" : "", newGroup, path};
         String out = runCommand(cmd);
@@ -188,6 +213,13 @@ public class LinuxUsersGroups {
         LinuxUsersGroups.printCommandAndOutput(cmd, out);
     }
 
+    /**
+     * Returns the home directory of the given user.
+     *
+     * @param username the username
+     * @return the find home dir
+     * @throws IOException if the operation fails
+     */
     public static String findHomeDir(String username) throws IOException {
         // Get the list of users and respective folders
         String[] cmd = {"cat", "/etc/passwd"};
@@ -208,6 +240,12 @@ public class LinuxUsersGroups {
         throw new IOException("The HomeDir was not found for user: " + username);
     }
 
+    /**
+     * Logs a command and its output.
+     *
+     * @param cmd the cmd
+     * @param out the out
+     */
     public static void printCommandAndOutput(String[] cmd, String out) {
         Logger.getLogger(LinuxUsersGroups.class.getName()).log(Level.INFO,
                 "Executed command: " + String.join(" ", cmd) + "\n" + out);

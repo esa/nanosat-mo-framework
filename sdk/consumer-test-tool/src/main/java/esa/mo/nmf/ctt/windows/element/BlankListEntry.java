@@ -29,6 +29,12 @@ public class BlankListEntry extends Entry {
 
     private final javax.swing.JToggleButton buttonAdd;
 
+    /**
+     * Creates the trailing "add" entry of an editable list.
+     *
+     * @param actionListener the listener notified when the add button is pressed
+     * @param editable whether the list can be edited
+     */
     public BlankListEntry(java.awt.event.ActionListener actionListener, boolean editable) {
         super("", null, editable, false);
 

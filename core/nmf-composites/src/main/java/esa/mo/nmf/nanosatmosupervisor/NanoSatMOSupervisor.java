@@ -40,7 +40,6 @@ import esa.mo.sm.impl.util.PMBackend;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.configuration.ConfigurationHelper;
@@ -74,6 +73,25 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             = new CommandExecutorProviderServiceImpl();
 
     /**
+     * Default constructor.
+     */
+    public NanoSatMOSupervisor() {
+    }
+
+    /**
+     * Initializes the NanoSat MO Supervisor with the default Package Management
+     * services backend, which installs the Apps of the packages directory.
+     *
+     * @param mcAdapter The adapter to connect the actions and parameters to the
+     * corresponding methods and variables of a specific entity.
+     * @param platformServices The Platform services consumer stubs
+     */
+    public void init(MonitorAndControlNMFAdapter mcAdapter,
+            PlatformServicesConsumer platformServices) {
+        this.init(mcAdapter, platformServices, null);
+    }
+
+    /**
      * Initializes the NanoSat MO Supervisor. The MonitorAndControlAdapter
      * adapter class can be extended for remote monitoring and control with the
      * CCSDS Monitor and Control services. One can also extend the
@@ -100,18 +118,11 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
 
         // The Supervisor has no provider.properties of its own, so it sets the
         // transport in-process rather than via HelperMisc (which only warned).
-        // A command-line -D wins, hence putIfAbsent.
-        getTransportDefaults().forEach(System.getProperties()::putIfAbsent);
-
-        // "PropertiesLoadedFlag" is HelperMisc's own skip guard: set it so later
-        // loadPropertiesFile() calls skip the file lookup.
-        System.setProperty("PropertiesLoadedFlag", "true");
+        useDefaultTransport();
         NMFProvider.loadMOElements();
         ConnectionProvider.resetURILinksFile();
 
-        // Check if we are running as root when we have the NMF in Mode 2
         String user = System.getProperties().getProperty("user.name", "?");
-        //String mode = System.getProperties().getProperty(HelperMisc.PROP_WORK_DIR_STORAGE_MODE, "?");
 
         if ("root".equals(user)) {
             throw new RuntimeException("Do not run the NanoSat MO Supervisor as root!");
@@ -220,10 +231,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         }
 
         if (mcAdapter != null) {
-            MCRegistration registration
-                    = new MCRegistration(comServices, mcServices.getParameterService(),
-                            mcServices.getAggregationService(), mcServices.getAlertService(),
-                            mcServices.getActionService());
+            MCRegistration registration = new MCRegistration(comServices, mcServices);
             mcAdapter.initialRegistrations(registration);
         }
 
@@ -244,15 +252,6 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                 + (((float) (System.currentTimeMillis() - super.startTime)) / 1000)
                 + " seconds!");
         LOGGER.log(Level.INFO, "URI: {0}\n", primaryURI);
-    }
-
-    private static Properties getTransportDefaults() {
-        Properties props = new Properties();
-        props.setProperty("org.ccsds.moims.mo.mal.transport.default.protocol", "maltcp://");
-        props.setProperty("org.ccsds.moims.mo.mal.transport.protocol.maltcp", "esa.mo.mal.transport.tcpip.TCPIPTransportFactoryImpl");
-        props.setProperty("org.ccsds.moims.mo.mal.encoding.protocol.maltcp", "esa.mo.mal.encoder.binary.fixed.FixedBinaryStreamFactory");
-        props.setProperty("org.ccsds.moims.mo.mal.transport.tcpip.autohost", "true");
-        return props;
     }
 
     /**
@@ -280,6 +279,11 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         }
     }
 
+    /**
+     * Returns the AppsLauncher service provider that manages the app lifecycle.
+     *
+     * @return the AppsLauncher service
+     */
     public AppsLauncherProviderServiceImpl getAppsLauncherService() {
         return appsLauncherService;
     }
@@ -327,5 +331,11 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         System.exit(0);
     }
 
+    /**
+     * Initializes the mission-specific Platform services and registers them in the given
+     * COM services stack.
+     *
+     * @param comServices the COM services stack the Platform services register with
+     */
     public abstract void initPlatformServices(COMServicesProvider comServices);
 }

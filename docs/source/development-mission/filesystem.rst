@@ -36,6 +36,41 @@ The constants for each directory name live in ``esa.mo.nmf.environment.Deploymen
 The Supervisor startup script — the NMF Bootloader, see the
 :doc:`../background/bootloader-specification` — is placed at the root of the output.
 
+Delivering a new baseline
+-------------------------
+
+The two versioned directories above, ``jars-nmf/<version>`` and ``jars-mission/<version>``, are the
+components of a software baseline that can be replaced in flight. Each is delivered as an NMF Package
+of its own, so that an upgrade arrives through the Package Management service instead of being
+assembled by hand on the spacecraft:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 14 26 60
+
+   * - Type
+     - Goal
+     - What it packages
+   * - ``nmf``
+     - ``generate-nmf-core-package``
+     - the framework jars, from ``jars-nmf/<version>``
+   * - ``mission``
+     - ``generate-mission-package``
+     - the mission jars, from ``jars-mission/<version>``
+
+Both goals belong to the ``nmf-linux-maven-plugin`` and read a directory that ``generate-filesystem``
+has already produced, which is where the Supervisor's dependencies are sorted into the two sets. Run
+them after it, in the same profile.
+
+Installing such a package stages the new baseline **beside** the one in use, under its own version
+directory, and does not activate it: the version that is running stays where it is and remains
+bootable. Activation is a separate and deliberate step on-board, the ``bootloader.setPrimaryBaseline``
+action.
+
+The two versions move independently. The bootloader reads ``nmf-version`` and ``mission-version`` from
+the baseline and builds the classpath from both, mission first, so a mission can be upgraded without
+the framework underneath it moving, and the other way about.
+
 Maven plugin configuration
 ---------------------------
 
@@ -85,7 +120,7 @@ explicitly:
 .. code-block:: xml
 
     <properties>
-      <esa.nmf.version>5.0</esa.nmf.version>
+      <esa.nmf.version>5.1</esa.nmf.version>
     </properties>
 
 ``setup_linux_userspace.sh``
@@ -100,8 +135,8 @@ Mission project structure
 --------------------------
 
 The ``nmf-linux-maven-plugin`` is being extended to also generate the Maven project structure for new mission
-integrations. Until that feature is complete, the existing missions — :doc:`../mission-integration/ops-sat`
-and :doc:`../mission-integration/phi-sat-2` — are the working references for how to lay out a mission Maven
+integrations. Until that feature is complete, the existing missions — :doc:`../specific-missions/ops-sat`
+and :doc:`../specific-missions/phi-sat-2` — are the working references for how to lay out a mission Maven
 project.
 
 Running as a service

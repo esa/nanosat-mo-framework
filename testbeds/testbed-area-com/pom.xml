@@ -19,7 +19,7 @@
     <parent>
         <groupId>int.esa.nmf</groupId>
         <artifactId>nanosat-mo-framework</artifactId>
-        <version>5.0</version>
+        <version>5.1</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
@@ -110,7 +110,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.5</version>
                 <configuration>
                     <!-- Run each test class in its own JVM. These tests each
                          stand up full MAL providers/consumers on the RMI

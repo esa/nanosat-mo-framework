@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
@@ -145,7 +144,7 @@ public class BrokenMCAdapter extends MonitorAndControlNMFAdapter {
         }
         switch (identifier.getValue()) {
             case PARAM_HEALTHY:
-                return (Attribute) HelperAttributes.javaType2Attribute(42.0);
+                return (Attribute) Attribute.javaType2Attribute(42.0);
             case PARAM_BROKEN:
                 throw new IOException("Broken_Parameter always fails to read, by design.");
             default:

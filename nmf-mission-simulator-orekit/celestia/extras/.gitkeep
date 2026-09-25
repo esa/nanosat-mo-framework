@@ -1,0 +1,3 @@
+Celestia add-ons are loaded from this directory: the spacecraft definition
+(.ssc) and the script that drives it, once they exist. It is mounted read-only
+into the container by run.sh. See ../README.md.

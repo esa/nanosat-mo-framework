@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
 import org.ccsds.moims.mo.sm.structures.AppDetails;
 
 /**
+ * Table panel listing the apps known to the AppsLauncher service and their running status.
  *
  * @author Cesar Coelho
  */
@@ -36,6 +37,11 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
 
     private static final Logger LOGGER = Logger.getLogger(AppsLauncherTablePanel.class.getName());
 
+    /**
+     * Creates the apps table panel.
+     *
+     * @param archiveService the COM Archive service the app details are read from
+     */
     public AppsLauncherTablePanel(ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }
@@ -64,6 +70,12 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
+    /**
+     * Updates the displayed running status of a single app, identified by its app id.
+     *
+     * @param status {@code true} if the app is running
+     * @param appId the app id
+     */
     public void switchEnabledstatusForApp(boolean status, int appId) {
         try {
             int index = this.findIndex(appId);
@@ -74,6 +86,12 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
         }
     }
 
+    /**
+     * Updates the displayed running status of the app in the given row.
+     *
+     * @param status {@code true} if the app is running
+     * @param rowId the table row index
+     */
     public void switchEnabledstatus(boolean status, int rowId) {
         try {
             semaphore.acquire();
@@ -89,6 +107,11 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
+    /**
+     * Updates the displayed running status of all apps.
+     *
+     * @param status {@code true} if the apps are running
+     */
     public void switchEnabledstatusAll(boolean status) {
         try {
             semaphore.acquire();
@@ -106,6 +129,12 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
+    /**
+     * Shows a status message for the given app.
+     *
+     * @param text the status text
+     * @param appId the app id
+     */
     public void reportStatus(final String text, final int appId) {
         try {
             semaphore.acquire();
@@ -126,6 +155,13 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
+    /**
+     * Returns the table row index of the app with the given app id.
+     *
+     * @param appId the app id to look up
+     * @return the row index
+     * @throws Exception if no app with that id is in the table
+     */
     public int findIndex(int appId) throws Exception {
         final int max = tableData.getRowCount();
 
@@ -165,6 +201,11 @@ public class AppsLauncherTablePanel extends SharedTablePanel {
 
     }
 
+    /**
+     * Returns the table model backing this panel.
+     *
+     * @return the table model
+     */
     public DefaultTableModel getTableData() {
         return tableData;
     }

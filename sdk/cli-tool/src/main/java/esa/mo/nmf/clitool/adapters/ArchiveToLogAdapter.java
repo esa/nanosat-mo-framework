@@ -30,7 +30,6 @@ import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MOErrorException;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -140,7 +139,7 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
                     if (addTimestamps) {
                         Time timestamp = archiveObjectOutput.getArchiveDetailsList().get(i).getTimestamp();
                         String[] logLines = logObject.split("\n");
-                        logLines[0] = HelperTime.time2readableString(timestamp) + " " + logLines[0];
+                        logLines[0] = timestamp.toReadableString() + " " + logLines[0];
                         if (logLines.length > 1) {
                             for (int j = 1; j < logLines.length; ++j) {
                                 logLines[j] = lineOffset + logLines[j];
@@ -170,7 +169,7 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
         try {
             logFile = new FileWriter(logFilePath);
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, String.format("Error opening the LOG file", logFilePath), e);
+            LOGGER.log(Level.SEVERE, String.format("Error opening the LOG file: %s", logFilePath), e);
             logFile = null;
         }
     }
@@ -217,8 +216,8 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
         setIsQueryOver(true);
     }
 
-    /*
-     * Resets the adapter to perform another query without creating a second instance
+    /**
+     * Resets the adapter to perform another query without creating a second instance.
      */
     public void resetAdapter() {
         this.isQueryOver = false;

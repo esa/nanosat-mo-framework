@@ -37,7 +37,6 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
@@ -72,6 +71,9 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         initComponents();
     }
 
+    /**
+     * Initializes the panel and subscribes to the Alert service monitoring.
+     */
     public void init() {
         this.listDefinitionAllButtonActionPerformed(null);
 
@@ -296,7 +298,16 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Adapter receiving Alert service PUB/SUB notifications and updating the alerts log.
+     */
     public class AlertConsumerAdapter extends AlertAdapter {
+
+        /**
+         * Default constructor.
+         */
+        public AlertConsumerAdapter() {
+        }
 
         @Override
         public void monitorAlertNotifyReceived(MALMessageHeader msgHeader,
@@ -308,7 +319,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
 
             final Long definitionId = subscriptionKeys.getDefinitionId();
 
-            final String timestamp = HelperTime.time2readableString(msgHeader.getTimestamp());
+            final String timestamp = msgHeader.getTimestamp().toReadableString();
             final Long finalDefinitionId = definitionId;
             final String severity = alertEvent != null
                     ? resolveAlertSeverity(finalDefinitionId) : "";

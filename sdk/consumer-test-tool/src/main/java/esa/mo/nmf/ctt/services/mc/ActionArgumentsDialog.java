@@ -44,6 +44,11 @@ public class ActionArgumentsDialog extends JDialog {
     private boolean cancelled = true;
     private AttributeValueList result;
 
+    /**
+     * Creates the argument-entry dialog for the given action definition.
+     *
+     * @param actDef the action definition whose arguments are prompted for
+     */
     public ActionArgumentsDialog(ActionDefinition actDef) {
         super((Frame) null, "Execute: " + actDef.getName().getValue(), true);
         ArgumentDefinitionList args = actDef.getArguments();
@@ -199,7 +204,7 @@ public class ActionArgumentsDialog extends JDialog {
             int typeShortForm = arg.getRawType().getValue();
             String typeName = HelperAttributes.typeShortForm2attributeName(typeShortForm);
             Object proto = HelperAttributes.attributeName2object(typeName);
-            Attribute template = (Attribute) HelperAttributes.javaType2Attribute(proto);
+            Attribute template = (Attribute) Attribute.javaType2Attribute(proto);
 
             try {
                 Attribute value = (Attribute) HelperAttributes.string2attribute(template, text);
@@ -220,6 +225,7 @@ public class ActionArgumentsDialog extends JDialog {
     /**
      * Returns the argument values entered by the user.
      *
+     * @return the entered argument values
      * @throws InterruptedIOException if the user cancelled the dialog.
      */
     public AttributeValueList getArgumentValues() throws InterruptedIOException {

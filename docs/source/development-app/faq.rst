@@ -30,8 +30,10 @@ The ``U*`` variants are unsigned; choose them when the value cannot be negative.
 How do I drop the COM Archive database on startup?
 --------------------------------------------------
 
-The COM Archive is backed by a SQLite database (typically ``comArchive.db`` in the Supervisor's working
-directory). Deleting the file before starting the Supervisor causes a fresh archive to be created.
+The COM Archive is backed by a SQLite database in the NMF internal directory of the provider:
+``~/.nmf-apps/<provider-name>/nmf-internal/comArchive_v5.db``. The version in the name follows the major
+version of the NMF, so a new major version starts an archive of its own. Deleting the file before starting
+the provider causes a fresh archive to be created.
 
 How do I change the transport layer?
 ------------------------------------

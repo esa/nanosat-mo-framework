@@ -44,6 +44,12 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
     private boolean initialiased = false;
 
     /**
+     * Default constructor.
+     */
+    public ConversionServiceImpl() {
+    }
+
+    /**
      * Initializes the service.
      *
      * @throws MALException if the service could not be started.
@@ -56,6 +62,13 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
         initialiased = true;
     }
 
+    /**
+     * Applies a parameter conversion to a raw value and returns the converted value.
+     *
+     * @param rawValue the raw attribute value to convert
+     * @param conversion the conversion to apply, or {@code null} for no conversion
+     * @return the converted value, or {@code null} if no conversion is given
+     */
     protected Attribute generateConvertedValue(final Attribute rawValue, final ParameterConversion conversion) {
         if (conversion == null) { // No conversion?
             return null;

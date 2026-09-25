@@ -41,6 +41,16 @@ public class PowerControlConsumerServiceImpl extends ConsumerServiceImpl {
     private PowerControlStub powerControlStub = null;
     private COMServicesConsumer comServices;
 
+    /**
+     * Creates the PowerControl service consumer and starts the consumer connection.
+     *
+     * @param connectionDetails the connection details of the PowerControl service provider
+     * @param comServices the COM services consumer used by this service
+     * @param authenticationId the authentication id of the logged in user
+     * @param localNamePrefix the prefix for the local name of the consumer
+     * @throws MALException if the consumer cannot be created
+     * @throws MALInteractionException if the service returns an error
+     */
     public PowerControlConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix)
             throws MALException, MALInteractionException {
@@ -66,11 +76,24 @@ public class PowerControlConsumerServiceImpl extends ConsumerServiceImpl {
         this.powerControlStub = new PowerControlStub(tmConsumer);
     }
 
+    /**
+     * Creates the PowerControl service consumer with no authentication id nor local name prefix.
+     *
+     * @param connectionDetails the connection details of the PowerControl service provider
+     * @param comServices the COM services consumer used by this service
+     * @throws MALException if the consumer cannot be created
+     * @throws MALInteractionException if the service returns an error
+     */
     public PowerControlConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices) throws MALException, MALInteractionException {
         this(connectionDetails, comServices, null, null);
     }
 
+    /**
+     * Returns the COM services consumer used by this service.
+     *
+     * @return the COM services consumer
+     */
     public COMServicesConsumer getCOMServices() {
         return comServices;
     }
@@ -80,6 +103,11 @@ public class PowerControlConsumerServiceImpl extends ConsumerServiceImpl {
         return this.getPowerControlStub();
     }
 
+    /**
+     * Returns the PowerControl service stub used to invoke operations on the provider.
+     *
+     * @return the PowerControl service stub
+     */
     public PowerControlStub getPowerControlStub() {
         return this.powerControlStub;
     }

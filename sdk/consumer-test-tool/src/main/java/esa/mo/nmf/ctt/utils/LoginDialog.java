@@ -35,6 +35,9 @@ import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.structures.*;
 
 /**
+ * Modal dialog prompting the user for credentials and performing the login against a
+ * provider's Login service.
+ *
  * @author marcel.mikolajko
  */
 public class LoginDialog extends JDialog {
@@ -53,6 +56,13 @@ public class LoginDialog extends JDialog {
     private JButton loginButton;
     private JButton cancelButton;
 
+    /**
+     * Creates the login dialog for the given Login service capability.
+     *
+     * @param loginCapability the Login service capability of the provider
+     * @param providerDomain the domain of the provider
+     * @param localNamePrefix the prefix for the local name of the login consumer
+     */
     public LoginDialog(ServiceCapability loginCapability, IdentifierList providerDomain,
             String localNamePrefix) {
         createLoginDialog();
@@ -153,14 +163,29 @@ public class LoginDialog extends JDialog {
         return loginConsumer;
     }
 
+    /**
+     * Returns the authentication id obtained on a successful login.
+     *
+     * @return the authentication id, or {@code null} if the login did not succeed
+     */
     public Blob getAuthenticationId() {
         return authenticationId;
     }
 
+    /**
+     * Returns whether the login succeeded.
+     *
+     * @return {@code true} if the login succeeded
+     */
     public boolean isLoginSuccessful() {
         return loginSuccessful;
     }
 
+    /**
+     * Returns the error that caused the login to fail.
+     *
+     * @return the login error, or {@code null} if the login succeeded
+     */
     public Throwable getLoginError() {
         return loginError;
     }

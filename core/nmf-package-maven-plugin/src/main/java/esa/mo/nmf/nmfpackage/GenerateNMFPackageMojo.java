@@ -106,8 +106,11 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
      * The set of privileges that an App can have
      */
     public enum Privilege {
+        /** Runs with normal, unprivileged user rights. */
         normal,
+        /** Runs with administrator rights. */
         admin,
+        /** Runs with root rights. */
         root
     }
 
@@ -116,6 +119,12 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
      */
     @Parameter(property = "generate-nmf-package.privilege", defaultValue = "normal")
     private Privilege privilege;
+
+    /**
+     * Default constructor.
+     */
+    public GenerateNMFPackageMojo() {
+    }
 
     @Override
     public void execute() throws MojoExecutionException {
@@ -197,7 +206,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         }
 
         MetadataApp metadata = new MetadataApp(name, version,
-                mainClass, mainJar, maxHeap, minHeap, dependencies);
+                mainClass, mainJar, maxHeap, minHeap, dependencies, nmfVersion);
 
         NMFPackageBuilder builder = new NMFPackageBuilder(metadata);
         builder.addFileOrDirectory(myAppFilename);

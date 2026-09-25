@@ -28,6 +28,8 @@ package esa.mo.nmf.clitool.adapters;
 public interface QueryStatusProvider {
 
     /**
+     * Returns whether the archive query has finished.
+     *
      * @return true if the query is finished ((response or any error message
      * received), false otherwise.
      */

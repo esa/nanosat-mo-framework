@@ -50,6 +50,9 @@ public class Waveform {
     private long refresh = 1000;
     private boolean started = false;
 
+    /**
+     * Creates a new {@code Waveform}.
+     */
     public Waveform() {
         connector.init(new MCAdapter());
         tasker = new TaskScheduler(1);
@@ -67,11 +70,19 @@ public class Waveform {
         Waveform demo = new Waveform();
     }
 
+    /**
+     * Push val.
+     *
+     * @throws NMFException if the operation fails
+     */
     public void pushVal() throws NMFException {
         double res = amplitude * Math.sin(((double) System.nanoTime() / 1000000000.0) * 2 * Math.PI * frequency);
-        connector.pushParameterValue("Sine", res);
+        connector.pushParameterValue("sine", res);
     }
 
+    /**
+     * Start wave.
+     */
     public void startWave() {
         if (started) {
             return;
@@ -87,6 +98,9 @@ public class Waveform {
         }), 0, refresh, TimeUnit.MICROSECONDS, true); // conversion to milliseconds
     }
 
+    /**
+     * Stop wave.
+     */
     public void stopWave() {
         if (!started) {
             return;
@@ -95,7 +109,16 @@ public class Waveform {
         started = false;
     }
 
+    /**
+     * Monitor and Control adapter for this application.
+     */
     public class MCAdapter extends MonitorAndControlNMFAdapter {
+        /**
+         * Default constructor.
+         */
+        public MCAdapter() {
+        }
+
 
         @Override
         public void initialRegistrations(MCRegistration registrationObject) {
@@ -104,16 +127,16 @@ public class Waveform {
             // ------------------ Parameters ------------------
             final ParameterDefinitionList defs = new ParameterDefinitionList();
 
-            defs.add(new ParameterDefinition(new Identifier("Amplitude"),
+            defs.add(new ParameterDefinition(new Identifier("amplitude"),
                     "Amplitude of the wave", AttributeType.DOUBLE, "",
                     true, new Duration(3), null, null, false));
-            defs.add(new ParameterDefinition(new Identifier("Frequency"),
+            defs.add(new ParameterDefinition(new Identifier("frequency"),
                     "Frequency of the wave", AttributeType.DOUBLE, "",
                     true, new Duration(3), null, null, false));
-            defs.add(new ParameterDefinition(new Identifier("Sine"),
+            defs.add(new ParameterDefinition(new Identifier("sine"),
                     "Result of the wave", AttributeType.DOUBLE, "", true,
                     new Duration(), null, null, false));
-            defs.add(new ParameterDefinition(new Identifier("Refresh"),
+            defs.add(new ParameterDefinition(new Identifier("refresh"),
                     "Refreshrate for publishing the result",
                     AttributeType.LONG, "us", true, new Duration(), null, null, false));
 
@@ -133,7 +156,7 @@ public class Waveform {
             {
                 AttributeType rawType = AttributeType.DOUBLE;
                 String rawUnit = "Units";
-                argDef1.add(new ArgumentDefinition(new Identifier("Amplitude"), null, rawType, rawUnit));
+                argDef1.add(new ArgumentDefinition(new Identifier("amplitude"), null, rawType, rawUnit));
             }
 
             ActionDefinition actionDef3 = new ActionDefinition(
@@ -145,7 +168,7 @@ public class Waveform {
             {
                 AttributeType rawType = AttributeType.DOUBLE;
                 String rawUnit = "Hz";
-                argDef2.add(new ArgumentDefinition(new Identifier("Frequency"), null, rawType, rawUnit));
+                argDef2.add(new ArgumentDefinition(new Identifier("frequency"), null, rawType, rawUnit));
             }
 
             ActionDefinition actionDef4 = new ActionDefinition(
@@ -194,13 +217,13 @@ public class Waveform {
 
         @Override
         public Attribute onGetValue(Identifier idntfr, AttributeType b) {
-            if (idntfr.getValue().equals("Amplitude")) {
+            if (idntfr.getValue().equals("amplitude")) {
                 return (Attribute) Attribute.javaType2Attribute(amplitude);
             }
-            if (idntfr.getValue().equals("Frequency")) {
+            if (idntfr.getValue().equals("frequency")) {
                 return (Attribute) Attribute.javaType2Attribute(frequency);
             }
-            if (idntfr.getValue().equals("Refresh")) {
+            if (idntfr.getValue().equals("refresh")) {
                 return (Attribute) Attribute.javaType2Attribute(refresh);
             } else {
                 return null;
@@ -209,15 +232,15 @@ public class Waveform {
 
         @Override
         public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
-            if (identifiers.get(0).getValue().equals("Amplitude")) {
+            if (identifiers.get(0).getValue().equals("amplitude")) {
                 amplitude = Attribute.attribute2double(values.get(0).getRawValue());
                 return true;
             }
-            if (identifiers.get(0).getValue().equals("Frequency")) {
+            if (identifiers.get(0).getValue().equals("frequency")) {
                 frequency = Attribute.attribute2double(values.get(0).getRawValue());
                 return true;
             }
-            if (identifiers.get(0).getValue().equals("Refresh")) {
+            if (identifiers.get(0).getValue().equals("refresh")) {
                 refresh = (long) Attribute.attribute2JavaType(values.get(0).getRawValue());
                 return true;
             } else {

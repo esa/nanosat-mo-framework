@@ -26,6 +26,12 @@ import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
  * The demo app class for AllInOne
  */
 public class AllInOne {
+    /**
+     * Default constructor.
+     */
+    public AllInOne() {
+    }
+
 
     /**
      * Main command line entry point.

@@ -62,7 +62,19 @@ public class ArchiveCommands {
 
     private static final Logger LOGGER = Logger.getLogger(ArchiveCommands.class.getName());
 
+    private ArchiveCommands() {
+    }
+
+    /**
+     * Implements the {@code archive dump_raw} CLI command.
+     */
     public static class DumpRawArchive extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public DumpRawArchive() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -136,7 +148,16 @@ public class ArchiveCommands {
         }
     }
 
+    /**
+     * Implements the {@code archive dump} CLI command.
+     */
     public static class DumpFormattedArchive extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public DumpFormattedArchive() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -199,7 +220,16 @@ public class ArchiveCommands {
         }
     }
 
+    /**
+     * Implements the {@code archive list} CLI command.
+     */
     public static class ListArchiveProviders extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public ListArchiveProviders() {
+        }
+
 
         @Override
         public void run(Args args) {
@@ -273,7 +303,16 @@ public class ArchiveCommands {
         return archiveProviders;
     }
 
+    /**
+     * Implements the {@code archive backup_and_clean} CLI command.
+     */
     public static class BackupProvider extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public BackupProvider() {
+        }
+
 
         @Override
         public void run(Args args) {

@@ -1,0 +1,10 @@
+# Written to the working directory by the spacecraft simulator, which runs here
+# because AttitudeSwitchingTest propagates an orbit. They belong to whoever ran
+# the test rather than to the repository, and are ignored beside the simulator
+# itself for the same reason; the test moved here and the files came with it.
+_SIMULATOR-header.txt
+_SIMULATOR-templates.txt
+_SIMULATOR-scheduler.txt
+_SIMULATOR-filter.txt
+_SIMULATOR-scheduler_backup*.txt
+platformsim.properties

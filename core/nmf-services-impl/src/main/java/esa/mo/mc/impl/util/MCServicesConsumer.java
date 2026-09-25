@@ -50,6 +50,12 @@ public class MCServicesConsumer {
     private AggregationConsumerServiceImpl aggregationService;
 
     /**
+     * Default constructor.
+     */
+    public MCServicesConsumer() {
+    }
+
+    /**
      * Initializes the Monitor and Control services.
      *
      * @param connectionConsumer The Connection details.
@@ -102,22 +108,50 @@ public class MCServicesConsumer {
         }
     }
 
+    /**
+     * Returns the Action service consumer.
+     *
+     * @return the Action service consumer, or {@code null} if not initialized
+     */
     public ActionConsumerServiceImpl getActionService() {
         return this.actionService;
     }
 
+    /**
+     * Returns the Parameter service consumer.
+     *
+     * @return the Parameter service consumer, or {@code null} if not initialized
+     */
     public ParameterConsumerServiceImpl getParameterService() {
         return this.parameterService;
     }
 
+    /**
+     * Returns the Alert service consumer.
+     *
+     * @return the Alert service consumer, or {@code null} if not initialized
+     */
     public AlertConsumerServiceImpl getAlertService() {
         return this.alertService;
     }
 
+    /**
+     * Returns the Aggregation service consumer.
+     *
+     * @return the Aggregation service consumer, or {@code null} if not initialized
+     */
     public AggregationConsumerServiceImpl getAggregationService() {
         return this.aggregationService;
     }
 
+    /**
+     * Sets manually the MC service consumers.
+     *
+     * @param actionService the Action service consumer
+     * @param parameterService the Parameter service consumer
+     * @param alertService the Alert service consumer
+     * @param aggregationService the Aggregation service consumer
+     */
     public void setServices(ActionConsumerServiceImpl actionService, ParameterConsumerServiceImpl parameterService,
         AlertConsumerServiceImpl alertService, AggregationConsumerServiceImpl aggregationService) {
         this.actionService = actionService;
@@ -148,6 +182,11 @@ public class MCServicesConsumer {
         }
     }
 
+    /**
+     * Propagates the authentication id to all the initialized MC service consumers.
+     *
+     * @param authenticationId the authentication id of the logged in user
+     */
     public void setAuthenticationId(Blob authenticationId) {
         if (this.actionService != null) {
             this.actionService.setAuthenticationId(authenticationId);

@@ -40,6 +40,10 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.LOGGER;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SEP;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_SEP;
+import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_MSG;
 
 /**
  * End-to-end tests for the Package Management lifecycle traceability: the
@@ -53,9 +57,12 @@ import org.junit.runners.MethodSorters;
  * installed at the end.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class NMFPackageLifecycleTest extends NMFTest {
+public class NMFPackageLifecycleTest {
 
-    private static final String UPGRADE_VERSION = "5.1";
+    // The version of the manufactured upgrade package. It is deleted before the
+    // benchmark package is looked up, so it must never be a version that the
+    // project itself can have, or the real package is the one deleted.
+    private static final String UPGRADE_VERSION = "99.0";
     private static final String PACKAGE_PREFIX = "benchmark-";
     private static final String STORE_WARNING = "Could not store Package";
 

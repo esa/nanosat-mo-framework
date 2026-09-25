@@ -56,7 +56,12 @@ public class OrbitHandler {
      * NIGHTTIME: the photograph will be taken at a nighttime pass
      */
     public enum TimeModeEnum {
-        ANY, DAYTIME, NIGHTTIME
+        /** The ANY value. */
+        ANY,
+        /** The DAYTIME value. */
+        DAYTIME,
+        /** The NIGHTTIME value. */
+        NIGHTTIME
     }
 
     private final FactoryManagedFrame earthFrame;
@@ -121,6 +126,12 @@ public class OrbitHandler {
         return positionSeries.toArray(new PositionAndTime[0]);
     }
 
+    /**
+     * Returns the position.
+     *
+     * @param endDate the end date
+     * @return the position
+     */
     public GeodeticPoint getPosition(AbsoluteDate endDate) {
         System.out.println(propagator.getInitialState().getDate());
         SpacecraftState finalState = propagator.propagate(endDate);

@@ -63,17 +63,29 @@ import org.ccsds.moims.mo.sm.heartbeat.HeartbeatHelper;
 public abstract class GroundMOProxy {
 
     private static final Logger LOGGER = Logger.getLogger(GroundMOProxy.class.getName());
+    /** Period, in milliseconds, at which the connector task probes the spacecraft heartbeat. */
     protected final static long HEARTBEAT_PUBLISH_PERIOD = 10000;
+    /** Period, in milliseconds, between two scans of the remote Central Directory service. */
     protected final static long DIRECTORY_SCAN_PERIOD = 10000; // 10 seconds
     private final AtomicBoolean nmsAliveStatus = new AtomicBoolean(false);
+    /** The local COM services stack (Archive, Directory) exposed to ground consumers. */
     protected final COMServicesProvider localCOMServices;
+    /** The local Directory service that mirrors the spacecraft providers to the ground. */
     protected final DirectoryProxyServiceImpl localDirectoryService;
+    /** Timer driving the periodic connector and directory-scan tasks. */
     protected Timer timer;
+    /** Adapter listening to the spacecraft heartbeat to track the link status. */
     protected GroundHeartbeatAdapter providerStatusAdapter;
     private SingleConnectionDetails cdRemoteArchive;
+    /** Task that (re)establishes the connection to the spacecraft. */
     protected GroundProxyConnectorTask proxyConnectorTask;
+    /** Task that periodically synchronizes the local Directory with the spacecraft's. */
     protected DirectoryScanTask directoryScanTask;
 
+    /**
+     * Creates a new Ground MO Proxy, loading the provider and transport properties
+     * files and initialising the local COM and Directory service helpers.
+     */
     public GroundMOProxy() {
         // Loads: provider.properties; transport.properties
         ConnectionProvider.resetURILinksFile();
@@ -85,6 +97,13 @@ public abstract class GroundMOProxy {
         localDirectoryService = new DirectoryProxyServiceImpl();
     }
 
+    /**
+     * Initialises the proxy: starts the local COM and Directory services and schedules
+     * the periodic tasks that connect to the spacecraft and keep the local Directory in sync.
+     *
+     * @param centralDirectoryServiceURI the URI of the spacecraft's Central Directory service
+     * @param routedURI the URI through which the spacecraft providers are reached (the routed link)
+     */
     public void init(final URI centralDirectoryServiceURI, final URI routedURI) {
         try {
             localCOMServices.init();
@@ -119,12 +138,31 @@ public abstract class GroundMOProxy {
         return null;
     }
 
+    /**
+     * Looks up the NanoSat MO Supervisor providers registered in the local Directory service,
+     * across all services (wildcard service key).
+     *
+     * @return the list of matching Supervisor providers; empty if none is registered
+     * @throws org.ccsds.moims.mo.com.InvalidArgumentException if the lookup filter is invalid
+     * @throws MALInteractionException if the Directory service returns an error
+     * @throws MALException if a communication error occurs
+     */
     public ProviderList getRemoteNMSProvider() throws org.ccsds.moims.mo.com.InvalidArgumentException, MALInteractionException, MALException {
         return getRemoteNMSProviderSpecificService(
                 new ServiceId(new UShort((short) 0), new UShort((short) 0), new UOctet((short) 0))
         );
     }
 
+    /**
+     * Looks up the NanoSat MO Supervisor providers registered in the local Directory service
+     * that expose the given service.
+     *
+     * @param key the service identifier to filter by (area, service and version)
+     * @return the list of matching Supervisor providers; empty if none is registered
+     * @throws org.ccsds.moims.mo.com.InvalidArgumentException if the lookup filter is invalid
+     * @throws MALInteractionException if the Directory service returns an error
+     * @throws MALException if a communication error occurs
+     */
     public ProviderList getRemoteNMSProviderSpecificService(ServiceId key)
             throws org.ccsds.moims.mo.com.InvalidArgumentException, MALInteractionException, MALException {
         IdentifierList wildcardList = new IdentifierList();
@@ -146,12 +184,28 @@ public abstract class GroundMOProxy {
         return list;
     }
 
+    /**
+     * Hook invoked whenever the link to the spacecraft is (re)established or the set of
+     * remote providers changes. Mission-specific subclasses override it to perform any
+     * additional wiring (for example, spawning per-app proxies).
+     */
     public abstract void additionalHandling();
 
+    /**
+     * Returns the URI of the local (ground-side) Directory service that consumers connect to.
+     *
+     * @return the local Directory service URI
+     */
     public URI getDirectoryServiceURI() {
         return localDirectoryService.getConnection().getPrimaryConnectionDetails().getProviderURI();
     }
 
+    /**
+     * Returns the URI of the spacecraft's Central Directory service this proxy connects to.
+     *
+     * @return the remote Central Directory service URI, or {@code not-initialized} if the
+     * proxy has not been initialised yet
+     */
     public URI getRemoteCentralDirectoryServiceURI() {
         if (directoryScanTask != null) {
             return directoryScanTask.getCentralDirectoryServiceURI();
@@ -159,6 +213,12 @@ public abstract class GroundMOProxy {
         return new URI("not-initialized");
     }
 
+    /**
+     * Returns the routed URI through which the spacecraft providers are reached.
+     *
+     * @return the routed URI, or {@code not-initialized} if the proxy has not been
+     * initialised yet
+     */
     public URI getRoutedURI() {
         if (directoryScanTask != null) {
             return directoryScanTask.getRoutedURI();
@@ -166,28 +226,47 @@ public abstract class GroundMOProxy {
         return new URI("not-initialized");
     }
 
+    /**
+     * Returns the URI of the local COM Archive service.
+     *
+     * @return the local COM Archive service URI
+     */
     public URI getCOMArchiveServiceURI() {
         return localCOMServices.getArchiveService().getConnection().getPrimaryConnectionDetails().getProviderURI();
     }
 
+    /**
+     * Returns the local Directory service implementation mirroring the spacecraft providers.
+     *
+     * @return the local Directory service
+     */
     public DirectoryProxyServiceImpl getLocalDirectoryService() {
         return localDirectoryService;
     }
 
     /**
-     * @return the nmsAliveStatus
+     * Returns whether the spacecraft (NanoSat MO Supervisor) is currently reachable, as
+     * tracked from the received heartbeat.
+     *
+     * @return {@code true} if the link to the spacecraft is alive
      */
     public Boolean getNmsAliveStatus() {
         return nmsAliveStatus.get();
     }
 
     /**
-     * @param nmsAliveStatus the nmsAliveStatus to set
+     * Sets the tracked alive status of the spacecraft link.
+     *
+     * @param nmsAliveStatus {@code true} if the link to the spacecraft is alive
      */
     public void setNmsAliveStatus(Boolean nmsAliveStatus) {
         this.nmsAliveStatus.set(nmsAliveStatus);
     }
 
+    /**
+     * Periodic task that synchronizes the local Directory service with the spacecraft's
+     * Central Directory whenever the remote COM Archive reports new objects.
+     */
     protected class DirectoryScanTask extends TimerTask {
 
         private final URI centralDirectoryServiceURI;
@@ -196,15 +275,31 @@ public abstract class GroundMOProxy {
         private ArchiveConsumerServiceImpl archiveService;
         private Time lastTime = new Time(0);
 
+        /**
+         * Creates the directory-scan task.
+         *
+         * @param centralDirectoryServiceURI the URI of the spacecraft's Central Directory service
+         * @param routedURI the routed URI through which the spacecraft providers are reached
+         */
         public DirectoryScanTask(URI centralDirectoryServiceURI, URI routedURI) {
             this.centralDirectoryServiceURI = centralDirectoryServiceURI;
             this.routedURI = routedURI;
         }
 
+        /**
+         * Returns the URI of the spacecraft's Central Directory service.
+         *
+         * @return the Central Directory service URI
+         */
         public URI getCentralDirectoryServiceURI() {
             return centralDirectoryServiceURI;
         }
 
+        /**
+         * Returns the routed URI through which the spacecraft providers are reached.
+         *
+         * @return the routed URI
+         */
         public URI getRoutedURI() {
             return routedURI;
         }
@@ -274,11 +369,23 @@ public abstract class GroundMOProxy {
         }
     }
 
+    /**
+     * Creates and registers the adapter that listens to the spacecraft heartbeat.
+     *
+     * @param heartbeat the heartbeat consumer service connected to the spacecraft
+     * @throws MALException if a communication error occurs
+     * @throws MALInteractionException if the heartbeat service returns an error
+     */
     protected void createProviderStatusAdapter(HeartbeatConsumerServiceImpl heartbeat)
             throws MALException, MALInteractionException {
         providerStatusAdapter = new GroundHeartbeatAdapter(heartbeat, this);
     }
 
+    /**
+     * Periodic task that (re)connects to the spacecraft: it subscribes to the heartbeat
+     * service once the remote COM Archive is reachable and resets the connection after
+     * repeated heartbeat failures.
+     */
     protected class GroundProxyConnectorTask extends TimerTask {
 
         private final URI centralDirectoryServiceURI;
@@ -286,6 +393,12 @@ public abstract class GroundMOProxy {
         private Subscription heartbeatSubscription;
         private HeartbeatConsumerServiceImpl heartbeatService;
 
+        /**
+         * Creates the proxy-connector task.
+         *
+         * @param centralDirectoryServiceURI the URI of the spacecraft's Central Directory service
+         * @param routedURI the routed URI through which the spacecraft providers are reached
+         */
         public GroundProxyConnectorTask(URI centralDirectoryServiceURI, URI routedURI) {
             this.centralDirectoryServiceURI = centralDirectoryServiceURI;
             this.routedURI = routedURI;
@@ -346,10 +459,20 @@ public abstract class GroundMOProxy {
             }
         }
 
+        /**
+         * Returns the subscription used to register for the spacecraft heartbeat.
+         *
+         * @return the heartbeat subscription, or {@code null} if not yet subscribed
+         */
         public Subscription getHeartbeatSubscription() {
             return heartbeatSubscription;
         }
 
+        /**
+         * Returns the heartbeat consumer service connected to the spacecraft.
+         *
+         * @return the heartbeat consumer service, or {@code null} if not yet connected
+         */
         public HeartbeatConsumerServiceImpl getHeartbeatService() {
             return heartbeatService;
         }

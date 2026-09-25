@@ -31,6 +31,7 @@ import javax.swing.table.DefaultTableModel;
 import org.ccsds.moims.mo.sm.structures.Command;
 
 /**
+ * Table panel listing the recently executed commands and their exit codes.
  *
  * @author Cesar Coelho
  */
@@ -38,6 +39,11 @@ public class CommandExecutorTablePanel extends SharedTablePanel {
 
     private static final Logger LOGGER = Logger.getLogger(CommandExecutorTablePanel.class.getName());
 
+    /**
+     * Creates the command-executor table panel.
+     *
+     * @param archiveService the COM Archive service the command records are read from
+     */
     public CommandExecutorTablePanel(ArchiveConsumerServiceImpl archiveService) {
         super(archiveService);
     }
@@ -71,6 +77,12 @@ public class CommandExecutorTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
+    /**
+     * Updates the displayed exit code of the command with the given object instance id.
+     *
+     * @param objInstId the command's object instance id
+     * @param exitCode the process exit code
+     */
     public void updateExitCode(Long objInstId, int exitCode) {
         try {
             semaphore.acquire();
@@ -90,6 +102,13 @@ public class CommandExecutorTablePanel extends SharedTablePanel {
         semaphore.release();
     }
 
+    /**
+     * Returns the table row index of the command with the given object instance id.
+     *
+     * @param objInstId the command's object instance id
+     * @return the row index
+     * @throws NoSuchElementException if no such command is in the table
+     */
     public int findIndex(Long objInstId) throws NoSuchElementException {
 
         final int max = tableData.getRowCount();
@@ -132,6 +151,11 @@ public class CommandExecutorTablePanel extends SharedTablePanel {
 
     }
 
+    /**
+     * Returns the table model backing this panel.
+     *
+     * @return the table model
+     */
     public DefaultTableModel getTableData() {
         return tableData;
     }
