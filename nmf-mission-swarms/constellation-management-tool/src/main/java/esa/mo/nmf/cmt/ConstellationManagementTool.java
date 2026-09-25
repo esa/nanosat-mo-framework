@@ -433,7 +433,7 @@ public class ConstellationManagementTool {
      * Initialize the constellation. Creates and runs the Docker containers.
      *
      * @param name Name of the constellation. Container naming scheme:
-     * <name>-sim-<1...n>
+     * {@code <name>-sim-<1...n>}
      * @param size Constellation size
      * @param image The image every segment of this constellation runs
      * @throws java.io.IOException if the simulation could not be started.

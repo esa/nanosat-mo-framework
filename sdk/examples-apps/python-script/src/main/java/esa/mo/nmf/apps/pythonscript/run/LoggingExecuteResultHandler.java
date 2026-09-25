@@ -45,7 +45,6 @@ public class LoggingExecuteResultHandler {
      *
      * @param processEventListener the process event listener
      * @param processRequestId the process request id
-     * @param processOutputStream the process output stream
      */
     public LoggingExecuteResultHandler(MCAdapter processEventListener,
             Long processRequestId) {
