@@ -4,6 +4,23 @@ ESA NanoSat MO Framework - Release Notes
 These Release Notes include a short summary of the updates done for each version.
 The different versions and respective updates are the following:
 
+### Version 5.1 (25 September 2026)
+* Upgrades to CCSDS MO services v14.2
+* Adds the Swarms mission: a constellation of NMF satellites
+* Adds the Raspberry Pi mission: merging its separate repository into the main one
+* Splits the spacecraft simulator into two missions, simulator-lite (analytic orbit) and simulator-orekit (Orekit-propagated)
+* Adds a Celestia visualisation of the simulated spacecraft: live position and attitude, NASA Earth textures, and a whole constellation in one window
+* Ships the NMF core software baseline as an NMF Package
+* Generates the space filesystem of every mission in the repository through the filesystem generator
+* Renames the Parameters, Actions and Alerts to the dotted lowercase convention
+* Completes the Javadoc of the public API, the core services, the Consumer Test Tool, the CLI tool and the example apps
+* Binds each App's own storage directory in the bubblewrap and Docker isolation modes, and detects BusyBox when setting up linux-userspace isolation
+* CTT: Adds direct button to connect to a running App from the Apps Launcher service
+* Removes the SFTP browser and the SSH client from the Consumer Test Tool
+* Removes the commons-exec dependency
+* Adds testbeds for the framework upgrade and rollback path
+* Fixes many smaller defects: files left open after being written, Delete in the Consumer Test Tool not reaching the COM Archive, separators lost from dumped values, and dead code throughout
+
 ### Version 5.0 (21 July 2026)
 * Simplifies the APIs, especially the M&C (removal of the identity model and removal of the concept of Groups)
 * Adds the nmf-mission-barebone for simple testing
