@@ -72,6 +72,13 @@ public class NMFPackageBuilder {
             // the previous and the new version can coexist for fallback.
             path = Deployment.DIR_JARS_NMF + File.separator + metadata.getPackageVersion();
         }
+        if (metadata.isMission()) {
+            // A mission baseline is versioned the same way and for the same
+            // reason. It is versioned apart from the framework: the bootloader
+            // reads a version for each and builds the classpath from both, so
+            // one can move without the other.
+            path = Deployment.DIR_JARS_MISSION + File.separator + metadata.getPackageVersion();
+        }
 
         this.rootPath = path + File.separator;
     }

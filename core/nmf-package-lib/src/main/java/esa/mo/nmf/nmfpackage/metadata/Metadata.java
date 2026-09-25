@@ -197,6 +197,19 @@ public class Metadata {
     }
 
     /**
+     * Returns this metadata as a {@link MetadataMission} if the package carries
+     * a mission baseline.
+     *
+     * @return the mission metadata, or {@code null} if this package is not one
+     */
+    public MetadataMission castToMission() {
+        if (!isMission()) {
+            return null;
+        }
+        return new MetadataMission(this.properties);
+    }
+
+    /**
      * Returns the list of files declared in the package, parsing them from the properties on
      * first access.
      *

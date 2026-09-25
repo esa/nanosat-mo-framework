@@ -107,6 +107,24 @@
                                 </additionalFiles>
                             </configuration>
                         </execution>
+                        <!-- Packages the mission baseline the execution above lays
+                             down, so that a mission upgrade can be delivered on-board
+                             rather than assembled by hand. Declared after it and in
+                             the same phase, which is the order Maven runs them in,
+                             because it reads the jars-mission/<version> directory
+                             that one produces: the Supervisor's dependencies are
+                             sorted into framework and mission once, and packaged
+                             from the result. -->
+                        <execution>
+                            <id>generate-mission-package</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>generate-mission-package</goal>
+                            </goals>
+                            <configuration>
+                                <name>simulator-orekit</name>
+                            </configuration>
+                        </execution>
                     </executions>
                 </plugin>
             </plugins>
