@@ -59,7 +59,10 @@ import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_MSG;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class NMFPackageLifecycleTest {
 
-    private static final String UPGRADE_VERSION = "5.1";
+    // The version of the manufactured upgrade package. It is deleted before the
+    // benchmark package is looked up, so it must never be a version that the
+    // project itself can have, or the real package is the one deleted.
+    private static final String UPGRADE_VERSION = "99.0";
     private static final String PACKAGE_PREFIX = "benchmark-";
     private static final String STORE_WARNING = "Could not store Package";
 
