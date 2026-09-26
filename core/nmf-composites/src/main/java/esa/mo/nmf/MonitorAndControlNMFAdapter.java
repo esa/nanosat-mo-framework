@@ -59,6 +59,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
     private static final Logger LOGGER = Logger.getLogger(MonitorAndControlNMFAdapter.class.getName());
     private final HashMap<Long, Field> parameterMapping = new HashMap<>();
+    private final HashMap<String, Field> parameterNameMapping = new HashMap<>();
     private final HashMap<Long, Method> actionMapping = new HashMap<>();
     private final HashMap<String, Long> actionNameMapping = new HashMap<>();
 
@@ -170,6 +171,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
             definitions.add(new ParameterDefinition(new Identifier(name),
                     description, new AttributeType(rawType), rawUnit,
                     reportingEnabled, reportInterval, validityExpression, conversion, readOnly));
+            parameterNameMapping.put(name, field);
         }
 
         if (!definitions.isEmpty()) {
@@ -433,17 +435,16 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
     }
 
     @Override
-    public Attribute onGetValue(Long parameterID) throws IOException {
-        Field field = parameterMapping.get(parameterID);
+    public Attribute onGetValue(Identifier identifier) throws IOException {
+        Field field = parameterNameMapping.get(identifier.getValue());
         if (field == null) {
-            LOGGER.log(Level.SEVERE, "no parameter with ID {0} exists!", parameterID);
+            LOGGER.log(Level.SEVERE, "No parameter named {0} exists!", identifier);
             return null;
         }
 
         Parameter param = field.getAnnotation(Parameter.class);
         if (param == null) {
-            LOGGER.log(Level.SEVERE, "Parameter with ID {0} and name {1} is not Annotated!",
-                    new Object[]{parameterID, field.getName()});
+            LOGGER.log(Level.SEVERE, "Parameter {0} is not Annotated!", identifier);
             return null;
         }
 

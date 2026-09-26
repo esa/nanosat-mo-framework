@@ -25,6 +25,7 @@ import esa.mo.nmf.MCServicesProviderNMF;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.annotations.Parameter;
 import java.io.IOException;
+import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mc.structures.ParameterDefinitionList;
@@ -43,6 +44,12 @@ public class ParameterTest {
     private final static long ID3 = 65;
     private final static long ID4 = 9555;
     private final static long ID5 = 8;
+
+    private final static Identifier NAME1 = new Identifier("private");
+    private final static Identifier NAME2 = new Identifier("float Parameter");
+    private final static Identifier NAME3 = new Identifier("parameter Without Initial Value");
+    private final static Identifier NAME4 = new Identifier("stringParameter");
+    private final static Identifier NAME5 = new Identifier("Parameter with onGet");
 
     private static class AutomationAdapterTester extends MonitorAndControlNMFAdapter {
 
@@ -114,11 +121,11 @@ public class ParameterTest {
         setList.add(new ParameterRawValue(ID4, (Attribute) attribute));
         test.onSetValue(setList);
 
-        Object v1 = test.onGetValue(ID1).attribute2JavaType();
-        Object v2 = test.onGetValue(ID2).attribute2JavaType();
-        Object v3 = test.onGetValue(ID3).attribute2JavaType();
-        Object v4 = test.onGetValue(ID4).attribute2JavaType();
-        Object v5 = test.onGetValue(ID5).attribute2JavaType();
+        Object v1 = test.onGetValue(NAME1).attribute2JavaType();
+        Object v2 = test.onGetValue(NAME2).attribute2JavaType();
+        Object v3 = test.onGetValue(NAME3).attribute2JavaType();
+        Object v4 = test.onGetValue(NAME4).attribute2JavaType();
+        Object v5 = test.onGetValue(NAME5).attribute2JavaType();
 
         org.junit.Assert.assertTrue("'" + v1 + "' != '" + 42 + "'", v1.equals(42));
         org.junit.Assert.assertTrue("'" + v2 + "' != '" + 0.8f + "'", v2.equals(0.8f));

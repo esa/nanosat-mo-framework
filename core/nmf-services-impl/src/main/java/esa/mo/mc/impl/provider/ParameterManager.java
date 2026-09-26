@@ -277,30 +277,15 @@ public class ParameterManager extends MCManager {
     }
 
     /**
-     * Wrapper function for calling onGetValue without breaking backwards
-     * compatibility.
+     * Returns the current value of a parameter, asked from the application by
+     * the name of the parameter.
      *
      * @param paramDefId The Parameter identity.
      * @return The attribute value for the parameter.
      * @throws IOException If the value could not be retrieved.
      */
     public Attribute getValue(Long paramDefId) throws IOException {
-        // check if new interface method is implemented, if yes, call it
-        try {
-            Class cla = parametersMonitoring.getClass()
-                    .getMethod("onGetValue", Identifier.class).getDeclaringClass();
-            if (cla == ParameterStatusListener.class) {
-                return parametersMonitoring.onGetValue(paramDefId);
-            }
-        } catch (NoSuchMethodException | SecurityException ex) {
-        }
-
-        // else use old procedure:
-        ParameterDefinition pDef = this.getParameterDefinition(paramDefId);
-        Attribute value;
-
         return parametersMonitoring.onGetValue(super.getName(paramDefId));
-
     }
 
     /**
@@ -328,15 +313,8 @@ public class ParameterManager extends MCManager {
         ParameterDefinition pDef = this.getParameterDefinition(paramDefId);
         Attribute value;
         try {
-
-            Class cla = parametersMonitoring.getClass()
-                    .getMethod("onGetValue", Identifier.class).getDeclaringClass();
-            if (cla == ParameterStatusListener.class) {
-                value = parametersMonitoring.onGetValue(paramDefId);
-            } else {
-                value = parametersMonitoring.onGetValue(super.getName(paramDefId));
-            }
-        } catch (IOException | NoSuchMethodException | SecurityException ex) {
+            value = parametersMonitoring.onGetValue(super.getName(paramDefId));
+        } catch (IOException ex) {
             Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
@@ -409,15 +387,8 @@ public class ParameterManager extends MCManager {
         final Long expPDefId = validityExpression.getParameterId();
         final Attribute expParamValue;
         try {
-            Class cla = parametersMonitoring.getClass()
-                    .getMethod("onGetValue", Identifier.class).getDeclaringClass();
-            if (cla == ParameterStatusListener.class) {
-                expParamValue = parametersMonitoring.onGetValue(expPDefId);
-            } else {
-                expParamValue = parametersMonitoring.onGetValue(super.getName(expPDefId));
-            }
-
-        } catch (IOException | NoSuchMethodException | SecurityException ex) {
+            expParamValue = parametersMonitoring.onGetValue(super.getName(expPDefId));
+        } catch (IOException ex) {
             Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             return ValidityState.INVALID_RAW;
         }
@@ -702,15 +673,6 @@ public class ParameterManager extends MCManager {
             return null;
         }
 
-        try {
-            Class cla = parametersMonitoring.getClass()
-                    .getMethod("onGetValue", Identifier.class).getDeclaringClass();
-            if (cla == ParameterStatusListener.class) {
-                return parametersMonitoring.onGetValue(defId);
-            }
-        } catch (NoSuchMethodException | SecurityException ex) {
-            Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
         return parametersMonitoring.onGetValue(this.getName(defId));
     }
 

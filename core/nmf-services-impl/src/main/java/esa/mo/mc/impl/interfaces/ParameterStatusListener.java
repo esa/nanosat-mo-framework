@@ -48,21 +48,6 @@ public interface ParameterStatusListener {
     }
 
     /**
-     * Called by the NMF core whenever a parameter value needs to be propagated
-     * to the consumer, either through Aggregation or Parameter service.
-     *
-     * The user must implement this interface in order to acquire the value of
-     * a parameter of the application, identified by its definition ID.
-     *
-     * @param parameterID the ID of the parameter
-     * @return The value of the parameter that was requested
-     * @throws java.io.IOException if the parameter value could not be acquired
-     */
-    default Attribute onGetValue(Long parameterID) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
      * The user must implement this interface in order to set a collection of
      * parameter values to a set variables in the application logic.
      *

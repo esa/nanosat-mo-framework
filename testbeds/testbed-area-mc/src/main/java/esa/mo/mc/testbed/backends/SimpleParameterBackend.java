@@ -41,7 +41,7 @@ public class SimpleParameterBackend extends Backend {
     }
 
     @Override
-    public Attribute onGetValue(Long parameterID) {
+    public Attribute onGetValue(Identifier identifier) {
         return new Union(value);
     }
 

@@ -38,7 +38,7 @@ import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
 public class BrokenBackend extends Backend {
 
     @Override
-    public Attribute onGetValue(Long parameterID) throws IOException {
+    public Attribute onGetValue(Identifier identifier) throws IOException {
         throw new IOException("Broken backend: the parameter read always fails, by design.");
     }
 
