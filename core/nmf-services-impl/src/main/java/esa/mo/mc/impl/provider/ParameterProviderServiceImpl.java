@@ -819,33 +819,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      * Parameter values through the monitorValue operation of the Parameter
      * service. If there is no parameter definition with the submitted name, the
      * method shall automatically create the parameter definition in the
-     * Parameter service
-     *
-     * @param name The name of the Parameter as set in the parameter definition
-     * @param parameterValue The parameter value to be pushed
-     * @param source The source of the parameter. Can be null
-     * @param timestamp The timestamp of the parameter. If null, the method will
-     * automatically use the System's time
-     * @return Returns true if the push was successful. False otherwise. Please
-     * notice that if no consumers are registered on the broker, then the value
-     * of true will be returned because not error happened.
-     */
-    @Deprecated
-    public Boolean pushParameterValue(final Identifier name,
-            final ParameterValue parameterValue, final ObjectKey source, final Time timestamp) {
-        ParameterInstance instance = new ParameterInstance(name, parameterValue, source, timestamp);
-        ArrayList<ParameterInstance> parameters = new ArrayList<>();
-        parameters.add(instance);
-
-        return this.pushMultipleParameterValues(parameters);
-    }
-
-    /**
-     *
-     * The pushParameterValue operation allows an external entity to push
-     * Parameter values through the monitorValue operation of the Parameter
-     * service. If there is no parameter definition with the submitted name, the
-     * method shall automatically create the parameter definition in the
      * Parameter service. The parameter value will not be stored in the COM
      * Archive.
      *
