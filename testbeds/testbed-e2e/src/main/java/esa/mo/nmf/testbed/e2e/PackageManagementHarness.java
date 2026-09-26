@@ -59,7 +59,7 @@ import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementStub;
 /**
  * Drives the Supervisor's Package Management service for end-to-end tests and
  * queries the COM archive for the package lifecycle objects (PackageInstalled,
- * PackageUninstalled, PackageUpgraded).
+ * PackageUninstalled, PackageUpdated).
  *
  * <p>
  * Requires a running Supervisor; construct with the same
@@ -167,18 +167,18 @@ public class PackageManagementHarness {
     }
 
     /**
-     * Invokes the upgrade operation and waits for its outcome.
+     * Invokes the update operation and waits for its outcome.
      *
      * @param packageFileName the package file name.
      * @return null on success, or the MO error returned by the provider.
      * @throws IOException if the operation could not be invoked or timed out.
      */
-    public MOErrorException upgrade(String packageFileName) throws IOException {
-        return invokeOperation(packageFileName, Operation.UPGRADE, null);
+    public MOErrorException update(String packageFileName) throws IOException {
+        return invokeOperation(packageFileName, Operation.UPDATE, null);
     }
 
     private enum Operation {
-        INSTALL, UNINSTALL, UPGRADE
+        INSTALL, UNINSTALL, UPDATE
     }
 
     private MOErrorException invokeOperation(String packageFileName, Operation op,
@@ -229,19 +229,19 @@ public class PackageManagementHarness {
             }
 
             @Override
-            public void upgradeResponseReceived(MALMessageHeader msgHeader, java.util.Map qosProperties) {
+            public void updateResponseReceived(MALMessageHeader msgHeader, java.util.Map qosProperties) {
                 latch.countDown();
             }
 
             @Override
-            public void upgradeAckErrorReceived(MALMessageHeader msgHeader,
+            public void updateAckErrorReceived(MALMessageHeader msgHeader,
                     MOErrorException err, java.util.Map qosProperties) {
                 error.set(err);
                 latch.countDown();
             }
 
             @Override
-            public void upgradeResponseErrorReceived(MALMessageHeader msgHeader,
+            public void updateResponseErrorReceived(MALMessageHeader msgHeader,
                     MOErrorException err, java.util.Map qosProperties) {
                 error.set(err);
                 latch.countDown();
@@ -263,8 +263,8 @@ public class PackageManagementHarness {
                     keep.add(keepConfigurations);
                     stub.asyncUninstall(names, keep, callback);
                     break;
-                case UPGRADE:
-                    stub.asyncUpgrade(names, callback);
+                case UPDATE:
+                    stub.asyncUpdate(names, callback);
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown operation: " + op);
@@ -309,13 +309,13 @@ public class PackageManagementHarness {
     }
 
     /**
-     * Queries the archive for all PackageUpgraded COM objects.
+     * Queries the archive for all PackageUpdated COM objects.
      *
      * @return list of matching archive objects, never null.
      * @throws IOException if the query fails.
      */
-    public List<ArchivePersistenceObject> queryPackageUpgraded() throws IOException {
-        return queryByObjectType(PackageManagementServiceInfo.PACKAGEUPGRADED_OBJECT_TYPE);
+    public List<ArchivePersistenceObject> queryPackageUpdated() throws IOException {
+        return queryByObjectType(PackageManagementServiceInfo.PACKAGEUPDATED_OBJECT_TYPE);
     }
 
     private List<ArchivePersistenceObject> queryByObjectType(ObjectType objType) throws IOException {
@@ -371,7 +371,7 @@ public class PackageManagementHarness {
      * Manufactures a newer version of an existing package in the Supervisor's
      * packages folder: copies the .nmfpack (a zip) and rewrites the version in
      * its package-metadata.properties. The jar content is unchanged, which is
-     * fine for exercising the upgrade bookkeeping.
+     * fine for exercising the update bookkeeping.
      *
      * @param packageFileName the existing package file name, e.g.
      * "benchmark-5.0.nmfpack".
@@ -380,7 +380,7 @@ public class PackageManagementHarness {
      * "benchmark-5.1.nmfpack".
      * @throws IOException if the package could not be created.
      */
-    public String createUpgradedPackage(String packageFileName, String newVersion) throws IOException {
+    public String createUpdatedPackage(String packageFileName, String newVersion) throws IOException {
         File packagesFolder = new File(supervisorHarness.getNmfDir(), "packages");
         File original = new File(packagesFolder, packageFileName);
         if (!original.exists()) {
@@ -391,10 +391,10 @@ public class PackageManagementHarness {
         String baseName = packageFileName.substring(0, packageFileName.indexOf('-'));
         String suffix = packageFileName.substring(packageFileName.lastIndexOf('.'));
         String newFileName = baseName + "-" + newVersion + suffix;
-        File upgraded = new File(packagesFolder, newFileName);
+        File updated = new File(packagesFolder, newFileName);
 
         try (ZipFile zipFile = new ZipFile(original);
-                ZipOutputStream out = new ZipOutputStream(new FileOutputStream(upgraded))) {
+                ZipOutputStream out = new ZipOutputStream(new FileOutputStream(updated))) {
             Enumeration<? extends ZipEntry> entries = zipFile.entries();
             while (entries.hasMoreElements()) {
                 ZipEntry entry = entries.nextElement();
@@ -418,7 +418,7 @@ public class PackageManagementHarness {
             }
         }
 
-        LOGGER.info("Created upgraded package: " + upgraded.getAbsolutePath());
+        LOGGER.info("Created updated package: " + updated.getAbsolutePath());
         return newFileName;
     }
 

@@ -30,7 +30,7 @@ The CLI groups commands by service area:
   samples from the archive.
 - **aggregation** — subscribe to live updates, enable/disable reporting.
 - **action** — list available actions and trigger them with optional arguments.
-- **software-management** — find, install, uninstall, and upgrade NMF packages on a remote provider.
+- **software-management** — find, install, uninstall, and update NMF packages on a remote provider.
 - **gps** — retrieve NMEA sentences from a remote GPS provider.
 - **adcs** — query the ADCS provider's status.
 - **camera** — request an image from a remote Camera provider.

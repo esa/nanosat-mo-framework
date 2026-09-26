@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.sm.structures.PackageInstalled;
 import org.ccsds.moims.mo.sm.structures.PackageUninstalled;
-import org.ccsds.moims.mo.sm.structures.PackageUpgraded;
+import org.ccsds.moims.mo.sm.structures.PackageUpdated;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Assume;
@@ -47,22 +47,22 @@ import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_MSG;
 
 /**
  * End-to-end tests for the Package Management lifecycle traceability: the
- * install, uninstall, and upgrade operations must store the corresponding
- * PackageInstalled, PackageUninstalled, and PackageUpgraded COM objects in
+ * install, uninstall, and update operations must store the corresponding
+ * PackageInstalled, PackageUninstalled, and PackageUpdated COM objects in
  * the archive, and must not store them when the operation is rejected.
  *
  * <p>
  * The tests mutate shared package state and therefore run in a fixed order
- * (uninstall, then reinstall, then upgrade), leaving the benchmark package
+ * (uninstall, then reinstall, then update), leaving the benchmark package
  * installed at the end.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class NMFPackageLifecycleTest {
 
-    // The version of the manufactured upgrade package. It is deleted before the
+    // The version of the manufactured update package. It is deleted before the
     // benchmark package is looked up, so it must never be a version that the
     // project itself can have, or the real package is the one deleted.
-    private static final String UPGRADE_VERSION = "99.0";
+    private static final String UPDATE_VERSION = "99.0";
     private static final String PACKAGE_PREFIX = "benchmark-";
     private static final String STORE_WARNING = "Could not store Package";
 
@@ -71,22 +71,22 @@ public class NMFPackageLifecycleTest {
 
     private static String benchmarkPackage;
     private static String initialVersion;
-    private static String upgradedPackage;
+    private static String updatedPackage;
 
     // Archive object ids present before the tests ran, so assertions are
     // immune to leftovers from previous runs on the same filesystem.
     private static Set<Long> installedBaseline;
     private static Set<Long> uninstalledBaseline;
-    private static Set<Long> upgradedBaseline;
+    private static Set<Long> updatedBaseline;
 
     @BeforeClass
     public static void startSupervisor() throws IOException {
         LOGGER.info(SETUP_CLASS_SEP + "\n" + SETUP_CLASS_MSG + "\n" + SETUP_CLASS_SEP);
         supervisorHarness.setUp();
 
-        // Remove a stale upgrade fixture from a previous run on this filesystem
+        // Remove a stale update fixture from a previous run on this filesystem
         File stale = new File(new File(supervisorHarness.getNmfDir(), "packages"),
-                PACKAGE_PREFIX + UPGRADE_VERSION + ".nmfpack");
+                PACKAGE_PREFIX + UPDATE_VERSION + ".nmfpack");
         if (stale.exists() && !stale.delete()) {
             throw new IOException("Could not delete stale fixture: " + stale.getAbsolutePath());
         }
@@ -101,7 +101,7 @@ public class NMFPackageLifecycleTest {
 
         installedBaseline = ids(pm.queryPackageInstalled());
         uninstalledBaseline = ids(pm.queryPackageUninstalled());
-        upgradedBaseline = ids(pm.queryPackageUpgraded());
+        updatedBaseline = ids(pm.queryPackageUpdated());
     }
 
     @AfterClass
@@ -160,7 +160,7 @@ public class NMFPackageLifecycleTest {
     // -------------------------------------------------------------------------
     // Test 2b — Re-installing an already-installed SNAPSHOT succeeds (a
     // SNAPSHOT is not final and can be overridden). Runs while the SNAPSHOT
-    // installed by test2 is still in place (before the test3 upgrade).
+    // installed by test2 is still in place (before the test3 update).
     // -------------------------------------------------------------------------
 
     @Test
@@ -178,29 +178,29 @@ public class NMFPackageLifecycleTest {
     }
 
     // -------------------------------------------------------------------------
-    // Test 3 — Upgrade stores a PackageUpgraded object with both versions
+    // Test 3 — Update stores a PackageUpdated object with both versions
     // -------------------------------------------------------------------------
 
     @Test
-    public void test3_UpgradeStoresPackageUpgraded() throws Exception {
-        LOGGER.info(SEP + "\nRunning: test3_UpgradeStoresPackageUpgraded()\n" + SEP);
+    public void test3_UpdateStoresPackageUpdated() throws Exception {
+        LOGGER.info(SEP + "\nRunning: test3_UpdateStoresPackageUpdated()\n" + SEP);
 
-        upgradedPackage = pm.createUpgradedPackage(benchmarkPackage, UPGRADE_VERSION);
+        updatedPackage = pm.createUpdatedPackage(benchmarkPackage, UPDATE_VERSION);
 
-        MOErrorException error = pm.upgrade(upgradedPackage);
-        Assert.assertNull("upgrade must succeed but returned: " + error, error);
+        MOErrorException error = pm.update(updatedPackage);
+        Assert.assertNull("update must succeed but returned: " + error, error);
 
         List<ArchivePersistenceObject> records = newRecords(
-                pm.queryPackageUpgraded(), upgradedBaseline);
-        Assert.assertEquals("Exactly one PackageUpgraded record must be stored",
+                pm.queryPackageUpdated(), updatedBaseline);
+        Assert.assertEquals("Exactly one PackageUpdated record must be stored",
                 1, records.size());
 
-        PackageUpgraded body = (PackageUpgraded) records.get(0).getObject();
-        Assert.assertEquals("packageName", upgradedPackage, body.getPackageName().getValue());
-        Assert.assertEquals("fromVersion must be the version before the upgrade",
+        PackageUpdated body = (PackageUpdated) records.get(0).getObject();
+        Assert.assertEquals("packageName", updatedPackage, body.getPackageName().getValue());
+        Assert.assertEquals("fromVersion must be the version before the update",
                 initialVersion, body.getFromVersion());
-        Assert.assertEquals("toVersion must be the version after the upgrade",
-                UPGRADE_VERSION, body.getToVersion());
+        Assert.assertEquals("toVersion must be the version after the update",
+                UPDATE_VERSION, body.getToVersion());
         Assert.assertNotNull("triggeredBy must identify the requesting consumer",
                 body.getTriggeredBy());
     }
@@ -215,8 +215,8 @@ public class NMFPackageLifecycleTest {
 
         int recordsBefore = pm.queryPackageInstalled().size();
 
-        // The package installed right now is the upgraded one (test3)
-        MOErrorException error = pm.install(upgradedPackage);
+        // The package installed right now is the updated one (test3)
+        MOErrorException error = pm.install(updatedPackage);
         Assert.assertNotNull("Installing an already-installed package must return an error", error);
 
         Assert.assertEquals("No additional PackageInstalled record may be stored",

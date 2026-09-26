@@ -118,43 +118,43 @@ public class PackageManagerGround {
     }
 
     /**
-     * Upgrade the given NMF package on the NanoSat Segment
+     * Update the given NMF package on the NanoSat Segment
      *
      * @param packageName NMF package name
      */
-    public void upgradePackage(String packageName) {
+    public void updatePackage(String packageName) {
         IdentifierList ids = new IdentifierList();
         ids.add(new Identifier(packageName));
 
         try {
-            serviceSMPackageManagement.getPackageManagementStub().upgrade(ids, new PackageManagementAdapter() {
+            serviceSMPackageManagement.getPackageManagementStub().update(ids, new PackageManagementAdapter() {
                 @Override
-                public void upgradeAckReceived(MALMessageHeader msgHeader, java.util.Map qosProperties) {
-                    LOGGER.log(Level.INFO, "Upgrading...");
+                public void updateAckReceived(MALMessageHeader msgHeader, java.util.Map qosProperties) {
+                    LOGGER.log(Level.INFO, "Updating...");
                 }
 
                 @Override
-                public void upgradeResponseReceived(MALMessageHeader msgHeader, java.util.Map qosProperties) {
-                    LOGGER.log(Level.INFO, "Upgraded!");
+                public void updateResponseReceived(MALMessageHeader msgHeader, java.util.Map qosProperties) {
+                    LOGGER.log(Level.INFO, "Updated!");
                 }
 
                 @Override
-                public void upgradeAckErrorReceived(MALMessageHeader msgHeader,
+                public void updateAckErrorReceived(MALMessageHeader msgHeader,
                         MOErrorException error, java.util.Map qosProperties) {
                     JOptionPane.showMessageDialog(null,
-                            "There was an error during the upgrade operation.",
+                            "There was an error during the update operation.",
                             "Error", JOptionPane.PLAIN_MESSAGE);
-                    LOGGER.log(Level.SEVERE, "There was an error during the upgrade operation."
+                    LOGGER.log(Level.SEVERE, "There was an error during the update operation."
                             + "\nException:\n" + error + "\n" + error.toString(), error);
                 }
 
                 @Override
-                public void upgradeResponseErrorReceived(MALMessageHeader msgHeader,
+                public void updateResponseErrorReceived(MALMessageHeader msgHeader,
                         MOErrorException error, java.util.Map qosProperties) {
                     JOptionPane.showMessageDialog(null,
-                            "There was an error during the upgrade operation.",
+                            "There was an error during the update operation.",
                             "Error", JOptionPane.PLAIN_MESSAGE);
-                    LOGGER.log(Level.SEVERE, "There was an error during the upgrade operation."
+                    LOGGER.log(Level.SEVERE, "There was an error during the update operation."
                             + "\nException:\n" + error + "\n" + error.toString(), error);
                 }
             });

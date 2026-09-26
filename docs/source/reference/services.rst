@@ -33,7 +33,7 @@ Software Management (``area053-Software-Management.xml``)
 ---------------------------------------------------------
 
 - **AppsLauncher** — run, stop, kill, list, and monitor apps.
-- **PackageManagement** — install, uninstall, upgrade NMF Packages.
+- **PackageManagement** — install, uninstall, update NMF Packages.
 - **Heartbeat** — periodic liveness publication; on-board time and time-factor query.
 - **CommandExecutor** — execute shell commands on the spacecraft host (where permitted).
 

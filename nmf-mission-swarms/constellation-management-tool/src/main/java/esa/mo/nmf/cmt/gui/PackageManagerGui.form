@@ -55,12 +55,12 @@
               <text value="Uninstall"/>
             </properties>
           </component>
-          <component id="2b31d" class="javax.swing.JButton" binding="btnUpgrade">
+          <component id="2b31d" class="javax.swing.JButton" binding="btnUpdate">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Upgrade"/>
+              <text value="Update"/>
             </properties>
           </component>
           <component id="aaa55" class="javax.swing.JButton" binding="btnRefresh">

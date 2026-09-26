@@ -265,13 +265,13 @@ public class PackageManagementCommands {
     }
 
     /**
-     * Implements the {@code software-management upgrade} CLI command.
+     * Implements the {@code software-management update} CLI command.
      */
-    public static class Upgrade extends BaseCommand {
+    public static class Update extends BaseCommand {
         /**
          * Default constructor.
          */
-        public Upgrade() {
+        public Update() {
         }
 
 
@@ -299,38 +299,38 @@ public class PackageManagementCommands {
                 PackageManagementStub packageManagement = getPackageManagement();
                 IdentifierList names = new IdentifierList();
                 names.add(new Identifier(name));
-                packageManagement.upgrade(names,
+                packageManagement.update(names,
                         new PackageManagementAdapter() {
                     @Override
-                    public void upgradeAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
-                        LOGGER.log(Level.INFO, "Upgrading...");
+                    public void updateAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                        LOGGER.log(Level.INFO, "Updating...");
                     }
 
                     @Override
-                    public void upgradeResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
-                        LOGGER.log(Level.INFO, "Upgraded successfully");
+                    public void updateResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
+                        LOGGER.log(Level.INFO, "Updated successfully");
                     }
 
                     @Override
-                    public void upgradeAckErrorReceived(MALMessageHeader msgHeader,
+                    public void updateAckErrorReceived(MALMessageHeader msgHeader,
                             MOErrorException error, Map qosProperties) {
                         LOGGER.log(Level.SEVERE,
-                                "There was an error during the upgrade operation.",
+                                "There was an error during the update operation.",
                                 error);
                     }
 
                     @Override
-                    public void upgradeResponseErrorReceived(MALMessageHeader msgHeader,
+                    public void updateResponseErrorReceived(MALMessageHeader msgHeader,
                             MOErrorException error, Map qosProperties) {
                         LOGGER.log(Level.SEVERE,
-                                "There was an error during the upgrade operation.",
+                                "There was an error during the update operation.",
                                 error);
                     }
                 }
                 );
             } catch (MALInteractionException | MALException e) {
                 LOGGER.log(Level.SEVERE,
-                        "Error during the execution of the upgrade operation!", e);
+                        "Error during the execution of the update operation!", e);
                 System.exit(ExitCodes.GENERIC_ERROR);
             }
         }

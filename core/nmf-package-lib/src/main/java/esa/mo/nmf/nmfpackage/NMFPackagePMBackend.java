@@ -125,19 +125,19 @@ public class NMFPackagePMBackend implements PMBackend {
     }
 
     @Override
-    public void upgrade(final String packageName) {
+    public void update(final String packageName) {
         String packageLocation = this.getFolderLocation(packageName);
         Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
-                "Upgrading the package from: {0}", packageLocation);
+                "Updating the package from: {0}", packageLocation);
 
         // Define the location to be installed!
         File destination = Deployment.getNMFRootDir();
 
         try {
-            manager.upgrade(packageLocation, destination);
+            manager.update(packageLocation, destination);
         } catch (IOException ex) {
             Logger.getLogger(NMFPackagePMBackend.class.getName()).log(
-                    Level.SEVERE, "The package could not be upgraded!", ex);
+                    Level.SEVERE, "The package could not be updated!", ex);
         }
     }
 

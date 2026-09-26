@@ -83,7 +83,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         installButton = new javax.swing.JButton();
         uninstallButton = new javax.swing.JButton();
-        upgradeButton = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
         listAppAllButton = new javax.swing.JButton();
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -135,9 +135,9 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         uninstallButton.addActionListener(this::uninstallButtonActionPerformed);
         jPanel1.add(uninstallButton);
 
-        upgradeButton.setText("upgrade");
-        upgradeButton.addActionListener(this::upgradeButtonActionPerformed);
-        jPanel1.add(upgradeButton);
+        updateButton.setText("update");
+        updateButton.addActionListener(this::updateButtonActionPerformed);
+        jPanel1.add(updateButton);
 
         listAppAllButton.setText("listApp(\"*\")");
         listAppAllButton.addActionListener(this::listAppAllButtonActionPerformed);
@@ -195,7 +195,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_listAppAllButtonActionPerformed
 
-    private void upgradeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upgradeButtonActionPerformed
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         if (packagesTable.getSelectedRow() == -1) { // The row is not selected?
             return;  // Well, then nothing to be done here folks!
         }
@@ -204,43 +204,43 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         ids.add(packagesTable.getSelectedPackage());
 
         try {
-            this.serviceSMPackageManagement.getPackageManagementStub().upgrade(ids, new PackageManagementAdapter() {
+            this.serviceSMPackageManagement.getPackageManagementStub().update(ids, new PackageManagementAdapter() {
                 @Override
-                public void upgradeAckReceived(MALMessageHeader msgHeader,
+                public void updateAckReceived(MALMessageHeader msgHeader,
                         java.util.Map qosProperties) {
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(
-                            Level.INFO, "Upgrading...");
+                            Level.INFO, "Updating...");
                 }
 
                 @Override
-                public void upgradeResponseReceived(MALMessageHeader msgHeader,
+                public void updateResponseReceived(MALMessageHeader msgHeader,
                         java.util.Map qosProperties) {
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(
-                            Level.INFO, "Upgraded!");
+                            Level.INFO, "Updated!");
                     javax.swing.SwingUtilities.invokeLater(() -> listAppAllButtonActionPerformed(null));
                 }
 
                 @Override
-                public void upgradeAckErrorReceived(MALMessageHeader msgHeader,
+                public void updateAckErrorReceived(MALMessageHeader msgHeader,
                         MOErrorException error, java.util.Map qosProperties) {
                     JOptionPane.showMessageDialog(null,
-                            "There was an error during the upgrade operation.", "Error",
+                            "There was an error during the update operation.", "Error",
                             JOptionPane.PLAIN_MESSAGE);
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(
                             Level.SEVERE,
-                            "There was an error during the upgrade operation."
+                            "There was an error during the update operation."
                             + "\nException:\n" + error + "\n" + error.toString(), error);
                 }
 
                 @Override
-                public void upgradeResponseErrorReceived(MALMessageHeader msgHeader,
+                public void updateResponseErrorReceived(MALMessageHeader msgHeader,
                         MOErrorException error, java.util.Map qosProperties) {
                     JOptionPane.showMessageDialog(null,
-                            "There was an error during the upgrade operation.", "Error",
+                            "There was an error during the update operation.", "Error",
                             JOptionPane.PLAIN_MESSAGE);
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(
                             Level.SEVERE,
-                            "There was an error during the upgrade operation." + "\nException:\n"
+                            "There was an error during the update operation." + "\nException:\n"
                             + error + "\n" + error.toString(), error);
                 }
             });
@@ -248,7 +248,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(
                     Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_upgradeButtonActionPerformed
+    }//GEN-LAST:event_updateButtonActionPerformed
 
     private void uninstallButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uninstallButtonActionPerformed
         if (packagesTable.getSelectedRow() == -1) { // The row is not selected?
@@ -356,6 +356,6 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
     private javax.swing.JButton listAppAllButton;
     private javax.swing.JPanel parameterTab;
     private javax.swing.JButton uninstallButton;
-    private javax.swing.JButton upgradeButton;
+    private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }

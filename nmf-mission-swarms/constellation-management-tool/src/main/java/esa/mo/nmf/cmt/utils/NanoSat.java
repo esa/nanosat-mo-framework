@@ -197,8 +197,8 @@ public class NanoSat {
      *
      * @param packageName NMF package name
      */
-    public void upgradePackage(String packageName) {
-        packageManager.upgradePackage(packageName);
+    public void updatePackage(String packageName) {
+        packageManager.updatePackage(packageName);
     }
 
     /**

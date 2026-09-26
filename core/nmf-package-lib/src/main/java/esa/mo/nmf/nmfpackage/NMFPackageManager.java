@@ -49,7 +49,7 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.sm.appslauncher.body.ListAppResponse;
 
 /**
- * The NMFPackageManager class allows the install, uninstall and upgrade an NMF
+ * The NMFPackageManager class allows the install, uninstall and update an NMF
  * Package.
  *
  * @author Cesar Coelho
@@ -283,17 +283,17 @@ public class NMFPackageManager {
     }
 
     /**
-     * Upgrades an NMF Package with a newer version.
+     * Updates an NMF Package with a newer version.
      *
      * @param packageLocation The NMF Package location
      * @param nmfDir The NMF root directory
-     * @throws IOException if the package could not be upgraded
+     * @throws IOException if the package could not be updated
      */
-    public void upgrade(final String packageLocation, final File nmfDir) throws IOException {
+    public void update(final String packageLocation, final File nmfDir) throws IOException {
         long timestamp = System.currentTimeMillis();
         System.out.printf(SEPARATOR);
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Reading the receipt file that includes the list of files to be upgraded...");
+                "Reading the receipt file that includes the list of files to be updated...");
 
         // Get the Package to be uninstalled
         NMFPackage newPack = new NMFPackage(packageLocation);
@@ -304,12 +304,12 @@ public class NMFPackageManager {
                     + "Version: " + newPackMetadata.getMetadataVersion());
         }
 
-        // Baseline components (nmf, mission, java) are never upgraded in place:
-        // upgrade removes the old files, which would destroy the version kept
+        // Baseline components (nmf, mission, java) are never updated in place:
+        // update removes the old files, which would destroy the version kept
         // for fallback. They are shipped with install (into a new versioned
         // directory) and activated later with the setPrimaryBaseline action.
         if (newPackMetadata.isBaselineComponent()) {
-            throw new IOException("Baseline components cannot be upgraded! "
+            throw new IOException("Baseline components cannot be updated! "
                     + "Install the new version and switch to it with the "
                     + "setPrimaryBaseline action. Package type: "
                     + newPackMetadata.getPackageType());
@@ -323,7 +323,7 @@ public class NMFPackageManager {
         File oldReceiptFile = new File(receiptsFolder, receiptFilename);
         Metadata oldPackMetadata = Metadata.load(oldReceiptFile);
 
-        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO, "Upgrading..."
+        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO, "Updating..."
                 + "\n  >> From version: " + oldPackMetadata.getPackageVersion()
                 + " (timestamp: " + oldPackMetadata.getPackageTimestamp() + ")"
                 + "\n  >>   To version: " + newPackMetadata.getPackageVersion()
@@ -399,7 +399,7 @@ public class NMFPackageManager {
 
         timestamp = System.currentTimeMillis() - timestamp;
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                "Package successfully upgraded in " + timestamp
+                "Package successfully updated in " + timestamp
                 + " ms!\nFrom: " + packageLocation);
 
         System.out.printf(SEPARATOR);

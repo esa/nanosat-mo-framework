@@ -64,7 +64,7 @@ Software Management (SM)
 Services for managing the apps running on the spacecraft, all exposed by the Supervisor:
 
 - **AppsLauncher** — run, stop, kill, list, and monitor the output of apps.
-- **PackageManagement** — install, uninstall, upgrade, and check NMF Packages.
+- **PackageManagement** — install, uninstall, update, and check NMF Packages.
 - **Heartbeat** — periodic liveness signal published by a provider.
 - **CommandExecutor** — execute arbitrary shell commands on the spacecraft host (where permitted by mission
   policy).

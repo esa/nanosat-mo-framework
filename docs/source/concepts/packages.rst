@@ -87,7 +87,7 @@ locations under ``NMF_HOME``.
 **Run.** Once installed, an app is started via ``AppsLauncher.runApp`` (see :doc:`lifecycle`).
 
 **Uninstall.** ``PackageManagement.uninstall`` removes the installed files and the package registration.
-``upgrade`` performs uninstall + install of a newer version in one step.
+``update`` performs uninstall + install of a newer version in one step.
 
 Difference from a plain JAR
 ---------------------------
@@ -101,7 +101,7 @@ A bare JAR contains compiled classes and resources. An NMF Package adds:
 - The ability to bundle **non-JAR artefacts** alongside the JAR — start scripts, property files, ML models,
   lookup tables, calibration data.
 
-These features let ``PackageManagement`` install, upgrade, and remove software on a spacecraft
+These features let ``PackageManagement`` install, update, and remove software on a spacecraft
 transactionally, which a bare JAR cannot support.
 
 References

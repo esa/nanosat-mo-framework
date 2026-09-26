@@ -53,7 +53,7 @@ import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_MSG;
  *
  * <p>
  * The Package Management service has no rollback operation. Going back to an
- * older version is the {@code upgrade} operation pointed at an older package:
+ * older version is the {@code update} operation pointed at an older package:
  * it compares no versions and simply replaces what is installed with what the
  * package holds, so it moves in either direction. The name is the only thing
  * that suggests otherwise.
@@ -113,7 +113,7 @@ public class AppRollbackTest {
     private static String releasedVersion;
 
     private static Set<Long> installedBaseline;
-    private static Set<Long> upgradedBaseline;
+    private static Set<Long> updatedBaseline;
 
     @BeforeClass
     public static void startSupervisor() throws IOException {
@@ -128,7 +128,7 @@ public class AppRollbackTest {
 
         // The version under development is named by Maven rather than read from
         // whatever the copy happens to have installed: the tests that run
-        // before this one leave the App upgraded to versions of their own,
+        // before this one leave the App updated to versions of their own,
         // which this one would otherwise inherit through the copy.
         currentVersion = System.getProperty(PROP_CURRENT_VERSION);
         if (currentVersion == null) {
@@ -146,7 +146,7 @@ public class AppRollbackTest {
         pm.connect();
 
         installedBaseline = ids(pm.queryPackageInstalled());
-        upgradedBaseline = ids(pm.queryPackageUpgraded());
+        updatedBaseline = ids(pm.queryPackageUpdated());
         app = new AppHarness(APP, supervisorHarness);
     }
 
@@ -213,13 +213,13 @@ public class AppRollbackTest {
     public void test4_RollbackToReleasedVersion() throws Exception {
         LOGGER.info(SEP + "\nRunning: test4_RollbackToReleasedVersion()\n" + SEP);
 
-        MOErrorException error = pm.upgrade(releasedPackage);
+        MOErrorException error = pm.update(releasedPackage);
         Assert.assertNull("Rolling back to '" + releasedPackage
                 + "' must succeed but returned: " + error, error);
 
-        Set<Long> after = ids(pm.queryPackageUpgraded());
-        after.removeAll(upgradedBaseline);
-        Assert.assertFalse("Rolling back must store a PackageUpgraded object", after.isEmpty());
+        Set<Long> after = ids(pm.queryPackageUpdated());
+        after.removeAll(updatedBaseline);
+        Assert.assertFalse("Rolling back must store a PackageUpdated object", after.isEmpty());
 
         Assert.assertEquals("The receipt must name the version rolled back to",
                 releasedVersion, installedVersion());
@@ -243,7 +243,7 @@ public class AppRollbackTest {
     public void test6_RollForwardToCurrentVersion() throws Exception {
         LOGGER.info(SEP + "\nRunning: test6_RollForwardToCurrentVersion()\n" + SEP);
 
-        MOErrorException error = pm.upgrade(currentPackage);
+        MOErrorException error = pm.update(currentPackage);
         Assert.assertNull("Rolling forward to '" + currentPackage
                 + "' must succeed but returned: " + error, error);
         Assert.assertEquals("The receipt must name the version rolled forward to",

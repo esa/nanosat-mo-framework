@@ -55,11 +55,11 @@ public interface PMBackend {
     void uninstall(final String packageName, final boolean keepUserData);
 
     /**
-     * Upgrades an installed package to the version of the supplied package.
+     * Updates an installed package to the version of the supplied package.
      *
-     * @param packageName The name of the package to upgrade to.
+     * @param packageName The name of the package to update to.
      */
-    void upgrade(final String packageName);
+    void update(final String packageName);
 
     /**
      * Checks if a package is currently installed.
@@ -102,7 +102,7 @@ public interface PMBackend {
      * Returns whether a package delivers a software baseline component (the NMF
      * core, the mission JARs or a Java runtime). Such packages are shipped with
      * install and activated with the setPrimaryBaseline action; they cannot be
-     * upgraded in place.
+     * updated in place.
      *
      * @param packageName The name of the package.
      * @return True if the package is a baseline component.

@@ -392,7 +392,7 @@ Storage (BMM)
 ~~~~~~~~~~~~~
 
 **NMF.BOOT.BMM.01 — Bootloader isolation.** The bootloader and the baseline files shall reside outside
-the versioned baseline directories; the installation, upgrade or removal of baseline components shall not
+the versioned baseline directories; the installation, update or removal of baseline components shall not
 modify the bootloader.
 
   :Traces to: SAVOIR.BOOTSW.BMM.100, BMM.110
@@ -419,7 +419,7 @@ the baseline files.
 
 **NMF.BOOT.BMM.03 — Factory baseline immutability.** The components of the factory baseline, their
 checksum manifests and the factory baseline file shall not be modified in flight; the
-Package Management service shall reject any install, upgrade or uninstall operation targeting them.
+Package Management service shall reject any install, update or uninstall operation targeting them.
 
   :Traces to: SAVOIR.BOOTSW.BEF.20 (note), BMM.110
   :Rationale: implements the SAVOIR "untouched image to be used in case of contingency"; the factory

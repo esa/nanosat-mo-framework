@@ -49,7 +49,7 @@ public class PackageManagerGui extends JFrame {
     private JScrollPane spPackageTable;
     private JButton btnInstall;
     private JButton btnUninstall;
-    private JButton btnUpgrade;
+    private JButton btnUpdate;
     private JPanel PackageManagerPanel;
     private JButton btnRefresh;
     private DefaultTableModel tableModel;
@@ -121,14 +121,14 @@ public class PackageManagerGui extends JFrame {
                 }
             }
         });
-        btnUpgrade.addActionListener(new ActionListener() {
+        btnUpdate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
                     int row = tblPackages.getSelectedRow();
                     String packageName = tblPackages.getModel().getValueAt(row, 0).toString();
                     selectedNanoSatSegments.forEach(nanoSat -> {
-                        nanoSat.upgradePackage(packageName);
+                        nanoSat.updatePackage(packageName);
                     });
 
                     refreshPackageList();
@@ -138,7 +138,7 @@ public class PackageManagerGui extends JFrame {
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "An unexpected Error occurred!",
                             "Error", JOptionPane.INFORMATION_MESSAGE);
-                    LOGGER.log(Level.SEVERE, "Failed to upgrade package: ", ex);
+                    LOGGER.log(Level.SEVERE, "Failed to update package: ", ex);
                 }
             }
         });
@@ -264,9 +264,9 @@ public class PackageManagerGui extends JFrame {
         btnUninstall = new JButton();
         btnUninstall.setText("Uninstall");
         panel2.add(btnUninstall, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        btnUpgrade = new JButton();
-        btnUpgrade.setText("Upgrade");
-        panel2.add(btnUpgrade, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        btnUpdate = new JButton();
+        btnUpdate.setText("Update");
+        panel2.add(btnUpdate, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         btnRefresh = new JButton();
         btnRefresh.setText("Refresh");
         panel2.add(btnRefresh, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));

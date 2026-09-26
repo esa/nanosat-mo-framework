@@ -7,16 +7,16 @@
     xmlns:com = "http://www.ccsds.org/schema/COMSchema"
     xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" comment="">
     <mal:area name="SM" number="53" version="6" comment="Software Management services">
-        <mal:service name="PackageManagement" number="1" xsi:type="com:ExtendedServiceType" comment="The Package Management service provides the ability to install, uninstall, upgrade, list, check packages. The service shall optionally support verification of packages, verification of digital signatures, upgrade software, manage dependencies.&#10;Packages can be organized in different categories in order to facilitate the management of software.">
+        <mal:service name="PackageManagement" number="1" xsi:type="com:ExtendedServiceType" comment="The Package Management service provides the ability to install, uninstall, update, list, check packages. The service shall optionally support verification of packages, verification of digital signatures, update software, manage dependencies.&#10;Packages can be organized in different categories in order to facilitate the management of software.">
             <mal:documentation name="Service-level Requirement" order="1">The Package Management service shall provide:
 &lt;ol&gt;
 &lt;li&gt;the capability for listing, installing and uninstalling packages;&lt;/li&gt;
-&lt;li&gt;the capability for upgrading packages;&lt;/li&gt;
+&lt;li&gt;the capability for updating packages;&lt;/li&gt;
 &lt;li&gt;the capability for checking the integrity of a package.&lt;/li&gt;
 &lt;/ol&gt;
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="2">
-                When a package is successfully installed, uninstalled, or upgraded, the service provider should store the corresponding PackageInstalled, PackageUninstalled, or PackageUpgraded COM object in the COM archive.
+                When a package is successfully installed, uninstalled, or updated, the service provider should store the corresponding PackageInstalled, PackageUninstalled, or PackageUpdated COM object in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1" comment="">
                 <mal:requestIP name="findPackage" number="1" comment="The findPackage operation allows a consumer to find the available packages on the provider.">
@@ -106,7 +106,7 @@
                 </mal:invokeIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="2" comment="">
-                <mal:invokeIP name="upgrade" number="4" comment="The upgrade operation allows a consumer to upgrade the content of a package on the provider. The selected packages will be upgraded sequentially.">
+                <mal:invokeIP name="update" number="4" comment="The update operation allows a consumer to update the content of a package on the provider. The selected packages will be updated sequentially.">
                     <mal:messages>
                         <mal:invoke>
                             <mal:field name="names" canBeNull="true" comment="The names of the packages.">
@@ -168,7 +168,7 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <com:features>
-                <com:objects comment="The PackageDefinition, PackageInstalled, PackageUninstalled, and PackageUpgraded COM objects used by the Package Management service.">
+                <com:objects comment="The PackageDefinition, PackageInstalled, PackageUninstalled, and PackageUpdated COM objects used by the Package Management service.">
                     <com:object comment="" number="1" name="PackageDefinition">
                         <com:objectType>
                             <mal:type area="SM" list="false" name="PackageDefinition"/>
@@ -197,11 +197,11 @@
                         <com:sourceObject comment=""/>
                     </com:object>
 
-                    <com:object comment="Stored in the archive when a package is successfully upgraded." number="4" name="PackageUpgraded">
+                    <com:object comment="Stored in the archive when a package is successfully updated." number="4" name="PackageUpdated">
                         <com:objectType>
-                            <mal:type area="SM" list="false" name="PackageUpgraded"/>
+                            <mal:type area="SM" list="false" name="PackageUpdated"/>
                         </com:objectType>
-                        <com:relatedObject comment="The related object shall be the PackageDefinition COM object of the upgraded package.">
+                        <com:relatedObject comment="The related object shall be the PackageDefinition COM object of the updated package.">
                             <com:objectType area="SM" number="1" service="PackageManagement"/>
                         </com:relatedObject>
                         <com:sourceObject comment=""/>
@@ -735,20 +735,20 @@
                     <mal:type area="MAL" list="false" name="URI"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="PackageUpgraded" shortFormPart="12" comment="The body of a PackageUpgraded COM object, stored in the archive when a package is successfully upgraded.">
+            <mal:composite name="PackageUpdated" shortFormPart="12" comment="The body of a PackageUpdated COM object, stored in the archive when a package is successfully updated.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
-                <mal:field name="packageName" canBeNull="false" comment="The name of the upgraded package.">
+                <mal:field name="packageName" canBeNull="false" comment="The name of the updated package.">
                     <mal:type area="MAL" list="false" name="Identifier"/>
                 </mal:field>
-                <mal:field name="fromVersion" canBeNull="true" comment="The version of the package before the upgrade. NULL if the backend cannot determine it.">
+                <mal:field name="fromVersion" canBeNull="true" comment="The version of the package before the update. NULL if the backend cannot determine it.">
                     <mal:type area="MAL" list="false" name="String"/>
                 </mal:field>
-                <mal:field name="toVersion" canBeNull="true" comment="The version of the package after the upgrade. NULL if the backend cannot determine it.">
+                <mal:field name="toVersion" canBeNull="true" comment="The version of the package after the update. NULL if the backend cannot determine it.">
                     <mal:type area="MAL" list="false" name="String"/>
                 </mal:field>
-                <mal:field name="triggeredBy" canBeNull="true" comment="The URI of the consumer that requested the upgrade. NULL if unknown.">
+                <mal:field name="triggeredBy" canBeNull="true" comment="The URI of the consumer that requested the update. NULL if unknown.">
                     <mal:type area="MAL" list="false" name="URI"/>
                 </mal:field>
             </mal:composite>

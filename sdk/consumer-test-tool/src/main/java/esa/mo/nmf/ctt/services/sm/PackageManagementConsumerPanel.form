@@ -130,12 +130,12 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="uninstallButtonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="upgradeButton">
+            <Component class="javax.swing.JButton" name="updateButton">
               <Properties>
-                <Property name="text" type="java.lang.String" value="upgrade"/>
+                <Property name="text" type="java.lang.String" value="update"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="upgradeButtonActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateButtonActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="listAppAllButton">

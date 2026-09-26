@@ -43,7 +43,7 @@ import org.ccsds.moims.mo.sm.packagemanagement.body.FindPackageResponse;
 import org.ccsds.moims.mo.sm.packagemanagement.provider.*;
 import org.ccsds.moims.mo.sm.structures.PackageInstalled;
 import org.ccsds.moims.mo.sm.structures.PackageUninstalled;
-import org.ccsds.moims.mo.sm.structures.PackageUpgraded;
+import org.ccsds.moims.mo.sm.structures.PackageUpdated;
 
 /**
  * Package Management service Provider.
@@ -319,8 +319,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     }
 
     @Override
-    public void upgrade(final IdentifierList names,
-            final UpgradeInteraction interaction) throws UnknownException, InvalidArgumentException, MALInteractionException, MALException {
+    public void update(final IdentifierList names,
+            final UpdateInteraction interaction) throws UnknownException, InvalidArgumentException, MALInteractionException, MALException {
         interaction.sendAcknowledgement();
 
         UIntegerList unkIndexList = new UIntegerList();
@@ -343,11 +343,11 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                     continue;
                 }
 
-                // Before upgrading, we need to check the package integrity!
-                // The upgrade cannot go forward here if the integrity is false!
+                // Before updating, we need to check the package integrity!
+                // The update cannot go forward here if the integrity is false!
                 // Baseline components (nmf, mission, java) are also rejected:
                 // they are shipped with install and activated with the
-                // setPrimaryBaseline action, never upgraded in place.
+                // setPrimaryBaseline action, never updated in place.
                 boolean integrity = backend.checkPackageIntegrity(availablePackages.get(index));
                 if (!integrity || backend.isBaselineComponent(availablePackages.get(index))) {
                     invIndexList.add(new UInteger(i));
@@ -368,14 +368,14 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
         for (Identifier packageName : names) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
-                    Level.INFO, "Upgrading: {0}", packageName.getValue());
+                    Level.INFO, "Updating: {0}", packageName.getValue());
 
             String fromVersion = backend.getPackageVersion(packageName.getValue());
-            backend.upgrade(packageName.getValue());
+            backend.update(packageName.getValue());
             String toVersion = backend.getPackageVersion(packageName.getValue());
 
             if (toVersion != null) {
-                storePackageUpgraded(packageName.getValue(), fromVersion,
+                storePackageUpdated(packageName.getValue(), fromVersion,
                         toVersion, interaction.getInteraction());
             }
         }
@@ -426,7 +426,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         }
     }
 
-    private void storePackageUpgraded(String packageName, String fromVersion,
+    private void storePackageUpdated(String packageName, String fromVersion,
             String toVersion, MALInteraction interaction) {
         if (comServices == null || comServices.getArchiveService() == null) {
             return;
@@ -435,16 +435,16 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             URI triggeredBy = (interaction != null)
                     ? interaction.getMessageHeader().getFromURI() : null;
             HeterogeneousList bodies = new HeterogeneousList();
-            bodies.add(new PackageUpgraded(new Identifier(packageName),
+            bodies.add(new PackageUpdated(new Identifier(packageName),
                     fromVersion, toVersion, triggeredBy));
             ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
                     null, null, connection.getPrimaryConnectionDetails().getProviderURI());
             comServices.getArchiveService().store(
-                    true, PackageManagementServiceInfo.PACKAGEUPGRADED_OBJECT_TYPE,
+                    true, PackageManagementServiceInfo.PACKAGEUPDATED_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(), archDetails, bodies, null);
         } catch (org.ccsds.moims.mo.com.DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
-                    Level.WARNING, "Could not store PackageUpgraded in archive", ex);
+                    Level.WARNING, "Could not store PackageUpdated in archive", ex);
         }
     }
 

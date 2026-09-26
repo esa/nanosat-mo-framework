@@ -49,7 +49,7 @@ public class Dispatcher {
             + "  aggregation    subscribe | enable | disable\n"
             + "  action         trigger | list\n"
             + "  apps-launcher  subscribe | run | stop | kill\n"
-            + "  software-management  findPackage | install | uninstall | upgrade\n"
+            + "  software-management  findPackage | install | uninstall | update\n"
             + "  heartbeat      subscribe\n"
             + "  gps            get-nmea-sentence\n"
             + "  adcs           get-status\n"
@@ -140,7 +140,7 @@ public class Dispatcher {
                     case "findPackage": return new PackageManagementCommands.FindPackage();
                     case "install":     return new PackageManagementCommands.Install();
                     case "uninstall":   return new PackageManagementCommands.Uninstall();
-                    case "upgrade":     return new PackageManagementCommands.Upgrade();
+                    case "update":     return new PackageManagementCommands.Update();
                 }
                 break;
             case "heartbeat":
