@@ -42,8 +42,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.configuration.ConfigurationHelper;
-import org.ccsds.moims.mo.com.configuration.ConfigurationServiceInfo;
+import org.ccsds.moims.mo.com.directory.DirectoryHelper;
+import org.ccsds.moims.mo.com.directory.DirectoryServiceInfo;
 import org.ccsds.moims.mo.com.structures.NMFProviderType;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.*;
@@ -213,10 +213,10 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         // Are the dynamic changes enabled? (defaults to true)
         if ("true".equals(System.getProperty(Const.DYNAMIC_CHANGES_PROPERTY, "true"))) {
             LOGGER.log(Level.INFO, "Loading previous configurations...");
-            MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(ConfigurationHelper.CONFIGURATION_SERVICE);
+            MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(DirectoryHelper.DIRECTORY_SERVICE);
 
             // Activate the previous configuration
-            final ObjectKey confId = new ObjectKey(ConfigurationServiceInfo.CONFIGURATIONPROVIDER_OBJECT_TYPE,
+            final ObjectKey confId = new ObjectKey(DirectoryServiceInfo.CONFIGURATIONPROVIDER_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     DEFAULT_PROVIDER_CONFIGURATION_OBJID);
 

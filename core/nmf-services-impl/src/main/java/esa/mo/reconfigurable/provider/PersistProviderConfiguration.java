@@ -34,7 +34,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.provider.ArchiveInheritanceSkeleton;
-import org.ccsds.moims.mo.com.configuration.ConfigurationServiceInfo;
+import org.ccsds.moims.mo.com.directory.DirectoryServiceInfo;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -77,7 +77,7 @@ public class PersistProviderConfiguration {
 
         final ArchivePersistenceObject comObjectProvider = HelperArchive.getArchiveCOMObject(
                 archiveService,
-                ConfigurationServiceInfo.CONFIGURATIONPROVIDER_OBJECT_TYPE,
+                DirectoryServiceInfo.CONFIGURATIONPROVIDER_OBJECT_TYPE,
                 confId.getDomain(),
                 confId.getId());
 
@@ -107,7 +107,7 @@ public class PersistProviderConfiguration {
             // Store the provider configuration
             ObjectKeysList setList = new ObjectKeysList(1);
             ObjectKeys set = new ObjectKeys(
-                    ConfigurationServiceInfo.CONFIGURATIONSERVICE_OBJECT_TYPE,
+                    DirectoryServiceInfo.CONFIGURATIONSERVICE_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     objIds);
             setList.add(set);
@@ -119,7 +119,7 @@ public class PersistProviderConfiguration {
 
             this.archiveService.store(
                     false,
-                    ConfigurationServiceInfo.CONFIGURATIONPROVIDER_OBJECT_TYPE,
+                    DirectoryServiceInfo.CONFIGURATIONPROVIDER_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     HelperArchive.generateArchiveDetailsList(null, null, new URI(""), confId.getId()),
                     providerConfigList,
@@ -170,7 +170,7 @@ public class PersistProviderConfiguration {
             final LongList objIds) throws IOException {
         // Retrieve the COM objects of the services (now with embedded configuration data)
         List<ArchivePersistenceObject> comObjects = HelperArchive.getArchiveCOMObjectList(archiveService,
-                ConfigurationServiceInfo.CONFIGURATIONSERVICE_OBJECT_TYPE,
+                DirectoryServiceInfo.CONFIGURATIONSERVICE_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(), objIds);
 
         if (comObjects == null) { // Could not be found, return

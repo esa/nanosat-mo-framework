@@ -39,7 +39,7 @@ import java.net.MalformedURLException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.configuration.ConfigurationServiceInfo;
+import org.ccsds.moims.mo.com.directory.DirectoryServiceInfo;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -301,7 +301,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
             LOGGER.log(Level.INFO, "Loading previous configurations...");
 
             // Activate the previous configuration
-            final ObjectKey confId = new ObjectKey(ConfigurationServiceInfo.CONFIGURATIONPROVIDER_OBJECT_TYPE,
+            final ObjectKey confId = new ObjectKey(DirectoryServiceInfo.CONFIGURATIONPROVIDER_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(), DEFAULT_PROVIDER_CONFIGURATION_OBJID);
 
             super.providerConfiguration = new PersistProviderConfiguration(this, confId, comServices.getArchiveService());

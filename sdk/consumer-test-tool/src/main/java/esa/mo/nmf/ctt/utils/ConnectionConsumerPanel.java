@@ -639,17 +639,6 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
             }
         }
          */
- /*
-        try {
-            details = connectionConsumer.getServicesDetails().get(ConfigurationHelper.CONFIGURATION_SERVICE_NAME);
-            ConfigurationConsumerServiceImpl configurationService = new ConfigurationConsumerServiceImpl(details, comServices);
-
-            this.tabs.insertTab("Configuration service", null, new ConfigurationConsumerPanel(configurationService), "Configuration Tab", tabs.getTabCount());
-        } catch (MALInteractionException | MALException | MalformedURLException ex) {
-            errorConnectionProvider("Configuration");
-            return;
-        }
-         */
 
     }//GEN-LAST:event_connectButtonActionPerformed
 

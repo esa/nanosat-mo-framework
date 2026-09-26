@@ -43,8 +43,6 @@ Each sub-tab corresponds to one MO service exposed by the provider:
 - **Action Service** — list actions, invoke them with arguments, and observe progress for multi-stage actions.
 - **Alert Service** — subscribe to alerts published by the provider.
 - **Archive Manager** — query the COM Archive for stored objects.
-- **Event Service** — subscribe to COM events.
-- **Configuration Service** — store and restore provider configurations.
 
 Each tab presents service-specific controls; the layout is consistent across providers since every provider is
 described by the same MO XML.

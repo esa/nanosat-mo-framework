@@ -135,7 +135,7 @@ After a full build, the playground environment generates a runnable NMF filesyst
 
 ```
 CCSDS MAL (transport/encoding)
-  └─ COM (Archive, ArchiveSync, Directory, Login, Configuration)
+  └─ COM (Archive, ArchiveSync, Directory, Login)
        ├─ MC (Parameter, Action, Aggregation, Alert, Conversion)
        ├─ Platform (Camera, GPS, AutonomousADCS, SoftwareDefinedRadio,
        │            OpticalDataReceiver, PowerControl,
@@ -143,7 +143,7 @@ CCSDS MAL (transport/encoding)
        └─ SM (AppsLauncher, PackageManagement, Heartbeat, CommandExecutor)
 ```
 
-Note: the previously separate "Common" area (Directory, Configuration, Login) has been folded into COM. `Configuration` and `Login` are defined in XML; only `Login` has a consumer-side implementation today, and configuration persistence lives in `esa.mo.reconfigurable.provider.PersistProviderConfiguration` rather than a `ConfigurationProviderServiceImpl`.
+Note: the previously separate "Common" area (Directory, Configuration, Login) has been folded into COM, and the Configuration service has since been removed. Its two COM objects, `ConfigurationService` and `ConfigurationProvider`, are now objects of the Directory service; configuration persistence lives in `esa.mo.reconfigurable.provider.PersistProviderConfiguration`. `Login` is defined in XML and has only a consumer-side implementation today.
 
 Service XML definitions in `core/mo-services-xml/` are the authoritative source; the API JARs in `mo-services-apis/` are generated from them. When CCSDS MO service versions change, update the XML first.
 

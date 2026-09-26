@@ -493,7 +493,7 @@
             </com:features>
         </mal:service>
         <mal:service name="Directory" number="3" xsi:type="com:ExtendedServiceType"
-                     comment="The Directory service allows providers to publish information about which services they provide and consumers to discover provider address and capability information.&#xA;Service provider information is made available using the Directory service add operation and removed using the remove operation.&#xA;The lookup operation provides the ability for consumers to query the directory service based on a filter such as required service capability.&#xA;Finally, a provider may supply its set of service specification XML files when publishing its capabilities. This allows consumers that are able to process MO service XML files obtain the files for further processing. It is expected that this would be used to either ensure that no modifications have been made by a provider to a standard service or, in the case of a consumer that is able to dynamically interact with new service specifications, obtain the service specification to allow interaction with that new service.">
+                     comment="The Directory service allows providers to publish information about which services they provide and consumers to discover provider address and capability information.&#xA;Service provider information is made available using the Directory service add operation and removed using the remove operation.&#xA;The lookup operation provides the ability for consumers to query the directory service based on a filter such as required service capability.&#xA;Finally, a provider may supply its set of service specification XML files when publishing its capabilities. This allows consumers that are able to process MO service XML files obtain the files for further processing. It is expected that this would be used to either ensure that no modifications have been made by a provider to a standard service or, in the case of a consumer that is able to dynamically interact with new service specifications, obtain the service specification to allow interaction with that new service.&#xA;The Directory service also defines the COM objects that describe the stored configuration of a provider and of each of its services.">
             <mal:documentation name="Service-level Requirement" order="1">The directory service shall provide the capability to:
 &lt;ol&gt;
  &lt;li&gt;request provider details based on a filter;&lt;/li&gt;
@@ -533,6 +533,30 @@
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="12">
                 If the implementation of the Directory service uses a COM archive, then the provider of the Directory service shall store all directory objects in the COM archive.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="13">
+                A ConfigurationService COM object shall represent the configuration of a service of a provider.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="14">
+                A ConfigurationProvider COM object shall represent the configuration of a provider, as the set of the ConfigurationService COM objects of its services.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="15">
+                The service provider shall set the ConfigurationService COM object related link to NULL.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="16">
+                The service provider shall set the ConfigurationService COM object source link to NULL.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="17">
+                The service provider shall set the ConfigurationProvider COM object related link to NULL.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="18">
+                The service provider shall set the ConfigurationProvider COM object source link to NULL.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="19">
+                If a provider stores its configuration, then the provider shall store its ConfigurationService and ConfigurationProvider COM objects in the COM archive.
+            </mal:documentation>
+            <mal:documentation name="Service-level Requirement" order="20">
+                If a provider stores its configuration, then the provider shall store the COM objects referenced by the configObjects field of each ConfigurationService COM object in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1" comment="">
                 <mal:requestIP name="lookup" number="1" comment="The lookup operation retrieves the list of providers made available in the Directory service.">
@@ -687,10 +711,20 @@
                 </mal:requestIP>
             </mal:capabilitySet>
             <com:features>
-                <com:objects comment="The Provider object used by the Directory service.">
+                <com:objects comment="The Provider, ConfigurationService and ConfigurationProvider objects used by the Directory service.">
                     <com:object number="1" name="Provider">
                         <com:objectType>
                             <mal:type area="COM" list="false" name="Provider"/>
+                        </com:objectType>
+                    </com:object>
+                    <com:object number="2" name="ConfigurationService">
+                        <com:objectType>
+                            <mal:type area="COM" list="false" name="ConfigurationService"/>
+                        </com:objectType>
+                    </com:object>
+                    <com:object number="3" name="ConfigurationProvider">
+                        <com:objectType>
+                            <mal:type area="COM" list="false" name="ConfigurationProvider"/>
                         </com:objectType>
                     </com:object>
                 </com:objects>
@@ -762,54 +796,6 @@
             </mal:capabilitySet>
             <com:features>
                 <com:archiveUsage comment="The Login service COM archive usage."/>
-            </com:features>
-        </mal:service>
-        <mal:service name="Configuration" number="5" xsi:type="com:ExtendedServiceType" comment="The Configuration service allows a service consumer to activate pre-defined configurations of a provider. The service uses COM objects to represent the configurations allowed by a provider.">
-            <mal:documentation name="Service-level Requirement" order="1">
-                The object body of the ConfigurationService COM object shall hold the service key that identifies the service it is a configuration of.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="2">
-                The ConfigurationService COM object related link shall link to the ConfigurationSet COM object that contains the objects that form the service configuration.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="3">
-                If the ConfigurationService represents a hard-coded configuration for a single service, then the service provider shall set the related link to NULL.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="4">
-                The object body of the ConfigurationProvider COM object shall hold an identifier to identify the provider configuration.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="5">
-                The ConfigurationProvider COM object related link shall link to the ConfigurationSet COM object that contains the objects that form the provider configuration.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="6">
-                If the ConfigurationProvider represents a hard-coded configuration for a provider, then the service provider shall set the related link to NULL.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="7">
-                The object body of the ConfigurationSet COM object shall hold a configuration object details structure that links to the objects that form the configuration.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="8">
-                The service provider shall set the ConfigurationSet COM object related link to NULL.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">
-                If the implementation of the Configuration service uses a COM archive, then the provider of the Configuration service shall store configuration definition objects (ConfigurationService, ConfigurationProvider, ConfigurationSet) in the COM archive.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
-                If the implementation of the Configuration service uses a COM archive, then the provider of the relevant service shall store the COM objects that form the actual configuration definition details in the COM archive.
-            </mal:documentation>
-            <com:features>
-                <com:objects comment="The ConfigurationService and ConfigurationProvider COM objects used by the Configuration service.">
-                    <com:object number="1" name="ConfigurationService">
-                        <com:objectType>
-                            <mal:type area="COM" list="false" name="ConfigurationService"/>
-                        </com:objectType>
-                    </com:object>
-                    <com:object number="2" name="ConfigurationProvider">
-                        <com:objectType>
-                            <mal:type area="COM" list="false" name="ConfigurationProvider"/>
-                        </com:objectType>
-                    </com:object>
-                </com:objects>
-                <com:events comment=""/>
-                <com:archiveUsage comment="The Configuration service COM archive usage."/>
             </com:features>
         </mal:service>
         <mal:dataTypes>
@@ -1106,25 +1092,25 @@
                 </mal:field>
             </mal:composite>
 
-            <mal:composite name="ConfigurationService" shortFormPart="29" comment="The ConfigurationService composite holds service identification and its complete configuration data.">
+            <mal:composite name="ConfigurationService" shortFormPart="29" comment="The ConfigurationService structure describes the configuration of a service.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
-                <mal:field name="serviceIdentifier" canBeNull="false" comment="Identifier of the service.">
+                <mal:field name="serviceIdentifier" canBeNull="false" comment="The identifier of the service.">
                     <mal:type area="MAL" list="false" name="ServiceId"/>
                 </mal:field>
-                <mal:field name="configObjects" canBeNull="false" comment="The list of configuration objects.">
+                <mal:field name="configObjects" canBeNull="false" comment="The keys of the COM objects that form the configuration of the service.">
                     <mal:type area="COM" list="true" name="ObjectKeys"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="ConfigurationProvider" shortFormPart="30" comment="The ConfigurationProvider composite holds provider identification and its complete configuration data.">
+            <mal:composite name="ConfigurationProvider" shortFormPart="30" comment="The ConfigurationProvider structure describes the configuration of a provider.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
-                <mal:field name="providerIdentifier" canBeNull="false" comment="Identifier of the provider.">
+                <mal:field name="providerIdentifier" canBeNull="false" comment="The name of the provider.">
                     <mal:type area="MAL" list="false" name="Identifier"/>
                 </mal:field>
-                <mal:field name="configObjects" canBeNull="false" comment="The list of configuration objects.">
+                <mal:field name="configObjects" canBeNull="false" comment="The keys of the ConfigurationService COM objects that form the configuration of the provider.">
                     <mal:type area="COM" list="true" name="ObjectKeys"/>
                 </mal:field>
             </mal:composite>

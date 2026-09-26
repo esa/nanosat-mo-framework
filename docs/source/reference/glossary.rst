@@ -24,8 +24,8 @@ Glossary
       space-data standards on which MO is built.
 
    COM
-      Common Object Model. The MO area that provides Event, Archive,
-      ArchiveSync, Directory, Login, and Configuration services.
+      Common Object Model. The MO area that provides the Archive,
+      ArchiveSync, Directory and Login services.
 
    COM Archive
       Persistent storage of COM objects, queryable through the COM

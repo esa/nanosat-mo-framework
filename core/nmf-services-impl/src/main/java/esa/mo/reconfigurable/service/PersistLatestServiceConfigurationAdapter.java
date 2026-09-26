@@ -25,7 +25,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.provider.ArchiveInheritanceSkeleton;
-import org.ccsds.moims.mo.com.configuration.ConfigurationServiceInfo;
+import org.ccsds.moims.mo.com.directory.DirectoryServiceInfo;
 import org.ccsds.moims.mo.com.structures.ConfigurationService;
 import org.ccsds.moims.mo.com.DuplicateException;
 import org.ccsds.moims.mo.com.InvalidArgumentException;
@@ -87,7 +87,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
             serviceConfigList.add(serviceConfig);
 
             try {
-                archiveService.update(ConfigurationServiceInfo.CONFIGURATIONSERVICE_OBJECT_TYPE,
+                archiveService.update(DirectoryServiceInfo.CONFIGURATIONSERVICE_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
                         HelperArchive.generateArchiveDetailsList(null, null, new URI(""), serviceConfigObjId),
                         serviceConfigList, null);
@@ -124,7 +124,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
 
             archiveService.store(
                     false,
-                    ConfigurationServiceInfo.CONFIGURATIONSERVICE_OBJECT_TYPE,
+                    DirectoryServiceInfo.CONFIGURATIONSERVICE_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
                     HelperArchive.generateArchiveDetailsList(null, null, new URI(""), defaultObjId),
                     serviceConfigList,

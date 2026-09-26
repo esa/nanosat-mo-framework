@@ -26,7 +26,7 @@ import esa.mo.mc.impl.provider.ActionManager;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.configuration.ConfigurationHelper;
+import org.ccsds.moims.mo.com.directory.DirectoryHelper;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -70,7 +70,7 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
      */
     public synchronized void init(COMServicesProvider localCOMServices,
             ActionConsumerServiceImpl actionConsumer) throws MALException {
-        MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(ConfigurationHelper.CONFIGURATION_SERVICE);
+        MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(DirectoryHelper.DIRECTORY_SERVICE);
         MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(ActionHelper.ACTION_SERVICE);
 
         // Shut down old service transport
