@@ -47,8 +47,8 @@ core/
   mo-services-apis/         # Generated API jars: api-nmf-com, api-nmf-mc,
                             #   api-nmf-sm, api-nmf-platform
   nmf-services-impl/        # Single unified module: all service implementations (COM, MC, SM,
-                            #   Platform) plus helper utilities (clock, misc, environment)
-  nmf-package-lib/          # NMF package management (install/uninstall apps on satellite)
+                            #   Platform), helper utilities (clock, misc, environment) and the
+                            #   NMF Package implementation (esa.mo.nmf.nmfpackage)
   nmf-package-maven-plugin/ # Maven plugin: builds .nmfpackage files
   nmf-linux-maven-plugin/   # Maven plugin: generates Linux filesystem layout + bootloader files
   nmf-composites/           # Key composites and the NMF app-facing API (see below)

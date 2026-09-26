@@ -69,11 +69,6 @@ under the License. -->
             <artifactId>transport-tcpip</artifactId>
         </dependency>
         <!-- Others -->
-        <dependency>
-            <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nmf-package-lib</artifactId>
-            <type>jar</type>
-        </dependency>
                 <dependency>
             <groupId>int.esa.nmf.core</groupId>
             <artifactId>nmf-services-impl</artifactId>
