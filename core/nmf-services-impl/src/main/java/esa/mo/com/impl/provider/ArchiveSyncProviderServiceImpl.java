@@ -198,7 +198,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
         interaction.sendAcknowledgement(interactionTicket);
 
         ArchiveQuery archiveQuery = new ArchiveQuery(null, null,
-                0L, null, from, until, true, null);
+                0L, from, until, true, null);
 
         PaginationFilter filter = new PaginationFilter(new UInteger(objectsLimit), new UInteger(0));
 

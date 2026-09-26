@@ -394,7 +394,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             HeterogeneousList bodies = new HeterogeneousList();
             bodies.add(new PackageInstalled(new Identifier(packageName), version, triggeredBy));
             ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
-                    null, null, connection.getPrimaryConnectionDetails().getProviderURI());
+                    null, connection.getPrimaryConnectionDetails().getProviderURI());
             comServices.getArchiveService().store(
                     true, PackageManagementServiceInfo.PACKAGEINSTALLED_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(), archDetails, bodies, null);
@@ -416,7 +416,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             bodies.add(new PackageUninstalled(new Identifier(packageName),
                     version, keptConfigurations, triggeredBy));
             ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
-                    null, null, connection.getPrimaryConnectionDetails().getProviderURI());
+                    null, connection.getPrimaryConnectionDetails().getProviderURI());
             comServices.getArchiveService().store(
                     true, PackageManagementServiceInfo.PACKAGEUNINSTALLED_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(), archDetails, bodies, null);
@@ -438,7 +438,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             bodies.add(new PackageUpdated(new Identifier(packageName),
                     fromVersion, toVersion, triggeredBy));
             ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
-                    null, null, connection.getPrimaryConnectionDetails().getProviderURI());
+                    null, connection.getPrimaryConnectionDetails().getProviderURI());
             comServices.getArchiveService().store(
                     true, PackageManagementServiceInfo.PACKAGEUPDATED_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(), archDetails, bodies, null);

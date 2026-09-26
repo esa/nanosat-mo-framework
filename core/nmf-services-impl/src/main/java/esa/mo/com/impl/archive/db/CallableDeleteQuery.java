@@ -45,13 +45,12 @@ public class CallableDeleteQuery extends CallableGenericQuery<Integer> {
      * @param archiveQuery the archive query
      * @param domainIds the domain ids
      * @param providerURIId the provider uri id
-     * @param sourceLink the source link
      * @param filter the filter
      */
     public CallableDeleteQuery(TransactionsProcessor transactionsProcessor, IntegerList objTypeIds,
         ArchiveQuery archiveQuery, IntegerList domainIds, Integer providerURIId,
-        SourceLinkContainer sourceLink, QueryFilter filter) {
-        super(transactionsProcessor, objTypeIds, archiveQuery, domainIds, providerURIId, sourceLink, filter);
+        QueryFilter filter) {
+        super(transactionsProcessor, objTypeIds, archiveQuery, domainIds, providerURIId, filter);
     }
 
     @Override

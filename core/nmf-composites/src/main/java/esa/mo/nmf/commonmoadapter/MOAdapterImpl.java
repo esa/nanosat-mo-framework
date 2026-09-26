@@ -219,7 +219,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                     Time timestamp = Time.now();
 
                     ParameterInstance parameterInstance = new ParameterInstance(new Identifier(parameterName),
-                            newValue, null, timestamp);
+                            newValue, timestamp);
 
                     ((CompleteDataReceivedListener) listener).onDataReceived(parameterInstance);
                 }
@@ -242,7 +242,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                     AggregationValue aggregationValue = newValue;
 
                     AggregationInstance aggregationInstance = new AggregationInstance(new Identifier(
-                            aggregationName), aggregationValue, null, timestamp);
+                            aggregationName), aggregationValue, timestamp);
 
                     ((CompleteAggregationReceivedListener) listener).onDataReceived(aggregationInstance);
                 }

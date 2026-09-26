@@ -40,7 +40,6 @@ public class EventCOMObject {
     private ObjectType objType;
     private Long objId;
 
-    private ObjectKey source;
     private Long related;
     private Element body;
 
@@ -59,20 +58,17 @@ public class EventCOMObject {
      * @param domain the domain
      * @param objType the obj type
      * @param objId the object id
-     * @param source the source
      * @param related the related
      * @param body the body
      * @param timestamp the timestamp
      * @param sourceURI the source uri
      */
-    public EventCOMObject(final IdentifierList domain, final ObjectType objType, final Long objId,
-        final ObjectKey source, final Long related, final Element body, final Time timestamp,
+    public EventCOMObject(final IdentifierList domain, final ObjectType objType, final Long objId, final Long related, final Element body, final Time timestamp,
         final URI sourceURI) {
         this.domain = domain;
         this.objType = objType;
         this.objId = objId;
 
-        this.source = source;
         this.related = related;
         this.body = body;
 
@@ -105,15 +101,6 @@ public class EventCOMObject {
      */
     public Long getObjId() {
         return objId;
-    }
-
-    /**
-     * Returns the source.
-     *
-     * @return the source
-     */
-    public ObjectKey getSource() {
-        return source;
     }
 
     /**
@@ -180,15 +167,6 @@ public class EventCOMObject {
     }
 
     /**
-     * Sets the source.
-     *
-     * @param source the source
-     */
-    public void setSource(ObjectKey source) {
-        this.source = source;
-    }
-
-    /**
      * Sets the related.
      *
      * @param related the related
@@ -235,8 +213,8 @@ public class EventCOMObject {
 
     @Override
     public String toString() {
-        return MessageFormat.format("EventCOMObject: domain={1}, objType={2}, objId={3}, source={4}, related={5}" +
-            ", body={6}, timestamp={7}, sourceURI={8}", HelperDomain.domain2domainId(domain), objType,
-            objId, source, related, body, timestamp, sourceURI);
+        return MessageFormat.format("EventCOMObject: domain={1}, objType={2}, objId={3}, related={4}" +
+            ", body={5}, timestamp={6}, sourceURI={7}", HelperDomain.domain2domainId(domain), objType,
+            objId, related, body, timestamp, sourceURI);
     }
 }

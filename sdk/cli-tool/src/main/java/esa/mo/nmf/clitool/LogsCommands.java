@@ -93,8 +93,7 @@ public class LogsCommands {
             IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
             Time startTimeF = startTime == null ? null : HelperTime.readableString2Time(startTime);
             Time endTimeF = endTime == null ? null : HelperTime.readableString2Time(endTime);
-            ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, 0L,
-                    null, startTimeF, endTimeF, null, null);
+            ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, 0L, startTimeF, endTimeF, null, null);
 
             // execute query
             ArchiveToAppListAdapter adapter = new ArchiveToAppListAdapter();
@@ -187,14 +186,14 @@ public class LogsCommands {
             Time startTimeF = startTime == null ? null : HelperTime.readableString2Time(startTime);
             Time endTimeF = endTime == null ? null : HelperTime.readableString2Time(endTime);
             ArchiveQuery outputArchiveQuery = new ArchiveQuery(domain, null,
-                    0L, appObjectKey, startTimeF, endTimeF, null, null);
+                    0L, startTimeF, endTimeF, null, null);
 
             // execute query
             ArchiveToLogAdapter adapter = new ArchiveToLogAdapter(logFile, addTimestamps);
             queryArchive(outputObjectTypes, outputArchiveQuery, adapter, adapter);
 
             ArchiveQuery eventArchiveQuery = new ArchiveQuery(domain, null,
-                    appObjectKey.getId(), null, startTimeF, endTimeF, null, null);
+                    appObjectKey.getId(), startTimeF, endTimeF, null, null);
             adapter.resetAdapter();
             queryArchive(eventObjectTypes, eventArchiveQuery, adapter, adapter);
 

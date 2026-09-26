@@ -263,7 +263,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
         //add the definition
         for (int index = 0; index < defsList.size(); index++) { // requirement: 3.2.12.2.f (incremental "for cycle" guarantees that)
-            newObjInstIds.add(manager.add(defsList.get(index), null,
+            newObjInstIds.add(manager.add(defsList.get(index),
                     connection.getPrimaryConnectionDetails().getProviderURI())); //  requirement: 3.2.12.2.e, g
         }
 
@@ -324,7 +324,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         LongList newDefIds = new LongList();
         for (int index = 0; index < ids.size(); index++) { // requirement: 3.2.13.2.e, k (incremental "for cycle" guarantees that)
             newDefIds.add(manager.update(ids.get(index),
-                    actionDefDetails.get(index), null,
+                    actionDefDetails.get(index),
                     connection.getPrimaryConnectionDetails().getProviderURI()));  // Change in the manager; requirement: 3.2.13.2.d, g, h
         }
 

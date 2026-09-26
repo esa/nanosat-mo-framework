@@ -62,14 +62,11 @@ final class RunnableUpdate implements Runnable {
                 update.setObject(4, obj.getObjectEncoded());
                 update.setObject(5, obj.getProviderURI());
                 update.setObject(6, obj.getRelatedLink());
-                update.setObject(7, obj.getSourceLink().getDomainId());
-                update.setObject(8, obj.getSourceLink().getObjId());
-                update.setObject(9, obj.getSourceLink().getObjectTypeId());
-                update.setObject(10, obj.getTimestamp().getValue());
+                update.setObject(7, obj.getTimestamp().getValue());
 
-                update.setObject(11, newObjs.get(i).getObjectTypeId());
-                update.setObject(12, newObjs.get(i).getDomainId());
-                update.setObject(13, newObjs.get(i).getObjectId());
+                update.setObject(8, newObjs.get(i).getObjectTypeId());
+                update.setObject(9, newObjs.get(i).getDomainId());
+                update.setObject(10, newObjs.get(i).getObjectId());
                 update.addBatch();
 
                 // Flush every 1k objects...

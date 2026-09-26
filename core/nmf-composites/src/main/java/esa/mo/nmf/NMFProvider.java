@@ -154,7 +154,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         }
 
         return this.getMCServices().getAlertService().publishAlertEvent(null,
-                new Identifier(alertDefinitionName), attributeValues, null, null);
+                new Identifier(alertDefinitionName), attributeValues, null);
     }
 
     @Override
@@ -180,7 +180,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
             }
         }
 
-        ParameterInstance instance = new ParameterInstance(new Identifier(name), (Attribute) obj, null, null);
+        ParameterInstance instance = new ParameterInstance(new Identifier(name), (Attribute) obj, null);
         ArrayList<ParameterInstance> parameters = new ArrayList<>(1); // We just add 1 element
         parameters.add(instance);
 

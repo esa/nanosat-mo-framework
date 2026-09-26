@@ -369,7 +369,7 @@ public class SoftwareImagesProviderServiceImpl extends SoftwareImagesInheritance
                     true,
                     SoftwareImagesServiceInfo.SOFTWAREIMAGESTARTED_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(null, null,
+                    HelperArchive.generateArchiveDetailsList(null,
                             connection.getConnectionDetails().getProviderURI()),
                     bodies,
                     null);
@@ -398,7 +398,7 @@ public class SoftwareImagesProviderServiceImpl extends SoftwareImagesInheritance
                     false,
                     SoftwareImagesServiceInfo.SOFTWAREIMAGESTOPPED_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(startedObjId, null,
+                    HelperArchive.generateArchiveDetailsList(startedObjId,
                             connection.getConnectionDetails().getProviderURI()),
                     bodies,
                     null);

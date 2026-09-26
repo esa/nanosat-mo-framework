@@ -141,11 +141,10 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
      * Adds an app definition and returns its object id.
      *
      * @param definition the definition
-     * @param source the source
      * @param uri the uri
      * @return the assigned object id
      */
-    protected Long addApp(final AppDetails definition, final ObjectKey source, final URI uri) {
+    protected Long addApp(final AppDetails definition, final URI uri) {
         Long objId = null;
         Long related = null;
 
@@ -179,7 +178,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
                 objId = (long) 0;
             }
             try {
-                LongList objIds = addAppToArchive(definition, source, uri, objId, related);
+                LongList objIds = addAppToArchive(definition, uri, objId, related);
 
                 if (objIds.size() == 1) {
                     this.addDef(objIds.get(0), definition);
@@ -221,13 +220,13 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         return foldersWithApps.get(0); // Use the default folder!
     }
 
-    private LongList addAppToArchive(final AppDetails definition, final ObjectKey source,
+    private LongList addAppToArchive(final AppDetails definition,
             final URI uri, Long objId, Long related) throws DuplicateException,
             InvalidArgumentException, MALException, MALInteractionException {
         HeterogeneousList defs = new HeterogeneousList();
         defs.add(definition);
         ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
-                related, source, uri, objId);
+                related, uri, objId);
 
         return super.getArchiveService().store(true, AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE,
                 ConfigurationProviderSingleton.getDomain(), archDetails, defs, null);
@@ -340,8 +339,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
                 LOGGER.log(Level.INFO, "New app found! Adding new app: {0}", name);
 
                 // Either is the first time running or it is a newly installed app!
-                ObjectKey source = null;
-                this.addApp(singleApp, source, providerURI);
+                this.addApp(singleApp, providerURI);
                 anyChanges = true;
                 continue; // Check the next one...
             }

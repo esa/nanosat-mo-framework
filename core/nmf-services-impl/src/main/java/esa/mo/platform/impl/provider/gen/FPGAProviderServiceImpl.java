@@ -387,7 +387,7 @@ public class FPGAProviderServiceImpl extends FPGAInheritanceSkeleton {
                     true,
                     FPGAServiceInfo.FPGAMODULELOADED_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(null, null,
+                    HelperArchive.generateArchiveDetailsList(null,
                             connection.getConnectionDetails().getProviderURI()),
                     bodies,
                     null);
@@ -416,7 +416,7 @@ public class FPGAProviderServiceImpl extends FPGAInheritanceSkeleton {
                     false,
                     FPGAServiceInfo.FPGAMODULEUNLOADED_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(loadedObjId, null,
+                    HelperArchive.generateArchiveDetailsList(loadedObjId,
                             connection.getConnectionDetails().getProviderURI()),
                     bodies,
                     null);

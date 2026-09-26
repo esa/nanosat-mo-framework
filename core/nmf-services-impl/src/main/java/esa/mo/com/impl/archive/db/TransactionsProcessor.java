@@ -205,8 +205,8 @@ public class TransactionsProcessor {
         types.add(objTypeId);
         IntegerList domains = new IntegerList();
         domains.add(domainId);
-        ArchiveQuery archiveQuery = new ArchiveQuery(null, null, 0L, null, null, null, null, null);
-        CallableSelectQuery query = new CallableSelectQuery(this, types, archiveQuery, domains, null, null, null);
+        ArchiveQuery archiveQuery = new ArchiveQuery(null, null, 0L, null, null, null, null);
+        CallableSelectQuery query = new CallableSelectQuery(this, types, archiveQuery, domains, null, null);
         Future<ArrayList<COMObjectEntity>> future = dbTransactionsExecutor.submit(query);
 
         try {
@@ -295,17 +295,15 @@ public class TransactionsProcessor {
      * @param archiveQuery the archive query
      * @param domainIds the domain ids
      * @param providerURIId the provider uri id
-     * @param sourceLink the source link
      * @param filter the filter
      * @return the matching objects
      */
     public ArrayList<COMObjectEntity> query(final IntegerList objTypeIds,
             final ArchiveQuery archiveQuery, final IntegerList domainIds,
-            final Integer providerURIId,
-            final SourceLinkContainer sourceLink, final QueryFilter filter) {
+            final Integer providerURIId, final QueryFilter filter) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         final CallableSelectQuery task = new CallableSelectQuery(this, objTypeIds, archiveQuery,
-                domainIds, providerURIId, sourceLink, filter);
+                domainIds, providerURIId, filter);
 
         Future<ArrayList<COMObjectEntity>> future = dbTransactionsExecutor.submit(task);
 
@@ -325,17 +323,15 @@ public class TransactionsProcessor {
      * @param archiveQuery the archive query
      * @param domainIds the domain ids
      * @param providerURIId the provider uri id
-     * @param sourceLink the source link
      * @param filter the filter
      * @return the number of affected objects
      */
     public int delete(final IntegerList objTypeIds,
             final ArchiveQuery archiveQuery, final IntegerList domainIds,
-            final Integer providerURIId,
-            final SourceLinkContainer sourceLink, final QueryFilter filter) {
+            final Integer providerURIId, final QueryFilter filter) {
         this.sequencialStoring.set(false); // Sequential stores can no longer happen otherwise we break order
         final CallableDeleteQuery task = new CallableDeleteQuery(this, objTypeIds, archiveQuery,
-                domainIds, providerURIId, sourceLink, filter);
+                domainIds, providerURIId, filter);
 
         Future<Integer> future = dbTransactionsExecutor.submit(task);
 

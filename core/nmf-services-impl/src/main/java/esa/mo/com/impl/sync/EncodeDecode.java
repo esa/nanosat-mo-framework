@@ -216,35 +216,6 @@ public class EncodeDecode {
         ObjectType objType = manager.getFastObjectType().getObjectType(entity.getObjectTypeId());
         encoder.encodeElement(objType);
 
-        // --- Source Link ---
-        if (entity.getSourceLink().getDomainId() == null) {
-            encoder.encodeNullableShort(null);
-        } else {
-            IdentifierList sourceDomain = manager.getFastDomain().getDomain(entity.getSourceLink().getDomainId());
-            Integer sourceDomainId = dictionary.getWordId(HelperDomain.domain2domainId(sourceDomain));
-            encoder.encodeNullableShort(sourceDomainId.shortValue());
-            if (sourceDomainId.shortValue() != sourceDomainId) {
-                LOGGER.log(Level.SEVERE, "providerURI {0} shortValue {1} mismatch networkId full {2}",
-                        new Object[]{HelperDomain.domain2domainId(sourceDomain),
-                            sourceDomainId.shortValue(), sourceDomainId});
-            }
-        }
-
-        if (entity.getSourceLink().getObjectTypeId() == null) {
-            encoder.encodeNullableElement(null);
-        } else {
-            ObjectType sourceObjType = manager.getFastObjectType().getObjectType(entity.getSourceLink().getObjectTypeId());
-            encoder.encodeNullableElement(sourceObjType);
-        }
-
-        if (entity.getSourceLink().getObjectTypeId() == null) {
-            encoder.encodeNullableLong(null);
-        } else {
-            Long sourceObjId = entity.getSourceLink().getObjId();
-            encoder.encodeNullableLong(sourceObjId);
-        }
-        // -------------------
-
         Long relatedLink = entity.getRelatedLink();
         encoder.encodeNullableLong(relatedLink);
 
@@ -266,12 +237,6 @@ public class EncodeDecode {
             try {
                 Short providerURIId = decoder.decodeShort();
                 ObjectType objType = (ObjectType) decoder.decodeElement(new ObjectType());
-
-                // --- Source Link ---
-                Short sourceDomainId = decoder.decodeNullableShort();
-                ObjectType sourceObjType = (ObjectType) decoder.decodeNullableElement(new ObjectType());
-                Long sourceObjId = decoder.decodeNullableLong();
-                // -------------------
 
                 Long relatedLink = decoder.decodeNullableLong();
                 Blob blob = decoder.decodeNullableBlob();
@@ -304,12 +269,6 @@ public class EncodeDecode {
                     ids.add((int) providerURIId);
                 }
 
-                if (sourceDomainId != null) {
-                    if (!dictionary.exists((int) sourceDomainId)) {
-                        ids.add((int) sourceDomainId);
-                    }
-                }
-
                 if (!ids.isEmpty()) {
                     // Then request the dictionary from the provider side!
                     StringList strings = archiveSyncService.getDictionary(ids);
@@ -321,19 +280,8 @@ public class EncodeDecode {
                 }
 
                 URI providerURI = new URI(dictionary.getWord((int) providerURIId));
-                IdentifierList sourceDomain;
-                if (sourceDomainId != null) {
-                    sourceDomain = HelperDomain.domainId2domain(dictionary.getWord((int) sourceDomainId));
-                } else {
-                    sourceDomain = null;
-                }
 
-                ObjectKey objectKey = (sourceObjType == null) ? null
-                        : new ObjectKey(sourceObjType, sourceDomain, sourceObjId);
-
-                ObjectLinks objDetails = new ObjectLinks(relatedLink, objectKey);
-
-                ArchiveDetails archDetails = new ArchiveDetails(objId, objDetails, timestamp, providerURI);
+                ArchiveDetails archDetails = new ArchiveDetails(objId, relatedLink, timestamp, providerURI);
 
                 objs.add(new COMObjectStructure(domain, objType, archDetails, element));
             } catch (IndexOutOfBoundsException ex) {

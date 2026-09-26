@@ -89,7 +89,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
             try {
                 archiveService.update(DirectoryServiceInfo.CONFIGURATIONSERVICE_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(null, null, new URI(""), serviceConfigObjId),
+                        HelperArchive.generateArchiveDetailsList(null, new URI(""), serviceConfigObjId),
                         serviceConfigList, null);
             } catch (MALException ex) {
                 Logger.getLogger(PersistLatestServiceConfigurationAdapter.class.getName()).log(Level.SEVERE, null, ex);
@@ -126,7 +126,7 @@ public class PersistLatestServiceConfigurationAdapter implements ConfigurationCh
                     false,
                     DirectoryServiceInfo.CONFIGURATIONSERVICE_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(null, null, new URI(""), defaultObjId),
+                    HelperArchive.generateArchiveDetailsList(null, new URI(""), defaultObjId),
                     serviceConfigList,
                     null);
         } catch (MALException ex) {

@@ -43,7 +43,6 @@ public abstract class CallableGenericQuery<T> implements Callable<T> {
     private final ArchiveQuery archiveQuery;
     private final IntegerList domainIds;
     private final Integer providerURIId;
-    private final SourceLinkContainer sourceLink;
     private final QueryFilter filter;
 
     /**
@@ -54,18 +53,16 @@ public abstract class CallableGenericQuery<T> implements Callable<T> {
      * @param archiveQuery the archive query
      * @param domainIds the domain ids
      * @param providerURIId the provider uri id
-     * @param sourceLink the source link
      * @param filter the filter
      */
     public CallableGenericQuery(TransactionsProcessor transactionsProcessor, final IntegerList objTypeIds,
         final ArchiveQuery archiveQuery, final IntegerList domainIds, final Integer providerURIId,
-        final SourceLinkContainer sourceLink, final QueryFilter filter) {
+        final QueryFilter filter) {
         this.transactionsProcessor = transactionsProcessor;
         this.objTypeIds = objTypeIds;
         this.archiveQuery = archiveQuery;
         this.domainIds = domainIds;
         this.providerURIId = providerURIId;
-        this.sourceLink = sourceLink;
         this.filter = filter;
     }
 
@@ -92,19 +89,11 @@ public abstract class CallableGenericQuery<T> implements Callable<T> {
         final boolean endTimeContainsWildcard = (archiveQuery.getEndTime() == null);
         final boolean providerURIContainsWildcard = (archiveQuery.getProvider() == null);
 
-        final boolean sourceContainsWildcard = (archiveQuery.getSource() == null);
-        boolean sourceObjIdContainsWildcard = true;
-
         this.transactionsProcessor.dbBackend.createIndexesIfFirstTime();
-
-        if (!sourceContainsWildcard) {
-            sourceObjIdContainsWildcard = (archiveQuery.getSource().getId() == null
-                    || archiveQuery.getSource().getId() == 0);
-        }
 
         // Generate the query string
         String fieldsList = "objectTypeId, domainId, objId, timestampArchiveDetails, providerURI, " +
-            "sourceLinkObjectTypeId, sourceLinkDomainId, sourceLinkObjId, relatedLink, objBody";
+            "relatedLink, objBody";
         String queryString = assembleQueryPrefix(fieldsList);
 
         queryString += "WHERE ";
@@ -118,12 +107,6 @@ public abstract class CallableGenericQuery<T> implements Callable<T> {
         queryString += (endTimeContainsWildcard) ? "" :
                 "timestampArchiveDetails<=" + archiveQuery.getEndTime().getValue() + " AND ";
         queryString += (providerURIContainsWildcard) ? "" : "providerURI=" + providerURIId + " AND ";
-
-        if (!sourceContainsWildcard) {
-            queryString += generateQueryStringFromLists("sourceLinkObjectTypeId", sourceLink.getObjectTypeIds());
-            queryString += generateQueryStringFromLists("sourceLinkDomainId", sourceLink.getDomainIds());
-            queryString += (sourceObjIdContainsWildcard) ? "" : "sourceLinkObjId=" + sourceLink.getObjId() + " AND ";
-        }
 
         queryString = queryString.substring(0, queryString.length() - 4);
 

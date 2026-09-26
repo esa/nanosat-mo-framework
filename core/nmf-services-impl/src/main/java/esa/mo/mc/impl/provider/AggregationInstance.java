@@ -20,7 +20,6 @@
  */
 package esa.mo.mc.impl.provider;
 
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mc.structures.AggregationValue;
@@ -34,7 +33,6 @@ public class AggregationInstance {
 
     private final Identifier name;
     private final AggregationValue aggregationValue;
-    private final ObjectKey source;
     private final Time timestamp;
 
     /**
@@ -42,14 +40,11 @@ public class AggregationInstance {
      *
      * @param name the name
      * @param pValue the p value
-     * @param source the source
      * @param timestamp the timestamp
      */
-    public AggregationInstance(final Identifier name, final AggregationValue pValue,
-            final ObjectKey source, final Time timestamp) {
+    public AggregationInstance(final Identifier name, final AggregationValue pValue, final Time timestamp) {
         this.name = name;
         this.aggregationValue = pValue;
-        this.source = source;
         this.timestamp = timestamp;
     }
 
@@ -69,15 +64,6 @@ public class AggregationInstance {
      */
     public AggregationValue getAggregationValue() {
         return this.aggregationValue;
-    }
-
-    /**
-     * Returns the source.
-     *
-     * @return the source
-     */
-    public ObjectKey getSource() {
-        return this.source;
     }
 
     /**

@@ -22,8 +22,6 @@ package esa.mo.com.impl.util;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import org.ccsds.moims.mo.com.structures.ArchiveDetails;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
-import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
@@ -40,7 +38,6 @@ public class COMObjectStructure {
     private final IdentifierList domain;
     private Long objId;
 
-    private ObjectKey sourceLink;
     private Long relatedLink;
     private Time timestamp;
     private URI providerURI;
@@ -61,8 +58,7 @@ public class COMObjectStructure {
         this.domain = domain;
         this.objId = archiveDetails.getId();
 
-        this.sourceLink = archiveDetails.getLinks().getSource();
-        this.relatedLink = archiveDetails.getLinks().getRelated();
+        this.relatedLink = archiveDetails.getRelatedLink();
         this.timestamp = archiveDetails.getTimestamp();
         this.providerURI = archiveDetails.getProvider();
 
@@ -106,15 +102,6 @@ public class COMObjectStructure {
      */
     public Long getObjId() {
         return objId;
-    }
-
-    /**
-     * Returns the source link.
-     *
-     * @return the source link
-     */
-    public ObjectKey getSourceLink() {
-        return sourceLink;
     }
 
     /**
@@ -170,8 +157,7 @@ public class COMObjectStructure {
      * @return the archive details
      */
     public ArchiveDetails getArchiveDetails() {
-        ObjectLinks objDetails = new ObjectLinks(relatedLink, sourceLink);
-        return new ArchiveDetails(objId, objDetails, timestamp, providerURI);
+        return new ArchiveDetails(objId, relatedLink, timestamp, providerURI);
     }
 
 }

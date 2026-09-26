@@ -527,7 +527,7 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
 
     private void jButtonStoreAggregationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonStoreAggregationActionPerformed
         ArchiveDetailsList archiveDetailsList = HelperArchive.generateArchiveDetailsList(
-                null, null, serviceCOMArchive.getConnectionDetails().getProviderURI());
+                null, serviceCOMArchive.getConnectionDetails().getProviderURI());
 
         HeterogeneousList objList = new HeterogeneousList();
         objList.add(ArchiveConsumerManagerPanel.generateAggregationDefinition("AggregationStore"));
@@ -556,7 +556,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                 null,
                 null,
                 0L,
-                null,
                 null,
                 null,
                 null,
@@ -771,7 +770,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                 null,
                 null,
                 null,
-                null,
                 null);
 
         PaginationFilter filter = new PaginationFilter(new UInteger(5), new UInteger(0));
@@ -818,7 +816,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                 null,
                 null,
                 null,
-                null,
                 null);
 
         try {
@@ -842,7 +839,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                 null,
                 null,
                 0L,
-                null,
                 null,
                 null,
                 null,

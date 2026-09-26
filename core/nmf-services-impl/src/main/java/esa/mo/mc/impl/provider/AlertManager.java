@@ -77,11 +77,10 @@ public final class AlertManager extends MCManager {
      * Adds an alert definition and returns its object id.
      *
      * @param definition the definition
-     * @param source the source
      * @param connectionDetails the connection details
      * @return the assigned object id
      */
-    public Long add(AlertDefinition definition, ObjectKey source,
+    public Long add(AlertDefinition definition,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         Long newIdPair = 0L;
         Identifier name = definition.getName();
@@ -99,7 +98,7 @@ public final class AlertManager extends MCManager {
                 LongList defIds = super.getArchiveService().store(true,
                         AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE, //requirement: 3.4.4.c
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(null, source, connectionDetails.getProviderURI()), //requirement: 3.4.4.e, 3.4.4.h
+                        HelperArchive.generateArchiveDetailsList(null, connectionDetails.getProviderURI()), //requirement: 3.4.4.e, 3.4.4.h
                         defs,
                         null);
 
@@ -119,10 +118,9 @@ public final class AlertManager extends MCManager {
      *
      * @param id the id
      * @param definition the definition
-     * @param source the source
      * @param connectionDetails the connection details
      */
-    public void update(final Long id, final AlertDefinition definition, final ObjectKey source,
+    public void update(final Long id, final AlertDefinition definition,
             final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         if (super.getArchiveService() == null) { //only update locally
             this.updateDef(id, definition);
@@ -130,7 +128,7 @@ public final class AlertManager extends MCManager {
             try {
                 HeterogeneousList defs = new HeterogeneousList();
                 defs.add(definition);
-                ArchiveDetailsList metadata = generateArchiveDetailsList(null, source,
+                ArchiveDetailsList metadata = generateArchiveDetailsList(null,
                         connectionDetails.getProviderURI(), id);
 
                 // Update existing AlertDefinition in the archive; requirement: 3.4.7.a
@@ -150,11 +148,9 @@ public final class AlertManager extends MCManager {
      *
      * @param defId the def id
      * @param bool the bool
-     * @param source the source
      * @param connectionDetails the connection details
      */
-    public void setReportingEnabled(final Long defId, final Boolean bool,
-            final ObjectKey source, final SingleConnectionDetails connectionDetails) {
+    public void setReportingEnabled(final Long defId, final Boolean bool, final SingleConnectionDetails connectionDetails) {
         // requirement: 3.3.2.5
         AlertDefinition def = this.getAlertDefinitionFromDefId(defId);
         if (def == null) {
@@ -169,17 +165,16 @@ public final class AlertManager extends MCManager {
         AlertDefinition newDef = new AlertDefinition(def.getName(),
                 def.getDescription(), def.getSeverity(), bool, def.getArguments());
 
-        this.update(defId, newDef, source, connectionDetails);
+        this.update(defId, newDef, connectionDetails);
     }
 
     /**
      * Sets the reporting enabled all.
      *
      * @param bool the bool
-     * @param source the source
      * @param connectionDetails the connection details
      */
-    public void setReportingEnabledAll(final Boolean bool, final ObjectKey source,
+    public void setReportingEnabledAll(final Boolean bool,
             final SingleConnectionDetails connectionDetails) {
         LongList defIds = new LongList();
         defIds.addAll(this.listAllDefinitions());
@@ -189,7 +184,7 @@ public final class AlertManager extends MCManager {
             AlertDefinition newDef = new AlertDefinition(def.getName(),
                     def.getDescription(), def.getSeverity(), bool, def.getArguments());
 
-            this.update(defId, newDef, source, connectionDetails);
+            this.update(defId, newDef, connectionDetails);
         }
     }
 

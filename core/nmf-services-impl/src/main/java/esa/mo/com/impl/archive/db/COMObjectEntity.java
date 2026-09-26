@@ -51,26 +51,22 @@ public class COMObjectEntity implements Serializable {
     private Long timestampArchiveDetails;
     private Integer providerURI;
     private byte[] objBody;
-    private Integer sourceLinkObjectTypeId;
-    private Integer sourceLinkDomainId;
-    private Long sourceLinkObjId;
 
     /**
      * Creates a new {@code COMObjectEntity} from an unencoded object body, serializing it into
-     * the internal binary representation. The source link may be {@code null}.
+     * the internal binary representation.
      *
      * @param objectTypeId the object type id
      * @param domain the domain id
      * @param objId the object instance id
      * @param timestampArchiveDetails the archive details timestamp
      * @param providerURI the provider URI id
-     * @param sourceLink the source object link, or {@code null} if none
      * @param relatedLink the related object link, or {@code null} if none
      * @param object the object body to serialize
      */
     public COMObjectEntity(Integer objectTypeId, Integer domain, Long objId,
             Long timestampArchiveDetails, Integer providerURI,
-            SourceLinkContainer sourceLink, Long relatedLink, Object object) {
+            Long relatedLink, Object object) {
         this.objectTypeId = objectTypeId;
         this.domainId = domain;
         this.objId = objId;
@@ -78,10 +74,6 @@ public class COMObjectEntity implements Serializable {
         this.timestampArchiveDetails = timestampArchiveDetails;
         this.providerURI = providerURI;
         this.relatedLink = relatedLink;
-
-        this.sourceLinkObjectTypeId = (sourceLink == null) ? null : sourceLink.getObjectTypeId();
-        this.sourceLinkDomainId = (sourceLink == null || sourceLink.getDomainId() == null) ? null : sourceLink.getDomainId();
-        this.sourceLinkObjId = (sourceLink == null) ? null : sourceLink.getObjId();
 
         this.objBody = null;
         final Element ele = (Element) Attribute.javaType2Attribute(object);
@@ -104,20 +96,19 @@ public class COMObjectEntity implements Serializable {
 
     /**
      * Creates a new {@code COMObjectEntity} from an already-encoded object body, storing the
-     * bytes directly without re-encoding. The source link must not be {@code null}.
+     * bytes directly without re-encoding.
      *
      * @param objectTypeId the object type id
      * @param domain the domain id
      * @param objId the object instance id
      * @param timestampArchiveDetails the archive details timestamp
      * @param providerURI the provider URI id
-     * @param sourceLink the source object link
      * @param relatedLink the related object link, or {@code null} if none
      * @param object the already-encoded object body
      */
     public COMObjectEntity(Integer objectTypeId, Integer domain, Long objId,
             Long timestampArchiveDetails, Integer providerURI,
-            SourceLinkContainer sourceLink, Long relatedLink, byte[] object) {
+            Long relatedLink, byte[] object) {
         this.objectTypeId = objectTypeId;
         this.domainId = domain;
         this.objId = objId;
@@ -125,10 +116,6 @@ public class COMObjectEntity implements Serializable {
         this.timestampArchiveDetails = timestampArchiveDetails;
         this.providerURI = providerURI;
         this.relatedLink = relatedLink;
-
-        this.sourceLinkObjectTypeId = sourceLink.getObjectTypeId();
-        this.sourceLinkDomainId = sourceLink.getDomainId();
-        this.sourceLinkObjId = sourceLink.getObjId();
 
         this.objBody = object;
     }
@@ -167,16 +154,6 @@ public class COMObjectEntity implements Serializable {
      */
     public Long getRelatedLink() {
         return this.relatedLink;
-    }
-
-    /**
-     * Returns the source link.
-     *
-     * @return the source link
-     */
-    public SourceLinkContainer getSourceLink() {
-        final Integer domainIdLocal = (sourceLinkDomainId != null) ? sourceLinkDomainId : null;
-        return new SourceLinkContainer(sourceLinkObjectTypeId, domainIdLocal, sourceLinkObjId);
     }
 
     /**

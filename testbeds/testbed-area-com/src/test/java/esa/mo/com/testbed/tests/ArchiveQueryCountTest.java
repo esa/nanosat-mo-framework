@@ -137,7 +137,7 @@ public class ArchiveQueryCountTest {
         HeterogeneousList bodies = new HeterogeneousList();
         bodies.add(new ObjectKeysList(keysList));
         stub.store(true, QUERY_BODY_TYPE, domain,
-                HelperArchive.generateArchiveDetailsList(null, null, providerURI),
+                HelperArchive.generateArchiveDetailsList(null, providerURI),
                 bodies);
 
         QueryResult result = runQuery(stub, QUERY_BODY_TYPE, true);
@@ -270,7 +270,7 @@ public class ArchiveQueryCountTest {
 
         // sortOrder=true activates sorting; "nonExistentField" will not resolve to any field.
         ArchiveQuery archiveQuery = new ArchiveQuery(null, null,
-                0L, null, null, null, Boolean.TRUE, "nonExistentField");
+                0L, null, null, Boolean.TRUE, "nonExistentField");
 
         MOErrorException error = runQueryExpectError(stub, SORT_ERROR_TYPE, archiveQuery, null);
 
@@ -331,7 +331,7 @@ public class ArchiveQueryCountTest {
         storeEmpty(stub, SORT_ERROR_TYPE, domain, providerURI);
 
         ArchiveQuery archiveQuery = new ArchiveQuery(null, null,
-                0L, null, null, null, Boolean.TRUE, "nonExistentField");
+                0L, null, null, Boolean.TRUE, "nonExistentField");
 
         MOErrorException error = runCountExpectError(stub, SORT_ERROR_TYPE, archiveQuery, null);
 
@@ -352,7 +352,7 @@ public class ArchiveQueryCountTest {
         HeterogeneousList bodies = new HeterogeneousList();
         bodies.add(new ObjectKeysList(new ObjectKeysList()));
         stub.store(true, type, domain,
-                HelperArchive.generateArchiveDetailsList(null, null, providerURI),
+                HelperArchive.generateArchiveDetailsList(null, providerURI),
                 bodies);
     }
 

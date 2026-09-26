@@ -89,7 +89,7 @@ public class StoreAggregations {
             }
 
             ConnectionProvider conn = connector.getMCServices().getActionService().getConnectionProvider();
-            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, null,
+            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null,
                     conn.getConnectionDetails().getProviderURI());
             for (int i = 0; i < numberOfObjs - 1; i++) {
                 archDetails.add(archDetails.get(0));

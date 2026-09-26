@@ -260,15 +260,9 @@
                 The ParameterValue object shall use the related link to indicate which ParameterDefinition object it uses.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="19">
-                The source link of the ParameterValue object should be the object that caused the report to be generated.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="20">
-                The source link of the ParameterValue object shall be NULL for periodic reports.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="21">
                 The service provider should store ParameterDefinition objects in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="22">
+            <mal:documentation name="Service-level Requirement" order="20">
                 When a parameter value report is published, the service provider should store the ParameterValue object in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1" comment="">
@@ -514,7 +508,6 @@
                         <com:relatedObject>
                             <com:objectType number="1" service="Parameter" area="MC"/>
                         </com:relatedObject>
-                        <com:sourceObject comment="The object that caused the value to be generated or NULL for periodic reports"/>
                     </com:object>
                 </com:objects>
                 <com:archiveUsage comment="Parameter objects and value instance objects are stored in the COM archive."/>
@@ -704,7 +697,6 @@
                         <com:relatedObject>
                             <com:objectType number="1" service="Alert" area="MC"/>
                         </com:relatedObject>
-                        <com:sourceObject canBeNull="true" comment="The object that caused the alert to be generated"/>
                     </com:object>
                 </com:objects>
                 <com:archiveUsage comment="AlertDefinition and AlertEvent objects are stored in the COM archive."/>
@@ -770,15 +762,9 @@
                 The AggregationValue object shall use the related link to indicate which AggregationDefinition object it uses.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="18">
-                The source link of the AggregationValue object should be the object that caused the report to be generated.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="19">
-                The source link of the AggregationValue object shall be NULL for periodic reports.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="20">
                 The service provider should store AggregationDefinition objects in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="21">
+            <mal:documentation name="Service-level Requirement" order="19">
                 When an aggregation value report is published, the service provider should store the AggregationValue object in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1" comment="">
@@ -1097,7 +1083,6 @@
                         <com:relatedObject>
                             <com:objectType number="1" service="Aggregation" area="MC"/>
                         </com:relatedObject>
-                        <com:sourceObject comment="The object that caused the value to be generated or NULL for periodic reports"/>
                     </com:object>
                 </com:objects>
                 <com:archiveUsage comment="Aggregation definition and value instance objects are stored in the COM archive."/>

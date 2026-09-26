@@ -121,7 +121,7 @@ public class PersistProviderConfiguration {
                     false,
                     DirectoryServiceInfo.CONFIGURATIONPROVIDER_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(),
-                    HelperArchive.generateArchiveDetailsList(null, null, new URI(""), confId.getId()),
+                    HelperArchive.generateArchiveDetailsList(null, new URI(""), confId.getId()),
                     providerConfigList,
                     null);
         } catch (MALException ex) {

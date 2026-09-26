@@ -31,8 +31,6 @@ import javax.swing.JOptionPane;
 import org.ccsds.moims.mo.com.COMObject;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
 import org.ccsds.moims.mo.com.structures.ArchiveDetails;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
-import org.ccsds.moims.mo.com.structures.ObjectLinks;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Element;
@@ -60,7 +58,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
             final boolean editable, final ArchiveStub archiveService) throws IOException {
         initComponents();
         jLabel3.setFont(jLabel3.getFont().deriveFont(java.awt.Font.BOLD));
-        jLabel4.setFont(jLabel4.getFont().deriveFont(java.awt.Font.BOLD));
         jLabel6.setFont(jLabel6.getFont().deriveFont(java.awt.Font.BOLD));
         jLabel7.setFont(jLabel7.getFont().deriveFont(java.awt.Font.BOLD));
 
@@ -120,7 +117,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                 this.tfProvider.setText("null");
             }
 
-            Long related = archiveDetails.getLinks().getRelated();
+            Long related = archiveDetails.getRelatedLink();
 
             if (related == null) {
                 this.relatedObjId.setText("null");
@@ -143,25 +140,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                 }
 
                 this.relatedObjId.setText(related.toString());
-            }
-
-            ObjectKey source = archiveDetails.getLinks().getSource();
-
-            if (source == null) {
-                this.sourceType.setText("null");
-                this.sourceButton.setEnabled(false);
-            } else {
-                ObjectLinks links = comObject.getArchiveDetails().getLinks();
-                // Source
-                this.sourceType.setText(
-                    links.getSource().getType().getArea() + "-" +
-                    links.getSource().getType().getService() + "-" +
-                    links.getSource().getType().getVersion() + "-" +
-                    links.getSource().getType().getNumber() + " " +
-                    HelperCOM.objType2string(links.getSource().getType()));
-
-                this.sourceDomain.setText(HelperDomain.domain2domainId(links.getSource().getDomain()));
-                this.sourceObjId.setText(links.getSource().getId().toString());
             }
         }
 
@@ -191,15 +169,11 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         componentsPanel = new javax.swing.JPanel();
         objectBodyButton = new javax.swing.JButton();
         relatedButton = new javax.swing.JButton();
-        sourceButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         tfObjectBodyType = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         relatedObjId = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        sourceType = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -208,10 +182,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         jLabel10 = new javax.swing.JLabel();
         tfNetwork = new javax.swing.JTextField();
         tfProvider = new javax.swing.JTextField();
-        sourceDomain = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        sourceObjId = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         relatedType = new javax.swing.JTextField();
         bottomPanel = new javax.swing.JPanel();
@@ -291,30 +261,12 @@ public final class COMObjectWindow extends javax.swing.JDialog {
             }
         });
 
-        sourceButton.setText("Retrieve Source");
-        sourceButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sourceButtonActionPerformed(evt);
-            }
-        });
-
         jLabel1.setText("Object Body Type:");
 
         jLabel2.setText("Object Instance Id:");
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Related");
-
-        sourceType.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sourceTypeActionPerformed(evt);
-            }
-        });
-
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Source");
-
-        jLabel5.setText("Object Type:");
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Object Body");
@@ -327,10 +279,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         jLabel9.setText("Timestamp:");
 
         jLabel10.setText("Provider:");
-
-        jLabel11.setText("Domain:");
-
-        jLabel12.setText("Object Instance Identifier:");
 
         jLabel13.setText("Object Type:");
 
@@ -355,24 +303,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                             .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                             .addComponent(tfNetwork, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                            .addComponent(tfTimestamp, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE))
-                        .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(componentsPanelLayout.createSequentialGroup()
-                                .addGap(62, 62, 62)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(componentsPanelLayout.createSequentialGroup()
-                                .addGap(63, 63, 63)
-                                .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(sourceObjId, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(componentsPanelLayout.createSequentialGroup()
-                                        .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 33, Short.MAX_VALUE))
-                                    .addComponent(sourceDomain, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(sourceButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(sourceType)))))
+                            .addComponent(tfTimestamp, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)))
                     .addGroup(componentsPanelLayout.createSequentialGroup()
                         .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -421,20 +352,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(componentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(componentsPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sourceType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sourceDomain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sourceObjId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(componentsPanelLayout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel8)
@@ -448,8 +365,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfProvider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(sourceButton)
                 .addContainerGap())
         );
 
@@ -504,7 +419,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
                 archiveService,
                 comObjectInfo.getRelatedType(),
                 comObject.getDomain(),
-                comObject.getArchiveDetails().getLinks().getRelated());
+                comObject.getArchiveDetails().getRelatedLink());
 
         if (related == null) {
             JOptionPane.showMessageDialog(null,
@@ -521,32 +436,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_relatedButtonActionPerformed
 
-    private void sourceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sourceButtonActionPerformed
-        ObjectLinks links = comObject.getArchiveDetails().getLinks();
-        ArchivePersistenceObject source = HelperArchive.getArchiveCOMObject(
-                archiveService,
-                links.getSource().getType(),
-                links.getSource().getDomain(),
-                links.getSource().getId());
-
-        if (source == null) {
-            JOptionPane.showMessageDialog(null,
-                    "The object was not found in the COM Archive!", "Error!",
-                    JOptionPane.PLAIN_MESSAGE);
-            return;
-        }
-
-        try {
-            COMObjectWindow newWindow = new COMObjectWindow(source, editable, archiveService);
-        } catch (IOException ex) {
-            Logger.getLogger(COMObjectWindow.class.getName())
-                    .log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_sourceButtonActionPerformed
-
-    private void sourceTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sourceTypeActionPerformed
-    }//GEN-LAST:event_sourceTypeActionPerformed
-
     private void relatedTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_relatedTypeActionPerformed
     }//GEN-LAST:event_relatedTypeActionPerformed
 
@@ -556,13 +445,9 @@ public final class COMObjectWindow extends javax.swing.JDialog {
     private javax.swing.JPanel componentsPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -574,10 +459,6 @@ public final class COMObjectWindow extends javax.swing.JDialog {
     private javax.swing.JButton relatedButton;
     private javax.swing.JTextField relatedObjId;
     private javax.swing.JTextField relatedType;
-    private javax.swing.JButton sourceButton;
-    private javax.swing.JTextField sourceDomain;
-    private javax.swing.JTextField sourceObjId;
-    private javax.swing.JTextField sourceType;
     private javax.swing.JTextField tfDomain;
     private javax.swing.JTextField tfNetwork;
     private javax.swing.JTextField tfObjId;

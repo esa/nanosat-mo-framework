@@ -306,7 +306,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
             try {
                 ArchiveQuery query = new ArchiveQuery(
                         archiveService.getConnection().getConnectionDetails().getDomain(),
-                        null, id, null, null,
+                        null, id, null,
                         Time.now(), false, null);
                 // sortOrder=false sorts by timestamp descending, so the single
                 // returned object is the newest stored value for this parameter.

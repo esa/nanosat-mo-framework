@@ -21,7 +21,6 @@
 package esa.mo.com.impl.provider;
 
 import esa.mo.com.impl.archive.db.DatabaseBackend;
-import esa.mo.com.impl.archive.db.SourceLinkContainer;
 import esa.mo.com.impl.archive.db.TransactionsProcessor;
 import esa.mo.com.impl.archive.db.COMObjectEntity;
 import esa.mo.com.impl.archive.fast.FastDomain;
@@ -239,24 +238,8 @@ public class ArchiveManager {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
-        SourceLinkContainer sourceLink = comEntity.getSourceLink();
-        ObjectKey objectKey = null;
-
-        if (sourceLink.getObjectTypeId() != null
-                || sourceLink.getDomainId() != null
-                || sourceLink.getObjId() != null) {
-            try {
-                IdentifierList sDomain = this.fastDomain.getDomain(sourceLink.getDomainId());
-                objectKey = new ObjectKey(
-                        this.fastObjectType.getObjectType(sourceLink.getObjectTypeId()),
-                        sDomain, sourceLink.getObjId());
-            } catch (Exception ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
-            }
-        }
-
         ArchiveDetails archiveDetails = new ArchiveDetails(comEntity.getObjectId(),
-                new ObjectLinks(comEntity.getRelatedLink(), objectKey),
+                comEntity.getRelatedLink(),
                 new Time(comEntity.getTimestamp().getValue()), providerURI);
 
         return new ArchivePersistenceObject(objType, domain, objId, archiveDetails, comEntity.getObject());
@@ -313,28 +296,6 @@ public class ArchiveManager {
                 this.fastDomain.getDomainId(domain));
     }
 
-    private SourceLinkContainer createSourceContainerFromObjectId(final ObjectKey source) {
-        Integer sourceDomainId = null;
-        Integer sourceObjectTypeId = null;
-        Long sourceObjId = null;
-
-        if (source != null) {
-            if (source.getDomain() != null) {
-                sourceDomainId = this.fastDomain.getDomainId(source.getDomain());
-            }
-
-            if (source.getType() != null) {
-                sourceObjectTypeId = this.fastObjectType.getObjectTypeId(source.getType());
-            }
-
-            if (source.getId() != null) {
-                sourceObjId = source.getId();
-            }
-        }
-
-        return new SourceLinkContainer(sourceObjectTypeId, sourceDomainId, sourceObjId);
-    }
-
     /**
      * Inserts the given entries using the fast index, without generating new ids.
      *
@@ -370,7 +331,6 @@ public class ArchiveManager {
         for (int i = 0; i < lArchiveDetails.size(); i++) {
             ArchiveDetails details = lArchiveDetails.get(i);
             final int providerURIId = this.fastProviderURI.getProviderURIId(details.getProvider());
-            final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(details.getLinks().getSource());
             final Long objId = this.fastObjId.getUniqueObjId(objTypeId, domainId, details.getId());
 
             // If there are no objects in the list, inject null...
@@ -378,7 +338,7 @@ public class ArchiveManager {
 
             perObjsEntities.add(new COMObjectEntity(objTypeId, domainId, objId,
                     details.getTimestamp().getValue(), providerURIId,
-                    sourceLink, details.getLinks().getRelated(),
+                    details.getRelatedLink(),
                     objBody));
             objIds.add(objId);
         }
@@ -409,14 +369,11 @@ public class ArchiveManager {
             // If there are no objects in the list, inject null...
             Object objBody = (objects == null) ? null : ((objects.get(i) == null) ? null : objects.get(i));
 
-            SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(
-                    lArchiveDetails.get(i).getLinks().getSource());
-
             final COMObjectEntity newObj = new COMObjectEntity(objTypeId,
                     domainId, lArchiveDetails.get(i).getId(),
                     lArchiveDetails.get(i).getTimestamp().getValue(),
-                    providerURIId, sourceLink,
-                    lArchiveDetails.get(i).getLinks().getRelated(), objBody);
+                    providerURIId,
+                    lArchiveDetails.get(i).getRelatedLink(), objBody);
 
             newObjs.add(newObj);
         }
@@ -489,21 +446,9 @@ public class ArchiveManager {
         final IntegerList domainIds = this.fastDomain.getDomainIds(archiveQuery.getDomain());
         final Integer providerURIId = (archiveQuery.getProvider() != null)
                 ? this.fastProviderURI.getProviderURIId(archiveQuery.getProvider()) : null;
-        final ObjectKey sId = archiveQuery.getSource();
-        final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(sId);
-
-        if (sId != null) {
-            if (sId.getDomain() != null) {
-                sourceLink.setDomainIds(this.fastDomain.getDomainIds(sId.getDomain()));
-            }
-
-            if (sId.getType() != null) {
-                sourceLink.setObjectTypeIds(this.fastObjectType.getObjectTypeIds(sId.getType()));
-            }
-        }
 
         return this.dbProcessor.delete(objTypeIds, archiveQuery,
-                domainIds, providerURIId, sourceLink, filter);
+                domainIds, providerURIId, filter);
     }
 
     /**
@@ -522,22 +467,9 @@ public class ArchiveManager {
             final IntegerList domainIds = this.fastDomain.getDomainIds(archiveQuery.getDomain());
             final Integer providerURIId = (archiveQuery.getProvider() != null) ?
                     this.fastProviderURI.getProviderURIId(archiveQuery.getProvider()) : null;
-            final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(archiveQuery.getSource());
-
-            if (archiveQuery.getSource() != null) {
-                if (archiveQuery.getSource().getDomain() != null) {
-                    sourceLink.setDomainIds(this.fastDomain.getDomainIds(
-                            archiveQuery.getSource().getDomain()));
-                }
-
-                if (archiveQuery.getSource().getType() != null) {
-                    sourceLink.setObjectTypeIds(this.fastObjectType.getObjectTypeIds(
-                            archiveQuery.getSource().getType()));
-                }
-            }
 
             return this.dbProcessor.query(objTypeIds, archiveQuery, domainIds,
-                    providerURIId, sourceLink, filter);
+                    providerURIId, filter);
         } else {
             return new ArrayList<>();
         }
@@ -565,20 +497,9 @@ public class ArchiveManager {
         final IntegerList domainIds = this.fastDomain.getDomainIds(archiveQuery.getDomain());
         final Integer providerURIId = (archiveQuery.getProvider() != null)
                 ? this.fastProviderURI.getProviderURIId(archiveQuery.getProvider()) : null;
-        final SourceLinkContainer sourceLink = this.createSourceContainerFromObjectId(archiveQuery.getSource());
-
-        if (archiveQuery.getSource() != null) {
-            if (archiveQuery.getSource().getDomain() != null) {
-                sourceLink.setDomainIds(this.fastDomain.getDomainIds(archiveQuery.getSource().getDomain()));
-            }
-
-            if (archiveQuery.getSource().getType() != null) {
-                sourceLink.setObjectTypeIds(this.fastObjectType.getObjectTypeIds(archiveQuery.getSource().getType()));
-            }
-        }
 
         return this.dbProcessor.query(objTypeIds, archiveQuery, domainIds,
-                providerURIId, sourceLink, filter);
+                providerURIId, filter);
     }
 
     /**

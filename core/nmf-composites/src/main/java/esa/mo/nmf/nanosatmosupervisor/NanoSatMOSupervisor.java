@@ -296,10 +296,9 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
     /**
      * It closes the App gracefully.
      *
-     * @param source The source of the triggering. Can be null
      */
     @Override
-    public final void closeGracefully(final ObjectKey source) {
+    public final void closeGracefully() {
         try {
             // The Supervisor is a top-level process with no parent to force-kill
             // it, so it guards its own shutdown against a deadlocked teardown.

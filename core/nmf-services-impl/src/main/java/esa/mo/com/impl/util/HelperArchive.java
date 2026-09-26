@@ -101,13 +101,11 @@ public class HelperArchive {
      * the archive) and the timestamp is set to now.
      *
      * @param related Related field (id of the related object, or null)
-     * @param source Source field (id of the object that caused creation, or null)
      * @param uri Provider URI
      * @return The ArchiveDetailsList object
      */
-    public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
-            final ObjectKey source, final URI uri) {
-        return generateArchiveDetailsList(related, source, uri, 0L);
+    public static ArchiveDetailsList generateArchiveDetailsList(final Long related, final URI uri) {
+        return generateArchiveDetailsList(related, uri, 0L);
     }
 
     /**
@@ -116,15 +114,13 @@ public class HelperArchive {
      * identifier must be set explicitly.
      *
      * @param related Related field (id of the related object, or null)
-     * @param source Source field (id of the object that caused creation, or null)
      * @param uri Provider URI
      * @param objId Object instance identifier
      * @return The ArchiveDetailsList object
      */
-    public static ArchiveDetailsList generateArchiveDetailsList(final Long related,
-            final ObjectKey source, final URI uri, final Long objId) {
+    public static ArchiveDetailsList generateArchiveDetailsList(final Long related, final URI uri, final Long objId) {
         final ArchiveDetails archiveDetails = new ArchiveDetails(objId,
-                new ObjectLinks(related, source),
+                related,
                 Time.now(),
                 uri);
         final ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();

@@ -326,7 +326,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             }
 
             if (manager.list(name) == null) { // Is the supplied name unique?
-                outLongLst.add(manager.add(def, null, connection.getConnectionDetails().getProviderURI()));
+                outLongLst.add(manager.add(def, connection.getConnectionDetails().getProviderURI()));
             } else {
                 dupIndexList.add(new UInteger(index)); // requirement: 3.4.10.2.c
             }

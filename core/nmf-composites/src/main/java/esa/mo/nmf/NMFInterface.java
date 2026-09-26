@@ -66,9 +66,7 @@ public interface NMFInterface extends SimpleMonitoringInterface {
     /**
      * Closes the application gracefully.
      *
-     * @param source The source object that triggered the close operation. Can
-     * be null.
      */
-    void closeGracefully(final ObjectKey source);
+    void closeGracefully();
 
 }

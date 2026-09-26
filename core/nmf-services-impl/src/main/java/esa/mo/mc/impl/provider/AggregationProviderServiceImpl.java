@@ -164,7 +164,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * @return True if it was successfully published, false otherwise.
      */
     private boolean publishPeriodicAggregationUpdate(final Long id, final AggregationValue aVal) {
-        return publishAggregationUpdate(id, aVal, null,
+        return publishAggregationUpdate(id, aVal,
                 null, storeAggregationsInCOMArchive); //requirement: 3.7.4.j
     }
 
@@ -173,14 +173,12 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      *
      * @param id the id of the aggregation
      * @param aVal the value to be published
-     * @param source the id of the object that caused the update to be generated
      * @param timestamp the timestamp of the update. if null a new timestamp
      * @param storeInCOMArchive flag indicating whether or not the aggregation
      * should be stored in the archive will be generated
      * @return true if it was successfully published, false otherwise
      */
-    private boolean publishAggregationUpdate(final Long id, final AggregationValue aVal,
-            final ObjectKey source, final Time timestamp, boolean storeInCOMArchive) {
+    private boolean publishAggregationUpdate(final Long id, final AggregationValue aVal, final Time timestamp, boolean storeInCOMArchive) {
         try {
             synchronized (lock) {
                 if (!isRegistered) {
@@ -202,7 +200,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             Long aValObjId;
             if (storeInCOMArchive) {
                 //requirement 3.7.6.b
-                aValObjId = manager.storeAndGenerateAValobjId(aVal, id, source,
+                aValObjId = manager.storeAndGenerateAValobjId(aVal, id,
                         connection.getPrimaryConnectionDetails().getProviderURI(), time);
             } else {
                 aValObjId = aValUniqueObjId.incrementAndGet();
@@ -318,8 +316,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         for (Long id : ids) {  // requirement: 3.7.9.2.d
             if (id == 0) {  // Is it the wildcard '0'? requirement: 3.7.9.2.c
-                manager.setReportingEnabledAll(enable,
-                        null, connection.getConnectionDetails());
+                manager.setReportingEnabledAll(enable, connection.getConnectionDetails());
                 periodicReportingManager.refreshAll();
                 periodicSamplingManager.refreshAll();
                 foundWildcard = true;
@@ -347,7 +344,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.7.3.c, 3.7.9.2.f and 3.7.9.2.j, k
             Long id = objIdToBeEnabled.get(index);
-            manager.setReportingEnabled(id, enable, null, connection.getConnectionDetails());
+            manager.setReportingEnabled(id, enable, connection.getConnectionDetails());
             periodicReportingManager.refresh(id);
             periodicSamplingManager.refresh(id);
         }
@@ -375,7 +372,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         for (Long id : ids) {  // requirement: 3.7.10.2.d
             if (id == 0) {  // Is it the wildcard '0'? requirement: 3.7.10.2.c
-                manager.setFilterEnabledAll(enable, null, connection.getConnectionDetails());
+                manager.setFilterEnabledAll(enable, connection.getConnectionDetails());
                 periodicReportingManager.refreshAll();
                 periodicSamplingManager.refreshAll();
                 foundWildcard = true;
@@ -403,7 +400,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.7.3.d, e, f; 3.7.10.2.f and 3.7.1.2.j, k
             boolean changed = manager.setFilterEnabled(objIdToBeEnabled.get(index),
-                    enable, null, connection.getConnectionDetails());
+                    enable, connection.getConnectionDetails());
             //requirement: 3.7.10.2.e //periodic managers must be refreshed, as the change of the filterEnabled-value creates a new Definition object
             if (changed) {
                 periodicReportingManager.refresh(objIdToBeEnabled.get(index));
@@ -522,8 +519,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         for (AggregationDefinition def : defsList) { // requirement: 3.7.12.2.i ( "for each cycle" guarantees that)
             Identifier aggrName = def.getName();
             //requriement: 3.7.12.2.g , store the objects
-            out.add(manager.add(aggrName, def,
-                    null, connection.getConnectionDetails())); //  requirement: 3.3.12.2.e
+            out.add(manager.add(aggrName, def, connection.getConnectionDetails())); //  requirement: 3.3.12.2.e
             periodicReportingManager.refresh(out.get(0)); // Refresh the Periodic Reporting Manager for the added Identities
             periodicSamplingManager.refresh(out.get(0)); // Refresh the Periodic Sampling Manager for the added Identities
         }
@@ -598,7 +594,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         for (int index = 0; index < ids.size(); index++) { // requirement: 3.7.13.2.e, k (implicitly by cycling through list)
             final Long id = ids.get(index);
             // requirement: 3.7.3.o, 3.7.13.2.d, h, k
-            manager.update(id, aDefs.get(index), null, connection.getConnectionDetails());
+            manager.update(id, aDefs.get(index), connection.getConnectionDetails());
             periodicReportingManager.refresh(id);// then, refresh the Periodic updates and samplings //requirement: 3.7.3.k
             periodicSamplingManager.refresh(id);//requirement: 3.7.3.k
         }
@@ -662,12 +658,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      *
      * @param name The id of the Aggregation as set in the aggregation
      * definition
-     * @param source The source of the aggregation. Can be null
      * @param timestamp The timestamp of the aggregation. If null, the method
      * will automatically use the System's time
      * @return Returns true if the push was successful. False otherwise.
      */
-    public Boolean pushAggregationAdhocUpdate(Identifier name, final ObjectKey source, final Time timestamp) { //requirement: 3.7.2.b.b, 3.7.4.i
+    public Boolean pushAggregationAdhocUpdate(Identifier name, final Time timestamp) { //requirement: 3.7.2.b.b, 3.7.4.i
         final Long id = manager.getId(name);
         if (id == null) {
             return false;
@@ -679,8 +674,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         }
         //publish! requirement: 3.7.3.j
         if (!publishAggregationUpdate(id,
-                manager.getAggregationValue(id, GenerationMode.ADHOC),
-                source, timestamp, storeAggregationsInCOMArchive)) {
+                manager.getAggregationValue(id, GenerationMode.ADHOC), timestamp, storeAggregationsInCOMArchive)) {
             return false;
         }
 
@@ -702,13 +696,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      *
      * @param defId The id of the aggregation definition
      * @param aSetVal The list of aggregation set values to be pushed
-     * @param source The source of the aggregation. Can be null
      * @param timestamp The timestamp of the aggregation. If null, the method
      * will automatically use the System's time
      * @return Returns true if the push was successful. False otherwise.
      */
-    public Boolean pushAggregationSetValue(final Long defId, final AggregationSetValueList aSetVal,
-            final ObjectKey source, final Time timestamp) { //requirement: 3.7.4.i
+    public Boolean pushAggregationSetValue(final Long defId, final AggregationSetValueList aSetVal, final Time timestamp) { //requirement: 3.7.4.i
 
         //check that the given aggregationSetValueList has the right amount of entries
         final AggregationDefinition aggrDef = manager.getAggregationDefinition(defId);
@@ -720,7 +712,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             return false;
         }
         //publish! requirement: 3.7.3.j
-        if (!publishAggregationUpdate(defId, manager.getAggregationValue(defId, GenerationMode.ADHOC), source,
+        if (!publishAggregationUpdate(defId, manager.getAggregationValue(defId, GenerationMode.ADHOC),
                 timestamp, storeAggregationsInCOMArchive)) {
             return false;
         }

@@ -200,8 +200,7 @@ public class ArchiveCommands {
             IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
             Time startTimeF = startTime == null ? null : HelperTime.readableString2Time(startTime);
             Time endTimeF = endTime == null ? null : HelperTime.readableString2Time(endTime);
-            ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, 0L,
-                    null, startTimeF, endTimeF, null, null);
+            ArchiveQuery archiveQuery = new ArchiveQuery(domain, null, 0L, startTimeF, endTimeF, null, null);
 
             boolean consumerCreated = false;
             if (providerURI != null) {
@@ -332,7 +331,7 @@ public class ArchiveCommands {
                     new UShort(0), new UOctet((short) 0), new UShort(0));
             IdentifierList domain = domainId == null ? null : HelperDomain.domainId2domain(domainId);
             ArchiveQuery archiveQuery = new ArchiveQuery(domain, null,
-                    0L, null, null, null, null, null);
+                    0L, null, null, null, null);
 
             if (filename != null) {
                 if (!filename.endsWith(".db")) {

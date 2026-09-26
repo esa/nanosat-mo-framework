@@ -174,7 +174,6 @@
                             <mal:type area="SM" list="false" name="PackageDefinition"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
-                        <com:sourceObject comment=""/>
                     </com:object>
 
                     <com:object comment="Stored in the archive when a package is successfully installed." number="2" name="PackageInstalled">
@@ -184,7 +183,6 @@
                         <com:relatedObject comment="The related object shall be the PackageDefinition COM object of the installed package.">
                             <com:objectType area="SM" number="1" service="PackageManagement"/>
                         </com:relatedObject>
-                        <com:sourceObject comment=""/>
                     </com:object>
 
                     <com:object comment="Stored in the archive when a package is successfully uninstalled." number="3" name="PackageUninstalled">
@@ -194,7 +192,6 @@
                         <com:relatedObject comment="The related object shall be the PackageDefinition COM object of the uninstalled package.">
                             <com:objectType area="SM" number="1" service="PackageManagement"/>
                         </com:relatedObject>
-                        <com:sourceObject comment=""/>
                     </com:object>
 
                     <com:object comment="Stored in the archive when a package is successfully updated." number="4" name="PackageUpdated">
@@ -204,7 +201,6 @@
                         <com:relatedObject comment="The related object shall be the PackageDefinition COM object of the updated package.">
                             <com:objectType area="SM" number="1" service="PackageManagement"/>
                         </com:relatedObject>
-                        <com:sourceObject comment=""/>
                     </com:object>
                 </com:objects>
                 <com:events comment=""/>
@@ -322,7 +318,6 @@
                             <mal:type area="SM" list="false" name="Command"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
-                        <com:sourceObject comment=""/>
                     </com:object>
                     <com:object comment="" number="2" name="CommandOutput">
                         <com:objectType>
@@ -331,7 +326,6 @@
                         <com:relatedObject comment="Related link to the Command object.">
                             <com:objectType area="SM" number="1" service="CommandExecutor"/>
                         </com:relatedObject>
-                        <com:sourceObject comment=""/>
                     </com:object>
                 </com:objects>
                 <com:events comment=""/>
@@ -349,20 +343,11 @@
             <mal:documentation name="Service-level Requirement" order="2">
                 The body of the App COM object shall be of type AppDetails.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="3">
-                The App COM object source link should point to the package from where the app was installed.
-            </mal:documentation>
 
             <mal:capabilitySet number="1" comment="">
                 <mal:pubsubIP name="monitorExecution" number="1" comment="The monitorExecution operation allows a consumer to subscribe for the application execution output stream.">
                     <mal:documentation name="Requirement" order="1">
                         The timestamp of the NOTIFY message shall be the on-board time at which it is published.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
-                        The PUBLISH message shall include the ObjectKey of the source link of the update.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
-                        If no source link is needed, then the service provider shall set the ObjectKey to NULL.
                     </mal:documentation>
                     <mal:messages>
                         <mal:subscriptionKeys>
@@ -549,7 +534,6 @@
                             <mal:type area="SM" list="false" name="AppDetails"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
-                        <com:sourceObject comment=""/>
                     </com:object>
 
                     <com:object comment="Stored in the archive when an app process is successfully spawned." number="2" name="AppStarted">
@@ -559,7 +543,6 @@
                         <com:relatedObject comment="The related object shall be the AppDetails COM object of the started app.">
                             <com:objectType area="SM" number="1" service="AppsLauncher"/>
                         </com:relatedObject>
-                        <com:sourceObject comment=""/>
                     </com:object>
 
                     <com:object comment="Stored in the archive when an app process exits for any reason." number="3" name="AppStopped">
@@ -569,7 +552,6 @@
                         <com:relatedObject comment="The related object shall be the AppDetails COM object of the stopped app.">
                             <com:objectType area="SM" number="1" service="AppsLauncher"/>
                         </com:relatedObject>
-                        <com:sourceObject comment=""/>
                     </com:object>
 
                 </com:objects>

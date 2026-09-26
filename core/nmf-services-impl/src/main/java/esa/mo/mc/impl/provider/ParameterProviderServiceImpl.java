@@ -206,7 +206,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         for (Long id : ids) {
             if (id == 0) {  // Is it the wildcard '0'?
-                manager.setReportingEnabledAll(enable, null, connection.getConnectionDetails());
+                manager.setReportingEnabledAll(enable, connection.getConnectionDetails());
                 periodicReportingManager.refreshAll();
                 foundWildcard = true;
                 break;
@@ -233,7 +233,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.3.10.2.e, 3.3.10.2.f, 3.3.10.2.j and 3.3.10.2.k
             Long id = objIdToBeEnabled.get(index);
-            manager.setReportingEnabled(id, enable, null, connection.getConnectionDetails());
+            manager.setReportingEnabled(id, enable, connection.getConnectionDetails());
             periodicReportingManager.refresh(id);
         }
 
@@ -304,19 +304,17 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         List<ParameterInstance> toPublishParamInstances = new ArrayList<>();
         HeterogeneousList noPublishParamValList = new HeterogeneousList();
         LongList noPublishRelatedIds = new LongList();
-        ObjectKeyList noPublishSourceIds = new ObjectKeyList();
         TimeList timestamps = new TimeList();
         for (int i = 0; i < newParamValues.size(); i++) {
             final Long id = rawValueList.get(i).getParameterId();
             if (manager.getParameterDefinition(id).getReportingEnabled()) {
                 //for the parameters where values have to be published (generation is enabled)
                 toPublishParamInstances.add(new ParameterInstance(manager.getName(id),
-                        newParamValues.get(i), null, null));
+                        newParamValues.get(i), null));
             } else {
                 //for the parameters where values do not have to be published (generation is disabled)
                 noPublishParamValList.add(newParamValues.get(i));
                 noPublishRelatedIds.add(id);
-                noPublishSourceIds.add(null);
                 timestamps.add(timestamp);
             }
         }
@@ -327,7 +325,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
         //for the parameters where values do not have to be published (generation is disabled)
         if (!noPublishParamValList.isEmpty()) {
-            manager.storeAndGenerateMultiplePValobjId(noPublishParamValList, noPublishRelatedIds, noPublishSourceIds,
+            manager.storeAndGenerateMultiplePValobjId(noPublishParamValList, noPublishRelatedIds,
                     connection.getConnectionDetails(), timestamps);
         }
     }
@@ -437,7 +435,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
 
         //store the objects
-        LongList ids = manager.addMultiple(definitions, null, connection.getConnectionDetails());
+        LongList ids = manager.addMultiple(definitions, connection.getConnectionDetails());
 
         // Refresh the Periodic Reporting Manager for the added Definitions
         final ReconfigurableService t = this;
@@ -502,8 +500,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         //requirment 3.3.13.2.g: parameters shall only be updated if no error was raised
         for (int index = 0; index < ids.size(); index++) {  // requirement: 3.3.13.2.i, .k
-            manager.update(ids.get(index), paramDefDetails.get(index),
-                    null, connection.getConnectionDetails());  // Change in the manager, requirement 3.3.13.2.d, g
+            manager.update(ids.get(index), paramDefDetails.get(index), connection.getConnectionDetails());  // Change in the manager, requirement 3.3.13.2.d, g
             periodicReportingManager.refresh(ids.get(index));// then, refresh the Periodic updates
         }
 
@@ -797,7 +794,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      *
      * @param name The name of the Parameter as set in the parameter definition
      * @param value The value of the parameter to be pushed
-     * @param source The source of the parameter. Can be null
      * @param timestamp The timestamp of the parameter. If null, the method will
      * automatically use the System's time
      * @return Returns true if the push was successful. False otherwise. Please
@@ -805,10 +801,10 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      * of true will be returned because not error happened.
      */
     public Boolean pushSingleParameterValueAttribute(final Identifier name,
-            final Attribute value, final ObjectKey source, final Time timestamp) {
+            final Attribute value, final Time timestamp) {
         final ParameterValue parameterValue = new ParameterValue(ValidityState.VALID, value, null);
         ArrayList<ParameterInstance> parameters = new ArrayList<>(1);
-        parameters.add(new ParameterInstance(name, parameterValue, source, timestamp));
+        parameters.add(new ParameterInstance(name, parameterValue, timestamp));
 
         return this.pushMultipleParameterValues(parameters);
     }
@@ -921,7 +917,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             }
 
             LongList relatedIds = new LongList(outIds.size());
-            ObjectKeyList sourceIds = new ObjectKeyList(outIds.size());
             TimeList timestamps = new TimeList(outIds.size());
 
             //requirement: 3.3.9.2.h all Parameter-Value objects shall have the same creation-time
@@ -929,9 +924,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
             for (int i = 0; i < outIds.size(); i++) {
                 relatedIds.add(outIds.get(i));
-                ObjectKey sourceId = parameters.get(i).getSource();
-                sourceId = (sourceId != null) ? sourceId : new ObjectKey();
-                sourceIds.add(sourceId);
                 final Time timestamp = (parameters.get(i).getTimestamp() != null)
                         ? parameters.get(i).getTimestamp()
                         : defaultTimestamp;
@@ -941,8 +933,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             final LongList parameterValueId;
 
             if (storeIt) {
-                parameterValueId = manager.storeAndGenerateMultiplePValobjId(pVals, relatedIds,
-                        sourceIds, connection.getConnectionDetails(), timestamps);
+                parameterValueId = manager.storeAndGenerateMultiplePValobjId(pVals, relatedIds, connection.getConnectionDetails(), timestamps);
             } else {
                 // Well, if we don't store it, then we shall use the local unique variable
                 parameterValueId = new LongList(pVals.size());
@@ -1009,7 +1000,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             final Identifier name = manager.getName(defId);
 
             ArrayList<ParameterInstance> parameters = new ArrayList<>(1);
-            parameters.add(new ParameterInstance(name, parameterValue, null, Time.now()));
+            parameters.add(new ParameterInstance(name, parameterValue, Time.now()));
             this.pushMultipleParameterValues(parameters, storeInCOMArchive);
         } catch (UnknownException | IllegalArgumentException | MALInteractionException ex) {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,

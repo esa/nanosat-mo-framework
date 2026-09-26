@@ -289,9 +289,9 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             }
 
             ArchiveDetailsList archDetails = (interaction == null)
-                    ? HelperArchive.generateArchiveDetailsList(null, null,
+                    ? HelperArchive.generateArchiveDetailsList(null,
                             connection.getPrimaryConnectionDetails().getProviderURI())
-                    : HelperArchive.generateArchiveDetailsList((Long) null, null, interaction.getMessageHeader().getFromURI());
+                    : HelperArchive.generateArchiveDetailsList((Long) null, interaction.getMessageHeader().getFromURI());
 
             // Check if there are comServices...
             if (comServices == null) {

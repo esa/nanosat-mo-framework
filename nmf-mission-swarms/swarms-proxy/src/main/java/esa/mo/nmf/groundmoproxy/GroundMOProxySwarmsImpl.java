@@ -294,7 +294,6 @@ public class GroundMOProxySwarmsImpl extends GroundMOProxy {
                 null,
                 0L,
                 null,
-                null,
                 timeInFarFuture,
                 true,
                 null

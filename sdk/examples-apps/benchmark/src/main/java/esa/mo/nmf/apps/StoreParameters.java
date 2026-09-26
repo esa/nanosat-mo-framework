@@ -68,7 +68,7 @@ public class StoreParameters {
             }
             ConnectionProvider connection = connector.getMCServices().getActionService().getConnectionProvider();
             ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
-                    null, null, connection.getConnectionDetails().getProviderURI());
+                    null, connection.getConnectionDetails().getProviderURI());
             for (int i = 0; i < numberOfObjs - 1; i++) {
                 archDetails.add(archDetails.get(0));
             }

@@ -152,7 +152,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
         for (Long id : ids) {  // requirement: 3.4.8.2.d
             if (id == 0) {  // Is it the wildcard '0'? requirement: 3.3.8.2.c
-                manager.setReportingEnabledAll(enable, null,
+                manager.setReportingEnabledAll(enable,
                         connection.getConnectionDetails());
                 foundWildcard = true;
                 break;
@@ -179,7 +179,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
             // requirement: 3.4.8.e and 3.4.8.f and 3.4.8.j
             manager.setReportingEnabled(objIdToBeEnabled.get(index),
-                    enable, null, connection.getConnectionDetails());
+                    enable, connection.getConnectionDetails());
         }
 
         if (configurationAdapter != null) {
@@ -278,7 +278,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         //requirement: 3.4.10.2.h -> cycling with for loop through  the requests assures that
         for (AlertDefinition alertDef : alertDefs) {
             //requirement: 3.4.10.2.a
-            outPairLst.add(manager.add(alertDef, null,
+            outPairLst.add(manager.add(alertDef,
                     connection.getConnectionDetails())); //  requirement: 3.4.10.2.f
         }
 
@@ -328,8 +328,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         // requirement: 3.4.11.2.e
         for (int index = 0; index < alertObjInstIds.size(); index++) {
             //requirement: 3.4.11.2.a, 3.4.11.2.d
-            manager.update(alertObjInstIds.get(index), newAlertDefDetails.get(index),
-                    null, connection.getConnectionDetails()); //requirement: 3.4.11.2.h Change in the manager/archive
+            manager.update(alertObjInstIds.get(index), newAlertDefDetails.get(index), connection.getConnectionDetails()); //requirement: 3.4.11.2.h Change in the manager/archive
         }
 
         if (configurationAdapter != null) {
@@ -398,13 +397,12 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
      * @param alertDefinitionName The name of the Alert Definition
      * @param argumentValues The argument values to be published
      * @param argumentIds If null, no verification will take place
-     * @param source The source of the alert
      * @return Returns the object instance identifier of the published event.
      * Null if the event was not publish because of some error, or the
      * generation of events is disabled
      */
     public Long publishAlertEvent(final MALInteraction interaction, final Identifier alertDefinitionName,
-            final AttributeValueList argumentValues, final IdentifierList argumentIds, final ObjectKey source) {
+            final AttributeValueList argumentValues, final IdentifierList argumentIds) {
 
         Long id = manager.getId(alertDefinitionName);
 
@@ -444,7 +442,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
                         true,
                         AlertServiceInfo.ALERTEVENT_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(id, source, uri),
+                        HelperArchive.generateArchiveDetailsList(id, uri),
                         bodies,
                         null);
                 if (ids != null && !ids.isEmpty()) {

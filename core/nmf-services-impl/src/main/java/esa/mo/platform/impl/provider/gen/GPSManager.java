@@ -120,11 +120,10 @@ public final class GPSManager extends DefinitionsManager {
      * Adds a nearby-position definition and returns its object id.
      *
      * @param definition the definition
-     * @param source the source
      * @param uri the uri
      * @return the assigned object id
      */
-    public Long add(final NearbyPosition definition, final ObjectKey source, URI uri) {
+    public Long add(final NearbyPosition definition, URI uri) {
         if (super.getArchiveService() == null) {
             uniqueObjIdDef++; // This line as to go before any writing (because it's initialized as zero and that's the wildcard)
             this.addDef(uniqueObjIdDef, definition);
@@ -138,7 +137,7 @@ public final class GPSManager extends DefinitionsManager {
                         true,
                         GPSServiceInfo.NEARBYPOSITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(null, source, uri),
+                        HelperArchive.generateArchiveDetailsList(null, uri),
                         defs,
                         null);
 
@@ -185,7 +184,7 @@ public final class GPSManager extends DefinitionsManager {
                         true,
                         GPSServiceInfo.NEARBYPOSITIONALERT_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(objId, null, uri),
+                        HelperArchive.generateArchiveDetailsList(objId, uri),
                         alertList,
                         null);
 

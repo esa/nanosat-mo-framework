@@ -207,7 +207,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                                         LOGGER.log(Level.INFO,
                                                 "STOP_REQUESTED received for this app (''{0}''). Initiating graceful shutdown.",
                                                 bareAppName);
-                                        connector.closeGracefully(null);
+                                        connector.closeGracefully();
                                     }
                                 }
                             });
@@ -344,10 +344,9 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
     /**
      * It closes the application gracefully.
      *
-     * @param source The source of the triggering. Can be null.
      */
     @Override
-    public final void closeGracefully(final ObjectKey source) {
+    public final void closeGracefully() {
         try {
             long time = System.currentTimeMillis();
 

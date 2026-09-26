@@ -11,13 +11,11 @@
         </mal:documentation>
         <mal:documentation name="Area-level Requirement" order="2">The related field of an object shall not use the value of '0' as this is the wildcard value.
         </mal:documentation>
-        <mal:documentation name="Area-level Requirement" order="3">The id of the source field of an object shall not use the value of '0' as this is the wildcard value.
+        <mal:documentation name="Area-level Requirement" order="3">If the MAL data type specification is being used, then the body of an object shall be a concrete type.
         </mal:documentation>
-        <mal:documentation name="Area-level Requirement" order="4">If the MAL data type specification is being used, then the body of an object shall be a concrete type.
+        <mal:documentation name="Area-level Requirement" order="4">If the MAL data type specification is being used, then the body of an object shall not be an abstract Attribute.
         </mal:documentation>
-        <mal:documentation name="Area-level Requirement" order="5">If the MAL data type specification is being used, then the body of an object shall not be an abstract Attribute.
-        </mal:documentation>
-        <mal:documentation name="Area-level Requirement" order="6">If the MAL data type specification is being used, then the body of an object shall not be a list.
+        <mal:documentation name="Area-level Requirement" order="5">If the MAL data type specification is being used, then the body of an object shall not be a list.
         </mal:documentation>
         <mal:service name="Archive" number="1" xsi:type="com:ExtendedServiceType" comment="The Archive service provides a basic CRUD interface to a standard archiving function. It allows objects to be stored, retrieved, updated, deleted, and queried.">
             <mal:capabilitySet number="1" comment="">
@@ -487,7 +485,6 @@
                             <mal:type area="COM" list="false" name="LastSync"/>
                         </com:objectType>
                         <com:relatedObject comment="Not used."/>
-                        <com:sourceObject comment="Not used."/>
                     </com:object>
                 </com:objects>
             </com:features>
@@ -523,39 +520,30 @@
                 The service provider shall set the Provider COM object related link to NULL.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="9">
-                The service provider shall set the Provider COM object source link to NULL.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
                 The add operation shall create the Provider object.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="11">
+            <mal:documentation name="Service-level Requirement" order="10">
                 The provider of the Directory service shall populate the id for the Provider object.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="12">
+            <mal:documentation name="Service-level Requirement" order="11">
                 If the implementation of the Directory service uses a COM archive, then the provider of the Directory service shall store all directory objects in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="13">
+            <mal:documentation name="Service-level Requirement" order="12">
                 A ConfigurationService COM object shall represent the configuration of a service of a provider.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="14">
+            <mal:documentation name="Service-level Requirement" order="13">
                 A ConfigurationProvider COM object shall represent the configuration of a provider, as the set of the ConfigurationService COM objects of its services.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="15">
+            <mal:documentation name="Service-level Requirement" order="14">
                 The service provider shall set the ConfigurationService COM object related link to NULL.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="16">
-                The service provider shall set the ConfigurationService COM object source link to NULL.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="17">
+            <mal:documentation name="Service-level Requirement" order="15">
                 The service provider shall set the ConfigurationProvider COM object related link to NULL.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="18">
-                The service provider shall set the ConfigurationProvider COM object source link to NULL.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="19">
+            <mal:documentation name="Service-level Requirement" order="16">
                 If a provider stores its configuration, then the provider shall store its ConfigurationService and ConfigurationProvider COM objects in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="20">
+            <mal:documentation name="Service-level Requirement" order="17">
                 If a provider stores its configuration, then the provider shall store the COM objects referenced by the configObjects field of each ConfigurationService COM object in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1" comment="">
@@ -844,17 +832,6 @@
                     <mal:type area="MAL" list="true" name="Long"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="ObjectLinks" shortFormPart="4" comment="The ObjectLinks type carries the extra information associated with an object instance, namely the related and source links.">
-                <mal:extends>
-                    <mal:type area="MAL" list="false" name="Composite"/>
-                </mal:extends>
-                <mal:field name="related" canBeNull="true" comment="The id of a related object (e.g. the ActionDefinition that an Action uses). Service specific; the ObjectType of the related object is specified in the service specification. The related object is in the same domain as this object.">
-                    <mal:type area="MAL" list="false" name="Long"/>
-                </mal:field>
-                <mal:field name="source" canBeNull="true" comment="An object which is at the origin of the object creation (e.g. the procedure from which an action was triggered).">
-                    <mal:type area="COM" list="false" name="ObjectKey"/>
-                </mal:field>
-            </mal:composite>
 <mal:enumeration name="ExpressionOperator" shortFormPart="6" comment="The ExpressionOperator enumeration defines the set of possible expression operators.">
                 <mal:item comment="Checks for equality." nvalue="1" value="EQUAL"/>
                 <mal:item comment="Checks for difference (not equal)." nvalue="2" value="DIFFER"/>
@@ -877,8 +854,8 @@
                 <mal:field name="id" canBeNull="false" comment="The id of the archived object.">
                     <mal:type area="MAL" list="false" name="Long"/>
                 </mal:field>
-                <mal:field name="links" canBeNull="false" comment="The links of the Object.">
-                    <mal:type area="COM" list="false" name="ObjectLinks"/>
+                <mal:field name="relatedLink" canBeNull="true" comment="The id of a related object (e.g. the ActionDefinition that an Action uses). Service specific; the ObjectType of the related object is specified in the service specification. The related object is in the same domain as this object. NULL if the object has no related object.">
+                    <mal:type area="MAL" list="false" name="Long"/>
                 </mal:field>
                 <mal:field name="timestamp" canBeNull="true" comment="The time the object was created.">
                     <mal:type area="MAL" list="false" name="Time"/>
@@ -899,9 +876,6 @@
                 </mal:field>
                 <mal:field name="related" canBeNull="false" comment="The id of the related Object. Only the objects whose related Object matches the provided related Object will be returned unless the '0' wildcard value is supplied.">
                     <mal:type area="MAL" list="false" name="Long"/>
-                </mal:field>
-                <mal:field name="source" canBeNull="true" comment="Optional source. Only the objects whose source matches the provided source will be returned. The fields of the ObjectKey may contain the wildcard values ('0' for numeric fields, '*' for Identifier fields). If NULL then all values will be matched.">
-                    <mal:type area="COM" list="false" name="ObjectKey"/>
                 </mal:field>
                 <mal:field name="startTime" canBeNull="true" comment="Optional start time. Only the objects whose timestamp is equal or greater than the provided start time will be returned. NULL indicates no start time constraint is applied.">
                     <mal:type area="MAL" list="false" name="Time"/>
@@ -976,15 +950,6 @@
                     <mal:type area="MAL" list="false" name="UInteger"/>
                 </mal:field>
                 <mal:field name="objectType" canBeNull="false" comment="The Object Type of the COM Object.">
-                    <mal:type area="MAL" list="false" name="Long"/>
-                </mal:field>
-                <mal:field name="sourceLinkDomainId" canBeNull="true" comment="Dictionary id for the source link domain of the COM Object.">
-                    <mal:type area="MAL" list="false" name="UInteger"/>
-                </mal:field>
-                <mal:field name="sourceLinkObjectType" canBeNull="true" comment="The source link Object Type of the COM Object, encoded as a MAL::Long.">
-                    <mal:type area="MAL" list="false" name="Long"/>
-                </mal:field>
-                <mal:field name="sourceLinkId" canBeNull="true" comment="The source link id of the COM Object.">
                     <mal:type area="MAL" list="false" name="Long"/>
                 </mal:field>
                 <mal:field name="relatedLink" canBeNull="true" comment="The related link of the COM Object.">

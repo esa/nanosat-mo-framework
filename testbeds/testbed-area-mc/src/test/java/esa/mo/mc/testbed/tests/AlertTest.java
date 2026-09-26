@@ -102,7 +102,7 @@ public class AlertTest {
         AttributeValueList args = new AttributeValueList();
         args.add(new AttributeValue(new Union(42)));
         Long eventObjId = harness.getAlertProvider().publishAlertEvent(
-                null, new Identifier("TestAlert"), args, null, null);
+                null, new Identifier("TestAlert"), args, null);
 
         Assert.assertNotNull("publishAlertEvent must return a non-null event object ID", eventObjId);
         LOGGER.info("The returned event object ID is: " + eventObjId);

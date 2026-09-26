@@ -194,13 +194,11 @@ public final class AggregationManager extends MCManager {
      *
      * @param aVal the a val
      * @param related the related
-     * @param source the source
      * @param uri the uri
      * @param timestamp the timestamp
      * @return the generated object id
      */
-    public Long storeAndGenerateAValobjId(AggregationValue aVal, Long related,
-            ObjectKey source, URI uri, Time timestamp) {
+    public Long storeAndGenerateAValobjId(AggregationValue aVal, Long related, URI uri, Time timestamp) {
         if (super.getArchiveService() == null) {
             uniqueObjIdAVal++;
             return this.uniqueObjIdAVal;
@@ -214,7 +212,7 @@ public final class AggregationManager extends MCManager {
                         true,
                         AggregationServiceInfo.AGGREGATIONVALUE_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(related, source, uri),
+                        HelperArchive.generateArchiveDetailsList(related, uri),
                         aValList,
                         null);
 
@@ -786,11 +784,10 @@ public final class AggregationManager extends MCManager {
      *
      * @param name the name
      * @param definition the definition
-     * @param source the source
      * @param connectionDetails the connection details
      * @return the assigned object id
      */
-    public Long add(Identifier name, AggregationDefinition definition, ObjectKey source,
+    public Long add(Identifier name, AggregationDefinition definition,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
 
         Long newId;
@@ -807,7 +804,7 @@ public final class AggregationManager extends MCManager {
                 LongList defIds = super.getArchiveService().store(true,
                         AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(null, source, connectionDetails.getProviderURI()),
+                        HelperArchive.generateArchiveDetailsList(null, connectionDetails.getProviderURI()),
                         defs,
                         null);
 
@@ -834,11 +831,9 @@ public final class AggregationManager extends MCManager {
      *
      * @param defId The id of the identity the definition belongs to
      * @param definition The new definition-details
-     * @param source The ObjectKey of the source-object that cause the update to
-     * be created
      * @param connectionDetails The connection details.
      */
-    public void update(Long defId, AggregationDefinition definition, ObjectKey source,
+    public void update(Long defId, AggregationDefinition definition,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         if (super.getArchiveService() == null) { //only update locally
             this.updateDef(defId, definition);
@@ -851,7 +846,7 @@ public final class AggregationManager extends MCManager {
                 super.getArchiveService().update(
                         AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(null, source, null, defId),
+                        HelperArchive.generateArchiveDetailsList(null, null, defId),
                         defs,
                         null);
             } catch (UnknownException | InvalidArgumentException | MALException | MALInteractionException ex) {
@@ -884,10 +879,9 @@ public final class AggregationManager extends MCManager {
      *
      * @param defId the def id
      * @param status the status
-     * @param source the source
      * @param connectionDetails the connection details
      */
-    public void setReportingEnabled(Long defId, Boolean status, ObjectKey source,
+    public void setReportingEnabled(Long defId, Boolean status,
             SingleConnectionDetails connectionDetails) {
         AggregationDefinition def = this.getAggregationDefinition(defId);
 
@@ -905,17 +899,16 @@ public final class AggregationManager extends MCManager {
                 def.getFilteredTimeout(), status, def.getParameterSets());
 
         //requirement: 3.7.9.2.j, k
-        this.update(defId, newDef, source, connectionDetails);
+        this.update(defId, newDef, connectionDetails);
     }
 
     /**
      * Sets the reporting enabled all.
      *
      * @param bool the bool
-     * @param source the source
      * @param connectionDetails the connection details
      */
-    public void setReportingEnabledAll(Boolean bool, ObjectKey source, SingleConnectionDetails connectionDetails) {
+    public void setReportingEnabledAll(Boolean bool, SingleConnectionDetails connectionDetails) {
         LongList defIds = this.listAllDefinitions();
 
         for (Long defId : defIds) {
@@ -926,7 +919,7 @@ public final class AggregationManager extends MCManager {
                         def.getSendUnchanged(), def.getSendDefinitions(), def.getFilterEnabled(),
                         def.getFilteredTimeout(), bool, def.getParameterSets());
 
-                this.update(defId, newDef, source, connectionDetails);
+                this.update(defId, newDef, connectionDetails);
             }
         }
     }
@@ -936,12 +929,10 @@ public final class AggregationManager extends MCManager {
      *
      * @param defId The id of the identity the definition belongs to.
      * @param bool the value if the filter should be enabled
-     * @param source The source of the update.
      * @param connectionDetails The connection details.
      * @return true if it was set successfully, false if it wasnt set.
      */
-    public boolean setFilterEnabled(Long defId, Boolean bool,
-            ObjectKey source, SingleConnectionDetails connectionDetails) {
+    public boolean setFilterEnabled(Long defId, Boolean bool, SingleConnectionDetails connectionDetails) {
         AggregationDefinition def = this.getAggregationDefinition(defId);
 
         if (def == null) {
@@ -959,7 +950,7 @@ public final class AggregationManager extends MCManager {
                 def.getFilteredTimeout(), bool, def.getParameterSets());
 
         //requirement: 3.7.10.2.j
-        this.update(defId, newDef, source, connectionDetails);
+        this.update(defId, newDef, connectionDetails);
         return true;
     }
 
@@ -967,10 +958,9 @@ public final class AggregationManager extends MCManager {
      * Sets the filter enabled all.
      *
      * @param bool the bool
-     * @param source the source
      * @param connectionDetails the connection details
      */
-    public void setFilterEnabledAll(Boolean bool, ObjectKey source, SingleConnectionDetails connectionDetails) {
+    public void setFilterEnabledAll(Boolean bool, SingleConnectionDetails connectionDetails) {
         LongList defIds = this.listAllDefinitions();
 
         for (Long defId : defIds) {
@@ -981,7 +971,7 @@ public final class AggregationManager extends MCManager {
                         def.getSendUnchanged(), def.getSendDefinitions(), def.getFilterEnabled(),
                         def.getFilteredTimeout(), bool, def.getParameterSets());
 
-                this.update(defId, newDef, source, connectionDetails);
+                this.update(defId, newDef, connectionDetails);
             }
         }
     }

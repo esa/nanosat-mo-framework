@@ -161,7 +161,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         }
 
         if (ACTION_SHUTDOWN_GRACEFULLY.equals(name.getValue())) {
-            new Thread(() -> connector.closeGracefully(null)).start();
+            new Thread(() -> connector.closeGracefully()).start();
         }
 
         if (ACTION_SHUTDOWN_EXIT_0.equals(name.getValue())) {

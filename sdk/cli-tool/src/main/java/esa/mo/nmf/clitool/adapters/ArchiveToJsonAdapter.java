@@ -188,7 +188,7 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
          * ArchiveDetails content
          */
         private Long instanceId;
-        private CleanObjectDetails objectDetails;
+        private Long relatedInstanceId;
         private String creationTime;
         private String providerURI;
 
@@ -200,7 +200,7 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
         public CleanCOMArchiveObject(ObjectType objectType, ArchiveDetails archiveDetails, Object object) {
             // archive details
             instanceId = archiveDetails.getId();
-            objectDetails = archiveDetails.getLinks() == null ? null : new CleanObjectDetails(archiveDetails.getLinks());
+            relatedInstanceId = archiveDetails.getRelatedLink();
             creationTime = archiveDetails.getTimestamp().toReadableString();
             providerURI = archiveDetails.getProvider().getValue();
 
@@ -208,28 +208,6 @@ public class ArchiveToJsonAdapter extends ArchiveAdapter implements QueryStatusP
             this.object = new HashMap<>();
             if (object != null) {
                 this.object.put(object.getClass().getName(), object);
-            }
-        }
-
-        private static class CleanObjectDetails {
-            private Long relatedInstanceId;
-            private CleanObjectKey source;
-
-            public CleanObjectDetails(ObjectLinks objectLinks) {
-                relatedInstanceId = objectLinks.getRelated();
-                source = objectLinks.getSource() == null ? null : new CleanObjectKey(objectLinks.getSource());
-            }
-
-            private static class CleanObjectKey {
-                String objectType;
-                String domain;
-                Long instanceId;
-
-                public CleanObjectKey(ObjectKey objectKey) {
-                    objectType = HelperCOM.objType2string(objectKey.getType()).replace(" - ", ".").replace(": ", ".");
-                    domain = HelperDomain.domain2domainId(objectKey.getDomain());
-                    instanceId = objectKey.getId();
-                }
             }
         }
     }

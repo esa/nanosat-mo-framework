@@ -181,7 +181,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             HeterogeneousList bodies = new HeterogeneousList();
             bodies.add(new AppStarted(triggeredBy));
             ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
-                    appId, null, connection.getPrimaryConnectionDetails().getProviderURI());
+                    appId, connection.getPrimaryConnectionDetails().getProviderURI());
             this.manager.getCOMServices().getArchiveService().store(
                     true, AppsLauncherServiceInfo.APPSTARTED_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(), archDetails, bodies, null);
@@ -198,7 +198,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             HeterogeneousList bodies = new HeterogeneousList();
             bodies.add(new AppStopped(stopReason, exitCode, null));
             ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
-                    appId, null, connection.getPrimaryConnectionDetails().getProviderURI());
+                    appId, connection.getPrimaryConnectionDetails().getProviderURI());
             this.manager.getCOMServices().getArchiveService().store(
                     true, AppsLauncherServiceInfo.APPSTOPPED_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(), archDetails, bodies, null);

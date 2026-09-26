@@ -98,7 +98,6 @@ public class ParameterManager extends MCManager {
      *
      * @param defId the id of the parameter definition
      * @param pVal the parametervalue to be stored
-     * @param source the Id of the object that caused the update to be generated
      * @param connectionDetails the details of the connection
      * @param timestamp the timestamp that will be set as the creation-timestamp
      * of the, in this method created, ParameterValue-Object
@@ -106,7 +105,7 @@ public class ParameterManager extends MCManager {
      * Archive service for objects storage. In this case, the unique identifier
      * must be retrieved from the Archive during storage
      */
-    protected Long storeAndGeneratePValobjId(Long defId, ParameterValue pVal, ObjectKey source,
+    protected Long storeAndGeneratePValobjId(Long defId, ParameterValue pVal,
             SingleConnectionDetails connectionDetails, Time timestamp) {
         if (super.getArchiveService() == null) {
             uniqueObjIdPVal++;
@@ -120,10 +119,10 @@ public class ParameterManager extends MCManager {
             //be same as the one that will be used later for publishing the ParameterValue
             final ArchiveDetailsList archiveDetailsList;
             if (timestamp == null) { //ParameterValue-Object will not be published, generate a new timestamp then
-                archiveDetailsList = HelperArchive.generateArchiveDetailsList(related, source, connectionDetails.getProviderURI());
+                archiveDetailsList = HelperArchive.generateArchiveDetailsList(related, connectionDetails.getProviderURI());
             } else { //use the timestamp given
                 archiveDetailsList = new ArchiveDetailsList();
-                archiveDetailsList.add(new ArchiveDetails(0L, new ObjectLinks(related, source),
+                archiveDetailsList.add(new ArchiveDetails(0L, related,
                         timestamp, connectionDetails.getProviderURI()));
             }
 
@@ -148,7 +147,6 @@ public class ParameterManager extends MCManager {
      *
      * @param pVals The parameter values.
      * @param relatedList The list of relateds.
-     * @param sourcesList The list of sources.
      * @param connectionDetails The connection details.
      * @param timestamps the current timestamps. it will be used as the creation
      * time for all ParameterValues
@@ -157,14 +155,14 @@ public class ParameterManager extends MCManager {
      * must be retrieved from the Archive during storage
      */
     protected LongList storeAndGenerateMultiplePValobjId(final HeterogeneousList pVals,
-            final LongList relatedList, final ObjectKeyList sourcesList,
+            final LongList relatedList,
             final SingleConnectionDetails connectionDetails, final TimeList timestamps) {
         if (super.getArchiveService() != null) {
             ArchiveDetailsList archiveDetailsList = new ArchiveDetailsList();
 
             for (int i = 0; i < relatedList.size(); i++) {
                 ArchiveDetails archiveDetails = new ArchiveDetails(0L,
-                        new ObjectLinks(relatedList.get(i), sourcesList.get(i)),
+                        relatedList.get(i),
                         timestamps.get(i),
                         connectionDetails.getProviderURI());
 
@@ -401,12 +399,10 @@ public class ParameterManager extends MCManager {
      * Adds multiple parameter definitions and returns their object ids.
      *
      * @param definitions the definitions
-     * @param source the source
      * @param connectionDetails the connection details
      * @return the assigned object ids
      */
-    protected LongList addMultiple(HeterogeneousList definitions,
-            ObjectKey source, SingleConnectionDetails connectionDetails) {
+    protected LongList addMultiple(HeterogeneousList definitions, SingleConnectionDetails connectionDetails) {
         try {
             if (definitions == null) {
                 throw new IllegalArgumentException("Parameter definitions list can't be null!");
@@ -432,7 +428,7 @@ public class ParameterManager extends MCManager {
 
                 for (Element def : definitions) {
                     ArchiveDetailsList defDetails = HelperArchive.generateArchiveDetailsList(
-                            null, source, connectionDetails.getProviderURI());
+                            null, connectionDetails.getProviderURI());
 
                     archDetails.add(defDetails.get(0));
                 }
@@ -464,12 +460,10 @@ public class ParameterManager extends MCManager {
      *
      * @param name the name
      * @param definition the definition
-     * @param source the source
      * @param connectionDetails the connection details
      * @return the assigned object id
      */
-    protected Long add(Identifier name, ParameterDefinition definition,
-            ObjectKey source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+    protected Long add(Identifier name, ParameterDefinition definition, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
         Long newIdPair;
 
         if (super.getArchiveService() == null) {
@@ -484,7 +478,7 @@ public class ParameterManager extends MCManager {
                 LongList defIds = super.getArchiveService().store(true,
                         ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(0L, source, connectionDetails.getProviderURI()),
+                        HelperArchive.generateArchiveDetailsList(0L, connectionDetails.getProviderURI()),
                         defs,
                         null);
 
@@ -507,10 +501,9 @@ public class ParameterManager extends MCManager {
      *
      * @param id The definition id of the parameter.
      * @param bool The new reportingEnabled value.
-     * @param source The source link for the new definition.
      * @param connectionDetails The details of the connection.
      */
-    protected void setReportingEnabled(Long id, Boolean bool, ObjectKey source,
+    protected void setReportingEnabled(Long id, Boolean bool,
             SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.a.c
         ParameterDefinition def = this.getParameterDefinition(id);
 
@@ -529,7 +522,7 @@ public class ParameterManager extends MCManager {
                 def.getValidityExpression(), def.getConversion(), def.getReadOnly());
 
         //requirement: 3.3.10.2.k
-        this.update(id, newDef, source, connectionDetails);
+        this.update(id, newDef, connectionDetails);
     }
 
     /**
@@ -538,19 +531,16 @@ public class ParameterManager extends MCManager {
      *
      * @param id the id of the identity.
      * @param definition the new definition details.
-     * @param source the source object id that caused the new
-     * parameter-definition to be created.
      * @param connectionDetails the given connectionDetails
      */
-    protected void update(Long id, ParameterDefinition definition,
-            ObjectKey source, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.d
+    protected void update(Long id, ParameterDefinition definition, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.d
         if (super.getArchiveService() == null) { //only update locally
             this.updateDef(id, definition);
         } else {  // update in the COM Archive
             try {
                 HeterogeneousList defs = new HeterogeneousList();
                 defs.add(definition);
-                ArchiveDetailsList metadata = generateArchiveDetailsList(null, source,
+                ArchiveDetailsList metadata = generateArchiveDetailsList(null,
                         connectionDetails.getProviderURI(), id);
 
                 super.getArchiveService().update(ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,
@@ -570,11 +560,9 @@ public class ParameterManager extends MCManager {
      *
      * @param bool The value the reportingEnabled field of all parameters should
      * be set to.
-     * @param source The source that created this update. will be set as the new
-     * defintions source.
      * @param connectionDetails The details of the connection.
      */
-    protected void setReportingEnabledAll(Boolean bool, ObjectKey source, SingleConnectionDetails connectionDetails) {
+    protected void setReportingEnabledAll(Boolean bool, SingleConnectionDetails connectionDetails) {
         LongList defIds = new LongList();
         defIds.addAll(this.listAllDefinitions());
 
@@ -585,7 +573,7 @@ public class ParameterManager extends MCManager {
                     bool, def.getReportInterval(),
                     def.getValidityExpression(), def.getConversion(), def.getReadOnly());
 
-            this.update(defId, newDef, source, connectionDetails);
+            this.update(defId, newDef, connectionDetails);
         }
     }
 

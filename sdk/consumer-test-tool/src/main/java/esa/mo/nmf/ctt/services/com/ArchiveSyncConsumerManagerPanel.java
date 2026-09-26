@@ -570,7 +570,6 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
                 null,
                 null,
                 null,
-                null,
                 null);
 
         return archiveQuery;

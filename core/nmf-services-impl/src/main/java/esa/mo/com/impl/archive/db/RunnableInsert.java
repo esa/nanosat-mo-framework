@@ -85,10 +85,7 @@ final class RunnableInsert implements Runnable {
                 insertStmt.setObject(4, obj.getObjectEncoded());
                 insertStmt.setObject(5, obj.getProviderURI());
                 insertStmt.setObject(6, obj.getRelatedLink());
-                insertStmt.setObject(7, obj.getSourceLink().getDomainId());
-                insertStmt.setObject(8, obj.getSourceLink().getObjId());
-                insertStmt.setObject(9, obj.getSourceLink().getObjectTypeId());
-                insertStmt.setObject(10, obj.getTimestamp().getValue());
+                insertStmt.setObject(7, obj.getTimestamp().getValue());
                 insertStmt.addBatch();
 
                 // Flush every 1k objects...

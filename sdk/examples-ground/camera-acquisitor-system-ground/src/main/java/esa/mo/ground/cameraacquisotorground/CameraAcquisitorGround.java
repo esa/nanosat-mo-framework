@@ -571,7 +571,7 @@ public class CameraAcquisitorGround {
                         }
                     } else if (objBody instanceof ExecutionStatus) {
                         ExecutionStatus status = (ExecutionStatus) objBody;
-                        Long executionId = objDetails.get(i).getLinks().getRelated();
+                        Long executionId = objDetails.get(i).getRelatedLink();
                         if (executionId != null) {
                             updateExecutionStatus(executionId, status.getStageType(),
                                     status.getSuccess(), status.getStep());

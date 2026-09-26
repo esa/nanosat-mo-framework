@@ -104,7 +104,7 @@ public class ArchiveToParametersAdapter extends ArchiveAdapter implements QueryS
             }
         } else if (type.equals(parameterValueType)) {
             for (int i = 0; i < detailsList.size(); ++i) {
-                Long defId = detailsList.get(i).getLinks().getRelated();
+                Long defId = detailsList.get(i).getRelatedLink();
                 TimestampedParameterValue tv = new TimestampedParameterValue(
                         (ParameterValue) bodiesList.get(i), detailsList.get(i).getTimestamp());
                 valuesMap.get(domain).computeIfAbsent(defId, k -> new ArrayList<>()).add(tv);

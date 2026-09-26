@@ -30,7 +30,6 @@ import java.util.Date;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
@@ -81,11 +80,9 @@ public class DemoGPSData {
      */
     public boolean pushAggregationAdhocUpdates() {
         try {
-            final ObjectKey source = null;
             final Time timestamp = new Time((new Date()).getTime());
 
-            return connector.getMCServices().getAggregationService().pushAggregationAdhocUpdate(new Identifier("GPS"),
-                    source, timestamp);
+            return connector.getMCServices().getAggregationService().pushAggregationAdhocUpdate(new Identifier("GPS"), timestamp);
         } catch (NMFException ex) {
             Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
             return false;

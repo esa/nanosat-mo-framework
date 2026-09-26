@@ -139,8 +139,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
 
         // Source could be mapped to an OperationActivity associated with this transaction, but for now
         // we don't need such fine tracking...
-        final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null,
-                null, connection.getPrimaryConnectionDetails().getProviderURI());
+        final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(null, connection.getPrimaryConnectionDetails().getProviderURI());
         final HeterogeneousList objBodies = new HeterogeneousList();
         objBodies.add(command);
         LongList objIds;
@@ -199,7 +198,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
             CommandOutput cmdOutput = new CommandOutput(outputType, data, exitCode);
             // Link each output chunk to its parent Command via 'related', and let the
             // archive auto-assign a fresh instance id (a command emits many chunks).
-            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(commandId, null,
+            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(commandId,
                     connection.getPrimaryConnectionDetails().getProviderURI());
             HeterogeneousList objBodies = new HeterogeneousList();
             objBodies.add(cmdOutput);
@@ -298,7 +297,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
     private void updateCommandDetails(Long objId, Command command) {
         cachedCommandDetails.put(objId, command);
         final ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
-                null, null,
+                null,
                 connection.getPrimaryConnectionDetails().getProviderURI(),
                 objId);
         final HeterogeneousList objBodies = new HeterogeneousList();

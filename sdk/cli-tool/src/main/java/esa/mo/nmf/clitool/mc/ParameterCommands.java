@@ -260,7 +260,7 @@ public class ParameterCommands {
                     domainId == null ? null : HelperDomain.domainId2domain(domainId);
 
             ArchiveQuery archiveQuery = new ArchiveQuery(
-                    domain, null, 0L, null, startTimeF, endTimeF, null, null);
+                    domain, null, 0L, startTimeF, endTimeF, null, null);
 
             ArchiveToParametersAdapter parametersAdapter = new ArchiveToParametersAdapter();
             ObjectType parameterObjectType = new ObjectType(
@@ -459,7 +459,7 @@ public class ParameterCommands {
                     domainId == null ? null : HelperDomain.domainId2domain(domainId);
 
             ArchiveQuery archiveQuery = new ArchiveQuery(
-                    domain, null, 0L, null, null, null, null, null);
+                    domain, null, 0L, null, null, null, null);
 
             ArchiveToParametersAdapter adapter = new ArchiveToParametersAdapter();
             queryArchive(

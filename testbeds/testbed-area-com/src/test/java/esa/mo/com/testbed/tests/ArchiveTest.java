@@ -70,7 +70,7 @@ public class ArchiveTest {
         HeterogeneousList bodies = new HeterogeneousList();
         bodies.add(storedBody);
 
-        ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, null, providerURI);
+        ArchiveDetailsList details = HelperArchive.generateArchiveDetailsList(null, providerURI);
         LongList ids = stub.store(true, TEST_OBJECT_TYPE, domain, details, bodies);
 
         Assert.assertNotNull("store must return a non-null ID list", ids);

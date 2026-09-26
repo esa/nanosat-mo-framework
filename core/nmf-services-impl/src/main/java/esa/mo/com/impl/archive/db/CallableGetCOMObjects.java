@@ -39,8 +39,7 @@ public final class CallableGetCOMObjects implements Callable<List<COMObjectEntit
 
     // for sqlite. %s will be replaced with proper ids.
     private final static String SELECT_COM_OBJECTS = "SELECT objectTypeId, domainId, objId, "
-            + "timestampArchiveDetails, providerURI, sourceLinkObjectTypeId, "
-            + "sourceLinkDomainId, sourceLinkObjId, relatedLink, objBody " + "FROM COMObjectEntity "
+            + "timestampArchiveDetails, providerURI, relatedLink, objBody " + "FROM COMObjectEntity "
             + "WHERE ((objectTypeId = %s) AND (domainId = %s) AND (objId in (%s)))";
     private final TransactionsProcessor transactionsProcessor;
     private final LongList ids;
@@ -87,11 +86,8 @@ public final class CallableGetCOMObjects implements Callable<List<COMObjectEntit
                         TransactionsProcessor.convert2Long(rs.getObject(3)),
                         TransactionsProcessor.convert2Long(rs.getObject(4)),
                         (Integer) rs.getObject(5),
-                        new SourceLinkContainer((Integer) rs.getObject(6),
-                                (Integer) rs.getObject(7),
-                                TransactionsProcessor.convert2Long(rs.getObject(8))),
-                        TransactionsProcessor.convert2Long(rs.getObject(9)),
-                        (byte[]) rs.getObject(10)));
+                        TransactionsProcessor.convert2Long(rs.getObject(6)),
+                        (byte[]) rs.getObject(7)));
             }
         } catch (SQLException ex) {
             TransactionsProcessor.LOGGER.log(Level.SEVERE, null, ex);

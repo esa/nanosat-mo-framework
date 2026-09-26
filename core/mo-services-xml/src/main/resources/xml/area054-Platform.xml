@@ -269,15 +269,12 @@
                 The service provider shall represent position markers for nearby position events as NearbyPosition COM objects.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="3">
-                The source link of the NearbyPosition object should be the object that caused it to be created, most likely a COM OperationActivity object or an operator login in the case of off-line editors being used.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="4">
                 The service provider shall use a boolean value as the body of the NearbyPositionAlert object.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="5">
+            <mal:documentation name="Service-level Requirement" order="4">
                 The service provider should store NearbyPosition objects in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="6">
+            <mal:documentation name="Service-level Requirement" order="5">
                 Upon publishing a nearby position event, the service provider should store the NearbyPositionAlert object in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1" comment="">
@@ -641,9 +638,6 @@
                             <mal:type area="Platform" list="false" name="NearbyPosition" />
                         </com:objectType>
                         <com:relatedObject comment="" />
-                        <com:sourceObject
-                            comment="The object that caused it to be created.">
-                        </com:sourceObject>
                     </com:object>
                     <com:object number="2" name="NearbyPositionAlert"
                                 comment="Alert state indicating whether the spacecraft is entering or exiting the nearby position boundary." >
@@ -653,7 +647,6 @@
                         <com:relatedObject comment="">
                             <com:objectType area="Platform" number="1" service="GPS" />
                         </com:relatedObject>
-                        <com:sourceObject comment="" />
                     </com:object>
                 </com:objects>
                 <com:archiveUsage
@@ -1220,7 +1213,6 @@
                             <mal:type area="Platform" list="false" name="FPGAModuleLoaded"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
-                        <com:sourceObject comment=""/>
                     </com:object>
                     <com:object number="2" name="FPGAModuleUnloaded"
                                 comment="A record of a gateware module unloaded from a reconfigurable partition.">
@@ -1230,7 +1222,6 @@
                         <com:relatedObject comment="The FPGAModuleLoaded COM object of the load that this unload terminates.">
                             <com:objectType area="Platform" number="1" service="FPGA"/>
                         </com:relatedObject>
-                        <com:sourceObject comment=""/>
                     </com:object>
                 </com:objects>
                 <com:archiveUsage
@@ -1561,7 +1552,6 @@
                             <mal:type area="Platform" list="false" name="SoftwareImageStarted"/>
                         </com:objectType>
                         <com:relatedObject comment=""/>
-                        <com:sourceObject comment=""/>
                     </com:object>
                     <com:object number="2" name="SoftwareImageStopped"
                                 comment="A record of a software image stopped in a hypervisor partition.">
@@ -1571,7 +1561,6 @@
                         <com:relatedObject comment="The SoftwareImageStarted COM object of the start that this stop terminates.">
                             <com:objectType area="Platform" number="1" service="SoftwareImages"/>
                         </com:relatedObject>
-                        <com:sourceObject comment=""/>
                     </com:object>
                 </com:objects>
                 <com:archiveUsage

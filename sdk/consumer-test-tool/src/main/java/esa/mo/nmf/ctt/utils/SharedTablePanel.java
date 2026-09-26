@@ -39,7 +39,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import org.ccsds.moims.mo.com.COMObject;
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
@@ -225,25 +224,6 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
     }
 
     /**
-     * Returns the COM object referenced as the source of the first COM object in the table.
-     *
-     * @return the source COM object, or {@code null} if the table is empty
-     */
-    public ArchivePersistenceObject getSourceFromFirstCOMObject() {
-        if (comObjects == null || comObjects.isEmpty()) {
-            return null;
-        }
-
-        ObjectKey source = comObjects.get(0).getArchiveDetails().getLinks().getSource();
-        return HelperArchive.getArchiveCOMObject(
-                archiveService,
-                source.getType(),
-                source.getDomain(),
-                source.getId()
-        );
-    }
-
-    /**
      * Returns the underlying Swing table.
      *
      * @return the table
@@ -328,16 +308,12 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
         jScrollPane3.setPreferredSize(new java.awt.Dimension(796, 280));
         jScrollPane3.setRequestFocusEnabled(false);
 
-        table.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{{null, null, null, null, null, null}, {
-                                                                                                                     null,
-                                                                                                                     null,
-                                                                                                                     null,
-                                                                                                                     null,
-                                                                                                                     null,
-                                                                                                                     null}},
-            new String[]{"Domain", "Object Type", "Obj Instance Id", "Timestamp", "Related", "Source"}) {
+        table.setModel(new javax.swing.table.DefaultTableModel(new Object[][]{
+            {null, null, null, null, null},
+            {null, null, null, null, null}},
+            new String[]{"Domain", "Object Type", "Obj Instance Id", "Timestamp", "Related"}) {
             Class[] types = new Class[]{java.lang.String.class, java.lang.String.class, java.lang.String.class,
-                                        java.lang.String.class, java.lang.String.class, java.lang.String.class};
+                                        java.lang.String.class, java.lang.String.class};
 
             public Class getColumnClass(int columnIndex) {
                 return types[columnIndex];

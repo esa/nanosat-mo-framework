@@ -20,7 +20,6 @@
  */
 package esa.mo.mc.impl.provider;
 
-import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.Time;
@@ -33,7 +32,6 @@ public class ParameterInstance {
 
     private final Identifier name;
     private final ParameterValue parameterValue;
-    private final ObjectKey source;
     private final Time timestamp;
 
     /**
@@ -41,14 +39,11 @@ public class ParameterInstance {
      *
      * @param name the name
      * @param pValue the p value
-     * @param source the source
      * @param timestamp the timestamp
      */
-    public ParameterInstance(final Identifier name, final ParameterValue pValue,
-            final ObjectKey source, final Time timestamp) {
+    public ParameterInstance(final Identifier name, final ParameterValue pValue, final Time timestamp) {
         this.name = name;
         this.parameterValue = pValue;
-        this.source = source;
         this.timestamp = timestamp;
     }
 
@@ -57,12 +52,10 @@ public class ParameterInstance {
      *
      * @param name the name
      * @param value the value
-     * @param source the source
      * @param timestamp the timestamp
      */
-    public ParameterInstance(final Identifier name, final Attribute value,
-            final ObjectKey source, final Time timestamp) {
-        this(name, new ParameterValue(ValidityState.VALID, value, null), source, timestamp);
+    public ParameterInstance(final Identifier name, final Attribute value, final Time timestamp) {
+        this(name, new ParameterValue(ValidityState.VALID, value, null), timestamp);
     }
 
     /**
@@ -81,15 +74,6 @@ public class ParameterInstance {
      */
     public ParameterValue getParameterValue() {
         return this.parameterValue;
-    }
-
-    /**
-     * Returns the source.
-     *
-     * @return the source
-     */
-    public ObjectKey getSource() {
-        return this.source;
     }
 
     /**
