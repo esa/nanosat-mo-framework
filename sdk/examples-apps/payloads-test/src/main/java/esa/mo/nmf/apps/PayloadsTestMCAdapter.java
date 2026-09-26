@@ -1508,8 +1508,8 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 nmf.pushParameterValue(PARAMETER_MAG_Z, magneticField.getZ());
 
                 nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_X, angularVelocity.getX());
-                nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Z, angularVelocity.getY());
-                nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Y, angularVelocity.getZ());
+                nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Y, angularVelocity.getY());
+                nmf.pushParameterValue(PARAMETER_ANGULAR_VELOCITY_Z, angularVelocity.getZ());
 
                 nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_A, attitude.getA());
                 nmf.pushParameterValue(PARAMETER_ATTITUDE_Q_B, attitude.getB());
