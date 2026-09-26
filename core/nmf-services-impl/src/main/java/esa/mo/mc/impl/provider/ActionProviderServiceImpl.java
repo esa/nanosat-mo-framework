@@ -183,10 +183,10 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         }
 
         boolean wildcardFound = false;
-        for (Identifier actionName : actionNames) {  // requirement: 3.2.11.2.f
+        for (Identifier actionName : actionNames) {  // requirement: Action.listDefinition#2
             // Check for the wildcard
-            if (actionName.toString().equals("*")) {  // requirement: 3.2.11.2.b
-                outPairLst.addAll(manager.listAllDefinitions()); // ... add all in a row; requirement: 3.2.11.2.e
+            if (actionName.toString().equals("*")) {  // requirement: Action.listDefinition#1
+                outPairLst.addAll(manager.listAllDefinitions()); // ... add all in a row
                 wildcardFound = true;
                 break;
             }
@@ -194,24 +194,24 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
         if (!wildcardFound) {
             UIntegerList unkIndexList = new UIntegerList();
-            for (int i = 0; i < actionNames.size(); i++) { //requirement: 3.2.11.2.f foreach-cycle steps through list in order
+            for (int i = 0; i < actionNames.size(); i++) { //requirement: Action.listDefinition#3 foreach-cycle steps through list in order
                 Identifier actionName = actionNames.get(i);
 
                 final Long idPair = manager.getId(actionName);
-                if (idPair == null) {  //requirement: 3.2.11.2.d
+                if (idPair == null) {
                     unkIndexList.add(new UInteger(i));
                 } else {
-                    outPairLst.add(idPair);  // requirement: 3.2.11.2.a, 3.2.11.2.e
+                    outPairLst.add(idPair);
                 }
             }
 
             // Errors
-            if (!unkIndexList.isEmpty()) { // requirement: 3.2.11.3.1 (error: a and b)
+            if (!unkIndexList.isEmpty()) {
                 throw new UnknownException(unkIndexList);
             }
         }
 
-        return outPairLst;  // requirement: 3.4.9.2.d
+        return outPairLst;
     }
 
     /**
@@ -241,37 +241,37 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
             // Check if the name field of the ActionDefinition is invalid.
             if (name == null
                     || name.equals(new Identifier("*"))
-                    || name.equals(new Identifier(""))) { // requirement: 3.2.12.2.b
+                    || name.equals(new Identifier(""))) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
 
-            if (manager.getDefinition(name) != null) { // Is the supplied name unique? requirement: 3.2.12.2.c
+            if (manager.getDefinition(name) != null) { // Is the supplied name unique?
                 dupIndexList.add(new UInteger(index));
                 continue;
             }
         }
 
         // Errors
-        // returning errors before creating the object -> requirement: 3.2.12.2.d
-        if (!invIndexList.isEmpty()) { // requirement: 3.2.12.3.1
+        // returning errors before creating the object
+        if (!invIndexList.isEmpty()) {
             throw new InvalidArgumentException(invIndexList);
         }
-        if (!dupIndexList.isEmpty()) { // requirement: 3.2.12.3.2
+        if (!dupIndexList.isEmpty()) {
             throw new DuplicateException(dupIndexList);
         }
 
         //add the definition
-        for (int index = 0; index < defsList.size(); index++) { // requirement: 3.2.12.2.f (incremental "for cycle" guarantees that)
+        for (int index = 0; index < defsList.size(); index++) {
             newObjInstIds.add(manager.add(defsList.get(index),
-                    connection.getPrimaryConnectionDetails().getProviderURI())); //  requirement: 3.2.12.2.e, g
+                    connection.getPrimaryConnectionDetails().getProviderURI()));
         }
 
         if (configurationAdapter != null) {
             configurationAdapter.onConfigurationChanged(this);
         }
 
-        return newObjInstIds; // requirement: 3.2.12.2.f
+        return newObjInstIds;
     }
 
     /**
@@ -300,32 +300,32 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         for (int index = 0; index < ids.size(); index++) {
             final Long id = ids.get(index);
 
-            if (id == null || id == 0 //requirement: 3.2.13.2.c: id is Null or 0?
-                    || ids.size() != actionDefDetails.size()) { //requirement: 3.2.13.2.f
+            if (id == null || id == 0 //id is Null or 0?
+                    || ids.size() != actionDefDetails.size()) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
-            ActionDefinition actionDefinition = manager.getActionDefinition(id);  // requirement: 3.2.13.2.a
-            if (actionDefinition == null) { // The id could not be found? // requirement: 3.2.13.2.b
+            ActionDefinition actionDefinition = manager.getActionDefinition(id);
+            if (actionDefinition == null) { // The id could not be found?
                 unkIndexList.add(new UInteger(index));
                 continue;
             }
         }
 
         // Errors
-        // returning errors before creating the object -> requirement: 3.2.13.2.g
-        if (!invIndexList.isEmpty()) { // requirement: 3.2.13.2.1 (error: a)
+        // returning errors before creating the object
+        if (!invIndexList.isEmpty()) {
             throw new InvalidArgumentException(invIndexList);
         }
 
-        if (!unkIndexList.isEmpty()) { // requirement: 3.2.13.2.2 (error: b)
+        if (!unkIndexList.isEmpty()) {
             throw new UnknownException(unkIndexList);
         }
         LongList newDefIds = new LongList();
-        for (int index = 0; index < ids.size(); index++) { // requirement: 3.2.13.2.e, k (incremental "for cycle" guarantees that)
+        for (int index = 0; index < ids.size(); index++) {
             newDefIds.add(manager.update(ids.get(index),
                     actionDefDetails.get(index),
-                    connection.getPrimaryConnectionDetails().getProviderURI()));  // Change in the manager; requirement: 3.2.13.2.d, g, h
+                    connection.getPrimaryConnectionDetails().getProviderURI()));  // Change in the manager
         }
 
         if (configurationAdapter != null) {
@@ -345,7 +345,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
      * @throws MALInteractionException if the service returns an error
      */
     public void removeAction(final LongList definitionIds, final MALInteraction interaction)
-            throws UnknownException, MALException, MALInteractionException { // requirement: 3.7.12.2.1
+            throws UnknownException, MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
         Long tempIdentity;
         LongList tempIdentityLst = new LongList();
@@ -355,30 +355,30 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         }
 
         for (int index = 0; index < definitionIds.size(); index++) {
-            tempIdentity = definitionIds.get(index); // requirement: 3.2.14.2.a
+            tempIdentity = definitionIds.get(index);
 
-            if (tempIdentity == 0) {  // Is it the wildcard '0'? requirement: 3.2.14.2.b
+            if (tempIdentity == 0) {  // Is it the wildcard '0'?
                 tempIdentityLst.clear();  // if the wildcard is in the middle of the input list, we clear the output list and...
                 tempIdentityLst.addAll(manager.listAllDefinitions()); // ... add all in a row
                 unkIndexList.clear();
                 break;
             }
 
-            if (!manager.existsDef(tempIdentity)) { // Does it match an existing definition? requirement: 3.2.14.2.c
-                unkIndexList.add(new UInteger(index)); // requirement: 3.2.14.2.c
+            if (!manager.existsDef(tempIdentity)) { // Does it match an existing definition?
+                unkIndexList.add(new UInteger(index));
             } else {
                 tempIdentityLst.add(tempIdentity);
             }
         }
 
         // Errors
-        // returning errors before removing the object -> requirement: 3.2.14.2.g
-        if (!unkIndexList.isEmpty()) { // requirement: 3.2.14.3.1 (error: a, b)
+        // returning errors before removing the object
+        if (!unkIndexList.isEmpty()) {
             throw new UnknownException(unkIndexList);
         }
 
         for (Long tempIdentity2 : tempIdentityLst) {
-            manager.deleteDefinitionLocally(tempIdentity2); // COM archive must be left untouched. requirement: 3.2.14.2.e
+            manager.deleteDefinitionLocally(tempIdentity2); // COM archive must be left untouched.
         }
 
         if (configurationAdapter != null) {

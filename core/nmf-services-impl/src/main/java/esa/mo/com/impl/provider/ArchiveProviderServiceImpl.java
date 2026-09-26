@@ -130,27 +130,27 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         LongList longList = new LongList();
 
         if (inObjectType == null) {
-            throw new InvalidArgumentException(null); // requirement 3.4.3.2.1
+            throw new InvalidArgumentException(null);
         }
         if (inDomain == null) {
-            throw new InvalidArgumentException(null); // requirement: 3.4.3.2.3
+            throw new InvalidArgumentException(null);
         }
         if (inObjIds == null) {
             throw new InvalidArgumentException(null);
         }
-        if (ArchiveManager.objectTypeContainsWildcard(inObjectType)) {   // requirement: 3.4.3.2.2
+        if (ArchiveManager.objectTypeContainsWildcard(inObjectType)) {
 //            interaction.sendError(new InvalidArgumentException(null));
             throw new InvalidArgumentException(null);
         }
 
-        if (HelperCOM.domainContainsWildcard(inDomain)) {   // requirement: 3.4.3.2.4
+        if (HelperCOM.domainContainsWildcard(inDomain)) {
 //            interaction.sendError(new InvalidArgumentException(null));
             throw new InvalidArgumentException(null);
         }
 
         boolean wildcardFound = false;
-        for (Long tempObjId : inObjIds) { // requirement: 3.4.3.2.5
-            if (tempObjId == 0) {  // Is it the wildcard 0? requirement: 3.4.3.2.6
+        for (Long tempObjId : inObjIds) {
+            if (tempObjId == 0) {  // Is it the wildcard 0? requirement: Archive.retrieve#1
                 longList.clear();  // if the wildcard is in the middle of the input list, we clear the list...
                 wildcardFound = true;
                 break;
@@ -173,8 +173,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             ArchivePersistenceObject perObj = perObjs.get(index);
 
             if (perObj == null) {  // COM object not found
-                unkIndexList.add(new UInteger(index)); // requirement: 3.4.3.2.7
-                outArchiveDetailsList.add(new ArchiveDetails()); // requirement: 3.4.3.2.12
+                unkIndexList.add(new UInteger(index));
+                outArchiveDetailsList.add(new ArchiveDetails());
 
                 if (outMatchedObjects != null) {
                     outMatchedObjects.add(new UInteger());
@@ -183,7 +183,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 continue;
             }
 
-            outArchiveDetailsList.add(perObj.getArchiveDetails()); // requirement: 3.4.3.2.9
+            outArchiveDetailsList.add(perObj.getArchiveDetails()); // requirement: Archive.retrieve#4
 
             if (outMatchedObjects == null) {  // Initialize the elementList object
                 try {
@@ -202,21 +202,21 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             }
 
             if (outMatchedObjects != null) {
-                outMatchedObjects.add((Element) perObj.getObject()); // requirement: 3.4.3.2.10 and 3.4.3.2.11
+                outMatchedObjects.add((Element) perObj.getObject()); // requirement: Archive.retrieve#3
             }
         }
 
         // Errors
-        if (!unkIndexList.isEmpty()) { // requirement: 3.4.3.3 (error: a)
+        if (!unkIndexList.isEmpty()) {
 //            interaction.sendError(new MOErrorException(MALHelper.UNKNOWN_ERROR_NUMBER, unkIndexList));
             throw new UnknownException(unkIndexList);
         }
 
-        // requirement: 3.4.3.2.13 and requirement: 3.4.3.2.14: ordering of objects is not specified
+        // requirement: Archive.retrieve#6: ordering of objects is not specified
         if (outArchiveDetailsList.isEmpty()) {
-            interaction.sendResponse(null, null);  // requirement: 3.4.3.2.12
+            interaction.sendResponse(null, null);  // requirement: Archive.retrieve#5
         } else {
-            interaction.sendResponse(outArchiveDetailsList, outMatchedObjects); // requirement: 3.4.3.2.8
+            interaction.sendResponse(outArchiveDetailsList, outMatchedObjects); // requirement: Archive.retrieve#2
         }
     }
 
@@ -359,7 +359,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         }
 
         if (bodies != null) {
-            if (details.size() != bodies.size()) { // requirement: 3.4.6.2.8
+            if (details.size() != bodies.size()) { // requirement: Archive.store#2
                 UIntegerList error = new UIntegerList();
                 int size1 = (details.size() < bodies.size()) ? details.size() : bodies.size();
                 int size2 = (details.size() > bodies.size()) ? details.size() : bodies.size();
@@ -373,11 +373,11 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
         }
 
-        if (ArchiveManager.objectTypeContainsWildcard(objType)) { // requirement: 3.4.6.2.9
+        if (ArchiveManager.objectTypeContainsWildcard(objType)) {
             throw new InvalidArgumentException(null);
         }
 
-        if (HelperCOM.domainContainsWildcard(domain)) { // requirement: 3.4.6.2.10
+        if (HelperCOM.domainContainsWildcard(domain)) {
             throw new InvalidArgumentException(null);
         }
 
@@ -390,26 +390,26 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
         synchronized (manager) {
             for (int index = 0; index < details.size(); index++) { // Validation of ArchiveDetails object
-                if (details.get(index).getId() == 0) { // requirement: 3.4.6.2.5
+                if (details.get(index).getId() == 0) { // requirement: Archive.store#1
                     // Shall be taken care in the manager & per inserted entry
-                } else { // Does it exist already?  // requirement: 3.4.6.2.6
+                } else { // Does it exist already?
                     if (manager.objIdExists(objType, domain, details.get(index).getId())) {
                         dupIndexList.add(new UInteger(index));
                         continue;
                     }
                 }
 
-                if (HelperArchive.archiveDetailsContainsWildcard(details.get(index))) { // requirement: 3.4.6.2.11
+                if (HelperArchive.archiveDetailsContainsWildcard(details.get(index))) {
                     invIndexList.add(new UInteger(index));
                     //                continue;
                 }
 
-                // There's a requirement missing: 3.4.6.2.12
+                // requirement: Archive.store#3 is not implemented yet.
                 // Can only be made after the JAVA API supports COM features: https://github.com/SamCooper/JAVA_SPEC_RIDS/issues/2
                 /*
                 if (lElementList != null) {
                     if (!manager.isObjectTypeLikeDeclaredServiceType(lObjectType, (Element) lElementList.get(index))
-                            && lElementList.get(index) != null) { // requirement: 3.4.6.2.12
+                            && lElementList.get(index) != null) { // requirement: Archive.store#3
                         invIndexList.add(new UInteger(index));
                         continue;
                     }
@@ -418,22 +418,22 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             }
 
             // Errors
-            if (!invIndexList.isEmpty()) { // requirement: 3.4.6.3 (error: a)
+            if (!invIndexList.isEmpty()) {
                 throw new InvalidArgumentException(invIndexList);
             }
 
-            if (!dupIndexList.isEmpty()) { // requirement: 3.4.6.3 (error: b)
+            if (!dupIndexList.isEmpty()) {
                 throw new DuplicateException(dupIndexList);
             }
 
-            // The errors have to be before the store operation to fulfil requirement: 3.4.6.2.13
-            if (returnObjId) { // requirement: 3.4.6.2.1 and 3.4.6.2.14
+            // The errors have to be before the store operation to fulfil requirement: Archive.store#4
+            if (returnObjId) { // requirement: Archive.store#5
                 // Execute the store operation (objType, domain, archiveDetails, objs)
-                // requirement: 3.4.6.2.15 (the operation returns the objIds with the same order)
+                // requirement: Archive.store#7 (the operation returns the objIds with the same order)
                 return manager.insertEntries(objType, domain, details, bodies, interaction);
             } else {
                 // Cannot be Threaded because is does not lock the access to the db and out of order will happen
-                manager.insertEntriesFast(objType, domain, details, bodies, interaction); // requirement: 3.4.6.2.15
+                manager.insertEntriesFast(objType, domain, details, bodies, interaction); // requirement: Archive.store#6
                 return null;
             }
         }
@@ -448,20 +448,20 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         UIntegerList invIndexList = new UIntegerList();
 
         if (objType == null) {
-            return; // requirement: 3.4.4.2.1
+            return;
         }
         if (domain == null) {
-            return; // requirement: 3.4.4.2.2
+            return;
         }
         if (details == null) {
-            return; // requirement: 3.4.4.2.3
+            return;
         }
         if (ArchiveManager.objectTypeContainsWildcard(objType)
-                || HelperCOM.domainContainsWildcard(domain)) {   // requirement: 3.4.7.2.8 (first part)
+                || HelperCOM.domainContainsWildcard(domain)) {
             throw new InvalidArgumentException(null);
         }
 
-        if (null != objBodies && details.size() != objBodies.size()) { // requirement: ------ (proposed, does not exist yet)
+        if (null != objBodies && details.size() != objBodies.size()) {
             UIntegerList error = new UIntegerList();
             int size1 = (details.size() < objBodies.size())
                     ? details.size() : objBodies.size();
@@ -479,27 +479,27 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             for (int index = 0; index < details.size(); index++) {
                 ArchiveDetails tmpArchiveDetails = details.get(index);
 
-                if (tmpArchiveDetails.getId() == 0) { // requirement: 3.4.7.2.8 (second part)
+                if (tmpArchiveDetails.getId() == 0) {
                     invIndexList.add(new UInteger(index));
                     continue;
                 }
 
-                if (!manager.objIdExists(objType, domain, tmpArchiveDetails.getId())) { // requirement: 3.4.7.2.4
-                    unkIndexList.add(new UInteger(index)); // requirement: 3.4.7.2.5
+                if (!manager.objIdExists(objType, domain, tmpArchiveDetails.getId())) { // requirement: Archive.update#1
+                    unkIndexList.add(new UInteger(index));
                 }
             }
 
             // Errors
-            if (!unkIndexList.isEmpty()) { // requirement: 3.4.7.3 (error: a)
+            if (!unkIndexList.isEmpty()) {
                 throw new UnknownException(unkIndexList);
             }
 
-            if (!invIndexList.isEmpty()) { // requirement: 3.4.7.3 (error: b)
+            if (!invIndexList.isEmpty()) {
                 throw new InvalidArgumentException(invIndexList);
             }
 
-            // The errors have to be before the update operation to fulfil requirement: 3.4.7.2.5 and 3.4.7.2.8 ("nothing will be updated")
-            manager.updateEntries(objType, domain, details, objBodies, interaction); // requirement: 3.4.7.2.6 and 3.4.7.2.7
+            // The errors are raised before the update, so that nothing is updated if one occurs
+            manager.updateEntries(objType, domain, details, objBodies, interaction); // requirement: Archive.update#2
         }
     }
 
@@ -511,24 +511,24 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         UIntegerList invIndexList = new UIntegerList();
         LongList toBeDeleted = new LongList();
 
-        if (ArchiveManager.objectTypeContainsWildcard(objType)) { // requirement: 3.4.8.2.1
-            throw new InvalidArgumentException(null); // requirement: 3.4.8.2.3
+        if (ArchiveManager.objectTypeContainsWildcard(objType)) {
+            throw new InvalidArgumentException(null);
         }
 
-        if (HelperCOM.domainContainsWildcard(domain)) { // requirement: 3.4.8.2.2
-            throw new InvalidArgumentException(null); // requirement: 3.4.8.2.3
+        if (HelperCOM.domainContainsWildcard(domain)) {
+            throw new InvalidArgumentException(null);
         }
 
         synchronized (manager) {
             for (int index = 0; index < lLongList.size(); index++) {
                 Long tempObjId = lLongList.get(index);
-                if (tempObjId == 0) {  // Is it the wildcard 0? requirement: 3.4.8.2.5
+                if (tempObjId == 0) {  // Is it the wildcard 0? requirement: Archive.delete#1
                     toBeDeleted.clear();  // if the wildcard is in the middle of the input list, we clear the list...
                     toBeDeleted.addAll(manager.getAllObjIds(objType, domain)); // ... add all
                     break;
                 }
                 if (!manager.objIdExists(objType, domain, tempObjId)) {
-                    unkIndexList.add(new UInteger(index)); // requirement: 3.4.8.2.6
+                    unkIndexList.add(new UInteger(index));
                     continue;
                 }
 
@@ -536,16 +536,15 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             }
 
             // Errors
-            if (!unkIndexList.isEmpty()) { // requirement: 3.4.8.3 (error: a)
+            if (!unkIndexList.isEmpty()) {
                 throw new UnknownException(unkIndexList);
             }
 
-            if (!invIndexList.isEmpty()) { // requirement: 3.4.8.3 (error: b)
+            if (!invIndexList.isEmpty()) {
                 throw new InvalidArgumentException(invIndexList);
             }
 
-            // requirement: 3.4.8.2.4 and 3.4.8.2.7
-            return manager.removeEntries(objType, domain, toBeDeleted, interaction); // requirement: 3.4.8.2.8
+            return manager.removeEntries(objType, domain, toBeDeleted, interaction); // requirement: Archive.delete#2, Archive.delete#3
         }
     }
 

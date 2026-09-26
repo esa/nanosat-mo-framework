@@ -261,7 +261,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
         // Errors
         // The operation does not return any errors.
-        return outputList;  // requirement: 3.4.9.2.d
+        return outputList;  // requirement: Directory.lookup#3
     }
 
     @Override

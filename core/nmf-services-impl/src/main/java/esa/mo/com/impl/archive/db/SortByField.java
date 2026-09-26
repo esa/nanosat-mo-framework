@@ -240,9 +240,7 @@ public class SortByField implements Comparator {
         ArrayList<ArchivePersistenceObject> stackB;
         ArrayList<ArchivePersistenceObject> stackOut = new ArrayList<>();
 
-        // Requirement 3.4.4.2.27: 
-        // "Each domain/object type pair shall be sorted separately from other domain/object type 
-        //  pairs; there is no requirement for sorting to be applied across domain/object type pairs"
+        // requirement: Archive.query#16, Archive.query#17
         while (!perObjs.isEmpty()) { // We will sweep stackA
             // What is the current zeroth pair?
             tmpDomain = perObjs.get(0).getDomain();
@@ -279,8 +277,7 @@ public class SortByField implements Comparator {
 
         Class aClass;
 
-        // Requirement 3.4.4.2.26: 
-        // "The returned lists shall be sorted based on the sorting options specified in ArchiveQuery"
+        // requirement: Archive.query#15
         // Is it a timestamp sorting?
         if (fieldString == null) {
             aClass = stack.get(0).getArchiveDetails().getClass();

@@ -538,13 +538,13 @@ public class ArchiveManager {
                     throw new IllegalArgumentException();
                 }
 
-                // Requirement from the Composite filter: page 57:
-                // For the dots: "If a field is nested, it can use the dot to separate"
+                // A nested field is named by separating the field names with a '.'
+                // character (fieldName of the CompositeFilter)
                 try {
                     obj = HelperCOM.getNestedObject(obj, compositeFilter.getFieldName());
                 } catch (NoSuchFieldException ex) {
-                    // requirement from the Composite filter: page 57
-                    // "If the field does not exist in the Composite then the filter shall evaluate to false."
+                    // A field that does not exist in the Composite causes the filter to
+                    // evaluate to FALSE (fieldName of the CompositeFilter)
                     continue;
                 }
 

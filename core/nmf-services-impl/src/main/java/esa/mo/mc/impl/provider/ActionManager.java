@@ -139,7 +139,7 @@ public final class ActionManager extends MCManager {
      * @param uri the uri
      * @return the assigned object id
      */
-    public Long add(ActionDefinition actionDefDetails, URI uri) { // requirement: 3.3.2.5
+    public Long add(ActionDefinition actionDefDetails, URI uri) {
         Long newId = 0L;
         final Identifier name = actionDefDetails.getName();
 
@@ -151,11 +151,11 @@ public final class ActionManager extends MCManager {
             try {
                 HeterogeneousList defs = new HeterogeneousList();
                 defs.add(actionDefDetails);
-                //add definition to the archive requirement: 3.2.7.b
+                //add definition to the archive requirement: Action#6
                 LongList defIds = super.getArchiveService().store(true,
-                        ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE, //requirement: 3.2.4.c
+                        ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE, //requirement: Action#3
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(null, uri), //requirement: 3.2.4.d, f
+                        HelperArchive.generateArchiveDetailsList(null, uri),
                         defs,
                         null);
 
@@ -177,7 +177,7 @@ public final class ActionManager extends MCManager {
      * @param uri the uri
      * @return the assigned object id
      */
-    public Long update(Long id, ActionDefinition definition, URI uri) { // requirement: 3.3.2.5
+    public Long update(Long id, ActionDefinition definition, URI uri) {
         Long newDefId = id;
 
         if (super.getArchiveService() == null) { //only update locally

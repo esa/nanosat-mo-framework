@@ -207,7 +207,7 @@ public final class AggregationManager extends MCManager {
             aValList.add(aVal);
 
             try {
-                //requirement: 3.7.4.d, 3.7.6.b
+                //requirement: Aggregation#19
                 LongList objIds = super.getArchiveService().store(
                         true,
                         AggregationServiceInfo.AGGREGATIONVALUE_OBJECT_TYPE,
@@ -280,12 +280,12 @@ public final class AggregationManager extends MCManager {
         final Double currentValueDouble = Double.parseDouble(currentValue.toString());
         final double thresholdValue = Double.parseDouble(filter.getThresholdValue().toString());
 
-        if (filter.getThresholdType() == ThresholdType.DELTA) // requirement: 3.7.3.l
+        if (filter.getThresholdType() == ThresholdType.DELTA) // requirement: Aggregation#10
         {
             return (Math.abs(previousValueDouble - currentValueDouble) > thresholdValue);
         }
 
-        if (filter.getThresholdType() == ThresholdType.PERCENTAGE) // requirement: 3.7.3.l
+        if (filter.getThresholdType() == ThresholdType.PERCENTAGE) // requirement: Aggregation#10
         {
             return (Math.abs(previousValueDouble - currentValueDouble) / previousValueDouble * 100 > thresholdValue);
         }
@@ -399,7 +399,7 @@ public final class AggregationManager extends MCManager {
             this.setFilterTriggered(defId, true);
             return;
         }
-        //requirement: 3.7.3.k
+        //requirement: Aggregation#9
         if (aggrDef.getFilterEnabled()) {
             boolean filterIsTriggered = this.checkFilterIsTriggered(aggrParamSet, currentUpdateValues,
                     newParameterValueSamples);
@@ -428,7 +428,7 @@ public final class AggregationManager extends MCManager {
             AggregationParameterSet aggrParamSet, AggregationParameterValueList newParameterValueSamples) {
         final AggregationParameterValueList currentParamValues
                 = this.aggValuesCurrent.get(defId).getParameterSetValues().get(indexOfparameterSet).getValues();
-        //requirement: 3.3.3.i (ParameterService-requirement)
+        //requirement: Parameter#7
         //if sendUnchanged is true: replace validity-state with an EXPIRED state
         //todo: try to let the ParameterService set the EXPIRED state and not the AggregationService
         if (currentParamValues == null) {
@@ -465,7 +465,7 @@ public final class AggregationManager extends MCManager {
         AggregationSetValueList parameterSetValues = new AggregationSetValueList();
 
         //fill AggregationSetValue-objects for each parameterSet
-        for (int j = 0; j < parameterSets.size(); j++) {   //Cycle through the parameterSets (requirement: 3.7.3.n)
+        for (int j = 0; j < parameterSets.size(); j++) {   //Cycle through the parameterSets (requirement: Aggregation#14)
             AggregationParameterValueList sampleParameters = this.sampleParameters(
                     aggrDef.getParameterSets().get(j).getParameters(),
                     false, aggrDef.getSendDefinitions());
@@ -493,7 +493,7 @@ public final class AggregationManager extends MCManager {
         AggregationSetValueList parameterSetValues = new AggregationSetValueList();
 
         //fill AggregationSetValue-objects for each parameterSet
-        for (int j = 0; j < parameterSets.size(); j++) {  //Cycle through the parameterSets (requirement: 3.7.3.r)
+        for (int j = 0; j < parameterSets.size(); j++) {  //Cycle through the parameterSets (requirement: Aggregation#14)
             final Duration sampleInterval = parameterSets.get(j).getSampleInterval();
             final Duration updateInterval = aggrDef.getReportInterval();
             //calculate the the new aggregation-values interval times
@@ -503,7 +503,7 @@ public final class AggregationManager extends MCManager {
             if (val != null) {
                 AggregationSetValue parameterSetValue = calcAggrSetValueTimes(generationMode,
                         sampleInterval, updateInterval, defId, j, val);
-                //requirement: 3.7.3.q if unchanged values should be sent with a value replaced by a null, then replace them 
+                //requirement: Aggregation#13 if unchanged values should be sent with a value replaced by a null, then replace them 
                 //add the current parameterSet to the current parameterSetList
                 parameterSetValues.add(parameterSetValue);
             }
@@ -568,7 +568,7 @@ public final class AggregationManager extends MCManager {
      * @return The list of aggregation parameter values.
      */
     private AggregationParameterValueList evaluateSendUnchanged(AggregationDefinition aggrDef, Long defId,
-            int indexParameterSet) { //requirement: 3.7.3.m
+            int indexParameterSet) { //requirement: Aggregation#13
         return evaluateSendUnchanged(aggrDef, defId, indexParameterSet, null);
     }
 
@@ -586,7 +586,7 @@ public final class AggregationManager extends MCManager {
      * @return The list of aggregation parameter values.
      */
     private AggregationParameterValueList evaluateSendUnchanged(AggregationDefinition aggrDef, Long defId,
-            int indexParameterSet, AggregationParameterValueList currentParamValues) { //requirement: 3.7.3.m
+            int indexParameterSet, AggregationParameterValueList currentParamValues) { //requirement: Aggregation#13
         AggregationParameterValueList retParamValues = new AggregationParameterValueList();
         if (currentParamValues == null) {
             currentParamValues = this.aggValuesCurrent.get(defId).getParameterSetValues().get(
@@ -594,8 +594,8 @@ public final class AggregationManager extends MCManager {
         }
         final AggregationParameterValueList lastParamValues = getLastUpdateValue(defId, indexParameterSet);
         if (!aggrDef.getSendUnchanged() && lastParamValues != null) {
-            for (int k = 0; k < currentParamValues.size(); k++) { //requirement 3.7.3.n cyclying through for loop ensures that
-                //3.7.3.q if unchanged replace AggregationParameterValue-Object by a NULL
+            for (int k = 0; k < currentParamValues.size(); k++) { //requirement: Aggregation#14 cyclying through for loop ensures that
+                //requirement: Aggregation#13: if unchanged replace AggregationParameterValue-Object by a NULL
                 if (currentParamValues.get(k).equals(lastParamValues.get(k))) {
                     retParamValues.add(k, null);
                 } else {
@@ -625,7 +625,7 @@ public final class AggregationManager extends MCManager {
             final AggregationParameterValueList currentParameterValue) {
         // Filter Comparison Process
         if (aggregationParameterSet.getReportFilter() == null
-                || aggregationParameterSet.getParameters().size() != 1) { // requirement: 3.7.3.m (and 4.7.5: periodicFilter comment) 
+                || aggregationParameterSet.getParameters().size() != 1) { // requirement: Aggregation#11 
             //let the update being published
             return true;
         }
@@ -648,12 +648,12 @@ public final class AggregationManager extends MCManager {
                     if (currentValidityState == 0
                             && previousValidityState == 0
                             && current.getConvertedValue() != null
-                            && previous.getConvertedValue() != null) { // requirement: 3.7.2.6
+                            && previous.getConvertedValue() != null) {
                         filterisTriggered = this.triggeredFilter(previous.getConvertedValue(),
                                 current.getConvertedValue(), aggregationParameterSet.getReportFilter());
                     }
 
-                    if (current.getConvertedValue() == null && previous.getConvertedValue() == null) { // requirement: 3.7.2.6
+                    if (current.getConvertedValue() == null && previous.getConvertedValue() == null) {
                         filterisTriggered = this.triggeredFilter(previous.getRawValue(),
                                 current.getRawValue(), aggregationParameterSet.getReportFilter());
                     }
@@ -788,7 +788,7 @@ public final class AggregationManager extends MCManager {
      * @return the assigned object id
      */
     public Long add(Identifier name, AggregationDefinition definition,
-            SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+            SingleConnectionDetails connectionDetails) {
 
         Long newId;
         if (super.getArchiveService() == null) {
@@ -834,7 +834,7 @@ public final class AggregationManager extends MCManager {
      * @param connectionDetails The connection details.
      */
     public void update(Long defId, AggregationDefinition definition,
-            SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+            SingleConnectionDetails connectionDetails) {
         if (super.getArchiveService() == null) { //only update locally
             this.updateDef(defId, definition);
         } else {  // update in the COM Archive
@@ -842,7 +842,7 @@ public final class AggregationManager extends MCManager {
                 HeterogeneousList defs = new HeterogeneousList();
                 defs.add(definition);
 
-                //requirement 3.7.6.a
+                //requirement: Aggregation#18
                 super.getArchiveService().update(
                         AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
@@ -888,7 +888,7 @@ public final class AggregationManager extends MCManager {
         if (def == null) {
             return;
         }
-        //requirement: 3.7.9.2.f
+        //requirement: Aggregation.enableReporting#5
         if (def.getReportingEnabled().booleanValue() == status) { // Is it set with the requested value already?
             return; // the value was not changed
         }
@@ -898,7 +898,7 @@ public final class AggregationManager extends MCManager {
                 def.getSendUnchanged(), def.getSendDefinitions(), def.getFilterEnabled(),
                 def.getFilteredTimeout(), status, def.getParameterSets());
 
-        //requirement: 3.7.9.2.j, k
+        //requirement: Aggregation.enableReporting#7
         this.update(defId, newDef, connectionDetails);
     }
 
@@ -938,7 +938,7 @@ public final class AggregationManager extends MCManager {
         if (def == null) {
             return false;
         }
-        //requirement: 3.7.10.2.f
+        //requirement: Aggregation.enableFilter#5
         // Is it set with the requested value already?
         if (def.getFilterEnabled().booleanValue() == bool) {
             return false; // the value was not changed
@@ -949,7 +949,7 @@ public final class AggregationManager extends MCManager {
                 def.getSendUnchanged(), def.getSendDefinitions(), def.getFilterEnabled(),
                 def.getFilteredTimeout(), bool, def.getParameterSets());
 
-        //requirement: 3.7.10.2.j
+        //requirement: Aggregation.enableFilter#7, Aggregation.enableFilter#8
         this.update(defId, newDef, connectionDetails);
         return true;
     }

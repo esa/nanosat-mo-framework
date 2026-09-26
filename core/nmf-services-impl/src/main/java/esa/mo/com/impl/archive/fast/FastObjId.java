@@ -146,7 +146,7 @@ public class FastObjId {
      * @return the unique obj id
      */
     public synchronized Long getUniqueObjId(final Integer objTypeId, final Integer domain, final Long objId) {
-        if (objId == 0) { // requirement: 3.4.6.2.5
+        if (objId == 0) { // requirement: Archive.store#1
             return this.generateUniqueObjId(objTypeId, domain);
         } else {
             // Check if it is not greater than the current "fast" objId

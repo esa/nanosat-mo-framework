@@ -81,7 +81,7 @@ public final class AlertManager extends MCManager {
      * @return the assigned object id
      */
     public Long add(AlertDefinition definition,
-            SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+            SingleConnectionDetails connectionDetails) {
         Long newIdPair = 0L;
         Identifier name = definition.getName();
 
@@ -94,11 +94,11 @@ public final class AlertManager extends MCManager {
             try {
                 HeterogeneousList defs = new HeterogeneousList();
                 defs.add(definition);
-                //add to the archive; requirement: 3.4.7.a
+                //add to the archive; requirement: Alert#7
                 LongList defIds = super.getArchiveService().store(true,
-                        AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE, //requirement: 3.4.4.c
+                        AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE, //requirement: Alert#3
                         ConfigurationProviderSingleton.getDomain(),
-                        HelperArchive.generateArchiveDetailsList(null, connectionDetails.getProviderURI()), //requirement: 3.4.4.e, 3.4.4.h
+                        HelperArchive.generateArchiveDetailsList(null, connectionDetails.getProviderURI()),
                         defs,
                         null);
 
@@ -121,7 +121,7 @@ public final class AlertManager extends MCManager {
      * @param connectionDetails the connection details
      */
     public void update(final Long id, final AlertDefinition definition,
-            final SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+            final SingleConnectionDetails connectionDetails) {
         if (super.getArchiveService() == null) { //only update locally
             this.updateDef(id, definition);
         } else { // update in the COM Archive
@@ -131,7 +131,7 @@ public final class AlertManager extends MCManager {
                 ArchiveDetailsList metadata = generateArchiveDetailsList(null,
                         connectionDetails.getProviderURI(), id);
 
-                // Update existing AlertDefinition in the archive; requirement: 3.4.7.a
+                // Update existing AlertDefinition in the archive; requirement: Alert.enableReporting#7
                 super.getArchiveService().update(AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
                         metadata,
@@ -151,7 +151,6 @@ public final class AlertManager extends MCManager {
      * @param connectionDetails the connection details
      */
     public void setReportingEnabled(final Long defId, final Boolean bool, final SingleConnectionDetails connectionDetails) {
-        // requirement: 3.3.2.5
         AlertDefinition def = this.getAlertDefinitionFromDefId(defId);
         if (def == null) {
             return;

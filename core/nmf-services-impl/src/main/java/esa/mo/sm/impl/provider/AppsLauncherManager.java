@@ -241,7 +241,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
      * @return {@code true} on success
      */
     protected boolean update(final Long objId, final AppDetails definition,
-            final MALInteraction interaction) { // requirement: 3.3.2.5
+            final MALInteraction interaction) {
         boolean success = this.updateDef(objId, definition);
 
         if (super.getArchiveService() != null) {  // It should also update on the COM Archive

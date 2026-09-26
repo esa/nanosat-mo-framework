@@ -328,16 +328,16 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             if (manager.list(name) == null) { // Is the supplied name unique?
                 outLongLst.add(manager.add(def, connection.getConnectionDetails().getProviderURI()));
             } else {
-                dupIndexList.add(new UInteger(index)); // requirement: 3.4.10.2.c
+                dupIndexList.add(new UInteger(index));
             }
         }
 
         // Errors
-        if (!dupIndexList.isEmpty()) { // requirement: 3.4.10.3.1
+        if (!dupIndexList.isEmpty()) {
             throw new DuplicateException(dupIndexList);
         }
 
-        if (!invIndexList.isEmpty()) { // requirement: 3.4.10.3.2
+        if (!invIndexList.isEmpty()) {
             throw new InvalidArgumentException(invIndexList);
         }
 

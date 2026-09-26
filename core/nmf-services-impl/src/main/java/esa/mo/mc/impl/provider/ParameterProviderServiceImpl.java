@@ -145,14 +145,14 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     @Override
     public ParameterValueDetailsList getValue(final LongList ids, final MALInteraction interaction)
-            throws UnknownException, MALException, MALInteractionException { // requirement 3.3.6.2.1
+            throws UnknownException, MALException, MALInteractionException {
         if (ids == null) { // Is the input null?
             throw new IllegalArgumentException("LongList argument must not be null");
         }
-        // requirement: 3.3.8.2.c : check for wildcard first
+        // requirement: Parameter.getValue#2 : check for wildcard first
         boolean wildcardFound = false;
         for (int index = 0; index < ids.size(); index++) {
-            if (ids.get(index) == 0) {  // Is it the wildcard '0'? requirement: 3.3.8.2.b
+            if (ids.get(index) == 0) {  // Is it the wildcard '0'? requirement: Parameter.getValue#1
                 ids.clear();
                 ids.addAll(manager.listAllDefinitions()); // ... add all in a row
                 wildcardFound = true;
@@ -165,19 +165,19 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
             for (int index = 0; index < ids.size(); index++) {
                 Long defId = ids.get(index);
-                if (!manager.existsDef(defId)) { // requirement 3.3.8.2.d: Does the ParameterDefinition exist?
+                if (!manager.existsDef(defId)) { // Does the ParameterDefinition exist?
                     unkIndexList.add(new UInteger(index)); // add the index to the list of errors
                     continue;
                 }
             }
             // Errors
-            if (!unkIndexList.isEmpty()) { // requirement: 3.3.8.2.d
+            if (!unkIndexList.isEmpty()) {
                 throw new UnknownException(unkIndexList);
             }
         }
 
         ParameterValueDetailsList outList = new ParameterValueDetailsList();
-        ParameterValueList outPValLst = manager.getParameterValues(ids, false); // requirement: 3.3.8.2.e
+        ParameterValueList outPValLst = manager.getParameterValues(ids, false);
 
         for (int i = 0; i < ids.size(); i++) {
             Long paramId = ids.get(i);
@@ -229,9 +229,9 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             throw new UnknownException(unkIndexList);
         }
 
-        // requirement: 3.3.10.2.i (This part of the code is only reached if no error was raised)
+        // requirement: Parameter.enableReporting#6 (This part of the code is only reached if no error was raised)
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
-            // requirement: 3.3.10.2.e, 3.3.10.2.f, 3.3.10.2.j and 3.3.10.2.k
+            // requirement: Parameter.enableReporting#3, Parameter.enableReporting#4
             Long id = objIdToBeEnabled.get(index);
             manager.setReportingEnabled(id, enable, connection.getConnectionDetails());
             periodicReportingManager.refresh(id);
@@ -258,49 +258,47 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             ParameterRawValue newValue = rawValueList.get(index);
             ParameterDefinition pDef = manager.getParameterDefinition(defId);
 
-            //requirement 3.3.9.2.b
             if (defId == 0) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
 
-            //requirement 3.3.9.2.c
             if (!manager.existsDef(defId)) {
                 unkIndexList.add(new UInteger(index));
                 continue;
             }
 
-            //requriement 3.3.9.2.d: checks if a parameter is readOnly
+            // checks if a parameter is readOnly
             if (manager.isReadOnly(defId)) {
                 readOnlyIndexList.add(new UInteger(index));
                 continue;
             }
 
-            // requirement: 3.3.9.2.f the new rawValues type and its definitions rawType must be the same
+            // the new rawValues type and its definitions rawType must be the same
             if (!((Integer) newValue.getRawValue().getTypeId().getSFP()).equals(pDef.getRawType().getValue())) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
         }
-        // requirement: 3.3.9.2.g: before changes are made, possible errors are thrown
+        // requirement: Parameter.setValue#1: before changes are made, possible errors are thrown
         // Errors
-        if (!invIndexList.isEmpty()) { // requirement: 3.3.9.3.2 
+        if (!invIndexList.isEmpty()) {
             throw new InvalidArgumentException(invIndexList);
         }
-        if (!unkIndexList.isEmpty()) { // requirement: 3.3.9.3.1 (error: a and b)
+        if (!unkIndexList.isEmpty()) {
             throw new UnknownException(unkIndexList);
         }
-        if (!readOnlyIndexList.isEmpty()) { // requirement: 3.3.9.3.3 
+        if (!readOnlyIndexList.isEmpty()) {
             throw new ReadOnlyException(readOnlyIndexList);
         }
 
         //atomic behaviour while setting the values. So let all values have the same timestamp for creation
         //        FineTime timestamp = HelperTime.getTimestamp();
-        //requirement: 3.3.9.2.e
+        //requirement: Parameter.setValue#3
         ParameterValueList newParamValues = manager.setValues(rawValueList);
         Time timestamp = Time.now();
 
-        //requirement: 3.3.9.2.h, 3.3.9.2.i
+        //requirement: Parameter.setValue#4, Parameter.setValue#5
         List<ParameterInstance> toPublishParamInstances = new ArrayList<>();
         HeterogeneousList noPublishParamValList = new HeterogeneousList();
         LongList noPublishRelatedIds = new LongList();
@@ -332,7 +330,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     @Override
     public LongList listDefinition(final IdentifierList paramNames, final MALInteraction interaction)
-            throws UnknownException, MALException, MALInteractionException { // requirement: 3.3.11.2.a
+            throws UnknownException, MALException, MALInteractionException {
         LongList retDefinitions = new LongList();
 
         if (paramNames == null) { // Is the input null?
@@ -340,9 +338,9 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
 
         boolean wildcardFound = false;
-        // requirement: 3.3.11.2.c : check for wildcard first
-        for (int i = 0; i < paramNames.size(); i++) { //requirement: 3.3.11.2.f foreach-cycle steps through list in order
-            if (paramNames.get(i).toString().equals("*")) {  // requirement: 3.3.11.2.b
+        // requirement: Parameter.listDefinition#2 : check for wildcard first
+        for (int i = 0; i < paramNames.size(); i++) {
+            if (paramNames.get(i).toString().equals("*")) {  // requirement: Parameter.listDefinition#1
                 retDefinitions.addAll(manager.listAllDefinitions()); // ... add all in a row
                 wildcardFound = true;
                 break;
@@ -352,20 +350,20 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         //check for errors
         if (!wildcardFound) {
             UIntegerList unkIndexList = new UIntegerList();
-            for (int i = 0; i < paramNames.size(); i++) { //requirement: 3.3.11.2.f foreach-cycle steps through list in order
+            for (int i = 0; i < paramNames.size(); i++) { //requirement: Parameter.listDefinition#3 foreach-cycle steps through list in order
                 Identifier name = paramNames.get(i);
                 final Long id = manager.getId(name);
 
-                if (id == null) {  //requirement: 3.3.11.2.d
+                if (id == null) {
                     unkIndexList.add(new UInteger(i));
                     continue;
                 } else {
-                    retDefinitions.add(id);  // requirement: 3.3.11.2.e
+                    retDefinitions.add(id);
                 }
             }
 
             // Errors
-            if (!unkIndexList.isEmpty()) { // requirement: 3.3.11.3.1 (error: a and b)
+            if (!unkIndexList.isEmpty()) {
                 throw new UnknownException(unkIndexList);
             }
         }
@@ -399,7 +397,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
             if (paramName == null
                     || paramName.equals(new Identifier("*"))
-                    || paramName.equals(new Identifier(""))) { // requirement: 3.3.12.2.b
+                    || paramName.equals(new Identifier(""))) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
@@ -407,12 +405,12 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             Duration reportInterval = pDef.getReportInterval();
 
             if (reportInterval.getInSeconds() != 0
-                    && reportInterval.getInSeconds() < MIN_REPORTING_INTERVAL) { //requirement: 3.3.3.h, 3.3.12.2.c
+                    && reportInterval.getInSeconds() < MIN_REPORTING_INTERVAL) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
 
-            // Does the name already exists? requirement: 3.3.12.2.d
+            // Does the name already exists?
             if (manager.getDefinition(paramName) != null) {
                 dupIndexList.add(new UInteger(index));
                 continue;
@@ -420,17 +418,17 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
 
         // Errors
-        if (!invIndexList.isEmpty()) { // requirement: 3.3.12.2.b
+        if (!invIndexList.isEmpty()) {
             throw new InvalidArgumentException(invIndexList);
         }
 
-        if (!dupIndexList.isEmpty()) { // requirement: 3.3.12.2.c
+        if (!dupIndexList.isEmpty()) {
             throw new DuplicateException(dupIndexList);
         }
 
-        //requirement: 3.3.12.2.e: only if no error was raised, the new definitions should be stored
+        //only if no error was raised, the new definitions should be stored
         HeterogeneousList definitions = new HeterogeneousList();
-        for (ParameterDefinition tempDef : defsList) { // requirement: 3.3.12.2.i ( "for each cycle" guarantees that)
+        for (ParameterDefinition tempDef : defsList) {
             definitions.add(tempDef);
         }
 
@@ -452,12 +450,12 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
         thread.start();//To not block main thread parameter timers can be started in parallel thread
 
-        return ids; // requirement: 3.3.12.2.h
+        return ids;
     }
 
     @Override
     public void updateDefinition(LongList ids, ParameterDefinitionList paramDefDetails,
-            MALInteraction interaction) throws InvalidArgumentException, UnknownException, MALInteractionException, MALException { // requirement: 3.3.13.2.a
+            MALInteraction interaction) throws InvalidArgumentException, UnknownException, MALInteractionException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -468,17 +466,16 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         for (int index = 0; index < ids.size(); index++) {
             final Long defId = ids.get(index);
 
-            //requirement: 3.3.13.2.c: id is Null or 0?
+            //id is Null or 0?
             if (defId == null || defId == 0) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
-            //requirement: 3.3.13.2.b: The object instance identifier could not be found?
+            //The object instance identifier could not be found?
             if (!manager.existsDef(defId)) {
                 unkIndexList.add(new UInteger(index));
                 continue;
             }
-            //requirement: 3.3.3.h, 3.3.13.2.f
             final ParameterDefinition pDef = paramDefDetails.get(index);
             if (pDef.getReportInterval().getInSeconds() != 0
                     && pDef.getReportInterval().getInSeconds() < MIN_REPORTING_INTERVAL) {
@@ -488,19 +485,19 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
 
         // Errors
-        if (!invIndexList.isEmpty()) // requirement: 3.3.13.3.1 (error: a)
+        if (!invIndexList.isEmpty())
         {
             throw new InvalidArgumentException(invIndexList);
         }
 
-        if (!unkIndexList.isEmpty()) // requirement: 3.3.13.3.2 (error: b)
+        if (!unkIndexList.isEmpty())
         {
             throw new UnknownException(unkIndexList);
         }
 
-        //requirment 3.3.13.2.g: parameters shall only be updated if no error was raised
-        for (int index = 0; index < ids.size(); index++) {  // requirement: 3.3.13.2.i, .k
-            manager.update(ids.get(index), paramDefDetails.get(index), connection.getConnectionDetails());  // Change in the manager, requirement 3.3.13.2.d, g
+        //requirement: Parameter.updateDefinition#1: parameters shall only be updated if no error was raised
+        for (int index = 0; index < ids.size(); index++) {
+            manager.update(ids.get(index), paramDefDetails.get(index), connection.getConnectionDetails());  // Change in the manager, requirement: Parameter.updateDefinition#2, Parameter.updateDefinition#3
             periodicReportingManager.refresh(ids.get(index));// then, refresh the Periodic updates
         }
 
@@ -519,7 +516,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      * @throws MALInteractionException if the service returns an error
      */
     public void removeParameter(final LongList defIds, final MALInteraction interaction) throws UnknownException,
-            MALException, MALInteractionException { // requirement: 3.3.11.2.1
+            MALException, MALInteractionException {
         UIntegerList unkIndexList = new UIntegerList();
         LongList removalLst = new LongList();
 
@@ -530,14 +527,14 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         for (int index = 0; index < defIds.size(); index++) {
             Long defId = defIds.get(index);
 
-            if (defId == 0) {  // Is it the wildcard '0'? requirement: 3.3.14.2.b, .c
+            if (defId == 0) {  // Is it the wildcard '0'?
                 removalLst.clear();  // if the wildcard is in the middle of the input list, we clear the output list and...
                 removalLst.addAll(manager.listAllDefinitions()); // ... add all in a row
                 unkIndexList.clear();
                 break;
             }
 
-            if (!manager.existsDef(defId)) { // Does it match an existing identity? requirement: 3.3.14.2.d
+            if (!manager.existsDef(defId)) { // Does it match an existing identity?
                 unkIndexList.add(new UInteger(index));
             } else {
                 removalLst.add(defId);
@@ -545,16 +542,15 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
 
         // Errors
-        if (!unkIndexList.isEmpty()) // requirement: 3.3.14.3.1 (error: a, b)
+        if (!unkIndexList.isEmpty())
         {
             throw new UnknownException(unkIndexList);
         }
 
-        // requirement: 3.3.14.2.f (Inserting the errors before this line guarantees that the requirement is met)
-        // Delete from internal list; COM archive is left untouched. requirement: 3.3.14.2.e
+        // Delete from internal list; COM archive is left untouched.
         for (Long removalId : removalLst) {
             manager.deleteDefinitionLocally(removalId);
-            //requirement: 3.3.14.2.g: dont publish anymore values 
+            //dont publish anymore values
             periodicReportingManager.refresh(removalId);
         }
 
@@ -681,7 +677,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     }
 
-    private class PeriodicReportingManager { // requirement: 3.3.2.a.a
+    private class PeriodicReportingManager {
 
         private HashMap<Long, TaskScheduler> timerList; // Timers list
         boolean active = false; // Flag that determines if the Manager publishes or not
@@ -717,7 +713,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             // get parameter definition
             ParameterDefinition pDef = manager.getParameterDefinition(id);
             if (pDef != null) { // Does it exist in the Parameter Definitions List?
-                //requirement: 3.3.3.d
+                //requirement: Parameter#6
                 if (pDef.getReportInterval().getInSeconds() != 0
                         && pDef.getReportingEnabled()) { // Is the periodic reporting active?
                     this.addPeriodicReporting(id);
@@ -750,7 +746,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             TaskScheduler timer = new TaskScheduler(1);
             timerList.put(defId, timer);
             publishPeriodicParameterUpdate(defId);
-            //requirement: 3.3.3.c
+            //requirement: Parameter#5
             startTimer(defId, manager.getParameterDefinition(defId).getReportInterval());
         }
 
@@ -764,7 +760,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
          * @param defId
          * @param interval
          */
-        private void startTimer(final Long defId, final Duration interval) {  // requirement: 3.3.3.c
+        private void startTimer(final Long defId, final Duration interval) {
             timerList.get(defId).scheduleTask(new Thread(() -> {
                 if (active) {
                     if (defId == -1) {
@@ -919,7 +915,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             LongList relatedIds = new LongList(outIds.size());
             TimeList timestamps = new TimeList(outIds.size());
 
-            //requirement: 3.3.9.2.h all Parameter-Value objects shall have the same creation-time
+            // all Parameter-Value objects shall have the same creation-time
             final Time defaultTimestamp = Time.now();
 
             for (int i = 0; i < outIds.size(); i++) {
@@ -946,22 +942,19 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             final ParameterValueList pVallst = new ParameterValueList(parameters.size());
 
             for (int i = 0; i < parameterInstances.size(); i++) {
-                //  requirements: 3.3.7.2.a , 3.3.7.2.b , 3.3.7.2.c , 3.3.7.2.d
                 AttributeList keys = new AttributeList();
                 keys.add(new Identifier(manager.getName(outIds.get(i)).toString()));
                 keys.add(new Union(outIds.get(i)));
                 keys.add(new Union(parameterValueId.get(i)));
 
                 Time time = parameterInstances.get(i).getTimestamp();
-                time = (time == null) ? defaultTimestamp : time; //  requirement: 3.3.5.2.5
+                time = (time == null) ? defaultTimestamp : time;
 
-                //requirement: 3.3.7.2.e : timestamp must be the same as for the creation of the ParameterValue
+                //requirement: Parameter.monitorValue#1 : timestamp must be the same as for the creation of the ParameterValue
                 URI source = connection.getConnectionDetails().getProviderURI();
                 UpdateHeader updateHeader = new UpdateHeader(new Identifier(source.getValue()),
                         connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
 
-                // requirement: 3.3.7.2.g (3.3.5.2.f not necessary) 
-                // requirement: 3.3.7.2.h 
                 publisher.publish(updateHeader, parameterInstances.get(i).getParameterValue());
             }
         } catch (IllegalArgumentException | MALInteractionException | MALException ex) {

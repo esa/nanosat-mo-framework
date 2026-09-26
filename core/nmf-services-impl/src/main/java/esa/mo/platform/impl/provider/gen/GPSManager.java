@@ -179,7 +179,7 @@ public final class GPSManager extends DefinitionsManager {
             NearbyPositionAlert alert = new NearbyPositionAlert(inside);
             alertList.add(alert);
 
-            try {  // requirement: 3.3.4.2
+            try {  // requirement: GPS#5
                 LongList objIds = super.getArchiveService().store(
                         true,
                         GPSServiceInfo.NEARBYPOSITIONALERT_OBJECT_TYPE,

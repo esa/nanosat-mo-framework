@@ -146,7 +146,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
 
     private Attribute applyDiscreteConversion(final DiscreteConversion conversionDetails,
         final Attribute value) {
-        //requirement: 3.8.3.c => no entry in the points-list returns null
+        // no entry in the points-list returns null
         for (Pair mapping : conversionDetails.getMapping()) {
             if (mapping.getFirst().equals(value)) {
                 return mapping.getSecond();
@@ -165,7 +165,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
             return null;
         }
 
-        //requirement: 3.8.3.d: Do we have at least 2 points?
+        //requirement: Conversion#2: Do we have at least 2 points?
         if (points.size() < 2) {  // It is only possible to do a line conversion if there are at least 2 points
             return null;
         }
@@ -214,7 +214,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
     }
 
     private Attribute applyPolyConversion(final PolyConversion conversionDetails, final Attribute value) {
-        //requirement: 3.8.3.e => no entry in the points-list returns null
+        // no entry in the points-list returns null
         final PairList points = conversionDetails.getPoints();
         if (points.size() == 0) {
             return null;
@@ -231,7 +231,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
     }
 
     private Attribute applyRangeConversion(final RangeConversion conversionDetails, final Attribute value) {
-        //requirement: 3.8.3.f => no entry in the points-list returns null
+        // no entry in the points-list returns null
         // Do we have a direct hit?
         final PairList points = conversionDetails.getPoints();
         for (Pair point : points) {

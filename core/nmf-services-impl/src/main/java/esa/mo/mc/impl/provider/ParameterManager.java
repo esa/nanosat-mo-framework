@@ -127,7 +127,7 @@ public class ParameterManager extends MCManager {
             }
 
             try {
-                // requirement: 3.3.4.d
+                // requirement: Parameter#20
                 //save the published value in the COM-Archive
                 LongList objIds = super.getArchiveService().store(true,
                         ParameterServiceInfo.PARAMETERVALUE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
@@ -169,7 +169,7 @@ public class ParameterManager extends MCManager {
                 archiveDetailsList.add(archiveDetails);
             }
 
-            try {// requirement: 3.3.4.d
+            try {// requirement: Parameter#20
                 LongList objIds = super.getArchiveService().store(true,
                         ParameterServiceInfo.PARAMETERVALUE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
                         archiveDetailsList, pVals, null);
@@ -343,12 +343,12 @@ public class ParameterManager extends MCManager {
         //parameter-aggregation has a timeout that is expired
         if (pDef.getReportingEnabled()
                 && pDef.getReportInterval().getInSeconds() != 0
-                && aggrExpired) { //requirement 3.3.3.i
+                && aggrExpired) { //requirement: Parameter#7
             return ValidityState.EXPIRED;
         }
 
         //parameter raw value cannot be obtained, or calculated for synthetic parameters
-        if (rawValue == null /*|| rawValueOfSyntheticParameterCannotBeCalculated*/) { //requirement: 3.3.3.j
+        if (rawValue == null /*|| rawValueOfSyntheticParameterCannotBeCalculated*/) { //requirement: Parameter#8
             return ValidityState.INVALID_RAW;
         }
         final ParameterExpression validityExpression = pDef.getValidityExpression();
@@ -358,18 +358,18 @@ public class ParameterManager extends MCManager {
         //expression didnt fail
         if (validityExpression == null || evalExpression) {
             //conversions didnt fail
-            if (conversion == null || convertedValue != null) { // requirement: 3.3.3.k
+            if (conversion == null || convertedValue != null) { // requirement: Parameter#9
                 return ValidityState.VALID;
-            } else {// requirement: 3.3.3.l
+            } else {// requirement: Parameter#10
                 return ValidityState.INVALID_CONVERSION;
             }
         } else {
             //get validityState of the parameters that are needed for the expression
             ValidityState expPValState = getValidityState(validityExpression, aggrExpired);
             //expression failed with not valid parameters
-            if (!expPValState.equals(ValidityState.VALID)) { // requirement: 3.3.3.m
+            if (!expPValState.equals(ValidityState.VALID)) { // requirement: Parameter#11
                 return ValidityState.UNVERIFIED;
-            } else { // requirement: 3.3.3.n
+            } else { // requirement: Parameter#12
                 return ValidityState.INVALID;
             }
         }
@@ -412,7 +412,6 @@ public class ParameterManager extends MCManager {
             return null;
         }
 
-        // requirement: 3.3.2.5
         LongList newIds = new LongList();
 
         if (super.getArchiveService() == null) {
@@ -463,7 +462,7 @@ public class ParameterManager extends MCManager {
      * @param connectionDetails the connection details
      * @return the assigned object id
      */
-    protected Long add(Identifier name, ParameterDefinition definition, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.5
+    protected Long add(Identifier name, ParameterDefinition definition, SingleConnectionDetails connectionDetails) {
         Long newIdPair;
 
         if (super.getArchiveService() == null) {
@@ -504,14 +503,14 @@ public class ParameterManager extends MCManager {
      * @param connectionDetails The details of the connection.
      */
     protected void setReportingEnabled(Long id, Boolean bool,
-            SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.a.c
+            SingleConnectionDetails connectionDetails) {
         ParameterDefinition def = this.getParameterDefinition(id);
 
         if (def == null) {
             return;
         }
 
-        //requirement: 3.3.10.2.f
+        //requirement: Parameter.enableReporting#5
         if (def.getReportingEnabled().booleanValue() == bool) { // Is it set with the requested value already?
             return; // the value was not changed
         }
@@ -521,7 +520,7 @@ public class ParameterManager extends MCManager {
                 bool, def.getReportInterval(),
                 def.getValidityExpression(), def.getConversion(), def.getReadOnly());
 
-        //requirement: 3.3.10.2.k
+        //requirement: Parameter.enableReporting#7
         this.update(id, newDef, connectionDetails);
     }
 
@@ -533,7 +532,7 @@ public class ParameterManager extends MCManager {
      * @param definition the new definition details.
      * @param connectionDetails the given connectionDetails
      */
-    protected void update(Long id, ParameterDefinition definition, SingleConnectionDetails connectionDetails) { // requirement: 3.3.2.d
+    protected void update(Long id, ParameterDefinition definition, SingleConnectionDetails connectionDetails) {
         if (super.getArchiveService() == null) { //only update locally
             this.updateDef(id, definition);
         } else {  // update in the COM Archive
@@ -632,17 +631,17 @@ public class ParameterManager extends MCManager {
     public ParameterValue generateNewParameterValue(Attribute rawValue,
             final ParameterDefinition pDef, final boolean aggrExpired) {
         //convert the raw-value
-        //requirement 3.3.3.p is implicitly met here.
+        //requirement: Parameter#14 is implicitly met here.
         Attribute convertedValue = this.getConvertedValue(rawValue, pDef);
 
         //check the validity and set the state
         ValidityState validityState = generateValidityState(pDef, rawValue, convertedValue, aggrExpired);
 
         if (validityState.equals(ValidityState.INVALID_CONVERSION)) {
-            convertedValue = null;  // requirement: 3.3.3.o
+            convertedValue = null;  // requirement: Parameter#13
         }
         if (validityState.equals(ValidityState.INVALID_RAW)) {
-            rawValue = null; //requirement: 3.3.3.j
+            rawValue = null; //requirement: Parameter#8
         }
 
         return new ParameterValue(validityState, rawValue, convertedValue);

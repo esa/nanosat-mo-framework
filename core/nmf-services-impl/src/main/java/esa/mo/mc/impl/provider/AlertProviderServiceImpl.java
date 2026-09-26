@@ -150,8 +150,8 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
         boolean foundWildcard = false;
 
-        for (Long id : ids) {  // requirement: 3.4.8.2.d
-            if (id == 0) {  // Is it the wildcard '0'? requirement: 3.3.8.2.c
+        for (Long id : ids) {
+            if (id == 0) {  // Is it the wildcard '0'? requirement: Alert.enableReporting#1
                 manager.setReportingEnabledAll(enable,
                         connection.getConnectionDetails());
                 foundWildcard = true;
@@ -159,25 +159,25 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             }
         }
 
-        if (!foundWildcard) { // requirement: 3.4.8.2.d
+        if (!foundWildcard) { // requirement: Alert.enableReporting#2
             for (int index = 0; index < ids.size(); index++) {
                 Long id = ids.get(index);
-                objIdToBeEnabled.add(id); // requirement: 3.4.8.2.b
+                objIdToBeEnabled.add(id);
 
                 if (!manager.existsDef(id)) { // does it exist?
-                    unkIndexList.add(new UInteger(index)); // requirement: 3.4.8.2.g
+                    unkIndexList.add(new UInteger(index));
                 }
             }
         }
 
         // Errors
-        if (!unkIndexList.isEmpty()) { // requirement: 3.4.8.3.1
+        if (!unkIndexList.isEmpty()) {
             throw new UnknownException(unkIndexList);
         }
 
-        // requirement: 3.4.8.2.i (This part of the code is only reached if no error was raised)
+        // requirement: Alert.enableReporting#6 (This part of the code is only reached if no error was raised)
         for (int index = 0; index < objIdToBeEnabled.size(); index++) {
-            // requirement: 3.4.8.e and 3.4.8.f and 3.4.8.j
+            // requirement: Alert.enableReporting#3, Alert.enableReporting#4
             manager.setReportingEnabled(objIdToBeEnabled.get(index),
                     enable, connection.getConnectionDetails());
         }
@@ -197,10 +197,10 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
 
         boolean wildcardFound = false;
-        for (Identifier alertName : alertNames) {  // requirement: 3.4.9.2.f
+        for (Identifier alertName : alertNames) {  // requirement: Alert.listDefinition#2
             // Check for the wildcard
-            if (alertName.toString().equals("*")) {  // requirement: 3.4.9.2.b
-                outPairLst.addAll(manager.listAllDefinitions()); // ... add all in a row; requirement: 3.4.9.2.e
+            if (alertName.toString().equals("*")) {  // requirement: Alert.listDefinition#1
+                outPairLst.addAll(manager.listAllDefinitions()); // ... add all in a row
                 wildcardFound = true;
                 break;
             }
@@ -208,24 +208,24 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
         if (!wildcardFound) {
             UIntegerList unkIndexList = new UIntegerList();
-            for (int i = 0; i < alertNames.size(); i++) { //requirement: 3.4.9.2.f foreach-cycle steps through list in order
+            for (int i = 0; i < alertNames.size(); i++) { //requirement: Alert.listDefinition#3 foreach-cycle steps through list in order
                 Identifier alertName = alertNames.get(i);
 
                 final Long idPair = manager.getId(alertName);
-                if (idPair == null) {  //requirement: 3.4.9.2.d
+                if (idPair == null) {
                     unkIndexList.add(new UInteger(i));
                 } else {
-                    outPairLst.add(idPair);  // requirement: 3.4.9.2.a, 3.4.9.2.e
+                    outPairLst.add(idPair);
                 }
             }
 
             // Errors
-            if (!unkIndexList.isEmpty()) { // requirement: 3.4.9.3.1 (error: a and b)
+            if (!unkIndexList.isEmpty()) {
                 throw new UnknownException(unkIndexList);
             }
         }
 
-        return outPairLst;  // requirement: 3.4.9.2.d
+        return outPairLst;
     }
 
     /**
@@ -249,44 +249,42 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
 
         for (int index = 0; index < alertDefs.size(); index++) {
-            //requirement: 3.4.10.2.a
             AlertDefinition def = alertDefs.get(index);
             Identifier alertName = def.getName();
 
             // Check if the name field of the AlertDefinition is invalid.
             if (alertName.equals(new Identifier("*"))
-                    || alertName.equals(new Identifier(""))) { // requirement: 3.4.10.2.b
+                    || alertName.equals(new Identifier(""))) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
 
-            if (manager.getDefinition(alertName) != null) { // Is the supplied name already given? requirement: 3.4.10.2.c
+            if (manager.getDefinition(alertName) != null) { // Is the supplied name already given?
                 dupIndexList.add(new UInteger(index));
                 continue;
             }
         }
         // Errors
-        //requirement: 3.4.10.2.d -> returning errors before adding definitions assures that
-        if (!invIndexList.isEmpty()) { // requirement: 3.4.10.3.2
+        // returning errors before adding definitions
+        if (!invIndexList.isEmpty()) {
             throw new InvalidArgumentException(invIndexList);
         }
-        if (!dupIndexList.isEmpty()) { // requirement: 3.4.10.3.1
+        if (!dupIndexList.isEmpty()) {
             throw new DuplicateException(dupIndexList);
         }
 
         LongList outPairLst = new LongList();
-        //requirement: 3.4.10.2.h -> cycling with for loop through  the requests assures that
+        // cycling with for loop through the requests
         for (AlertDefinition alertDef : alertDefs) {
-            //requirement: 3.4.10.2.a
             outPairLst.add(manager.add(alertDef,
-                    connection.getConnectionDetails())); //  requirement: 3.4.10.2.f
+                    connection.getConnectionDetails()));
         }
 
         if (configurationAdapter != null) {
             configurationAdapter.onConfigurationChanged(this);
         }
 
-        return outPairLst; // requirement: 3.4.10.2.g
+        return outPairLst;
     }
 
     @Override
@@ -301,14 +299,13 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             throw new IllegalArgumentException("ids and definitions arguments must not be null");
         }
         for (int index = 0; index < alertObjInstIds.size(); index++) {
-            //requirement: 3.4.11.2.a
             final Long defId = alertObjInstIds.get(index);
-            if (defId == null || defId == 0 //requirement: 3.4.11.2.c: id is Null or 0?
-                    || alertObjInstIds.size() != newAlertDefDetails.size()) { //requirement: 3.4.11.2.f
+            if (defId == null || defId == 0 //id is Null or 0?
+                    || alertObjInstIds.size() != newAlertDefDetails.size()) {
                 invIndexList.add(new UInteger(index));
                 continue;
             }
-            //requirement: 3.4.11.2.b: The object instance identifier could not be found?
+            //The object instance identifier could not be found?
             if (!manager.existsDef(defId)) {
                 unkIndexList.add(new UInteger(index));
                 continue;
@@ -316,19 +313,17 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
 
         // Errors
-        //requirement: 3.4.11.2.g -> returning errors before adding definitions assures that
-        if (!invIndexList.isEmpty()) { // requirement: 3.4.11.3.1
+        //requirement: Alert.updateDefinition#1 -> returning errors before adding definitions assures that
+        if (!invIndexList.isEmpty()) {
             throw new InvalidArgumentException(invIndexList);
         }
 
-        if (!unkIndexList.isEmpty()) { // requirement: 3.4.11.3.2
+        if (!unkIndexList.isEmpty()) {
             throw new UnknownException(unkIndexList);
         }
 
-        // requirement: 3.4.11.2.e
         for (int index = 0; index < alertObjInstIds.size(); index++) {
-            //requirement: 3.4.11.2.a, 3.4.11.2.d
-            manager.update(alertObjInstIds.get(index), newAlertDefDetails.get(index), connection.getConnectionDetails()); //requirement: 3.4.11.2.h Change in the manager/archive
+            manager.update(alertObjInstIds.get(index), newAlertDefDetails.get(index), connection.getConnectionDetails()); //requirement: Alert.updateDefinition#2, Alert.updateDefinition#4 Change in the manager/archive
         }
 
         if (configurationAdapter != null) {
@@ -355,31 +350,28 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
 
         for (int index = 0; index < alertDefIds.size(); index++) {
-            //requirement: 3.4.12.2.a
             Long defId = alertDefIds.get(index);
-            if (defId == 0) {  // Is it the wildcard '0'? requirement: 3.4.12.2.b
+            if (defId == 0) {  // Is it the wildcard '0'?
                 removalLst.clear();  // if the wildcard is in the middle of the input list, we clear the output list and...
                 removalLst.addAll(manager.listAllDefinitions()); // ... add all in a row
                 unkIndexList.clear();
                 break;
             }
 
-            if (!manager.existsDef(defId)) { // Does it match an existing definition? requirement: 3.4.12.2.c
-                unkIndexList.add(new UInteger(index)); // requirement: 3.4.12.2.c
+            if (!manager.existsDef(defId)) { // Does it match an existing definition?
+                unkIndexList.add(new UInteger(index));
             } else {
                 removalLst.add(defId);
             }
         }
 
         // Errors
-        if (!unkIndexList.isEmpty()) { // requirement: 3.4.12.3.1
+        if (!unkIndexList.isEmpty()) {
             throw new UnknownException(unkIndexList);
         }
 
-        // requirement: 3.4.12.2.e (Inserting the errors before this line guarantees that the requirement is met)
         for (Long removalId : removalLst) {
-            //requirement: 3.4.12.2.a
-            manager.deleteDefinitionLocally(removalId);  // COM archive is left untouched. requirement: 3.4.12.2.d
+            manager.deleteDefinitionLocally(removalId);  // COM archive is left untouched.
         }
 
         if (configurationAdapter != null) {
