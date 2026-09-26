@@ -45,8 +45,11 @@ import javax.swing.table.DefaultTableModel;
 import org.ccsds.moims.mo.com.directory.DirectoryServiceInfo;
 import org.ccsds.moims.mo.com.login.LoginHelper;
 import org.ccsds.moims.mo.com.structures.*;
+import org.ccsds.moims.mo.mal.MALArea;
+import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.ServiceInfo;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
@@ -126,15 +129,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             for (int i = 0; i < services.size(); i++) {
                 ServiceCapability service = services.get(i);
 
-                String serviceName;
-                try {
-                    serviceName = HelperMisc.serviceKey2name(
-                            service.getServiceId().getKeyArea(),
-                            service.getServiceId().getKeyAreaVersion(),
-                            service.getServiceId().getKeyService());
-                } catch (MALException ex) {
-                    serviceName = "<Unknown service>";
-                }
+                String serviceName = serviceName(service.getServiceId());
 
                 String serviceURI = "";
                 String brokerURI = "";
@@ -580,6 +575,20 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
 
         @Override
         public void mouseExited(MouseEvent me) {
+        }
+    }
+
+    /**
+     * Returns the name of a service, looked up in the areas known to the MAL,
+     * or "<Unknown service>" if its area or the service itself is not known.
+     */
+    private static String serviceName(ServiceId serviceId) {
+        try {
+            MALArea area = MALContextFactory.lookupArea(serviceId.getKeyArea(), serviceId.getKeyAreaVersion());
+            ServiceInfo info = (area == null) ? null : area.getServiceByNumber(serviceId.getKeyService());
+            return (info == null) ? "<Unknown service>" : info.getName().toString();
+        } catch (IllegalArgumentException ex) {
+            return "<Unknown service>";
         }
     }
 }

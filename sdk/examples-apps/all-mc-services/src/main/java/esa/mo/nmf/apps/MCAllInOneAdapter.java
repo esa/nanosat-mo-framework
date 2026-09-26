@@ -36,7 +36,6 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
@@ -441,7 +440,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         LOGGER.log(Level.INFO, "Action {0} with parameters '{'{1}'}' arrived.",
                 new Object[]{
                     name.toString(),
-                    attributeValues.stream().map(HelperAttributes::attribute2string).collect(Collectors.joining(", "))
+                    attributeValues.stream().map(Attribute::attribute2string).collect(Collectors.joining(", "))
                 });
 
         // Action dispatcher

@@ -30,7 +30,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mc.structures.*;
 import org.ccsds.moims.mo.mc.structures.ParameterExpression;
@@ -55,7 +54,7 @@ public class ParameterGround {
 
     public static void setValue(GroundMOAdapterImpl groundMOAdapter) {
         final ParameterConsumerServiceImpl serviceMCParameter = groundMOAdapter.getMCServices().getParameterService();
-        Union attribute = (Union) HelperAttributes.javaType2Attribute("thisIsSomeAttribute");
+        Union attribute = (Union) Attribute.javaType2Attribute("thisIsSomeAttribute");
 
         ParameterRawValue rawValue = new ParameterRawValue(4l, attribute);
         ParameterRawValueList rawValueList = new ParameterRawValueList();

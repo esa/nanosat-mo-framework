@@ -27,7 +27,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
 import esa.mo.mc.impl.interfaces.ActionNotFoundException;
@@ -164,13 +163,13 @@ public class MCRaspberryPiAdapter extends MonitorAndControlNMFAdapter {
     public Attribute onGetValue(Identifier identifier) {
         if (PARAMETER_CURRENT_PARTITION.equals(identifier.getValue())) {
             String msg = shellCommander.runCommandAndGetOutputMessage(CMD_CURRENT_PARTITION);
-            return (Attribute) HelperAttributes.javaType2Attribute(msg);
+            return (Attribute) Attribute.javaType2Attribute(msg);
         } else if (PARAMETER_LINUX_VERSION.equals(identifier.getValue())) {
             String msg = shellCommander.runCommandAndGetOutputMessage(CMD_LINUX_VERSION);
-            return (Attribute) HelperAttributes.javaType2Attribute(msg);
+            return (Attribute) Attribute.javaType2Attribute(msg);
         } else if (PARAMETER_GEOFENCE.equals(identifier.getValue())) {
             String msg = this.geofence.toString();
-            return (Attribute) HelperAttributes.javaType2Attribute(msg);
+            return (Attribute) Attribute.javaType2Attribute(msg);
         }
         return null;
     }
@@ -250,7 +249,7 @@ public class MCRaspberryPiAdapter extends MonitorAndControlNMFAdapter {
             }
 
             AttributeValue aVal = attributeValues.get(0); // Extract the delta!
-            long delta = (Long) HelperAttributes.attribute2JavaType(aVal.getValue());
+            long delta = (Long) Attribute.attribute2JavaType(aVal.getValue());
 
             String str = (new SimpleDateFormat(DATE_PATTERN)).format(new Date(System.currentTimeMillis() + delta));
 

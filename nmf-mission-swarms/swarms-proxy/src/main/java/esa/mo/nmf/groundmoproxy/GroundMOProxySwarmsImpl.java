@@ -56,7 +56,6 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperTime;
 import org.ccsds.moims.mo.mal.structures.FineTime;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -285,7 +284,7 @@ public class GroundMOProxySwarmsImpl extends GroundMOProxy {
 
         // Do a query on the COM Objects for the latest one!
         Time timeInFarFuture = new Time(Long.MAX_VALUE);
-        String text = HelperTime.time2readableString(timeInFarFuture);
+        String text = timeInFarFuture.toReadableString();
         Logger.getLogger(GroundMOProxy.class.getName()).log(Level.FINE,
                 "The time in the future is: " + text);
 

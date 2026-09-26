@@ -43,6 +43,7 @@ import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
+import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
 import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
 import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
@@ -806,50 +807,33 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void updatePropertiesAddress() {
-        SingleConnectionDetails details;
-
         // COM services
-        details = connectionConsumer.getServicesDetails().get(ArchiveServiceInfo.ARCHIVE_SERVICE_NAME);
-        if (details != null) {
-            this.connectionConsumer.getServicesDetails().get(ArchiveServiceInfo.ARCHIVE_SERVICE_NAME).setProviderURI(uriServiceArchive.getText());
-            this.connectionConsumer.getServicesDetails().get(ArchiveServiceInfo.ARCHIVE_SERVICE_NAME).setBrokerURI(uriBrokerArchive.getText());
-        }
+        replaceURIs(ArchiveServiceInfo.ARCHIVE_SERVICE_NAME, uriServiceArchive.getText(), uriBrokerArchive.getText());
 
         // M&C services
-        details = connectionConsumer.getServicesDetails().get(ActionServiceInfo.ACTION_SERVICE_NAME);
-        if (details != null) {
-            this.connectionConsumer.getServicesDetails().get(ActionServiceInfo.ACTION_SERVICE_NAME).setProviderURI(uriServiceAction.getText());
-            this.connectionConsumer.getServicesDetails().get(ActionServiceInfo.ACTION_SERVICE_NAME).setBrokerURI(uriBrokerAction.getText());
-        }
+        replaceURIs(ActionServiceInfo.ACTION_SERVICE_NAME, uriServiceAction.getText(), uriBrokerAction.getText());
 
-        details = connectionConsumer.getServicesDetails().get(ParameterServiceInfo.PARAMETER_SERVICE_NAME);
-        if (details != null) {
-            this.connectionConsumer.getServicesDetails().get(ParameterServiceInfo.PARAMETER_SERVICE_NAME).setProviderURI(uriServiceParameter.getText());
-            this.connectionConsumer.getServicesDetails().get(ParameterServiceInfo.PARAMETER_SERVICE_NAME).setBrokerURI(uriBrokerParameter.getText());
-        }
+        replaceURIs(ParameterServiceInfo.PARAMETER_SERVICE_NAME, uriServiceParameter.getText(), uriBrokerParameter.getText());
 
-        details = connectionConsumer.getServicesDetails().get(AlertServiceInfo.ALERT_SERVICE_NAME);
-        if (details != null) {
-            this.connectionConsumer.getServicesDetails().get(AlertServiceInfo.ALERT_SERVICE_NAME).setProviderURI(uriServiceAlert.getText());
-            this.connectionConsumer.getServicesDetails().get(AlertServiceInfo.ALERT_SERVICE_NAME).setBrokerURI(uriBrokerAlert.getText());
-        }
+        replaceURIs(AlertServiceInfo.ALERT_SERVICE_NAME, uriServiceAlert.getText(), uriBrokerAlert.getText());
         /*
-        details = connectionConsumer.getServicesDetails().get(CheckServiceInfo.CHECK_SERVICE_NAME);
-        if (details != null) {
-            this.connectionConsumer.getServicesDetails().get(CheckServiceInfo.CHECK_SERVICE_NAME).setProviderURI(uriServiceCheck.getText());
-            this.connectionConsumer.getServicesDetails().get(CheckServiceInfo.CHECK_SERVICE_NAME).setBrokerURI(uriBrokerCheck.getText());
-        }
+        replaceURIs(CheckServiceInfo.CHECK_SERVICE_NAME, uriServiceCheck.getText(), uriBrokerCheck.getText());
 
-        details = connectionConsumer.getServicesDetails().get(StatisticServiceInfo.STATISTIC_SERVICE_NAME);
-        if (details != null) {
-            this.connectionConsumer.getServicesDetails().get(StatisticServiceInfo.STATISTIC_SERVICE_NAME).setProviderURI(uriServiceStatistic.getText());
-            this.connectionConsumer.getServicesDetails().get(StatisticServiceInfo.STATISTIC_SERVICE_NAME).setBrokerURI(uriBrokerStatistic.getText());
-        }
+        replaceURIs(StatisticServiceInfo.STATISTIC_SERVICE_NAME, uriServiceStatistic.getText(), uriBrokerStatistic.getText());
          */
-        details = connectionConsumer.getServicesDetails().get(AggregationServiceInfo.AGGREGATION_SERVICE_NAME);
+        replaceURIs(AggregationServiceInfo.AGGREGATION_SERVICE_NAME, uriServiceAggregation.getText(), uriBrokerAggregation.getText());
+    }
+
+    /**
+     * Replaces the provider and broker URIs of a service with the ones typed in
+     * the panel. The connection details are immutable, so new ones are stored
+     * in place of the old ones, keeping their domain and service key.
+     */
+    private void replaceURIs(Identifier serviceName, String providerURI, String brokerURI) {
+        SingleConnectionDetails details = connectionConsumer.getServicesDetails().get(serviceName);
         if (details != null) {
-            this.connectionConsumer.getServicesDetails().get(AggregationServiceInfo.AGGREGATION_SERVICE_NAME).setProviderURI(uriServiceAggregation.getText());
-            this.connectionConsumer.getServicesDetails().get(AggregationServiceInfo.AGGREGATION_SERVICE_NAME).setBrokerURI(uriBrokerAggregation.getText());
+            connectionConsumer.getServicesDetails().add(serviceName.toString(), new SingleConnectionDetails(
+                    providerURI, brokerURI, details.getDomain(), details.getServiceKey()));
         }
     }
 
