@@ -22,7 +22,6 @@ package esa.mo.mc.impl.interfaces;
 
 import java.io.IOException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mc.structures.*;
@@ -37,16 +36,14 @@ public interface ParameterStatusListener {
      * Called by the NMF core whenever a parameter value needs to be propagated
      * to the consumer, either through Aggregation or Parameter service.
      *
-     * The user must implement this interface in order to acquire a certain
-     * parameter/rawType combination of a variable in the application.
+     * The user must implement this interface in order to acquire the value of
+     * a parameter of the application, identified by its name.
      *
      * @param identifier Name of the Parameter
-     * @param rawType Type of the requested parameter
      * @return The value of the parameter that was requested
      * @throws java.io.IOException if the parameter value could not be acquired
      */
-    @Deprecated
-    default Attribute onGetValue(Identifier identifier, AttributeType rawType) throws IOException {
+    default Attribute onGetValue(Identifier identifier) throws IOException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -54,8 +51,8 @@ public interface ParameterStatusListener {
      * Called by the NMF core whenever a parameter value needs to be propagated
      * to the consumer, either through Aggregation or Parameter service.
      *
-     * The user must implement this interface in order to acquire a certain
-     * parameter/rawType combination of a variable in the application.
+     * The user must implement this interface in order to acquire the value of
+     * a parameter of the application, identified by its definition ID.
      *
      * @param parameterID the ID of the parameter
      * @return The value of the parameter that was requested

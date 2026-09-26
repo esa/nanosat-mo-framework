@@ -216,7 +216,7 @@ public class Waveform {
         }
 
         @Override
-        public Attribute onGetValue(Identifier idntfr, AttributeType b) {
+        public Attribute onGetValue(Identifier idntfr) {
             if (idntfr.getValue().equals("amplitude")) {
                 return (Attribute) Attribute.javaType2Attribute(amplitude);
             }

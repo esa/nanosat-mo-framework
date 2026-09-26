@@ -290,7 +290,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public Attribute onGetValue(Identifier identifier, AttributeType rawType) throws IOException {
+    public Attribute onGetValue(Identifier identifier) throws IOException {
         if (nmf == null) {
             return null;
         }

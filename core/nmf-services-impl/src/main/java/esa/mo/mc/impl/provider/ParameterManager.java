@@ -288,7 +288,7 @@ public class ParameterManager extends MCManager {
         // check if new interface method is implemented, if yes, call it
         try {
             Class cla = parametersMonitoring.getClass()
-                    .getMethod("onGetValue", Identifier.class, AttributeType.class).getDeclaringClass();
+                    .getMethod("onGetValue", Identifier.class).getDeclaringClass();
             if (cla == ParameterStatusListener.class) {
                 return parametersMonitoring.onGetValue(paramDefId);
             }
@@ -299,7 +299,7 @@ public class ParameterManager extends MCManager {
         ParameterDefinition pDef = this.getParameterDefinition(paramDefId);
         Attribute value;
 
-        return parametersMonitoring.onGetValue(super.getName(paramDefId), pDef.getRawType());
+        return parametersMonitoring.onGetValue(super.getName(paramDefId));
 
     }
 
@@ -330,11 +330,11 @@ public class ParameterManager extends MCManager {
         try {
 
             Class cla = parametersMonitoring.getClass()
-                    .getMethod("onGetValue", Identifier.class, AttributeType.class).getDeclaringClass();
+                    .getMethod("onGetValue", Identifier.class).getDeclaringClass();
             if (cla == ParameterStatusListener.class) {
                 value = parametersMonitoring.onGetValue(paramDefId);
             } else {
-                value = parametersMonitoring.onGetValue(super.getName(paramDefId), pDef.getRawType());
+                value = parametersMonitoring.onGetValue(super.getName(paramDefId));
             }
         } catch (IOException | NoSuchMethodException | SecurityException ex) {
             Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -410,11 +410,11 @@ public class ParameterManager extends MCManager {
         final Attribute expParamValue;
         try {
             Class cla = parametersMonitoring.getClass()
-                    .getMethod("onGetValue", Identifier.class, AttributeType.class).getDeclaringClass();
+                    .getMethod("onGetValue", Identifier.class).getDeclaringClass();
             if (cla == ParameterStatusListener.class) {
                 expParamValue = parametersMonitoring.onGetValue(expPDefId);
             } else {
-                expParamValue = parametersMonitoring.onGetValue(super.getName(expPDefId), null);
+                expParamValue = parametersMonitoring.onGetValue(super.getName(expPDefId));
             }
 
         } catch (IOException | NoSuchMethodException | SecurityException ex) {
@@ -704,14 +704,14 @@ public class ParameterManager extends MCManager {
 
         try {
             Class cla = parametersMonitoring.getClass()
-                    .getMethod("onGetValue", Identifier.class, AttributeType.class).getDeclaringClass();
+                    .getMethod("onGetValue", Identifier.class).getDeclaringClass();
             if (cla == ParameterStatusListener.class) {
                 return parametersMonitoring.onGetValue(defId);
             }
         } catch (NoSuchMethodException | SecurityException ex) {
             Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return parametersMonitoring.onGetValue(this.getName(defId), pDef.getRawType());
+        return parametersMonitoring.onGetValue(this.getName(defId));
     }
 
     /**

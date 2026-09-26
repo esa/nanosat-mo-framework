@@ -48,7 +48,7 @@ import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
  *
  * <p>
  * The child adapters must be name-based (override
- * {@link #onGetValue(Identifier, AttributeType)}), as the manual adapters are;
+ * {@link #onGetValue(Identifier)}), as the manual adapters are;
  * annotation-based (id-based) adapters cannot be composed.
  *
  * @author Cesar Coelho
@@ -81,9 +81,9 @@ public class CompositeMCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public Attribute onGetValue(Identifier identifier, AttributeType rawType) throws IOException {
+    public Attribute onGetValue(Identifier identifier) throws IOException {
         for (MonitorAndControlNMFAdapter child : children) {
-            Attribute value = child.onGetValue(identifier, rawType);
+            Attribute value = child.onGetValue(identifier);
             if (value != null) {
                 return value;
             }

@@ -78,7 +78,7 @@ public class MemoryMCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public Attribute onGetValue(Identifier identifier, AttributeType rawType) {
+    public Attribute onGetValue(Identifier identifier) {
         if (identifier == null) {
             return null;
         }

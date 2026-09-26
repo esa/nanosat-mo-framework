@@ -90,7 +90,7 @@ public class DemoHelloWorldFull {
         }
 
         @Override
-        public Attribute onGetValue(Identifier identifier, AttributeType rawType) {
+        public Attribute onGetValue(Identifier identifier) {
             if (PARAMETER_NAME.equals(identifier.getValue())) {
                 return (Attribute) Attribute.javaType2Attribute(var);
             }

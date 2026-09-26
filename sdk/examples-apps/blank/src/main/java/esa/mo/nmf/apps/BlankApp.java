@@ -25,7 +25,6 @@ import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
@@ -72,7 +71,7 @@ public class BlankApp {
         }
 
         @Override
-        public Attribute onGetValue(Identifier identifier, AttributeType rawType) {
+        public Attribute onGetValue(Identifier identifier) {
             return null;
         }
 

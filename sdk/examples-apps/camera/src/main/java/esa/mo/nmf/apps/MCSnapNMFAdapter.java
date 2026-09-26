@@ -125,7 +125,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public Attribute onGetValue(Identifier identifier, AttributeType rawType) {
+    public Attribute onGetValue(Identifier identifier) {
         if (connector == null) {
             return null;
         }

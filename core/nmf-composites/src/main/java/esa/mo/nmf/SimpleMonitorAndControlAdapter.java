@@ -27,7 +27,6 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -79,7 +78,7 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
     }
 
     @Override
-    public Attribute onGetValue(Identifier identifier, AttributeType rawType) {
+    public Attribute onGetValue(Identifier identifier) {
         Serializable ret = this.onGetValueSimple(identifier.getValue());
 
         if (ret instanceof Attribute || ret == null) {

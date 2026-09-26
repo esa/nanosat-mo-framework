@@ -155,7 +155,7 @@ public class DemoGPSData {
         }
 
         @Override
-        public Attribute onGetValue(Identifier identifier, AttributeType rawType) {
+        public Attribute onGetValue(Identifier identifier) {
             try {
                 if (connector == null) {  // The framework is still not available
                     return null;

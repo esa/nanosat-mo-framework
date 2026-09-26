@@ -138,7 +138,7 @@ public class BrokenMCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public Attribute onGetValue(Identifier identifier, AttributeType rawType) throws IOException {
+    public Attribute onGetValue(Identifier identifier) throws IOException {
         if (identifier == null || identifier.getValue() == null) {
             return null;
         }

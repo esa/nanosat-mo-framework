@@ -195,7 +195,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public Attribute onGetValue(Identifier identifier, AttributeType rawType) throws IOException {
+    public Attribute onGetValue(Identifier identifier) throws IOException {
         if (identifier == null) {
             return null;
         }

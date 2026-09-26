@@ -148,7 +148,7 @@ public class BootloaderMCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public Attribute onGetValue(Identifier identifier, AttributeType rawType) {
+    public Attribute onGetValue(Identifier identifier) {
         if (identifier == null || identifier.getValue() == null
                 || !identifier.getValue().startsWith(PREFIX)) {
             return null;

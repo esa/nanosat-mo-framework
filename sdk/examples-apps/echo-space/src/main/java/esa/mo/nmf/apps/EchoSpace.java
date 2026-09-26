@@ -111,7 +111,7 @@ public class EchoSpace {
         }
 
         @Override
-        public Attribute onGetValue(Identifier idntfr, AttributeType b) {
+        public Attribute onGetValue(Identifier idntfr) {
             throw new UnsupportedOperationException("Not supported.");
         }
 

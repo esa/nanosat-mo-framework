@@ -130,7 +130,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public Attribute onGetValue(Identifier identifier, AttributeType rawType) throws IOException {
+    public Attribute onGetValue(Identifier identifier) throws IOException {
         if (PARAMETER_PERIODIC.equals(identifier.getValue())) {
             return (Attribute) Attribute.javaType2Attribute(123.456);
         }

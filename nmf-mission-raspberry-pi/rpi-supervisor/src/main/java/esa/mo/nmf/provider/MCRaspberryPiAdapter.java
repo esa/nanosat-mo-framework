@@ -161,7 +161,7 @@ public class MCRaspberryPiAdapter extends MonitorAndControlNMFAdapter {
     }
 
     @Override
-    public Attribute onGetValue(Identifier identifier, AttributeType rawType) {
+    public Attribute onGetValue(Identifier identifier) {
         if (PARAMETER_CURRENT_PARTITION.equals(identifier.getValue())) {
             String msg = shellCommander.runCommandAndGetOutputMessage(CMD_CURRENT_PARTITION);
             return (Attribute) HelperAttributes.javaType2Attribute(msg);
