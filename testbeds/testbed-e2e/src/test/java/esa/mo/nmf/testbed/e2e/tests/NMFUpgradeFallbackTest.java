@@ -32,6 +32,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.structures.ProviderList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -141,6 +142,14 @@ public class NMFUpgradeFallbackTest {
         assertBootloaderVerified(Deployment.DIR_JARS_MISSION, released);
         Assert.assertTrue("The fallback must report a successful boot",
                 filesystem.isBootConfirmed());
+
+        if (!UpgradeFilesystemHarness.isMOCompatible(released)) {
+            LOGGER.log(java.util.logging.Level.INFO, "Version {0} is not MO-compatible with this"
+                    + " build, which uses MO area version {1}. Verification of the fallback is"
+                    + " limited to the Bootloader output and the boot state.",
+                    new Object[]{released, COMHelper._COM_AREA_VERSION});
+            return;
+        }
 
         GroundMOAdapterImpl adapter = connect();
         try {

@@ -33,6 +33,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import org.ccsds.moims.mo.com.COMHelper;
 import java.util.Properties;
 
 /**
@@ -81,6 +82,27 @@ public class UpgradeFilesystemHarness extends FilesystemHarness {
      * The suffix of an NMF Package, the form the released framework is staged in.
      */
     private static final String NMF_PACKAGE_SUFFIX = ".nmfpack";
+
+    /**
+     * Indicates whether the given framework version is MO-compatible with this
+     * build, that is, whether a consumer compiled here can invoke operations on
+     * a provider of that version.
+     *
+     * The MO area version equals the major version of the NMF, and a provider
+     * rejects operations of any other area version, so compatibility holds only
+     * within a major version. Baseline files and Bootloader output remain
+     * verifiable across major versions; MO invocations do not.
+     *
+     * @param nmfVersion The framework version of the provider, for example 5.1.
+     * @return True if a consumer of this build can invoke operations on it.
+     */
+    public static boolean isMOCompatible(final String nmfVersion) {
+        try {
+            return Integer.parseInt(nmfVersion.split("\\.")[0]) == COMHelper._COM_AREA_VERSION;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
+    }
 
     private final String baselineVersion;
     private final String developmentVersion;

@@ -30,6 +30,7 @@ import esa.mo.nmf.testbed.e2e.UpgradeFilesystemHarness;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
+import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.structures.ProviderList;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
@@ -181,6 +182,14 @@ public class NMFUpgradeRollbackTest {
 
         Assert.assertTrue("The Supervisor must report a successful boot",
                 filesystem.isBootConfirmed());
+
+        if (!UpgradeFilesystemHarness.isMOCompatible(version)) {
+            LOGGER.log(java.util.logging.Level.INFO, "Version {0} is not MO-compatible with this"
+                    + " build, which uses MO area version {1}. Verification of this version is"
+                    + " limited to the baseline files and the Bootloader output.",
+                    new Object[]{version, COMHelper._COM_AREA_VERSION});
+            return;
+        }
 
         // What the Supervisor answers with, over MO
         GroundMOAdapterImpl adapter = connect();
