@@ -344,7 +344,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 for (java.lang.reflect.Parameter param : parameters) {
                     Identifier identifier = new Identifier(method.getName() + "_" + param.getName());
                     String description = null;
-                    Integer rawType = getTypeShortForm(param.getType());
+                    Integer rawType = HelperAttributes.getTypeShortForm(param.getType());
                     if (rawType == null) {
                         LOGGER.log(Level.SEVERE,
                                 "Unable to register action Parameter of type {0}. Only MAL Types are allowed!",
@@ -505,34 +505,6 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
             return false;
         }
         return true;
-    }
-
-    /**
-     * Checks the java type and returns the equivalent MO type short form.
-     * Deprecated because it should be moved to: HelperAttributes()
-     *
-     * @param type The java type.
-     * @return The type short form in MO.
-     */
-    @Deprecated
-    public static Integer getTypeShortForm(Class<?> type) {
-        Integer helperValue = HelperAttributes.attributeName2typeShortForm(type.getSimpleName());
-        if (helperValue != null) {
-            return helperValue;
-        }
-
-        if (type.equals(boolean.class)) {
-            return HelperAttributes.attributeName2typeShortForm("Boolean");
-        } else if (type.equals(float.class)) {
-            return HelperAttributes.attributeName2typeShortForm("Float");
-        } else if (type.equals(double.class)) {
-            return HelperAttributes.attributeName2typeShortForm("Double");
-        } else if (type.equals(int.class)) {
-            return HelperAttributes.attributeName2typeShortForm("Integer");
-        } else if (type.equals(long.class)) {
-            return HelperAttributes.attributeName2typeShortForm("Long");
-        }
-        return null;
     }
 
 }
