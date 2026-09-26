@@ -1,0 +1,52 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2021      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ * 
+ * See the License for the specific language governing permissions and
+ * limitations under the License. 
+ * ----------------------------------------------------------------------------
+ */
+package esa.mo.nmf.mission.lite.simulator;
+
+/**
+ * The FineADCS class includes the simulation of a Magnetometer on a selected
+ * orbit.
+ *
+ */
+public class FineADCS {
+
+    private final Orbit orbit;
+    private final Magnetometer magnetometer;
+
+    /**
+     * The FineADCS class constructor.
+     *
+     * @param orbit The orbit to be used for simulation of the FineADCS.
+     */
+    public FineADCS(Orbit orbit) {
+        this.orbit = orbit;
+        magnetometer = new Magnetometer(orbit);
+    }
+
+    /**
+     * A getter for the Magnetometer class.
+     *
+     * @return The Magnetometer of the simulated FineADCS.
+     */
+    public Magnetometer getMagnetometer() {
+        return this.magnetometer;
+    }
+
+}

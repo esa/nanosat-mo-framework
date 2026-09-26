@@ -23,7 +23,7 @@ package esa.mo.platform.impl.provider.raspberrypi;
 import esa.mo.platform.impl.provider.gen.GPSNMEAonlyAdapter;
 import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
 import java.io.IOException;
-import opssat.simulator.main.ESASimulator;
+import esa.mo.nmf.mission.orekit.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.platform.structures.Position;
 import org.ccsds.moims.mo.platform.structures.SatelliteInfoList;
 import org.orekit.propagation.analytical.tle.TLE;

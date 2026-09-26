@@ -22,9 +22,9 @@ package esa.mo.nmf.testbed.e2e.tests;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
-import opssat.simulator.orekit.OrekitCore;
-import opssat.simulator.threading.SimulatorNode;
-import opssat.simulator.util.SimulatorHeader;
+import esa.mo.nmf.mission.orekit.simulator.orekit.OrekitCore;
+import esa.mo.nmf.mission.orekit.simulator.threading.SimulatorNode;
+import esa.mo.nmf.mission.orekit.simulator.util.SimulatorHeader;
 import org.junit.Assert;
 import org.junit.Test;
 

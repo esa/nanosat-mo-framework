@@ -22,12 +22,12 @@ package esa.mo.platform.impl.provider.softsim;
 
 import esa.mo.platform.impl.provider.gen.CameraAdapterInterface;
 import esa.mo.platform.impl.provider.gen.PowerControlAdapterInterface;
-import opssat.simulator.util.ImageLoader;
+import esa.mo.nmf.mission.orekit.simulator.util.ImageLoader;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import opssat.simulator.main.ESASimulator;
+import esa.mo.nmf.mission.orekit.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Duration;

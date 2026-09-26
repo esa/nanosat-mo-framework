@@ -22,7 +22,7 @@ package esa.mo.platform.impl.provider.lite;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import opssat.simulator.Orbit;
+import esa.mo.nmf.mission.lite.simulator.Orbit;
 
 /**
  * The orbit the lite simulator flies, taken from the environment.

@@ -153,7 +153,7 @@
                             <goal>generate-filesystem</goal>
                         </goals>
                         <configuration>
-                            <supervisorMainClass>esa.mo.nmf.sim.supervisor.NanosatMOSupervisorBasicImpl</supervisorMainClass>
+                            <supervisorMainClass>esa.mo.nmf.mission.orekit.NanosatMOSupervisorBasicImpl</supervisorMainClass>
                             <mission>
                                 <missionName>sdk</missionName>
                                 <spacecraftName>SDK</spacecraftName>

@@ -27,7 +27,7 @@ import esa.mo.platform.impl.provider.softsim.*;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import opssat.simulator.main.ESASimulator;
+import esa.mo.nmf.mission.orekit.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.platform.artificialintelligence.provider.ArtificialIntelligenceInheritanceSkeleton;

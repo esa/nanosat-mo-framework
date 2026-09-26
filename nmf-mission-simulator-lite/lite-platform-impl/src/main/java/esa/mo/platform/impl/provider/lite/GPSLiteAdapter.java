@@ -22,9 +22,9 @@ package esa.mo.platform.impl.provider.lite;
 
 import esa.mo.platform.impl.provider.gen.GPSAdapterInterface;
 import java.io.IOException;
-import opssat.simulator.InstrumentsSimulator;
-import opssat.simulator.OrbitParameters;
-import opssat.simulator.Vector;
+import esa.mo.nmf.mission.lite.simulator.InstrumentsSimulator;
+import esa.mo.nmf.mission.lite.simulator.OrbitParameters;
+import esa.mo.nmf.mission.lite.simulator.Vector;
 import org.ccsds.moims.mo.platform.structures.Position;
 import org.ccsds.moims.mo.platform.structures.PositionExtraDetails;
 import org.ccsds.moims.mo.platform.structures.SatelliteInfoList;

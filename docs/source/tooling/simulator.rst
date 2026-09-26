@@ -70,7 +70,7 @@ The simulator is, in essence, a TCP server. A companion GUI client connects to a
 the operator inspect and modify its configuration interactively.
 
 To start the GUI from NetBeans, right-click the ``ESA OPS-SAT - Spacecraft Simulator`` project, select
-**Run**, and choose ``opssat.simulator.main.MainClient`` as the main class.
+**Run**, and choose ``esa.mo.nmf.mission.orekit.simulator.main.MainClient`` as the main class.
 
 From the playground environment, start the client with ``run_Simulator_Client.sh`` in
 ``sdk/sdk-playground-environment/``.

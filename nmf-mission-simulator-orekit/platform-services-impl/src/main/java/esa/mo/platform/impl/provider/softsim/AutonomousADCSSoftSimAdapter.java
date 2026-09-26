@@ -26,7 +26,7 @@ import esa.mo.platform.impl.util.HelperIADCS100;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import opssat.simulator.main.ESASimulator;
+import esa.mo.nmf.mission.orekit.simulator.main.ESASimulator;
 import org.ccsds.moims.mo.platform.structures.*;
 
 /**
