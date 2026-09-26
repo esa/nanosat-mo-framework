@@ -133,4 +133,43 @@ public class ParameterTest {
         org.junit.Assert.assertTrue("'" + v4 + "' != '" + "Hallo" + "'", v4.equals("Hallo"));
         org.junit.Assert.assertTrue("'" + v5 + "' != '" + "new" + "'", v5.equals("new"));
     }
+
+    private static class NoValueAdapter extends MonitorAndControlNMFAdapter {
+
+        @Parameter()
+        public String noValue;
+    }
+
+    private static class NotMalTypeAdapter extends MonitorAndControlNMFAdapter {
+
+        @Parameter()
+        public Object notMalType = new Object();
+    }
+
+    private static class UnknownMalTypeAdapter extends MonitorAndControlNMFAdapter {
+
+        @Parameter(malType = "Strnig")
+        public String misspelled = "value";
+    }
+
+    /**
+     * A parameter whose MAL type cannot be determined stops the registration
+     * with an error that names the field, instead of a bare exception.
+     */
+    @Test
+    public void undeterminableTypeNamesTheField() {
+        assertRegistrationFails(new NoValueAdapter(), "noValue");
+        assertRegistrationFails(new NotMalTypeAdapter(), "notMalType");
+        assertRegistrationFails(new UnknownMalTypeAdapter(), "misspelled");
+    }
+
+    private static void assertRegistrationFails(MonitorAndControlNMFAdapter adapter, String fieldName) {
+        try {
+            adapter.initialRegistrations(new RegistrationTester());
+            org.junit.Assert.fail("The registration of '" + fieldName + "' should have failed");
+        } catch (IllegalStateException ex) {
+            org.junit.Assert.assertTrue("The message does not name the field: " + ex.getMessage(),
+                    ex.getMessage().contains("'" + fieldName + "'"));
+        }
+    }
 }

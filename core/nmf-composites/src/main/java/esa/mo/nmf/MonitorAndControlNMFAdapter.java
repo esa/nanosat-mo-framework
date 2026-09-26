@@ -91,6 +91,46 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
     }
 
     /**
+     * Returns the MAL type of an annotated parameter field: the one named by
+     * malType in its annotation, or else the one derived from its current value.
+     *
+     * @param field The annotated field.
+     * @param annotation The Parameter annotation of the field.
+     * @return The type short form of the MAL type.
+     * @throws IllegalStateException If malType names no MAL type, or if it is
+     * not set and the field has no value, or a value that is not a MAL
+     * attribute. The App then fails to start with a message that names the
+     * field.
+     */
+    private int rawTypeOf(Field field, Parameter annotation) {
+        if (!annotation.malType().equals("")) {
+            Integer rawType = HelperAttributes.attributeName2typeShortForm(annotation.malType());
+            if (rawType == null) {
+                throw new IllegalStateException("The malType '" + annotation.malType()
+                        + "' of parameter field '" + field.getName() + "' is not a MAL type.");
+            }
+            return rawType;
+        }
+
+        Object value;
+        try {
+            value = field.get(this);
+        } catch (IllegalAccessException ex) {
+            throw new IllegalStateException("The parameter field '" + field.getName()
+                    + "' could not be read.", ex);
+        }
+
+        Object attribute = (value == null) ? null : Attribute.javaType2Attribute(value);
+        if (!(attribute instanceof Attribute)) {
+            throw new IllegalStateException("The MAL type of parameter field '" + field.getName()
+                    + "' cannot be derived from its value ("
+                    + ((value == null) ? "it has none" : value.getClass().getName())
+                    + "). Set malType in its @Parameter annotation.");
+        }
+        return ((Attribute) attribute).getTypeId().getSFP();
+    }
+
+    /**
      * Registers a Parameter for every field with the @Parameter annotation
      *
      * @param registration
@@ -117,19 +157,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
             //----------------collect ParameterDefinition----------------
             String description = annotation.description();
-            int rawType;
-            if (annotation.malType().equals("")) {
-                try {
-                    Object att = Attribute.javaType2Attribute(field.get(this));
-                    rawType = (Integer) ((Attribute) att).getTypeId().getSFP();
-                } catch (IllegalArgumentException | IllegalAccessException ex) {
-                    LOGGER.log(Level.SEVERE, "Unable to register parameter! "
-                            + "Please try setting malType in @Parameter. {0}", ex);
-                    continue;
-                }
-            } else {
-                rawType = HelperAttributes.attributeName2typeShortForm(annotation.malType());
-            }
+            int rawType = rawTypeOf(field, annotation);
 
             String rawUnit = annotation.rawUnit();
             boolean reportingEnabled = annotation.reportingEnabled();
