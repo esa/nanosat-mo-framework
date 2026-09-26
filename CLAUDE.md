@@ -59,6 +59,7 @@ nmf-mission-simulator-orekit/ # Orekit-propagated spacecraft simulator (platform
 sdk/
   consumer-test-tool/       # GUI tool for consuming all NMF services (CTT)
   cli-tool/                 # CLI interface to NMF
+  mcp-adapter/              # MCP server exposing NMF providers to AI assistants (prototype)
   examples-apps/            # Space app examples
   examples-ground/          # Ground app examples
   sdk-playground-environment/ # Local SDK execution environment; run scripts + generated NMF
