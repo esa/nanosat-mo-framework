@@ -27,8 +27,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.util.Properties;
 
 /**
@@ -58,7 +62,8 @@ public class UpgradeFilesystemHarness extends FilesystemHarness {
     public static final String PROP_FILESYSTEM_UPGRADE = "nmf.e2e.filesystem.upgrade";
 
     /**
-     * Points at the directory holding the Jars of the version to upgrade from.
+     * Points at the directory holding the version to upgrade from: the NMF core
+     * Package of that version, and the Jar of the mission beside it.
      */
     public static final String PROP_BASELINE_JARS = "nmf.e2e.baseline.jars";
 
@@ -71,6 +76,11 @@ public class UpgradeFilesystemHarness extends FilesystemHarness {
      * The Jar of the mission, which goes to jars-mission rather than jars-nmf.
      */
     private static final String MISSION_JAR_PREFIX = "barebone-nanosat-mo-supervisor";
+
+    /**
+     * The suffix of an NMF Package, the form the released framework is staged in.
+     */
+    private static final String NMF_PACKAGE_SUFFIX = ".nmfpack";
 
     private final String baselineVersion;
     private final String developmentVersion;
@@ -109,28 +119,73 @@ public class UpgradeFilesystemHarness extends FilesystemHarness {
 
     /**
      * Lays the Jars of the version to upgrade from into their own version
-     * directories, with the checksums that the Bootloader verifies at boot.
+     * directories, with the checksums that the Bootloader verifies at boot. The
+     * Jars of the framework come out of the NMF core Package of that version,
+     * and the Jar of the mission is staged beside it.
      */
-    private void addBaselineVersion(final File jars) throws IOException {
-        File[] files = jars.listFiles((dir, name) -> name.endsWith(".jar"));
-        if (files == null || files.length == 0) {
-            throw new IOException("No Jars to upgrade from were found in: " + jars.getAbsolutePath());
-        }
-
+    private void addBaselineVersion(final File staged) throws IOException {
         File nmfJars = new File(new File(nmfDir, Deployment.DIR_JARS_NMF), baselineVersion);
         File missionJars = new File(new File(nmfDir, Deployment.DIR_JARS_MISSION), baselineVersion);
         Files.createDirectories(nmfJars.toPath());
         Files.createDirectories(missionJars.toPath());
 
-        for (File jar : files) {
-            File target = jar.getName().startsWith(MISSION_JAR_PREFIX) ? missionJars : nmfJars;
-            Files.copy(jar.toPath(), new File(target, jar.getName()).toPath(),
-                    StandardCopyOption.REPLACE_EXISTING);
+        int written = 0;
+
+        File[] packages = staged.listFiles((dir, name) -> name.endsWith(NMF_PACKAGE_SUFFIX));
+        if (packages != null) {
+            for (File pkg : packages) {
+                written += extractJars(pkg, nmfJars);
+            }
+        }
+
+        File[] jars = staged.listFiles((dir, name) -> name.endsWith(".jar"));
+        if (jars != null) {
+            for (File jar : jars) {
+                File target = jar.getName().startsWith(MISSION_JAR_PREFIX) ? missionJars : nmfJars;
+                Files.copy(jar.toPath(), new File(target, jar.getName()).toPath(),
+                        StandardCopyOption.REPLACE_EXISTING);
+                written++;
+            }
+        }
+
+        if (written == 0) {
+            throw new IOException("Nothing to upgrade from was found in: " + staged.getAbsolutePath());
         }
 
         // Without these the Bootloader fails the integrity test and never boots
         ChecksumGenerator.writeChecksumsFile(nmfJars);
         ChecksumGenerator.writeChecksumsFile(missionJars);
+    }
+
+    /**
+     * Writes every Jar of an NMF Package into the given directory. The entries
+     * of the Package are named after the directories of a filesystem, and only
+     * the name of each Jar is kept here, because the directory to write to is
+     * the one the caller already chose for this version.
+     *
+     * @param pkg The NMF Package to read.
+     * @param destination Where to write the Jars found in it.
+     * @return The number of Jars written.
+     * @throws IOException if the Package cannot be read or a Jar not written.
+     */
+    private static int extractJars(final File pkg, final File destination) throws IOException {
+        int written = 0;
+        try (ZipFile zip = new ZipFile(pkg)) {
+            Enumeration<? extends ZipEntry> entries = zip.entries();
+            while (entries.hasMoreElements()) {
+                ZipEntry entry = entries.nextElement();
+                if (entry.isDirectory() || !entry.getName().endsWith(".jar")) {
+                    continue;
+                }
+                String name = new File(entry.getName()).getName();
+                try (InputStream in = zip.getInputStream(entry)) {
+                    Files.copy(in, new File(destination, name).toPath(),
+                            StandardCopyOption.REPLACE_EXISTING);
+                }
+                written++;
+            }
+        }
+        return written;
     }
 
     /**
