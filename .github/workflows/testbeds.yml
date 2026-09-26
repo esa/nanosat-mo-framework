@@ -20,7 +20,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-mo-services-java-jdk21-
       - name: Run Maven install
-        run: mvn --batch-mode --update-snapshots -DskipTests install
+        run: mvn --batch-mode --update-snapshots install
 
   build-jdk25:
     runs-on: ubuntu-latest
@@ -39,7 +39,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-mo-services-java-jdk25-
       - name: Run Maven install
-        run: mvn --batch-mode --update-snapshots -DskipTests install
+        run: mvn --batch-mode --update-snapshots install
   testbed-area-mc-jdk21:
     runs-on: ubuntu-latest
     timeout-minutes: 15

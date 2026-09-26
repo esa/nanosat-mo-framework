@@ -154,13 +154,12 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <!--
-                        Pinned here rather than in the testbeds that run tests,
-                        so that the version is the one this build downloads. A
-                        version only the testbeds ask for is a version no build
-                        of the framework fetches, and so one that is missing
-                        from every cache the testbeds are given: it was fetched
-                        again on every run, and a moment's trouble at Maven
-                        Central failed the run.
+                        Pinned here rather than in the testbeds, so that the
+                        framework and the testbeds run their tests under the same
+                        version. The CI build jobs run the framework's tests, which
+                        downloads this version and its JUnit 4 provider into the
+                        cache that the testbed jobs restore. A build that skips
+                        the tests downloads the plugin but not the provider.
                     -->
                     <version>3.2.5</version>
                 </plugin>
