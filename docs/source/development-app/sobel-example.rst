@@ -59,8 +59,8 @@ After each stage of the pipeline, the action handler reports back:
            TOTAL_STAGES,          // totalNumberOfProgressStages declared at registration
            actionInstanceObjId);
 
-The Supervisor publishes each update via the COM Event service so the invoking consumer sees the stages in
-real time.
+The Action service of the App publishes each update through its ``monitorExecution`` operation, so the
+invoking consumer sees the stages in real time.
 
 Full source
 -----------

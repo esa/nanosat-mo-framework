@@ -11,14 +11,12 @@ For where each service sits architecturally, see :doc:`../concepts/mo-architectu
 COM (``area051-COM.xml``)
 -------------------------
 
-- **Event** — generic publish/subscribe of COM events.
 - **Archive** — persistent storage and querying of COM objects.
 - **ArchiveSync** — synchronisation of a COM Archive with a remote provider.
-- **Directory** — discovery of services by domain and provider.
+- **Directory** — discovery of services by domain and provider, and the COM objects that describe the stored
+  configuration of a provider.
 - **Login** — authentication of consumers (XML-defined; provider implementation is currently consumer-side
   only).
-- **Configuration** — persistence of provider configuration (XML-defined; configuration persistence is
-  currently handled by ``esa.mo.reconfigurable.provider.PersistProviderConfiguration``).
 
 Monitor & Control (``area052-Monitor-and-Control.xml``)
 -------------------------------------------------------

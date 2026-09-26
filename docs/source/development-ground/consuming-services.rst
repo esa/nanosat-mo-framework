@@ -87,9 +87,10 @@ See the generated API for the exact adapter and callback signatures.
 Listening for action execution progress
 ---------------------------------------
 
-When invoking a multi-stage action, register an ``ActionAdapter`` to receive progress updates. The Supervisor
-publishes execution stages via the COM Event service, and the adapter demultiplexes them by action instance
-identifier.
+When invoking a multi-stage action, register an ``ActionAdapter`` to receive progress updates. The Action
+service of the provider publishes the execution stages through its ``monitorExecution`` operation, and the
+adapter demultiplexes them by action instance identifier. See :doc:`receiving-updates` for the other updates a
+provider publishes.
 
 .. code-block:: java
 

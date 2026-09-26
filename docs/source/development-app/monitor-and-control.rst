@@ -184,7 +184,8 @@ from the action handler:
 
    connector.reportExecutionProgress(true, 0, currentStage, totalStages, executionId);
 
-The Supervisor forwards each progress update to subscribed consumers via the COM Event service.
+The Action service of the App publishes each progress update through its ``monitorExecution`` operation, and
+stores it in the COM Archive as an ExecutionStatus object.
 
 Reference example
 ^^^^^^^^^^^^^^^^^

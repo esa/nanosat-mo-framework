@@ -19,7 +19,7 @@ A ground application typically:
    project-setup
    ground-mo-adapter
    consuming-services
-   com-events
+   receiving-updates
    testing
    ground-mo-proxy
    faq
