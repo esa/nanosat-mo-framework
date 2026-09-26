@@ -22,20 +22,10 @@ package esa.mo.mc.testbed.backends;
 
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
 import esa.mo.mc.impl.interfaces.ParameterStatusListener;
-import org.ccsds.moims.mo.mal.provider.MALInteraction;
-import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.UInteger;
-import org.ccsds.moims.mo.mal.structures.UIntegerList;
-import org.ccsds.moims.mo.mc.structures.ActionDefinition;
-import org.ccsds.moims.mo.mc.structures.ExecutionRequest;
-import org.ccsds.moims.mo.mc.structures.AttributeValueList;
-import org.ccsds.moims.mo.mc.structures.ParameterDefinition;
-import org.ccsds.moims.mo.mc.structures.ParameterValue;
 
 /**
- * Default no-op implementation of all MC service listener interfaces.
- * Tests subclass this and override only the methods relevant to the scenario.
+ * Default no-op implementation of all MC service listener interfaces. Tests
+ * subclass this and override only the methods relevant to the scenario.
  *
  * @author Cesar Coelho
  */
