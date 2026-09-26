@@ -19,7 +19,7 @@
 -- ---------------------------------------------------------------------------
 
 local home = os.getenv("HOME") or "/home/celestia"
-local celxx = home .. "/.local/share/celestia/extras/opssat/celxx"
+local celxx = home .. "/.local/share/celestia/extras/cubesat/celxx"
 
 package.path = package.path
     .. ";" .. celxx .. "/?.lua"

@@ -23,7 +23,7 @@ the License. -->
         <skipPublishing>true</skipPublishing>
     </properties>
     <name>ESA NMF Sim - Spacecraft Simulator</name>
-    <description>A simple software simulator of OPS-SAT</description>
+    <description>A software simulator of a CubeSat, propagated with Orekit</description>
     <url>http://www.esa.int</url>
     <organization>
         <name>ESA</name>

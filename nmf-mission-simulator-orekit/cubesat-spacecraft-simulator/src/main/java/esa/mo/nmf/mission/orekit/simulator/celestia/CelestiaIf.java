@@ -48,8 +48,6 @@ public class CelestiaIf implements Runnable {
 
     final String PROTOCOL_VERSION = "1.1";
     ArrayList<String> SPACECRAFT_ID;
-    final int portOpsSat = 5909;
-    final int portNetSat = 5910;
     /** How long to wait for an acknowledgement before resending, in ms. */
     final int DURATION_ACK_RECOVER = 15000;
 
@@ -90,7 +88,7 @@ public class CelestiaIf implements Runnable {
      */
     private boolean absenceReported = false;
 
-    String MISSION_ID;// = "OPS-SAT";
+    String MISSION_ID;
 
     ConcurrentLinkedQueue<Object> sendQueue;
 

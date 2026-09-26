@@ -11,7 +11,7 @@
 --
 -- Drives the spacecraft in Celestia from the NMF simulator.
 --
--- opssat.ssc declares a ScriptedOrbit and a ScriptedRotation naming this
+-- cubesat.ssc declares a ScriptedOrbit and a ScriptedRotation naming this
 -- module, so Celestia asks it where the spacecraft is and which way it is
 -- facing every time it draws a frame. Both answers come from the last message
 -- the simulator sent.
@@ -144,7 +144,7 @@ local STATUS_FROM_BOTTOM = 9
 --
 -- One Celestia serves a whole constellation: the segments each dial in, and
 -- each is given a slot of its own. The number is fixed because the objects
--- they drive are declared in opssat.ssc, which Celestia reads once when it
+-- they drive are declared in cubesat.ssc, which Celestia reads once when it
 -- starts, so there can be no more of them than are written there.
 local MAX_SLOTS = 4
 
@@ -875,7 +875,7 @@ end
 -- ---------------------------------------------------------------------------
 
 -- What each slot drives, as Celestia shows it on screen. Those names are fixed
--- when opssat.ssc is read, before any simulator has spoken, so they can say
+-- when cubesat.ssc is read, before any simulator has spoken, so they can say
 -- only which slot a spacecraft is in; what it is called is written beside them
 -- in the corner.
 --
@@ -890,7 +890,7 @@ local SLOT_OBJECTS = {"cubesat-1", "cubesat-2", "cubesat-3", "cubesat-4"}
 --- A commanded turn is otherwise only to be recognised by the spacecraft
 --- beginning to move, which is some seconds after the mode has changed. With
 --- a constellation there is the further question of which of them is which:
---- the catalogue names are fixed when Celestia reads opssat.ssc and cannot
+--- the catalogue names are fixed when Celestia reads cubesat.ssc and cannot
 --- say, so the names the simulators give are written here instead.
 local function showStatus()
     if not SHOW_STATUS or celestia == nil then
@@ -950,7 +950,7 @@ local function showStatus()
     end)
 end
 
---- Named by the ScriptedOrbit in opssat.ssc.
+--- Named by the ScriptedOrbit in cubesat.ssc.
 -- How often the links are read and the labels written, in seconds. Frames are
 -- drawn a hundred times a second or more and positions arrive ten times a
 -- second: reading every frame, for every spacecraft, is a great many system
@@ -979,7 +979,7 @@ end
 
 --- Which slot the object asking belongs to.
 ---
---- opssat.ssc gives each spacecraft a Slot of its own, so that the object and
+--- cubesat.ssc gives each spacecraft a Slot of its own, so that the object and
 --- the simulator driving it stay paired. A definition that names none is the
 --- single spacecraft this module used to draw, which is slot one.
 local function slotOf(parameters)
@@ -1018,7 +1018,7 @@ function RealTimeOrbit(parameters)
     return orbit
 end
 
---- Named by the ScriptedRotation in opssat.ssc.
+--- Named by the ScriptedRotation in cubesat.ssc.
 -- luacheck: globals RealTimeRotation
 function RealTimeRotation(parameters)
     local rotation = {}

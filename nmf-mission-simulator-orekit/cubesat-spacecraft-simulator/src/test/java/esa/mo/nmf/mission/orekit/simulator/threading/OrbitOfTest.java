@@ -36,10 +36,10 @@ import org.junit.Test;
  */
 public class OrbitOfTest {
 
-    private static final double[] DEFAULT = {SimulatorNode.DEFAULT_OPS_SAT_A,
-        SimulatorNode.DEFAULT_OPS_SAT_E, SimulatorNode.DEFAULT_OPS_SAT_ORBIT_I,
-        SimulatorNode.DEFAULT_OPS_SAT_RAAN, SimulatorNode.DEFAULT_OPS_SAT_ARG_PER,
-        SimulatorNode.DEFAULT_OPS_SAT_TRUE_ANOMALY};
+    private static final double[] DEFAULT = {SimulatorNode.DEFAULT_SEMI_MAJOR_AXIS,
+        SimulatorNode.DEFAULT_ECCENTRICITY, SimulatorNode.DEFAULT_INCLINATION,
+        SimulatorNode.DEFAULT_RAAN, SimulatorNode.DEFAULT_ARGUMENT_OF_PERIGEE,
+        SimulatorNode.DEFAULT_TRUE_ANOMALY};
 
     private static final Logger QUIET = quiet();
 
@@ -99,6 +99,6 @@ public class OrbitOfTest {
     public void theDefaultOrbitIsOneAndIsAboveTheEarth() {
         assertEquals(6, DEFAULT.length);
         org.junit.Assert.assertTrue("The default orbit has to be one a spacecraft can fly",
-                SimulatorNode.DEFAULT_OPS_SAT_A > SimulatorNode.EARTH_RADIUS);
+                SimulatorNode.DEFAULT_SEMI_MAJOR_AXIS > SimulatorNode.EARTH_RADIUS);
     }
 }

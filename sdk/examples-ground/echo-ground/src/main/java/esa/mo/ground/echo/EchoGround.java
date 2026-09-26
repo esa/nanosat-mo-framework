@@ -76,7 +76,7 @@ public class EchoGround {
                     Thread.sleep(5000);
                 }
                 gma.setParameter("data", new Blob("Hello".getBytes()));
-                gma.setParameter("data", new Blob("OPS-SAT".getBytes()));
+                gma.setParameter("data", new Blob("World".getBytes()));
             } else {
                 LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - "
                         + ECHO_SPACE_PROVIDER);

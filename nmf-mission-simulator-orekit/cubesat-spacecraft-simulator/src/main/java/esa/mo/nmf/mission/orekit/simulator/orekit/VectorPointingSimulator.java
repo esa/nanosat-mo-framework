@@ -39,8 +39,9 @@ import org.orekit.utils.FieldPVCoordinatesProvider;
 import org.orekit.utils.PVCoordinatesProvider;
 
 /**
- * for more information see AutonomousADCSOPSSATAdapter VectorPointing Mode in
- * NMF-OPSSAT
+ * An attitude provider for the vector pointing mode of the ADCS. It turns the
+ * spacecraft in small steps, one axis at a time, until its -Z axis points at a
+ * target vector given in ICRF, and then holds it there.
  *
  * @author Kevin Otto
  */

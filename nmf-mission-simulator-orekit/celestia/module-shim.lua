@@ -21,7 +21,7 @@
 -- ---------------------------------------------------------------------------
 
 local home = os.getenv("HOME") or "/home/celestia"
-local module = home .. "/.local/share/celestia/extras/opssat/celxx/orbitattitude-realtime.lua"
+local module = home .. "/.local/share/celestia/extras/cubesat/celxx/orbitattitude-realtime.lua"
 
 local chunk, err = loadfile(module)
 if chunk == nil then

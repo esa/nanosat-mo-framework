@@ -149,7 +149,7 @@ public class MCRaspberryPiAdapter extends MonitorAndControlNMFAdapter {
 
         ActionDefinition actionDef3 = new ActionDefinition(
                 new Identifier(ACTION_REBOOT),
-                "Reboots the mityArm.",
+                "Reboots the Raspberry Pi.",
                 new UShort(0),
                 new ArgumentDefinitionList()
         );

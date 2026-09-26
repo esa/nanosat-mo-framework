@@ -1,5 +1,7 @@
-OPS-SAT Spacecraft Simulator
+Spacecraft Simulator
 =================
+
+A software simulator of a CubeSat, used by the Platform services of the Orekit mission.
 
 It simulates the following spacecraft peripherals:
 * Camera
@@ -8,6 +10,6 @@ It simulates the following spacecraft peripherals:
 * Optical RX
 * SDR
 
-The orbital position for GPS and ADCS is either calculated analitically (using GPS Simulator package), or propagated using Orekit, depending on the `orekit` config variable.
+The orbit and attitude of the spacecraft are propagated with Orekit. The analytic orbit model is in the Lite mission (`nmf-mission-simulator-lite`).
 
-Full project documentation can be found in NMF SDK package.
+The documentation is in `docs/source/tooling/simulator.rst`.

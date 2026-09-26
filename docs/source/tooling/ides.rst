@@ -81,5 +81,4 @@ Troubleshooting
 - If a Maven build fails, refresh the workspace with ``F5``.
 - The red stop button on the Eclipse console does not always terminate the Supervisor; kill the process
   manually if it persists.
-- Workspace errors other than *Plugin execution not covered...* should be reported via GitHub or the OPS-SAT
-  community platform.
+- Workspace errors other than *Plugin execution not covered...* should be reported as a GitHub issue.

@@ -1,24 +1,16 @@
-NanoSat MO Supervisor: OPS-SAT
+NanoSat MO Supervisor: Raspberry Pi
 ============
 
-The NanoSat MO Supervisor application acts as a supervisor to be deployed on the NanoSat segment of OPS-SAT. It extends the generic NanoSat MO Supervisor of the Java implementation presented in chapter 3 and therefore most of the default behavior of the component is already present.
+The NanoSat MO Supervisor of the Raspberry Pi mission. It extends the generic NanoSat MO Supervisor of the NMF Core, so most of its behaviour comes from there.
 
-It includes the Platform services implementation from the NMF Core implementation with the additional adapters for the OPS-SAT platform devices.
+It provides the Platform services of `rpi-platform-impl`. Two of them are backed by an adapter: the GPS service, which takes its data from the software simulator, and the Camera service, which returns a single stored image (`CameraSingleImageAdapter`). The module also contains an adapter for a USB webcam (`CameraRaspberryPiAdapter`), which is not used by default.
 
-The Platform services can be consumed from both the MAL-SPP transport binding and the MAL-TCP/IP transport binding. The former is intended to be used between the NanoSat and the Ground segments, while the latter is intended to be used by IPC between NMF Apps and the NanoSat MO Supervisor.
+Its Monitor and Control adapter (`MCRaspberryPiAdapter`) adds the following Parameters:
+* System.CurrentPartition: the partition that the operating system runs from.
+* Linux.Version: the output of `uname -a`.
+* App.Geofence: the geofences that start or stop Apps depending on the position of the spacecraft. Setting it adds or removes a geofence, for example `ADD:app1:40.123456:50.123456:100.5:true`.
 
-A dedicated adapter for the monitoring and control was implemented. The getters and setters for the Parameter service were implemented for a few set of parameters and the correct dispatch of actions for certain method calls was also implemented.
-
-Three parameters were defined with the following names and respective descriptions:
-* CurrentPartition: "The Current partition where the OS is running."
-* LinuxVersion: "The version of the software."
-* CANDataRate: "The data rate on the can bus."
-
-
-Three actions were defined with the following names and respective descriptions:
-* GPS_Sentence: "Injects the NMEA sentence identifier into the CAN bus."
-* Reboot_MityArm: "Reboots the mityArm."
-* Clock.setTimeUsingDeltaMilliseconds: "Sets the clock using a diff between the on-board time and the desired time."
-
-
-
+And the following Actions:
+* System.SetTimeUsingDeltaMilliseconds: sets the system clock to the current time plus the given difference in milliseconds.
+* System.Reboot: reboots the Raspberry Pi.
+* GPS_Sentence: accepted, but does nothing on this platform.

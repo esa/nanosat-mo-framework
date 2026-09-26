@@ -70,7 +70,9 @@ import org.ccsds.moims.mo.mal.transport.MALMessage;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
 
 /**
- * The Ground MO Proxy for OPS-SAT
+ * The Ground MO Proxy of a single spacecraft of the Swarms mission. It bridges
+ * MAL-SPP to MAL-TCP/IP, mirrors the COM Archive of every App on ground, and
+ * re-routes the Action service of every App through the proxy.
  *
  * @author Cesar Coelho
  */
@@ -80,8 +82,7 @@ public class GroundMOProxySwarmsImpl extends GroundMOProxy {
     private final HashMap<IdentifierList, URI> actionURIs = new HashMap<>();
 
     /**
-     * Ground MO Proxy for OPS-SAT
-     *
+     * Initialises the SPP protocol bridge and the Ground MO Proxy on top of it.
      */
     public GroundMOProxySwarmsImpl() {
         super();
@@ -94,8 +95,8 @@ public class GroundMOProxySwarmsImpl extends GroundMOProxy {
         // Default it to tcp if the property is not defined
         protocol = (protocol != null) ? protocol.split(":")[0] : "maltcp";
 
-        // The range of APIDs below were formally requested 
-        // And are uniquely assigned for the Ground MO Proxy of OPS-SAT
+        // The APIDs of the proxy. A mission that uses SPP replaces this range
+        // with the one assigned to it.
         properties.put(ProtocolBridgeSPP.PROPERTY_APID_RANGE_START, "1450");
         properties.put(ProtocolBridgeSPP.PROPERTY_APID_RANGE_END, "1499");
 

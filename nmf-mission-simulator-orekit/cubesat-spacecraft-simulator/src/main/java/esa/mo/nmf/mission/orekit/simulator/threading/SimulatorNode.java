@@ -99,14 +99,13 @@ public class SimulatorNode extends TaskNode {
     private final static int INTERFACE_OPTICALRECEIVER = 5;
     private final static int INTERFACE_SDR = 6;
 
-    public static final double DEFAULT_OPS_SAT_A = 6886;// [km]
+    public static final double DEFAULT_SEMI_MAJOR_AXIS = 6886;// [km]
     public static final double EARTH_RADIUS = 6371; // [km]
-    public static final double DEFAULT_OPS_SAT_R = 515; // [km]
-    public final static double DEFAULT_OPS_SAT_E = 0;
-    public final static double DEFAULT_OPS_SAT_ORBIT_I = 98.05;// [deg]
-    public final static double DEFAULT_OPS_SAT_RAAN = 340;// [deg]
-    public final static double DEFAULT_OPS_SAT_ARG_PER = 0;// [deg]
-    public final static double DEFAULT_OPS_SAT_TRUE_ANOMALY = 0;// [deg]
+    public final static double DEFAULT_ECCENTRICITY = 0;
+    public final static double DEFAULT_INCLINATION = 98.05;// [deg]
+    public final static double DEFAULT_RAAN = 340;// [deg]
+    public final static double DEFAULT_ARGUMENT_OF_PERIGEE = 0;// [deg]
+    public final static double DEFAULT_TRUE_ANOMALY = 0;// [deg]
     public static final double EARTH_RADIUS_POLAR = 6356.8; // [km]
     public static final double EARTH_RADIUS_EQUATOR = 6378.1; // [km]
 
@@ -136,12 +135,9 @@ public class SimulatorNode extends TaskNode {
         } catch (IOException e) {
             logger.log(Level.WARNING, "Could not initialize platformsim.properties - using defaults.");
             platformProperties = new Properties();
-            platformProperties.setProperty("platform.mode", "sim");
             platformProperties.setProperty("camerasim.imagemode", "Fixed");
             platformProperties.setProperty("camerasim.imagefile", "fix/me/earth.jpg");
             platformProperties.setProperty("camerasim.imagedirectory", "fix/me");
-            platformProperties.setProperty("camera.adapter",
-                    "esa.mo.platform.impl.provider.opssat.CameraOPSSATAdapter");
             updatePlatformConfig();
         }
     }
@@ -315,22 +311,20 @@ public class SimulatorNode extends TaskNode {
         this.cameraBuffer.loadImageFromAbsolutePath(imageFile);
         this.sdrBuffer = new EndlessWavStreamOperatingBuffer(this.logger);
         this.logger.log(Level.FINE, "Kepler elements [" + simulatorHeader.getKeplerElements() + "]");
-        // Values from the OPS-SAT document: a = 6371+650= 7021 km ; i = 98.05 deg
-        // (orbital period: 1.63 hours)
-        // (double a, double i, double RAAN, double arg_per, double true_anomaly,
-        // initial epoch)
+        // The Kepler elements of the header: a [km], e, i [deg], RAAN [deg],
+        // argument of perigee [deg], true anomaly [deg]
         double[] orbit = orbitOf(simulatorHeader.getKeplerElements(), this.logger);
-        double OPS_SAT_A = orbit[0];
-        double OPS_SAT_E = orbit[1];
-        double OPS_SAT_ORBIT_I = orbit[2];
-        double OPS_SAT_RAAN = orbit[3];
-        double OPS_SAT_ARG_PER = orbit[4];
-        double OPS_SAT_TRUE_ANOMALY = orbit[5];
+        double semiMajorAxis = orbit[0];
+        double eccentricity = orbit[1];
+        double inclination = orbit[2];
+        double raan = orbit[3];
+        double argumentOfPerigee = orbit[4];
+        double trueAnomaly = orbit[5];
 
         this.logger.log(Level.FINE, "Calling orekit constructor");
         try {
-            this.orekitCore = new OrekitCore(OPS_SAT_A * 1000, OPS_SAT_E, OPS_SAT_ORBIT_I, OPS_SAT_ARG_PER,
-                    OPS_SAT_RAAN, OPS_SAT_TRUE_ANOMALY, simulatorHeader, this.logger, this);
+            this.orekitCore = new OrekitCore(semiMajorAxis * 1000, eccentricity, inclination, argumentOfPerigee,
+                    raan, trueAnomaly, simulatorHeader, this.logger, this);
             this.logger.log(Level.FINE, "orekit initialized successfully");
             this.orekitCore.processPropagateStep(0);
         } catch (OrekitException exception) {
@@ -1108,8 +1102,8 @@ public class SimulatorNode extends TaskNode {
      * @return The six elements, in the order above.
      */
     static double[] orbitOf(final String elements, final java.util.logging.Logger logger) {
-        final double[] fallback = {DEFAULT_OPS_SAT_A, DEFAULT_OPS_SAT_E, DEFAULT_OPS_SAT_ORBIT_I,
-            DEFAULT_OPS_SAT_RAAN, DEFAULT_OPS_SAT_ARG_PER, DEFAULT_OPS_SAT_TRUE_ANOMALY};
+        final double[] fallback = {DEFAULT_SEMI_MAJOR_AXIS, DEFAULT_ECCENTRICITY, DEFAULT_INCLINATION,
+            DEFAULT_RAAN, DEFAULT_ARGUMENT_OF_PERIGEE, DEFAULT_TRUE_ANOMALY};
 
         if (elements == null) {
             return fallback;

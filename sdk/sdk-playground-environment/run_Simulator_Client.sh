@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Starts the OPS-SAT Spacecraft Simulator Manager.
+# Starts the Spacecraft Simulator Manager.
 # The Simulator Manager is a GUI for inspecting and controlling the internal state
 # of the software simulator (sensor values, ADCS mode, GPS fix, etc.).
 # The NMF Supervisor must be running before opening the Simulator Manager.

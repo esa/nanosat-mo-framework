@@ -1085,8 +1085,8 @@ public class OrekitCore {
         executor.submit(() -> {
             // logger.log(Level.INFO,"Propagating constellation..");
 
-            GeodeticPoint opsSatGeoDPoint = getGeodeticPoint(gpsCurrentSCState);
-            TopocentricFrame opsSatCurrentFrame = new TopocentricFrame(earth, opsSatGeoDPoint, "OPS-SAT");
+            GeodeticPoint spacecraftPoint = getGeodeticPoint(gpsCurrentSCState);
+            TopocentricFrame spacecraftFrame = new TopocentricFrame(earth, spacecraftPoint, "spacecraft");
 
             LinkedList<GPSSatInView> tempSatsInView = new LinkedList<>();
 
@@ -1100,9 +1100,9 @@ public class OrekitCore {
                 GPSSatInView tempGPSSatInView = new GPSSatInView(t.name, distance);
                 double elevation = 0, azimuth = 0;
                 try {
-                    elevation = opsSatCurrentFrame.getElevation(
+                    elevation = spacecraftFrame.getElevation(
                             t.getState().getPVCoordinates().getPosition(), t.getState().getFrame(), t.getState().getDate());
-                    azimuth = opsSatCurrentFrame.getAzimuth(
+                    azimuth = spacecraftFrame.getAzimuth(
                             t.getState().getPVCoordinates().getPosition(), t.getState().getFrame(), t.getState().getDate());
                 } catch (OrekitException ex) {
                     Logger.getLogger(OrekitCore.class.getName()).log(Level.SEVERE, null, ex);

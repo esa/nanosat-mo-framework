@@ -156,9 +156,9 @@ public class SimulatorHeader implements Serializable {
                 + "#Increment the simulated time (depends on startModels)\n" + "startTime=" + autoStartTime + "\n"
                 + "#Speed up of time factor\n" + "timeFactor=" + timeFactor + "\n"
                 + "#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg] 7021.0;0.0;98.05;340.0;0.0;0.0\n"
-                + "keplerElements=" + SimulatorNode.DEFAULT_OPS_SAT_A + ";" + SimulatorNode.DEFAULT_OPS_SAT_E + ";"
-                + SimulatorNode.DEFAULT_OPS_SAT_ORBIT_I + ";" + SimulatorNode.DEFAULT_OPS_SAT_RAAN + ";"
-                + SimulatorNode.DEFAULT_OPS_SAT_ARG_PER + ";" + SimulatorNode.DEFAULT_OPS_SAT_TRUE_ANOMALY + "\n"
+                + "keplerElements=" + SimulatorNode.DEFAULT_SEMI_MAJOR_AXIS + ";" + SimulatorNode.DEFAULT_ECCENTRICITY + ";"
+                + SimulatorNode.DEFAULT_INCLINATION + ";" + SimulatorNode.DEFAULT_RAAN + ";"
+                + SimulatorNode.DEFAULT_ARGUMENT_OF_PERIGEE + ";" + SimulatorNode.DEFAULT_TRUE_ANOMALY + "\n"
                 + "#Enable updates from Internet (used for gps constellation TLEs)\n" + "updateFromInternet="
                 + updateInternet + "\n" + "#Configuration of the Celestia server\n" + "celestia=" + useCelestia + "\n"
                 + "celestiaHost=" + celestiaHost + "\n" + "celestiaPort=" + celestiaPort + "\n" + "#Start and end dates of simulation\n" + "startDate=" + dateFormat

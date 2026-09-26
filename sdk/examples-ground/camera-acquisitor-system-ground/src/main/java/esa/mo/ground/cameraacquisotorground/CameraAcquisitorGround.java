@@ -86,7 +86,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class CameraAcquisitorGround {
 
     private static final Logger LOGGER = Logger.getLogger(CameraAcquisitorGround.class.getName());
-    private static final String PROVIDER_CAMERA_APP = "App: exp495";
+    private static final String PROVIDER_CAMERA_APP = "App: camera-acquisitor-system";
+
+    /**
+     * The NORAD catalogue number of the spacecraft whose TLE is used to plan the
+     * acquisitions. The ISS is used here as a spacecraft that is always flying; a
+     * mission sets the number of its own spacecraft.
+     */
+    private static final int NORAD_CATALOG_NUMBER = 25544;
 
     private GroundMOAdapterImpl gma;
     private final OrbitHandler orbitHandler;
@@ -399,13 +406,13 @@ public class CameraAcquisitorGround {
     }
 
     /**
-     * loads the current TLE of OPS-SAT from celestark.com
+     * Loads the current TLE of the spacecraft from CelesTrak.
      *
-     * @return the current LTE or NULL if the site is not reachable
+     * @return the current TLE or null if the site is not reachable
      */
     private TLE loadTLE() {
         try {
-            URL url = new URL("https://celestrak.com/NORAD/elements/gp.php?CATNR=44878"); //opsat TLE
+            URL url = new URL("https://celestrak.com/NORAD/elements/gp.php?CATNR=" + NORAD_CATALOG_NUMBER);
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
             String line0 = in.readLine();// only needed to remove first line

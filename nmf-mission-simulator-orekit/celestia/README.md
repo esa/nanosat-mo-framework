@@ -98,7 +98,7 @@ running costs a frame nothing and the spacecraft simply stays where it was.
 | `luahook.lua` | Puts the add-on directory on the module search path |
 | `startup.celx` | Selects the spacecraft, so that it is drawn, and places the observer looking at it with the Earth's north pole at the top of the image |
 | `extras/` | The spacecraft, the ground stations and the models they draw with |
-| `extras/opssat/celxx/orbitattitude-realtime.lua` | The server: listens, accepts a simulator, acknowledges, and answers Celestia's questions |
+| `extras/cubesat/celxx/orbitattitude-realtime.lua` | The server: listens, accepts a simulator, acknowledges, and answers Celestia's questions |
 | `tools/stub-simulator.py` | Stands in for the simulator, for working on this without one |
 
 ### Which Celestia, and why it matters
