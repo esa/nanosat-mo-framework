@@ -33,9 +33,9 @@ The latest NMF SDK release tag can be downloaded in [Releases]. However, the cur
 
 ## Building Prerequisites
 
-1. Install Java SDK 11 (will work with higher SDKs but 11 is the recommended)
+1. Install Java SDK 21 (will work with higher SDKs but 21 is the recommended)
 ```bash
-sudo apt-get install openjdk-11-jdk
+sudo apt-get install openjdk-21-jdk
 ```
 2. Install Apache Maven
 ```bash

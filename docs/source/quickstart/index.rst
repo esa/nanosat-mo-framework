@@ -10,7 +10,7 @@ This guide takes you from a fresh checkout to a running NMF App connected to a C
 Prerequisites
 -------------
 
-- **Java 11** or compatible. Verify with ``java -version``.
+- **Java 21** or compatible. Verify with ``java -version``.
 - **Apache Maven 3.6** or newer. Verify with ``mvn -version``.
 - An internet connection for the initial dependency download.
 

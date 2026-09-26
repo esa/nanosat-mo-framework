@@ -8,7 +8,7 @@ The NanoSat MO Framework (NMF) is a Java software framework for small satellites
 
 - **Documentation**: https://nanosat-mo-framework.readthedocs.io/en/latest/
 - **Version**: 6.0-SNAPSHOT (`int.esa.nmf` group ID)
-- **Java**: 11 (source/target)
+- **Java**: 21 (source/target)
 - **License**: ESA-PL Weak Copyleft v2.4
 
 ## Build Commands
