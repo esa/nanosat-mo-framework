@@ -48,7 +48,7 @@ public class RunForISS {
      * @param args the command line arguments
      */
     public static void main(final String[] args) {
-        RunForISS demo = new RunForISS();
+        new RunForISS();
     }
 
     public RunForISS() {

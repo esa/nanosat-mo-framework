@@ -138,7 +138,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
 
         // Provider name to be used on the Directory service...
         this.providerName = System.getProperty(HelperMisc.PROP_MO_APP_NAME);
-        OneInstanceLock lock = new OneInstanceLock();
+        new OneInstanceLock();
 
         // Directory for COM Archive:
         super.configureCOMArchiveDatabaseLocation();

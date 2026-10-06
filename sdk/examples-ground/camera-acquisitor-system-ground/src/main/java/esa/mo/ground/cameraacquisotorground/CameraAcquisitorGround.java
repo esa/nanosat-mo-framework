@@ -416,7 +416,7 @@ public class CameraAcquisitorGround {
             URL url = new URL("https://celestrak.com/NORAD/elements/gp.php?CATNR=" + NORAD_CATALOG_NUMBER);
             BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 
-            String line0 = in.readLine();// only needed to remove first line
+            in.readLine(); // Skip the first line, which holds the satellite name
             String line1 = in.readLine();
             String line2 = in.readLine();
 

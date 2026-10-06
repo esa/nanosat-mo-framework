@@ -55,7 +55,7 @@ public class DemoSerialObject {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        DemoSerialObject demo = new DemoSerialObject();
+        new DemoSerialObject();
     }
 
     /**

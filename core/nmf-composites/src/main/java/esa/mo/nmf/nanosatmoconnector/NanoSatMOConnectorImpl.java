@@ -109,7 +109,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         MissionConfiguration.ensureDomainIdentity();
 
         this.providerName = appName;
-        OneInstanceLock lock = new OneInstanceLock();
+        new OneInstanceLock();
 
         // Configure the property to select the database file in the right directory
         this.configureCOMArchiveDatabaseLocation();

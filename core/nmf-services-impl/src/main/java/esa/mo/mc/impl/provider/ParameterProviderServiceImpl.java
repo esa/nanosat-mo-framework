@@ -937,8 +937,6 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                 }
             }
 
-            final UpdateHeaderList hdrlst = new UpdateHeaderList(parameters.size());
-            final ParameterValueList pVallst = new ParameterValueList(parameters.size());
 
             for (int i = 0; i < parameterInstances.size(); i++) {
                 AttributeList keys = new AttributeList();

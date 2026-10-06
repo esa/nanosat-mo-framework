@@ -276,7 +276,7 @@ public class GroundMOProxySwarmsImpl extends GroundMOProxy {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String args[]) throws Exception {
-        GroundMOProxySwarmsImpl proxy = new GroundMOProxySwarmsImpl();
+        new GroundMOProxySwarmsImpl();
     }
 
     private Time latestTimestampForProvider(ArchiveSyncConsumerServiceImpl archiveSync) {

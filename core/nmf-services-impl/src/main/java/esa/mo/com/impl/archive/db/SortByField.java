@@ -81,7 +81,6 @@ public class SortByField implements Comparator {
             } else {
                 // Rooted field within composite
 
-                Object obj;
                 for (int i = 0; i < parts.length; i++) {
                     String part = parts[i];
 

@@ -51,6 +51,6 @@ public class DemoSpace2Supervisor {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        DemoSpace2Supervisor demo = new DemoSpace2Supervisor();
+        new DemoSpace2Supervisor();
     }
 }

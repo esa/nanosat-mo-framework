@@ -24,7 +24,6 @@ import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.ArchiveCOMObjectsOutput;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.com.impl.util.HelperCOM;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -38,7 +37,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import org.ccsds.moims.mo.com.COMObject;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
@@ -134,7 +132,6 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
             return;
         }
 
-        COMObject comObjectInfo = HelperCOM.objType2COMObject(archiveCOMobjectList.get(0).getObjectType());
 
         // Add them
         for (int i = 0; i < archiveCOMobjectList.size(); i++) {
@@ -165,7 +162,6 @@ public abstract class SharedTablePanel extends javax.swing.JPanel {
             return;
         }
 
-        COMObject comObjectInfo = HelperCOM.objType2COMObject(archiveCOMobjectList.get(0).getObjectType());
 
         // Add them
         for (int i = 0; i < archiveCOMobjectList.size(); i++) {

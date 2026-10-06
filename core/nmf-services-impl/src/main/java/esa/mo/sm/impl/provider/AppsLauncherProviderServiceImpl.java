@@ -249,7 +249,6 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             keyValues.add(new Identifier(appName));
             keyValues.add(new Union(appObjId));
 
-            final UpdateHeaderList hdrlst = new UpdateHeaderList();
             URI sourceURI = connection.getConnectionDetails().getProviderURI();
             UpdateHeader updateHeader = new UpdateHeader(new Identifier(sourceURI.getValue()),
                     connection.getConnectionDetails().getDomain(), keyValues.getAsNullableAttributeList());

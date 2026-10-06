@@ -52,7 +52,7 @@ public class BlankApp {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        BlankApp demo = new BlankApp();
+        new BlankApp();
     }
 
     /**

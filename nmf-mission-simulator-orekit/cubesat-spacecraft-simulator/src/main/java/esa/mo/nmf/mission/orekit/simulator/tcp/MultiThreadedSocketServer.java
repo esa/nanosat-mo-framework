@@ -33,8 +33,6 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -151,8 +149,6 @@ public class MultiThreadedSocketServer extends Thread {
                     + "] up to port [" + targetPort + "]. Total tries [" + currentTries + "]. Quitting.");
             System.exit(-1);
         }
-        Calendar now = Calendar.getInstance();
-        SimpleDateFormat formatter = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
 
         // Successfully created Server Socket. Now wait for connections.
         while (ServerOn) {

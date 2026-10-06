@@ -46,7 +46,7 @@ public class SnapNMF {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        SnapNMF demo = new SnapNMF();
+        new SnapNMF();
     }
 
 }

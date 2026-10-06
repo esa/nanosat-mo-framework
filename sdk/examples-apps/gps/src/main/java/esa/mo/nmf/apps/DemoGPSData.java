@@ -71,7 +71,7 @@ public class DemoGPSData {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        DemoGPSData demo = new DemoGPSData();
+        new DemoGPSData();
     }
 
     /**
@@ -135,7 +135,6 @@ public class DemoGPSData {
 
             // ------------------ Aggregations ------------------
             AggregationDefinitionList aggDef = new AggregationDefinitionList();
-            IdentifierList aggNames = new IdentifierList();
 
             // Create the Aggregation GPS
             AggregationDefinition defGPSAgg = new AggregationDefinition(

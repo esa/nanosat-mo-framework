@@ -94,9 +94,8 @@ public abstract class GenericWavFileBasedOperatingBuffer implements SimulatorOpe
                     this.logger.log(Level.FINE, line);
                 }
                 double[] tempBuffer = new double[((int) wavFile.getNumFrames() * wavFile.getNumChannels())];
-                int framesRead;
                 // Read frames into buffer
-                framesRead = wavFile.readFrames(tempBuffer, (int) wavFile.getNumFrames());
+                wavFile.readFrames(tempBuffer, (int) wavFile.getNumFrames());
                 this.dataBuffer = tempBuffer;
                 this.operatingIndex = 0;
             } catch (WavFileException ex) {

@@ -115,19 +115,19 @@ public class ConstellationManagerGui extends JFrame implements ConstellationList
         miCreateBasicSim.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                AddBasicSimulationGui addBasicNmfSim = new AddBasicSimulationGui(cmt);
+                new AddBasicSimulationGui(cmt);
             }
         });
         miConnectNanoSat.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                ConnectNanoSatGui connectNanoSat = new ConnectNanoSatGui(cmt);
+                new ConnectNanoSatGui(cmt);
             }
         });
         miCreateSimFromCsv.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                AddSimulationFromCsvGui addSimulationFromCsvGui = new AddSimulationFromCsvGui(cmt);
+                new AddSimulationFromCsvGui(cmt);
             }
         });
         btnCopyDirectoryURI.addActionListener(new ActionListener() {
@@ -165,7 +165,7 @@ public class ConstellationManagerGui extends JFrame implements ConstellationList
                     }
                 }
 
-                PackageManagerGui packageManagerGui = new PackageManagerGui(cmt, selectedNanoSatSegments);
+                new PackageManagerGui(cmt, selectedNanoSatSegments);
             }
         });
         btnAppManager.addActionListener(new ActionListener() {
@@ -184,7 +184,7 @@ public class ConstellationManagerGui extends JFrame implements ConstellationList
                     }
                 }
 
-                AppManagerGui appManagerGui = new AppManagerGui(cmt, selectedNanoSatSegments);
+                new AppManagerGui(cmt, selectedNanoSatSegments);
             }
         });
 

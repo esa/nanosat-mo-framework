@@ -76,8 +76,7 @@ public class SimpleDemoPackageAppCreation {
 
             // Try to open the the metadata file inside the Zip file
             // and parse it into a Metadata object
-            Metadata metadataInFile = Metadata.parseZipFile(writtenFile);
-            metadataInFile = null;
+            Metadata.parseZipFile(writtenFile);
         } catch (IOException ex) {
             Logger.getLogger(SimpleDemoPackageAppCreation.class.getName()).log(
                     Level.SEVERE, "The file could not be processed!", ex);

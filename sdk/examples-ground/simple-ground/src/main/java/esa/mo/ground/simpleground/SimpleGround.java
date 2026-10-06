@@ -84,7 +84,7 @@ public class SimpleGround {
             System.err.println("e.g. maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory publish-clock");
             System.exit(1);
         }
-        SimpleGround demo = new SimpleGround(args[0], args[1]);
+        new SimpleGround(args[0], args[1]);
     }
 
     class DataReceivedAdapter extends SimpleDataReceivedListener {

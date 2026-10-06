@@ -96,7 +96,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
         MissionConfiguration.ensureDomainIdentity();
 
         super.providerName = appName;
-        OneInstanceLock lock = new OneInstanceLock();
+        new OneInstanceLock();
 
         // Configure the property to select the database file in the right directory
         this.configureCOMArchiveDatabaseLocation();

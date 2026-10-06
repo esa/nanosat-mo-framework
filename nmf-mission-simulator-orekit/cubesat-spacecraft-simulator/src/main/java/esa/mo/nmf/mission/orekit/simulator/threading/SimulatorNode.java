@@ -26,7 +26,6 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -193,7 +192,6 @@ public class SimulatorNode extends TaskNode {
             logger.log(Level.FINE, "File [" + f.getAbsolutePath() + "] exists");
         } else {
             logger.log(Level.FINE, "File [" + absolutePath + "] does not exist");
-            final URL url2 = classLoader.getSystemResource(path);
 
             final InputStream inputStream = classLoader.getSystemResourceAsStream(path);
             if (inputStream != null) {

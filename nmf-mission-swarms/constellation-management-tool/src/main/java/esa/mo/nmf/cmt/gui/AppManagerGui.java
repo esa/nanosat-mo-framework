@@ -128,7 +128,7 @@ public class AppManagerGui extends JFrame {
                     int row = tblApps.getSelectedRow();
                     String appName = tblApps.getModel().getValueAt(row, 0).toString();
 
-                    CreateGeofenceGui createGeofenceGui = new CreateGeofenceGui(cmt, selectedNanoSatSegments, appName);
+                    new CreateGeofenceGui(cmt, selectedNanoSatSegments, appName);
                 } catch (ArrayIndexOutOfBoundsException ex) {
                     JOptionPane.showMessageDialog(null, "Please select an App!", "Error", JOptionPane.INFORMATION_MESSAGE);
                 } catch (Exception ex) {

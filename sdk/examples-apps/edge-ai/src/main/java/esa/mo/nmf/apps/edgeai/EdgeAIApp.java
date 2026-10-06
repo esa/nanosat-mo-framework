@@ -44,7 +44,7 @@ public class EdgeAIApp {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        EdgeAIApp app = new EdgeAIApp();
+        new EdgeAIApp();
     }
 
 }

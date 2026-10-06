@@ -43,7 +43,7 @@ public class PythonScriptApp {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        PythonScriptApp pythonScriptApp = new PythonScriptApp();
+        new PythonScriptApp();
     }
 
 }

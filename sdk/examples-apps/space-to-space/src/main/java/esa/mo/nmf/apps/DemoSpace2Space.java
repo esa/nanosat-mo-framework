@@ -37,7 +37,7 @@ public class DemoSpace2Space {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        DemoSpace2Space demo = new DemoSpace2Space();
+        new DemoSpace2Space();
     }
 
     /**

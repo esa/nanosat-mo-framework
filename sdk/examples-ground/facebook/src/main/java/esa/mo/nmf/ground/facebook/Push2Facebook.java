@@ -88,7 +88,7 @@ public class Push2Facebook {
             System.err.println("e.g. maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory publish-clock");
             System.exit(1);
         }
-        Push2Facebook demo = new Push2Facebook(args[0], args[1]);
+        new Push2Facebook(args[0], args[1]);
     }
 
     /**

@@ -419,7 +419,6 @@ public class ParameterManager extends MCManager {
             }
         } else {
             try {
-                HeterogeneousList namesToAdd = new HeterogeneousList();
                 ArchiveDetailsList archDetails = new ArchiveDetailsList();
 
                 for (Element def : definitions) {
@@ -587,7 +586,7 @@ public class ParameterManager extends MCManager {
             Class cla = parametersMonitoring.getClass().getMethod("onSetValue", IdentifierList.class,
                     ParameterRawValueList.class).getDeclaringClass();
             if (cla == ParameterStatusListener.class) {
-                Boolean setSuccessful = parametersMonitoring.onSetValue(newRawValues);
+                parametersMonitoring.onSetValue(newRawValues);
             }
         } catch (NoSuchMethodException | SecurityException ex) {
         }
@@ -604,9 +603,8 @@ public class ParameterManager extends MCManager {
             names.add(((ParameterDefinition) def).getName());
         }
 
-        // setSuccessful is not being used anywhere... weird
         try {
-            Boolean setSuccessful = parametersMonitoring.onSetValue(names, newRawValues);
+            parametersMonitoring.onSetValue(names, newRawValues);
         } catch (UnsupportedOperationException ex) {
         }
 

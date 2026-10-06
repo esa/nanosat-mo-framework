@@ -29,9 +29,7 @@ import java.awt.event.ItemEvent;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BoxLayout;
@@ -213,7 +211,6 @@ public class GuiSimulatorHeaderEdit {
 
         final String[] labels = {"System enabled: ", "Time running: ", "Time factor: ", "Start date: ", "End date: "};
         int labelsLength = labels.length;
-        final List<JTextField> textFields = new ArrayList<>();
 
         // Create and populate the panel.
         JPanel p = new JPanel();

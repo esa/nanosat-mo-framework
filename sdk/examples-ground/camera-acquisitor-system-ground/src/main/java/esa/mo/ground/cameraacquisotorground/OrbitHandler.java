@@ -190,7 +190,7 @@ public class OrbitHandler {
         propagator.addEventDetector(overpassDetector);
 
         AbsoluteDate endDate = notBeforeDate.shiftedBy(simulationRange);
-        SpacecraftState finalState = propagator.propagate(endDate);
+        propagator.propagate(endDate);
 
         propagator.clearEventsDetectors();
 

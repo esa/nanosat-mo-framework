@@ -56,7 +56,7 @@ public class DemoHelloWorldSimple {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        DemoHelloWorldSimple demo = new DemoHelloWorldSimple();
+        new DemoHelloWorldSimple();
     }
 
     /**

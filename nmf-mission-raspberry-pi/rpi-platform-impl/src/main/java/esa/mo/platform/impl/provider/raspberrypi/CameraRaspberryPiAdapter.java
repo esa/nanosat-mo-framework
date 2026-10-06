@@ -24,12 +24,10 @@ import esa.mo.platform.impl.provider.gen.CameraAdapterInterface;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.structures.Duration;
-import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.platform.structures.CameraSettings;
 import org.ccsds.moims.mo.platform.structures.Picture;
 import org.ccsds.moims.mo.platform.structures.PictureFormat;
 import org.ccsds.moims.mo.platform.structures.PictureFormatList;
-import org.ccsds.moims.mo.platform.structures.PixelResolution;
 import org.ccsds.moims.mo.platform.structures.PixelResolutionList;
 
 /**
@@ -77,8 +75,6 @@ public class CameraRaspberryPiAdapter implements CameraAdapterInterface {
 
     @Override
     public synchronized Picture getPicturePreview() {
-        final PixelResolution resolution = new PixelResolution(new UInteger(nativeImageWidth),
-                new UInteger(nativeImageLength));
         return null;
     }
 

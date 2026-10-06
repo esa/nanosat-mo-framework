@@ -126,7 +126,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
                 "Example of an Action with " + TOTAL_N_OF_STAGES + " stages.",
                 new UShort(TOTAL_N_OF_STAGES), goArgs));
 
-        LongList actionObjIds = registration.registerActions(actionDefs);
+        registration.registerActions(actionDefs);
     }
 
     @Override

@@ -78,7 +78,6 @@ public class SimulatorSchedulerPiece implements Serializable {
     }
 
     public String getSchedulerOutput() {
-        String argTDescriptionTabbed;
         return String.format("%s  %-4s  %-12s executed %-5s   | ", getDDDDDHHMMSSmmmFromMillis(time), internalID,
             argumentTemplateDescription, executed);
         //return getDDDDDHHMMSSmmmFromMillis(time)+CommandDescriptor.SEPARATOR_DATAFILES+this.internalID+"\t"+CommandDescriptor.SEPARATOR_DATAFILES+argumentTemplateDescription+"\t\t"+CommandDescriptor.SEPARATOR_DATAFILES+"executed:"+this.executed+CommandDescriptor.SEPARATOR_DATAFILES;

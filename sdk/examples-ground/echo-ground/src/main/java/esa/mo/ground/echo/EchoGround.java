@@ -100,7 +100,7 @@ public class EchoGround {
             System.exit(1);
         }
 
-        EchoGround demo = new EchoGround(args[0]);
+        new EchoGround(args[0]);
         return;
     }
 

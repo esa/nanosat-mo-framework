@@ -407,7 +407,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         if (this.comObject != null) {
             Element object = (Element) Attribute.javaType2Attribute(this.comObject.getObject());
             if (object != null) {
-                MOWindow objectBodyWindow = new MOWindow(object, false);
+                new MOWindow(object, false);
             }
         }
     }//GEN-LAST:event_objectBodyButtonActionPerformed
@@ -429,7 +429,7 @@ public final class COMObjectWindow extends javax.swing.JDialog {
         }
 
         try {
-            COMObjectWindow newWindow = new COMObjectWindow(related, editable, archiveService);
+            new COMObjectWindow(related, editable, archiveService);
         } catch (IOException ex) {
             Logger.getLogger(COMObjectWindow.class.getName())
                     .log(Level.SEVERE, null, ex);

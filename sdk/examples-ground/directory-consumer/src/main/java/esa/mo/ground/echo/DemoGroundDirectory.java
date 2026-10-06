@@ -78,7 +78,7 @@ public class DemoGroundDirectory {
             System.exit(1);
         }
 
-        DemoGroundDirectory demo = new DemoGroundDirectory(args[0]);
+        new DemoGroundDirectory(args[0]);
     }
 
     private static class SimpleDataReceivedAdapter extends SimpleDataReceivedListener {

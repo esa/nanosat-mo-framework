@@ -37,7 +37,7 @@ public class RunForDefaultDarkDusk {
      * @param args the command line arguments
      */
     public static void main(final String[] args) {
-        RunForDefaultDarkDusk demo = new RunForDefaultDarkDusk();
+        new RunForDefaultDarkDusk();
     }
 
     public RunForDefaultDarkDusk() {

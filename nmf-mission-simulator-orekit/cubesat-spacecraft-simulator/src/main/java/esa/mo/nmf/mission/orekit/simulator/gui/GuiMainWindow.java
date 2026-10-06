@@ -197,7 +197,6 @@ public class GuiMainWindow implements Runnable {
                 wholeField.setEditable(false);
                 wholeField.setLineWrap(true);
                 hashTableDataOutAgregate.put(simulatorDeviceData.getName(), new WholeTextAreaObject(wholeField, true));
-                final Boolean updateValues = true;
                 final String targetDevice = simulatorDeviceData.getName();
                 checkBox.addItemListener(e -> {
                     hashTableDataOutAgregate.get(targetDevice).setUpdateValues(e.getStateChange()

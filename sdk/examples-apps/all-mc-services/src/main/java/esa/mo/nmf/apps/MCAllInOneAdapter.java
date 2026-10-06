@@ -174,11 +174,8 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
 
         // ------------------ Parameters ------------------
         ParameterDefinitionList defsOther = new ParameterDefinitionList();
-        IdentifierList paramOtherNames = new IdentifierList();
         ParameterDefinitionList defsGPS = new ParameterDefinitionList();
-        IdentifierList paramGPSNames = new IdentifierList();
         ParameterDefinitionList defsMag = new ParameterDefinitionList();
-        IdentifierList paramMagNames = new IdentifierList();
 
         defsOther.add(new ParameterDefinition(new Identifier(PARAMETER_ADCS_MODE),
                 "The ADCS mode of operation", AttributeType.UOCTET,
@@ -251,7 +248,6 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
 
         // ------------------ Actions ------------------
         ActionDefinitionList actionDefs = new ActionDefinitionList();
-        IdentifierList actionNames = new IdentifierList();
 
         ArgumentDefinitionList arguments1 = new ArgumentDefinitionList();
         {

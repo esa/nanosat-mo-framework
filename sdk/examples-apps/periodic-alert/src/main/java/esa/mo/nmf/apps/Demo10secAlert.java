@@ -69,7 +69,7 @@ public class Demo10secAlert {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        Demo10secAlert demo = new Demo10secAlert();
+        new Demo10secAlert();
     }
 
     static class Adapter extends MonitorAndControlNMFAdapter {

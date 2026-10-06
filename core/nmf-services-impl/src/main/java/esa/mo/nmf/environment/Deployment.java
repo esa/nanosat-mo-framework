@@ -369,7 +369,7 @@ public class Deployment {
                     continue;
                 } else {
                     // The file exists, make sure it is executable:
-                    boolean isSet = jreExec.setExecutable(true, false);
+                    jreExec.setExecutable(true, false);
                 }
 
                 if (java_version == recommended) {

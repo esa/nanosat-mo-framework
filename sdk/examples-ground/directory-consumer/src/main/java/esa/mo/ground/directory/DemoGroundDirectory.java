@@ -78,7 +78,7 @@ public class DemoGroundDirectory
    */
   public static void main(final String args[]) throws Exception
   {
-    DemoGroundDirectory demo = new DemoGroundDirectory();
+    new DemoGroundDirectory();
   }
 
   private class SimpleDataReceivedAdapter extends SimpleDataReceivedListener

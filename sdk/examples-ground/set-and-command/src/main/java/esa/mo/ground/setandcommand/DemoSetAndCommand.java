@@ -94,7 +94,7 @@ public class DemoSetAndCommand {
             System.err.println("e.g. maltcp://123.123.123.123:1024/nanosat-mo-supervisor-Directory");
             System.exit(1);
         }
-        DemoSetAndCommand demo = new DemoSetAndCommand(args[0]);
+        new DemoSetAndCommand(args[0]);
         return;
     }
 }

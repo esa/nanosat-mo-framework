@@ -201,7 +201,6 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         }
 
         ArchivePersistenceObject comObject = actionTable.getSelectedCOMObject();
-        Long objIdDef = comObject.getObjectId();
 
         ActionDefinition actDef = (ActionDefinition) comObject.getObject();
         AttributeValueList argumentValueList;

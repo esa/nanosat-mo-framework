@@ -61,7 +61,7 @@ public class DemoHelloWorldFull {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        DemoHelloWorldFull demo = new DemoHelloWorldFull();
+        new DemoHelloWorldFull();
     }
 
     /**

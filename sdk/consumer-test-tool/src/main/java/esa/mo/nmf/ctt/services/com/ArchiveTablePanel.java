@@ -97,7 +97,7 @@ public final class ArchiveTablePanel extends javax.swing.JPanel {
                     // Get from the list of objects the one we want and display
                     ArchivePersistenceObject comObject = getSelectedCOMObject();
                     try {
-                        COMObjectWindow comObjectWindow = new COMObjectWindow(
+                        new COMObjectWindow(
                                 comObject, false, archiveService.getArchiveStub());
                     } catch (IOException ex) {
                         Logger.getLogger(ArchiveTablePanel.class.getName()).log(Level.SEVERE, null, ex);

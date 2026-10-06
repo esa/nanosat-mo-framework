@@ -67,7 +67,7 @@ public class Waveform {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
-        Waveform demo = new Waveform();
+        new Waveform();
     }
 
     /**
