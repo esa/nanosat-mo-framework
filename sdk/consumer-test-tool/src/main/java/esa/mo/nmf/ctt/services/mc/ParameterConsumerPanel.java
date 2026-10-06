@@ -247,7 +247,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCParameter.getParameterStub().updateDefinition(objIds, defs);
             this.listDefinitionAllButtonActionPerformed(null);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_updateDefinitionButtonActionPerformed
@@ -285,7 +285,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -320,7 +320,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCParameter.getParameterStub().enableReporting(!curState, ids);
             parameterTable.switchEnabledstatusAll(!curState);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableDefinitionAllAggActionPerformed
@@ -338,7 +338,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCParameter.getParameterStub().enableReporting(!curState, ids);
             parameterTable.switchEnabledstatus(!curState);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableDefinitionButtonAggActionPerformed
@@ -385,7 +385,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
 
             JOptionPane.showMessageDialog(null, str.toString(), "Returned Values from the Provider",
                     JOptionPane.PLAIN_MESSAGE);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_getValueButtonActionPerformed
@@ -409,7 +409,7 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
 
         try {
             serviceMCParameter.getParameterStub().setValue(newValues);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_setValueButtonActionPerformed

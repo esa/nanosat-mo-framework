@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.commonmoadapter;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.mc.impl.provider.AggregationInstance;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.NMFConsumer;
@@ -170,7 +171,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
 
             // Ok, now, let's finally set the Value!
             parameterService.setValue(raws);
-        } catch (MALInteractionException ex) {
+        } catch (MOErrorException ex) {
             LOGGER.log(Level.SEVERE, "The parameter could not be set!", ex);
         } catch (MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -257,7 +258,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                 // Register for pub-sub of all parameters
                 super.getMCServices().getParameterService().getParameterStub().monitorValueRegister(
                         this.parameterSubscription, new DataReceivedParameterAdapter());
-            } catch (MALInteractionException | MALException ex) {
+            } catch (MOErrorException | MALException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             } catch (NullPointerException ex) {
                 LOGGER.log(Level.SEVERE,
@@ -274,7 +275,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                 // Register for pub-sub of all aggregations
                 super.getMCServices().getAggregationService().getAggregationStub().monitorValueRegister(
                         this.aggregationSubscription, new DataReceivedAggregationAdapter());
-            } catch (MALInteractionException | MALException ex) {
+            } catch (MOErrorException | MALException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             } catch (NullPointerException ex) {
                 LOGGER.log(Level.SEVERE,
@@ -373,7 +374,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
             }
 
             actionID = launchAction(id, argValues);
-        } catch (MALInteractionException | NMFException | MALException ex) {
+        } catch (MOErrorException | NMFException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
         return actionID;
@@ -402,7 +403,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                         parameterSubscription = null;
                     }
                 });
-            } catch (MALInteractionException | MALException ex) {
+            } catch (MOErrorException | MALException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
         }
@@ -422,7 +423,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                     }
                 }
                 );
-            } catch (MALInteractionException | MALException ex) {
+            } catch (MOErrorException | MALException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
 
@@ -460,9 +461,9 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                 actionAdapter.executeActionResponseReceived(null, executionId, null);
             }
             return executionId;
-        } catch (MALInteractionException ex) {
+        } catch (MOErrorException ex) {
             if (actionAdapter != null) {
-                actionAdapter.executeActionErrorReceived(null, ex.getStandardError(), null);
+                actionAdapter.executeActionErrorReceived(null, ex, null);
             }
             throw new NMFException("Failed to execute Action " + definitionId, ex);
         } catch (MALException ex) {
@@ -521,7 +522,7 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
 
             // toggle their generation
             parameterService.enableReporting(enable, ids);
-        } catch (MALInteractionException | MALException e) {
+        } catch (MOErrorException | MALException e) {
             throw new NMFException("Error while toggling parameters generation", e);
         }
     }

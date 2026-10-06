@@ -39,7 +39,6 @@ import org.ccsds.moims.mo.com.archivesync.provider.RetrieveRangeAgainInteraction
 import org.ccsds.moims.mo.com.archivesync.provider.RetrieveRangeInteraction;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
@@ -175,7 +174,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
     }
 
     @Override
-    public GetTimeResponse getTime(final MALInteraction interaction) throws MALInteractionException, MALException {
+    public GetTimeResponse getTime(final MALInteraction interaction) throws MALException {
         final Time currentTime = Time.now();
         final Time lastSyncTime = new Time(lastSync.get());
         return new GetTimeResponse(currentTime, lastSyncTime);
@@ -183,7 +182,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
     @Override
     public void retrieveRange(Time from, Time until, ObjectTypeList objectTypes, Identifier compression,
-            RetrieveRangeInteraction interaction) throws MALInteractionException, MALException {
+            RetrieveRangeInteraction interaction) throws MALException {
         final Dispatcher dispatcher = new Dispatcher(interaction);
         long interactionTicket = interaction.getInteraction().getMessageHeader().getTransactionId();
         dispatchers.put(interactionTicket, dispatcher);
@@ -216,7 +215,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
     @Override
     public void retrieveRangeAgain(final Long transactionTicket, final UIntegerList missingIndexes,
             final RetrieveRangeAgainInteraction interaction)
-            throws InvalidArgumentException, MALInteractionException, MALException {
+            throws InvalidArgumentException, MALException {
         final Dispatcher dispatcher = dispatchers.get(transactionTicket);
 
         if (dispatcher == null) {
@@ -277,7 +276,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
     @Override
     public StringList getDictionary(IntegerList wordIds, MALInteraction interaction)
-            throws MALInteractionException, MALException {
+            throws MALException {
         StringList output = new StringList();
 
         for (Integer wordId : wordIds) {
@@ -297,7 +296,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
     @Override
     public void free(Long transactionTicket, MALInteraction interaction)
-            throws UnknownException, MALInteractionException, MALException {
+            throws UnknownException, MALException {
         final Dispatcher dispatcher = dispatchers.get(transactionTicket);
 
         if (dispatcher == null) {
@@ -432,7 +431,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
 
             try {
                 interaction.sendResponse(new UInteger(numberOfChunks));
-            } catch (MALInteractionException | MALException ex) {
+            } catch (MALException ex) {
                 LOGGER.log(Level.SEVERE, "Unexpected exception!", ex);
             }
 
@@ -477,7 +476,7 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
             chunksFlushed.add(index, aChunk);
             try {
                 interaction.sendUpdate(new Blob(aChunk), new UInteger(index));
-            } catch (MALInteractionException | MALException ex) {
+            } catch (MALException ex) {
                 LOGGER.log(Level.SEVERE, "Unexpected exception!", ex);
             }
         }

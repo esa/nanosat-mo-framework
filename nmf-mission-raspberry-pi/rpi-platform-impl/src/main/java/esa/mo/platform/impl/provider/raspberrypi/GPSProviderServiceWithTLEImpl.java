@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.TimeZone;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.platform.DeviceNotAvailableException;
 import org.ccsds.moims.mo.platform.gps.provider.GetTLEInteraction;
@@ -140,9 +139,9 @@ public class GPSProviderServiceWithTLEImpl extends GPSProviderServiceImpl {
     }
 
     @Override
-    public void getTLE(GetTLEInteraction interaction) throws MALInteractionException, MALException {
+    public void getTLE(GetTLEInteraction interaction) throws DeviceNotAvailableException, MALException {
         if (!adapter.isUnitAvailable() && isTLEFallbackEnabled == false) { // Is the unit available?
-            throw new MALInteractionException(new DeviceNotAvailableException(null));
+            throw new DeviceNotAvailableException(null);
         }
         interaction.sendAcknowledgement();
         TLE tle = adapterCast.getTLE();
@@ -207,13 +206,13 @@ public class GPSProviderServiceWithTLEImpl extends GPSProviderServiceImpl {
      * @return true if TLE propagation should be used, false otherwise
      */
     @Override
-    public boolean useTLEPropagation() throws MALInteractionException, MALException {
+    public boolean useTLEPropagation() throws DeviceNotAvailableException, MALException {
         boolean useTLEpropagation = false;
         if (!adapter.isUnitAvailable()) {
             if (isTLEFallbackEnabled) {
                 useTLEpropagation = true;
             } else {
-                throw new MALInteractionException(new DeviceNotAvailableException(null));
+                throw new DeviceNotAvailableException(null);
             }
         } else if (!isPositionFixed()) {
             useTLEpropagation = true;

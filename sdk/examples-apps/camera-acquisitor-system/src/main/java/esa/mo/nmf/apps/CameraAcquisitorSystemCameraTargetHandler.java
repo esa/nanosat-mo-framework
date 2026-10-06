@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.apps;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.nmf.NMFException;
 import java.io.IOException;
 import java.util.TimerTask;
@@ -131,7 +132,7 @@ public class CameraAcquisitorSystemCameraTargetHandler {
                     casMCAdapter.getConnector().reportExecutionProgress(true, 0,
                             STAGE_ATTITUDE_CORECTION, PHOTOGRAPH_LOCATION_STAGES, executionId);
                     LOGGER.log(Level.INFO, "Attitude Correction Running");
-                } catch (NMFException | IOException | MALInteractionException | MALException ex) {
+                } catch (NMFException | IOException | MOErrorException | MALException ex) {
                     LOGGER.log(Level.SEVERE, null, ex);
                 }
 
@@ -157,7 +158,7 @@ public class CameraAcquisitorSystemCameraTargetHandler {
                     LOGGER.log(Level.INFO, "Taking Photograph now");
                     casMCAdapter.getCameraHandler().takePhotograph(executionId,
                             STAGE_WAIT_FOR_OPTIMAL_PASS, PHOTOGRAPH_LOCATION_STAGES, "");
-                } catch (NMFException | IOException | MALInteractionException | MALException ex) {
+                } catch (NMFException | IOException | MOErrorException | MALException ex) {
                     LOGGER.log(Level.SEVERE, ex.getMessage());
                 }
             }
@@ -191,7 +192,7 @@ public class CameraAcquisitorSystemCameraTargetHandler {
             } else {
                 LOGGER.log(Level.INFO, "NO Archive Service found!");
             }
-        } catch (NMFException | MALException | MALInteractionException | org.ccsds.moims.mo.com.InvalidArgumentException ex) {
+        } catch (NMFException | MALException | org.ccsds.moims.mo.com.InvalidArgumentException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
@@ -206,19 +207,19 @@ public class CameraAcquisitorSystemCameraTargetHandler {
         }
 
         @Override
-        public MALMessage sendResponse() throws MALInteractionException, MALException {
+        public MALMessage sendResponse() throws MALException {
             return null;
         }
 
         @Override
-        public MALMessage sendAcknowledgement() throws MALInteractionException, MALException {
+        public MALMessage sendAcknowledgement() throws MALException {
             return null;
         }
 
         @Override
         public MALMessage sendUpdate(ObjectType objType, IdentifierList domain,
                 ArchiveDetailsList objDetails, HeterogeneousList objBodies)
-                throws MALInteractionException, MALException {
+                throws MALException {
             if (objBodies != null) {
                 int i = 0;
                 for (Object objBody : objBodies) {

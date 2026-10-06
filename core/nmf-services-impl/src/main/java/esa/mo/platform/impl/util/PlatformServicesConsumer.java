@@ -20,6 +20,7 @@
  */
 package esa.mo.platform.impl.util;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.platform.impl.consumer.*;
 import java.io.IOException;
@@ -167,7 +168,7 @@ public class PlatformServicesConsumer implements PlatformServicesConsumerInterfa
                 softwareImagesService = new SoftwareImagesConsumerServiceImpl(details,
                         comServices, authenticationID, localNamePrefix);
             }
-        } catch (MALException | MALInteractionException ex) {
+        } catch (MALException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

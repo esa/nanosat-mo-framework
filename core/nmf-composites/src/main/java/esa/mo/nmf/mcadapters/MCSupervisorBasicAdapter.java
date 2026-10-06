@@ -241,7 +241,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
                         return (Attribute) Attribute.javaType2Attribute(magField.getY());
                     }
                     return (Attribute) Attribute.javaType2Attribute(magField.getZ());
-                } catch (MALInteractionException | MALException | NMFException ex) {
+                } catch (MOErrorException | MALException | NMFException ex) {
                     LOGGER.log(Level.SEVERE, "Error reading magnetometer data.", ex);
                     return null;
                 }
@@ -261,7 +261,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
                             sem.release();
                         }
                     });
-                } catch (MALInteractionException | MALException | NMFException ex) {
+                } catch (MOErrorException | MALException | NMFException ex) {
                     LOGGER.log(Level.SEVERE, "Error requesting GPS satellites info.", ex);
                     return null;
                 }
@@ -281,7 +281,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
                         return (Attribute) Attribute.javaType2Attribute(pos.getPosition().getLatitude());
                     }
                     return (Attribute) Attribute.javaType2Attribute(pos.getPosition().getLongitude());
-                } catch (MALInteractionException | MALException | NMFException ex) {
+                } catch (MOErrorException | MALException | NMFException ex) {
                     LOGGER.log(Level.SEVERE, "Error reading GPS position.", ex);
                     return null;
                 }
@@ -348,13 +348,13 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
         try {
             nmfSupervisor.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(
                     ConnectionConsumer.subscriptionWildcardRandom(), new ADCSDataHandler());
-        } catch (IOException | MALInteractionException | MALException | NMFException ex) {
+        } catch (IOException | MOErrorException | MALException | NMFException ex) {
             LOGGER.log(Level.SEVERE, "Error registering the ADCS attitude subscription.", ex);
         }
 
         try {
             configureMonitoring();
-        } catch (IOException | MALInteractionException | MALException | NMFException ex) {
+        } catch (IOException | MOErrorException | MALException | NMFException ex) {
             LOGGER.log(Level.SEVERE, "Error enabling ADCS attitude monitoring generation.", ex);
         }
     }
@@ -393,7 +393,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
         }
     }
 
-    private void configureMonitoring() throws IOException, MALInteractionException, MALException, NMFException {
+    private void configureMonitoring() throws MOErrorException, IOException, MALException, NMFException {
         if (attitudeMonitoringInterval.getInSeconds() >= 0.1) {
             nmfSupervisor.getPlatformServices().getAutonomousADCSService().enableMonitoring(
                     true, attitudeMonitoringInterval);
@@ -406,7 +406,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     private UInteger configureMonitoringAction() {
         try {
             configureMonitoring();
-        } catch (IOException | MALInteractionException | MALException | NMFException ex) {
+        } catch (IOException | MOErrorException | MALException | NMFException ex) {
             LOGGER.log(Level.SEVERE, "Error configuring attitude monitoring.", ex);
             return new UInteger(1);
         }
@@ -417,7 +417,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
         try {
             arg = arg + "\r\n";
             nmfSupervisor.getPlatformServices().getGPSService().getNMEASentence(arg, new GPSConsumerAdapter());
-        } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+        } catch (MOErrorException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             return new UInteger(1);
         }
@@ -441,7 +441,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
         try {
             nmfSupervisor.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(
                     null, new AttitudeModeSunPointing());
-        } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+        } catch (MOErrorException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             return new UInteger(1);
         }
@@ -452,7 +452,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
         try {
             nmfSupervisor.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(
                     duration, new AttitudeModeNadirPointing());
-        } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+        } catch (MOErrorException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             return new UInteger(1);
         }
@@ -463,7 +463,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
         try {
             nmfSupervisor.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(
                     new Duration(0), null);
-        } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+        } catch (MOErrorException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             return new UInteger(1);
         }

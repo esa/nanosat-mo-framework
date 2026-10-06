@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.ctt.utils;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.mc.impl.util.MCServicesConsumer;
 import esa.mo.nmf.ctt.services.com.ArchiveConsumerManagerPanel;
@@ -86,7 +87,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
     public void insertServicesTabs() {
         try {
             startTabs();
-        } catch (MALInteractionException ex) {
+        } catch (MOErrorException ex) {
             LOGGER.log(Level.SEVERE, "Could not connect to the provider.", ex);
         } catch (MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
@@ -102,7 +103,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         return serviceTabs;
     }
 
-    private void startTabs() throws MALInteractionException, MALException {
+    private void startTabs() throws MOErrorException, MALException {
         // Software Management
         if (services.getSMServices() != null) {
             SMServicesConsumer sm = services.getSMServices();
@@ -250,7 +251,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
         private Time lastBeatAt = Time.now();
 
         public ProviderStatusAdapter(final HeartbeatConsumerServiceImpl heartbeat)
-                throws MALInteractionException, MALException {
+                throws MOErrorException, MALException {
             long timestamp = System.currentTimeMillis();
             double value = heartbeat.getHeartbeatStub().getPeriod().getInSeconds();
             lag = System.currentTimeMillis() - timestamp;
@@ -282,7 +283,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                                 long timestamp = System.currentTimeMillis();
                                 heartbeat.getHeartbeatStub().getPeriod();
                                 lag = System.currentTimeMillis() - timestamp; // Calculate the lag
-                            } catch (MALInteractionException | MALException ex) {
+                            } catch (MOErrorException | MALException ex) {
                                 LOGGER.log(Level.SEVERE, null, ex);
                             }
                             tryNumber = 0;
@@ -326,7 +327,7 @@ public class ProviderTabPanel extends javax.swing.JPanel {
                 getServices().getCOMServices().getLoginService().getLoginStub().logout();
                 getServices().setAuthenticationId(null);
                 LOGGER.log(Level.INFO, "Logged out successfully");
-            } catch (MALInteractionException | MALException e) {
+            } catch (MOErrorException | MALException e) {
                 LOGGER.log(Level.SEVERE, "Unexpected exception during logout!", e);
             }
         }

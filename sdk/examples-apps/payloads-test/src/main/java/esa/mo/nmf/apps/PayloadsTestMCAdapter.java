@@ -643,9 +643,9 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 LongList supervisorIds = new LongList();
                 try {
                     supervisorIds = supervisorParameterService.getParameterStub().listDefinition(parameterNames);
-                } catch (MALInteractionException e) {
-                    if (e.getStandardError().getErrorNumber().equals(MALHelper.UNKNOWN_ERROR_NUMBER)) {
-                        UIntegerList unknownParams = (UIntegerList) e.getStandardError().getExtraInformation();
+                } catch (MOErrorException e) {
+                    if (e.getErrorNumber().equals(MALHelper.UNKNOWN_ERROR_NUMBER)) {
+                        UIntegerList unknownParams = (UIntegerList) e.getExtraInformation();
                         for (UInteger index : unknownParams) {
                             parameterNames.set((int) index.getValue(), null);
                         }
@@ -686,7 +686,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                 };
                 supervisorParameterService.getParameterStub()
                         .monitorValueRegister(subscription, adapter);
-            } catch (IOException | MALException | MALInteractionException | org.ccsds.moims.mo.mal.UnknownException ex) {
+            } catch (IOException | MALException | MOErrorException ex) {
                 LOGGER.log(Level.SEVERE,
                         "Could not retrieve supervisor COM Parameter service"
                         + " details from the Central Directory.", ex);
@@ -694,7 +694,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             centralDirectory.closeConnection();
         } catch (MALException | MalformedURLException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
+        } catch (MOErrorException ex) {
             LOGGER.log(Level.SEVERE, "Could not connect to the Central Directory service! Maybe it is down...");
         }
 
@@ -744,7 +744,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         try {
             GPSStub gps = nmf.getPlatformServices().getGPSService();
             gps.getSatellitesInfo(new GPSAdapterImpl());
-        } catch (IOException | MALInteractionException | MALException | NMFException ex) {
+        } catch (IOException | MOErrorException | MALException | NMFException ex) {
             LOGGER.log(Level.SEVERE, "GPS error: " + ex.getMessage());
             GPS_NumberOfSatellitesInView = null;
         }
@@ -763,7 +763,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         try {
             GPSStub gps = nmf.getPlatformServices().getGPSService();
             GPS_Latitude = gps.getLastKnownPosition().getPosition().getLatitude();
-        } catch (NMFException | IOException | MALInteractionException | MALException ex) {
+        } catch (NMFException | IOException | MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, "GPS error: " + ex.getMessage());
             GPS_Latitude = null;
         }
@@ -776,7 +776,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         try {
             GPSStub gps = nmf.getPlatformServices().getGPSService();
             GPS_Longitude = gps.getLastKnownPosition().getPosition().getLongitude();
-        } catch (NMFException | IOException | MALInteractionException | MALException ex) {
+        } catch (NMFException | IOException | MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, "GPS error: " + ex.getMessage());
             GPS_Longitude = null;
         }
@@ -802,7 +802,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
 
             sem.acquire();
             GPS_Altitude = pos.get(0).getAltitude();
-        } catch (NMFException | IOException | MALInteractionException | MALException | InterruptedException ex) {
+        } catch (NMFException | IOException | MOErrorException | MALException | InterruptedException ex) {
             LOGGER.log(Level.SEVERE, "GPS error: " + ex.getMessage());
             GPS_Altitude = null;
         }
@@ -815,7 +815,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         try {
             GPSStub gps = nmf.getPlatformServices().getGPSService();
             GPS_ElapsedTime = gps.getLastKnownPosition().getElapsedTime();
-        } catch (NMFException | IOException | MALInteractionException | MALException ex) {
+        } catch (NMFException | IOException | MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, "GPS error: " + ex.getMessage());
             GPS_ElapsedTime = null;
         }
@@ -829,7 +829,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
             AttitudeTelemetry telemetry = adcs.getStatus().getAttitudeTelemetry();
             MagneticField_X = telemetry.getMagneticField().getX();
-        } catch (NMFException | IOException | MALInteractionException | MALException ex) {
+        } catch (NMFException | IOException | MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             MagneticField_X = null;
         }
@@ -843,7 +843,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
             AttitudeTelemetry telemetry = adcs.getStatus().getAttitudeTelemetry();
             MagneticField_Y = telemetry.getMagneticField().getY();
-        } catch (NMFException | IOException | MALInteractionException | MALException ex) {
+        } catch (NMFException | IOException | MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             MagneticField_Y = null;
         }
@@ -858,7 +858,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             AttitudeTelemetry telemetry = adcs.getStatus().getAttitudeTelemetry();
             MagneticField_Z = telemetry.getMagneticField().getZ();
         } catch (NMFException | IOException
-                | MALInteractionException | MALException ex) {
+                | MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             MagneticField_Z = null;
         }
@@ -879,7 +879,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
             AttitudeTelemetry telemetry = adcs.getStatus().getAttitudeTelemetry();
             attitudeQuatA = telemetry.getAttitude().getA();
-        } catch (MALInteractionException | MALException
+        } catch (MOErrorException | MALException
                 | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
             attitudeQuatA = null;
@@ -894,7 +894,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
             AttitudeTelemetry telemetry = adcs.getStatus().getAttitudeTelemetry();
             attitudeQuatB = telemetry.getAttitude().getB();
-        } catch (MALInteractionException | MALException
+        } catch (MOErrorException | MALException
                 | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
             attitudeQuatB = null;
@@ -909,7 +909,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
             AttitudeTelemetry telemetry = adcs.getStatus().getAttitudeTelemetry();
             attitudeQuatC = telemetry.getAttitude().getC();
-        } catch (MALInteractionException | MALException
+        } catch (MOErrorException | MALException
                 | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
             attitudeQuatC = null;
@@ -924,7 +924,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
             AttitudeTelemetry telemetry = adcs.getStatus().getAttitudeTelemetry();
             attitudeQuatD = telemetry.getAttitude().getD();
-        } catch (MALInteractionException | MALException
+        } catch (MOErrorException | MALException
                 | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
             attitudeQuatD = null;
@@ -939,7 +939,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
             AttitudeTelemetry telemetry = adcs.getStatus().getAttitudeTelemetry();
             angularVelocityX = telemetry.getAngularVelocity().getX();
-        } catch (MALInteractionException | MALException
+        } catch (MOErrorException | MALException
                 | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
             angularVelocityX = null;
@@ -954,7 +954,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
             AttitudeTelemetry telemetry = adcs.getStatus().getAttitudeTelemetry();
             angularVelocityY = telemetry.getAngularVelocity().getY();
-        } catch (MALInteractionException | MALException
+        } catch (MOErrorException | MALException
                 | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
             angularVelocityY = null;
@@ -969,7 +969,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
             AttitudeTelemetry telemetry = adcs.getStatus().getAttitudeTelemetry();
             angularVelocityZ = telemetry.getAngularVelocity().getZ();
-        } catch (MALInteractionException | MALException
+        } catch (MOErrorException | MALException
                 | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
             angularVelocityZ = null;
@@ -984,7 +984,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
             AttitudeTelemetry telemetry = adcs.getStatus().getAttitudeTelemetry();
             sunVectorX = telemetry.getSunVector().getX();
-        } catch (MALInteractionException | MALException
+        } catch (MOErrorException | MALException
                 | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
             sunVectorX = null;
@@ -999,7 +999,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
             AttitudeTelemetry telemetry = adcs.getStatus().getAttitudeTelemetry();
             sunVectorY = telemetry.getSunVector().getY();
-        } catch (MALInteractionException | MALException
+        } catch (MOErrorException | MALException
                 | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
             sunVectorY = null;
@@ -1014,7 +1014,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
             AttitudeTelemetry telemetry = adcs.getStatus().getAttitudeTelemetry();
             sunVectorZ = telemetry.getSunVector().getZ();
-        } catch (MALInteractionException | MALException
+        } catch (MOErrorException | MALException
                 | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
             sunVectorZ = null;
@@ -1029,7 +1029,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
             AttitudeTelemetry telemetry = adcs.getStatus().getAttitudeTelemetry();
             stateTarget = telemetry.getStateTarget();
-        } catch (MALInteractionException | MALException
+        } catch (MOErrorException | MALException
                 | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
             stateTarget = null;
@@ -1044,7 +1044,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
             ActuatorsTelemetry telemetry = adcs.getStatus().getActuatorsTelemetry();
             mtqDipoleMomentX = telemetry.getMtqDipoleMoment().getX();
-        } catch (MALInteractionException | MALException
+        } catch (MOErrorException | MALException
                 | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
             mtqDipoleMomentX = null;
@@ -1059,7 +1059,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
             ActuatorsTelemetry telemetry = adcs.getStatus().getActuatorsTelemetry();
             mtqDipoleMomentY = telemetry.getMtqDipoleMoment().getY();
-        } catch (MALInteractionException | MALException
+        } catch (MOErrorException | MALException
                 | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
             mtqDipoleMomentY = null;
@@ -1074,7 +1074,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
             ActuatorsTelemetry telemetry = adcs.getStatus().getActuatorsTelemetry();
             mtqDipoleMomentZ = telemetry.getMtqDipoleMoment().getZ();
-        } catch (MALInteractionException | MALException
+        } catch (MOErrorException | MALException
                 | IOException | NMFException e) {
             LOGGER.log(Level.SEVERE, null, e);
             mtqDipoleMomentZ = null;
@@ -1089,7 +1089,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             AutonomousADCSStub adcs = nmf.getPlatformServices().getAutonomousADCSService();
             ActuatorsTelemetry telemetry = adcs.getStatus().getActuatorsTelemetry();
             mtqState = new UInteger(telemetry.getMtqState().getValue());
-        } catch (MALInteractionException | MALException
+        } catch (MOErrorException | MALException
                 | IOException | NMFException | NullPointerException e) {
             LOGGER.log(Level.SEVERE, null, e);
             mtqState = null;
@@ -1432,7 +1432,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
             nmf.getPlatformServices().getOpticalDataReceiverService()
                     .recordSamples(new Duration(5),
                             new PayloadsTestOpticalDataHandler());
-        } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+        } catch (MOErrorException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             throw new ExecutionFailedException("Failed to record optical RX data: " + ex.getMessage());
         }
@@ -1463,7 +1463,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                             new ADCSDataHandler());
             nmf.getPlatformServices().getAutonomousADCSService()
                     .enableMonitoring(true, ATTITUDE_MONITORING_INTERVAL);
-        } catch (IOException | MALInteractionException
+        } catch (IOException | MOErrorException
                 | MALException | NMFException ex) {
             LOGGER.log(Level.SEVERE,
                     "Error when setting up attitude monitoring.", ex);

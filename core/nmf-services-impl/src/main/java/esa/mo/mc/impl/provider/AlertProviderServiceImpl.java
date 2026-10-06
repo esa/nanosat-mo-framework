@@ -20,6 +20,7 @@
  */
 package esa.mo.mc.impl.provider;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
@@ -136,7 +137,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
     @Override
     public void enableReporting(final Boolean enable, final LongList ids,
-            MALInteraction interaction) throws UnknownException, MALInteractionException, MALException {
+            MALInteraction interaction) throws UnknownException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
 
         LongList objIdToBeEnabled = new LongList();
@@ -189,7 +190,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
     @Override
     public LongList listDefinition(IdentifierList alertNames, MALInteraction interaction)
-            throws UnknownException, MALInteractionException, MALException {
+            throws UnknownException, MALException {
         LongList outPairLst = new LongList();
 
         if (alertNames == null) { // Is the input null?
@@ -236,11 +237,10 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
      * @return the object instance ids of the added definitions
      * @throws InvalidArgumentException if a definition is invalid
      * @throws DuplicateException if a definition already exists
-     * @throws MALInteractionException if the service returns an error
      * @throws MALException if a communication error occurs
      */
     public LongList addAlert(AlertDefinitionList alertDefs, MALInteraction interaction)
-            throws InvalidArgumentException, DuplicateException, MALInteractionException, MALException {
+            throws InvalidArgumentException, DuplicateException, MALException {
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
 
@@ -290,7 +290,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
     @Override
     public void updateDefinition(LongList alertObjInstIds, AlertDefinitionList newAlertDefDetails,
             MALInteraction interaction) throws InvalidArgumentException,
-            UnknownException, MALInteractionException, MALException {
+            UnknownException, MALException {
 
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
@@ -337,11 +337,10 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
      * @param alertDefIds the object instance ids of the definitions to remove
      * @param interaction the MAL interaction context, or {@code null}
      * @throws UnknownException if an id is unknown
-     * @throws MALInteractionException if the service returns an error
      * @throws MALException if a communication error occurs
      */
     public void removeAlert(LongList alertDefIds, MALInteraction interaction)
-            throws UnknownException, MALInteractionException, MALException {
+            throws UnknownException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         LongList removalLst = new LongList();
 
@@ -440,7 +439,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
                 if (ids != null && !ids.isEmpty()) {
                     alertEventObjId = ids.get(0);
                 }
-            } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
+            } catch (DuplicateException | InvalidArgumentException | MALException ex) {
                 Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.WARNING,
                         "Failed to store AlertEvent in archive", ex);
             }
@@ -567,7 +566,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
             //            LongList ids = new LongList();
             //            ids.add(identityId);
             //            this.enableReporting(true, ids, interaction); // Enable the reporting for this Alert Definition
-        } catch (InvalidArgumentException | DuplicateException | MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             Logger.getLogger(AlertProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return defId;

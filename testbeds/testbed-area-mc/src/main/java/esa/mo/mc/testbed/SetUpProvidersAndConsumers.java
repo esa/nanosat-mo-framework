@@ -20,6 +20,7 @@
  */
 package esa.mo.mc.testbed;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
@@ -108,7 +109,7 @@ public class SetUpProvidersAndConsumers {
                 aggregationConsumerStub = factory.createConsumerStubAggregation(details, comServicesConsumer);
             }
 
-        } catch (MALException | MALInteractionException | java.net.MalformedURLException ex) {
+        } catch (MALException | MOErrorException | java.net.MalformedURLException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }

@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.com.impl.util.HelperCommon;
@@ -200,11 +201,11 @@ public class NMFConsumer {
      * @return The list of providers.
      * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
      * @throws java.net.MalformedURLException if the URI is incorrect.
-     * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
+     * @throws MOErrorException if it could not
      * reach the Directory service.
      */
     public static final ProviderList retrieveProvidersFromDirectory(final URI directoryURI)
-            throws MALException, MalformedURLException, MALInteractionException {
+            throws MOErrorException, MALException, MalformedURLException {
         return NMFConsumer.retrieveProvidersFromDirectory(directoryURI, null, null);
     }
 
@@ -218,12 +219,12 @@ public class NMFConsumer {
      * @return The list of providers.
      * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
      * @throws java.net.MalformedURLException if the URI is incorrect.
-     * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
+     * @throws MOErrorException if it could not
      * reach the Directory service.
      */
     public static final ProviderList retrieveProvidersFromDirectory(final URI directoryURI,
             final Blob authenticationId, final String localNamePrefix)
-            throws MALException, MalformedURLException, MALInteractionException {
+            throws MOErrorException, MALException, MalformedURLException {
         return NMFConsumer.retrieveProvidersFromDirectory(directoryURI, authenticationId, localNamePrefix, null);
     }
 
@@ -237,12 +238,12 @@ public class NMFConsumer {
      * @return The list of providers.
      * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
      * @throws java.net.MalformedURLException if the URI is incorrect.
-     * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
+     * @throws MOErrorException if it could not
      * reach the Directory service.
      */
     public static final ProviderList retrieveProvidersFromDirectory(final URI directoryURI,
             final IdentifierList addressSchemeFilter)
-            throws MALException, MalformedURLException, MALInteractionException {
+            throws MOErrorException, MALException, MalformedURLException {
         return NMFConsumer.retrieveProvidersFromDirectory(directoryURI, null, null, addressSchemeFilter);
     }
 
@@ -255,18 +256,18 @@ public class NMFConsumer {
      * @return The list of providers.
      * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
      * @throws java.net.MalformedURLException if the URI is incorrect.
-     * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
+     * @throws MOErrorException if it could not
      * reach the Directory service.
      */
     public static final ProviderList retrieveProvidersFromDirectory(final URI directoryURI,
-            final String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
+            final String localNamePrefix) throws MOErrorException, MALException, MalformedURLException {
         return NMFConsumer.retrieveProvidersFromDirectory(directoryURI, null, localNamePrefix, null);
     }
 
     private static ProviderList retrieveProvidersFromDirectory(final URI directoryURI,
             final Blob authenticationId, final String localNamePrefix,
             final IdentifierList addressSchemeFilter)
-            throws MALException, MalformedURLException, MALInteractionException {
+            throws MOErrorException, MALException, MalformedURLException {
         NMFConsumer.initHelpers();
 
         try {
@@ -293,7 +294,7 @@ public class NMFConsumer {
         ProviderList providers;
         try {
             providers = directoryService.getDirectoryStub().lookup(filter);
-        } catch (MALException | MALInteractionException e) {
+        } catch (MALException | MOErrorException e) {
             throw e;
         } finally {
             directoryService.closeConnection();

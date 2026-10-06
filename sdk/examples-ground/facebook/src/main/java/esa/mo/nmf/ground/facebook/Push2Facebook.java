@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.ground.facebook;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.Parameter;
@@ -67,7 +68,7 @@ public class Push2Facebook {
             if (file.exists()) {
                 sysProps.putAll(HelperMisc.loadProperties(file.toURI().toURL(), TOKEN_FILENAME));
             }
-        } catch (MalformedURLException | MALInteractionException | MALException e) {
+        } catch (MalformedURLException | MOErrorException | MALException e) {
             LOGGER.log(Level.SEVERE, null, e);
         }
 
@@ -96,11 +97,11 @@ public class Push2Facebook {
      * @param directoryURI - directory URI
      * @param providerName - provider name which to connect to
      * @throws MalformedURLException
-     * @throws MALInteractionException
+     * @throws MOErrorException
      * @throws MALException
      */
     private void registerDataListener(String directoryURI, String providerName)
-            throws MalformedURLException, MALInteractionException, MALException {
+            throws MOErrorException, MalformedURLException, MALException {
 
         ProviderList providers = GroundMOAdapterImpl.retrieveProvidersFromDirectory(new URI(directoryURI));
 

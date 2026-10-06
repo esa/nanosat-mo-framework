@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.ctt.services.sm;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
@@ -107,7 +108,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
             serviceSMCommandExecutor.getCommandExecutorStub().monitorOutputRegister(
                     subscription, new MonitorOutputAdapterImpl());
             LOGGER.fine("Registered monitorOutput subscription for command output streaming");
-        } catch (MALException | MALInteractionException ex) {
+        } catch (MALException | MOErrorException ex) {
             LOGGER.log(Level.SEVERE, "Failed to subscribe to monitorOutput", ex);
         }
     }
@@ -210,7 +211,7 @@ public class CommandExecutorConsumerPanel extends javax.swing.JPanel {
         Command cd = new Command(commandText, null, null);
         try {
             serviceSMCommandExecutor.getCommandExecutorStub().asyncRunCommand(cd, asyncAdapter);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             JOptionPane.showMessageDialog(null, "Error!\nException:\n" + ex + "\n" + ex.getMessage(), "Error!",
                     JOptionPane.PLAIN_MESSAGE);
             LOGGER.log(Level.SEVERE, null, ex);

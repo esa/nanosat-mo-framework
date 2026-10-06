@@ -152,7 +152,7 @@ public class FPGAProviderServiceImpl extends FPGAInheritanceSkeleton {
 
     @Override
     public synchronized FPGAPartitionList listPartitions(final MALInteraction interaction)
-            throws DeviceNotAvailableException, MALInteractionException, MALException {
+            throws DeviceNotAvailableException, MALException {
         if (!adapter.isUnitAvailable()) {
             throw new DeviceNotAvailableException(null);
         }
@@ -167,7 +167,7 @@ public class FPGAProviderServiceImpl extends FPGAInheritanceSkeleton {
     public void loadModule(final Identifier moduleName, final Identifier preferredPartition,
             final LoadModuleInteraction interaction) throws UnknownException,
             DeviceInUseException, DeviceNotAvailableException, IncompatibleException,
-            VerificationFailedException, MALInteractionException, MALException {
+            VerificationFailedException, MALException {
         final ModuleManifest manifest;
         final Identifier partitionId;
         final FPGAPartition partition;
@@ -209,7 +209,7 @@ public class FPGAProviderServiceImpl extends FPGAInheritanceSkeleton {
             adapter.loadModule(partitionId, variant.getFile(), stage -> {
                 try {
                     interaction.sendUpdate(stage);
-                } catch (MALInteractionException | MALException ex) {
+                } catch (MALException ex) {
                     LOGGER.log(Level.WARNING, "Could not send the load stage update", ex);
                 }
             });
@@ -237,7 +237,7 @@ public class FPGAProviderServiceImpl extends FPGAInheritanceSkeleton {
     @Override
     public synchronized void unloadModule(final Identifier partitionId,
             final MALInteraction interaction) throws UnknownException,
-            DeviceNotAvailableException, MALInteractionException, MALException {
+            DeviceNotAvailableException, MALException {
         if (!adapter.isUnitAvailable()) {
             throw new DeviceNotAvailableException(null);
         }
@@ -267,7 +267,7 @@ public class FPGAProviderServiceImpl extends FPGAInheritanceSkeleton {
 
     @Override
     public synchronized FabricStatus getStatus(final MALInteraction interaction)
-            throws DeviceNotAvailableException, MALInteractionException, MALException {
+            throws DeviceNotAvailableException, MALException {
         if (!adapter.isUnitAvailable()) {
             throw new DeviceNotAvailableException(null);
         }
@@ -394,7 +394,7 @@ public class FPGAProviderServiceImpl extends FPGAInheritanceSkeleton {
             return (objIds != null && objIds.size() == 1) ? objIds.get(0) : null;
         } catch (org.ccsds.moims.mo.com.DuplicateException
                 | org.ccsds.moims.mo.com.InvalidArgumentException
-                | MALException | MALInteractionException ex) {
+                | MALException ex) {
             LOGGER.log(Level.SEVERE, "Could not store the FPGAModuleLoaded object", ex);
             return null;
         }
@@ -422,7 +422,7 @@ public class FPGAProviderServiceImpl extends FPGAInheritanceSkeleton {
                     null);
         } catch (org.ccsds.moims.mo.com.DuplicateException
                 | org.ccsds.moims.mo.com.InvalidArgumentException
-                | MALException | MALInteractionException ex) {
+                | MALException ex) {
             LOGGER.log(Level.SEVERE, "Could not store the FPGAModuleUnloaded object", ex);
         }
     }

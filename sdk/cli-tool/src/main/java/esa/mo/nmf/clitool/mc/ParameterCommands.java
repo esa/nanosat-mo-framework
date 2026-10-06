@@ -139,7 +139,7 @@ public class ParameterCommands {
                         }
                     }
                 });
-            } catch (MALInteractionException | MALException e) {
+            } catch (MOErrorException | MALException e) {
                 LOGGER.log(Level.SEVERE, "Error during monitorValueRegister!", e);
             }
 
@@ -510,8 +510,8 @@ public class ParameterCommands {
             LongList ids = parameterService.listDefinition(request);
             parameterService.enableReporting(enable, ids);
             System.out.println((enable ? "Enable " : "Disable ") + "successful.");
-        } catch (MALInteractionException e) {
-            MOErrorException error = e.getStandardError();
+        } catch (MOErrorException e) {
+            MOErrorException error = e;
             if (error.getErrorNumber().equals(MALHelper.UNKNOWN_ERROR_NUMBER)) {
                 System.out.println(
                         "Provided parameters don't exist in the provider:");

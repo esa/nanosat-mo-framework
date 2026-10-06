@@ -25,7 +25,8 @@ import esa.mo.mc.testbed.backends.SimpleParameterBackend;
 import java.io.IOException;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.mc.ReadOnlyException;
 import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -65,7 +66,7 @@ public class ParameterTest {
     }
 
     @Test
-    public void testGetValue() throws MALInteractionException, MALException, org.ccsds.moims.mo.com.InvalidArgumentException, org.ccsds.moims.mo.com.DuplicateException {
+    public void testGetValue() throws MOErrorException, MALException {
         LOGGER.info("Running: testGetValue()");
         ParameterDefinition def = new ParameterDefinition(
                 new Identifier("TestParam"),
@@ -138,10 +139,12 @@ public class ParameterTest {
         try {
             stub.setValue(rawValue(id, 7));
             Assert.fail("setValue on a read-only parameter must throw");
-        } catch (MALInteractionException ex) {
+        } catch (MOErrorException ex) {
+            Assert.assertTrue("The stub must throw the error as its own class, got " + ex.getClass(),
+                    ex instanceof ReadOnlyException);
             Assert.assertEquals("The error must be a Read Only error",
                     MCHelper.READ_ONLY_ERROR_NUMBER,
-                    ex.getStandardError().getErrorNumber());
+                    ex.getErrorNumber());
         }
     }
 
@@ -161,10 +164,12 @@ public class ParameterTest {
         try {
             stub.setValue(values);
             Assert.fail("A batch containing a read-only parameter must be rejected");
-        } catch (MALInteractionException ex) {
+        } catch (MOErrorException ex) {
+            Assert.assertTrue("The stub must throw the error as its own class, got " + ex.getClass(),
+                    ex instanceof ReadOnlyException);
             Assert.assertEquals("The error must be a Read Only error",
                     MCHelper.READ_ONLY_ERROR_NUMBER,
-                    ex.getStandardError().getErrorNumber());
+                    ex.getErrorNumber());
         }
     }
 

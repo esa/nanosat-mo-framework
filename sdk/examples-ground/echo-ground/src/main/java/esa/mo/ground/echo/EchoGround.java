@@ -20,6 +20,7 @@
  */
 package esa.mo.ground.echo;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.commonmoadapter.CompleteDataReceivedListener;
 import esa.mo.nmf.commonmoadapter.SimpleDataReceivedListener;
@@ -81,7 +82,7 @@ public class EchoGround {
                 LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - "
                         + ECHO_SPACE_PROVIDER);
             }
-        } catch (MALException | MalformedURLException | MALInteractionException | InterruptedException ex) {
+        } catch (MALException | MalformedURLException | MOErrorException | InterruptedException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }

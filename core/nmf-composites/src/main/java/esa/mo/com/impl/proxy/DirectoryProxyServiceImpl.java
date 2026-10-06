@@ -20,6 +20,7 @@
  */
 package esa.mo.com.impl.proxy;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.provider.DirectoryProviderServiceImpl;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.NMFConsumer;
@@ -66,11 +67,11 @@ public class DirectoryProxyServiceImpl extends DirectoryProviderServiceImpl {
      * remote Directory service is invalid.
      * @throws org.ccsds.moims.mo.mal.MALException if there is a MAL exception.
      * @throws java.net.MalformedURLException if the URI is incorrect.
-     * @throws org.ccsds.moims.mo.mal.MALInteractionException if it could not
+     * @throws MOErrorException if it could not
      * reach the Directory service.
      */
     public ProviderList syncLocalDirectoryServiceWithCentral(final URI centralDirectoryServiceURI,
-            final URI routedURI) throws org.ccsds.moims.mo.mal.UnknownException, org.ccsds.moims.mo.com.InvalidArgumentException, MALException, MalformedURLException, MALInteractionException {
+            final URI routedURI) throws MOErrorException, MALException, MalformedURLException {
         IdentifierList schemeFilter = new IdentifierList();
         schemeFilter.add(new Identifier("malspp"));
         ProviderList providers = NMFConsumer.retrieveProvidersFromDirectory(

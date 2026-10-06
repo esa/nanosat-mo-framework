@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.apps;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.nmf.NMFException;
 import java.io.IOException;
 import java.io.Serializable;
@@ -88,7 +89,7 @@ public class PayloadsTestActionsHandler {
         }
         try {
             payloadsTestMCAdapter.nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(duration, attitudeMode);
-        } catch (MALInteractionException | MALException | NMFException ex) {
+        } catch (MOErrorException | MALException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             throw new ExecutionFailedException("Failed to set desired attitude: " + ex.getMessage());
         } catch (IOException ex) {
@@ -169,7 +170,7 @@ public class PayloadsTestActionsHandler {
                             payloadsTestMCAdapter.cameraGainB,
                             null),
                     new PayloadsTestCameraDataHandler(executionId, payloadsTestMCAdapter));
-        } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+        } catch (MOErrorException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             throw new ExecutionFailedException("Failed to take picture: " + ex.getMessage());
         }
@@ -196,7 +197,7 @@ public class PayloadsTestActionsHandler {
                             payloadsTestMCAdapter.cameraGainB,
                             null),
                     new PayloadsTestCameraDataHandler(executionId, payloadsTestMCAdapter));
-        } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+        } catch (MOErrorException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             throw new ExecutionFailedException("Failed to take auto-exposed picture: " + ex.getMessage());
         }
@@ -218,7 +219,7 @@ public class PayloadsTestActionsHandler {
             DeviceType d = new DeviceType((int) deviceType.getValue());
             deviceList.add(new Device(setOn, null, null, d));
             payloadsTestMCAdapter.nmf.getPlatformServices().getPowerControlService().enableDevices(deviceList);
-        } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+        } catch (MOErrorException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             throw new ExecutionFailedException("Failed to set device state: " + ex.getMessage());
         }
@@ -249,12 +250,12 @@ public class PayloadsTestActionsHandler {
                     try {
                         payloadsTestMCAdapter.nmf.getPlatformServices().getSoftwareDefinedRadioService().enableSDR(
                                 false, config, SDR_REPORTING_INTERVAL);
-                    } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+                    } catch (MOErrorException | MALException | IOException | NMFException ex) {
                         LOGGER.log(Level.SEVERE, "Failed to stop the SDR", ex);
                     }
                 }
             }, SDR_RECORDING_DURATION);
-        } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+        } catch (MOErrorException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             throw new ExecutionFailedException("Failed to record SDR data: " + ex.getMessage());
         }

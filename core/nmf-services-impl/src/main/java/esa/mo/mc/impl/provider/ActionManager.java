@@ -38,7 +38,6 @@ import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
@@ -123,7 +122,7 @@ public final class ActionManager extends MCManager {
                 if (objIds.size() == 1) {
                     return objIds.get(0);
                 }
-            } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
+            } catch (DuplicateException | InvalidArgumentException | MALException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -160,7 +159,7 @@ public final class ActionManager extends MCManager {
                         null);
 
                 newId = defIds.get(0);
-            } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
+            } catch (DuplicateException | InvalidArgumentException | MALException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -197,7 +196,7 @@ public final class ActionManager extends MCManager {
                         metadata,
                         defs,
                         null);
-            } catch (org.ccsds.moims.mo.mal.UnknownException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
+            } catch (org.ccsds.moims.mo.mal.UnknownException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -464,7 +463,7 @@ public final class ActionManager extends MCManager {
                     HelperArchive.generateArchiveDetailsList(executionId, uri),
                     bodies,
                     null);
-        } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
+        } catch (DuplicateException | InvalidArgumentException | MALException ex) {
             Logger.getLogger(ActionManager.class.getName()).log(Level.WARNING,
                     "Failed to store ExecutionStatus", ex);
         }

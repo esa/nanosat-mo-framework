@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.apps;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.nmf.NMFException;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -85,7 +86,7 @@ public class CameraAcquisitorSystemGPSHandler extends GPSAdapter {
             float altitude = pos.getPosition().getAltitude();
             return new GeodeticPoint(latitude, longitude, altitude);
 
-        } catch (NMFException | IOException | MALInteractionException | MALException ex) {
+        } catch (NMFException | IOException | MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
         return null;

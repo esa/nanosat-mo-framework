@@ -116,7 +116,7 @@ public class AppsLauncherCommands {
                 synchronized (lock) {
                     lock.wait();
                 }
-            } catch (MALInteractionException | MALException | InterruptedException e) {
+            } catch (MOErrorException | MALException | InterruptedException e) {
                 LOGGER.log(Level.SEVERE, "Error during monitorExecution register!", e);
                 System.exit(ExitCodes.GENERIC_ERROR);
             }
@@ -165,7 +165,7 @@ public class AppsLauncherCommands {
                 }
 
                 appsLauncher.runApp(appIds);
-            } catch (MALInteractionException | MALException e) {
+            } catch (MOErrorException | MALException e) {
                 LOGGER.log(Level.SEVERE, "Error during runApp!", e);
                 System.exit(ExitCodes.GENERIC_ERROR);
             }
@@ -254,7 +254,7 @@ public class AppsLauncherCommands {
                     lock.wait(4_000);
                 }
 
-            } catch (MALInteractionException | MALException | InterruptedException e) {
+            } catch (MOErrorException | MALException | InterruptedException e) {
                 LOGGER.log(Level.SEVERE, "Error during stopApp!", e);
                 System.exit(ExitCodes.GENERIC_ERROR);
             }
@@ -303,7 +303,7 @@ public class AppsLauncherCommands {
                 }
 
                 appsLauncher.killApp(appIds);
-            } catch (MALInteractionException | MALException e) {
+            } catch (MOErrorException | MALException e) {
                 LOGGER.log(Level.SEVERE, "Error during killApp!", e);
                 System.exit(ExitCodes.GENERIC_ERROR);
             }

@@ -73,7 +73,7 @@ public class Helper {
                 for (Map.Entry<String, ProviderAppDetails> entry : providers.entrySet()) {
                     System.out.println(entry.getKey() + " - Running: " + entry.getValue().appDetails.getRunning());
                 }
-            } catch (MALInteractionException | MALException | InterruptedException ex) {
+            } catch (MOErrorException | MALException | InterruptedException ex) {
                 LOGGER.log(Level.SEVERE, "Error while retrieving the available Apps!", ex);
             }
 
@@ -88,12 +88,12 @@ public class Helper {
      *
      * @param archive the COM Archive stub to query
      * @return the app details keyed by app name
-     * @throws MALInteractionException if the archive returns an error
+     * @throws MOErrorException if the archive returns an error
      * @throws MALException if a communication error occurs
      * @throws InterruptedException if the querying thread is interrupted
      */
     public static Map<String, ProviderAppDetails> getProvidersDetails(ArchiveStub archive)
-            throws MALInteractionException, MALException, InterruptedException {
+            throws MOErrorException, MALException, InterruptedException {
         final Object lock = new Object();
 
         ArchiveQuery archiveQuery = new ArchiveQuery(BaseCommand.domain, null, 0L, null, null, null, null);

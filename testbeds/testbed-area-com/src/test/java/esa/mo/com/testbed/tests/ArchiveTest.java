@@ -20,6 +20,7 @@
  */
 package esa.mo.com.testbed.tests;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.testbed.SetUpCOMServices;
 import java.io.IOException;
@@ -27,7 +28,6 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.junit.AfterClass;
@@ -58,7 +58,7 @@ public class ArchiveTest {
     }
 
     @Test
-    public void testStoreAndRetrieve() throws MALInteractionException, MALException {
+    public void testStoreAndRetrieve() throws MOErrorException, MALException {
         LOGGER.info("Running: testStoreAndRetrieve()");
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();

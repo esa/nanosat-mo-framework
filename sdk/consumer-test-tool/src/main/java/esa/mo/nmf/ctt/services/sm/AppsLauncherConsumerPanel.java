@@ -148,7 +148,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         try {
             serviceSMAppsLauncher.getAppsLauncherStub().monitorExecutionRegister(
                     subscription, new AppsLauncherConsumerAdapter());
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -156,7 +156,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         try {
             serviceSMAppsLauncher.getAppsLauncherStub().monitorEventsRegister(
                     eventsSubscription, new MonitorEventsConsumerAdapter());
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
@@ -167,7 +167,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         ids.add(subscription.getSubscriptionId());
         try {
             serviceSMAppsLauncher.getAppsLauncherStub().monitorExecutionDeregister(ids);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -175,7 +175,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
         eventsIds.add(eventsSubscription.getSubscriptionId());
         try {
             serviceSMAppsLauncher.getAppsLauncherStub().monitorEventsDeregister(eventsIds);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.WARNING, null, ex);
         }
     }
@@ -422,7 +422,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -445,7 +445,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             for (Long id : ids) {
                 appsTable.reportStatus("Killed!", id.intValue());
             }
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             JOptionPane.showMessageDialog(null,
                     "Error!\nException:\n" + ex + "\n" + ex.getMessage(),
                     "Error!", JOptionPane.PLAIN_MESSAGE);
@@ -469,7 +469,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             this.serviceSMAppsLauncher.getAppsLauncherStub().stopApp(ids, null, new StopAdapter(ids));
             forgetDirectoryURI(objId);
             //appsTable.switchEnabledstatus(false);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             JOptionPane.showMessageDialog(null,
                     "Error!\nException:\n" + ex + "\n" + ex.getMessage(),
                     "Error!", JOptionPane.PLAIN_MESSAGE);
@@ -490,7 +490,7 @@ public class AppsLauncherConsumerPanel extends javax.swing.JPanel {
             this.serviceSMAppsLauncher.getAppsLauncherStub().runApp(ids);
             appsTable.switchEnabledstatusForApp(true, objId.intValue());
             appsTable.reportStatus("Starting...", objId.intValue());
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             JOptionPane.showMessageDialog(null,
                     "Error!\nException:\n" + ex + "\n" + ex.getMessage(),
                     "Error!", JOptionPane.PLAIN_MESSAGE);

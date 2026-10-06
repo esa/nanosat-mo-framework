@@ -4,7 +4,6 @@ import org.ccsds.moims.mo.com.archive.provider.RetrieveInteraction;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInvoke;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
@@ -39,7 +38,7 @@ public class HelperLocalArchiveRetrieveAdapter extends RetrieveInteraction imple
 
     @Override
     public synchronized MALMessage sendResponse(ArchiveDetailsList objDetails, HeterogeneousList objBodies)
-        throws MALInteractionException, MALException {
+        throws MALException {
         if (objBodies != null) {
             if (!objBodies.isEmpty()) {
                 this.objectBodyList = objBodies;
@@ -61,7 +60,7 @@ public class HelperLocalArchiveRetrieveAdapter extends RetrieveInteraction imple
     }
 
     @Override
-    public MALMessage sendAcknowledgement() throws MALInteractionException, MALException {
+    public MALMessage sendAcknowledgement() throws MALException {
         return null;
     }
 

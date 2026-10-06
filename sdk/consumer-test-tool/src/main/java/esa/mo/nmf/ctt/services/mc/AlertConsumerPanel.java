@@ -88,7 +88,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         try {
             serviceMCAlert.getAlertStub().monitorAlertRegister(
                     monitorAlertSubscription, new AlertConsumerAdapter());
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, "Failed to subscribe to monitorAlert", ex);
         }
     }
@@ -101,7 +101,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
             ids.add(monitorAlertSubscription.getSubscriptionId());
             try {
                 serviceMCAlert.getAlertStub().monitorAlertDeregister(ids);
-            } catch (MALInteractionException | MALException ex) {
+            } catch (MOErrorException | MALException ex) {
                 LOGGER.log(Level.SEVERE, "Failed to deregister from monitorAlert", ex);
             }
         }
@@ -196,7 +196,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
 
             JOptionPane.showMessageDialog(null, str.toString(),
                     "Returned List from the Provider", JOptionPane.PLAIN_MESSAGE);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
@@ -222,7 +222,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAlert.getAlertStub().updateDefinition(objIds, defs);
             this.listDefinitionAllButtonActionPerformed(null);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
@@ -255,7 +255,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
@@ -276,7 +276,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAlert.getAlertStub().enableReporting(!curState, ids);
             alertTable.switchEnabledstatusAll(!curState);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
@@ -293,7 +293,7 @@ public class AlertConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAlert.getAlertStub().enableReporting(!curState, ids);
             alertTable.switchEnabledstatus(!curState);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }

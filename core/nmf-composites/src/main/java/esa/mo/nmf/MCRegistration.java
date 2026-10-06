@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.mc.impl.provider.ActionProviderServiceImpl;
 import esa.mo.mc.impl.provider.AggregationProviderServiceImpl;
@@ -166,7 +167,7 @@ public class MCRegistration {
             }
 
             return parameterService.listDefinition(names, null);
-        } catch (UnknownException | InvalidArgumentException | DuplicateException | MALException | MALInteractionException ex1) {
+        } catch (MALException | MOErrorException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE,
                     "The Parameters could not be registered!", ex1);
         }
@@ -238,7 +239,7 @@ public class MCRegistration {
             }
 
             return aggregationService.listDefinition(names, null);
-        } catch (UnknownException | InvalidArgumentException | DuplicateException | MALException | MALInteractionException ex1) {
+        } catch (UnknownException | InvalidArgumentException | DuplicateException | MALException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
         }
 
@@ -308,7 +309,7 @@ public class MCRegistration {
             }
 
             return alertService.listDefinition(names, null);
-        } catch (UnknownException | InvalidArgumentException | DuplicateException | MALException | MALInteractionException ex1) {
+        } catch (MALException | MOErrorException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
         }
 
@@ -378,7 +379,7 @@ public class MCRegistration {
             }
 
             return actionService.listDefinition(names, null);
-        } catch (UnknownException | InvalidArgumentException | DuplicateException | MALException | MALInteractionException ex1) {
+        } catch (MALException | MOErrorException ex1) {
             Logger.getLogger(MCRegistration.class.getName()).log(Level.SEVERE, null, ex1);
         }
 

@@ -53,10 +53,9 @@ public class DirectoryConsumerServiceImpl extends ConsumerServiceImpl {
      * @param localNamePrefix the prefix for the local name of the consumer
      * @throws MALException if the consumer cannot be created
      * @throws MalformedURLException if a provided URI is malformed
-     * @throws MALInteractionException if the service returns an error
      */
     public DirectoryConsumerServiceImpl(final URI providerURI, final Blob authenticationId,
-            final String localNamePrefix) throws MALException, MalformedURLException, MALInteractionException {
+            final String localNamePrefix) throws MALException, MalformedURLException {
         this.connectionDetails = null;
         this.providerURI = providerURI;
 
@@ -84,10 +83,9 @@ public class DirectoryConsumerServiceImpl extends ConsumerServiceImpl {
      * @param providerURI the URI of the Directory service provider
      * @throws MALException if the consumer cannot be created
      * @throws MalformedURLException if a provided URI is malformed
-     * @throws MALInteractionException if the service returns an error
      */
     public DirectoryConsumerServiceImpl(final URI providerURI)
-            throws MALException, MalformedURLException, MALInteractionException {
+            throws MALException, MalformedURLException {
         this(providerURI, null, null);
     }
 

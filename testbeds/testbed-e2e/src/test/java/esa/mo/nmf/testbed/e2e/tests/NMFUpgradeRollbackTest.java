@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.testbed.e2e.tests;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.environment.Deployment;
 import esa.mo.nmf.environment.SoftwareBaseline;
@@ -33,7 +34,6 @@ import java.util.Properties;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.structures.ProviderList;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -223,7 +223,7 @@ public class NMFUpgradeRollbackTest {
     }
 
     private static GroundMOAdapterImpl connect()
-            throws IOException, MALInteractionException, MALException {
+            throws IOException, MOErrorException, MALException {
         ProviderList providers = NMFConsumer.retrieveProvidersFromDirectory(
                 new URI(harness.getDirectoryURI()));
         Assert.assertFalse("Directory must return a provider", providers.isEmpty());
@@ -231,7 +231,7 @@ public class NMFUpgradeRollbackTest {
     }
 
     private static Object readParameter(final ParameterStub stub, final String name)
-            throws MALInteractionException, MALException {
+            throws MOErrorException, MALException {
         IdentifierList names = new IdentifierList();
         names.add(new Identifier(name));
         LongList ids = stub.listDefinition(names);

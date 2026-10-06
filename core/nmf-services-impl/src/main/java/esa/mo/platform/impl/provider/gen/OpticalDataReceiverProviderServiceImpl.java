@@ -24,7 +24,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.UnsupportedOperationException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
@@ -94,7 +93,7 @@ public class OpticalDataReceiverProviderServiceImpl extends OpticalDataReceiverI
 
     @Override
     public void recordSamples(Duration recordingDuration, RecordSamplesInteraction interaction)
-            throws DeviceNotAvailableException, MALInteractionException, MALException {
+            throws DeviceNotAvailableException, MALException {
         if (!adapter.isUnitAvailable()) {
             // TODO Add error code to the service spec
             throw new DeviceNotAvailableException(null);

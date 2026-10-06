@@ -128,7 +128,7 @@ public class GPSProviderServiceWithTLEImpl extends GPSProviderServiceImpl {
     }
 
     @Override
-    public void getTLE(GetTLEInteraction interaction) throws DeviceNotAvailableException, MALInteractionException, MALException {
+    public void getTLE(GetTLEInteraction interaction) throws DeviceNotAvailableException, MALException {
         if (!adapter.isUnitAvailable() && isTLEFallbackEnabled == false) { // Is the unit available?
             throw new DeviceNotAvailableException(null);
         }
@@ -189,17 +189,16 @@ public class GPSProviderServiceWithTLEImpl extends GPSProviderServiceImpl {
      * Checks if TLE propagation should be used
      *
      * @return true if TLE propagation should be used, false otherwise
-     * @throws MALInteractionException If the TLE fallback is not enabled.
      * @throws MALException If something else goes wrong.
      */
     @Override
-    public boolean useTLEPropagation() throws MALInteractionException, MALException {
+    public boolean useTLEPropagation() throws DeviceNotAvailableException, MALException {
         boolean useTLEpropagation = false;
         if (!adapter.isUnitAvailable()) {
             if (isTLEFallbackEnabled) {
                 useTLEpropagation = true;
             } else {
-                throw new MALInteractionException(new DeviceNotAvailableException(null));
+                throw new DeviceNotAvailableException(null);
             }
         } else if (!isPositionFixed()) {
             useTLEpropagation = true;

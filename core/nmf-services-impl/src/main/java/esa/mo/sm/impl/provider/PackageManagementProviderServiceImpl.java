@@ -29,7 +29,6 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
@@ -118,7 +117,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public FindPackageResponse findPackage(IdentifierList names, MALInteraction interaction)
-            throws UnknownException, MALInteractionException, MALException {
+            throws UnknownException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         FindPackageResponse outList;
 
@@ -181,7 +180,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public void install(final IdentifierList names, final InstallInteraction interaction)
-            throws UnknownException, InvalidArgumentException, MALInteractionException, MALException {
+            throws UnknownException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -246,7 +245,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public void uninstall(final IdentifierList names, final BooleanList keepConfigurations,
-            final UninstallInteraction interaction) throws UnknownException, InvalidArgumentException, MALInteractionException, MALException {
+            final UninstallInteraction interaction) throws UnknownException, InvalidArgumentException, MALException {
         interaction.sendAcknowledgement();
 
         UIntegerList unkIndexList = new UIntegerList();
@@ -320,7 +319,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public void update(final IdentifierList names,
-            final UpdateInteraction interaction) throws UnknownException, InvalidArgumentException, MALInteractionException, MALException {
+            final UpdateInteraction interaction) throws UnknownException, InvalidArgumentException, MALException {
         interaction.sendAcknowledgement();
 
         UIntegerList unkIndexList = new UIntegerList();
@@ -398,7 +397,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             comServices.getArchiveService().store(
                     true, PackageManagementServiceInfo.PACKAGEINSTALLED_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(), archDetails, bodies, null);
-        } catch (org.ccsds.moims.mo.com.DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
+        } catch (org.ccsds.moims.mo.com.DuplicateException | InvalidArgumentException | MALException ex) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
                     Level.WARNING, "Could not store PackageInstalled in archive", ex);
         }
@@ -420,7 +419,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             comServices.getArchiveService().store(
                     true, PackageManagementServiceInfo.PACKAGEUNINSTALLED_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(), archDetails, bodies, null);
-        } catch (org.ccsds.moims.mo.com.DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
+        } catch (org.ccsds.moims.mo.com.DuplicateException | InvalidArgumentException | MALException ex) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
                     Level.WARNING, "Could not store PackageUninstalled in archive", ex);
         }
@@ -442,7 +441,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             comServices.getArchiveService().store(
                     true, PackageManagementServiceInfo.PACKAGEUPDATED_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(), archDetails, bodies, null);
-        } catch (org.ccsds.moims.mo.com.DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
+        } catch (org.ccsds.moims.mo.com.DuplicateException | InvalidArgumentException | MALException ex) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
                     Level.WARNING, "Could not store PackageUpdated in archive", ex);
         }
@@ -450,7 +449,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public CheckPackageIntegrityResponse checkPackageIntegrity(IdentifierList names,
-            MALInteraction interaction) throws UnknownException, InvalidArgumentException, MALInteractionException, MALException {
+            MALInteraction interaction) throws UnknownException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 

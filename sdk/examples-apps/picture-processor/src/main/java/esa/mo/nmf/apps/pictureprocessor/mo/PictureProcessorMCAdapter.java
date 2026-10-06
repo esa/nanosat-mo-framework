@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.apps.pictureprocessor.mo;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import static esa.mo.nmf.apps.pictureprocessor.utils.FileUtils.createDirectoriesIfNotExist;
 import esa.mo.nmf.AppStorage;
 import esa.mo.nmf.MCRegistration;
@@ -172,7 +173,7 @@ public class PictureProcessorMCAdapter extends MonitorAndControlNMFAdapter imple
         try {
             connector.getPlatformServices().getCameraService().takePicture(defaultCameraSettings(), adapter);
             processMap.put(executionId, adapter);
-        } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+        } catch (MOErrorException | MALException | IOException | NMFException ex) {
             LOG.log(Level.SEVERE, null, ex);
         }
     }

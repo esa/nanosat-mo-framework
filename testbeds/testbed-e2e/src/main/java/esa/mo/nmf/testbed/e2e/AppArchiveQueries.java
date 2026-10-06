@@ -116,7 +116,7 @@ class AppArchiveQueries {
                             latch.countDown();
                         }
                     });
-        } catch (MALException | MALInteractionException e) {
+        } catch (MALException | MOErrorException e) {
             throw new IOException("Archive query failed: " + e.getMessage(), e);
         }
         try {

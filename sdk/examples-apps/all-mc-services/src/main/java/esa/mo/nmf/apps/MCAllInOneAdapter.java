@@ -408,7 +408,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
                 default:
                     break;
             }
-        } catch (MALException | MALInteractionException ex) {
+        } catch (MALException | MOErrorException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -487,7 +487,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
         }
         try {
             nmf.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(duration, attitudeMode);
-        } catch (MALInteractionException | MALException | NMFException ex) {
+        } catch (MOErrorException | MALException | NMFException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             throw new ExecutionFailedException("Failed to set ADCS attitude: " + ex.getMessage());
         } catch (IOException ex) {
@@ -505,7 +505,7 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
             nmf.getPlatformServices().getAutonomousADCSService().monitorAttitudeRegister(
                     ConnectionConsumer.subscriptionWildcardRandom(), new DataReceivedAdapter());
             nmf.getPlatformServices().getAutonomousADCSService().enableMonitoring(true, ATTITUDE_MONITORING_INTERVAL);
-        } catch (IOException | MALInteractionException | MALException | NMFException ex) {
+        } catch (IOException | MOErrorException | MALException | NMFException ex) {
             LOGGER.log(Level.SEVERE, "Error when setting up attitude monitoring.", ex);
         }
     }

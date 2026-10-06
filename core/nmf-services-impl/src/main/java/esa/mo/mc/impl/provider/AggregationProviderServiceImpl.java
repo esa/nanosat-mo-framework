@@ -255,7 +255,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public AggregationValueDetailsList getValue(final LongList inIdentityIds,
-            final MALInteraction interaction) throws UnknownException, MALException, MALInteractionException {
+            final MALInteraction interaction) throws UnknownException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
 
         if (inIdentityIds == null) { // Is the input null?
@@ -296,7 +296,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public void enableReporting(final Boolean enable, final LongList ids,
-            final MALInteraction interaction) throws UnknownException, MALException, MALInteractionException {
+            final MALInteraction interaction) throws UnknownException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
 
         LongList objIdToBeEnabled = new LongList();
@@ -352,7 +352,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public void enableFilter(final Boolean enable, final LongList ids,
-            final MALInteraction interaction) throws UnknownException, MALException, MALInteractionException {
+            final MALInteraction interaction) throws UnknownException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
 
         LongList objIdToBeEnabled = new LongList();
@@ -411,7 +411,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public LongList listDefinition(final IdentifierList nameList, final MALInteraction interaction)
-            throws UnknownException, MALException, MALInteractionException {
+            throws UnknownException, MALException {
         LongList outLongLst = new LongList();
         UIntegerList unkIndexList = new UIntegerList();
 
@@ -450,7 +450,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public LongList addAggregation(final AggregationDefinitionList defsList,
-            final MALInteraction interaction) throws DuplicateException, InvalidArgumentException, MALException, MALInteractionException {
+            final MALInteraction interaction) throws DuplicateException, InvalidArgumentException, MALException {
         LongList out = new LongList();
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
@@ -527,7 +527,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public void updateDefinition(LongList ids, AggregationDefinitionList aDefs,
-            MALInteraction interaction) throws UnknownException, InvalidArgumentException, MALInteractionException, MALException {
+            MALInteraction interaction) throws UnknownException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -597,7 +597,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public void removeAggregation(final LongList ids, final MALInteraction interaction)
-            throws UnknownException, MALException, MALInteractionException {
+            throws UnknownException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         Long id;
         LongList removalLst = new LongList();

@@ -28,7 +28,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
@@ -114,7 +113,7 @@ public class StoreAggregations {
 
                 }
 
-            } catch (MALException | MALInteractionException | org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException ex) {
+            } catch (MALException | org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
             long estimatedTime = System.nanoTime() - startTime;

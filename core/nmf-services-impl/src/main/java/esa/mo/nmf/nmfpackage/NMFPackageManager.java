@@ -41,7 +41,6 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -874,9 +873,6 @@ public class NMFPackageManager {
                 appsLauncher.stopApp(runningApp, null, null);
             }
         } catch (org.ccsds.moims.mo.mal.UnknownException | org.ccsds.moims.mo.com.InvalidArgumentException ex) {
-            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                    "The " + name + " App was not found in the Directory service!");
-        } catch (MALInteractionException ex) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                     "The " + name + " App was not found in the Directory service!");
         } catch (MALException ex) {

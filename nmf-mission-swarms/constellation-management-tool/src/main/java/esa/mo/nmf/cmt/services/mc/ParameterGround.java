@@ -23,6 +23,7 @@
 
 package esa.mo.nmf.cmt.services.mc;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.nmf.cmt.ConstellationManagementTool;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
@@ -62,7 +63,7 @@ public class ParameterGround {
 
         try {
             serviceMCParameter.getParameterStub().setValue(rawValueList);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             Logger.getLogger(ConstellationManagementTool.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

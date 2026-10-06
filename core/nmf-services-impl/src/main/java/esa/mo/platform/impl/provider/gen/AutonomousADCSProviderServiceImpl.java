@@ -178,7 +178,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
     @Override
     public void enableMonitoring(Boolean enableGeneration, Duration monitoringInterval,
-            MALInteraction interaction) throws InvalidArgumentException, DeviceNotAvailableException, MALInteractionException, MALException {
+            MALInteraction interaction) throws InvalidArgumentException, DeviceNotAvailableException, MALException {
         if (!enableGeneration) {
             stopGeneration();
             return;
@@ -196,7 +196,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     }
 
     @Override
-    public GetStatusResponse getStatus(MALInteraction interaction) throws DeviceNotAvailableException, MALInteractionException, MALException {
+    public GetStatusResponse getStatus(MALInteraction interaction) throws DeviceNotAvailableException, MALException {
         if (!adapter.isUnitAvailable()) {
             throw new DeviceNotAvailableException(null);
         }
@@ -264,7 +264,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
     @Override
     public synchronized void setDesiredAttitude(final Duration duration, AttitudeMode desiredAttitude,
-            MALInteraction interaction) throws DeviceNotAvailableException, InvalidArgumentException, DeviceInUseException, UnsupportedOperationException, MALInteractionException, MALException {
+            MALInteraction interaction) throws DeviceNotAvailableException, InvalidArgumentException, DeviceInUseException, UnsupportedOperationException, MALException {
         if (!adapter.isUnitAvailable()) {
             throw new DeviceNotAvailableException(null);
         }
@@ -378,7 +378,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
     @Override
     public void setReactionWheelSpeed(ReactionWheelIdentifier wheel, Float speed,
-            MALInteraction interaction) throws DeviceNotAvailableException, MALInteractionException, MALException {
+            MALInteraction interaction) throws DeviceNotAvailableException, MALException {
         if (!adapter.isUnitAvailable()) {
             throw new DeviceNotAvailableException(null);
         }
@@ -390,7 +390,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
     @Override
     public void setAllReactionWheelSpeeds(Float speedX, Float speedY, Float speedZ, Float speedU,
             Float speedV, Float speedW, MALInteraction interaction) throws DeviceNotAvailableException,
-            MALInteractionException, MALException {
+            MALException {
         if (!adapter.isUnitAvailable()) {
             throw new DeviceNotAvailableException(null);
         }
@@ -399,7 +399,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
     @Override
     public void setAllReactionWheelParameters(ReactionWheelParameters parameters,
-            MALInteraction interaction) throws DeviceNotAvailableException, InvalidArgumentException, MALInteractionException, MALException {
+            MALInteraction interaction) throws DeviceNotAvailableException, InvalidArgumentException, MALException {
         if (!adapter.isUnitAvailable()) {
             throw new DeviceNotAvailableException(null);
         }
@@ -412,7 +412,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
     @Override
     public void setAllMagnetorquersDipoleMoments(Float dipoleX, Float dipoleY, Float dipoleZ,
-            MALInteraction interaction) throws DeviceNotAvailableException, MALInteractionException, MALException {
+            MALInteraction interaction) throws DeviceNotAvailableException, MALException {
         if (!adapter.isUnitAvailable()) {
             throw new DeviceNotAvailableException(null);
         }
@@ -421,7 +421,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
 
     @Override
     public ReactionWheelParameters getAllReactionWheelParameters(MALInteraction interaction) throws
-            DeviceNotAvailableException, MALInteractionException, MALException {
+            DeviceNotAvailableException, MALException {
         if (!adapter.isUnitAvailable()) {
             throw new DeviceNotAvailableException(null);
         }

@@ -20,6 +20,7 @@
  */
 package esa.mo.ground.simpleground;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.nmf.commonmoadapter.SimpleDataReceivedListener;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import java.io.Serializable;
@@ -64,7 +65,7 @@ public class SimpleGround {
             if (gma == null) {
                 LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - " + providerName);
             }
-        } catch (MalformedURLException | MALException | MALInteractionException ex) {
+        } catch (MalformedURLException | MALException | MOErrorException ex) {
             LOGGER.log(Level.SEVERE, "Failed to connect to the provider.", ex);
         }
 

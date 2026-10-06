@@ -20,6 +20,7 @@
  */
 package esa.mo.mc.impl.provider;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import java.util.ArrayList;
@@ -219,7 +220,7 @@ public final class AggregationManager extends MCManager {
                 if (objIds.size() == 1) {
                     return objIds.get(0);
                 }
-            } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
+            } catch (DuplicateException | InvalidArgumentException | MALException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
 
@@ -240,7 +241,7 @@ public final class AggregationManager extends MCManager {
     private ParameterValue sampleParameter(Long paramIdentityId, boolean aggrExpired) {
         try {
             return parameterManager.getParameterValue(paramIdentityId, aggrExpired);
-        } catch (org.ccsds.moims.mo.mal.UnknownException | MALInteractionException ex) {
+        } catch (MOErrorException ex) {
             return new ParameterValue(ValidityState.INVALID_RAW, null, null);
         }
     }
@@ -810,7 +811,7 @@ public final class AggregationManager extends MCManager {
 
                 //add to providers local list
                 newId = defIds.get(0);
-            } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
+            } catch (DuplicateException | InvalidArgumentException | MALException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }
@@ -849,7 +850,7 @@ public final class AggregationManager extends MCManager {
                         HelperArchive.generateArchiveDetailsList(null, null, defId),
                         defs,
                         null);
-            } catch (UnknownException | InvalidArgumentException | MALException | MALInteractionException ex) {
+            } catch (UnknownException | InvalidArgumentException | MALException ex) {
                 Logger.getLogger(AggregationManager.class.getName()).log(Level.SEVERE, null, ex);
             }
             this.updateDef(defId, definition);

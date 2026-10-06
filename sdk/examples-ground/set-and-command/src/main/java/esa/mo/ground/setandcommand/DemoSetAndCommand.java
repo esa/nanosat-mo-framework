@@ -20,6 +20,7 @@
  */
 package esa.mo.ground.setandcommand;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
@@ -75,7 +76,7 @@ public class DemoSetAndCommand {
                 LOGGER.log(Level.SEVERE, "Failed to connect to the provider. No such provider found - " +
                     PROVIDER_HELLO_WORLD);
             }
-        } catch (MALException | MalformedURLException | MALInteractionException ex) {
+        } catch (MALException | MalformedURLException | MOErrorException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }

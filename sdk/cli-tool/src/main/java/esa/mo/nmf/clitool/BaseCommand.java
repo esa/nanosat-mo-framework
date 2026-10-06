@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.clitool;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.nmf.NMFConsumer;
@@ -224,7 +225,7 @@ public abstract class BaseCommand {
                 consumer.setAuthenticationId(response.getAuthId());
                 System.out.println("Login successful!");
             }
-        } catch (MALException | MalformedURLException | MALInteractionException e) {
+        } catch (MALException | MalformedURLException | MOErrorException e) {
             LOGGER.log(Level.SEVERE, "Error when creating consumer", e);
             closeConsumer();
             return false;
@@ -264,7 +265,7 @@ public abstract class BaseCommand {
                     ids.add(SoftwareManagementCommands.outputSubscription);
                     consumer.getSMServices().getAppsLauncherService().getAppsLauncherStub().monitorExecutionDeregister(ids);
                 }
-            } catch (MALInteractionException | MALException e) {
+            } catch (MOErrorException | MALException e) {
                 LOGGER.log(Level.SEVERE, "Failed to deregister subscription: " + ids.get(0), e);
             }
 
@@ -303,7 +304,7 @@ public abstract class BaseCommand {
             ArchiveStub archive = localArchive == null
                     ? consumer.getCOMServices().getArchiveService().getArchiveStub() : localArchive.getArchiveStub();
             archive.query(true, objectsTypes, archiveQuery, null, adapter);
-        } catch (MALInteractionException | MALException e) {
+        } catch (MOErrorException | MALException e) {
             LOGGER.log(Level.SEVERE, "Error when querying archive", e);
             return;
         }

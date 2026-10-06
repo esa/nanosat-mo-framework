@@ -20,6 +20,7 @@
  */
 package esa.mo.com.impl.util;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -335,7 +336,7 @@ public class HelperArchive {
             LOGGER.log(Level.INFO,
                     "(UnknownException) The object could not be retrieved from the Archive! A null will be returned! {0}", ex);
             return null;
-        } catch (MALInteractionException ex) {
+        } catch (MOErrorException ex) {
             LOGGER.log(Level.INFO,
                     "(MALInteractionException) The object {0}, domain = {1}, objIds = {2} "
                     + "could not be retrieved from the Archive ({3})! A null will be returned!",

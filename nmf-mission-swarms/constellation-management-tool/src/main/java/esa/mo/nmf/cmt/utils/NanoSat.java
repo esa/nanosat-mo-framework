@@ -22,6 +22,7 @@
  */
 package esa.mo.nmf.cmt.utils;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.cmt.services.mc.ParameterGround;
@@ -169,7 +170,7 @@ public class NanoSat {
                 Logger.getLogger(NanoSat.class.getName()).log(Level.SEVERE,
                         "{0}: the returned list of providers is empty!", new Object[]{this.name});
             }
-        } catch (MALException | MALInteractionException | IOException ex) {
+        } catch (MALException | MOErrorException | IOException ex) {
             Logger.getLogger(NanoSat.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

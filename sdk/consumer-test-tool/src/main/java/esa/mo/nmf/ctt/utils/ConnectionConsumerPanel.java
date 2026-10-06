@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.ctt.utils;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
@@ -542,9 +543,6 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
 
                 this.tabs.insertTab("Action service", null,
                         new ActionConsumerPanel(actionService), "Action Tab", tabs.getTabCount());
-            } catch (MALInteractionException ex) {
-                errorConnectionProvider("Action");
-                return;
             } catch (MALException ex) {
                 errorConnectionProvider("Action");
                 return;
@@ -564,7 +562,7 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
             } catch (MALException ex) {
                 errorConnectionProvider("Parameter");
                 return;
-            } catch (MALInteractionException ex) {
+            } catch (MOErrorException ex) {
                 errorConnectionProvider("Parameter");
                 return;
             } catch (MalformedURLException ex) {
@@ -579,9 +577,6 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
                 AggregationConsumerServiceImpl aggregationService = new AggregationConsumerServiceImpl(details, comServices);
 
                 this.tabs.insertTab("Aggregation service", null, new AggregationConsumerPanel(aggregationService), "Aggregation Tab", tabs.getTabCount());
-            } catch (MALInteractionException ex) {
-                errorConnectionProvider("Aggregation");
-                return;
             } catch (MALException ex) {
                 errorConnectionProvider("Aggregation");
                 return;
@@ -597,9 +592,6 @@ public class ConnectionConsumerPanel extends javax.swing.JPanel {
                 AlertConsumerServiceImpl alertService = new AlertConsumerServiceImpl(details, comServices);
 
                 this.tabs.insertTab("Alert service", null, new AlertConsumerPanel(alertService), "Alert Tab", tabs.getTabCount());
-            } catch (MALInteractionException ex) {
-                errorConnectionProvider("Alert");
-                return;
             } catch (MALException ex) {
                 errorConnectionProvider("Alert");
                 return;

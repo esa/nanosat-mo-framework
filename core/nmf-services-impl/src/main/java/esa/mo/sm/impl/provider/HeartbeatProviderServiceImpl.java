@@ -150,13 +150,13 @@ public class HeartbeatProviderServiceImpl extends HeartbeatInheritanceSkeleton {
     }
 
     @Override
-    public Duration getPeriod(MALInteraction interaction) throws MALInteractionException, MALException {
+    public Duration getPeriod(MALInteraction interaction) throws MALException {
         // Convert to seconds and return the value
         return new Duration(period / 1000);
     }
 
     @Override
-    public GetTimeResponse getTime(MALInteraction interaction) throws MALInteractionException, MALException {
+    public GetTimeResponse getTime(MALInteraction interaction) throws MALException {
         return new GetTimeResponse(Time.now(), timeFactorSupplier.getAsInt());
     }
 

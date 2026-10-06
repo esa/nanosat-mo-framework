@@ -20,6 +20,7 @@
  */
 package esa.mo.sm.impl.provider;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.HelperArchive;
@@ -169,7 +170,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
                     updateAppInArchive(objId, definition, null);
                     this.addDef(objId, definition);
                     return objId;
-                } catch (UnknownException | InvalidArgumentException | MALException | MALInteractionException ex) {
+                } catch (MALException | MOErrorException ex) {
                     // No previous object - fail silently and proceed to creating one
                 }
             }
@@ -184,7 +185,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
                     this.addDef(objIds.get(0), definition);
                     return objIds.get(0);
                 }
-            } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
+            } catch (MALException | MOErrorException ex) {
                 LOGGER.log(Level.SEVERE, "Something went wrong...", ex);
             }
         }
@@ -222,7 +223,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
 
     private LongList addAppToArchive(final AppDetails definition,
             final URI uri, Long objId, Long related) throws DuplicateException,
-            InvalidArgumentException, MALException, MALInteractionException {
+            InvalidArgumentException, MALException {
         HeterogeneousList defs = new HeterogeneousList();
         defs.add(definition);
         ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
@@ -247,7 +248,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         if (super.getArchiveService() != null) {  // It should also update on the COM Archive
             try {
                 updateAppInArchive(objId, definition, interaction);
-            } catch (UnknownException | InvalidArgumentException | MALException | MALInteractionException ex) {
+            } catch (MALException | MOErrorException ex) {
                 LOGGER.log(Level.SEVERE, "Something went wrong...", ex);
                 return false;
             }
@@ -258,7 +259,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
 
     private void updateAppInArchive(final Long objId, final AppDetails definition,
             final MALInteraction interaction) throws UnknownException,
-            InvalidArgumentException, MALException, MALInteractionException {
+            InvalidArgumentException, MALException {
         HeterogeneousList defs = new HeterogeneousList();
         defs.add(definition);
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
@@ -550,12 +551,11 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
      * @param interaction the MAL interaction context
      * @param onlyNativeComponent the only native component
      * @throws IOException if the operation fails
-     * @throws MALInteractionException if the operation fails
      * @throws MALException if the operation fails
      * @return {@code true} on success
      */
     protected boolean stopNativeApp(final Long appInstId, StopAppInteraction interaction,
-            boolean onlyNativeComponent) throws IOException, MALInteractionException, MALException {
+            boolean onlyNativeComponent) throws IOException, MALException {
         AppDetails app = (AppDetails) this.getDef(appInstId); // get it from the list of available apps
 
         // Go to the folder where the app is installed
@@ -601,11 +601,10 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
      * @param interaction the MAL interaction context
      * @param forceKill the force kill
      * @throws MALException if a communication error occurs
-     * @throws MALInteractionException if the operation fails
      */
     protected void stopNMFAppGracefully(final Long appInstId, final Duration timeout,
             final StopAppInteraction interaction, final Consumer<Long> forceKill)
-            throws MALException, MALInteractionException {
+            throws MALException {
         Identifier appName = this.get(appInstId).getName();
         Process process = handlers.get(appInstId).getProcess();
         // A NULL timeout means the app is never forcibly killed: the provider only
@@ -673,12 +672,10 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
      * @param forceKill Callback invoked with an app id when its grace period
      * expires, responsible for marking it kill-pending and killing the process.
      * @throws MALException If the App could not be stopped.
-     * @throws MALInteractionException If the Event service could not be
-     * reached.
      */
     protected void stopApps(final LongList appInstIds, final Duration timeout,
             final StopAppInteraction interaction, final Consumer<Long> forceKill)
-            throws MALException, MALInteractionException {
+            throws MALException {
         for (int i = 0; i < appInstIds.size(); i++) {
             long appInstId = appInstIds.get(i);
             AppDetails curr = this.get(appInstId);

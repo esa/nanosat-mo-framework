@@ -24,7 +24,6 @@ import esa.mo.com.impl.util.HelperCOM;
 import org.ccsds.moims.mo.com.structures.ExpressionOperator;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Element;
@@ -81,7 +80,7 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
             // Cycle through all the conditions until it gets one that works...
             try {
                 finalValue = applyConversion(rawValue, conditionalConversion);
-            } catch (MALInteractionException ex) {
+            } catch (UnknownException ex) {
                 continue;
             }
         }
@@ -94,20 +93,15 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
      *
      * @param expression The Parameter Expression
      * @return The state of the expression
-     * @throws org.ccsds.moims.mo.mal.MALInteractionException The parameter in
+     * @throws UnknownException The parameter in
      * the expression does not exist and therefore the state of the expression
      * could not be evaluated.
      */
-    protected Boolean evaluateParameterExpression(ParameterExpression expression) throws MALInteractionException {
+    protected Boolean evaluateParameterExpression(ParameterExpression expression) throws UnknownException {
         if (expression == null) {
             return true;  // No test is required
         }
-        ParameterValue parameterValue;
-        try {
-            parameterValue = manager.getParameterValue(expression.getParameterId());
-        } catch (UnknownException ex) {
-            throw new MALInteractionException(ex);
-        }
+        ParameterValue parameterValue = manager.getParameterValue(expression.getParameterId());
         Attribute param = expression.getUseConverted() ?
                 parameterValue.getConvertedValue() : parameterValue.getRawValue();
 
@@ -115,11 +109,11 @@ public class ConversionServiceImpl extends ConversionInheritanceSkeleton {
     }
 
     private Attribute applyConversion(final Attribute value, final ConditionalConversion conditionalRef)
-        throws MALInteractionException {
+        throws UnknownException {
         Boolean eval = this.evaluateParameterExpression(conditionalRef.getCondition());
 
         if (!eval) {
-            throw new MALInteractionException(new UnknownException(null));
+            throw new UnknownException(null);
         }
 
         Element conversionDetails = (Element) conditionalRef.getConversion();

@@ -31,7 +31,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.IncorrectStateException;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
@@ -139,7 +138,7 @@ public class SoftwareImagesProviderServiceImpl extends SoftwareImagesInheritance
 
     @Override
     public synchronized SoftwareImagePartitionList listPartitions(final MALInteraction interaction)
-            throws DeviceNotAvailableException, MALInteractionException, MALException {
+            throws DeviceNotAvailableException, MALException {
         if (!adapter.isUnitAvailable()) {
             throw new DeviceNotAvailableException(null);
         }
@@ -154,7 +153,7 @@ public class SoftwareImagesProviderServiceImpl extends SoftwareImagesInheritance
     public void startImage(final Identifier imageName, final Identifier preferredPartition,
             final StartImageInteraction interaction) throws UnknownException,
             DeviceInUseException, DeviceNotAvailableException, IncompatibleException,
-            VerificationFailedException, MALInteractionException, MALException {
+            VerificationFailedException, MALException {
         final ImageManifest manifest;
         final Identifier partitionId;
         final ImageManifest.Variant variant;
@@ -194,7 +193,7 @@ public class SoftwareImagesProviderServiceImpl extends SoftwareImagesInheritance
             adapter.startImage(partitionId, variant.getFile(), stage -> {
                 try {
                     interaction.sendUpdate(stage);
-                } catch (MALInteractionException | MALException ex) {
+                } catch (MALException ex) {
                     LOGGER.log(Level.WARNING, "Could not send the start stage update", ex);
                 }
             });
@@ -219,7 +218,7 @@ public class SoftwareImagesProviderServiceImpl extends SoftwareImagesInheritance
     @Override
     public synchronized void stopImage(final Identifier partitionId,
             final MALInteraction interaction) throws UnknownException,
-            DeviceNotAvailableException, MALInteractionException, MALException {
+            DeviceNotAvailableException, MALException {
         if (!adapter.isUnitAvailable()) {
             throw new DeviceNotAvailableException(null);
         }
@@ -249,8 +248,7 @@ public class SoftwareImagesProviderServiceImpl extends SoftwareImagesInheritance
     @Override
     public synchronized void restartImage(final Identifier partitionId,
             final MALInteraction interaction) throws UnknownException,
-            IncorrectStateException, DeviceNotAvailableException,
-            MALInteractionException, MALException {
+            IncorrectStateException, DeviceNotAvailableException, MALException {
         if (!adapter.isUnitAvailable()) {
             throw new DeviceNotAvailableException(null);
         }
@@ -277,7 +275,7 @@ public class SoftwareImagesProviderServiceImpl extends SoftwareImagesInheritance
 
     @Override
     public synchronized HypervisorStatus getStatus(final MALInteraction interaction)
-            throws DeviceNotAvailableException, MALInteractionException, MALException {
+            throws DeviceNotAvailableException, MALException {
         if (!adapter.isUnitAvailable()) {
             throw new DeviceNotAvailableException(null);
         }
@@ -376,7 +374,7 @@ public class SoftwareImagesProviderServiceImpl extends SoftwareImagesInheritance
             return (objIds != null && objIds.size() == 1) ? objIds.get(0) : null;
         } catch (org.ccsds.moims.mo.com.DuplicateException
                 | org.ccsds.moims.mo.com.InvalidArgumentException
-                | MALException | MALInteractionException ex) {
+                | MALException ex) {
             LOGGER.log(Level.SEVERE, "Could not store the SoftwareImageStarted object", ex);
             return null;
         }
@@ -404,7 +402,7 @@ public class SoftwareImagesProviderServiceImpl extends SoftwareImagesInheritance
                     null);
         } catch (org.ccsds.moims.mo.com.DuplicateException
                 | org.ccsds.moims.mo.com.InvalidArgumentException
-                | MALException | MALInteractionException ex) {
+                | MALException ex) {
             LOGGER.log(Level.SEVERE, "Could not store the SoftwareImageStopped object", ex);
         }
     }

@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.ctt.services.mc;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import java.awt.Dimension;
 import java.util.logging.Level;
@@ -559,7 +560,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
                             pDef.getRawUnit(), pDef.getReportingEnabled(),
                             pDef.getReportInterval().getInSeconds()});
                 Logger.getLogger(ParameterAddModify.class.getName()).info("updateDefinition executed");
-            } catch (MALInteractionException | MALException ex) {
+            } catch (MOErrorException | MALException ex) {
                 Logger.getLogger(ParameterAddModify.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

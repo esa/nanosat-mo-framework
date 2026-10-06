@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.ctt.services.mc;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import java.awt.Color;
 import java.util.Map;
@@ -104,10 +105,10 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
     /**
      * Subscribes to all the provider's parameter values.
      *
-     * @throws MALInteractionException if the subscription returns an error
+     * @throws MOErrorException if the subscription returns an error
      * @throws MALException if a communication error occurs
      */
-    public void subscribeToParameters() throws MALInteractionException, MALException {
+    public void subscribeToParameters() throws MOErrorException, MALException {
         // Subscribe to ParametersValues
         subscription = ConnectionConsumer.subscriptionWildcardRandom();
         this.parameterService.getParameterStub().monitorValueRegister(subscription, new ParameterConsumerAdapter());
@@ -119,7 +120,7 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
         ids.add(subscription.getSubscriptionId());
         try {
             parameterService.getParameterStub().monitorValueDeregister(ids);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             Logger.getLogger(ParameterPublishedValues.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

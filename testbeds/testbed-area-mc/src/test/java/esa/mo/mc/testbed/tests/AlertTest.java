@@ -29,7 +29,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -71,7 +71,7 @@ public class AlertTest {
     }
 
     @Test
-    public void testPublishAlertEventIsReceived() throws MALException, MALInteractionException,
+    public void testPublishAlertEventIsReceived() throws MALException, MOErrorException,
             java.net.MalformedURLException, InterruptedException {
         LOGGER.info("Running: testPublishAlertEventIsReceived()");
 

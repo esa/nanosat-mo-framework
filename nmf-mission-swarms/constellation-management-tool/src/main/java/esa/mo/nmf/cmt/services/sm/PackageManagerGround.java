@@ -65,7 +65,7 @@ public class PackageManagerGround {
 
         try {
             return serviceSMPackageManagement.getPackageManagementStub().findPackage(idList);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             Logger.getLogger(ConstellationManagementTool.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -112,7 +112,7 @@ public class PackageManagerGround {
                     LOGGER.log(Level.SEVERE, msg, error);
                 }
             });
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
@@ -158,7 +158,7 @@ public class PackageManagerGround {
                             + "\nException:\n" + error + "\n" + error.toString(), error);
                 }
             });
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
@@ -203,7 +203,7 @@ public class PackageManagerGround {
                     LOGGER.log(Level.SEVERE, msg, error);
                 }
             });
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }

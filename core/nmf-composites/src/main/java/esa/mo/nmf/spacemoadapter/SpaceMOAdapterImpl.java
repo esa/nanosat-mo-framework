@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.spacemoadapter;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.com.impl.util.HelperCommon;
 import esa.mo.helpertools.misc.Const;
@@ -143,7 +144,7 @@ public class SpaceMOAdapterImpl extends MOAdapterImpl {
                 LOGGER.log(Level.SEVERE, String.format("Couldn't find %s provider",
                         Const.NANOSAT_MO_SUPERVISOR_NAME));
             }
-        } catch (MALInteractionException | MALException | MalformedURLException e) {
+        } catch (MOErrorException | MALException | MalformedURLException e) {
             LOGGER.log(Level.SEVERE, "Error while looking up the central directory", e);
 
         }

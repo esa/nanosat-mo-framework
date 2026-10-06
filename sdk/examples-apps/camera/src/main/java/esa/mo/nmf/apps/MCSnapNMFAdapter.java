@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.apps;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
@@ -159,7 +160,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
                         adapter
                 );
                 return;
-            } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+            } catch (MOErrorException | MALException | IOException | NMFException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 throw new ExecutionFailedException("Failed to take RAW picture: " + ex.getMessage());
             }
@@ -174,7 +175,7 @@ public class MCSnapNMFAdapter extends MonitorAndControlNMFAdapter {
                         adapter
                 );
                 return;
-            } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+            } catch (MOErrorException | MALException | IOException | NMFException ex) {
                 Logger.getLogger(MCSnapNMFAdapter.class.getName()).log(Level.SEVERE, null, ex);
                 throw new ExecutionFailedException("Failed to take JPG picture: " + ex.getMessage());
             }

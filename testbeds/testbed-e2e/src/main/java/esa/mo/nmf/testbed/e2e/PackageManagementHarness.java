@@ -102,7 +102,7 @@ public class PackageManagementHarness {
 
             adapter = new GroundMOAdapterImpl(supervisorProvider);
             stub = adapter.getSMServices().getPackageManagementService().getPackageManagementStub();
-        } catch (MALException | MALInteractionException | java.net.MalformedURLException e) {
+        } catch (MALException | MOErrorException | java.net.MalformedURLException e) {
             throw new IOException("Failed to connect to the Package Management service: "
                     + e.getMessage(), e);
         }
@@ -119,7 +119,7 @@ public class PackageManagementHarness {
         names.add(new Identifier("*"));
         try {
             return stub.findPackage(names);
-        } catch (MALException | MALInteractionException e) {
+        } catch (MALException | MOErrorException e) {
             throw new IOException("findPackage failed: " + e.getMessage(), e);
         }
     }
@@ -269,9 +269,9 @@ public class PackageManagementHarness {
                 default:
                     throw new IllegalArgumentException("Unknown operation: " + op);
             }
-        } catch (MALInteractionException e) {
+        } catch (MOErrorException e) {
             // The ACK itself can carry the error for early validation failures
-            return e.getStandardError();
+            return e;
         } catch (MALException e) {
             throw new IOException(op + " failed: " + e.getMessage(), e);
         }
@@ -356,7 +356,7 @@ public class PackageManagementHarness {
                             latch.countDown();
                         }
                     });
-        } catch (MALException | MALInteractionException e) {
+        } catch (MALException | MOErrorException e) {
             throw new IOException("Archive query failed: " + e.getMessage(), e);
         }
         try {

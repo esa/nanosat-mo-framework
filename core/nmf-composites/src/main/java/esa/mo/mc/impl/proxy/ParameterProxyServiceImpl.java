@@ -27,7 +27,6 @@ import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
@@ -96,7 +95,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
 
     @Override
     public ParameterValueDetailsList getValue(LongList ll, MALInteraction interaction)
-            throws MALInteractionException, MALException {
+            throws MALException {
         // In this case, the object this.consumer represents the connection 
         // between the consumer part of the proxy to the provider on Space
 
@@ -157,7 +156,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
 
     @Override
     public void enableReporting(final Boolean enable, final LongList ids,
-            final MALInteraction interaction) throws MALException, MALInteractionException {
+            final MALInteraction interaction) throws MALException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -166,19 +165,19 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
     }
 
     @Override
-    public void setValue(ParameterRawValueList prvl, MALInteraction mali) throws MALInteractionException, MALException {
+    public void setValue(ParameterRawValueList prvl, MALInteraction mali) throws MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public LongList listDefinition(IdentifierList il,
-            MALInteraction mali) throws MALInteractionException, MALException {
+            MALInteraction mali) throws MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void updateDefinition(LongList ll, ParameterDefinitionList pddl, MALInteraction mali)
-            throws MALInteractionException, MALException {
+            throws MALException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.clitool.sm;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.sm.heartbeat.consumer.BeatSubscriptionKeys;
 import static esa.mo.nmf.clitool.BaseCommand.consumer;
 import esa.mo.nmf.clitool.Args;
@@ -100,7 +101,7 @@ public class SoftwareManagementCommands {
                 synchronized (lock) {
                     lock.wait();
                 }
-            } catch (MALInteractionException | MALException | InterruptedException e) {
+            } catch (MOErrorException | MALException | InterruptedException e) {
                 LOGGER.log(Level.SEVERE, "Error during heartbeat register!", e);
                 System.exit(ExitCodes.GENERIC_ERROR);
             }

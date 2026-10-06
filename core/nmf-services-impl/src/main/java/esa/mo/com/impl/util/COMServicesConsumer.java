@@ -20,6 +20,7 @@
  */
 package esa.mo.com.impl.util;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.consumer.ArchiveSyncConsumerServiceImpl;
 import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
@@ -101,7 +102,7 @@ public class COMServicesConsumer {
             if (details != null) {
                 loginService = new LoginConsumerServiceImpl(details, this, authenticationId, localNamePrefix);
             }
-        } catch (MALException | MALInteractionException | MalformedURLException ex) {
+        } catch (MALException | MalformedURLException ex) {
             Logger.getLogger(COMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

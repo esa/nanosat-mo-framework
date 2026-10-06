@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.apps;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.nmf.MCRegistration.RegistrationMode;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
@@ -206,7 +207,7 @@ public class DemoGPSData {
 
                     return (Attribute) Attribute.javaType2Attribute(nOfSats.get(0));
                 }
-            } catch (MALException | MALInteractionException ex) {
+            } catch (MALException | MOErrorException ex) {
                 Logger.getLogger(DemoGPSData.class.getName()).log(Level.SEVERE, null, ex);
             }
             return null;

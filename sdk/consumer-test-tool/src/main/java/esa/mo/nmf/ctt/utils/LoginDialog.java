@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.ctt.utils;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.consumer.LoginConsumerServiceImpl;
 import java.awt.*;
 import java.net.MalformedURLException;
@@ -131,7 +132,7 @@ public class LoginDialog extends JDialog {
                 loginConsumer.closeConnection();
                 loginSuccessful = true;
                 Logger.getLogger(LoginDialog.class.getName()).log(Level.INFO, "Logged in successfully!");
-            } catch (MALException | MalformedURLException | MALInteractionException e) {
+            } catch (MALException | MalformedURLException | MOErrorException e) {
                 loginSuccessful = false;
                 loginError = e;
             }
@@ -155,7 +156,7 @@ public class LoginDialog extends JDialog {
         setLocationRelativeTo(null);
     }
 
-    private LoginConsumerServiceImpl getLoginConsumer() throws MALException, MALInteractionException,
+    private LoginConsumerServiceImpl getLoginConsumer() throws MALException,
             MalformedURLException {
         if (loginConsumer == null) {
             loginConsumer = new LoginConsumerServiceImpl(loginConnection, null, null, localNamePrefix);

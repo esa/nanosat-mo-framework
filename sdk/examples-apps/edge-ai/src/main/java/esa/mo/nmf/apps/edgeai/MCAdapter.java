@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.apps.edgeai;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
@@ -177,7 +178,7 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
             
             aiService.doInference(id, inputTilesPath);
             LOG.log(Level.SEVERE, "The AI inference was successful!");
-        } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+        } catch (MOErrorException | MALException | IOException | NMFException ex) {
             LOG.log(Level.SEVERE, "AI was not performed...", ex);
         }
     }

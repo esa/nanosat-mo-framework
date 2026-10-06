@@ -164,8 +164,8 @@ public class PlatformCommands {
                 synchronized (lock) {
                     lock.wait();
                 }
-            } catch (MALInteractionException e) {
-                MOErrorException error = e.getStandardError();
+            } catch (MOErrorException e) {
+                MOErrorException error = e;
                 if (error.getErrorNumber().equals(COMHelper.INVALID_ARGUMENT_ERROR_NUMBER)) {
                     if (error.getExtraInformation() instanceof PixelResolutionList) {
                         System.out.println("Provided resolution is not supported!");
@@ -234,7 +234,7 @@ public class PlatformCommands {
                 System.out.println("Generation enabled: " + response.getGenerationEnabled());
                 System.out.println("Monitoring interval: " + response.getMonitoringInterval());
                 System.out.println("Active attitude mode: " + response.getActiveAttitudeMode());
-            } catch (MALInteractionException | MALException e) {
+            } catch (MOErrorException | MALException e) {
                 LOGGER.log(Level.SEVERE, "Error during getStatus!", e);
             }
         }
@@ -300,7 +300,7 @@ public class PlatformCommands {
                 synchronized (lock) {
                     lock.wait();
                 }
-            } catch (MALInteractionException | MALException | InterruptedException e) {
+            } catch (MOErrorException | MALException | InterruptedException e) {
                 LOGGER.log(Level.SEVERE, "Error during getNMEASentence!", e);
             }
         }

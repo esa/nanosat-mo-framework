@@ -189,7 +189,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                             "There was an error during the findPackage operation.", error);
                 }
             });
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(
                     Level.SEVERE, null, ex);
         }
@@ -244,7 +244,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                             + error + "\n" + error.toString(), error);
                 }
             });
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(
                     Level.SEVERE, null, ex);
         }
@@ -294,7 +294,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, msg, error);
                 }
             });
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_uninstallButtonActionPerformed
@@ -339,7 +339,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, msg, error);
                 }
             });
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_installButtonActionPerformed

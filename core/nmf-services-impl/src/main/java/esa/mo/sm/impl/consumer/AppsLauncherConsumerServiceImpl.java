@@ -50,11 +50,10 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
      * @param authenticationId the authentication id of the logged in user
      * @param localNamePrefix the prefix for the local name of the consumer
      * @throws MALException if the consumer cannot be created
-     * @throws MALInteractionException if the service returns an error
      */
     public AppsLauncherConsumerServiceImpl(final SingleConnectionDetails connectionDetails,
             final COMServicesConsumer comServices, final Blob authenticationId,
-            final String localNamePrefix) throws MALException, MALInteractionException {
+            final String localNamePrefix) throws MALException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
@@ -81,10 +80,9 @@ public class AppsLauncherConsumerServiceImpl extends ConsumerServiceImpl {
      * @param connectionDetails the connection details of the AppsLauncher service provider
      * @param comServices the COM services consumer used by this service
      * @throws MALException if the consumer cannot be created
-     * @throws MALInteractionException if the service returns an error
      */
     public AppsLauncherConsumerServiceImpl(final SingleConnectionDetails connectionDetails,
-            final COMServicesConsumer comServices) throws MALException, MALInteractionException {
+            final COMServicesConsumer comServices) throws MALException {
         this(connectionDetails, comServices, null, null);
     }
 

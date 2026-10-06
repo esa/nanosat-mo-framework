@@ -139,7 +139,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
     @Override
     public Long executeAction(ExecutionRequest executionRequest, MALInteraction interaction)
-            throws InvalidArgumentException, UnknownException, MALInteractionException, MALException {
+            throws InvalidArgumentException, UnknownException, MALException {
         UIntegerList invIndexList = new UIntegerList();
 
         if ("true".equals(System.getProperty(IS_INTERMEDIATE_RELAY_PROPERTY))) {
@@ -175,7 +175,7 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
     @Override
     public LongList listDefinition(final IdentifierList actionNames, final MALInteraction interaction)
-            throws UnknownException, MALException, MALInteractionException {
+            throws UnknownException, MALException {
         LongList outPairLst = new LongList();
 
         if (actionNames == null) { // Is the input null?
@@ -222,11 +222,10 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
      * @return the object instance ids of the added definitions
      * @throws InvalidArgumentException if a definition is invalid
      * @throws DuplicateException if a definition already exists
-     * @throws MALInteractionException if the service returns an error
      * @throws MALException if a communication error occurs
      */
     public LongList addAction(ActionDefinitionList defsList, MALInteraction interaction)
-            throws InvalidArgumentException, DuplicateException, MALInteractionException, MALException {
+            throws InvalidArgumentException, DuplicateException, MALException {
         LongList newObjInstIds = new LongList();
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
@@ -283,12 +282,11 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
      * @return the object instance ids of the updated definitions
      * @throws InvalidArgumentException if a definition is invalid
      * @throws UnknownException if an id is unknown
-     * @throws MALInteractionException if the service returns an error
      * @throws MALException if a communication error occurs
      */
     public LongList updateDefinition(LongList ids, ActionDefinitionList actionDefDetails,
             MALInteraction interaction) throws InvalidArgumentException,
-            UnknownException, MALInteractionException, MALException {
+            UnknownException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -342,10 +340,9 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
      * @param interaction the MAL interaction context, or {@code null}
      * @throws UnknownException if an id is unknown
      * @throws MALException if a communication error occurs
-     * @throws MALInteractionException if the service returns an error
      */
     public void removeAction(final LongList definitionIds, final MALInteraction interaction)
-            throws UnknownException, MALException, MALInteractionException {
+            throws UnknownException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         Long tempIdentity;
         LongList tempIdentityLst = new LongList();

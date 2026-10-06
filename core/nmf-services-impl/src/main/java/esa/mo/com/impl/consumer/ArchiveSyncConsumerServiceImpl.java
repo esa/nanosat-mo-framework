@@ -20,6 +20,7 @@
  */
 package esa.mo.com.impl.consumer;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.sync.Dictionary;
 import esa.mo.com.impl.sync.EncodeDecode;
 import esa.mo.com.impl.util.COMObjectStructure;
@@ -128,7 +129,7 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
 
         try { // Do a retrieve with the correct times
             iTicket = archiveSyncService.retrieveRange(from, until, objTypes, new Identifier(""), adapter);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
@@ -160,7 +161,7 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
 
                     try {
                         archiveSyncService.retrieveRangeAgain(iTicket, missingIndexes, adapter);
-                    } catch (MALInteractionException | MALException ex1) {
+                    } catch (MOErrorException | MALException ex1) {
                         Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex1);
                     }
                 }
@@ -179,7 +180,7 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
 
                 try {
                     archiveSyncService.retrieveRangeAgain(iTicket, missingIndexes, adapter);
-                } catch (MALInteractionException | MALException ex1) {
+                } catch (MOErrorException | MALException ex1) {
                     Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex1);
                 }
             } else {
@@ -196,7 +197,7 @@ public class ArchiveSyncConsumerServiceImpl extends ConsumerServiceImpl {
         try {
             // Free the data from the provider!
             archiveSyncService.free(iTicket);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             Logger.getLogger(ArchiveSyncConsumerServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 

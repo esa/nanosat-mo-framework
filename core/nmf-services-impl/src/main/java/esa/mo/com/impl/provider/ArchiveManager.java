@@ -508,10 +508,9 @@ public class ArchiveManager {
      * @param perObjs the per objs
      * @param filterSet the filter set
      * @return the filter query
-     * @throws MALInteractionException if the operation fails
      */
     public static ArrayList<ArchivePersistenceObject> filterQuery(final ArrayList<ArchivePersistenceObject> perObjs,
-            final CompositeFilterSet filterSet) throws MALInteractionException {
+            final CompositeFilterSet filterSet) {
         if (filterSet == null) {
             return perObjs;
         }

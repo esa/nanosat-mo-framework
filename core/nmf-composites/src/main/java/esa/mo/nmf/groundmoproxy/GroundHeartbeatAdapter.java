@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.groundmoproxy;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -61,11 +62,11 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
      *
      * @param heartbeat the heartbeat consumer service connected to the spacecraft
      * @param moProxy the ground proxy whose alive status is tracked
-     * @throws MALInteractionException if the heartbeat service returns an error
+     * @throws MOErrorException if the heartbeat service returns an error
      * @throws MALException if a communication error occurs
      */
     public GroundHeartbeatAdapter(final HeartbeatConsumerServiceImpl heartbeat,
-            final GroundMOProxy moProxy) throws MALInteractionException, MALException {
+            final GroundMOProxy moProxy) throws MOErrorException, MALException {
         this.moProxy = moProxy;
         this.heartbeat = heartbeat;
         long timestamp = System.currentTimeMillis();
@@ -171,7 +172,7 @@ public class GroundHeartbeatAdapter extends HeartbeatAdapter {
                             long timestamp = System.currentTimeMillis();
                             heartbeat.getHeartbeatStub().getPeriod();
                             lag = System.currentTimeMillis() - timestamp; // Calculate the lag
-                        } catch (MALInteractionException | MALException ex) {
+                        } catch (MOErrorException | MALException ex) {
                             LOGGER.log(Level.SEVERE, null, ex);
                         }
                         attemptCounter = 0;

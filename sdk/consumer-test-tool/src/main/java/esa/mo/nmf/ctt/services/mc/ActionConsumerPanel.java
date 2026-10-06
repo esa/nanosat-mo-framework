@@ -105,7 +105,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
         try {
             serviceMCAction.getActionStub().monitorExecutionRegister(
                     monitorExecutionSubscription, new ActionConsumerAdapter());
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE,
                     "Failed to subscribe to monitorExecution", ex);
         }
@@ -119,7 +119,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             ids.add(monitorExecutionSubscription.getSubscriptionId());
             try {
                 serviceMCAction.getActionStub().monitorExecutionDeregister(ids);
-            } catch (MALInteractionException | MALException ex) {
+            } catch (MOErrorException | MALException ex) {
                 Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE,
                         "Failed to deregister from monitorExecution", ex);
             }
@@ -268,7 +268,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, str.toString(), "Returned List from the Provider",
                     JOptionPane.PLAIN_MESSAGE);
 
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -302,7 +302,7 @@ public class ActionConsumerPanel extends javax.swing.JPanel {
                             "There was an error during the listDefinition operation.", error);
                 }
             });
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             Logger.getLogger(ActionConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

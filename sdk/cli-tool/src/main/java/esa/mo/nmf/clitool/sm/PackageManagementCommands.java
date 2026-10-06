@@ -95,7 +95,7 @@ public class PackageManagementCommands {
                     String installedStr = isInstalled ? "  (installed)" : "";
                     System.out.println("Package name: " + packageName + installedStr);
                 }
-            } catch (MALInteractionException | MALException e) {
+            } catch (MOErrorException | MALException e) {
                 LOGGER.log(Level.SEVERE,
                         "Error during the execution of the findPackage operation!", e);
                 System.exit(ExitCodes.GENERIC_ERROR);
@@ -179,7 +179,7 @@ public class PackageManagementCommands {
                         System.out.println("Package name: " + packageName + "  (installed)");
                     }
                 }
-            } catch (MALInteractionException | MALException e) {
+            } catch (MOErrorException | MALException e) {
                 LOGGER.log(Level.SEVERE,
                         "Error during the execution of the install operation!", e);
                 System.exit(ExitCodes.GENERIC_ERROR);
@@ -256,7 +256,7 @@ public class PackageManagementCommands {
                     }
                 }
                 );
-            } catch (MALInteractionException | MALException e) {
+            } catch (MOErrorException | MALException e) {
                 LOGGER.log(Level.SEVERE,
                         "Error during the execution of the uninstall operation!", e);
                 System.exit(ExitCodes.GENERIC_ERROR);
@@ -328,7 +328,7 @@ public class PackageManagementCommands {
                     }
                 }
                 );
-            } catch (MALInteractionException | MALException e) {
+            } catch (MOErrorException | MALException e) {
                 LOGGER.log(Level.SEVERE,
                         "Error during the execution of the update operation!", e);
                 System.exit(ExitCodes.GENERIC_ERROR);

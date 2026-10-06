@@ -31,11 +31,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.archive.consumer.ArchiveStub;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.structures.*;
@@ -102,7 +102,7 @@ public class ArchiveQueryCountTest {
      * empty RESPONSE.
      */
     @Test
-    public void testQueryReturnsStoredObjects() throws MALInteractionException, MALException, InterruptedException {
+    public void testQueryReturnsStoredObjects() throws MOErrorException, MALException, InterruptedException {
         LOGGER.info("Running: testQueryReturnsStoredObjects()");
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
@@ -125,7 +125,7 @@ public class ArchiveQueryCountTest {
      * checked here — only its presence.
      */
     @Test
-    public void testQueryReturnBody() throws MALInteractionException, MALException, InterruptedException {
+    public void testQueryReturnBody() throws MOErrorException, MALException, InterruptedException {
         LOGGER.info("Running: testQueryReturnBody()");
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
@@ -159,7 +159,7 @@ public class ArchiveQueryCountTest {
      * an empty RESPONSE with no preceding UPDATE messages.
      */
     @Test
-    public void testQueryNoMatch() throws MALInteractionException, MALException, InterruptedException {
+    public void testQueryNoMatch() throws MOErrorException, MALException, InterruptedException {
         LOGGER.info("Running: testQueryNoMatch()");
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
 
@@ -175,7 +175,7 @@ public class ArchiveQueryCountTest {
      * three.
      */
     @Test
-    public void testCountMatchingObjects() throws MALInteractionException, MALException, InterruptedException {
+    public void testCountMatchingObjects() throws MOErrorException, MALException, InterruptedException {
         LOGGER.info("Running: testCountMatchingObjects()");
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
@@ -197,7 +197,7 @@ public class ArchiveQueryCountTest {
      * never stored.
      */
     @Test
-    public void testCountNoMatch() throws MALInteractionException, MALException, InterruptedException {
+    public void testCountNoMatch() throws MOErrorException, MALException, InterruptedException {
         LOGGER.info("Running: testCountNoMatch()");
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
 
@@ -222,7 +222,7 @@ public class ArchiveQueryCountTest {
      */
     @Test
     public void testQueryInvalidOnBadFilter()
-            throws MALInteractionException, MALException, InterruptedException {
+            throws MOErrorException, MALException, InterruptedException {
         LOGGER.info("Running: testQueryInvalidOnBadFilter()");
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
@@ -241,6 +241,8 @@ public class ArchiveQueryCountTest {
         Assert.assertNotNull(
                 "Provider must return an error for an invalid CompositeFilter", error);
         LOGGER.info("Error number returned: " + error.getErrorNumber());
+        Assert.assertTrue("The adapter must receive the error as its own class, got " + error.getClass(),
+                error instanceof InvalidArgumentException);
         Assert.assertEquals(
                 "Error must be INVALID", COMHelper.INVALID_ARGUMENT_ERROR_NUMBER,
                 error.getErrorNumber());
@@ -259,7 +261,7 @@ public class ArchiveQueryCountTest {
      */
     @Test
     public void testQueryInvalidOnUnknownSortField()
-            throws MALInteractionException, MALException, InterruptedException {
+            throws MOErrorException, MALException, InterruptedException {
         LOGGER.info("Running: testQueryInvalidOnUnknownSortField()");
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
@@ -287,7 +289,7 @@ public class ArchiveQueryCountTest {
      */
     @Test
     public void testCountInvalidOnBadFilter()
-            throws MALInteractionException, MALException, InterruptedException {
+            throws MOErrorException, MALException, InterruptedException {
         LOGGER.info("Running: testCountInvalidOnBadFilter()");
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
@@ -321,7 +323,7 @@ public class ArchiveQueryCountTest {
      */
     @Test
     public void testCountInvalidOnUnknownSortField()
-            throws MALInteractionException, MALException, InterruptedException {
+            throws MOErrorException, MALException, InterruptedException {
         LOGGER.info("Running: testCountInvalidOnUnknownSortField()");
         ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
         IdentifierList domain = ConfigurationProviderSingleton.getDomain();
@@ -348,7 +350,7 @@ public class ArchiveQueryCountTest {
      * the body content is irrelevant to query/count tests.
      */
     private static void storeEmpty(ArchiveStub stub, ObjectType type,
-            IdentifierList domain, URI providerURI) throws MALInteractionException, MALException {
+            IdentifierList domain, URI providerURI) throws MOErrorException, MALException {
         HeterogeneousList bodies = new HeterogeneousList();
         bodies.add(new ObjectKeysList(new ObjectKeysList()));
         stub.store(true, type, domain,
@@ -373,7 +375,7 @@ public class ArchiveQueryCountTest {
      * seconds
      */
     private static QueryResult runQuery(ArchiveStub stub, ObjectType type, boolean returnBody)
-            throws MALInteractionException, MALException, InterruptedException {
+            throws MOErrorException, MALException, InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
         QueryResult result = new QueryResult();
         // related=0 is the wildcard value; all other fields are null (no constraint).
@@ -399,7 +401,7 @@ public class ArchiveQueryCountTest {
      * seconds
      */
     private static long runCount(ArchiveStub stub, ObjectType type)
-            throws MALInteractionException, MALException, InterruptedException {
+            throws MOErrorException, MALException, InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
         CountAdapter adapter = new CountAdapter(latch);
         ArchiveQuery archiveQuery = new ArchiveQuery(0L);
@@ -524,7 +526,7 @@ public class ArchiveQueryCountTest {
      */
     private static MOErrorException runQueryExpectError(ArchiveStub stub, ObjectType type,
             ArchiveQuery archiveQuery, QueryFilter queryFilter)
-            throws MALInteractionException, MALException, InterruptedException {
+            throws MOErrorException, MALException, InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
         ErrorCaptor captor = new ErrorCaptor(latch);
         stub.asyncQuery(false, type, archiveQuery, queryFilter, captor);
@@ -543,7 +545,7 @@ public class ArchiveQueryCountTest {
      */
     private static MOErrorException runCountExpectError(ArchiveStub stub, ObjectType type,
             ArchiveQuery archiveQuery, QueryFilter queryFilter)
-            throws MALInteractionException, MALException, InterruptedException {
+            throws MOErrorException, MALException, InterruptedException {
         CountDownLatch latch = new CountDownLatch(1);
         ErrorCaptor captor = new ErrorCaptor(latch);
         stub.asyncCount(type, archiveQuery, queryFilter, captor);

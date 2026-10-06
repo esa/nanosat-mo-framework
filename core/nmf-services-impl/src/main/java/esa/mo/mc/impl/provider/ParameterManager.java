@@ -20,6 +20,7 @@
  */
 package esa.mo.mc.impl.provider;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import static esa.mo.com.impl.util.HelperArchive.generateArchiveDetailsList;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
@@ -135,7 +136,7 @@ public class ParameterManager extends MCManager {
                 if (objIds.size() == 1) {
                     return objIds.get(0);
                 }
-            } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
+            } catch (DuplicateException | InvalidArgumentException | MALException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
             return null;
@@ -177,7 +178,7 @@ public class ParameterManager extends MCManager {
                 if (objIds.size() == pVals.size()) {
                     return objIds;
                 }
-            } catch (DuplicateException | InvalidArgumentException | MALException | MALInteractionException ex) {
+            } catch (DuplicateException | InvalidArgumentException | MALException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -211,7 +212,7 @@ public class ParameterManager extends MCManager {
         for (Long defId : paramIds) {
             try {
                 pValList.add(getParameterValue(defId, aggrExpired));
-            } catch (UnknownException | MALInteractionException ex) {
+            } catch (MOErrorException ex) {
                 pValList.add(null);
             }
         }
@@ -224,7 +225,6 @@ public class ParameterManager extends MCManager {
      *
      * @param defId The id of the definition.
      * @return The requested parameter value.
-     * @throws MALInteractionException If the parameter does not exist.
      */
     /**
      * Returns the parameter value.
@@ -232,9 +232,8 @@ public class ParameterManager extends MCManager {
      * @param defId the def id
      * @return the parameter value
      * @throws UnknownException if the operation fails
-     * @throws MALInteractionException if the operation fails
      */
-    public ParameterValue getParameterValue(Long defId) throws UnknownException, MALInteractionException {
+    public ParameterValue getParameterValue(Long defId) throws UnknownException {
         return getParameterValue(defId, false);
     }
 
@@ -247,7 +246,6 @@ public class ParameterManager extends MCManager {
      * the aggregation-period. if true, the validity-state of the new parameter
      * will be expired.
      * @return The requested parameter value.
-     * @throws MALInteractionException If the parameter does not exist.
      */
     /**
      * Returns the parameter value.
@@ -256,9 +254,8 @@ public class ParameterManager extends MCManager {
      * @param aggrExpired the aggr expired
      * @return the parameter value
      * @throws UnknownException if the operation fails
-     * @throws MALInteractionException if the operation fails
      */
-    public ParameterValue getParameterValue(Long defId, boolean aggrExpired) throws UnknownException, MALInteractionException {
+    public ParameterValue getParameterValue(Long defId, boolean aggrExpired) throws UnknownException {
         if (!this.existsDef(defId)) {  // The Parameter does not exist
             throw new UnknownException(defId);
         }
@@ -437,7 +434,7 @@ public class ParameterManager extends MCManager {
                         ParameterServiceInfo.PARAMETERDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
                         archDetails, definitions, null);
-            } catch (DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
+            } catch (DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }
@@ -484,7 +481,7 @@ public class ParameterManager extends MCManager {
                 //add to providers local list
                 newIdPair = defIds.get(0);
 
-            } catch (DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
+            } catch (DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }
@@ -546,7 +543,7 @@ public class ParameterManager extends MCManager {
                         ConfigurationProviderSingleton.getDomain(),
                         metadata,
                         defs, null);
-            } catch (UnknownException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
+            } catch (UnknownException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException ex) {
                 Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             }
             this.updateDef(id, definition);

@@ -78,10 +78,9 @@ public class AlertConsumerServiceImpl extends ConsumerServiceImpl {
      * @param comServices the COM services consumer used by this service
      * @throws MALException if the consumer cannot be created
      * @throws MalformedURLException if a provided URI is malformed
-     * @throws MALInteractionException if the service returns an error
      */
     public AlertConsumerServiceImpl(SingleConnectionDetails connectionDetails, COMServicesConsumer comServices)
-            throws MALException, MalformedURLException, MALInteractionException {
+            throws MALException, MalformedURLException {
         this(connectionDetails, comServices, null, null);
     }
 
@@ -94,11 +93,10 @@ public class AlertConsumerServiceImpl extends ConsumerServiceImpl {
      * @param localNamePrefix the prefix for the local name of the consumer
      * @throws MALException if the consumer cannot be created
      * @throws MalformedURLException if a provided URI is malformed
-     * @throws MALInteractionException if the service returns an error
      */
     public AlertConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices, Blob authenticationId, String localNamePrefix)
-            throws MALException, MalformedURLException, MALInteractionException {
+            throws MALException, MalformedURLException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 

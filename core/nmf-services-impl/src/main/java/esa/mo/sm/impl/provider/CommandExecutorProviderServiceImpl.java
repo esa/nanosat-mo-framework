@@ -131,7 +131,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
 
     @Override
     public Long runCommand(Command command, MALInteraction interaction)
-            throws MALInteractionException, MALException {
+            throws MALException {
         Long storedCommandObject;
         if (command == null) {
             throw new MALException("Received null Command.");
@@ -147,7 +147,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
             objIds = archiveService.store(true, CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE,
                     connection.getPrimaryConnectionDetails().getDomain(), archDetails, objBodies, null);
         } catch (org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException ex) {
-            throw new MALInteractionException(ex);
+            throw new MALException("The Command object could not be stored", ex);
         }
 
         if (objIds.size() == 1) {
@@ -204,7 +204,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
             objBodies.add(cmdOutput);
             archiveService.store(true, CommandExecutorServiceInfo.COMMANDOUTPUT_OBJECT_TYPE,
                     domain, archDetails, objBodies, null);
-        } catch (org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
+        } catch (org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException ex) {
             LOGGER.log(Level.SEVERE, "Could not archive CommandOutput", ex);
         }
 
@@ -306,7 +306,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
             archiveService.update(CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE,
                     connection.getPrimaryConnectionDetails().getDomain(),
                     archDetails, objBodies, null);
-        } catch (org.ccsds.moims.mo.mal.UnknownException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
+        } catch (org.ccsds.moims.mo.mal.UnknownException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException ex) {
             Logger.getLogger(CommandExecutorProviderServiceImpl.class.getName()).log(Level.SEVERE,
                     "Could not update COM Command object", ex);
         }

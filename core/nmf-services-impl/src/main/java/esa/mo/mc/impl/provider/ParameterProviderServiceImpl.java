@@ -20,6 +20,7 @@
  */
 package esa.mo.mc.impl.provider;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.reconfigurable.service.ConfigurationChangeListener;
 import esa.mo.reconfigurable.service.ReconfigurableService;
@@ -145,7 +146,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     @Override
     public ParameterValueDetailsList getValue(final LongList ids, final MALInteraction interaction)
-            throws UnknownException, MALException, MALInteractionException {
+            throws UnknownException, MALException {
         if (ids == null) { // Is the input null?
             throw new IllegalArgumentException("LongList argument must not be null");
         }
@@ -190,7 +191,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     @Override
     public void enableReporting(final Boolean enable, final LongList ids,
-            final MALInteraction interaction) throws UnknownException, MALException, MALInteractionException {
+            final MALInteraction interaction) throws UnknownException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
 
         LongList objIdToBeEnabled = new LongList();
@@ -244,7 +245,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     @Override
     public void setValue(final ParameterRawValueList rawValueList,
-            final MALInteraction interaction) throws UnknownException, ReadOnlyException, InvalidArgumentException, MALException, MALInteractionException {
+            final MALInteraction interaction) throws UnknownException, ReadOnlyException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList readOnlyIndexList = new UIntegerList();
@@ -330,7 +331,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     @Override
     public LongList listDefinition(final IdentifierList paramNames, final MALInteraction interaction)
-            throws UnknownException, MALException, MALInteractionException {
+            throws UnknownException, MALException {
         LongList retDefinitions = new LongList();
 
         if (paramNames == null) { // Is the input null?
@@ -379,10 +380,9 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      * @throws InvalidArgumentException if a definition is invalid
      * @throws DuplicateException if a definition already exists
      * @throws MALException if a communication error occurs
-     * @throws MALInteractionException if the service returns an error
      */
     public LongList addParameters(final ParameterDefinitionList defsList,
-            final MALInteraction interaction) throws InvalidArgumentException, DuplicateException, MALException, MALInteractionException {
+            final MALInteraction interaction) throws InvalidArgumentException, DuplicateException, MALException {
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList = new UIntegerList();
 
@@ -455,7 +455,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     @Override
     public void updateDefinition(LongList ids, ParameterDefinitionList paramDefDetails,
-            MALInteraction interaction) throws InvalidArgumentException, UnknownException, MALInteractionException, MALException {
+            MALInteraction interaction) throws InvalidArgumentException, UnknownException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -513,10 +513,9 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      * @param interaction the MAL interaction context, or {@code null}
      * @throws UnknownException if an id is unknown
      * @throws MALException if a communication error occurs
-     * @throws MALInteractionException if the service returns an error
      */
     public void removeParameter(final LongList defIds, final MALInteraction interaction) throws UnknownException,
-            MALException, MALInteractionException {
+            MALException {
         UIntegerList unkIndexList = new UIntegerList();
         LongList removalLst = new LongList();
 
@@ -882,7 +881,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                         // Enable the reporting for this Alert Definition
                         LongList returnedObjIds = this.addParameters(pDefs, null);
                         id = returnedObjIds.get(0);
-                    } catch (InvalidArgumentException | DuplicateException | MALInteractionException | MALException ex) {
+                    } catch (MOErrorException | MALException ex) {
                         Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
                         return false;
                     }
@@ -995,7 +994,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             ArrayList<ParameterInstance> parameters = new ArrayList<>(1);
             parameters.add(new ParameterInstance(name, parameterValue, Time.now()));
             this.pushMultipleParameterValues(parameters, storeInCOMArchive);
-        } catch (UnknownException | IllegalArgumentException | MALInteractionException ex) {
+        } catch (IllegalArgumentException | MOErrorException ex) {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,
                     "Exception during publishing process on the provider {0}", ex);
         }

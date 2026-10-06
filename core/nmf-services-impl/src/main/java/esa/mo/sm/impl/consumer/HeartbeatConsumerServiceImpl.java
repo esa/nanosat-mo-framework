@@ -20,6 +20,7 @@
  */
 package esa.mo.sm.impl.consumer;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.util.COMServicesConsumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,11 +56,10 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
      * @param authenticationId the authentication id of the logged in user
      * @param localNamePrefix the prefix for the local name of the consumer
      * @throws MALException if the consumer cannot be created
-     * @throws MALInteractionException if the service returns an error
      */
     public HeartbeatConsumerServiceImpl(SingleConnectionDetails connectionDetails,
             COMServicesConsumer comServices, Blob authenticationId,
-            String localNamePrefix) throws MALException, MALInteractionException {
+            String localNamePrefix) throws MALException {
         this.connectionDetails = connectionDetails;
         this.comServices = comServices;
 
@@ -86,10 +86,9 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
      * @param connectionDetails the connection details of the Heartbeat service provider
      * @param comServices the COM services consumer used by this service
      * @throws MALException if the consumer cannot be created
-     * @throws MALInteractionException if the service returns an error
      */
     public HeartbeatConsumerServiceImpl(SingleConnectionDetails connectionDetails,
-            COMServicesConsumer comServices) throws MALException, MALInteractionException {
+            COMServicesConsumer comServices) throws MALException {
         this(connectionDetails, comServices, null, null);
     }
 
@@ -106,7 +105,7 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
             heartbeatSubscription = ConnectionConsumer.subscriptionWildcardRandom();
             try {
                 heartbeatService.beatRegister(heartbeatSubscription, adapter);
-            } catch (MALInteractionException | MALException ex) {
+            } catch (MOErrorException | MALException ex) {
                 Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(
                         Level.SEVERE, null, ex);
             }
@@ -126,7 +125,7 @@ public class HeartbeatConsumerServiceImpl extends ConsumerServiceImpl {
                 IdentifierList ids = new IdentifierList();
                 ids.add(heartbeatSubscription.getSubscriptionId());
                 heartbeatService.beatDeregister(ids);
-            } catch (MALInteractionException | MALException ex) {
+            } catch (MOErrorException | MALException ex) {
                 Logger.getLogger(HeartbeatConsumerServiceImpl.class.getName()).log(
                         Level.SEVERE, null, ex);
             }

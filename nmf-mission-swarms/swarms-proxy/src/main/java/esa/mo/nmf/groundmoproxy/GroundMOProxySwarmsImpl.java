@@ -163,7 +163,7 @@ public class GroundMOProxySwarmsImpl extends GroundMOProxy {
                     // Do nothing!
                 }
             }
-        } catch (MALInteractionException | InvalidArgumentException ex) {
+        } catch (MOErrorException ex) {
             Logger.getLogger(GroundMOProxySwarmsImpl.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
             Logger.getLogger(GroundMOProxySwarmsImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -201,7 +201,7 @@ public class GroundMOProxySwarmsImpl extends GroundMOProxy {
             }
 
             this.syncRemoteArchiveWithLocalArchive(archiveSyncs);
-        } catch (MALInteractionException | InvalidArgumentException ex) {
+        } catch (MOErrorException ex) {
             Logger.getLogger(GroundMOProxySwarmsImpl.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MALException ex) {
             Logger.getLogger(GroundMOProxySwarmsImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -209,7 +209,7 @@ public class GroundMOProxySwarmsImpl extends GroundMOProxy {
     }
 
     public final void syncRemoteArchiveWithLocalArchive(ArrayList<ArchiveSyncConsumerServiceImpl> archiveSyncs)
-            throws MALInteractionException, MALException {
+            throws MOErrorException, MALException {
         // Select Parameter Definitions by default
         ObjectTypeList objTypes = new ObjectTypeList();
         UShort shorty = new UShort((short) 0);
@@ -253,7 +253,7 @@ public class GroundMOProxySwarmsImpl extends GroundMOProxy {
                 } catch (DuplicateException ex) {
                     Logger.getLogger(GroundMOProxySwarmsImpl.class.getName()).log(
                             Level.SEVERE, "The object already exists!");
-                } catch (MALInteractionException | InvalidArgumentException ex) {
+                } catch (InvalidArgumentException ex) {
                     Logger.getLogger(GroundMOProxySwarmsImpl.class.getName()).log(
                             Level.SEVERE, "Error!", ex);
                 }
@@ -308,7 +308,7 @@ public class GroundMOProxySwarmsImpl extends GroundMOProxy {
                     archiveQuery, null, new QueryInteractionImpl(latest, semaphore));
         } catch (MALException ex) {
             Logger.getLogger(GroundMOProxySwarmsImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException | InvalidArgumentException ex) {
+        } catch (InvalidArgumentException ex) {
             Logger.getLogger(GroundMOProxySwarmsImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -334,14 +334,14 @@ public class GroundMOProxySwarmsImpl extends GroundMOProxy {
         }
 
         @Override
-        public MALMessage sendAcknowledgement() throws MALInteractionException, MALException {
+        public MALMessage sendAcknowledgement() throws MALException {
             return null;
         }
 
         @Override
         public MALMessage sendUpdate(ObjectType objType, IdentifierList domain,
                 ArchiveDetailsList objDetails, HeterogeneousList objBodies)
-                throws MALInteractionException, MALException {
+                throws MALException {
             // The query is sorted and asks for the latest object, so the first update
             // to arrive carries the timestamp being looked for.
             if (objDetails != null && !objDetails.isEmpty()) {
@@ -351,21 +351,21 @@ public class GroundMOProxySwarmsImpl extends GroundMOProxy {
         }
 
         @Override
-        public MALMessage sendResponse() throws MALInteractionException, MALException {
+        public MALMessage sendResponse() throws MALException {
             latest.compareAndSet(null, new Time(0));
             semaphore.release();
             return null;
         }
 
         @Override
-        public MALMessage sendError(MOErrorException error) throws MALInteractionException, MALException {
+        public MALMessage sendError(MOErrorException error) throws MALException {
             Logger.getLogger(GroundMOProxy.class.getName()).log(Level.INFO, "Error! (1)");
             semaphore.release();
             return null;
         }
 
         @Override
-        public MALMessage sendUpdateError(MOErrorException error) throws MALInteractionException, MALException {
+        public MALMessage sendUpdateError(MOErrorException error) throws MALException {
             Logger.getLogger(GroundMOProxy.class.getName()).log(Level.INFO, "Error! (2)");
             semaphore.release();
             return null;

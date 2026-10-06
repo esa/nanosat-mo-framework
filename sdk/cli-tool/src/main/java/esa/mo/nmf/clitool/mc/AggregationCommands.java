@@ -80,8 +80,8 @@ public class AggregationCommands {
             LongList ids = aggregationService.listDefinition(request);
             aggregationService.enableReporting(enable, ids);
             System.out.println((enable ? "Enable " : "Disable ") + "successful.");
-        } catch (MALInteractionException e) {
-            MOErrorException error = e.getStandardError();
+        } catch (MOErrorException e) {
+            MOErrorException error = e;
             if (error.getErrorNumber().equals(MALHelper.UNKNOWN_ERROR_NUMBER)) {
                 System.out.println("Provided aggregations don't exist in the provider:");
 
@@ -351,7 +351,7 @@ public class AggregationCommands {
                     lock.wait();
                 }
 
-            } catch (MALInteractionException | MALException | InterruptedException e) {
+            } catch (MOErrorException | MALException | InterruptedException e) {
                 LOGGER.log(Level.SEVERE, "Error during monitorValueRegister!", e);
             }
         }

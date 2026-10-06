@@ -38,7 +38,6 @@ import org.ccsds.moims.mo.com.archive.provider.RetrieveInteraction;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.*;
@@ -124,7 +123,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     @Override
     public void retrieve(final ObjectType inObjectType, final IdentifierList inDomain,
             final LongList inObjIds, final RetrieveInteraction interaction)
-            throws InvalidArgumentException, UnknownException, MALInteractionException, MALException {
+            throws InvalidArgumentException, UnknownException, MALException {
         interaction.sendAcknowledgement();  // "ok, it was received.."
         UIntegerList unkIndexList = new UIntegerList();
         LongList longList = new LongList();
@@ -223,7 +222,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     @Override
     public void query(Boolean returnObjBody, final ObjectType lObjectType, final ArchiveQuery lArchiveQuery,
             final QueryFilter queryFilter, final QueryInteraction interaction) throws InvalidArgumentException,
-            MALException, MALInteractionException {
+            MALException {
         interaction.sendAcknowledgement();
 
         if (returnObjBody == null) {
@@ -306,7 +305,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     @Override
     public void count(final ObjectType objType, final ArchiveQuery lArchiveQuery,
             final QueryFilter filter, final CountInteraction interaction) throws InvalidArgumentException,
-            MALException, MALInteractionException {
+            MALException {
         interaction.sendAcknowledgement();
 
         ArrayList<ArchivePersistenceObject> perObjs = manager.query(objType, lArchiveQuery, filter);
@@ -349,7 +348,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     public LongList store(final Boolean returnObjId, final ObjectType objType,
             final IdentifierList domain, final ArchiveDetailsList details,
             final HeterogeneousList bodies, final MALInteraction interaction)
-            throws DuplicateException, InvalidArgumentException, MALException, MALInteractionException {
+            throws DuplicateException, InvalidArgumentException, MALException {
         UIntegerList invIndexList = new UIntegerList();
         UIntegerList dupIndexList;
 
@@ -443,7 +442,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     public void update(final ObjectType objType, final IdentifierList domain,
             final ArchiveDetailsList details, final HeterogeneousList objBodies,
             final MALInteraction interaction) throws UnknownException,
-            InvalidArgumentException, MALException, MALInteractionException {
+            InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -506,7 +505,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
     @Override
     public LongList delete(final ObjectType objType, final IdentifierList domain,
             final LongList lLongList, final MALInteraction interaction) throws UnknownException,
-            InvalidArgumentException, MALException, MALInteractionException {
+            InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
         LongList toBeDeleted = new LongList();

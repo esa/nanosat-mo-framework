@@ -71,7 +71,7 @@ public class AppManagerGround {
 
             return HelperArchive.getArchiveCOMObjectList(archiveService.getArchiveStub(),
                     AppsLauncherServiceInfo.APPDETAILS_OBJECT_TYPE, domain, appResponse.getAppIds());
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, "Failed to list Apps from NanoSat: ", ex);
         }
         return null;
@@ -88,7 +88,7 @@ public class AppManagerGround {
 
         try {
             serviceSMAppsLauncher.getAppsLauncherStub().runApp(ids);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, "Failed to run App: ", ex);
         }
     }
@@ -127,7 +127,7 @@ public class AppManagerGround {
                 }
 
             });
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, "Failed to run App: ", ex);
         }
     }

@@ -143,7 +143,7 @@ public class AppHarness {
 
             appId = resolveAppId();
             LOGGER.info("Found app '" + appName + "' with id=" + appId);
-        } catch (MALException | MALInteractionException | java.net.MalformedURLException e) {
+        } catch (MALException | MOErrorException | java.net.MalformedURLException e) {
             throw new IOException("Failed to connect for app '" + appName + "': " + e.getMessage(), e);
         }
     }
@@ -207,7 +207,7 @@ public class AppHarness {
             ids.add(appId);
             stub.runApp(ids);
             LOGGER.info("runApp('" + appName + "') submitted.");
-        } catch (MALException | MALInteractionException e) {
+        } catch (MALException | MOErrorException e) {
             throw new IOException("Failed to start app '" + appName + "': " + e.getMessage(), e);
         }
 
@@ -284,7 +284,7 @@ public class AppHarness {
 
             actionStub.executeAction(new ExecutionRequest(defId, argValues, null));
             LOGGER.info("launchAction('" + actionName + "') on app '" + appName + "' submitted.");
-        } catch (MALException | MALInteractionException e) {
+        } catch (MALException | MOErrorException e) {
             throw new IOException("Failed to invoke action '" + actionName + "' on app '"
                     + appName + "': " + e.getMessage(), e);
         } catch (InterruptedException e) {
@@ -310,7 +310,7 @@ public class AppHarness {
             names.forEach(n -> paramNames.add(new Identifier(n)));
             LongList ids = parameterStub.listDefinition(paramNames);
             return parameterStub.getValue(ids);
-        } catch (MALException | MALInteractionException e) {
+        } catch (MALException | MOErrorException e) {
             throw new IOException("getValue (parameters) failed for app '" + appName + "': "
                     + e.getMessage(), e);
         }
@@ -333,7 +333,7 @@ public class AppHarness {
             names.forEach(n -> aggNames.add(new Identifier(n)));
             LongList ids = aggregationStub.listDefinition(aggNames);
             return aggregationStub.getValue(ids);
-        } catch (MALException | MALInteractionException e) {
+        } catch (MALException | MOErrorException e) {
             throw new IOException("getValue (aggregations) failed for app '" + appName + "': "
                     + e.getMessage(), e);
         }
@@ -383,7 +383,7 @@ public class AppHarness {
 
             latch.await(timeoutMs, TimeUnit.MILLISECONDS);
             return outcome.get();
-        } catch (MALException | MALInteractionException e) {
+        } catch (MALException | MOErrorException e) {
             throw new IOException("executeAction/monitorExecution failed for app '" + appName + "': "
                     + e.getMessage(), e);
         } catch (InterruptedException e) {
@@ -394,7 +394,7 @@ public class AppHarness {
             subIds.add(sub.getSubscriptionId());
             try {
                 actionStub.monitorExecutionDeregister(subIds);
-            } catch (MALException | MALInteractionException ignored) {
+            } catch (MALException | MOErrorException ignored) {
             }
         }
     }
@@ -408,7 +408,7 @@ public class AppHarness {
      * failure and is rethrown immediately.
      */
     private Long resolveActionDefId(ActionStub actionStub, String actionName, long timeoutMs)
-            throws MALException, MALInteractionException, InterruptedException, IOException {
+            throws MOErrorException, MALException, InterruptedException, IOException {
         IdentifierList names = new IdentifierList();
         names.add(new Identifier(actionName));
         long deadline = System.currentTimeMillis() + timeoutMs;
@@ -419,8 +419,8 @@ public class AppHarness {
                     return ids.get(0);
                 }
                 // Empty/zero result: definition not registered yet, keep polling.
-            } catch (MALInteractionException e) {
-                if (!MALHelper.UNKNOWN_ERROR_NUMBER.equals(e.getStandardError().getErrorNumber())) {
+            } catch (MOErrorException e) {
+                if (!MALHelper.UNKNOWN_ERROR_NUMBER.equals(e.getErrorNumber())) {
                     throw e;
                 }
                 // UNKNOWN: the action is not registered yet, keep polling.
@@ -460,7 +460,7 @@ public class AppHarness {
                 }
             }
             throw new IOException("App provider '" + appName + "' not found in Directory.");
-        } catch (MALException | MALInteractionException | java.net.MalformedURLException e) {
+        } catch (MALException | MOErrorException | java.net.MalformedURLException e) {
             throw new IOException("Failed to resolve provider for app '" + appName + "': "
                     + e.getMessage(), e);
         }
@@ -520,7 +520,7 @@ public class AppHarness {
                     latch.countDown();
                 }
             });
-        } catch (MALException | MALInteractionException e) {
+        } catch (MALException | MOErrorException e) {
             throw new IOException("stopApp call failed: " + e.getMessage(), e);
         }
         try {
@@ -545,7 +545,7 @@ public class AppHarness {
             LongList ids = new LongList();
             ids.add(appId);
             stub.killApp(ids);
-        } catch (MALException | MALInteractionException e) {
+        } catch (MALException | MOErrorException e) {
             throw new IOException("killApp call failed: " + e.getMessage(), e);
         }
     }
@@ -583,7 +583,7 @@ public class AppHarness {
                     }
                 }
             });
-        } catch (MALException | MALInteractionException e) {
+        } catch (MALException | MOErrorException e) {
             throw new IOException("monitorEventsRegister failed: " + e.getMessage(), e);
         }
         try {
@@ -595,7 +595,7 @@ public class AppHarness {
             subIds.add(sub.getSubscriptionId());
             try {
                 stub.monitorEventsDeregister(subIds);
-            } catch (MALException | MALInteractionException ignored) {
+            } catch (MALException | MOErrorException ignored) {
             }
         }
         return new ArrayList<>(collected);
@@ -649,7 +649,7 @@ public class AppHarness {
                 stub.stopApp(ids, null, new AppsLauncherAdapter() {
                 });
                 LOGGER.info("stopApp('" + appName + "') submitted.");
-            } catch (MALException | MALInteractionException e) {
+            } catch (MALException | MOErrorException e) {
                 LOGGER.log(Level.WARNING, "Error stopping app '" + appName + "': " + e.getMessage(), e);
             }
         }
@@ -704,7 +704,7 @@ public class AppHarness {
                 return Boolean.TRUE.equals(response.getRunning().get(0));
             }
             return false;
-        } catch (MALException | MALInteractionException e) {
+        } catch (MALException | MOErrorException e) {
             throw new IOException("Failed to query app running state: " + e.getMessage(), e);
         }
     }
@@ -758,7 +758,7 @@ public class AppHarness {
         return providers.isEmpty() ? null : providers.get(0);
     }
 
-    private Long resolveAppId() throws MALException, MALInteractionException, IOException {
+    private Long resolveAppId() throws MOErrorException, MALException, IOException {
         IdentifierList names = new IdentifierList();
         names.add(new Identifier(appName));
         ListAppResponse response = stub.listApp(names, new Identifier(WILDCARD));
@@ -800,7 +800,7 @@ public class AppHarness {
             subIds.add(sub.getSubscriptionId());
             try {
                 stub.monitorExecutionDeregister(subIds);
-            } catch (MALException | MALInteractionException ignored) {
+            } catch (MALException | MOErrorException ignored) {
             }
         }
     }

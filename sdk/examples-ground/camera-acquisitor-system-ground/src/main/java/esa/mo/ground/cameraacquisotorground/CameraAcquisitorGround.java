@@ -20,6 +20,7 @@
  */
 package esa.mo.ground.cameraacquisotorground;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.ground.restservice.GroundTrack;
 import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
 import esa.mo.ground.restservice.Pass;
@@ -233,7 +234,7 @@ public class CameraAcquisitorGround {
                         LOGGER.log(Level.WARNING, "Camera Acqisitor App not found! Retrying...");
                     }
                 }
-            } catch (MALException | MalformedURLException | MALInteractionException ex) {
+            } catch (MALException | MalformedURLException | MOErrorException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
             }
         }
@@ -248,7 +249,7 @@ public class CameraAcquisitorGround {
                     new UShort(0), new UOctet((short) 0), new UShort(0)), archiveQuery, null, archiveAdapter);
 
             LOGGER.log(Level.INFO, "Finished getting archive entries!");
-        } catch (MALException | MALInteractionException ex) {
+        } catch (MALException | MOErrorException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
         orbitHandler = new OrbitHandler(getTLE());
@@ -309,7 +310,7 @@ public class CameraAcquisitorGround {
                 }
                 return actionID;
 
-            } catch (NMFException | MALException | MALInteractionException e) {
+            } catch (NMFException | MALException | MOErrorException e) {
                 LOGGER.log(Level.SEVERE, e.getMessage(), e);
             }
         }
@@ -474,7 +475,7 @@ public class CameraAcquisitorGround {
             actionService.getActionStub().monitorExecutionRegister(
                     monitorExecutionSubscription, new MonitorExecutionAdapter());
             LOGGER.log(Level.INFO, "Subscribed to monitorExecution");
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, "Failed to subscribe to monitorExecution", ex);
         }
     }
@@ -566,7 +567,7 @@ public class CameraAcquisitorGround {
 
                                 schedule.add(scheduleDate);
                             }
-                        } catch (MALInteractionException | MALException ex) {
+                        } catch (MOErrorException | MALException ex) {
                             LOGGER.log(Level.SEVERE, ex.getMessage());
                         }
                     } else if (objBody instanceof ExecutionStatus) {

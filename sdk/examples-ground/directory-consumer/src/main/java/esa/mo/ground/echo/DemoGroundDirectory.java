@@ -20,6 +20,7 @@
  */
 package esa.mo.ground.echo;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.commonmoadapter.CompleteDataReceivedListener;
 import esa.mo.nmf.commonmoadapter.SimpleDataReceivedListener;
@@ -59,7 +60,7 @@ public class DemoGroundDirectory {
             } else {
                 LOGGER.log(Level.SEVERE, "The returned list of providers is empty!");
             }
-        } catch (MALException | MalformedURLException | MALInteractionException ex) {
+        } catch (MALException | MalformedURLException | MOErrorException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }

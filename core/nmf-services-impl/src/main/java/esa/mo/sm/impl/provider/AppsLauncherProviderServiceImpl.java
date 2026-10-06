@@ -185,7 +185,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             this.manager.getCOMServices().getArchiveService().store(
                     true, AppsLauncherServiceInfo.APPSTARTED_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(), archDetails, bodies, null);
-        } catch (org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
+        } catch (org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException ex) {
             LOGGER.log(Level.WARNING, "Could not store AppStarted in archive", ex);
         }
     }
@@ -202,7 +202,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             this.manager.getCOMServices().getArchiveService().store(
                     true, AppsLauncherServiceInfo.APPSTOPPED_OBJECT_TYPE,
                     ConfigurationProviderSingleton.getDomain(), archDetails, bodies, null);
-        } catch (org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
+        } catch (org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException ex) {
             LOGGER.log(Level.WARNING, "Could not store AppStopped in archive", ex);
         }
     }
@@ -286,7 +286,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     @Override
     public void runApp(LongList appInstIds, MALInteraction interaction) throws UnknownException,
-            InvalidArgumentException, InternalException, MALInteractionException, MALException {
+            InvalidArgumentException, InternalException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -365,7 +365,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     @Override
     public void killApp(LongList appInstIds, MALInteraction interaction)
-            throws UnknownException, InvalidArgumentException, MALInteractionException, MALException {
+            throws UnknownException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -420,7 +420,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     @Override
     public void stopApp(final LongList appInstIds, final Duration timeout, final StopAppInteraction interaction)
-            throws UnknownException, InvalidArgumentException, MALInteractionException, MALException {
+            throws UnknownException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -500,7 +500,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     @Override
     public ListAppResponse listApp(final IdentifierList appNames, final Identifier category,
-            final MALInteraction interaction) throws UnknownException, MALInteractionException, MALException {
+            final MALInteraction interaction) throws UnknownException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
 
         if (appNames == null) { // Is the input null?

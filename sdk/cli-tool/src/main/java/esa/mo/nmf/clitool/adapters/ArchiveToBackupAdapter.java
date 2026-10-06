@@ -31,7 +31,6 @@ import org.ccsds.moims.mo.com.archive.consumer.ArchiveAdapter;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
 import org.ccsds.moims.mo.com.structures.ObjectType;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
@@ -79,7 +78,7 @@ public class ArchiveToBackupAdapter extends ArchiveAdapter implements QueryStatu
                         objects.getDomain(),
                         objects.getArchiveDetailsList(),
                         objects.getObjectBodies(), null);
-            } catch (MALException | MALInteractionException | org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException e) {
+            } catch (MALException | org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException e) {
                 LOGGER.log(Level.SEVERE, "Failed to store objects of type: " + objects.getObjectType(), e);
                 result = false;
             }

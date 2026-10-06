@@ -84,7 +84,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         try {
             serviceMCAggregation.getAggregationStub().monitorValueRegister(subscription,
                     new AggregationConsumerAdapter());
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
@@ -95,7 +95,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         ids.add(subscription.getSubscriptionId());
         try {
             serviceMCAggregation.getAggregationStub().monitorValueDeregister(ids);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }
@@ -260,7 +260,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
 
             JOptionPane.showMessageDialog(null, str.toString(),
                     "Returned List from the Provider", JOptionPane.PLAIN_MESSAGE);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_listDefinitionButtonActionPerformed
@@ -314,7 +314,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
 
             // Add the Action Definition to the table
             aggregationTable.addEntry(comObject);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             JOptionPane.showMessageDialog(null,
                     "There was an error with the submitted Aggregation Definition.",
                     "Error", JOptionPane.PLAIN_MESSAGE);
@@ -343,7 +343,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAggregation.getAggregationStub().updateDefinition(objIds, defs);
             this.listDefinitionAllButtonActionPerformed(null);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_updateDefinitionButtonActionPerformed
@@ -359,7 +359,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAggregation.getAggregationStub().removeAggregation(longlist);
             aggregationTable.removeSelectedEntry();
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removeDefinitionButtonActionPerformed
@@ -394,7 +394,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                     LOGGER.log(Level.SEVERE, null, error);
                 }
             });
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -408,7 +408,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAggregation.getAggregationStub().removeAggregation(longlist);
             aggregationTable.removeAllEntries();
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_removeDefinitionAllButtonActionPerformed
@@ -438,7 +438,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAggregation.getAggregationStub().enableReporting(!curState, ids);
             aggregationTable.switchEnabledstatusAll(!curState);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -457,7 +457,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         try {
             this.serviceMCAggregation.getAggregationStub().enableReporting(!curState, ids);
             aggregationTable.switchEnabledstatus(!curState);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_enableDefinitionButtonAggActionPerformed
@@ -522,7 +522,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, str.toString(),
                     "Returned List from the Provider",
                     JOptionPane.PLAIN_MESSAGE);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             Logger.getLogger(AggregationConsumerPanel.class.getName()).log(
                     Level.SEVERE, null, ex);
         }
@@ -544,7 +544,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         try {
             serviceMCAggregation.getAggregationStub().enableFilter(!curState, ids);
             aggregationTable.switchFilterEnabledstatusAll(!curState);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -564,7 +564,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
         try {
             serviceMCAggregation.getAggregationStub().enableFilter(!curState, ids);
             aggregationTable.switchFilterEnabledStatus(!curState);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -629,7 +629,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, str.toString(),
                     "Returned List from the Provider", JOptionPane.PLAIN_MESSAGE);
 
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_getValueButtonAgg1ActionPerformed

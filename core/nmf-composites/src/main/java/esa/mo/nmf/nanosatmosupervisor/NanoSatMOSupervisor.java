@@ -197,9 +197,6 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                 } catch (UnknownException | org.ccsds.moims.mo.com.InvalidArgumentException ex) {
                     Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(
                             Level.SEVERE, "(0) Something went wrong...", ex);
-                } catch (MALInteractionException ex) {
-                    Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(
-                            Level.SEVERE, "(1) Something went wrong...", ex);
                 } catch (MALException ex) {
                     Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(
                             Level.SEVERE, "(2) Something went wrong...", ex);

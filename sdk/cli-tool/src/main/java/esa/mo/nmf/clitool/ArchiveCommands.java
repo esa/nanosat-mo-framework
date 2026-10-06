@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.clitool;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
@@ -295,7 +296,7 @@ public class ArchiveCommands {
                 }
                 archiveProviders.add(provider.toString());
             }
-        } catch (MALInteractionException | MALException | MalformedURLException e) {
+        } catch (MOErrorException | MALException | MalformedURLException e) {
             LOGGER.log(Level.SEVERE, "Error while looking up the central directory", e);
         }
 
@@ -370,7 +371,7 @@ public class ArchiveCommands {
                     for (ArchiveCOMObjectsOutput objects : toDelete) {
                         archive.getArchiveStub().delete(objects.getObjectType(), objects.getDomain(), ids);
                     }
-                } catch (MALInteractionException | MALException e) {
+                } catch (MOErrorException | MALException e) {
                     LOGGER.log(Level.SEVERE, "Error during delete!", e);
                 }
                 System.out.println("Deleting objects from provider finished.\n");

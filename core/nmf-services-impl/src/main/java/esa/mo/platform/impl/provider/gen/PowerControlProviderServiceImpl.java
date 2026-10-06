@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
@@ -100,7 +99,7 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
 
     @Override
     public DeviceList listDevices(IdentifierList names, MALInteraction interaction)
-            throws UnknownException, MALInteractionException, MALException {
+            throws UnknownException, MALException {
         if (names == null) {
             throw new MALException("IdentifierList cannot be empty.");
         }
@@ -128,7 +127,7 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
 
     @Override
     public void enableDevices(DeviceList devices, MALInteraction interaction)
-            throws DeviceNotAvailableException, MALInteractionException, MALException {
+            throws DeviceNotAvailableException, MALException {
         try {
             adapter.enableDevices(devices);
         } catch (IOException ex) {

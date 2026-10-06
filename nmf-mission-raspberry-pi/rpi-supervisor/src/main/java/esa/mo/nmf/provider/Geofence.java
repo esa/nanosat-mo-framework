@@ -26,7 +26,6 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mal.InternalException;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -167,7 +166,7 @@ public class Geofence {
             LongList ids = new LongList();
             ids.add(appId);
             this.supervisor.getAppsLauncherService().runApp(null, null);
-        } catch (MALInteractionException | MALException | UnknownException
+        } catch (MALException | UnknownException
                 | InvalidArgumentException | InternalException ex) {            
             LOGGER.log(Level.SEVERE, "Failed to start App: " + ex.getMessage());
         }

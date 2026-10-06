@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.groundmoproxy;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.proxy.DirectoryProxyServiceImpl;
 import esa.mo.com.impl.util.COMServicesProvider;
@@ -132,7 +133,7 @@ public abstract class GroundMOProxy {
                 return null;
             }
             return AppsLauncherManager.getSingleConnectionDetailsFromProviderList(list);
-        } catch (InvalidArgumentException | MALInteractionException | MALException | IOException ex) {
+        } catch (MOErrorException | MALException | IOException ex) {
             LOGGER.log(Level.SEVERE, "Cannot produce Connection Details for the service", ex);
         }
         return null;
@@ -144,10 +145,9 @@ public abstract class GroundMOProxy {
      *
      * @return the list of matching Supervisor providers; empty if none is registered
      * @throws org.ccsds.moims.mo.com.InvalidArgumentException if the lookup filter is invalid
-     * @throws MALInteractionException if the Directory service returns an error
      * @throws MALException if a communication error occurs
      */
-    public ProviderList getRemoteNMSProvider() throws org.ccsds.moims.mo.com.InvalidArgumentException, MALInteractionException, MALException {
+    public ProviderList getRemoteNMSProvider() throws org.ccsds.moims.mo.com.InvalidArgumentException, MALException {
         return getRemoteNMSProviderSpecificService(
                 new ServiceId(new UShort((short) 0), new UShort((short) 0), new UOctet((short) 0))
         );
@@ -160,11 +160,10 @@ public abstract class GroundMOProxy {
      * @param key the service identifier to filter by (area, service and version)
      * @return the list of matching Supervisor providers; empty if none is registered
      * @throws org.ccsds.moims.mo.com.InvalidArgumentException if the lookup filter is invalid
-     * @throws MALInteractionException if the Directory service returns an error
      * @throws MALException if a communication error occurs
      */
     public ProviderList getRemoteNMSProviderSpecificService(ServiceId key)
-            throws org.ccsds.moims.mo.com.InvalidArgumentException, MALInteractionException, MALException {
+            throws org.ccsds.moims.mo.com.InvalidArgumentException, MALException {
         IdentifierList wildcardList = new IdentifierList();
         wildcardList.add(new Identifier("*"));
 
@@ -310,10 +309,15 @@ public abstract class GroundMOProxy {
                 try {
                     localDirectoryService.syncLocalDirectoryServiceWithCentral(centralDirectoryServiceURI, routedURI);
                     cdRemoteArchive = cdFromService(ArchiveHelper.ARCHIVE_SERVICE);
-                } catch (MALTransmitErrorException e) {
-                    LOGGER.log(Level.WARNING,
-                            "Failed to start directory service sync. Check the link to the spacecraft.");
-                } catch (UnknownException | InvalidArgumentException | MALException | MalformedURLException | MALInteractionException e) {
+                } catch (MOErrorException e) {
+                    // A message that could not be transmitted carries the transmit error as its cause
+                    if (e.getCause() instanceof MALTransmitErrorException) {
+                        LOGGER.log(Level.WARNING,
+                                "Failed to start directory service sync. Check the link to the spacecraft.");
+                    } else {
+                        LOGGER.log(Level.SEVERE, "Error when initialising link to the NMS.", e);
+                    }
+                } catch (MALException | MalformedURLException e) {
                     LOGGER.log(Level.SEVERE, "Error when initialising link to the NMS.", e);
                 }
             } else if (getNmsAliveStatus() && cdRemoteArchive != null) {
@@ -356,13 +360,13 @@ public abstract class GroundMOProxy {
                             localDirectoryService.syncLocalDirectoryServiceWithCentral(
                                     centralDirectoryServiceURI, routedURI);
                             additionalHandling();
-                        } catch (UnknownException | InvalidArgumentException | MALException | MALInteractionException | MalformedURLException ex) {
+                        } catch (MALException | MOErrorException | MalformedURLException ex) {
                             LOGGER.log(Level.SEVERE, null, ex);
                         }
                     }
 
                     lastTime = currentOBT;
-                } catch (MALInteractionException | MALException | IOException ex) {
+                } catch (MOErrorException | MALException | IOException ex) {
                     LOGGER.log(Level.SEVERE, null, ex);
                 }
             }
@@ -374,10 +378,10 @@ public abstract class GroundMOProxy {
      *
      * @param heartbeat the heartbeat consumer service connected to the spacecraft
      * @throws MALException if a communication error occurs
-     * @throws MALInteractionException if the heartbeat service returns an error
+     * @throws MOErrorException if the heartbeat service returns an error
      */
     protected void createProviderStatusAdapter(HeartbeatConsumerServiceImpl heartbeat)
-            throws MALException, MALInteractionException {
+            throws MOErrorException, MALException {
         providerStatusAdapter = new GroundHeartbeatAdapter(heartbeat, this);
     }
 
@@ -443,7 +447,7 @@ public abstract class GroundMOProxy {
                             firstTime = false;
                             heartbeatService.getHeartbeatStub().beatRegister(
                                     heartbeatSubscription, providerStatusAdapter);
-                        } catch (MALInteractionException | MALException ex) {
+                        } catch (MOErrorException | MALException ex) {
                             LOGGER.log(Level.SEVERE, "Error when subscribing to the NMS heartbeat.", ex);
                         }
                     }
@@ -451,10 +455,15 @@ public abstract class GroundMOProxy {
                     additionalHandling();
                     return;
                 }
-            } catch (MALTransmitErrorException ex) {
-                LOGGER.log(Level.WARNING,
-                        "Failed to start directory service sync. Check the link to the spacecraft.");
-            } catch (MALException | MALInteractionException ex) {
+            } catch (MOErrorException ex) {
+                // A message that could not be transmitted carries the transmit error as its cause
+                if (ex.getCause() instanceof MALTransmitErrorException) {
+                    LOGGER.log(Level.WARNING,
+                            "Failed to start directory service sync. Check the link to the spacecraft.");
+                } else {
+                    LOGGER.log(Level.SEVERE, "Error when initialising link to the NMS.", ex);
+                }
+            } catch (MALException ex) {
                 LOGGER.log(Level.SEVERE, "Error when initialising link to the NMS.", ex);
             }
         }

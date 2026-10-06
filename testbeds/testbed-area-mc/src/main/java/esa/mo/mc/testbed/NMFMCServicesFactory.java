@@ -20,6 +20,7 @@
  */
 package esa.mo.mc.testbed;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
@@ -72,22 +73,22 @@ public class NMFMCServicesFactory {
     }
 
     public ActionConsumerServiceImpl createConsumerStubAction(SingleConnectionDetails details,
-            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+            COMServicesConsumer comServices) throws MALException, MalformedURLException {
         return new ActionConsumerServiceImpl(details, comServices);
     }
 
     public AlertConsumerServiceImpl createConsumerStubAlert(SingleConnectionDetails details,
-            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+            COMServicesConsumer comServices) throws MALException, MalformedURLException {
         return new AlertConsumerServiceImpl(details, comServices);
     }
 
     public ParameterConsumerServiceImpl createConsumerStubParameter(SingleConnectionDetails details,
-            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+            COMServicesConsumer comServices) throws MOErrorException, MALException, MalformedURLException {
         return new ParameterConsumerServiceImpl(details, comServices);
     }
 
     public AggregationConsumerServiceImpl createConsumerStubAggregation(SingleConnectionDetails details,
-            COMServicesConsumer comServices) throws MALException, MalformedURLException, MALInteractionException {
+            COMServicesConsumer comServices) throws MALException, MalformedURLException {
         return new AggregationConsumerServiceImpl(details, comServices);
     }
 

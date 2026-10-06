@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.testbed.e2e.tests;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.environment.Deployment;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
@@ -34,7 +35,6 @@ import java.util.Properties;
 import org.ccsds.moims.mo.com.structures.Provider;
 import org.ccsds.moims.mo.com.structures.ProviderList;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -80,7 +80,7 @@ public class BootloaderMCTest {
     private static byte[] primaryBaselineBackup;
 
     @BeforeClass
-    public static void setUpClass() throws IOException, MALInteractionException, MALException {
+    public static void setUpClass() throws IOException, MOErrorException, MALException {
         LOGGER.info(SETUP_CLASS_SEP + "\n" + SETUP_CLASS_MSG + "\n" + SETUP_CLASS_SEP);
         harness.setUp();
 
@@ -138,9 +138,9 @@ public class BootloaderMCTest {
         try {
             parameterStub.setValue(values);
             Assert.fail("Setting a read-only bootloader parameter must throw");
-        } catch (MALInteractionException ex) {
+        } catch (MOErrorException ex) {
             Assert.assertEquals("The error must be a Read Only error",
-                    MCHelper.READ_ONLY_ERROR_NUMBER, ex.getStandardError().getErrorNumber());
+                    MCHelper.READ_ONLY_ERROR_NUMBER, ex.getErrorNumber());
         }
     }
 

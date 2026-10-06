@@ -20,6 +20,7 @@
  */
 package esa.mo.sm.impl.util;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.sm.impl.consumer.AppsLauncherConsumerServiceImpl;
 import esa.mo.sm.impl.consumer.CommandExecutorConsumerServiceImpl;
@@ -103,7 +104,7 @@ public class SMServicesConsumer {
             if (details != null) {
                 heartbeatService = new HeartbeatConsumerServiceImpl(details, comServices);
             }
-        } catch (MALException | MALInteractionException ex) {
+        } catch (MALException ex) {
             Logger.getLogger(SMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

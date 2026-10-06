@@ -123,7 +123,7 @@ public class CameraAcquisitorSystemCameraHandler {
         }
         try {
             takePhotograph(executionId, 0, PHOTOGRAPH_NOW_STAGES, "_INSTANT");
-        } catch (MALInteractionException | MALException | IOException | NMFException ex) {
+        } catch (MOErrorException | MALException | IOException | NMFException ex) {
             LOGGER.log(Level.SEVERE, "[take photograph now]", ex);
             throw new ExecutionFailedException("Failed to take photograph: " + ex.getMessage());
         }
@@ -272,11 +272,11 @@ public class CameraAcquisitorSystemCameraHandler {
      * the file ending)
      * @throws NMFException If the Platform services are not available.
      * @throws IOException If the Camera services could not be reached.
-     * @throws MALInteractionException If the picture could not be taken.
+     * @throws MOErrorException If the picture could not be taken.
      * @throws MALException If something went wrong.
      */
     public void takePhotograph(long executionId, int stageOffset, int totalStages,
-            String fileName) throws NMFException, IOException, MALInteractionException, MALException {
+            String fileName) throws MOErrorException, NMFException, IOException, MALException {
         PixelResolution resolution = new PixelResolution(
                 new UInteger(casMCAdapter.getPictureWidth()),
                 new UInteger(casMCAdapter.getPictureHeight()));

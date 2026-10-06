@@ -37,7 +37,6 @@ import org.ccsds.moims.mo.com.archive.provider.ArchiveInheritanceSkeleton;
 import org.ccsds.moims.mo.com.directory.DirectoryServiceInfo;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -127,8 +126,6 @@ public class PersistProviderConfiguration {
         } catch (MALException ex) {
             Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.SEVERE, null, ex);
         } catch (org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException ex) {
-            Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MALInteractionException ex) {
             Logger.getLogger(PersistProviderConfiguration.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

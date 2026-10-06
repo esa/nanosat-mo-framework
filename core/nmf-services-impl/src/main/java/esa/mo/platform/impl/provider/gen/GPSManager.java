@@ -28,7 +28,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.structures.ElementList;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
@@ -146,7 +145,7 @@ public final class GPSManager extends DefinitionsManager {
                     return objIds.get(0);
                 }
 
-            } catch (org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
+            } catch (org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException ex) {
                 Logger.getLogger(GPSManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -192,7 +191,7 @@ public final class GPSManager extends DefinitionsManager {
                     return objIds.get(0);
                 }
 
-            } catch (org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException | MALInteractionException ex) {
+            } catch (org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException ex) {
                 Logger.getLogger(GPSManager.class.getName()).log(Level.SEVERE, null, ex);
             }
 

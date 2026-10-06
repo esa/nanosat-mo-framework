@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.ctt.services.com;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.consumer.ArchiveSyncConsumerServiceImpl;
 import esa.mo.com.impl.consumer.ArchiveSyncGenAdapter;
@@ -403,7 +404,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
             LOGGER.log(Level.INFO,
                     "Current time: " + response.getCurrentTime()
                     + " - Last sync: " + response.getLastSyncTime());
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonGetTimeActionPerformed
@@ -479,7 +480,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         try {
             serviceCOMArchive.getArchiveStub().delete(comObject.getObjectType(),
                     comObject.getDomain(), objIds);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, "The object could not be deleted from the Archive, so it "
                     + "is left in the table: it is still there to be deleted.", ex);
             return;
@@ -524,7 +525,7 @@ public class ArchiveSyncConsumerManagerPanel extends javax.swing.JPanel {
         try {
             serviceCOMArchiveSync.getArchiveSyncStub().retrieveRange(from, until, objTypes, new Identifier(""),
                     adapter);
-        } catch (MALInteractionException | MALException ex) {
+        } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonRetrieveActionPerformed

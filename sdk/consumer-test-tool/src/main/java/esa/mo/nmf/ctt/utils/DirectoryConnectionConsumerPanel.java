@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.ctt.utils;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import java.awt.Component;
 import java.awt.Font;
@@ -459,7 +460,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
             prefs.put(LAST_USED_CONSUMER_PREF, uriServiceDirectory.getText());
 
             connectButton.setEnabled(true);
-        } catch (MalformedURLException | MALInteractionException | MALException ex) {
+        } catch (MalformedURLException | MOErrorException | MALException ex) {
             errorConnectionProvider("Directory", ex);
             providersList.setModel(new DefaultListModel());
             connectButton.setEnabled(false);
@@ -507,7 +508,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
                     providerPanel.getServices().setAuthenticationId(null);
                     Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(
                             Level.INFO, "Logged out successfully");
-                } catch (MALInteractionException | MALException e) {
+                } catch (MOErrorException | MALException e) {
                     Logger.getLogger(DirectoryConnectionConsumerPanel.class.getName()).log(
                             Level.SEVERE, "Unexpected exception during logout!", e);
                 }

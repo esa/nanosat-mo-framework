@@ -150,7 +150,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
     @Override
     public ProviderList lookup(final ServiceFilter filter, final MALInteraction interaction)
-            throws InvalidArgumentException, MALInteractionException, MALException {
+            throws InvalidArgumentException, MALException {
         if (filter == null) { // Is the input null?
             throw new IllegalArgumentException("filter argument must not be null");
         }
@@ -266,7 +266,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
     @Override
     public Long add(final Provider newProviderDetails, final MALInteraction interaction)
-            throws InvalidArgumentException, MALInteractionException, MALException {
+            throws InvalidArgumentException, MALException {
         Identifier serviceProviderName = newProviderDetails.getProviderName();
 
         synchronized (MUTEX) {
@@ -313,7 +313,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                         DirectoryServiceInfo.PROVIDER_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
                         archDetails, body, null);
             } catch (DuplicateException ex) {
-                throw new MALInteractionException(ex);
+                throw new MALException("The Provider object could not be stored", ex);
             }
 
             if (returnedProvObjIds.isEmpty()) {
@@ -328,7 +328,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
     @Override
     public void remove(Long providerObjectKey,
-            MALInteraction interaction) throws UnknownException, InvalidArgumentException, MALInteractionException, MALException {
+            MALInteraction interaction) throws UnknownException, InvalidArgumentException, MALException {
         synchronized (MUTEX) {
             if (!this.providersAvailable.containsKey(providerObjectKey)) { // The requested provider does not exist
                 throw new UnknownException(null);
@@ -349,10 +349,9 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
      *
      * @throws UnknownException if a provider to remove is unknown
      * @throws InvalidArgumentException if an argument is invalid
-     * @throws MALInteractionException if the service returns an error
      * @throws MALException if a communication error occurs
      */
-    public void withdrawAllProviders() throws UnknownException, InvalidArgumentException, MALInteractionException, MALException {
+    public void withdrawAllProviders() throws UnknownException, InvalidArgumentException, MALException {
         synchronized (MUTEX) {
             for (Long key : providersAvailable.keySet()) {
                 remove(key, null);
@@ -432,7 +431,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         try {
             this.add(newProviderDetails, null);
             return newProviderDetails;
-        } catch (InvalidArgumentException | MALInteractionException | MALException ex) {
+        } catch (InvalidArgumentException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -441,7 +440,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
     @Override
     public FileList getAreaXML(String filename, MALInteraction interaction)
-            throws InvalidArgumentException, UnknownException, MALInteractionException, MALException {
+            throws InvalidArgumentException, UnknownException, MALException {
         if (filename == null || filename.isEmpty()) {
             throw new InvalidArgumentException(null);
         }

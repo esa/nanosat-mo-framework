@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.nanosatmoconnector;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.com.impl.util.HelperCommon;
@@ -214,7 +215,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     LOGGER.log(Level.INFO,
                             "Subscribed to monitorEvents on Supervisor AppsLauncher for shutdown notifications (listening for app=''{0}'').",
                             bareAppName);
-                } catch (IOException | MALException | MALInteractionException ex) {
+                } catch (IOException | MALException | MOErrorException ex) {
                     LOGGER.log(Level.SEVERE,
                             "Could not subscribe to monitorEvents on Supervisor AppsLauncher service.", ex);
                 }
@@ -248,7 +249,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 }
             } catch (MALException | MalformedURLException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MOErrorException ex) {
                 LOGGER.log(Level.SEVERE, "Could not connect to the Central Directory service! Maybe it is down...");
             }
         }
@@ -289,7 +290,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 }
             } catch (MALException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
-            } catch (MALInteractionException ex) {
+            } catch (MOErrorException ex) {
                 LOGGER.log(Level.SEVERE, "Could not connect to the Central Directory service! Maybe it is down...");
             }
         }
@@ -375,7 +376,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                     directory.closeConnection();
                 } catch (MALException | MalformedURLException ex) {
                     LOGGER.log(Level.SEVERE, null, ex);
-                } catch (MALInteractionException ex) {
+                } catch (MOErrorException ex) {
                     LOGGER.log(Level.SEVERE,
                             "There was a problem while connecting to the Central Directory service on URI: {0}"
                             + "\nException: {1}", new Object[]{centralDirectoryURI.getValue(), ex});

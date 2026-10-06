@@ -20,6 +20,7 @@
  */
 package esa.mo.com.testbed.tests;
 
+import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.com.testbed.SetUpCOMServices;
 import java.io.IOException;
@@ -27,7 +28,6 @@ import java.net.MalformedURLException;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -53,7 +53,7 @@ public class DirectoryLookupTest {
 
     @BeforeClass
     public static void setUpClass() throws IOException, MALException,
-            MalformedURLException, MALInteractionException, org.ccsds.moims.mo.com.InvalidArgumentException {
+            MalformedURLException, MOErrorException, org.ccsds.moims.mo.com.InvalidArgumentException {
         System.setProperty("esa.nmf.archive.persistence.jdbc.url", "jdbc:sqlite::memory:");
         harness.setUp();
 
@@ -78,7 +78,7 @@ public class DirectoryLookupTest {
      */
     @Test
     public void testNullSchemeFilterReturnsAllAddresses()
-            throws MALInteractionException, MALException {
+            throws MOErrorException, MALException {
         LOGGER.info("Running: testNullSchemeFilterReturnsAllAddresses()");
         ServiceFilter filter = makeFilter(null);
         ProviderList results = directoryConsumer.getDirectoryStub().lookup(filter);
@@ -96,7 +96,7 @@ public class DirectoryLookupTest {
      */
     @Test
     public void testSchemeFilterReturnsMalSppAddressOnly()
-            throws MALInteractionException, MALException {
+            throws MOErrorException, MALException {
         LOGGER.info("Running: testSchemeFilterReturnsMalSppAddressOnly()");
         IdentifierList schemeFilter = new IdentifierList();
         schemeFilter.add(new Identifier("malspp"));
@@ -123,7 +123,7 @@ public class DirectoryLookupTest {
      */
     @Test
     public void testNonMatchingSchemeFilterReturnsNoAddresses()
-            throws MALInteractionException, MALException {
+            throws MOErrorException, MALException {
         LOGGER.info("Running: testNonMatchingSchemeFilterReturnsNoAddresses()");
         IdentifierList schemeFilter = new IdentifierList();
         schemeFilter.add(new Identifier("xyz-transport"));
@@ -140,7 +140,7 @@ public class DirectoryLookupTest {
 
     // --- Helpers ---
 
-    private static void registerTestProvider() throws org.ccsds.moims.mo.com.InvalidArgumentException, MALInteractionException, MALException {
+    private static void registerTestProvider() throws MOErrorException, MALException {
         AddressDetailsList addresses = new AddressDetailsList();
         addresses.add(makeAddress("maltcp://test-host:1024/test-service"));
         addresses.add(makeAddress("malspp://test-host:2048/test-service"));
