@@ -93,7 +93,7 @@ public class SegmentOrbits {
                 String[] keplerElements = new String[FIELDS - 1];
 
                 for (int i = 0; i < keplerElements.length; i++) {
-                    keplerElements[i] = element(values[i + 1], number, trimmed);
+                    keplerElements[i] = element(values[i + 1], number);
                 }
 
                 if (orbits.put(name, keplerElements) != null) {
@@ -119,11 +119,10 @@ public class SegmentOrbits {
      *
      * @param value The element as the file writes it.
      * @param number The line it was written on.
-     * @param line The line itself, for the message.
      * @return The element, trimmed.
      * @throws IllegalArgumentException if it is not a number.
      */
-    private static String element(String value, int number, String line) {
+    private static String element(String value, int number) {
         String element = value.trim();
 
         try {

@@ -227,12 +227,10 @@ public class AuxFilesGenerator {
      *
      * @param appDetails the App metadata
      * @param appDir the App's installation directory where the script is written
-     * @param nmfDir the NMF base directory
      * @throws IOException if the App JAR cannot be located or the script cannot be written
      */
-    public static void generateStartScript(MetadataApp appDetails,
-            File appDir, File nmfDir) throws IOException {
-        String name = appDetails.getPackageName();
+    public static void generateStartScript(MetadataApp appDetails, File appDir)
+            throws IOException {
         String jarName = appDetails.getAppMainJar();
 
         if (jarName.equals("")) {

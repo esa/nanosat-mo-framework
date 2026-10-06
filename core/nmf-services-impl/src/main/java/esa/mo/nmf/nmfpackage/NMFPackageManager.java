@@ -144,7 +144,7 @@ public class NMFPackageManager {
             String password = null;
 
             File appDir = new File(Deployment.getAppsDir(), packageName);
-            AuxFilesGenerator.generateStartScript(metadata.castToApp(), appDir, nmfDir);
+            AuxFilesGenerator.generateStartScript(metadata.castToApp(), appDir);
             createAuxiliaryFiles(appDir, username);
             File logDir = Deployment.getLogsDirForApp(packageName);
             logDir.mkdirs();
@@ -244,7 +244,7 @@ public class NMFPackageManager {
         if (packageMetadata.isApp()) {
             // This directory should be passed in the method signature:
             File installationDir = new File(Deployment.getAppsDir(), packageName);
-            removeAuxiliaryFiles(installationDir, packageName);
+            removeAuxiliaryFiles(installationDir);
 
             boolean linuxUserspace = AppsIsolationMode.isLinuxUserspace();
             if (OS.isUnix() && linuxUserspace) {
@@ -342,7 +342,7 @@ public class NMFPackageManager {
         if (isApp) {
             // This directory should be passed in the method signature:
             File installationDir = new File(Deployment.getAppsDir(), packageName);
-            removeAuxiliaryFiles(installationDir, packageName);
+            removeAuxiliaryFiles(installationDir);
         }
 
         removeFiles(oldPackMetadata);
@@ -372,7 +372,7 @@ public class NMFPackageManager {
 
             File appDir = new File(Deployment.getAppsDir(), packageName);
             MetadataApp appMetadata = newPackMetadata.castToApp();
-            AuxFilesGenerator.generateStartScript(appMetadata, appDir, nmfDir);
+            AuxFilesGenerator.generateStartScript(appMetadata, appDir);
             createAuxiliaryFiles(appDir, username);
             File logDir = Deployment.getLogsDirForApp(packageName);
             logDir.mkdirs();
@@ -628,7 +628,7 @@ public class NMFPackageManager {
         }
     }
 
-    private static void removeAuxiliaryFiles(File folder, String appName) throws IOException {
+    private static void removeAuxiliaryFiles(File folder) throws IOException {
         File provider = new File(folder, HelperMisc.PROVIDER_PROPERTIES_FILE);
         File transport = new File(folder, HelperMisc.TRANSPORT_PROPERTIES_FILE);
         File linux = new File(folder, "start_app.sh");

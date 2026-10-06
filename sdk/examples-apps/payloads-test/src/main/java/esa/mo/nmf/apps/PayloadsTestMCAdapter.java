@@ -508,7 +508,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
     }
 
     private void registerParameters(MCRegistration registration) throws IllegalArgumentException {
-        ParameterConversion paramConversion = registerAdcsModeConversion(registration);
+        ParameterConversion paramConversion = registerAdcsModeConversion();
 
         // ------------------ Parameters ------------------
         ParameterDefinitionList defsOther = new ParameterDefinitionList();
@@ -521,7 +521,7 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         registration.registerParameters(defsOther);
     }
 
-    private ParameterConversion registerAdcsModeConversion(MCRegistration registration)
+    private ParameterConversion registerAdcsModeConversion()
             throws IllegalArgumentException {
         PairList mappings = new PairList();
         mappings.add(new Pair(

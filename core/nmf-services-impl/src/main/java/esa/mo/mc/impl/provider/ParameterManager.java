@@ -263,7 +263,7 @@ public class ParameterManager extends MCManager {
         ParameterDefinition pDef = this.getParameterDefinition(defId);
 
         try {
-            Attribute rawValue = getRawValue(defId, pDef);
+            Attribute rawValue = getRawValue(defId);
             // Generate final Parameter Value
             return generateNewParameterValue(rawValue, pDef, aggrExpired);
         } catch (IOException ex) {
@@ -647,10 +647,9 @@ public class ParameterManager extends MCManager {
      * from the application.
      *
      * @param defId The definition id of the parameter.
-     * @param pDef The definition of the parameter.
      * @return The raw value. null if there is no parametersMonitoring.
      */
-    private Attribute getRawValue(Long defId, ParameterDefinition pDef) throws IOException {
+    private Attribute getRawValue(Long defId) throws IOException {
         if (parametersMonitoring == null) {
             return null;
         }

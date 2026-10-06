@@ -53,7 +53,9 @@ public class LinuxUsersGroups {
      * @throws IOException if the group could not be created.
      */
     public static void addgroup(String groupName, boolean isSystemGroup) throws IOException {
-        String[] cmd = {"sudo", "addgroup", "-S", groupName};
+        String[] cmd = isSystemGroup
+                ? new String[]{"sudo", "addgroup", "-S", groupName}
+                : new String[]{"sudo", "addgroup", groupName};
         String out = runCommand(cmd);
         checkIfPermissionDenied(cmd, out);
         LinuxUsersGroups.printCommandAndOutput(cmd, out);
