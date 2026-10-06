@@ -196,10 +196,12 @@ public class ConstellationManagerGui extends JFrame implements ConstellationList
      */
     private void initNanoSatSegmentTable() {
         this.tableModel = new DefaultTableModel() {
+            @Override
             public Class<?> getColumnClass(int column) {
                 return (column == 0) ? Boolean.class : String.class;
             }
 
+            @Override
             public boolean isCellEditable(int row, int column) {
                 // only let the user edit checkboxes in column 0
                 return column == 0;

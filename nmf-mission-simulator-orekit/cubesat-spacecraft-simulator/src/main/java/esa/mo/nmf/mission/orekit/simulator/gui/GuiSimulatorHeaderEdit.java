@@ -241,10 +241,12 @@ public class GuiSimulatorHeaderEdit {
                 txtTimeFactor.setPreferredSize(new Dimension(35, 20));
                 txtTimeFactor.addActionListener(e -> processTextFieldTimeFactorInput(txtTimeFactor));
                 txtTimeFactor.addFocusListener(new FocusListener() {
+                    @Override
                     public void focusGained(FocusEvent e) {
                         processTextFieldFocusGained(txtTimeFactor);
                     }
 
+                    @Override
                     public void focusLost(FocusEvent e) {
                         processTextFieldTimeFactorInput(txtTimeFactor);
                     }
@@ -262,10 +264,12 @@ public class GuiSimulatorHeaderEdit {
                     }
                 });
                 txtStartDate.addFocusListener(new FocusListener() {
+                    @Override
                     public void focusGained(FocusEvent e) {
                         processTextFieldFocusGained(txtStartDate);
                     }
 
+                    @Override
                     public void focusLost(FocusEvent e) {
                         Date newDate = processTextFieldDateInput(txtStartDate, txtEndDate, 1);
                         if (newDate != null) {
@@ -286,10 +290,12 @@ public class GuiSimulatorHeaderEdit {
                     }
                 });
                 txtEndDate.addFocusListener(new FocusListener() {
+                    @Override
                     public void focusGained(FocusEvent e) {
                         processTextFieldFocusGained(txtEndDate);
                     }
 
+                    @Override
                     public void focusLost(FocusEvent e) {
                         Date newDate = processTextFieldDateInput(txtStartDate, txtEndDate, 2);
                         if (newDate != null) {

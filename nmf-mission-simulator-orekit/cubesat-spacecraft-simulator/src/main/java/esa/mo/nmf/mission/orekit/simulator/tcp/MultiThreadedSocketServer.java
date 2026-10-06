@@ -119,6 +119,7 @@ public class MultiThreadedSocketServer extends Thread {
         }
     }
 
+    @Override
     public void run() {
         Thread.currentThread().setName("sim-" + this.getClass().getSimpleName());
         int currentTries = 0;
@@ -224,6 +225,7 @@ public class MultiThreadedSocketServer extends Thread {
             listCommands = new LinkedList<>();
         }
 
+        @Override
         public void run() {
             Thread.currentThread().setName("sim-" + this.getClass().getSimpleName()
                     + "-" + myClientSocket.getInetAddress().getHostName());
@@ -353,6 +355,7 @@ public class MultiThreadedSocketServer extends Thread {
             toClient.add("PWD:" + System.getProperty("user.dir"));
         }
 
+        @Override
         public void run() {
             Thread.currentThread().setName("sim-" + this.getClass().getSimpleName()
                     + "-" + myClientSocket.getInetAddress().getHostName());

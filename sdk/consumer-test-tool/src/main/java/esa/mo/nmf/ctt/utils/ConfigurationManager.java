@@ -79,6 +79,7 @@ public class ConfigurationManager extends javax.swing.JFrame
        */
       EventQueue.invokeLater(new Runnable()
       {
+        @Override
         public void run()
         {
           gui.setVisible(true);
