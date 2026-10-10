@@ -4,6 +4,9 @@ ESA NanoSat MO Framework - Release Notes
 These Release Notes include a short summary of the updates done for each version.
 The different versions and respective updates are the following:
 
+### Version 6.0 (in development)
+* Removes the automatic serialization of objects into parameter and action values: values must now be MO attribute types, which closes an unsafe Java deserialization vulnerability (NMF-2026-002)
+
 ### Version 5.1 (25 September 2026)
 * Upgrades to CCSDS MO services v14.2
 * Adds the Swarms mission: a constellation of NMF satellites
