@@ -494,8 +494,17 @@ public class AggregationAddModify extends javax.swing.JFrame {
             }
         }
 
-        parameterSetsTableData.addRow(new Object[]{parameterCB.getSelectedItem().toString(), Double.parseDouble(
-            sampleIntervalTB.getText()), thresholdTypeCB.getSelectedItem().toString(), thresholdValue});
+        double sampleInterval;
+        try {
+            sampleInterval = Double.parseDouble(sampleIntervalTB.getText());  // Check if it is a number
+        } catch (NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(null, "sampleInterval is not a number!", "Warning!",
+                    JOptionPane.PLAIN_MESSAGE);
+            return;
+        }
+
+        parameterSetsTableData.addRow(new Object[]{parameterCB.getSelectedItem().toString(), sampleInterval,
+            thresholdTypeCB.getSelectedItem().toString(), thresholdValue});
     }//GEN-LAST:event_aggregateParameterButtonActionPerformed
 
     private void removeParameterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeParameterActionPerformed

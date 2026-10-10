@@ -102,6 +102,31 @@ public class PlatformCommands {
                 filename = "picture";
             }
 
+            // Check the settings before connecting to the provider
+            String[] res = resolution.split("x");
+            if (res.length != 2) {
+                System.out.println("Invalid resolution, expected <width>x<height>: " + resolution);
+                return;
+            }
+            CameraSettings settings;
+            try {
+                PixelResolution pixelResolution = new PixelResolution(
+                        new UInteger(Integer.parseInt(res[0])),
+                        new UInteger(Integer.parseInt(res[1])));
+                settings = new CameraSettings(
+                        pixelResolution,
+                        PictureFormat.fromString(format.toUpperCase()),
+                        new Duration(Double.parseDouble(exposure)),
+                        Float.parseFloat(gainRed),
+                        Float.parseFloat(gainGreen),
+                        Float.parseFloat(gainBlue),
+                        null
+                );
+            } catch (NumberFormatException e) {
+                System.out.println("The resolution, exposure and gains must be numbers: " + e.getMessage());
+                return;
+            }
+
             if (!super.initRemoteConsumer()) {
                 return;
             }
@@ -114,22 +139,8 @@ public class PlatformCommands {
                 return;
             }
 
-            String[] res = resolution.split("x");
-            PixelResolution pixelResolution = new PixelResolution(
-                    new UInteger(Integer.parseInt(res[0])),
-                    new UInteger(Integer.parseInt(res[1])));
-
             final String finalFormat = format;
             final String finalFilename = filename;
-            CameraSettings settings = new CameraSettings(
-                    pixelResolution,
-                    PictureFormat.fromString(format.toUpperCase()),
-                    new Duration(Double.parseDouble(exposure)),
-                    Float.parseFloat(gainRed),
-                    Float.parseFloat(gainGreen),
-                    Float.parseFloat(gainBlue),
-                    null
-            );
 
             final Object lock = new Object();
             try {

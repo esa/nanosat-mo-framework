@@ -515,13 +515,22 @@ public class ParameterAddModify extends javax.swing.JFrame {
         ParameterConversion pConv = null;
         // Inline conversion configuration is not yet supported via this dialog.
 
+        float updateInterval;
+        try {
+            updateInterval = Float.parseFloat(updateIntervalTF.getText());  // Check if it is a number
+        } catch (NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(null, "updateInterval is not a number!", "Warning!",
+                    JOptionPane.PLAIN_MESSAGE);
+            return;
+        }
+
         ParameterDefinition pDef = new ParameterDefinition(
                 new Identifier(nameTF.getText()),
                 descriptionTF.getText(),
                 new AttributeType(rawTypeCB.getSelectedIndex()),
                 rawUnitTF.getText(),
                 reportingEnabledCB.isSelected(),
-                new Duration(Float.parseFloat(updateIntervalTF.getText())),
+                new Duration(updateInterval),
                 PExp, pConv, false);
         
         ParameterDefinitionList pDefs = new ParameterDefinitionList();

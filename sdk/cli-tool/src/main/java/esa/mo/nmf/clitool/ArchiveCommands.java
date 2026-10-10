@@ -182,12 +182,12 @@ public class ArchiveCommands {
             int objectNumber = 0;
 
             if (comType != null) {
-                String[] subTypes = comType.split("\\.");
-                if (subTypes.length == 4) {
-                    areaNumber = Integer.parseInt(subTypes[0]);
-                    serviceNumber = Integer.parseInt(subTypes[1]);
-                    areaVersion = Integer.parseInt(subTypes[2]);
-                    objectNumber = Integer.parseInt(subTypes[3]);
+                int[] subTypes = parseComType(comType);
+                if (subTypes != null) {
+                    areaNumber = subTypes[0];
+                    serviceNumber = subTypes[1];
+                    areaVersion = subTypes[2];
+                    objectNumber = subTypes[3];
                 } else {
                     LOGGER.log(Level.WARNING, String.format("Error parsing comType \"%s\", filter will be ignored",
                             comType));
@@ -301,6 +301,30 @@ public class ArchiveCommands {
         }
 
         return archiveProviders;
+    }
+
+    /**
+     * Parses a COM object type written as
+     * {@code <area>.<service>.<areaVersion>.<objectNumber>}.
+     *
+     * @param comType The COM object type.
+     * @return The four numbers, or null if the text is not four numbers
+     * separated by dots.
+     */
+    private static int[] parseComType(String comType) {
+        String[] parts = comType.split("\\.");
+        if (parts.length != 4) {
+            return null;
+        }
+        int[] numbers = new int[4];
+        try {
+            for (int i = 0; i < 4; i++) {
+                numbers[i] = Integer.parseInt(parts[i]);
+            }
+        } catch (NumberFormatException e) {
+            return null;
+        }
+        return numbers;
     }
 
     /**

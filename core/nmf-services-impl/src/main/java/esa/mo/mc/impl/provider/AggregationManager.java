@@ -277,9 +277,15 @@ public final class AggregationManager extends MCManager {
         if (filter == null) {
             return false;  // If there's no filter, then it will never be ignored! 
         }
-        final Double previousValueDouble = Double.parseDouble(previousValue.toString());
-        final Double currentValueDouble = Double.parseDouble(currentValue.toString());
-        final double thresholdValue = Double.parseDouble(filter.getThresholdValue().toString());
+        final Double previousValueDouble = toDouble(previousValue);
+        final Double currentValueDouble = toDouble(currentValue);
+        final Double thresholdValue = toDouble(filter.getThresholdValue());
+
+        // A delta or a percentage has no meaning for a value that is not a
+        // number, such as a String or a Boolean: any change passes the filter
+        if (previousValueDouble == null || currentValueDouble == null || thresholdValue == null) {
+            return !previousValue.toString().equals(currentValue.toString());
+        }
 
         if (filter.getThresholdType() == ThresholdType.DELTA) // requirement: Aggregation#10
         {
@@ -292,6 +298,20 @@ public final class AggregationManager extends MCManager {
         }
 
         return false;
+    }
+
+    /**
+     * Returns the value as a number, or null if it is not one.
+     *
+     * @param value The value.
+     * @return The number, or null if the value is not a number.
+     */
+    private static Double toDouble(Attribute value) {
+        try {
+            return Double.parseDouble(value.toString());
+        } catch (NumberFormatException ex) {
+            return null;
+        }
     }
 
     /**
