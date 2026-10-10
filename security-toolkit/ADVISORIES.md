@@ -7,9 +7,9 @@ Vulnerabilities that are not yet fixed are not listed here. To report a vulnerab
 
 ### Index
 
-| ID | Title | Severity | Affected versions | Patched versions | Fixed | GHSA / CVE |
-|---|---|---|---|---|---|---|
-| [NMF-2026-001](#nmf-2026-001-unsafe-deserialization-in-the-spacecraft-simulator) | Unsafe deserialization in the spacecraft simulator | To be assessed | <= 4.0 | 5.0 | 2026-07-10 | CVE pending |
+| ID | Title | Affected | Patched | Fixed | GHSA / CVE |
+|---|---|---|---|---|---|
+| [NMF-2026-001](#nmf-2026-001-unsafe-deserialization-in-the-spacecraft-simulator) | Unsafe deserialization in the spacecraft simulator | <= 4.0 | 5.0 | 2026-07-10 | CVE pending |
 
 ---
 
