@@ -1,0 +1,28 @@
+name: NMF Security
+
+on: [push]
+
+permissions:
+  contents: read
+
+jobs:
+  security-toolkit-jdk21:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Cache Maven local repository
+        uses: actions/cache@v5
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-security-jdk21-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-security-jdk21-
+      - name: Build the framework and the simulator fat jar
+        run: mvn --batch-mode --update-snapshots -DskipTests -Passembly-with-dependencies install
+      - name: Run the security toolkit
+        run: mvn --batch-mode test -f security-toolkit/pom.xml
