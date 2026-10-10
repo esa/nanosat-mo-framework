@@ -33,10 +33,10 @@ Coverage:
 
 ### Running
 
-The container test needs the simulator fat jar, built by the `assembly-with-dependencies` profile.
-From the repository root:
+The tests need the framework installed and the simulator fat jar, which is built by the
+`assembly-with-dependencies` profile. From the repository root:
 
 ```
-mvn -DskipTests -Passembly-with-dependencies -pl nmf-mission-simulator-orekit/cubesat-spacecraft-simulator -am install
+mvn -DskipTests -Passembly-with-dependencies -pl core/nmf-composites,nmf-mission-simulator-orekit/cubesat-spacecraft-simulator -am install
 mvn test -f security-toolkit/pom.xml
 ```
