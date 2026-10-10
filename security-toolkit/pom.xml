@@ -13,37 +13,15 @@
 
     <groupId>int.esa.nmf.security</groupId>
     <artifactId>security-toolkit</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <name>ESA NMF Security Toolkit</name>
     <description>
-        Security regression tests for the NanoSat MO Framework. Each test drives a potentially
-        vulnerable component inside a container and asserts that the control that fixes a known
-        vulnerability is in place. The vulnerabilities are listed in ADVISORIES.md.
+        Security projects for the NanoSat MO Framework: the vulnerability tests that guard the
+        fixes recorded in ADVISORIES.md, and, in the future, further projects such as malicious
+        apps used to exercise the framework's defences.
     </description>
 
-    <properties>
-        <maven.compiler.release>21</maven.compiler.release>
-        <testcontainers.version>2.0.5</testcontainers.version>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <!-- Provides the Monitor and Control adapters whose deserialization sink is tested. -->
-            <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nmf-composites</artifactId>
-            <version>6.0-SNAPSHOT</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>testcontainers</artifactId>
-            <version>${testcontainers.version}</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+    <modules>
+        <module>vulnerability-tests</module>
+    </modules>
 </project>

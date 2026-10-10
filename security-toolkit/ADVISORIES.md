@@ -100,6 +100,6 @@ Remove the automatic serialization of objects into `Blob` values from the Monito
 
 #### References
 
-* Thales, "First worldwide hacking demo of an in-orbit satellite", Hack CYSAT 2023.
+* Thales, "First worldwide hacking demo of an in-orbit satellite", Hack CYSAT 2023: https://www.youtube.com/watch?v=sXGQWLJ8904
 * Sink: `SimpleMonitorAndControlAdapter.onSetValue` / `actionArrived`, and `MOAdapterImpl.monitorValueNotifyReceived`, calling `HelperAttributes.blobAttribute2serialObject`.
 * Covered by the failing regression test `Nmf2026002Test` in this toolkit, which passes once the flaw is fixed.
