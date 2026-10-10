@@ -7,7 +7,7 @@ Security projects for the NanoSat MO Framework.
 
 * `vulnerability-tests/` — one test per advisory. Each test drives the vulnerable component and
   asserts that the fix is in place. A test for a vulnerability that is still open fails until it is
-  fixed. The vulnerabilities are listed in [ADVISORIES.md](ADVISORIES.md).
+  fixed. The vulnerabilities are listed in [SECURITY_ADVISORIES.md](SECURITY_ADVISORIES.md).
 * Further projects will be added, such as a malicious app used to exercise the framework's
   defences.
 

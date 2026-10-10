@@ -17,7 +17,7 @@
     <name>ESA NMF Security Toolkit</name>
     <description>
         Security projects for the NanoSat MO Framework: the vulnerability tests that guard the
-        fixes recorded in ADVISORIES.md, and, in the future, further projects such as malicious
+        fixes recorded in SECURITY_ADVISORIES.md, and, in the future, further projects such as malicious
         apps used to exercise the framework's defences.
     </description>
 
