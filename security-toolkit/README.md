@@ -23,8 +23,8 @@ Coverage:
 * **NMF-2026-001** (fixed) — the spacecraft simulator's TCP transport binds to the configured
   loopback address only and rejects a class that is not on its deserialization allow-list. Run in a
   container.
-* **NMF-2026-002** (open) — the Monitor and Control adapters must not deserialize an untrusted Blob
-  parameter or action value. Run in-process. **This test fails until the flaw is fixed.**
+* **NMF-2026-002** (fixed) — the Monitor and Control adapters must not deserialize an untrusted Blob
+  parameter or action value. Run in-process.
 
 ### Requirements
 
@@ -40,5 +40,3 @@ From the repository root:
 mvn -DskipTests -Passembly-with-dependencies -pl nmf-mission-simulator-orekit/cubesat-spacecraft-simulator -am install
 mvn test -f security-toolkit/pom.xml
 ```
-
-While NMF-2026-002 is open, the second command fails on purpose.

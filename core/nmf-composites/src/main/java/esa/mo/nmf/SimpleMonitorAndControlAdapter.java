@@ -20,14 +20,11 @@
  */
 package esa.mo.nmf;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
-import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
@@ -39,9 +36,10 @@ import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
  * The SimpleMonitorAndControlAdapter extends the MonitorAndControlAdapter and
  * implements the SimpleMonitorAndControlListener to facilitate receiving
  * actions and set/get parameters from an external software entity in a
- * simplified way. This adapter allows the parameter values to be directly Java
- * types and also serializable objects. The adapter automatically serializes an
- * object and puts it inside a MAL Blob type (a byte container).
+ * simplified way. The parameter and action values are the Java types that map
+ * to the MO attribute types. Arbitrary serializable objects are not supported:
+ * the adapter never serializes an object into, or deserializes one from, a MAL
+ * Blob, so that untrusted bytes are never passed to Java deserialization.
  *
  */
 public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNMFAdapter implements SimpleMonitorAndControlListener {
@@ -58,17 +56,7 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
         Serializable[] values = new Serializable[attributeValues.size()];
 
         for (int i = 0; i < attributeValues.size(); i++) {
-            AttributeValue attributeValue = attributeValues.get(i);
-
-            if (attributeValue.getValue() instanceof Blob) {
-                try {
-                    values[i] = HelperAttributes.blobAttribute2serialObject((Blob) attributeValue.getValue());
-                } catch (IOException ex) {
-                    values[i] = attributeValue; // It didn't work? Maybe it really just a Blob (not a serialized object)
-                }
-            } else {
-                values[i] = attributeValue;
-            }
+            values[i] = attributeValues.get(i);
         }
 
         final boolean success = this.actionArrivedSimple(identifier.getValue(), values, executionId);
@@ -83,22 +71,17 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
 
         if (ret instanceof Attribute || ret == null) {
             return (Attribute) ret;
-        } else {
-            // First try to convert it into a MO type...
-            Object moType = Attribute.javaType2Attribute(ret);
-
-            if (moType instanceof Attribute) { // Was it succcessfully converted from Java to Attribute?
-                return (Attribute) moType;
-            }
-
-            try { // Try to serialize the object and put it inside a Blob
-                return HelperAttributes.serialObject2blobAttribute(ret);
-            } catch (IOException ex) {
-                Logger.getLogger(SimpleMonitorAndControlAdapter.class.getName()).log(
-                        Level.SEVERE, "The object could not be serialized!", ex);
-            }
         }
 
+        // Convert the Java type into its MO attribute type.
+        Object moType = Attribute.javaType2Attribute(ret);
+        if (moType instanceof Attribute) {
+            return (Attribute) moType;
+        }
+
+        Logger.getLogger(SimpleMonitorAndControlAdapter.class.getName()).log(Level.SEVERE,
+                "The value of parameter {0} is not an MO attribute type and cannot be returned. "
+                + "Use an MO attribute type for the parameter value.", identifier.getValue());
         return null;
     }
 
@@ -110,58 +93,11 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
 
         final Identifier identifier = identifiers.get(0);
         final Attribute value = values.get(0).getRawValue();
-        Serializable obj;
 
-        if (value instanceof Blob) {
-            // Try to unserialize it!
-            try {
-                obj = HelperAttributes.blobAttribute2serialObject((Blob) value);
-                return this.onSetValueSimple(identifier.getValue(), obj); // Success!
-            } catch (IOException ex) {
-                // It didn't work? Maybe it really just a Blob (not a serialized object)
-            }
-        }
-
-        // Convert it to java type
-        obj = (Serializable) Attribute.attribute2JavaType(value);
+        // Convert the MO attribute type into its Java type.
+        Serializable obj = (Serializable) Attribute.attribute2JavaType(value);
 
         return this.onSetValueSimple(identifier.getValue(), obj);
-
-        /* If we ever change the interface to support a boolean list, then use the code below */
- /*
-        final BooleanList output = new BooleanList();
-        
-        if (identifiers.isEmpty() || values.isEmpty()) { // Validation
-            return output;
-        }
-        
-        for (int i = 0; i < values.size(); i++) {
-            final Identifier identifier = identifiers.get(i);
-            final Attribute value = values.get(i).getRawValue();
-            Serializable obj;
-        
-            if (value instanceof Blob) { // Try to unserialize it!
-                try {
-                    obj = HelperAttributes.blobAttribute2serialObject((Blob) value);
-                    boolean success = this.onSetValueSimple(identifier.getValue(), obj); // Success!
-                    output.add(success);
-                    continue;
-                } catch (IOException ex) {
-                    // It didn't work? Maybe it really just a Blob (not a serialized object)
-                }
-            }
-        
-            // Convert it to java type
-            obj = (Serializable) Attribute.attribute2JavaType(value);
-        
-            boolean success = this.onSetValueSimple(identifier.getValue(), obj);
-            output.add(success);
-        }
-        
-        return output;
-        
-        
-         */
     }
 
 }

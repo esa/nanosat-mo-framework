@@ -10,7 +10,7 @@ Only vulnerabilities that are already public, or already fixed, are listed here.
 | ID | Title | Status | Affected | Fixed in | GHSA / CVE |
 |---|---|---|---|---|---|
 | [NMF-2026-001](#nmf-2026-001-unsafe-deserialization-in-the-spacecraft-simulator) | Unsafe deserialization in the spacecraft simulator | Fixed | <= 4.0 | 5.0 (2026-07-10) | CVE pending |
-| [NMF-2026-002](#nmf-2026-002-unsafe-deserialization-of-parameter-and-action-values) | Unsafe deserialization of parameter and action values | **Open** | all, including 6.0 | — | CVE pending |
+| [NMF-2026-002](#nmf-2026-002-unsafe-deserialization-of-parameter-and-action-values) | Unsafe deserialization of parameter and action values | Fixed | up to 6.0 | 6.0 (2026-10-10) | CVE pending |
 
 ---
 
@@ -65,12 +65,12 @@ Do not expose the simulator's TCP port to an untrusted network. Restrict access 
 
 | Field | Value |
 |---|---|
-| Status | **Open** (not fixed) |
+| Status | Fixed |
 | GHSA / CVE | Not published. CVE requested, ID not yet assigned. |
 | Ecosystem | Maven |
 | Package | `int.esa.nmf.core:nmf-composites` (the deserialization helper is `HelperAttributes` in the MO library `int.esa.ccsds.mo:api-area001-v003-mal`) |
-| Affected versions | All released versions, including 6.0 |
-| Fixed in | Not fixed |
+| Affected versions | All versions up to 6.0, before the fix |
+| Fixed in | 6.0 (2026-10-10) |
 | Reported | Thales, Hack CYSAT 2023 |
 | Severity | High (unauthenticated, remote; full remote code execution where a gadget chain is on the classpath) |
 | Weaknesses | CWE-502: Deserialization of Untrusted Data |
@@ -94,12 +94,14 @@ The minimum impact, with no gadget chain, is the forced instantiation of arbitra
 * Enable MO access control so that only authorised peers can set values or push notifications.
 * Keep providers and consumers on a trusted network, and keep known gadget-bearing libraries off the classpath.
 
-#### Suggested fix
+#### Fix
 
-Remove the automatic serialization of objects into `Blob` values from the Monitor and Control adapters. Parameter and action values should be restricted to the MO attribute types, so that no untrusted bytes are ever passed to `ObjectInputStream.readObject()`.
+The automatic serialization of objects into, and deserialization of objects from, a `Blob` was removed from the Monitor and Control adapters (`SimpleMonitorAndControlAdapter`, `NMFProvider`), from the consumer adapter (`MOAdapterImpl`), and from the Consumer Test Tool. Parameter and action values are now restricted to the MO attribute types: a value that is not an MO attribute type is rejected with a logged error instead of being serialized, and an incoming `Blob` is passed through as bytes and never deserialized. No untrusted bytes are passed to `ObjectInputStream.readObject()`. The `serialized-object` example, which relied on the feature, was removed.
+
+The unsafe helper `HelperAttributes.blobAttribute2serialObject` still exists in the MO library, but the framework no longer calls it.
 
 #### References
 
 * Thales, "First worldwide hacking demo of an in-orbit satellite", Hack CYSAT 2023: https://www.youtube.com/watch?v=sXGQWLJ8904
-* Sink: `SimpleMonitorAndControlAdapter.onSetValue` / `actionArrived`, and `MOAdapterImpl.monitorValueNotifyReceived`, calling `HelperAttributes.blobAttribute2serialObject`.
-* Covered by the failing regression test `Nmf2026002Test` in this toolkit, which passes once the flaw is fixed.
+* Sink (before the fix): `SimpleMonitorAndControlAdapter.onSetValue` / `actionArrived`, and `MOAdapterImpl.monitorValueNotifyReceived`, calling `HelperAttributes.blobAttribute2serialObject`.
+* Covered by the regression test `Nmf2026002Test` in this toolkit, which guards against the deserialization being reintroduced.

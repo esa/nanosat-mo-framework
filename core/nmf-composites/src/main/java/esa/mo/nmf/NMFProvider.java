@@ -40,7 +40,6 @@ import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.structures.ObjectKeysList;
 import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -171,13 +170,11 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
 
         Object obj = Attribute.javaType2Attribute(content); // Convert to MAL type if possible
 
-        // If it is not a MAL type, then try to convert it into a Blob container
+        // Only MO attribute types can be pushed. Arbitrary objects are no longer
+        // serialized into a Blob, so that untrusted bytes cannot later be deserialized.
         if (!(obj instanceof Attribute)) {
-            try {
-                obj = HelperAttributes.serialObject2blobAttribute((Serializable) obj);
-            } catch (IOException ex) {
-                Logger.getLogger(NMFProvider.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            throw new NMFException("The value of parameter '" + name + "' is not an MO attribute type. "
+                    + "Pushing arbitrary serializable objects as parameter values is no longer supported.");
         }
 
         ParameterInstance instance = new ParameterInstance(new Identifier(name), (Attribute) obj, null);

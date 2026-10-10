@@ -25,7 +25,6 @@ import esa.mo.mc.impl.provider.AggregationInstance;
 import esa.mo.mc.impl.provider.ParameterInstance;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.NMFException;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +34,6 @@ import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
@@ -111,17 +109,13 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
         Object midValue = Attribute.javaType2Attribute(content);
         Attribute rawValue;
 
-        if (midValue instanceof Attribute) { // Is the parameter MAL type or something else?
-            rawValue = (Attribute) midValue;
-        } else {
-            try {
-                // Well, if it is something else, then it will have to serialize it and put it inside a Blob
-                rawValue = HelperAttributes.serialObject2blobAttribute(content);
-            } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, null, ex);
-                return;
-            }
+        if (!(midValue instanceof Attribute)) {
+            // Only MO attribute types can be set. Objects are no longer serialized into a Blob.
+            LOGGER.log(Level.SEVERE, "The value of parameter {0} is not an MO attribute type; "
+                    + "setting arbitrary serializable objects is no longer supported.", parameterName);
+            return;
         }
+        rawValue = (Attribute) midValue;
 
         ParameterStub parameterService = super.getMCServices().getParameterService().getParameterStub();
 
@@ -192,22 +186,9 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
                     java.util.Map qosProperties) {
                 String parameterName = keys.getName().toString();
                 Attribute parameterValue = newValue.getRawValue();
-                Serializable object;
-
-                // Is it a Blob?
-                if (parameterValue instanceof Blob) {
-                    // If so, try to unserialize it
-                    try {
-                        object = HelperAttributes.blobAttribute2serialObject((Blob) parameterValue);
-                    } catch (IOException ex) {
-                        // Didn't work? Well, maybe it is just a normal Blob...
-                        object = (Serializable) Attribute.attribute2JavaType(parameterValue);
-                    }
-                } else {
-                    // Not a Blob?
-                    // Then make it a Java type if possible
-                    object = (Serializable) Attribute.attribute2JavaType(parameterValue);
-                }
+                // Convert the MO attribute type into its Java type. A Blob is never
+                // deserialized into an object, so untrusted bytes cannot run code.
+                Serializable object = (Serializable) Attribute.attribute2JavaType(parameterValue);
 
                 // Push the data to the user interface
                 // Simple interface
@@ -355,22 +336,13 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
             for (Serializable object : objects) {
                 // If it is java type, then convert it to Attribute
                 Object midValue = Attribute.javaType2Attribute(object);
-                Attribute rawValue;
-
-                if (midValue instanceof Attribute) {
-                    // Is the parameter MAL type or something else?
-                    rawValue = (Attribute) midValue;
-                } else {
-                    try {
-                        // Well, if it is something else, then it will have to
-                        // serialize it and put it inside a Blob
-                        rawValue = HelperAttributes.serialObject2blobAttribute(object);
-                    } catch (IOException ex) {
-                        LOGGER.log(Level.SEVERE, null, ex);
-                        return null;
-                    }
+                if (!(midValue instanceof Attribute)) {
+                    // Only MO attribute types can be sent. Objects are no longer serialized into a Blob.
+                    LOGGER.log(Level.SEVERE, "An action argument is not an MO attribute type; "
+                            + "sending arbitrary serializable objects is no longer supported.");
+                    return null;
                 }
-                argValues.add(new AttributeValue(rawValue));
+                argValues.add(new AttributeValue((Attribute) midValue));
             }
 
             actionID = launchAction(id, argValues);

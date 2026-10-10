@@ -23,7 +23,6 @@ package esa.mo.nmf.ctt.services.mc;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.nmf.ctt.windows.element.MOWindow;
-import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.util.Arrays;
 import java.util.Map;
@@ -33,7 +32,6 @@ import javax.swing.JOptionPane;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
-import org.ccsds.moims.mo.mal.helpertools.helpers.HelperAttributes;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -372,14 +370,8 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
 
                 Attribute attribute = values.get(i).getValue().getRawValue();
                 if (attribute instanceof Blob) {
-                    try {
-                        // Try to get a serial Object...
-                        Object obj = HelperAttributes.blobAttribute2serialObject((Blob) attribute);
-                        str.append(obj.toString());
-                    } catch (IOException ex) {
-                        // If it fails, then just pring the byte array...
-                        str.append(Arrays.toString(((Blob) attribute).getValue())).append("\n");
-                    }
+                    // Show the raw bytes; the CTT no longer deserializes a Blob into an object.
+                    str.append(Arrays.toString(((Blob) attribute).getValue())).append("\n");
                 }
             }
 

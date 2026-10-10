@@ -80,7 +80,6 @@
         <module>picture-processor</module>
         <module>publish-clock</module>
         <module>python-script</module>
-        <module>serialized-object</module>
         <module>waveform</module>
         <module>space-to-space</module>
         <module>space-to-space-supervisor</module>
