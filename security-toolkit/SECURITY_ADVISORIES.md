@@ -9,8 +9,8 @@ Only vulnerabilities that are already public, or already fixed, are listed here.
 
 | ID | Title | Status | Affected | Fixed in | GHSA / CVE |
 |---|---|---|---|---|---|
-| [NMF-2026-001](#nmf-2026-001-unsafe-deserialization-in-the-spacecraft-simulator) | Unsafe deserialization in the spacecraft simulator | Fixed | <= 4.0 | 5.0 (2026-07-10) | CVE pending |
-| [NMF-2026-002](#nmf-2026-002-unsafe-deserialization-of-parameter-and-action-values) | Unsafe deserialization of parameter and action values | Fixed | up to 6.0 | 6.0 (2026-10-10) | CVE pending |
+| [NMF-2026-001](#nmf-2026-001-unsafe-deserialization-in-the-spacecraft-simulator) | Unsafe deserialization in the spacecraft simulator | Fixed | <= 4.0 | [5.0](https://github.com/esa/nanosat-mo-framework/releases/tag/release-5.0) | CVE pending |
+| [NMF-2026-002](#nmf-2026-002-unsafe-deserialization-of-parameter-and-action-values) | Unsafe deserialization of parameter and action values | Fixed | up to 6.0 | 6.0 | CVE pending |
 
 ---
 
@@ -70,7 +70,7 @@ Do not expose the simulator's TCP port to an untrusted network. Restrict access 
 | Ecosystem | Maven |
 | Package | `int.esa.nmf.core:nmf-composites` (the deserialization helper is `HelperAttributes` in the MO library `int.esa.ccsds.mo:api-area001-v003-mal`) |
 | Affected versions | All versions up to 6.0, before the fix |
-| Fixed in | 6.0 (2026-10-10) |
+| Fixed in | 6.0 |
 | Reported | Thales, Hack CYSAT 2023 |
 | Severity | High (unauthenticated, remote; full remote code execution where a gadget chain is on the classpath) |
 | Weaknesses | CWE-502: Deserialization of Untrusted Data |
