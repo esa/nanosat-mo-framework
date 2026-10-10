@@ -22,7 +22,9 @@ jobs:
           key: ${{ runner.os }}-maven-security-jdk21-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-security-jdk21-
-      - name: Build the framework and the simulator fat jar
-        run: mvn --batch-mode --update-snapshots -DskipTests -Passembly-with-dependencies install
+      - name: Build the simulator fat jar
+        run: >-
+          mvn --batch-mode --update-snapshots -DskipTests -Passembly-with-dependencies
+          -pl nmf-mission-simulator-orekit/cubesat-spacecraft-simulator -am install
       - name: Run the security toolkit
         run: mvn --batch-mode test -f security-toolkit/pom.xml
