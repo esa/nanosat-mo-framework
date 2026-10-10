@@ -1,15 +1,16 @@
 Security Advisories
 ========================
 
-This file lists the security vulnerabilities that were found and fixed in the NanoSat MO Framework. Each entry follows the structure of a GitHub security advisory, so that it can be published as one.
+This file lists known security vulnerabilities in the NanoSat MO Framework and their status, both fixed and open. Each entry follows the structure of a GitHub security advisory, so that it can be published as one.
 
-Vulnerabilities that are not yet fixed are not listed here. To report a vulnerability, see [SECURITY.md](../SECURITY.md).
+Only vulnerabilities that are already public, or already fixed, are listed here. To report a new, undisclosed vulnerability, see [SECURITY.md](../SECURITY.md); it must be reported privately, not added to this file.
 
 ### Index
 
-| ID | Title | Affected | Patched | Fixed | GHSA / CVE |
+| ID | Title | Status | Affected | Fixed in | GHSA / CVE |
 |---|---|---|---|---|---|
-| [NMF-2026-001](#nmf-2026-001-unsafe-deserialization-in-the-spacecraft-simulator) | Unsafe deserialization in the spacecraft simulator | <= 4.0 | 5.0 | 2026-07-10 | CVE pending |
+| [NMF-2026-001](#nmf-2026-001-unsafe-deserialization-in-the-spacecraft-simulator) | Unsafe deserialization in the spacecraft simulator | Fixed | <= 4.0 | 5.0 (2026-07-10) | CVE pending |
+| [NMF-2026-002](#nmf-2026-002-unsafe-deserialization-of-parameter-and-action-values) | Unsafe deserialization of parameter and action values | **Open** | all, including 6.0 | — | CVE pending |
 
 ---
 
@@ -57,3 +58,48 @@ Do not expose the simulator's TCP port to an untrusted network. Restrict access 
 * Fix: commits [4e2a55b](https://github.com/esa/nanosat-mo-framework/commit/4e2a55b24c0a4ff59a1c2c972d6231986c3a68b4) and [19f1536](https://github.com/esa/nanosat-mo-framework/commit/19f15364f9809f6c29e70877c18d6c65f521f00e)
 * Change to the limits in 5.1: commit [e19b450](https://github.com/esa/nanosat-mo-framework/commit/e19b4501f2f855a115791112422c4d62a67925aa)
 * Release 5.0: https://github.com/esa/nanosat-mo-framework/releases/tag/release-5.0
+
+---
+
+### NMF-2026-002: Unsafe deserialization of parameter and action values
+
+| Field | Value |
+|---|---|
+| Status | **Open** (not fixed) |
+| GHSA / CVE | Not published. CVE requested, ID not yet assigned. |
+| Ecosystem | Maven |
+| Package | `int.esa.nmf.core:nmf-composites` (the deserialization helper is `HelperAttributes` in the MO library `int.esa.ccsds.mo:api-area001-v003-mal`) |
+| Affected versions | All released versions, including 6.0 |
+| Fixed in | Not fixed |
+| Reported | Thales, Hack CYSAT 2023 |
+| Severity | High (unauthenticated, remote; full remote code execution where a gadget chain is on the classpath) |
+| Weaknesses | CWE-502: Deserialization of Untrusted Data |
+
+#### Impact
+
+An application built on the NMF Monitor and Control adapters deserializes attacker-controlled bytes with `java.io.ObjectInputStream.readObject()` and no allow-list or `ObjectInputFilter`.
+
+When a parameter or action value arrives as a MAL `Blob`, the adapter passes its raw bytes straight to `HelperAttributes.blobAttribute2serialObject()`, which calls `readObject()` on them. The bytes are controlled by the remote MAL peer, so the peer chooses which classes are instantiated and which deserialization callbacks (`readObject`, `readResolve`) run in the victim process. MO access control is optional and off by default, so no credentials are required unless a deployment adds them.
+
+The sinks are:
+
+* Provider side: `ParameterProviderServiceImpl.setValue` → `ParameterManager` → `SimpleMonitorAndControlAdapter.onSetValue` (and `actionArrived`) → `HelperAttributes.blobAttribute2serialObject`. A remote consumer that sets a parameter raw value of type `Blob` reaches it.
+* Consumer side: `MOAdapterImpl.monitorValueNotifyReceived`. A rogue or compromised provider pushing a parameter notification reaches it on the operator's host. One example, `camera-acquisitor-system-ground`, has Spring on its classpath, which is known to carry deserialization gadget chains.
+
+The minimum impact, with no gadget chain, is the forced instantiation of arbitrary classpath classes and the execution of their deserialization callbacks. The maximum impact, with a gadget chain, is remote code execution and full compromise of the affected process. Thales demonstrated this at Hack CYSAT 2023 as a covert channel: an app with no overtly malicious code in its submitted binary received a crafted `Blob` parameter and ran arbitrary code on board.
+
+#### Workarounds
+
+* Do not define `Blob` parameters or actions whose values are deserialized, and do not rely on the framework's automatic object serialization.
+* Enable MO access control so that only authorised peers can set values or push notifications.
+* Keep providers and consumers on a trusted network, and keep known gadget-bearing libraries off the classpath.
+
+#### Suggested fix
+
+Remove the automatic serialization of objects into `Blob` values from the Monitor and Control adapters. Parameter and action values should be restricted to the MO attribute types, so that no untrusted bytes are ever passed to `ObjectInputStream.readObject()`.
+
+#### References
+
+* Thales, "First worldwide hacking demo of an in-orbit satellite", Hack CYSAT 2023.
+* Sink: `SimpleMonitorAndControlAdapter.onSetValue` / `actionArrived`, and `MOAdapterImpl.monitorValueNotifyReceived`, calling `HelperAttributes.blobAttribute2serialObject`.
+* Covered by the failing regression test `Nmf2026002Test` in this toolkit, which passes once the flaw is fixed.

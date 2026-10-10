@@ -33,6 +33,13 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <!-- Provides the Monitor and Control adapters whose deserialization sink is tested. -->
+            <groupId>int.esa.nmf.core</groupId>
+            <artifactId>nmf-composites</artifactId>
+            <version>6.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
             <version>${testcontainers.version}</version>
