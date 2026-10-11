@@ -8,7 +8,7 @@ permissions:
 jobs:
   security-toolkit-jdk21:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5
@@ -22,9 +22,21 @@ jobs:
           key: ${{ runner.os }}-maven-security-jdk21-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-security-jdk21-
-      - name: Build the framework and the simulator fat jar
+      - name: Build the framework
+        run: mvn --batch-mode --update-snapshots -DskipTests install
+      - name: Build the simulator fat jar (NMF-2026-001)
         run: >-
-          mvn --batch-mode --update-snapshots -DskipTests -Passembly-with-dependencies
-          -pl core/nmf-composites,nmf-mission-simulator-orekit/cubesat-spacecraft-simulator -am install
+          mvn --batch-mode -DskipTests -Passembly-with-dependencies
+          -pl nmf-mission-simulator-orekit/cubesat-spacecraft-simulator install
+      - name: Build the cli-tool fat jar (NMF-2026-003)
+        run: >-
+          mvn --batch-mode -DskipTests -Passembly-with-dependencies -pl sdk/cli-tool install
+      - name: Build the privilege-probe app package (NMF-2026-003)
+        run: >-
+          mvn --batch-mode -DskipTests -f security-toolkit/pom.xml -pl app-privilege-probe package
+      - name: Generate the barebone filesystem with linux-userspace (NMF-2026-003)
+        run: >-
+          mvn --batch-mode -DskipTests -pl nmf-mission-barebone/barebone-space-filesystem package
+          -Pgenerate-filesystem -Dgenerate-filesystem.appsIsolation=linux-userspace
       - name: Run the security toolkit
         run: mvn --batch-mode test -f security-toolkit/pom.xml

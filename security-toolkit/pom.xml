@@ -22,6 +22,7 @@
     </description>
 
     <modules>
+        <module>app-privilege-probe</module>
         <module>vulnerability-tests</module>
     </modules>
 </project>

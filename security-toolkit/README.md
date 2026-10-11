@@ -9,6 +9,8 @@ Security projects for the NanoSat MO Framework.
   [SECURITY_ADVISORIES.md](SECURITY_ADVISORIES.md). Each test drives the vulnerable component and
   asserts that the fix is in place; a test for a vulnerability that is still open fails until it is
   fixed.
+* `app-privilege-probe/` — a benign NMF app that reports the privileges the Supervisor gave it. A
+  test installs and runs it through the real Supervisor to check that app isolation confines it.
 * Further projects will be added, such as a malicious app used to exercise the framework's
   defences.
 
@@ -27,10 +29,15 @@ it. See [SECURITY_ADVISORIES.md](SECURITY_ADVISORIES.md) for the vulnerabilities
 
 ### Running
 
-The tests need the framework installed and the simulator fat jar, which is built by the
-`assembly-with-dependencies` profile. From the repository root:
+The container tests need some artifacts built first; each one skips (rather than fails) if its
+prerequisites are missing. From the repository root:
 
 ```
-mvn -DskipTests -Passembly-with-dependencies -pl core/nmf-composites,nmf-mission-simulator-orekit/cubesat-spacecraft-simulator -am install
+mvn -DskipTests install
+mvn -DskipTests -Passembly-with-dependencies -pl nmf-mission-simulator-orekit/cubesat-spacecraft-simulator,sdk/cli-tool install
+mvn -DskipTests -f security-toolkit/pom.xml -pl app-privilege-probe package
+mvn -DskipTests -pl nmf-mission-barebone/barebone-space-filesystem package -Pgenerate-filesystem -Dgenerate-filesystem.appsIsolation=linux-userspace
 mvn test -f security-toolkit/pom.xml
 ```
+
+The exact steps CI runs are in [`.github/workflows/security.yml`](../.github/workflows/security.yml).

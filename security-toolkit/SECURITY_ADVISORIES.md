@@ -133,7 +133,7 @@ Phi-Sat-2 was not affected. It already ran with the privilege separation that wa
 
 #### Fix
 
-The framework no longer requires root, and gives the supervisor and each app their own unprivileged identity:
+The framework no longer requires root, and gives the supervisor and each app their own unprivileged user account:
 
 * Phi-Sat-2 mission: the privilege separation was first developed here. The supervisor runs as a dedicated unprivileged user, `nmf-admin`, instead of root, and each app runs as its own dedicated unprivileged Linux user (`app-<name>` in the `nmf-apps` group). The supervisor creates the app's user when the app is installed and starts the app through `sudo`. It was implemented directly in the framework code and applied unconditionally on Linux. Phi-Sat-2 ran from its own branch, tagged (`phi-sat-2-cdr`, `phi-sat-2-readiness-review`) but never released as a proper version.
 
@@ -158,4 +158,4 @@ The framework provides the mechanisms; choosing the privilege model is a mission
 * Thales, "First worldwide hacking demo of an in-orbit satellite", Hack CYSAT 2023: https://www.youtube.com/watch?v=sXGQWLJ8904
 * App isolation: `AppsIsolationMode` and the `AppsLauncherManager` variants (Linux, Bubblewrap, Docker) in `nmf-services-impl`; the `appsIsolation` parameter of the `nmf-linux-maven-plugin` (`generate-filesystem`) and the `setup_linux_userspace.sh` it generates.
 * Phi-Sat-2 milestone tags: [`phi-sat-2-cdr`](https://github.com/esa/nanosat-mo-framework/releases/tag/phi-sat-2-cdr) and [`phi-sat-2-readiness-review`](https://github.com/esa/nanosat-mo-framework/releases/tag/phi-sat-2-readiness-review).
-* Regression tests: the per-mode launch-command confinement in `AppsLauncherManagerLinuxTest`, `AppsLauncherManagerBubblewrapTest` and `AppsLauncherManagerDockerTest` (`nmf-services-impl`), and the generation of the selected isolation mode in `BootloaderGeneratorTest` (`nmf-linux-maven-plugin`).
+* Regression tests: the per-mode launch-command confinement in `AppsLauncherManagerLinuxTest`, `AppsLauncherManagerBubblewrapTest` and `AppsLauncherManagerDockerTest` (`nmf-services-impl`); the generation of the selected isolation mode in `BootloaderGeneratorTest` (`nmf-linux-maven-plugin`); and the behavioural `Nmf2026003Test` in this toolkit, which runs the real barebone Supervisor and has it install (PackageManagement) and run (AppsLauncher) the real `privilege-probe` app from its `.nmfpackage`, then compares the modes: under linux-userspace the Supervisor runs the app as its own unprivileged user and it can read neither the supervisor's nor root's files, while under none the app runs as the Supervisor's own user and shares its files (and the Supervisor refuses to run as root).
