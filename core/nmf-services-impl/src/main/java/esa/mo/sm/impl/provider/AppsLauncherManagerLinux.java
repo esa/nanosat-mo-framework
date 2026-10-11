@@ -80,14 +80,33 @@ public class AppsLauncherManagerLinux extends AppsLauncherManager {
             ret.add("-c");
         }
 
-        StringBuilder envString = new StringBuilder();
+        // The command is run by a shell, so every value in it is quoted and stays one
+        // word whatever characters it holds. The script only runs if the cd succeeded:
+        // under 'su -' the shell starts in the user's home directory.
+        StringBuilder command = new StringBuilder("cd ").append(shellQuote(workDir)).append(" && ");
         for (String envVar : env) {
-            envString.append(envVar).append(" ");
+            int eq = envVar.indexOf('=');
+            if (eq <= 0) {
+                continue; // Not a NAME=value pair
+            }
+            // Only the value is quoted: a quoted NAME=value would no longer be an assignment.
+            command.append(envVar, 0, eq + 1).append(shellQuote(envVar.substring(eq + 1))).append(' ');
         }
-        String script = "start_app.sh";
-        ret.add("cd " + workDir + ";" + envString.toString() + "./" + script);
+        command.append("./start_app.sh");
+        ret.add(command.toString());
 
         return ret.toArray(new String[0]);
+    }
+
+    /**
+     * Quotes a value for a POSIX shell so that it is read as a single word with
+     * no special characters, by wrapping it in single quotes.
+     *
+     * @param value the value to quote
+     * @return the quoted value
+     */
+    static String shellQuote(final String value) {
+        return "'" + value.replace("'", "'\\''") + "'";
     }
 
     @Override

@@ -12,6 +12,7 @@ Only vulnerabilities that are already public, or already fixed, are listed here.
 | [NMF-2026-001](#nmf-2026-001-unsafe-deserialization-in-the-spacecraft-simulator) | Unsafe deserialization in the spacecraft simulator | Fixed | <= 4.0 | [5.0](https://github.com/esa/nanosat-mo-framework/releases/tag/release-5.0) | CVE pending |
 | [NMF-2026-002](#nmf-2026-002-unsafe-deserialization-of-parameter-and-action-values) | Unsafe deserialization of parameter and action values | Fixed | up to 6.0 | 6.0 | CVE pending |
 | [NMF-2026-003](#nmf-2026-003-supervisor-and-apps-run-with-excessive-privileges) | Supervisor and apps run with excessive privileges | Fixed | up to 3.0.0 | 3.0.0, [5.0](https://github.com/esa/nanosat-mo-framework/releases/tag/release-5.0) | — |
+| [NMF-2026-004](#nmf-2026-004-os-command-injection-through-the-app-name-in-the-linux-launcher) | OS command injection through the app name in the Linux launcher | Fixed | >= 2.1.0, < 6.0 | 6.0 | — |
 
 ---
 
@@ -166,3 +167,50 @@ The framework provides the mechanisms; choosing the privilege model is a mission
 [3] Phi-Sat-2 milestone tags: [`phi-sat-2-cdr`](https://github.com/esa/nanosat-mo-framework/releases/tag/phi-sat-2-cdr) and [`phi-sat-2-readiness-review`](https://github.com/esa/nanosat-mo-framework/releases/tag/phi-sat-2-readiness-review).
 
 [4] Regression tests: the per-mode launch-command confinement in `AppsLauncherManagerLinuxTest`, `AppsLauncherManagerBubblewrapTest` and `AppsLauncherManagerDockerTest` (`nmf-services-impl`); the generation of the selected isolation mode in `BootloaderGeneratorTest` (`nmf-linux-maven-plugin`); and the behavioural `Nmf2026003Test` in this toolkit, which runs the real barebone Supervisor and has it install (PackageManagement) and run (AppsLauncher) the real `privilege-probe` app from its `.nmfpackage`, then compares the modes: under linux-userspace the Supervisor runs the app as its own unprivileged user and it can read neither the supervisor's nor root's files, while under none the app runs as the Supervisor's own user and shares its files (and the Supervisor refuses to run as root).
+
+---
+
+### NMF-2026-004: OS command injection through the app name in the Linux launcher
+
+| Field | Value |
+|---|---|
+| Status | Fixed |
+| GHSA / CVE | Not published |
+| Ecosystem | Maven |
+| Package | `int.esa.nmf.core:nmf-services-impl` (in earlier versions, the Software Management services module) |
+| Affected versions | >= 2.1.0, < 6.0 (and the 2.0.0 pre-release) |
+| Fixed in | 6.0 |
+| Reported | Privately, October 2026 |
+| Severity | Low (requires the ability to install and run an app, which already runs code of the installer's choosing with the same privileges) |
+| Weaknesses | CWE-78: Improper Neutralization of Special Elements used in an OS Command; CWE-20: Improper Input Validation |
+
+#### Impact
+
+On Linux, the Supervisor starts an app by passing a single command string to a shell: `/bin/sh -c`, or `sudo su - app-<name> -c` under linux-userspace isolation. The string is `cd <app directory>; <environment> ./start_app.sh`, and the app directory ends with the app's name. The name comes from the `info.name` field of the package metadata, and nothing checked it, at install or when the Supervisor read the `apps` folder. Characters such as `;`, `&`, `|` or `$` in a package name were therefore acted on by the shell when the app was started, so a package could run commands of its choosing in place of, or before, its start script.
+
+To exploit this, an attacker must place a package in the Supervisor's `packages` folder, install it and run it. Installing and running an app already executes code of the installer's choosing, so the injected commands gain nothing over what the app's own code can do. They run with the same privileges:
+
+* Without isolation (`none`), apps already run as the Supervisor's user.
+* Under linux-userspace isolation, the whole string runs inside `su - app-<name>`, so the injected commands run as the app's own unprivileged user, not as the Supervisor. The name must also be accepted as a Linux user name first, which `adduser` refuses on Debian-based systems.
+* The Bubblewrap, Docker and Windows launchers pass the app directory as a separate argument, not through a shell, and are not affected.
+
+The flaw is therefore a robustness and defence-in-depth issue rather than a privilege escalation.
+
+#### Workarounds
+
+* Install only packages from trusted sources. This is already necessary, because installing and running an app executes its code.
+* Run apps under an isolation mode, so that each app, and anything it runs, is confined to its own user or sandbox.
+
+#### Fix
+
+A package name must now be one plain file name: letters, digits, `.`, `_`, `+` and `-`, starting with a letter or a digit, at most 128 characters. The check is made when a package file is read, so install, upgrade and uninstall all refuse a package with any other name. The Supervisor also ignores a folder in the `apps` folder whose name is not a valid app name.
+
+The Linux launcher now quotes the app directory and each environment value, so that each one reaches the shell as a single word whatever characters it holds. It also runs the start script only if changing to the app directory succeeded, so a `su -` login never runs a script from the user's home directory instead.
+
+#### References
+
+[1] Command assembly: `AppsLauncherManagerLinux.assembleCommand` in `nmf-services-impl`.
+
+[2] Name check: `Metadata.isValidPackageName`, applied in `Metadata.parseZipFile` and when the Supervisor reads the `apps` folder (`AppsLauncherManager.refreshAvailableAppsList`).
+
+[3] Regression tests: `PackageNameTest` and `AppsLauncherManagerLinuxTest` (`nmf-services-impl`). The latter starts a real shell in a directory whose name holds shell characters, and checks that the start script runs in that directory.

@@ -25,6 +25,7 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCommon;
+import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -312,6 +313,14 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
             if (list != null) {
                 for (File appFolder : list) {
                     if ((appFolder != null) && appFolder.isDirectory()) {
+                        // The folder name is the App name, which ends up in the command
+                        // that starts the App, so only valid package names are accepted.
+                        if (!Metadata.isValidPackageName(appFolder.getName())) {
+                            LOGGER.log(Level.WARNING,
+                                    "Ignoring the App folder ''{0}'': its name is not a valid App name.",
+                                    appFolder.getName());
+                            continue;
+                        }
                         fList.add(appFolder);
                     }
                 }

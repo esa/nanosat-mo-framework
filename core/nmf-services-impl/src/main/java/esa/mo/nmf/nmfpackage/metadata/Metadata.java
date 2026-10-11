@@ -40,6 +40,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -279,9 +280,38 @@ public class Metadata {
 
         // Try to open the the receipt file inside the Zip file
         // and parse it into a Metadata object
+        Metadata metadata;
         try ( InputStream stream = zipFile.getInputStream(receipt)) {
-            return Metadata.load(stream);
+            metadata = Metadata.load(stream);
         }
+
+        // Every package read from disk is checked here, before its name is used
+        // for a directory, a user or a command (install, upgrade and uninstall).
+        if (!isValidPackageName(metadata.getPackageName())) {
+            throw new IOException("The package name '" + metadata.getPackageName()
+                    + "' is not valid. A package name may only contain letters, digits, "
+                    + "'.', '_', '+' and '-', and must start with a letter or a digit.");
+        }
+
+        return metadata;
+    }
+
+    /**
+     * The form a package name must have. The name becomes a directory name, part
+     * of the App's Linux user name and part of the command that starts the App,
+     * so it is limited to one plain file name: letters, digits, '.', '_', '+' and
+     * '-', starting with a letter or a digit (which also excludes "." and "..").
+     */
+    private static final Pattern VALID_PACKAGE_NAME = Pattern.compile("[A-Za-z0-9][A-Za-z0-9._+-]{0,127}");
+
+    /**
+     * Returns whether the given name is a valid package name.
+     *
+     * @param name the name to check
+     * @return {@code true} if the name can safely be used as a package name
+     */
+    public static boolean isValidPackageName(final String name) {
+        return name != null && VALID_PACKAGE_NAME.matcher(name).matches();
     }
 
     /**
