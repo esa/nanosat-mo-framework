@@ -9,9 +9,9 @@ Only vulnerabilities that are already public, or already fixed, are listed here.
 
 | ID | Title | Status | Affected | Fixed in | GHSA / CVE |
 |---|---|---|---|---|---|
-| [NMF-2026-001](#nmf-2026-001-unsafe-deserialization-in-the-spacecraft-simulator) | Unsafe deserialization in the spacecraft simulator | Fixed | <= 4.0 | [5.0](https://github.com/esa/nanosat-mo-framework/releases/tag/release-5.0) | CVE pending |
-| [NMF-2026-002](#nmf-2026-002-unsafe-deserialization-of-parameter-and-action-values) | Unsafe deserialization of parameter and action values | Fixed | up to 6.0 | 6.0 | CVE pending |
-| [NMF-2026-003](#nmf-2026-003-supervisor-and-apps-run-with-excessive-privileges) | Supervisor and apps run with excessive privileges | Fixed | up to 3.0.0 | 3.0.0, [5.0](https://github.com/esa/nanosat-mo-framework/releases/tag/release-5.0) | — |
+| [NMF-2026-001](#nmf-2026-001-unsafe-deserialization-in-the-spacecraft-simulator) | Unsafe deserialization in the spacecraft simulator | Fixed | < 5.0 | [5.0](https://github.com/esa/nanosat-mo-framework/releases/tag/release-5.0) | CVE pending |
+| [NMF-2026-002](#nmf-2026-002-unsafe-deserialization-of-parameter-and-action-values) | Unsafe deserialization of parameter and action values | Fixed | < 6.0 | 6.0 | CVE pending |
+| [NMF-2026-003](#nmf-2026-003-supervisor-and-apps-run-with-excessive-privileges) | Supervisor and apps run with excessive privileges | Fixed | < 3.0.0 | 3.0.0, [5.0](https://github.com/esa/nanosat-mo-framework/releases/tag/release-5.0) | — |
 | [NMF-2026-004](#nmf-2026-004-os-command-injection-through-the-app-name-in-the-linux-launcher) | OS command injection through the app name in the Linux launcher | Fixed | >= 2.1.0, < 6.0 | 6.0 | — |
 
 ---
@@ -23,7 +23,7 @@ Only vulnerabilities that are already public, or already fixed, are listed here.
 | GHSA / CVE | GHSA not published. CVE requested from MITRE by the reporter, ID not yet assigned. |
 | Ecosystem | Maven |
 | Package | `int.esa.nmf.simulator:spacecraft-simulator` |
-| Affected versions | <= 4.0 |
+| Affected versions | < 5.0 |
 | Patched versions | 5.0 (artifact renamed to `int.esa.nmf.simulator:cubesat-spacecraft-simulator`) |
 | Reported | 2026-07-07 |
 | Fixed | 2026-07-10 (commits 4e2a55b and 19f1536), released in 5.0 on 2026-07-21 |
@@ -73,7 +73,7 @@ Do not expose the simulator's TCP port to an untrusted network. Restrict access 
 | GHSA / CVE | Not published. CVE requested, ID not yet assigned. |
 | Ecosystem | Maven |
 | Package | `int.esa.nmf.core:nmf-composites` (the deserialization helper is `HelperAttributes` in the MO library `int.esa.ccsds.mo:api-area001-v003-mal`) |
-| Affected versions | All versions up to 6.0, before the fix |
+| Affected versions | < 6.0 (every release, from the oldest tagged one, 1.2.0) |
 | Fixed in | 6.0 |
 | Reported | Thales, Hack CYSAT 2023 |
 | Severity | High (unauthenticated, remote; full remote code execution where a gadget chain is on the classpath) |
