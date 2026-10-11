@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.concurrent.atomic.AtomicLong;
@@ -76,7 +77,8 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
      */
     private final ArrayList<File> foldersWithApps = new ArrayList<>();
 
-    private final HashMap<Long, ProcessExecutionHandler> handlers = new HashMap<>();
+    // Read and written by different MAL threads (runApp, stopApp, killApp).
+    private final Map<Long, ProcessExecutionHandler> handlers = new ConcurrentHashMap<>();
 
     private AtomicLong uniqueObjIdDef; // Counter
 
@@ -522,7 +524,19 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
             final StopAppInteraction interaction, final Consumer<Long> forceKill)
             throws MALException {
         Identifier appName = this.get(appInstId).getName();
-        Process process = handlers.get(appInstId).getProcess();
+        ProcessExecutionHandler handler = handlers.get(appInstId);
+        if (handler == null) {
+            // stopApp() checked that the app was running, but a concurrent killApp, or the
+            // force-kill of an overlapping stopApp of the same app, has since removed its
+            // process. The app is already stopped, so there is nothing left to wait for.
+            LOGGER.log(Level.INFO, "App ''{0}'' (id={1}) is no longer running, so there is nothing to stop.",
+                    new Object[]{appName, appInstId});
+            if (interaction != null) {
+                interaction.sendUpdate(appInstId);
+            }
+            return;
+        }
+        Process process = handler.getProcess();
         // A NULL timeout means the app is never forcibly killed: the provider only
         // waits a bounded time to report the UPDATE, then leaves it to close on its own.
         final boolean killOnTimeout = (timeout != null);
