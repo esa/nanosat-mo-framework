@@ -12,7 +12,7 @@ Only vulnerabilities that are already public, or already fixed, are listed here.
 | [NMF-2026-001](#nmf-2026-001-unsafe-deserialization-in-the-spacecraft-simulator) | Unsafe deserialization in the spacecraft simulator | Fixed | < 5.0 | [5.0](https://github.com/esa/nanosat-mo-framework/releases/tag/release-5.0) | CVE pending |
 | [NMF-2026-002](#nmf-2026-002-unsafe-deserialization-of-parameter-and-action-values) | Unsafe deserialization of parameter and action values | Fixed | < 6.0 | 6.0 | CVE pending |
 | [NMF-2026-003](#nmf-2026-003-supervisor-and-apps-run-with-excessive-privileges) | Supervisor and apps run with excessive privileges | Fixed | < 3.0.0 | 3.0.0, [5.0](https://github.com/esa/nanosat-mo-framework/releases/tag/release-5.0) | — |
-| [NMF-2026-004](#nmf-2026-004-os-command-injection-through-the-app-name-in-the-linux-launcher) | OS command injection through the app name in the Linux launcher | Fixed | >= 2.1.0, < 6.0 | 6.0 | — |
+| [NMF-2026-004](#nmf-2026-004-os-command-injection-through-the-app-name-in-the-linux-launcher) | OS command injection through the app name in the Linux launcher | Fixed | < 6.0 | 6.0 | — |
 | [NMF-2026-005](#nmf-2026-005-path-traversal-zip-slip-when-installing-or-removing-nmf-packages) | Path traversal (Zip Slip) when installing or removing NMF packages | Fixed | < 2.1.0 | 2.1.0 | — |
 | [NMF-2026-006](#nmf-2026-006-packages-can-write-or-delete-files-outside-their-own-area) | Packages can write or delete files outside their own area | Fixed | < 6.0 | 6.0 | — |
 
@@ -182,7 +182,7 @@ The framework provides the mechanisms; choosing the privilege model is a mission
 | GHSA / CVE | Not published |
 | Ecosystem | Maven |
 | Package | `int.esa.nmf.core:nmf-services-impl` (in earlier versions, the Software Management services module) |
-| Affected versions | >= 2.1.0, < 6.0, and the earlier 2.0.0 pre-release, test and OPS-SAT flight builds (see Impact) |
+| Affected versions | < 6.0 |
 | Fixed in | 6.0 |
 | Reported | deadf00d, Hack CYSAT 2022 |
 | Severity | Low (requires the ability to install and run an app, which already runs code of the installer's choosing with the same privileges) |
