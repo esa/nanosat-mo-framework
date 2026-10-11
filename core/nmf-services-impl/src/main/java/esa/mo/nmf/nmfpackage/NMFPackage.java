@@ -139,6 +139,35 @@ public class NMFPackage {
     }
 
     /**
+     * Works out where each file of this package goes under the given NMF root,
+     * holding the package to the area that belongs to its type (see
+     * {@link HelperNMFPackage#resolveInsideArea}). Nothing is written.
+     *
+     * @param nmfRoot The NMF root the package is to be extracted to.
+     * @return Where each file goes, in the order of the metadata.
+     * @throws IOException If a file is missing from the package, or lies
+     * outside the package's area.
+     */
+    public ArrayList<Path> placeFiles(File nmfRoot) throws IOException {
+        final Path root = nmfRoot.getCanonicalFile().toPath();
+        ArrayList<NMFPackageFile> files = this.getMetadata().getFiles();
+        ArrayList<Path> targets = new ArrayList<>(files.size());
+
+        for (NMFPackageFile file : files) {
+            ZipEntry entry = this.getZipFileEntry(file.getPath());
+
+            if (entry == null) {
+                throw new IOException("The package does not hold one of the files"
+                        + " that its metadata lists: " + file.getPath());
+            }
+
+            targets.add(HelperNMFPackage.resolveInsideArea(root, this.getMetadata(), entry.getName()));
+        }
+
+        return targets;
+    }
+
+    /**
      * Extracts the files in this package to the selected folder.
      *
      * @param toFolder The folder where the files will be extracted to.
@@ -147,8 +176,9 @@ public class NMFPackage {
     public void extractFiles(File toFolder) throws IOException {
         byte[] buffer = new byte[8192];
 
-        // Worked out once, and every file of the package lands under it
-        final Path destination = toFolder.getCanonicalFile().toPath();
+        // Every file is placed before any is written, so a package with one
+        // file outside its area writes nothing at all
+        ArrayList<Path> targets = this.placeFiles(toFolder);
 
         // Iterate through the files, unpack them into the right folders
         ArrayList<NMFPackageFile> files = this.getMetadata().getFiles();
@@ -156,7 +186,7 @@ public class NMFPackage {
         for (int i = 0; i < files.size(); i++) {
             NMFPackageFile file = files.get(i);
             ZipEntry entry = this.getZipFileEntry(file.getPath());
-            Path newFile = HelperNMFPackage.resolveInside(destination, entry.getName());
+            Path newFile = targets.get(i);
 
             Files.createDirectories(newFile.getParent());
             System.out.println("   >> Copying file to: " + newFile);

@@ -20,11 +20,14 @@
  */
 package esa.mo.nmf.nmfpackage.utils;
 
+import esa.mo.nmf.environment.Deployment;
+import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -202,6 +205,82 @@ public class HelperNMFPackage {
         }
 
         return resolved;
+    }
+
+    /**
+     * Works out where one file of a package is to be written or deleted, and
+     * holds the package to its own area of the NMF root.
+     *
+     * A package names the paths of its files, and it can be built by anyone. An
+     * App runs as its own user when apps are isolated, but its package is
+     * installed by the Supervisor, so a path that merely stays under the NMF
+     * root is not enough: it must also stay inside the area that belongs to the
+     * package's type, or an App package could replace the Supervisor's own
+     * software. Nor may the path go through a symbolic link inside that area, so
+     * that a link placed there cannot send the file somewhere else.
+     *
+     * @param root The NMF root.
+     * @param metadata The metadata of the package that lists the file.
+     * @param entryName The path that the package gives for the file.
+     * @return Where the file is written or deleted, inside the package's area.
+     * @throws IOException If the path leaves the package's area, goes through a
+     * symbolic link, or the package's type has no area of its own.
+     */
+    public static Path resolveInsideArea(final Path root, final Metadata metadata,
+            final String entryName) throws IOException {
+        final String area = areaOf(metadata);
+        final Path areaPath = resolveInside(root, area);
+        final Path resolved = resolveInside(root, entryName);
+
+        if (!resolved.startsWith(areaPath) || resolved.equals(areaPath)) {
+            throw new IOException("The " + metadata.getPackageType() + " package '"
+                    + metadata.getPackageName() + "' holds a file outside its own area ("
+                    + area + "): " + entryName);
+        }
+
+        // Every existing piece inside the area is checked, the file itself included.
+        // The area and the folders above it are the operator's to arrange, and may
+        // be links (to another partition, for example).
+        Path current = areaPath;
+        for (Path piece : areaPath.relativize(resolved)) {
+            current = current.resolve(piece);
+            if (Files.isSymbolicLink(current)) {
+                throw new IOException("The " + metadata.getPackageType() + " package '"
+                        + metadata.getPackageName() + "' holds a file that would be reached"
+                        + " through a symbolic link: " + entryName);
+            }
+        }
+
+        return resolved;
+    }
+
+    /**
+     * The area of the NMF root, relative to it and with {@code /} separators,
+     * that a package of the given type owns. It is the layout that the package
+     * builder gives to each type.
+     *
+     * @param metadata The metadata of the package.
+     * @return The package's area.
+     * @throws IOException If the package's type has no area of its own.
+     */
+    public static String areaOf(final Metadata metadata) throws IOException {
+        if (metadata.isApp()) {
+            return Deployment.DIR_APPS + "/" + metadata.getPackageName();
+        }
+        if (metadata.isDependency()) {
+            return Deployment.DIR_JARS_SHARED;
+        }
+        if (metadata.isJava()) {
+            return Deployment.DIR_JAVA;
+        }
+        if ((metadata.isNMF() || metadata.isMission()) && metadata.getPackageVersion() != null) {
+            String top = metadata.isNMF() ? Deployment.DIR_JARS_NMF : Deployment.DIR_JARS_MISSION;
+            return top + "/" + metadata.getPackageVersion();
+        }
+
+        // A delta package, for example: delta updates are not designed yet
+        throw new IOException("Packages of type '" + metadata.getPackageType()
+                + "' cannot be installed, updated or removed: they have no area of their own.");
     }
 
 }

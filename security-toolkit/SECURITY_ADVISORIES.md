@@ -14,6 +14,7 @@ Only vulnerabilities that are already public, or already fixed, are listed here.
 | [NMF-2026-003](#nmf-2026-003-supervisor-and-apps-run-with-excessive-privileges) | Supervisor and apps run with excessive privileges | Fixed | < 3.0.0 | 3.0.0, [5.0](https://github.com/esa/nanosat-mo-framework/releases/tag/release-5.0) | — |
 | [NMF-2026-004](#nmf-2026-004-os-command-injection-through-the-app-name-in-the-linux-launcher) | OS command injection through the app name in the Linux launcher | Fixed | >= 2.1.0, < 6.0 | 6.0 | — |
 | [NMF-2026-005](#nmf-2026-005-path-traversal-zip-slip-when-installing-or-removing-nmf-packages) | Path traversal (Zip Slip) when installing or removing NMF packages | Fixed | < 2.1.0 | 2.1.0 | — |
+| [NMF-2026-006](#nmf-2026-006-packages-can-write-or-delete-files-outside-their-own-area) | Packages can write or delete files outside their own area | Fixed | < 6.0 | 6.0 | — |
 
 ---
 
@@ -266,3 +267,53 @@ The files are written and deleted with the Supervisor's privileges. To exploit i
 [3] Phi-Sat-2 tags: [`phi-sat-2-readiness-review`](https://github.com/esa/nanosat-mo-framework/releases/tag/phi-sat-2-readiness-review) (affected) and [`phi-sat-2-cdr`](https://github.com/esa/nanosat-mo-framework/releases/tag/phi-sat-2-cdr) (fixed).
 
 [4] Regression test: `NMFPackageZipSlipTest` (`nmf-services-impl`), which holds that every way of writing a path that leaves the folder is refused, and that the paths of real files still arrive where they belong.
+
+---
+
+### NMF-2026-006: Packages can write or delete files outside their own area
+
+| Field | Value |
+|---|---|
+| Status | Fixed |
+| GHSA / CVE | Not published |
+| Ecosystem | Maven |
+| Package | `int.esa.nmf.core:nmf-services-impl` (in earlier versions, `int.esa.nmf.core:nmf-package-lib`) |
+| Affected versions | < 6.0 |
+| Fixed in | 6.0 |
+| Reported | Found by the NMF maintainers, while reviewing [NMF-2026-005](#nmf-2026-005-path-traversal-zip-slip-when-installing-or-removing-nmf-packages) |
+| Severity | Low without app isolation; Medium with app isolation (an App's package can have code run as the Supervisor) |
+| Weaknesses | CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal'); CWE-59: Improper Link Resolution Before File Access ('Link Following') |
+
+#### Impact
+
+Since the fix of [NMF-2026-005](#nmf-2026-005-path-traversal-zip-slip-when-installing-or-removing-nmf-packages), every path that a package lists must lie under the NMF root. Nothing, however, tied a package to the part of the root that belongs to its type. An App package could therefore add or replace files anywhere under the NMF root except the factory baseline: in another App's folder, in the shared libraries, in the bootloader's configuration, or in the directories of the running software baseline (`jars-nmf/<version>` and `jars-mission/<version>`). In the last case the framework also regenerated that directory's checksums, as it does for a real baseline package, so the bootloader's integrity check passed and the Supervisor ran the added or replaced code at its next start. Uninstalling or updating such a package could likewise delete files in those places. Writing and deleting also followed symbolic links, so a link placed inside a package's area could send a later package's files elsewhere.
+
+The files are written and deleted with the Supervisor's privileges. To exploit this, an attacker must get a crafted package installed, updated or uninstalled:
+
+* Without app isolation, apps already run as the Supervisor's user, so this gains little over what the app's own code can do.
+* With app isolation, apps run as their own unprivileged users, but their packages are installed by the Supervisor. There, an App's package could have code run as the Supervisor, or change the bootloader's configuration, and so bypass the isolation introduced by [NMF-2026-003](#nmf-2026-003-supervisor-and-apps-run-with-excessive-privileges).
+
+#### Workarounds
+
+* Install only packages from trusted sources.
+* Before installing a package, check that every path in its `package-metadata.properties` lies inside the area of its type, listed below.
+
+#### Fix
+
+Each type of package now has an area of its own, which is the layout the package builder already gave it:
+
+| Type | Area |
+|---|---|
+| `app` | `apps/<name>/` |
+| `dependency` | `jars-shared-libraries/` |
+| `java` | `java/` |
+| `nmf` | `jars-nmf/<version>/` |
+| `mission` | `jars-mission/<version>/` |
+
+A package that lists any file outside its area is refused as a whole, before anything is written or deleted, when it is installed, updated or uninstalled. A file is also refused if it would be reached through a symbolic link inside the area. Packages of type `delta` are refused, because they have no area of their own: delta updates are not implemented yet. Only baseline packages (`nmf`, `mission` and `java`) refresh the checksums of the baseline directories.
+
+#### References
+
+[1] Where a package's files may go: `HelperNMFPackage.resolveInsideArea` and `HelperNMFPackage.areaOf`, applied by `NMFPackage.placeFiles` and by `NMFPackageManager` when it removes files (`nmf-services-impl`).
+
+[2] Regression test: `AppPackageConfinementTest` (`nmf-services-impl`), which installs and uninstalls hand-made packages that reach into the framework's baseline, into another App's folder and through a symbolic link, and checks that each is refused and leaves no file written or deleted, while ordinary App and framework packages still install where they belong.

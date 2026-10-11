@@ -120,6 +120,10 @@ public class NMFPackageManager {
 
         nmfPackage.verifyPackageIntegrity();
 
+        // A package only installs into its own area: refused here, before any
+        // of its dependencies or files are installed
+        nmfPackage.placeFiles(nmfDir);
+
         // The factory baseline is immutable in flight (NMF.BOOT.BMM.03)
         rejectIfTargetsFactory(metadata);
 
@@ -232,6 +236,10 @@ public class NMFPackageManager {
         // The factory baseline is immutable in flight (NMF.BOOT.BMM.03)
         rejectIfTargetsFactory(packageMetadata);
 
+        // A package only removes files from its own area: refused here, before
+        // the App is stopped or anything is deleted
+        placeListedFiles(packageMetadata);
+
         if (packageMetadata.isApp()) { // If the App is running, then stop it!
             this.stopAppIfRunning(packageName);
         }
@@ -328,6 +336,11 @@ public class NMFPackageManager {
                 + "\n  >>   To version: " + newPackMetadata.getPackageVersion()
                 + " (timestamp: " + newPackMetadata.getPackageTimestamp() + ")"
         );
+
+        // Both packages are held to their own areas: refused here, before the App
+        // is stopped and the old files are removed
+        placeListedFiles(oldPackMetadata);
+        newPack.placeFiles(nmfDir);
 
         String packageName = oldPackMetadata.getPackageName();
         boolean isApp = oldPackMetadata.isApp();
@@ -667,14 +680,26 @@ public class NMFPackageManager {
 
     }
 
-    private static void removeFiles(Metadata metadata) throws IOException {
+    /**
+     * Works out where each file listed by the metadata lies under the NMF root,
+     * holding the package to the area that belongs to its type (see
+     * {@link HelperNMFPackage#resolveInsideArea}). Nothing is deleted.
+     */
+    private static ArrayList<File> placeListedFiles(Metadata metadata) throws IOException {
         final Path root = Deployment.getNMFRootDir().getCanonicalFile().toPath();
-        File file;
+        ArrayList<File> placed = new ArrayList<>();
 
-        // Do the files actually match the descriptor?
-        for (int i = 0; i < metadata.getFiles().size(); i++) {
-            NMFPackageFile entry = metadata.getFiles().get(i);
-            file = HelperNMFPackage.resolveInside(root, entry.getPath()).toFile();
+        for (NMFPackageFile entry : metadata.getFiles()) {
+            placed.add(HelperNMFPackage.resolveInsideArea(root, metadata, entry.getPath()).toFile());
+        }
+
+        return placed;
+    }
+
+    private static void removeFiles(Metadata metadata) throws IOException {
+        // Every file is placed before any is deleted, so a package with one
+        // file outside its area deletes nothing at all
+        for (File file : placeListedFiles(metadata)) {
             NMFPackageManager.removeFile(file);
             File parent = file.getParentFile();
 
@@ -722,6 +747,12 @@ public class NMFPackageManager {
      * @throws IOException if a checksum manifest cannot be written.
      */
     private static void handleBaselineComponent(Metadata metadata, File nmfDir) throws IOException {
+        // Only a baseline package refreshes baseline checksums; any other package
+        // is already held to an area outside the baseline directories
+        if (!metadata.isBaselineComponent()) {
+            return;
+        }
+
         Set<String> touched = touchedBaselineDirs(metadata);
 
         for (String dir : touched) {
