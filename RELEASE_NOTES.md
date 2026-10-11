@@ -55,6 +55,8 @@ The different versions and respective updates are the following:
 * Includes all updates for the Phi-Sat-2 mission
 * Introduces AppStorage class
 
+> Note: this release consolidated the OPS-SAT and Phi-Sat-2 missions, which until then each developed on its own branch (Phi-Sat-2 ran on snapshot builds and was tagged, but never released as a proper version), into a single stable baseline for both and for future development. The privilege separation developed for Phi-Sat-2 — the supervisor running as the dedicated unprivileged nmf-admin user instead of root, and each App as its own dedicated Linux user — was brought into this baseline (see security-toolkit/SECURITY_ADVISORIES.md, NMF-2026-003).
+
 ### Version 2.0.0
 * Untracked
 
