@@ -176,6 +176,8 @@ public class NMFPackage {
     public void extractFiles(File toFolder) throws IOException {
         byte[] buffer = new byte[8192];
 
+        final Path destination = toFolder.getCanonicalFile().toPath();
+
         // Every file is placed before any is written, so a package with one
         // file outside its area writes nothing at all
         ArrayList<Path> targets = this.placeFiles(toFolder);
@@ -186,7 +188,15 @@ public class NMFPackage {
         for (int i = 0; i < files.size(); i++) {
             NMFPackageFile file = files.get(i);
             ZipEntry entry = this.getZipFileEntry(file.getPath());
-            Path newFile = targets.get(i);
+            Path newFile = targets.get(i).normalize();
+
+            // placeFiles has already held the file inside the folder. It is checked
+            // again here, right before it is written, in the form that code scanners
+            // recognise as a containment check.
+            if (!newFile.startsWith(destination)) {
+                throw new IOException("The package holds an entry outside the folder"
+                        + " it is extracted to: " + entry.getName());
+            }
 
             Files.createDirectories(newFile.getParent());
             System.out.println("   >> Copying file to: " + newFile);
