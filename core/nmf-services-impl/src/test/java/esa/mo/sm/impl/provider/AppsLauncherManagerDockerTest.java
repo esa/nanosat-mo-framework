@@ -110,4 +110,13 @@ public class AppsLauncherManagerDockerTest {
         Assert.assertEquals("./stop_app.sh", cmd.get(cmd.size() - 1));
     }
 
+    @Test
+    public void testAppIsNotRunPrivileged() {
+        // The container must not be given --privileged (NMF-2026-003): that would
+        // defeat the isolation and hand the app full access to the host.
+        List<String> cmd = Arrays.asList(
+                manager.assembleCommand("/w", "MyApp", null, "start_", new String[0]));
+        Assert.assertFalse("the container must not run --privileged", cmd.contains("--privileged"));
+    }
+
 }
