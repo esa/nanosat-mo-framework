@@ -56,9 +56,11 @@ Do not expose the simulator's TCP port to an untrusted network. Restrict access 
 
 #### References
 
-* Fix: commits [4e2a55b](https://github.com/esa/nanosat-mo-framework/commit/4e2a55b24c0a4ff59a1c2c972d6231986c3a68b4) and [19f1536](https://github.com/esa/nanosat-mo-framework/commit/19f15364f9809f6c29e70877c18d6c65f521f00e)
-* Change to the limits in 5.1: commit [e19b450](https://github.com/esa/nanosat-mo-framework/commit/e19b4501f2f855a115791112422c4d62a67925aa)
-* Release 5.0: https://github.com/esa/nanosat-mo-framework/releases/tag/release-5.0
+[1] Fix: commits [4e2a55b](https://github.com/esa/nanosat-mo-framework/commit/4e2a55b24c0a4ff59a1c2c972d6231986c3a68b4) and [19f1536](https://github.com/esa/nanosat-mo-framework/commit/19f15364f9809f6c29e70877c18d6c65f521f00e)
+
+[2] Change to the limits in 5.1: commit [e19b450](https://github.com/esa/nanosat-mo-framework/commit/e19b4501f2f855a115791112422c4d62a67925aa)
+
+[3] Release 5.0: https://github.com/esa/nanosat-mo-framework/releases/tag/release-5.0
 
 ---
 
@@ -103,9 +105,11 @@ The unsafe helper `HelperAttributes.blobAttribute2serialObject` still exists in 
 
 #### References
 
-* Thales, "First worldwide hacking demo of an in-orbit satellite", Hack CYSAT 2023: https://www.youtube.com/watch?v=sXGQWLJ8904
-* Sink (before the fix): `SimpleMonitorAndControlAdapter.onSetValue` / `actionArrived`, and `MOAdapterImpl.monitorValueNotifyReceived`, calling `HelperAttributes.blobAttribute2serialObject`.
-* Covered by the regression test `Nmf2026002Test` in this toolkit, which guards against the deserialization being reintroduced.
+[1] Thales, "First worldwide hacking demo of an in-orbit satellite", Hack CYSAT 2023: https://www.youtube.com/watch?v=sXGQWLJ8904
+
+[2] Sink (before the fix): `SimpleMonitorAndControlAdapter.onSetValue` / `actionArrived`, and `MOAdapterImpl.monitorValueNotifyReceived`, calling `HelperAttributes.blobAttribute2serialObject`.
+
+[3] Covered by the regression test `Nmf2026002Test` in this toolkit, which guards against the deserialization being reintroduced.
 
 ---
 
@@ -155,7 +159,10 @@ The framework provides the mechanisms; choosing the privilege model is a mission
 
 #### References
 
-* Thales, "First worldwide hacking demo of an in-orbit satellite", Hack CYSAT 2023: https://www.youtube.com/watch?v=sXGQWLJ8904
-* App isolation: `AppsIsolationMode` and the `AppsLauncherManager` variants (Linux, Bubblewrap, Docker) in `nmf-services-impl`; the `appsIsolation` parameter of the `nmf-linux-maven-plugin` (`generate-filesystem`) and the `setup_linux_userspace.sh` it generates.
-* Phi-Sat-2 milestone tags: [`phi-sat-2-cdr`](https://github.com/esa/nanosat-mo-framework/releases/tag/phi-sat-2-cdr) and [`phi-sat-2-readiness-review`](https://github.com/esa/nanosat-mo-framework/releases/tag/phi-sat-2-readiness-review).
-* Regression tests: the per-mode launch-command confinement in `AppsLauncherManagerLinuxTest`, `AppsLauncherManagerBubblewrapTest` and `AppsLauncherManagerDockerTest` (`nmf-services-impl`); the generation of the selected isolation mode in `BootloaderGeneratorTest` (`nmf-linux-maven-plugin`); and the behavioural `Nmf2026003Test` in this toolkit, which runs the real barebone Supervisor and has it install (PackageManagement) and run (AppsLauncher) the real `privilege-probe` app from its `.nmfpackage`, then compares the modes: under linux-userspace the Supervisor runs the app as its own unprivileged user and it can read neither the supervisor's nor root's files, while under none the app runs as the Supervisor's own user and shares its files (and the Supervisor refuses to run as root).
+[1] Thales, "First worldwide hacking demo of an in-orbit satellite", Hack CYSAT 2023: https://www.youtube.com/watch?v=sXGQWLJ8904
+
+[2] App isolation: `AppsIsolationMode` and the `AppsLauncherManager` variants (Linux, Bubblewrap, Docker) in `nmf-services-impl`; the `appsIsolation` parameter of the `nmf-linux-maven-plugin` (`generate-filesystem`) and the `setup_linux_userspace.sh` it generates.
+
+[3] Phi-Sat-2 milestone tags: [`phi-sat-2-cdr`](https://github.com/esa/nanosat-mo-framework/releases/tag/phi-sat-2-cdr) and [`phi-sat-2-readiness-review`](https://github.com/esa/nanosat-mo-framework/releases/tag/phi-sat-2-readiness-review).
+
+[4] Regression tests: the per-mode launch-command confinement in `AppsLauncherManagerLinuxTest`, `AppsLauncherManagerBubblewrapTest` and `AppsLauncherManagerDockerTest` (`nmf-services-impl`); the generation of the selected isolation mode in `BootloaderGeneratorTest` (`nmf-linux-maven-plugin`); and the behavioural `Nmf2026003Test` in this toolkit, which runs the real barebone Supervisor and has it install (PackageManagement) and run (AppsLauncher) the real `privilege-probe` app from its `.nmfpackage`, then compares the modes: under linux-userspace the Supervisor runs the app as its own unprivileged user and it can read neither the supervisor's nor root's files, while under none the app runs as the Supervisor's own user and shares its files (and the Supervisor refuses to run as root).
