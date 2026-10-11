@@ -41,17 +41,12 @@ public class AppsLauncherManagerWindows extends AppsLauncherManager {
     }
 
     @Override
-    protected String getScriptExtension() {
-        return ".bat";
-    }
-
-    @Override
     protected String[] assembleCommand(final String workDir, final String appName,
-            final String runAs, final String prefix, final String[] env) {
+            final String runAs, final String[] env) {
         ArrayList<String> ret = new ArrayList<>();
         ret.add("cmd");
         ret.add("/c");
-        ret.add(prefix + "app.bat");
+        ret.add("start_app.bat");
         return ret.toArray(new String[0]);
     }
 

@@ -46,11 +46,6 @@ public class AppsLauncherManagerDockerTest {
     }
 
     @Test
-    public void testScriptExtension() {
-        Assert.assertEquals(".sh", manager.getScriptExtension());
-    }
-
-    @Test
     public void testEnvironmentCarriesTheDirectoryURI() {
         String uri = "maltcp://supervisor:1024/nanosat-mo-supervisor-Directory";
         Map<String, String> env = manager.assembleAppLauncherEnvironment(uri);
@@ -65,7 +60,7 @@ public class AppsLauncherManagerDockerTest {
         String[] env = {"JAVA_OPTS=-Dfoo=bar"};
 
         List<String> actual = Arrays.asList(
-                manager.assembleCommand(workDir, "MyApp", null, "start_", env));
+                manager.assembleCommand(workDir, "MyApp", null, env));
 
         List<String> expected = Arrays.asList(
                 "docker", "run", "--rm",
@@ -83,7 +78,7 @@ public class AppsLauncherManagerDockerTest {
     public void testContainerNameIsSanitised() {
         // Spaces and slashes are not valid in a Docker container name.
         List<String> cmd = Arrays.asList(
-                manager.assembleCommand("/w", "space app/1", null, "start_", new String[0]));
+                manager.assembleCommand("/w", "space app/1", null, new String[0]));
         int nameIdx = cmd.indexOf("--name");
         Assert.assertTrue("--name flag must be present", nameIdx >= 0);
         Assert.assertEquals("nmf-app-space-app-1", cmd.get(nameIdx + 1));
@@ -95,7 +90,7 @@ public class AppsLauncherManagerDockerTest {
         System.setProperty(AppsLauncherManagerDocker.NETWORK_PROPERTY, "mo-bridge");
 
         List<String> cmd = Arrays.asList(
-                manager.assembleCommand("/w", "MyApp", null, "start_", new String[0]));
+                manager.assembleCommand("/w", "MyApp", null, new String[0]));
 
         int netIdx = cmd.indexOf("--network");
         Assert.assertEquals("mo-bridge", cmd.get(netIdx + 1));
@@ -104,18 +99,11 @@ public class AppsLauncherManagerDockerTest {
     }
 
     @Test
-    public void testStopPrefixSelectsStopScript() {
-        List<String> cmd = Arrays.asList(
-                manager.assembleCommand("/w", "MyApp", null, "stop_", new String[0]));
-        Assert.assertEquals("./stop_app.sh", cmd.get(cmd.size() - 1));
-    }
-
-    @Test
     public void testAppIsNotRunPrivileged() {
         // The container must not be given --privileged (NMF-2026-003): that would
         // defeat the isolation and hand the app full access to the host.
         List<String> cmd = Arrays.asList(
-                manager.assembleCommand("/w", "MyApp", null, "start_", new String[0]));
+                manager.assembleCommand("/w", "MyApp", null, new String[0]));
         Assert.assertFalse("the container must not run --privileged", cmd.contains("--privileged"));
     }
 

@@ -62,7 +62,7 @@ public class AppsLauncherManagerBubblewrapTest {
     @Test
     public void sandboxUnsharesNamespacesAndDiesWithTheSupervisor() {
         List<String> cmd = Arrays.asList(
-                manager.assembleCommand("/w", "MyApp", null, "start_", new String[0]));
+                manager.assembleCommand("/w", "MyApp", null, new String[0]));
 
         Assert.assertEquals("/usr/bin/bwrap", cmd.get(0));
         Assert.assertTrue("all namespaces must be unshared", cmd.contains("--unshare-all"));
@@ -73,7 +73,7 @@ public class AppsLauncherManagerBubblewrapTest {
     @Test
     public void filesystemIsReadOnlyExceptTheAppDirectory() {
         List<String> cmd = Arrays.asList(
-                manager.assembleCommand("/w", "MyApp", null, "start_", new String[0]));
+                manager.assembleCommand("/w", "MyApp", null, new String[0]));
 
         // The whole filesystem is bound read-only: '--ro-bind / /'.
         int roIdx = cmd.indexOf("--ro-bind");

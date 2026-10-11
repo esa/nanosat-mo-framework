@@ -422,46 +422,11 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
      * @param workDir the work dir
      * @param appName the app name
      * @param runAs the run as
-     * @param prefix the prefix
      * @param env the env
      * @return the assembled command
      */
     protected abstract String[] assembleCommand(final String workDir, final String appName,
-            final String runAs, final String prefix, final String[] env);
-
-    /**
-     * Returns the script extension.
-     * @return the script extension
-     */
-    protected abstract String getScriptExtension();
-
-    /**
-     * Assembles the command used to stop a running app.
-     *
-     * @param workDir the work dir
-     * @param appName the app name
-     * @param runAs the run as
-     * @param env the env
-     * @return the assembled command
-     */
-    protected String[] assembleAppStopCommand(final String workDir,
-            final String appName, final String runAs, final String[] env) {
-        return assembleCommand(workDir, appName, runAs, "stop_", env);
-    }
-
-    /**
-     * Assembles the command used to start an app.
-     *
-     * @param workDir the work dir
-     * @param appName the app name
-     * @param runAs the run as
-     * @param env the env
-     * @return the assembled command
-     */
-    protected String[] assembleAppStartCommand(final String workDir,
-            final String appName, final String runAs, final String[] env) {
-        return assembleCommand(workDir, appName, runAs, "start_", env);
-    }
+            final String runAs, final String[] env);
 
     /**
      * Assembles the environment variables for launching an app.
@@ -490,7 +455,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         File appsFolderPath = this.getAppsFolderPath(app.getName());
         final File appFolder = new File(appsFolderPath + File.separator + appName);
         Map<String, String> env = assembleAppLauncherEnvironment(directoryServiceURI);
-        String[] appLauncherCommand = assembleAppStartCommand(
+        String[] appLauncherCommand = assembleCommand(
                 appFolder.getAbsolutePath(),
                 appName,
                 app.getRunAs(),
@@ -542,55 +507,6 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         handlers.remove(appInstId); // Get rid of it!
 
         return true;
-    }
-
-    /**
-     * Stops the native OS process of the given app.
-     *
-     * @param appInstId the app inst id
-     * @param interaction the MAL interaction context
-     * @param onlyNativeComponent the only native component
-     * @throws IOException if the operation fails
-     * @throws MALException if the operation fails
-     * @return {@code true} on success
-     */
-    protected boolean stopNativeApp(final Long appInstId, StopAppInteraction interaction,
-            boolean onlyNativeComponent) throws IOException, MALException {
-        AppDetails app = (AppDetails) this.getDef(appInstId); // get it from the list of available apps
-
-        // Go to the folder where the app is installed
-        File appsFolderPath = this.getAppsFolderPath(app.getName());
-        File appFolder = new File(appsFolderPath + File.separator + app.getName().getValue());
-        Map<String, String> env = assembleAppLauncherEnvironment("");
-        String[] appLauncherCommand = assembleAppStopCommand(appFolder.getAbsolutePath(),
-                app.getName().getValue(), app.getRunAs(), ProcessEnvironment.toStrings(env));
-
-        ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
-        pb.environment().clear();
-        pb.directory(appFolder);
-        LOGGER.log(Level.INFO,
-                "Stopping ''{0}'' app in dir: {1}, using launcher command: {2}",
-                new Object[]{app.getName().getValue(), appFolder.getAbsolutePath(),
-                    Arrays.toString(appLauncherCommand)});
-        final Process proc = pb.start();
-        interaction.sendUpdate(appInstId);
-        boolean exitCleanly = false;
-        try {
-            exitCleanly = proc.waitFor(APP_STOP_TIMEOUT, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException ex) {
-            LOGGER.log(Level.WARNING, "Something went wrong...", ex);
-        }
-        if (!exitCleanly) {
-            LOGGER.log(Level.WARNING,
-                    "App {0} stop script did not exit within the timeout ({1} ms). "
-                    + "Killing the stop script and forcing the app exit.",
-                    new Object[]{app.getName().getValue(), APP_STOP_TIMEOUT});
-            proc.destroyForcibly();
-        }
-        if (onlyNativeComponent) {
-            return true;
-        }
-        return killAppProcess(appInstId, interaction.getInteraction());
     }
 
     /**
@@ -677,51 +593,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
             final StopAppInteraction interaction, final Consumer<Long> forceKill)
             throws MALException {
         for (int i = 0; i < appInstIds.size(); i++) {
-            long appInstId = appInstIds.get(i);
-            AppDetails curr = this.get(appInstId);
-            String fileExt = getScriptExtension();
-            File appsFolderPath = this.getAppsFolderPath(curr.getName());
-            File stopScript = new File(appsFolderPath + File.separator + curr.getName().getValue()
-                    + File.separator + "stop_app" + fileExt);
-            boolean stopScriptExists = stopScript.exists();
-            if (curr.getCategory().getValue().equalsIgnoreCase("NMF_App")) {
-                this.stopNMFAppGracefully(appInstId, timeout, interaction, forceKill);
-                if (stopScriptExists) {
-                    Map<String, String> env = assembleAppLauncherEnvironment("");
-                    File appFolder = new File(appsFolderPath + File.separator + curr.getName().getValue());
-                    String[] appLauncherCommand = assembleAppStopCommand(appFolder.getAbsolutePath(),
-                            curr.getName().getValue(), curr.getRunAs(), ProcessEnvironment.toStrings(env));
-                    ProcessBuilder pb = new ProcessBuilder(appLauncherCommand);
-                    pb.environment().clear();
-                    pb.directory(appFolder);
-
-                    LOGGER.log(Level.INFO,
-                            "Stopping native component of ''{0}'' app",
-                            new Object[]{curr.getName().getValue()});
-                    try {
-                        this.stopNativeApp(appInstId, interaction, true);
-                    } catch (IOException ex) {
-                        Logger.getLogger(AppsLauncherManager.class.getName()).log(
-                                Level.SEVERE, "Stopping native component failed", ex);
-                    }
-                }
-            } else {
-                if (!stopScriptExists) {
-                    LOGGER.log(Level.INFO,
-                            "No stop script present for app {0}. Killing the process.",
-                            curr.getName());
-                    this.killAppProcess(appInstId, interaction.getInteraction());
-                } else {
-                    try {
-                        LOGGER.log(Level.INFO,
-                                "Stop script present for app {0}. Invoking it.", curr.getName());
-                        this.stopNativeApp(appInstId, interaction, false);
-                    } catch (IOException ex) {
-                        Logger.getLogger(AppsLauncherManager.class.getName()).log(
-                                Level.SEVERE, "Stopping native app failed", ex);
-                    }
-                }
-            }
+            this.stopNMFAppGracefully(appInstIds.get(i), timeout, interaction, forceKill);
         }
     }
 

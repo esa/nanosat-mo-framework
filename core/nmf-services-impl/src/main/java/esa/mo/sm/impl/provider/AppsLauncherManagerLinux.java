@@ -63,13 +63,8 @@ public class AppsLauncherManagerLinux extends AppsLauncherManager {
     }
 
     @Override
-    protected String getScriptExtension() {
-        return ".sh";
-    }
-
-    @Override
     protected String[] assembleCommand(final String workDir, final String appName,
-            final String runAs, final String prefix, final String[] env) {
+            final String runAs, final String[] env) {
         ArrayList<String> ret = new ArrayList<>();
 
         if (runAs != null) {
@@ -89,7 +84,7 @@ public class AppsLauncherManagerLinux extends AppsLauncherManager {
         for (String envVar : env) {
             envString.append(envVar).append(" ");
         }
-        String script = prefix + "app.sh";
+        String script = "start_app.sh";
         ret.add("cd " + workDir + ";" + envString.toString() + "./" + script);
 
         return ret.toArray(new String[0]);

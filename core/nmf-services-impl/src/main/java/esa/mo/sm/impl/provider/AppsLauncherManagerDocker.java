@@ -95,11 +95,6 @@ public class AppsLauncherManagerDocker extends AppsLauncherManager {
         super(comServices);
     }
 
-    @Override
-    protected String getScriptExtension() {
-        return ".sh";
-    }
-
     /**
      * The container name for an app, sanitised to the characters Docker allows
      * in a container name.
@@ -110,8 +105,8 @@ public class AppsLauncherManagerDocker extends AppsLauncherManager {
 
     @Override
     protected String[] assembleCommand(final String workDir, final String appName,
-            final String runAs, final String prefix, final String[] env) {
-        final String script = prefix + "app.sh"; // start_app.sh / stop_app.sh
+            final String runAs, final String[] env) {
+        final String script = "start_app.sh";
         final String nmfHome = Deployment.getNMFRootDir().getAbsolutePath();
 
         ArrayList<String> ret = new ArrayList<>();

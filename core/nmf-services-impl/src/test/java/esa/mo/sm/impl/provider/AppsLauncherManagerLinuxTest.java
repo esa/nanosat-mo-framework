@@ -38,7 +38,7 @@ public class AppsLauncherManagerLinuxTest {
     @Test
     public void appIsLaunchedAsItsOwnUnprivilegedUser() {
         List<String> cmd = Arrays.asList(
-                manager.assembleCommand("/w", "MyApp", "app-MyApp", "start_", new String[0]));
+                manager.assembleCommand("/w", "MyApp", "app-MyApp", new String[0]));
 
         // The app runs through 'su - app-MyApp -c ...', so under its own user and not
         // the Supervisor's. (A leading 'sudo' is added only when sudo is available, so
@@ -55,7 +55,7 @@ public class AppsLauncherManagerLinuxTest {
     @Test
     public void withoutAUserTheAppRunsInAPlainShell() {
         List<String> cmd = Arrays.asList(
-                manager.assembleCommand("/w", "MyApp", null, "start_", new String[0]));
+                manager.assembleCommand("/w", "MyApp", null, new String[0]));
 
         Assert.assertEquals("/bin/sh", cmd.get(0));
         Assert.assertEquals("-c", cmd.get(1));
