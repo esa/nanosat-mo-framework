@@ -104,7 +104,7 @@ The minimum impact, with no gadget chain, is the forced instantiation of arbitra
 
 The automatic serialization of objects into, and deserialization of objects from, a `Blob` was removed from the Monitor and Control adapters (`SimpleMonitorAndControlAdapter`, `NMFProvider`), from the consumer adapter (`MOAdapterImpl`), and from the Consumer Test Tool. Parameter and action values are now restricted to the MO attribute types: a value that is not an MO attribute type is rejected with a logged error instead of being serialized, and an incoming `Blob` is passed through as bytes and never deserialized. No untrusted bytes are passed to `ObjectInputStream.readObject()`. The `serialized-object` example, which relied on the feature, was removed.
 
-The unsafe helper `HelperAttributes.blobAttribute2serialObject` still exists in the MO library, but the framework no longer calls it.
+The framework no longer calls the unsafe helper `HelperAttributes.blobAttribute2serialObject` of the MO library. The helper is removed from the MO library in 15.1, and is still present in 15.0 and earlier.
 
 #### References
 

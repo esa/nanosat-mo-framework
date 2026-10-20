@@ -5,7 +5,7 @@ The NanoSat MO Framework is an end-to-end software framework for small satellite
 ## 🗺️ Activities and Features Timeline
 
 ### 🟢 Near Term (Next 1-3 Months)
-* [ ] **ISL integration**: Add Inter-Satellite Link (ISL) capabilities: Either via a ISL service OR better integration with the transport layers.
+* [ ] **ISL integration**: Add Inter-Satellite Link (ISL) capabilities: either via an ISL service OR better integration with the transport layers.
 * [ ] **Access Control**: Authenticate and authorise the consumers of the MO services, so that each service and operation can be restricted to the consumers allowed to use it.
 
 ### 🟡 Medium Term & Long Term (3+ Months)
