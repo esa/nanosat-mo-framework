@@ -4,7 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-The NanoSat MO Framework (NMF) is a Java software framework for small satellites based on CCSDS Mission Operations (MO) services. It enables apps running on a spacecraft to be started/stopped from the ground. Apps have specific Parameters, Actions and Alerts that can be monitored and controlled. The NMF has a set of MO services (Monitor & Control, Platform, COM, Software Management).
+The NanoSat MO Framework (NMF) is a Java software framework for small satellites based on CCSDS Mission Operations (MO) services.
+It enables apps running on a spacecraft to be started/stopped from the ground.
+Apps have specific Parameters, Actions and Alerts that can be monitored and controlled.
+The NMF has a set of MO services (Monitor & Control, Platform, COM, Software Management).
 
 - **Documentation**: https://nanosat-mo-framework.readthedocs.io/en/latest/
 - **Version**: 6.0-SNAPSHOT (`int.esa.nmf` group ID)
@@ -87,7 +90,8 @@ A space app creates a `NanoSatMOConnectorImpl`, initialises it with an MC adapte
 
 Two equivalent APIs are available; pick either based on style.
 
-**Simple (listener) API** — extend `SimpleMonitorAndControlAdapter`; explicit method dispatch, no reflection:
+**Simple (listener) API** — extend `SimpleMonitorAndControlAdapter`;
+explicit method dispatch, no reflection:
 ```java
 public class MyApp {
     private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
@@ -117,7 +121,8 @@ See `sdk/examples-apps/all-mc-services` for the full annotation-based example an
 ## Running the Playground Environment
 
 After a full build, the playground environment generates a runnable NMF filesystem under
-`sdk/sdk-playground-environment/target/space-filesystem/nanosat-mo-framework/`. Convenience scripts in
+`sdk/sdk-playground-environment/target/space-filesystem/nanosat-mo-framework/`.
+Convenience scripts in
 `sdk/sdk-playground-environment/` wrap it:
 
 1. Start the Supervisor Simulator (provides platform services and app lifecycle management):
@@ -128,7 +133,8 @@ After a full build, the playground environment generates a runnable NMF filesyst
    ```
    sdk/sdk-playground-environment/run_CTT.sh
    ```
-3. In the CTT, connect using the `maltcp://` Directory Service URI printed in the Supervisor log (also written to `providerURIs.properties` in the Supervisor working directory).
+3. In the CTT,
+   connect using the `maltcp://` Directory Service URI printed in the Supervisor log (also written to `providerURIs.properties` in the Supervisor working directory).
 4. Navigate to Apps Launcher Service → select an app → `runApp`.
 
 ## Service Layer Hierarchy
@@ -143,22 +149,45 @@ CCSDS MAL (transport/encoding)
        └─ SM (AppsLauncher, PackageManagement, Heartbeat, CommandExecutor)
 ```
 
-Note: the previously separate "Common" area (Directory, Configuration, Login) has been folded into COM, and the Configuration service has since been removed. Its two COM objects, `ConfigurationService` and `ConfigurationProvider`, are now objects of the Directory service; configuration persistence lives in `esa.mo.reconfigurable.provider.PersistProviderConfiguration`. `Login` is defined in XML and has only a consumer-side implementation today.
+Note: the previously separate "Common" area (Directory, Configuration, Login) has been folded into COM,
+and the Configuration service has since been removed.
+Its two COM objects, `ConfigurationService` and `ConfigurationProvider`, are now objects of the Directory service;
+configuration persistence lives in `esa.mo.reconfigurable.provider.PersistProviderConfiguration`.
+`Login` is defined in XML and has only a consumer-side implementation today.
 
-Service XML definitions in `core/mo-services-xml/` are the authoritative source; the API JARs in `mo-services-apis/` are generated from them. When CCSDS MO service versions change, update the XML first.
+Service XML definitions in `core/mo-services-xml/` are the authoritative source;
+the API JARs in `mo-services-apis/` are generated from them.
+When CCSDS MO service versions change, update the XML first.
 
 ## NMF Package System
 
-Space apps are deployed as `.nmfpackage` files (ZIP archives) built by the `nmf-package-maven-plugin`. The Supervisor's `PackageManagement` service installs/uninstalls them and verifies their integrity via the CRC checksums in the bundled `package-metadata.properties`. Six package types are supported (`app`, `dependency`, `java`, `mission`, `nmf`, `delta`); most code deals with `app`. The two baseline types are produced by the `nmf-linux-maven-plugin`: `generate-nmf-core-package` packages `jars-nmf/<version>` and `generate-mission-package` packages `jars-mission/<version>`, both reading what `generate-filesystem` sorted. Installing one stages the baseline beside the running version without activating it. The `nmf-linux-maven-plugin` generates the Linux filesystem layout, the bootloader baseline files, and `setup_linux_userspace.sh` (linux-userspace isolation only) for initial hardware deployment.
+Space apps are deployed as `.nmfpackage` files (ZIP archives) built by the `nmf-package-maven-plugin`.
+The Supervisor's `PackageManagement` service installs/uninstalls them and verifies their integrity via the CRC checksums in the bundled `package-metadata.properties`.
+Six package types are supported (`app`, `dependency`, `java`, `mission`, `nmf`, `delta`);
+most code deals with `app`.
+The two baseline types are produced by the `nmf-linux-maven-plugin`:
+`generate-nmf-core-package` packages `jars-nmf/<version>` and `generate-mission-package` packages `jars-mission/<version>`,
+both reading what `generate-filesystem` sorted.
+Installing one stages the baseline beside the running version without activating it.
+The `nmf-linux-maven-plugin` generates the Linux filesystem layout, the bootloader baseline files,
+and `setup_linux_userspace.sh` (linux-userspace isolation only) for initial hardware deployment.
 
 ## Architectural patterns
 
-**App chaining** (also called "Cascading NMF Apps" in earlier documentation): apps consume each other's services so that one app's output drives the next's behaviour. Used on ɸ-Sat-2 to split image processing across two apps — a first app classified image tiles as cloudy or clear, and a second app processed only the clear ones. Implemented via `SpaceMOAdapterImpl.forNMFApp(directoryURI, peerAppName)` from inside an app.
+**App chaining** (also called "Cascading NMF Apps" in earlier documentation):
+apps consume each other's services so that one app's output drives the next's behaviour.
+Used on ɸ-Sat-2 to split image processing across two apps
+— a first app classified image tiles as cloudy or clear, and a second app processed only the clear ones.
+Implemented via `SpaceMOAdapterImpl.forNMFApp(directoryURI, peerAppName)` from inside an app.
 
 ## Documentation Structure
 
-Sphinx docs under `docs/source/` are organised into ten sections: `quickstart/`, `concepts/`, `development-app/`, `development-ground/`, `development-mission/`, `mission-integration/`, `tooling/`, `reference/`, `background/`, `removed-features/`. The MO service XML in `core/mo-services-xml/` is the source of truth referenced from both the Concepts and Reference sections.
+Sphinx docs under `docs/source/` are organised into ten sections: `quickstart/`, `concepts/`,
+`development-app/`, `development-ground/`, `development-mission/`, `mission-integration/`, `tooling/`,
+`reference/`, `background/`, `removed-features/`.
+The MO service XML in `core/mo-services-xml/` is the source of truth referenced from both the Concepts and Reference sections.
 
 ## Environment
 
-Logging uses `java.util.logging`; verbosity is controlled by `logging.properties` in the Supervisor's working directory (`sdk/sdk-playground-environment/target/space-filesystem/nanosat-mo-framework/etc/`).
+Logging uses `java.util.logging`;
+verbosity is controlled by `logging.properties` in the Supervisor's working directory (`sdk/sdk-playground-environment/target/space-filesystem/nanosat-mo-framework/etc/`).
