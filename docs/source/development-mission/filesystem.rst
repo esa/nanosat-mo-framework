@@ -134,10 +134,9 @@ hardware bring-up. In the default ``none`` mode no provisioning script is genera
 Mission project structure
 --------------------------
 
-The ``nmf-linux-maven-plugin`` is being extended to also generate the Maven project structure for new mission
-integrations. Until that feature is complete, the existing missions — :doc:`../specific-missions/ops-sat`
-and :doc:`../specific-missions/phi-sat-2` — are the working references for how to lay out a mission Maven
-project.
+The existing missions are the working references for how to lay out a mission Maven project:
+:doc:`../specific-missions/ops-sat` and :doc:`../specific-missions/phi-sat-2` for complete integrations, and
+the barebone mission (see `Barebone reference`_ below) as the simplest starting point.
 
 Running as a service
 ---------------------
