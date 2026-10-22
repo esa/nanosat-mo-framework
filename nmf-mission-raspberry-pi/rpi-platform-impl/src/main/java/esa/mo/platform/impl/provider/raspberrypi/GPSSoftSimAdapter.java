@@ -58,7 +58,7 @@ public class GPSSoftSimAdapter extends GPSNMEAonlyAdapter {
     }
 
     @Override
-    public Position getCurrentPosition() {
+    public synchronized Position getCurrentPosition() {
         return new Position((float) 1, (float) 2, (float) 3, null);
     }
 
