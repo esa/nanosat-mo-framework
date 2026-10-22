@@ -169,7 +169,7 @@ public class Geofence {
         try {
             LongList ids = new LongList();
             ids.add(appId);
-            this.supervisor.getAppsLauncherService().runApp(null, null);
+            this.supervisor.getAppsLauncherService().runApp(ids, null);
         } catch (MALException | UnknownException
                 | InvalidArgumentException | InternalException ex) {            
             LOGGER.log(Level.SEVERE, "Failed to start App: " + ex.getMessage());
