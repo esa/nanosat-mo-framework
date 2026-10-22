@@ -163,13 +163,24 @@ public class AppStorage {
             Files.createDirectory(file.toPath(), permissions);
         } catch (UnsupportedOperationException ex1) {
             // Probably we are on Windows... Let's create it with:
-            file.mkdirs();
-            file.setExecutable(false, false);
-            file.setExecutable(true, true);
-            file.setReadable(false, false);
-            file.setReadable(true, true);
-            file.setWritable(false, false);
-            file.setWritable(true, true);
+            if (!file.mkdirs() && !file.isDirectory()) {
+                Logger.getLogger(AppStorage.class.getName()).log(Level.SEVERE, "Failed to create App storage directory: " + file);
+                return;
+            }
+            // Taking a permission from everybody is not supported everywhere
+            // (it fails on Windows), so it is done as far as it goes
+            boolean othersRemoved = file.setExecutable(false, false)
+                    & file.setReadable(false, false)
+                    & file.setWritable(false, false);
+            boolean ownerGranted = file.setExecutable(true, true)
+                    & file.setReadable(true, true)
+                    & file.setWritable(true, true);
+            if (!othersRemoved) {
+                Logger.getLogger(AppStorage.class.getName()).log(Level.FINE, "The permissions of others could not be removed from: " + file);
+            }
+            if (!ownerGranted) {
+                Logger.getLogger(AppStorage.class.getName()).log(Level.WARNING, "The permissions of the owner could not be set on: " + file);
+            }
         } catch (IOException ex2) {
             Logger.getLogger(AppStorage.class.getName()).log(Level.SEVERE,
                     "Something went wrong...", ex2);

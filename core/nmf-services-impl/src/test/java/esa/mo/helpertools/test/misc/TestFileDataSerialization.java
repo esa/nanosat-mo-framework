@@ -24,8 +24,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import org.ccsds.moims.mo.mal.helpertools.misc.FileDataSerialization;
 import org.junit.Test;
 
@@ -49,10 +49,7 @@ public class TestFileDataSerialization {
             FileDataSerialization.serializeDataOut("testfile", null);
             File f = new File("testfile");
             assertTrue(f.length() > 0);
-            byte[] data = new byte[(int) f.length()];
-            FileInputStream fis = new FileInputStream(f);
-            fis.read(data);
-            fis.close();
+            byte[] data = Files.readAllBytes(f.toPath());
             f.delete();
             assertEquals(data[4], 112);
         } catch (IOException e) {
@@ -68,10 +65,7 @@ public class TestFileDataSerialization {
             FileDataSerialization.serializeDataOut("testfile", ref);
             File f = new File("testfile");
             assertTrue(f.length() > 0);
-            byte[] data = new byte[(int) f.length()];
-            FileInputStream fis = new FileInputStream(f);
-            fis.read(data);
-            fis.close();
+            byte[] data = Files.readAllBytes(f.toPath());
             byte[] chars = new byte[data.length - 7];
             System.arraycopy(data, 7, chars, 0, data.length - 7);
             String result = new String(chars);

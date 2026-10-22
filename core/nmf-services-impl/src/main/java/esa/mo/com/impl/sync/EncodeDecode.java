@@ -135,20 +135,8 @@ public class EncodeDecode {
             encoder.close();
             LOGGER.log(Level.FINE, "Uncompressed objects size: " + uncompressedOutput.length + " bytes");
 
-            ByteArrayOutputStream compressedBytesOutputStream = new ByteArrayOutputStream();
-            GZIPOutputStream gzip = new GZIPOutputStream(compressedBytesOutputStream);
-            gzip.write(uncompressedOutput);
-            gzip.close();
-            byte[] compressedBytes = compressedBytesOutputStream.toByteArray();
-            compressedBytesOutputStream.close();
-
-            byte[] uncompressedSize = ByteBuffer.allocate(4).putInt(uncompressedOutput.length).array();
-            byte[] output = new byte[4 + compressedBytes.length];
-
-            System.arraycopy(uncompressedSize, 0, output, 0, 4);
-            System.arraycopy(compressedBytes, 0, output, 4, compressedBytes.length);
-
-            LOGGER.log(Level.FINE, "Compressed objects size: " + compressedBytes.length + " bytes");
+            byte[] output = compress(uncompressedOutput);
+            LOGGER.log(Level.FINE, "Compressed objects size: " + (output.length - 4) + " bytes");
 
             return output;
         } catch (Exception ex) {
@@ -173,6 +161,44 @@ public class EncodeDecode {
             return new ArrayList<>();
         }
 
+        byte[] bytes = decompress(chunks);
+        if (bytes == null) {
+            return null;
+        }
+
+        return decodeFromByteArray(dictionary, archiveSyncService, domain, bytes);
+    }
+
+    /**
+     * Compresses the given bytes, preceded by their uncompressed size in 4 bytes.
+     *
+     * @param uncompressed the bytes to compress
+     * @return the uncompressed size followed by the compressed bytes
+     * @throws IOException if the bytes cannot be compressed
+     */
+    static byte[] compress(byte[] uncompressed) throws IOException {
+        ByteArrayOutputStream compressedBytesOutputStream = new ByteArrayOutputStream();
+        try (GZIPOutputStream gzip = new GZIPOutputStream(compressedBytesOutputStream)) {
+            gzip.write(uncompressed);
+        }
+        byte[] compressedBytes = compressedBytesOutputStream.toByteArray();
+
+        byte[] uncompressedSize = ByteBuffer.allocate(4).putInt(uncompressed.length).array();
+        byte[] output = new byte[4 + compressedBytes.length];
+
+        System.arraycopy(uncompressedSize, 0, output, 0, 4);
+        System.arraycopy(compressedBytes, 0, output, 4, compressedBytes.length);
+        return output;
+    }
+
+    /**
+     * Decompresses the bytes that {@link #compress(byte[])} produced, received
+     * in chunks of the same size, except for the last one.
+     *
+     * @param chunks the chunks, at least one
+     * @return the decompressed bytes, or null if they cannot be decompressed
+     */
+    static byte[] decompress(List<byte[]> chunks) {
         int chunkSize = chunks.get(0).length; // We assume all chunks have the same size
         int totalCompressedSize = chunkSize * (chunks.size() - 1) + chunks.get(chunks.size() - 1).length;
 
@@ -190,17 +216,21 @@ public class EncodeDecode {
 
         ByteArrayInputStream bytesInputStream = new ByteArrayInputStream(compressedBytes);
         byte[] bytes = new byte[uncompressedSize];
-        try {
-            GZIPInputStream gzip = new GZIPInputStream(bytesInputStream, uncompressedSize);
-            gzip.read(bytes);
-            gzip.close();
-            bytesInputStream.close();
+        try (GZIPInputStream gzip = new GZIPInputStream(bytesInputStream, uncompressedSize)) {
+            // A single read returns as soon as some of the data is inflated:
+            // with little or no compression, that is before the end of it
+            int read = gzip.readNBytes(bytes, 0, uncompressedSize);
+            if (read != uncompressedSize) {
+                LOGGER.log(Level.SEVERE, "The compressed data holds {0} bytes instead of {1}",
+                        new Object[]{read, uncompressedSize});
+                return null;
+            }
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
             return null;
         }
 
-        return decodeFromByteArray(dictionary, archiveSyncService, domain, bytes);
+        return bytes;
     }
 
     private static void encodeEntity(COMObjectEntity entity, ArchiveManager manager,

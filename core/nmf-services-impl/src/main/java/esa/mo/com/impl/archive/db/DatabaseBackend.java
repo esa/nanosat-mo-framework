@@ -83,7 +83,10 @@ public class DatabaseBackend {
                 }
             } else {
                 try {
-                    dbFile.createNewFile();
+                    // False when it was created in the meantime: then it must be writable
+                    if (!dbFile.createNewFile() && !dbFile.canWrite()) {
+                        writableFs = false;
+                    }
                 } catch (IOException e) {
                     writableFs = false;
                 }

@@ -371,13 +371,15 @@ public class ArchiveCommands {
             queryArchive(objectsTypes, archiveQuery, adapter, adapter);
 
             File dbFile = new File(filename);
-            if (!dbFile.exists()) {
-                try {
-                    dbFile.createNewFile();
-                } catch (IOException e) {
-                    LOGGER.log(Level.SEVERE, "Failed to create new database file", e);
+            try {
+                // False when something already exists there, which must then be a file
+                if (!dbFile.createNewFile() && !dbFile.isFile()) {
+                    LOGGER.log(Level.SEVERE, "The database file is not a file: {0}", filename);
                     return;
                 }
+            } catch (IOException e) {
+                LOGGER.log(Level.SEVERE, "Failed to create new database file", e);
+                return;
             }
             initLocalArchiveProvider(filename);
             System.out.println("\nSaving data to " + filename + " started.\n");

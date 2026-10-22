@@ -287,7 +287,7 @@ public class WavFile {
                 // any extra format bytes
                 numChunkBytes -= 16;
                 if (numChunkBytes > 0)
-                    wavFile.iStream.skip(numChunkBytes);
+                    wavFile.iStream.skipNBytes(numChunkBytes);
             } else if (chunkID == DATA_CHUNK_ID) {
                 // Check if we've found the format chunk,
                 // If not, throw an exception as we need the format information
@@ -309,7 +309,7 @@ public class WavFile {
                 break;
             } else {
                 // If an unknown chunk ID is found, just skip over the chunk data
-                wavFile.iStream.skip(numChunkBytes);
+                wavFile.iStream.skipNBytes(numChunkBytes);
             }
         }
 

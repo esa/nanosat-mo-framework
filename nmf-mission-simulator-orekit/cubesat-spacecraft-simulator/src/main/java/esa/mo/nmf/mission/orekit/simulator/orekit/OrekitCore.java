@@ -469,8 +469,9 @@ public class OrekitCore {
                 String line;
                 BufferedWriter out = null;
                 File gpsOps = simulatorNode.getGPSOpsFile();
-                if (!gpsOps.getParentFile().exists()) {
-                    gpsOps.getParentFile().mkdir();
+                if (!gpsOps.getParentFile().exists() && !gpsOps.getParentFile().mkdirs()) {
+                    logger.log(Level.WARNING, "Folder [" + gpsOps.getParentFile().getAbsolutePath()
+                            + "] could not be created");
                 }
                 try {
                     out = new BufferedWriter(new FileWriter(gpsOps.getAbsolutePath()));

@@ -188,13 +188,24 @@ public class AppsLauncherManagerBubblewrap extends AppsLauncherManager {
         } catch (UnsupportedOperationException ex1) {
             // Non-POSIX filesystem: create normally, then narrow to owner-only rwx
             // (mirrors AppStorage's own fallback).
-            dir.mkdirs();
-            dir.setExecutable(false, false);
-            dir.setExecutable(true, true);
-            dir.setReadable(false, false);
-            dir.setReadable(true, true);
-            dir.setWritable(false, false);
-            dir.setWritable(true, true);
+            if (!dir.mkdirs() && !dir.isDirectory()) {
+                LOGGER.log(Level.SEVERE, "Failed to create App storage directory: " + dir);
+                return;
+            }
+            // Taking a permission from everybody is not supported everywhere
+            // (it fails on Windows), so it is done as far as it goes
+            boolean othersRemoved = dir.setExecutable(false, false)
+                    & dir.setReadable(false, false)
+                    & dir.setWritable(false, false);
+            boolean ownerGranted = dir.setExecutable(true, true)
+                    & dir.setReadable(true, true)
+                    & dir.setWritable(true, true);
+            if (!othersRemoved) {
+                LOGGER.log(Level.FINE, "The permissions of others could not be removed from: " + dir);
+            }
+            if (!ownerGranted) {
+                LOGGER.log(Level.WARNING, "The permissions of the owner could not be set on: " + dir);
+            }
         } catch (IOException ex2) {
             LOGGER.log(Level.SEVERE, "Failed to create App storage directory: " + dir, ex2);
         }

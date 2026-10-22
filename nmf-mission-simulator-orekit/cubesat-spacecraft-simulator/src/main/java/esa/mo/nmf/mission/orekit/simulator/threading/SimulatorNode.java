@@ -178,8 +178,11 @@ public class SimulatorNode extends TaskNode {
         String resourcesFolder = SimulatorNode.getResourcesPath();
         File folder = new File(resourcesFolder);
         if (!folder.exists()) {
-            logger.log(Level.FINE, "Folder [" + folder.getAbsolutePath() + "] has been created");
-            folder.mkdir();
+            if (folder.mkdirs()) {
+                logger.log(Level.FINE, "Folder [" + folder.getAbsolutePath() + "] has been created");
+            } else {
+                logger.log(Level.WARNING, "Folder [" + folder.getAbsolutePath() + "] could not be created");
+            }
         }
         String absolutePath = resourcesFolder + path;
         File f = new File(absolutePath);

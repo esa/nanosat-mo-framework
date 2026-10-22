@@ -64,10 +64,16 @@ public class NMFPackagePMBackend implements PMBackend {
                     "The packages folder does not exist. It will be created in path: {0}",
                     packagesFolder.getCanonicalPath());
 
-            packagesFolder.mkdir();
+            if (!packagesFolder.mkdirs()) {
+                throw new IOException("The packages folder could not be created: "
+                        + packagesFolder.getCanonicalPath());
+            }
         }
 
         File[] files = packagesFolder.listFiles();
+        if (files == null) {
+            throw new IOException("The packages folder could not be read: " + packagesFolder.getCanonicalPath());
+        }
 
         StringList packageNames = new StringList(files.length);
 
