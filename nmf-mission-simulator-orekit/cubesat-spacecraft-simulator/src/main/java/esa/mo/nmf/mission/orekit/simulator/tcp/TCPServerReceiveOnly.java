@@ -122,7 +122,9 @@ public class TCPServerReceiveOnly extends Thread {
 
         }
         try {
-            welcomeSocket.close();
+            if (welcomeSocket != null) { // null when the server socket was never created
+                welcomeSocket.close();
+            }
         } catch (IOException ex) {
             Logger.getLogger(TCPServerReceiveOnly.class.getName()).log(Level.SEVERE, null, ex);
         }

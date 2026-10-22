@@ -115,6 +115,12 @@ public class CelestiaIf implements Runnable {
     }
 
     /**
+     * Whether Celestia having no room for this spacecraft has been reported.
+     * As with its absence: said once, and not again until it answers.
+     */
+    private boolean refusalReported = false;
+
+    /**
      * The name of this spacecraft, as one word.
      * <p>
      * A segment of a constellation is told what it is called when it is
@@ -124,12 +130,6 @@ public class CelestiaIf implements Runnable {
      * @return The name, with any space in it closed up: the message it goes
      * into is read as a list of words.
      */
-    /**
-     * Whether Celestia having no room for this spacecraft has been reported.
-     * As with its absence: said once, and not again until it answers.
-     */
-    private boolean refusalReported = false;
-
     private String spacecraftName() {
         String name = System.getenv("SPACECRAFT_NAME");
 

@@ -292,7 +292,9 @@ public class MultiThreadedSocketServer extends Thread {
             } finally {
                 // Clean up
                 try {
-                    in.close();
+                    if (in != null) { // null when the client left before the stream header
+                        in.close();
+                    }
 
                     myClientSocket.close();
                     logger.log(Level.FINE, "...Stopped");
@@ -398,7 +400,9 @@ public class MultiThreadedSocketServer extends Thread {
                 // Clean up
                 try {
                     try {
-                        out.close();
+                        if (out != null) { // null when the client left before the stream header
+                            out.close();
+                        }
                     } catch (SocketException ex) {
                     }
                     myClientSocket.close();

@@ -37,9 +37,9 @@ public class EndlessSingleStreamOperatingBuffer extends GenericFileBasedOperatin
         int bytesNo = quantityOfData;
         byte[] result = new byte[bytesNo];
         byte[] tempData = (byte[]) super.getDataBuffer();
-        int capacity = tempData.length;
         int tempOperatingIndex = super.getOperatingIndex();
-        if (tempData != null && capacity > 0) {
+        if (tempData != null && tempData.length > 0) {
+            int capacity = tempData.length;
             int resultIndex = 0;
             while ((bytesNo--) > 0) {
                 result[resultIndex] = tempData[tempOperatingIndex++];

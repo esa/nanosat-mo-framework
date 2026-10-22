@@ -87,9 +87,9 @@ public class AttributeEntry extends Entry {
 
             return out;
         } catch (NumberFormatException ex) {
+            String typeName = (super.object != null) ? super.object.getClass().getSimpleName() : "an unknown type";
             JOptionPane.showMessageDialog(null, "The field value: '"
-                    + fieldValue.getText() + "' could not be converted into "
-                    + super.object.getClass().getSimpleName(),
+                    + fieldValue.getText() + "' could not be converted into " + typeName,
                     "NumberFormatException", JOptionPane.ERROR_MESSAGE);
         }
 

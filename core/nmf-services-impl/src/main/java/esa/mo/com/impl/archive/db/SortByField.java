@@ -67,7 +67,7 @@ public class SortByField implements Comparator {
             this.field.setAccessible(true);
         }
 
-        if (beanClass != null && fieldName != null) {
+        if (fieldName != null) {
 
             String[] parts = fieldName.split("\\.");
 

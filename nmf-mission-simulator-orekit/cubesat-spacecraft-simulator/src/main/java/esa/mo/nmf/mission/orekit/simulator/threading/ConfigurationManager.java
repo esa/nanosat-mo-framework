@@ -269,7 +269,9 @@ class ConfigurationManager {
 
                 String line;
                 while ((line = in.readLine()) != null) {
-                    outScheduler.write(line + "\n");
+                    if (outScheduler != null) { // null when the backup could not be created
+                        outScheduler.write(line + "\n");
+                    }
                     if (!line.startsWith("#")) {
                         List<String> items = Arrays.asList(line.split("[" + CommandDescriptor.SEPARATOR_DATAFILES
                                 + "]"));
@@ -357,8 +359,10 @@ class ConfigurationManager {
             node.logger.log(Level.FINE, "Scheduler file parsing ok!");
             if (schedulerFile != null) {
                 try {
-                    outScheduler.close();
-                    outScheduler = null;
+                    if (outScheduler != null) {
+                        outScheduler.close();
+                        outScheduler = null;
+                    }
                     schedulerFile.delete();
                 } catch (IOException ex) {
                     Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
@@ -417,45 +421,24 @@ class ConfigurationManager {
     }
 
     void writeHeader(File headerFile) {
-        BufferedWriter out = null;
-        try {
-            out = new BufferedWriter(new FileWriter(headerFile.getAbsolutePath()));
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(headerFile.getAbsolutePath()))) {
             out.write(node.simulatorHeader.toFileString());
         } catch (IOException ex) {
             Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                out.close();
-            } catch (IOException ex) {
-                Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }
 
     void writeFilter(File filterFile) {
-        BufferedWriter out = null;
-        try {
-            out = new BufferedWriter(new FileWriter(filterFile.getAbsolutePath()));
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(filterFile.getAbsolutePath()))) {
+            // An empty filter file
         } catch (IOException ex) {
             Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                out.close();
-            } catch (IOException ex) {
-                Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }
 
     void writeSchedulerToFile(Object obj) {
-        BufferedWriter outScheduler = null;
         File schedulerFile = node.getSchedulerFile();
-        try {
-            outScheduler = new BufferedWriter(new FileWriter(schedulerFile.getAbsolutePath()));
-        } catch (IOException ex) {
-            Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
+        try (BufferedWriter outScheduler = new BufferedWriter(new FileWriter(schedulerFile.getAbsolutePath()))) {
             outScheduler.write("#Simulator scheduler data file\n");
             outScheduler.write(
                     "#The commands below will be executed when simulator time has exceeded the defined time\n");
@@ -468,21 +451,12 @@ class ConfigurationManager {
             outScheduler.write(
                     "#days:hours:minutes:seconds:milliseconds|milliseconds|internalID|argument_template_name\n");
             outScheduler.write("#00000:00:00:00:000|0000000000000000000|1001|CUSTOM\n");
-        } catch (IOException ex) {
-            Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
-        if (obj != null) {
-            for (SimulatorSchedulerPiece s : node.schedulerData) {
-                try {
+            if (obj != null) {
+                for (SimulatorSchedulerPiece s : node.schedulerData) {
                     outScheduler.write(s.getFileString() + "\n");
-                } catch (IOException ex) {
-                    Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        }
-        try {
-            outScheduler.close();
         } catch (IOException ex) {
             Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -490,40 +464,24 @@ class ConfigurationManager {
 
     @SuppressWarnings("unchecked")
     void writeTemplatesToFile(Object obj) {
-        BufferedWriter outTemplates = null;
         File templatesFile = node.getTemplatesFile();
-        try {
-            outTemplates = new BufferedWriter(new FileWriter(templatesFile.getAbsolutePath()));
-        } catch (IOException ex) {
-            Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (obj != null) {
-            LinkedList<CommandDescriptor> castedObj = (LinkedList<CommandDescriptor>) obj;
-            for (CommandDescriptor c : castedObj) {
-                for (ArgumentTemplate t : c.getTemplateList()) {
-                    if (!t.getDescription().equals(CommandDescriptor.KEYWORD_DEFAULT)) {
-                        writeTemplate(c.getInternalID() + CommandDescriptor.SEPARATOR_DATAFILES + t.toString(),
-                                outTemplates);
+        try (BufferedWriter outTemplates = new BufferedWriter(new FileWriter(templatesFile.getAbsolutePath()))) {
+            if (obj != null) {
+                LinkedList<CommandDescriptor> castedObj = (LinkedList<CommandDescriptor>) obj;
+                for (CommandDescriptor c : castedObj) {
+                    for (ArgumentTemplate t : c.getTemplateList()) {
+                        if (!t.getDescription().equals(CommandDescriptor.KEYWORD_DEFAULT)) {
+                            writeTemplate(c.getInternalID() + CommandDescriptor.SEPARATOR_DATAFILES + t.toString(),
+                                    outTemplates);
+                        }
                     }
                 }
-            }
-            try {
-                outTemplates.close();
-            } catch (IOException ex) {
-                Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            try {
+            } else {
                 outTemplates.write("#<internalID>|<templateName>|<inputArgs=[String inputArgument={data}>]\n");
                 outTemplates.write("#2001|GLMLA|inputArgs=[String inputSentence={GLMLA}]");
-            } catch (IOException ex) {
-                Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
             }
-            try {
-                outTemplates.close();
-            } catch (IOException ex) {
-                Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        } catch (IOException ex) {
+            Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

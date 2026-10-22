@@ -37,9 +37,9 @@ public class EndlessWavStreamOperatingBuffer extends GenericWavFileBasedOperatin
         int bytesNo = quantityOfData;
         double[] result = new double[bytesNo];
         double[] tempData = (double[]) super.getDataBuffer();
-        int capacity = tempData.length;
         int tempOperatingIndex = super.getOperatingIndex();
-        if (tempData != null && capacity > 0) {
+        if (tempData != null && tempData.length > 0) {
+            int capacity = tempData.length;
             int resultIndex = 0;
             while ((bytesNo--) > 0) {
                 result[resultIndex] = tempData[tempOperatingIndex++];

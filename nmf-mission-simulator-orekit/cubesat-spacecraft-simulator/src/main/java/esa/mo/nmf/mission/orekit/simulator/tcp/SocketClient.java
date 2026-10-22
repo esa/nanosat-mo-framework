@@ -194,8 +194,9 @@ public class SocketClient extends Thread {
             } finally {
                 try {
                     // Close the input and output streams
-
-                    in.close();
+                    if (in != null) { // null when the server left before the stream header
+                        in.close();
+                    }
                     // Close the socket before quitting
                     s.close();
                 } catch (Exception e) {
@@ -252,7 +253,9 @@ public class SocketClient extends Thread {
             } finally {
                 try {
                     // Close the input and output streams
-                    out.close();
+                    if (out != null) { // null when the stream could not be created
+                        out.close();
+                    }
                     // Close the socket before quitting
                     this.socket.close();
                 } catch (Exception e) {

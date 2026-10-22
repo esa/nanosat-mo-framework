@@ -340,8 +340,8 @@ public class HelperArchive {
             LOGGER.log(Level.INFO,
                     "(MALInteractionException) The object {0}, domain = {1}, objIds = {2} "
                     + "could not be retrieved from the Archive ({3})! A null will be returned!",
-                    new Object[]{objType.toString(), HelperDomain.domain2domainId(domain),
-                        objIds.toString(), archiveService.getClass().getSimpleName()});
+                    new Object[]{String.valueOf(objType), HelperDomain.domain2domainId(domain),
+                        String.valueOf(objIds), archiveService.getClass().getSimpleName()});
             return null;
         } catch (MALException ex) {
             LOGGER.log(Level.INFO,

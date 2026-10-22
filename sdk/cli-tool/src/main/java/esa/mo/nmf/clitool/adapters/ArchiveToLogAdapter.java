@@ -113,17 +113,17 @@ public class ArchiveToLogAdapter extends ArchiveAdapter implements QueryStatusPr
             }
 
             HeterogeneousList bodies = archiveObjectOutput.getObjectBodies();
+            boolean isCommandLog = comType.getService().equals(CommandExecutorServiceInfo.COMMANDEXECUTOR_SERVICE_NUMBER);
 
             // if somehow we have no object bodies, stop
-            if (comType.getService().equals(CommandExecutorServiceInfo.COMMANDEXECUTOR_SERVICE_NUMBER)
-                    && bodies == null) {
+            if (isCommandLog && bodies == null) {
                 return;
             }
 
             String lineOffset = "                        "; // 24 is the length of the timestamp
             for (int i = 0; i < archiveObjectOutput.getArchiveDetailsList().size(); ++i) {
                 String logObject;
-                if (comType.getService().equals(CommandExecutorServiceInfo.COMMANDEXECUTOR_SERVICE_NUMBER)) {
+                if (isCommandLog) {
                     // write LOG message, we can safely cast to String
                     logObject = (String) ((Element) bodies.get(i)).toString();
                 } else {

@@ -292,8 +292,10 @@ public class CameraAcquisitorGround {
                 idList.add(new Identifier(CameraAcquisitorSystemCameraTargetHandler.ACTION_PHOTOGRAPH_LOCATION));
 
                 LongList objIds = gma.getMCServices().getActionService().getActionStub().listDefinition(idList);
-                if (objIds == null) {
+                if (objIds == null || objIds.isEmpty() || objIds.get(0) == null) {
                     LOGGER.log(Level.SEVERE, "Action does not exist, please check if space application is running");
+                    schedule.remove(scheduleDate);
+                    return null;
                 }
                 AttributeValueList arguments = new AttributeValueList();
                 arguments.add(new AttributeValue((Attribute) Attribute.javaType2Attribute(latitude)));
