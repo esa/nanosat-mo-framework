@@ -500,7 +500,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
 
         if (validityExpressionCB.isSelected()) {
             if (validity2.getSelectedIndex() != -1 && !validity3.getText().equals("")) {
-                Long instId = Long.valueOf(parameterTableData.getValueAt(validity1.getSelectedIndex(), 0).toString());
+                Long instId = ((Number) parameterTableData.getValueAt(validity1.getSelectedIndex(), 0)).longValue();
                 PExp = makeNewParameterExpression(instId, validity2.getSelectedIndex(), validity4.isSelected(),
                         validity3.getText());
             } else {
@@ -560,7 +560,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
                 // Well, then we are updating a previous selected definition
                 Logger.getLogger(ParameterAddModify.class.getName()).info("updateDefinition started");
                 LongList objIds = new LongList();
-                objIds.add(Long.valueOf(parameterTableData.getValueAt(parameterDefinitionSelectedIndex, 0).toString()));
+                objIds.add(((Number) parameterTableData.getValueAt(parameterDefinitionSelectedIndex, 0)).longValue());
                 serviceMCParameter.getParameterStub().updateDefinition(objIds, pDefs);
                 parameterTableData.removeRow(parameterDefinitionSelectedIndex);
                 parameterTableData.insertRow(parameterDefinitionSelectedIndex,

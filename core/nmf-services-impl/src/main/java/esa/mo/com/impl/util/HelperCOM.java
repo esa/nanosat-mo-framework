@@ -122,7 +122,9 @@ public class HelperCOM {
 
         if (operator.equals(ExpressionOperator.GREATER)) {
             if (stringComparison) {
-                return (Double.parseDouble(leftHandSideString) > Double.parseDouble(rightHandSideString));
+                Double left = parseDoubleOrNull(leftHandSideString);
+                Double right = parseDoubleOrNull(rightHandSideString);
+                return (left == null || right == null) ? null : (left > right);
             } else {
                 return (leftHandSideDouble > rightHandSideDouble);
             }
@@ -130,7 +132,9 @@ public class HelperCOM {
 
         if (operator.equals(ExpressionOperator.GREATER_OR_EQUAL)) {
             if (stringComparison) {
-                return (Double.parseDouble(leftHandSideString) >= Double.parseDouble(rightHandSideString));
+                Double left = parseDoubleOrNull(leftHandSideString);
+                Double right = parseDoubleOrNull(rightHandSideString);
+                return (left == null || right == null) ? null : (left >= right);
             } else {
                 return (leftHandSideDouble >= rightHandSideDouble);
             }
@@ -138,7 +142,9 @@ public class HelperCOM {
 
         if (operator.equals(ExpressionOperator.LESS)) {
             if (stringComparison) {
-                return (Double.parseDouble(leftHandSideString) < Double.parseDouble(rightHandSideString));
+                Double left = parseDoubleOrNull(leftHandSideString);
+                Double right = parseDoubleOrNull(rightHandSideString);
+                return (left == null || right == null) ? null : (left < right);
             } else {
                 return (leftHandSideDouble < rightHandSideDouble);
             }
@@ -146,7 +152,9 @@ public class HelperCOM {
 
         if (operator.equals(ExpressionOperator.LESS_OR_EQUAL)) {
             if (stringComparison) {
-                return (Double.parseDouble(leftHandSideString) <= Double.parseDouble(rightHandSideString));
+                Double left = parseDoubleOrNull(leftHandSideString);
+                Double right = parseDoubleOrNull(rightHandSideString);
+                return (left == null || right == null) ? null : (left <= right);
             } else {
                 return (leftHandSideDouble <= rightHandSideDouble);
             }
@@ -165,6 +173,21 @@ public class HelperCOM {
         }
 
         return null; // The expression was not evaluated
+    }
+
+    /**
+     * Parses a string as a double. The ordering operators compare strings
+     * numerically, and a string that is not a number cannot be ordered.
+     *
+     * @param value the string to parse
+     * @return the parsed double, or null if the string is not a number
+     */
+    private static Double parseDoubleOrNull(String value) {
+        try {
+            return Double.parseDouble(value);
+        } catch (NumberFormatException ex) {
+            return null;
+        }
     }
 
     /**

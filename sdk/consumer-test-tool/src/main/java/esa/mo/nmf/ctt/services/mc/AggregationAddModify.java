@@ -82,7 +82,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
         for (int i = 0; i < parameterTableData.getRowCount(); i++) {
             String parameter = parameterTableData.getValueAt(i, 1).toString();
             if (parameter.equals(name)) {
-                return Long.valueOf(parameterTableData.getValueAt(i, 0).toString());
+                return ((Number) parameterTableData.getValueAt(i, 0)).longValue();
             }
         }
 
@@ -118,14 +118,14 @@ public class AggregationAddModify extends javax.swing.JFrame {
             if (!parameterSetsTableData.getValueAt(i, 2).equals("-")) {
                 periodicFilter = new ThresholdFilter(
                         ThresholdType.fromString(parameterSetsTableData.getValueAt(i, 2).toString()),
-                        new Duration(Float.parseFloat(parameterSetsTableData.getValueAt(i, 3).toString())),
+                        new Duration(((Number) parameterSetsTableData.getValueAt(i, 3)).doubleValue()),
                         null);
             }
 
             AggregationParameterSet aggRef = new AggregationParameterSet(
                     aggregationService.getConnectionDetails().getDomain(),
                     longList,
-                    new Duration(Float.parseFloat(parameterSetsTableData.getValueAt(i, 1).toString())),
+                    new Duration(((Number) parameterSetsTableData.getValueAt(i, 1)).doubleValue()),
                     periodicFilter);
 
             aggRefList.add(aggRef);

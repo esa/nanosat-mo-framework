@@ -143,10 +143,16 @@ public class Metadata {
      * Returns the metadata format version of this package.
      *
      * @return the metadata version
+     * @throws IllegalStateException if the metadata version is not a number,
+     * which {@link #load(InputStream)} refuses
      */
     public int getMetadataVersion() {
         String version = properties.getProperty(PACKAGE_METADATA_VERSION);
-        return Integer.parseInt(version);
+        try {
+            return Integer.parseInt(version);
+        } catch (NumberFormatException ex) {
+            throw new IllegalStateException("The metadata version is not a number: " + version, ex);
+        }
     }
 
     /**
@@ -215,22 +221,41 @@ public class Metadata {
      * first access.
      *
      * @return the list of package files
+     * @throws IOException if the file count or a CRC is not a number, or a
+     * listed file has no path
      */
-    public synchronized ArrayList<NMFPackageFile> getFiles() {
+    public synchronized ArrayList<NMFPackageFile> getFiles() throws IOException {
         if (files != null) {
             return files;
         }
 
-        files = new ArrayList<>();
-        int count = Integer.parseInt(properties.getProperty(FILE_COUNT, "0"));
+        String countValue = properties.getProperty(FILE_COUNT, "0");
+        int count;
+        try {
+            count = Integer.parseInt(countValue);
+        } catch (NumberFormatException ex) {
+            throw new IOException("The file count is not a number: " + countValue, ex);
+        }
+
+        ArrayList<NMFPackageFile> parsed = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
             String index = "." + i;
             String path = properties.getProperty(FILE_PATH + index);
-            long crc = Long.parseLong(properties.getProperty(FILE_CRC + index));
-            files.add(new NMFPackageFile(path, crc));
+            if (path == null) {
+                throw new IOException("The file " + i + " has no path");
+            }
+            String crcValue = properties.getProperty(FILE_CRC + index);
+            long crc;
+            try {
+                crc = Long.parseLong(crcValue);
+            } catch (NumberFormatException ex) {
+                throw new IOException("The CRC of the file " + path + " is not a number: " + crcValue, ex);
+            }
+            parsed.add(new NMFPackageFile(path, crc));
         }
 
+        files = parsed;
         return files;
     }
 
@@ -319,12 +344,25 @@ public class Metadata {
      *
      * @param inStream the stream to read from
      * @return the loaded metadata
-     * @throws IOException if reading fails
+     * @throws IOException if reading fails, or if the metadata version, the
+     * file count or a CRC is not a number
      */
     public static Metadata load(InputStream inStream) throws IOException {
         Properties props = new Properties();
         props.load(inStream);
-        return new Metadata(props);
+        Metadata metadata = new Metadata(props);
+
+        // A package is not to be trusted: its numbers are checked once here,
+        // so that a malformed package is refused before anything is installed
+        String version = metadata.properties.getProperty(PACKAGE_METADATA_VERSION);
+        try {
+            Integer.parseInt(version);
+        } catch (NumberFormatException ex) {
+            throw new IOException("The metadata version is not a number: " + version, ex);
+        }
+        metadata.getFiles();
+
+        return metadata;
     }
 
     /**

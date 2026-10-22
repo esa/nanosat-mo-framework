@@ -45,7 +45,15 @@ public abstract class GPSNMEAonlyAdapter implements GPSAdapterInterface {
      * Creates a new {@code GPSNMEAonlyAdapter}.
      */
     public GPSNMEAonlyAdapter() {
-        resultCacheValidityMs = Integer.parseInt(System.getProperty(Const.PLATFORM_GNSS_CACHING_PERIOD, "1000"));
+        int validityMs;
+        try {
+            validityMs = Integer.parseInt(System.getProperty(Const.PLATFORM_GNSS_CACHING_PERIOD, "1000"));
+        } catch (NumberFormatException ex) {
+            validityMs = 1000;
+            LOGGER.log(Level.WARNING, "Error when parsing the {0} property. Using the default value of 1000",
+                    Const.PLATFORM_GNSS_CACHING_PERIOD);
+        }
+        resultCacheValidityMs = validityMs;
     }
 
     @Override

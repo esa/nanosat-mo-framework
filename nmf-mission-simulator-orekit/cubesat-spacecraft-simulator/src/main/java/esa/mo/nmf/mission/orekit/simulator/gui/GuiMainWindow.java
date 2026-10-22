@@ -308,7 +308,12 @@ public class GuiMainWindow implements Runnable {
         txtTimeFactor.setPreferredSize(new Dimension(35, 20));
         txtTimeFactor.addActionListener(e -> {
             String newFactor = txtTimeFactor.getText();
-            int newTimeFactor = Integer.parseInt(newFactor);
+            int newTimeFactor;
+            try {
+                newTimeFactor = Integer.parseInt(newFactor.trim());
+            } catch (NumberFormatException ex) {
+                return; // Not a time factor: the time factor stays as it is
+            }
             if (newTimeFactor < 1) {
                 newTimeFactor = 1;
             }
@@ -393,10 +398,17 @@ public class GuiMainWindow implements Runnable {
         txtLoaderPrompt.addActionListener(e -> {
             String targetConnection = txtLoaderPrompt.getText();
             List<String> items = Arrays.asList(targetConnection.split(":"));
-            boolean dataOk = items.size() == 2;
-            if (dataOk) {
+            int port = -1;
+            if (items.size() == 2) {
+                try {
+                    port = Integer.parseInt(items.get(1).trim());
+                } catch (NumberFormatException ex) {
+                    // Not a port: the previous target is shown again below
+                }
+            }
+            if (port >= 0) {
                 targetURL = items.get(0);
-                targetPort = Integer.parseInt(items.get(1));
+                targetPort = port;
                 parent.setTargetConnection(targetURL, targetPort);
                 refreshPlatformProperties();
             } else {

@@ -445,7 +445,12 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         if (nmfVersion != null) {
             // The conversion to Integer is on deliberate because
             // this way, no attempt of path injections can be made
-            version = Integer.valueOf(nmfVersion.split("\\.")[0]);
+            try {
+                version = Integer.valueOf(nmfVersion.split("\\.")[0]);
+            } catch (NumberFormatException ex) {
+                Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,
+                        "The NMF version could not be read from: {0}", nmfVersion);
+            }
         }
         return version;
     }

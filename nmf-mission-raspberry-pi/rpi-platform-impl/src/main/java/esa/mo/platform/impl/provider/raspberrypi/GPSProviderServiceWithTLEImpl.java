@@ -27,6 +27,7 @@ import esa.mo.platform.impl.util.HelperGPS;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.TimeZone;
+import java.util.logging.Level;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.platform.DeviceNotAvailableException;
@@ -64,11 +65,23 @@ public class GPSProviderServiceWithTLEImpl extends GPSProviderServiceImpl {
             = Boolean.parseBoolean(System.getProperty(Const.PLATFORM_GNSS_FALLBACK_TO_TLE_PROPERTY,
                     Const.PLATFORM_GNSS_FALLBACK_TO_TLE_DEFAULT));
 
-    private final Double utcOffset = Double.parseDouble(System.getProperty(Const.PLATFORM_GNSS_UTC_OFFSET_PROPERTY,
-            Const.PLATFORM_GNSS_UTC_OFFSET_DEFAULT));
+    private final Double utcOffset = readUtcOffset();
     private static boolean isOrekitDataInitialized = false;
 
     private final GPSSoftSimAdapter adapterCast = (GPSSoftSimAdapter) adapter;
+
+    private static Double readUtcOffset() {
+        String offset = System.getProperty(Const.PLATFORM_GNSS_UTC_OFFSET_PROPERTY);
+        if (offset != null) {
+            try {
+                return Double.parseDouble(offset);
+            } catch (NumberFormatException ex) {
+                LOGGER.log(Level.WARNING, "Error when parsing the {0} property. Using the default value of {1}",
+                        new Object[]{Const.PLATFORM_GNSS_UTC_OFFSET_PROPERTY, Const.PLATFORM_GNSS_UTC_OFFSET_DEFAULT});
+            }
+        }
+        return Const.PLATFORM_GNSS_UTC_OFFSET_DEFAULT;
+    }
 
     /**
      * Updates the current position/velocity

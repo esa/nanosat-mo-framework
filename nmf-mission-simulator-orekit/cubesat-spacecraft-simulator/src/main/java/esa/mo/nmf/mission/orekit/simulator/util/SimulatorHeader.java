@@ -25,6 +25,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.logging.Level;
@@ -114,13 +115,14 @@ public class SimulatorHeader implements Serializable {
         if (result != null) {
             DateFormat dateFormatYear = new SimpleDateFormat("yyyy");
             String originalYear = dateFormatYear.format(result);
-            // System.out.println("Original year
-            // "+originalYear+Integer.parseInt(originalYear));
+            Calendar calendar = Calendar.getInstance(); // The time zone of dateFormatYear
+            calendar.setTime(result);
+            int year = calendar.get(Calendar.YEAR);
 
-            if (Integer.parseInt(originalYear) >= MIN_DATE_YEAR && Integer.parseInt(originalYear) < MAX_DATE_YEAR) {
+            if (year >= MIN_DATE_YEAR && year < MAX_DATE_YEAR) {
                 // Input year is ok, shift it back so it can be accepted with FALSE lenient
                 // System.out.println("Original year is ok");
-                String shiftedYear = String.valueOf(Integer.parseInt(originalYear) - 10);
+                String shiftedYear = String.valueOf(year - 10);
                 // System.out.println("Shifted year "+shiftedYear);
                 String shiftedText = fieldValue;
                 shiftedText = shiftedText.replaceAll(originalYear, shiftedYear);

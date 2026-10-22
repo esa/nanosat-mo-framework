@@ -89,7 +89,14 @@ class ConfigurationManager {
                                 node.simulatorHeader.setAutoStartTime(Boolean.parseBoolean(fieldValue));
                                 break;
                             case "timeFactor":
-                                int newTimeFactor = Integer.parseInt(fieldValue);
+                                int newTimeFactor;
+                                try {
+                                    newTimeFactor = Integer.parseInt(fieldValue);
+                                } catch (NumberFormatException ex) {
+                                    node.logger.log(Level.SEVERE, "Read from header file: timeFactor is not a number!");
+                                    dataOk = false;
+                                    break label;
+                                }
                                 if (node.simulatorHeader.validateTimeFactor(newTimeFactor)) {
                                     node.simulatorHeader.setTimeFactor(newTimeFactor);
                                 } else {
@@ -141,7 +148,13 @@ class ConfigurationManager {
                                 node.simulatorHeader.setCelestiaHost(fieldValue);
                                 break;
                             case "celestiaPort":
-                                node.simulatorHeader.setCelestiaPort(Integer.parseInt(fieldValue));
+                                try {
+                                    node.simulatorHeader.setCelestiaPort(Integer.parseInt(fieldValue));
+                                } catch (NumberFormatException ex) {
+                                    node.logger.log(Level.SEVERE, "Read from header file: celestiaPort is not a number!");
+                                    dataOk = false;
+                                    break label;
+                                }
                                 break;
                             case "updateFromInternet":
                                 node.simulatorHeader.setUpdateInternet(Boolean.parseBoolean(fieldValue));
@@ -216,7 +229,7 @@ class ConfigurationManager {
                         }
                         if (checkInternalIDExists(test)) {
                             node.logger.log(Level.FINE, "Found valid command ID [" + fieldName + "]");
-                            CommandDescriptor c = getCommandDescriptorForID(Integer.parseInt(fieldName));
+                            CommandDescriptor c = getCommandDescriptorForID(test);
                             c.setVisible(true);
                         }
                     }
@@ -373,7 +386,15 @@ class ConfigurationManager {
                                 + "]"));
                         if (items.size() == 3) {
                             ArgumentTemplate template = new ArgumentTemplate(items.get(1), items.get(2));
-                            if (!putCustomTemplateInCollection(Integer.parseInt(items.get(0)), template)) {
+                            int internalID;
+                            try {
+                                internalID = Integer.parseInt(items.get(0));
+                            } catch (NumberFormatException ex) {
+                                node.logger.log(Level.WARNING, "Error reading the internal id [" + items.get(0)
+                                        + "] in row [" + line + "]");
+                                continue;
+                            }
+                            if (!putCustomTemplateInCollection(internalID, template)) {
                                 node.logger.log(Level.WARNING, "Error finding internal id [" + items.get(0)
                                         + "] in row [" + line + "]");
                             } else {

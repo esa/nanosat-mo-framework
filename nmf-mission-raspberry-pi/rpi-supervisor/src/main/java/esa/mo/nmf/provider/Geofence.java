@@ -78,12 +78,8 @@ public class Geofence {
      *                    Example: ADD:2:40.123456:50.123456:100.5:true
      */
     public void remove(String[] geofenceRaw) {
-        this.geofences.forEach(geofence -> {
-            if (geofence.equals(geofenceRaw)) {
-                // removeNearbyPosition(geofence);
-                geofences.remove(geofence);
-            }
-        });
+        // removeNearbyPosition(geofence);
+        this.geofences.removeIf(geofence -> geofence.equals(geofenceRaw));
     }
 
     /**
@@ -94,13 +90,21 @@ public class Geofence {
      *                    Example: REMOVEAPP:2
      */
     public void removeApp(String[] geofenceRaw) {
+        if (geofenceRaw.length < 2) {
+            LOGGER.log(Level.INFO, "Invalid Geofence Data: app id is missing");
+            return;
+        }
 
-        this.geofences.forEach(geofence -> {
-            if (geofence.getAppId() == Long.parseLong(geofenceRaw[1])) {
-                // removeNearbyPosition(geofence);
-                geofences.remove(geofence);
-            }
-        });
+        final long appId;
+        try {
+            appId = Long.parseLong(geofenceRaw[1]);
+        } catch (NumberFormatException ex) {
+            LOGGER.log(Level.INFO, "Invalid Geofence Data: app id is not a number: {0}", geofenceRaw[1]);
+            return;
+        }
+
+        // removeNearbyPosition(geofence);
+        this.geofences.removeIf(geofence -> geofence.getAppId() == appId);
     }
 
     /**
@@ -205,7 +209,11 @@ public class Geofence {
         private boolean startWhenInsideRange;
         private LongList nearbyPositionObjInstIds = null;
 
-        private GeofenceData(String[] geofenceRaw) {
+        /**
+         * @param geofenceRaw Geofence raw data, already checked by {@link #isValid(String[])}
+         * @throws NumberFormatException if the app id or the range is not a number
+         */
+        private GeofenceData(String[] geofenceRaw) throws NumberFormatException {
             this.appId = Long.parseLong(geofenceRaw[1]);
             this.lat = geofenceRaw[2];
             this.lon = geofenceRaw[3];
@@ -225,11 +233,16 @@ public class Geofence {
          */
         public static GeofenceData createInstance(String[] geofenceRaw) {
             if (isValid(geofenceRaw)) {
-                return new GeofenceData(geofenceRaw);
-            } else {
-                LOGGER.log(Level.SEVERE, "Failed to create Geofence. Invalid Data: " + geofenceRaw.toString());
-                return null;
+                try {
+                    return new GeofenceData(geofenceRaw);
+                } catch (NumberFormatException ex) {
+                    // Not expected: isValid has already parsed the numbers
+                    LOGGER.log(Level.INFO, "Invalid Geofence Data: " + ex.getMessage());
+                }
             }
+
+            LOGGER.log(Level.SEVERE, "Failed to create Geofence. Invalid Data: " + String.join(":", geofenceRaw));
+            return null;
         }
 
         public long getAppId() {
@@ -307,18 +320,18 @@ public class Geofence {
          * @return true if equal, false if not equal
          */
         public boolean equals(String[] geofenceRaw) {
-            if (this.appId != Long.parseLong(geofenceRaw[1])) {
+            if (geofenceRaw.length < 6) {
                 return false;
-            } else if (this.lat != geofenceRaw[2]) {
-                return false;
-            } else if (this.lon != geofenceRaw[3]) {
-                return false;
-            } else if (this.range != Float.parseFloat(geofenceRaw[4])) {
-                return false;
-            } else if (this.startWhenInsideRange != Boolean.parseBoolean(geofenceRaw[5])) {
-                return false;
-            } else {
-                return true;
+            }
+
+            try {
+                return this.appId == Long.parseLong(geofenceRaw[1])
+                        && this.lat.equals(geofenceRaw[2])
+                        && this.lon.equals(geofenceRaw[3])
+                        && this.range == Float.parseFloat(geofenceRaw[4])
+                        && this.startWhenInsideRange == Boolean.parseBoolean(geofenceRaw[5]);
+            } catch (NumberFormatException ex) {
+                return false; // Raw data that does not parse matches no Geofence
             }
         }
     }

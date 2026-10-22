@@ -41,7 +41,15 @@ public class MainClient {
         }
 
         if (args.length == 2) {
-            guiApp = new GuiApp(args[0], Integer.parseInt(args[1]));
+            int port;
+            try {
+                port = Integer.parseInt(args[1]);
+            } catch (NumberFormatException ex) {
+                System.out.println("The port must be a number: " + args[1]);
+                System.out.println("Usage: MainClient [<host> <port>]");
+                return;
+            }
+            guiApp = new GuiApp(args[0], port);
         } else {
             guiApp = new GuiApp("127.0.0.1", 11111);
         }

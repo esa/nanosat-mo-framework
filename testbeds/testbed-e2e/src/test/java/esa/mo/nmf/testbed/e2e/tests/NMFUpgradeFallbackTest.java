@@ -214,7 +214,12 @@ public class NMFUpgradeFallbackTest {
         try (FileInputStream in = new FileInputStream(file)) {
             config.load(in);
         }
-        return Integer.parseInt(config.getProperty("boot-max-attempts", "2"));
+        String maxAttempts = config.getProperty("boot-max-attempts", "2");
+        try {
+            return Integer.parseInt(maxAttempts);
+        } catch (NumberFormatException ex) {
+            throw new AssertionError("The boot-max-attempts of the Bootloader is not a number: " + maxAttempts, ex);
+        }
     }
 
     private static Properties loadState() throws IOException {

@@ -37,8 +37,8 @@ public class Const {
     public static final String DYNAMIC_CHANGES_PROPERTY = "esa.mo.nanosatmoframework.provider.dynamicchanges";
     /** The appslauncher std limit property. */
     public static final String APPSLAUNCHER_STD_LIMIT_PROPERTY = "esa.mo.nanosatmoframework.appslauncher.stdlimit";
-    /** The appslauncher std limit default. */
-    public static final String APPSLAUNCHER_STD_LIMIT_DEFAULT = "2048";
+    /** The appslauncher std limit default, in kilobytes. */
+    public static final int APPSLAUNCHER_STD_LIMIT_DEFAULT = 2048;
     /** The appslauncher std store property. */
     public static final String APPSLAUNCHER_STD_STORE_PROPERTY = "esa.mo.nanosatmoframework.appslauncher.stdstore";
     /** The appslauncher std store default. */
@@ -66,7 +66,7 @@ public class Const {
     /** The platform gnss utc offset property. */
     public static final String PLATFORM_GNSS_UTC_OFFSET_PROPERTY = "esa.mo.nmf.platform.gnss.utc.offset";
     /** The platform gnss utc offset default. */
-    public static final String PLATFORM_GNSS_UTC_OFFSET_DEFAULT = "-18.000";
+    public static final double PLATFORM_GNSS_UTC_OFFSET_DEFAULT = -18.0;
     /** The archivesync chunk size property. */
     public static final String ARCHIVESYNC_CHUNK_SIZE_PROPERTY = "esa.nmf.archive.sync.chunk.size";
     /** The archivesync chunk size default. */

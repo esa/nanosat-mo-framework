@@ -34,6 +34,7 @@ import java.util.Properties;
 import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.com.structures.ProviderList;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
@@ -199,7 +200,7 @@ public class NMFUpgradeRollbackTest {
             Assert.assertEquals("The running Supervisor must report the version of the Jars"
                     + " it was loaded from", version, readParameter(stub, SupervisorInfoMCAdapter.PARAM_NMF_VERSION).toString());
 
-            double uptime = Double.parseDouble(readParameter(stub, SupervisorInfoMCAdapter.PARAM_NMF_UPTIME).toString());
+            double uptime = ((Attribute) readParameter(stub, SupervisorInfoMCAdapter.PARAM_NMF_UPTIME)).attribute2double();
             Assert.assertTrue("The Supervisor must have been restarted, but it has been up for "
                     + uptime + " seconds", uptime < MAX_UPTIME_AFTER_RESTART_SECONDS);
         } finally {

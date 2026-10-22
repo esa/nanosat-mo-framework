@@ -411,9 +411,7 @@ public class ConstellationManagerGui extends JFrame implements ConstellationList
                 String type = ("NanoSatSimulator".equals(nanoSat.getClass().getSimpleName()) ? "Simulation" : "NanoSat");
 
                 addRowToNanoSatSegmentList(new Object[]{false, nanoSat.getName(), ipAddress, type});
-                int cntr = Integer.parseInt(lblNanoSatSegmentNumber.getText());
-                cntr++;
-                lblNanoSatSegmentNumber.setText(String.valueOf(cntr));
+                lblNanoSatSegmentNumber.setText(String.valueOf(this.tableModel.getRowCount()));
             }
         });
     }

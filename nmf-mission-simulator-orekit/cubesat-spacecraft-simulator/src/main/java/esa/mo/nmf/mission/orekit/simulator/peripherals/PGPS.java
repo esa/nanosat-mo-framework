@@ -274,9 +274,13 @@ public class PGPS extends GenericPeripheral implements IGPS {
 
         public static double DDMMpMMMM2degrees(String DDMMpMMMM) {
             if (DDMMpMMMM.length() == 9) {
-                return Double.parseDouble(DDMMpMMMM.substring(0, 2))
-                        + (Double.parseDouble(DDMMpMMMM.substring(2, 4))
-                        + Double.parseDouble(DDMMpMMMM.substring(5, 9)) / 1000) / 60;
+                try {
+                    return Double.parseDouble(DDMMpMMMM.substring(0, 2))
+                            + (Double.parseDouble(DDMMpMMMM.substring(2, 4))
+                            + Double.parseDouble(DDMMpMMMM.substring(5, 9)) / 1000) / 60;
+                } catch (NumberFormatException ex) {
+                    return 0;
+                }
             } else {
                 return 0;
             }
@@ -284,10 +288,14 @@ public class PGPS extends GenericPeripheral implements IGPS {
 
         public static double DDDMMpMMMM2degrees(String DDMMpMMMM) {
             if (DDMMpMMMM.length() == 10) {
-                // DDDMMpMMMM sentence
-                return Double.parseDouble(DDMMpMMMM.substring(0, 3))
-                        + (Double.parseDouble(DDMMpMMMM.substring(3, 5))
-                        + Double.parseDouble(DDMMpMMMM.substring(6, 10)) / 1000) / 60;
+                try {
+                    // DDDMMpMMMM sentence
+                    return Double.parseDouble(DDMMpMMMM.substring(0, 3))
+                            + (Double.parseDouble(DDMMpMMMM.substring(3, 5))
+                            + Double.parseDouble(DDMMpMMMM.substring(6, 10)) / 1000) / 60;
+                } catch (NumberFormatException ex) {
+                    return 0;
+                }
             } else {
                 return 0;
             }
@@ -295,13 +303,17 @@ public class PGPS extends GenericPeripheral implements IGPS {
 
         public static double DDMMpMMMMMMM2degrees(String DDMMpMMMMMMM) {
             if (DDMMpMMMMMMM.length() == 12) {
-                // System.out.println(DDMMpMMMMMMM.substring(0, 2));
-                // System.out.println(DDMMpMMMMMMM.substring(2, 4));
-                // System.out.println(DDMMpMMMMMMM.substring(5, 12));
-                // System.out.println(Double.parseDouble(DDMMpMMMMMMM.substring(5, 12)) / 1000);
-                return Double.parseDouble(DDMMpMMMMMMM.substring(0, 2))
-                        + (Double.parseDouble(DDMMpMMMMMMM.substring(2, 4))
-                        + Double.parseDouble(DDMMpMMMMMMM.substring(5, 12)) / 1000000) / 60;
+                try {
+                    // System.out.println(DDMMpMMMMMMM.substring(0, 2));
+                    // System.out.println(DDMMpMMMMMMM.substring(2, 4));
+                    // System.out.println(DDMMpMMMMMMM.substring(5, 12));
+                    // System.out.println(Double.parseDouble(DDMMpMMMMMMM.substring(5, 12)) / 1000);
+                    return Double.parseDouble(DDMMpMMMMMMM.substring(0, 2))
+                            + (Double.parseDouble(DDMMpMMMMMMM.substring(2, 4))
+                            + Double.parseDouble(DDMMpMMMMMMM.substring(5, 12)) / 1000000) / 60;
+                } catch (NumberFormatException ex) {
+                    return 0;
+                }
             } else {
                 return 0;
             }
@@ -309,9 +321,13 @@ public class PGPS extends GenericPeripheral implements IGPS {
 
         public static double degMinutes2Degrees(String DDDMMpMMMMMMM) {
             if (DDDMMpMMMMMMM.length() == 13) {
-                return Double.parseDouble(DDDMMpMMMMMMM.substring(0, 3))
-                        + (Double.parseDouble(DDDMMpMMMMMMM.substring(3, 5))
-                        + Double.parseDouble(DDDMMpMMMMMMM.substring(6, 13)) / 1000000) / 60;
+                try {
+                    return Double.parseDouble(DDDMMpMMMMMMM.substring(0, 3))
+                            + (Double.parseDouble(DDDMMpMMMMMMM.substring(3, 5))
+                            + Double.parseDouble(DDDMMpMMMMMMM.substring(6, 13)) / 1000000) / 60;
+                } catch (NumberFormatException ex) {
+                    return 0;
+                }
             } else {
                 return 0;
             }

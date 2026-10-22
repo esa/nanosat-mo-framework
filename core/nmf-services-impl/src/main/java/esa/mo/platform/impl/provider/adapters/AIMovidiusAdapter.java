@@ -83,9 +83,18 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
         }
 
         LOGGER.log(Level.FINE, "The Python3 version is: {0}", splits[1]);
-        String[] subVersions = splits[1].split("\\.");
+        String[] subVersions = splits[1].trim().split("\\.");
+        if (subVersions.length < 2) {
+            throw new IOException("The python3 version could not be read from: " + out);
+        }
+        int minorVersion;
+        try {
+            minorVersion = Integer.parseInt(subVersions[1]);
+        } catch (NumberFormatException ex) {
+            throw new IOException("The python3 version could not be read from: " + out, ex);
+        }
 
-        if (Integer.valueOf(subVersions[1]) < 6) {
+        if (minorVersion < 6) {
             throw new IOException("The installed python3 version is < 3.6.0!"
                     + "\n>>>> Please update your Python version!");
         }

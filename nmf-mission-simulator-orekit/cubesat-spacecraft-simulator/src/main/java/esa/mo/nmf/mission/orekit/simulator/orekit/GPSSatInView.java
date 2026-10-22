@@ -22,12 +22,17 @@
 package esa.mo.nmf.mission.orekit.simulator.orekit;
 
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
  * @author cezar
  */
 public class GPSSatInView {
+
+    private static final Pattern PRN_IN_NAME = Pattern.compile("\\(PRN\\s*(\\d+)\\)");
+
     String name;
     double distance;
     private double azimuth;
@@ -61,9 +66,13 @@ public class GPSSatInView {
     public GPSSatInView(String name, double distance) {
         this.name = name;
         this.distance = distance;
-        String prn = name.substring(name.indexOf("(") + 1, name.indexOf(")"));
-        String[] prnWords = prn.split(" ");
-        this.prn = Integer.parseInt(prnWords[1]);
+        // The satellite names in the TLE file end with their PRN, as in "GPS BIIR-2  (PRN 13)"
+        Matcher matcher = PRN_IN_NAME.matcher(name);
+        try {
+            this.prn = matcher.find() ? Integer.parseInt(matcher.group(1)) : 0;
+        } catch (NumberFormatException ex) {
+            this.prn = 0; // More digits than an int holds
+        }
     }
 
     public String getName() {

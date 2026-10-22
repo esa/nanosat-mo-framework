@@ -207,7 +207,16 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
 
         // Look up for apid
         String apidString = (String) props.get(HelperMisc.PROPERTY_APID);
-        int apid = (apidString != null) ? Integer.parseInt(apidString) : 0;
+        int apid = 0;
+        if (apidString != null) {
+            try {
+                apid = Integer.parseInt(apidString.trim());
+            } catch (NumberFormatException ex) {
+                LOGGER.log(Level.WARNING, "The APID of the App {0} is not a number: {1}"
+                        + "\nThe Archive will allocate its object id.",
+                        new Object[]{definition.getName().getValue(), apidString});
+            }
+        }
         objId = apid != 0 ? (long) apid : null;
         return objId;
     }

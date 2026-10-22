@@ -108,6 +108,15 @@ public class PlatformCommands {
                 System.out.println("Invalid resolution, expected <width>x<height>: " + resolution);
                 return;
             }
+            PictureFormat pictureFormat;
+            try {
+                pictureFormat = PictureFormat.fromString(format.toUpperCase());
+            } catch (RuntimeException e) {
+                // The generated fromString throws a RuntimeException for an unknown name
+                System.out.println("Unknown picture format: " + format
+                        + ". Choose from: RAW, RGB24, BMP, PNG, JPG");
+                return;
+            }
             CameraSettings settings;
             try {
                 PixelResolution pixelResolution = new PixelResolution(
@@ -115,7 +124,7 @@ public class PlatformCommands {
                         new UInteger(Integer.parseInt(res[1])));
                 settings = new CameraSettings(
                         pixelResolution,
-                        PictureFormat.fromString(format.toUpperCase()),
+                        pictureFormat,
                         new Duration(Double.parseDouble(exposure)),
                         Float.parseFloat(gainRed),
                         Float.parseFloat(gainGreen),

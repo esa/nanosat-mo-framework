@@ -99,8 +99,10 @@ public final class OrbitFromEnvironment {
     /**
      * @param name The name of the element.
      * @return The value of that element, or zero where it is not given.
+     * @throws NumberFormatException if the value is not a number, which
+     * {@link #read()} reports before flying the default orbit
      */
-    private static double parse(String name) {
+    private static double parse(String name) throws NumberFormatException {
         String value = System.getenv(name);
         return (value == null || value.trim().isEmpty()) ? 0 : Double.parseDouble(value.trim());
     }

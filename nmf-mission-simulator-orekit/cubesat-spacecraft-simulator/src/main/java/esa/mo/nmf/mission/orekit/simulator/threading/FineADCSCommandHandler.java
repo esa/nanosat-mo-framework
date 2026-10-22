@@ -1331,11 +1331,20 @@ class FineADCSCommandHandler {
                     String[] words = data.split(":");
                     if (words.length > 0) {
                         if ("quaternionServer".equals(words[0])) {
+                            if (words.length < 2) {
+                                throw new IOException("The port of the quaternion server is missing [" + data + "]");
+                            }
+                            int port;
+                            try {
+                                port = Integer.parseInt(words[1]);
+                            } catch (NumberFormatException ex) {
+                                throw new IOException("The port of the quaternion server is not a number ["
+                                        + data + "]", ex);
+                            }
                             if (node.quaternionTcpServer != null) {
                                 node.quaternionTcpServer.setShouldClose(true);
                             }
-                            node.quaternionTcpServer = new TCPServerReceiveOnly(Integer.parseInt(words[1]),
-                                    node.logger);
+                            node.quaternionTcpServer = new TCPServerReceiveOnly(port, node.logger);
                             node.quaternionTcpServer.start();
                         } else {
                             throw new IOException("Command not recognised [" + data + "]");

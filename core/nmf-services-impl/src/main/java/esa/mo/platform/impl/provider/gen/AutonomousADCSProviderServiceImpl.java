@@ -98,7 +98,13 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
             AutonomousADCSAdapterInterface adapter) throws MALException {
         long timestamp = System.currentTimeMillis();
 
-        resultCacheValidityMs = Integer.parseInt(System.getProperty(Const.PLATFORM_IADCS_CACHING_PERIOD, "1000"));
+        try {
+            resultCacheValidityMs = Integer.parseInt(System.getProperty(Const.PLATFORM_IADCS_CACHING_PERIOD, "1000"));
+        } catch (NumberFormatException ex) {
+            resultCacheValidityMs = 1000;
+            LOGGER.log(Level.WARNING, "Error when parsing the {0} property. Using the default value of 1000",
+                    Const.PLATFORM_IADCS_CACHING_PERIOD);
+        }
 
         publisher = createMonitorAttitudePublisher(ConfigurationProviderSingleton.getDomain(),
                 null,

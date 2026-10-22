@@ -78,8 +78,15 @@ public class ProtocolBridgeSPP extends ProtocolBridge {
         }
 
         // To do: Get the ranges from the properties file
-        int apidStart = Integer.parseInt(System.getProperty(PROPERTY_APID_RANGE_START));
-        int apidEnd = Integer.parseInt(System.getProperty(PROPERTY_APID_RANGE_END));
+        int apidStart;
+        int apidEnd;
+        try {
+            apidStart = Integer.parseInt(System.getProperty(PROPERTY_APID_RANGE_START).trim());
+            apidEnd = Integer.parseInt(System.getProperty(PROPERTY_APID_RANGE_END).trim());
+        } catch (NumberFormatException ex) {
+            throw new MALException("The APID ranges set using the properties " + PROPERTY_APID_RANGE_START
+                + " and " + PROPERTY_APID_RANGE_END + " must be numbers", ex);
+        }
 
         virtualSPPURI = new VirtualSPPURIsManager(apidStart, apidEnd);
 

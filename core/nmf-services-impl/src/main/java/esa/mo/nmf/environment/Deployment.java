@@ -353,9 +353,18 @@ public class Deployment {
                 }
 
                 // Java version used to start with 1 until at least Java 8
-                int java_version = (Integer.parseInt(subs[0]) != 1)
-                        ? Integer.parseInt(subs[0])
-                        : Integer.parseInt(subs[1]);
+                int java_version;
+                try {
+                    java_version = (Integer.parseInt(subs[0]) != 1)
+                            ? Integer.parseInt(subs[0])
+                            : Integer.parseInt(subs[1]);
+                } catch (NumberFormatException ex) {
+                    Logger.getLogger(Deployment.class.getName()).log(
+                            Level.WARNING, "The JRE version '" + version
+                            + "' could not be determined from the release file: "
+                            + release.getAbsolutePath());
+                    continue;
+                }
 
                 String jre = dir.getAbsolutePath() + File.separator
                         + "bin" + File.separator + "java";

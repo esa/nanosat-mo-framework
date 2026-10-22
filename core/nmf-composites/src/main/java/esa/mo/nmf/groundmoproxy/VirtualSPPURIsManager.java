@@ -134,10 +134,18 @@ public class VirtualSPPURIsManager {
      *
      * @param virtualSPPURI the virtual SPP URI (format {@code malspp:qualifier/apid/sourceId})
      * @return the APID encoded in the URI
+     * @throws IllegalArgumentException if the URI does not have that format
      */
     public static int getAPIDFromVirtualSPPURI(final String virtualSPPURI) {
         String[] str = virtualSPPURI.split("/");
-        return Integer.parseInt(str[1]);
+        if (str.length < 2) {
+            throw new IllegalArgumentException("Not a virtual SPP URI: " + virtualSPPURI);
+        }
+        try {
+            return Integer.parseInt(str[1]);
+        } catch (NumberFormatException ex) {
+            throw new IllegalArgumentException("Not a virtual SPP URI: " + virtualSPPURI, ex);
+        }
     }
 
 }

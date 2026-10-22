@@ -514,8 +514,13 @@ public class SimulatorNode extends TaskNode {
                         if (lineWords[0].equals("void") || lineWords[0].equals("byte[]")) {
                             String[] lineWords2 = line.split("//");
                             if (lineWords2.length > 1) {
-                                int internalID = Integer.parseInt(lineWords2[1]);
-                                putDescriptionIntoMethod(description, internalID);
+                                try {
+                                    int internalID = Integer.parseInt(lineWords2[1].trim());
+                                    putDescriptionIntoMethod(description, internalID);
+                                } catch (NumberFormatException ex) {
+                                    this.logger.log(Level.WARNING, "The internal id of the method is not a number: "
+                                            + line);
+                                }
                             }
                         }
                     }
@@ -737,7 +742,11 @@ public class SimulatorNode extends TaskNode {
                 simulatorData.toggleTimeRunning();
             } else if (data.startsWith("TimeFactor")) {
                 String[] bits = data.split(":");
-                simulatorData.setTimeFactor(Integer.parseInt(bits[bits.length - 1]));
+                try {
+                    simulatorData.setTimeFactor(Integer.parseInt(bits[bits.length - 1]));
+                } catch (NumberFormatException ex) {
+                    this.logger.log(Level.WARNING, "The time factor received is not a number: " + data);
+                }
             }
         } else if (obj instanceof CommandDescriptor) {
             commandsQueue.offer((CommandDescriptor) obj);
@@ -1059,22 +1068,28 @@ public class SimulatorNode extends TaskNode {
             if (qData != null) {
 
                 String[] quaternions = qData.split(" ");
-                if (quaternions.length == 4) {
-                    q[0] = Float.parseFloat(quaternions[0]);
-                    q[1] = Float.parseFloat(quaternions[1]);
-                    q[2] = Float.parseFloat(quaternions[2]);
-                    q[3] = Float.parseFloat(quaternions[3]);
-                    data.setQ(q);
-                } else if (quaternions.length == 3) {
-                    // 0 heading
-                    // 1 roll
-                    // 2 pitch
-                    double yaw = Double.parseDouble(quaternions[0]);
-                    double pitch = Double.parseDouble(quaternions[2]);
-                    double roll = Double.parseDouble(quaternions[1]);
-                    // System.out.println("yaw=["+yaw+"] pitch=["+pitch+"] roll=["+roll+"]");
-                    this.orekitCore.putQuaternionsInVectorFromYPR(yaw, pitch, roll, q);
-                    data.setQ(q);
+                try {
+                    if (quaternions.length == 4) {
+                        float[] received = new float[4];
+                        for (int i = 0; i < received.length; i++) {
+                            received[i] = Float.parseFloat(quaternions[i]);
+                        }
+                        System.arraycopy(received, 0, q, 0, q.length);
+                        data.setQ(q);
+                    } else if (quaternions.length == 3) {
+                        // 0 heading
+                        // 1 roll
+                        // 2 pitch
+                        double yaw = Double.parseDouble(quaternions[0]);
+                        double pitch = Double.parseDouble(quaternions[2]);
+                        double roll = Double.parseDouble(quaternions[1]);
+                        // System.out.println("yaw=["+yaw+"] pitch=["+pitch+"] roll=["+roll+"]");
+                        this.orekitCore.putQuaternionsInVectorFromYPR(yaw, pitch, roll, q);
+                        data.setQ(q);
+                    }
+                } catch (NumberFormatException ex) {
+                    // The attitude propagated by Orekit is kept
+                    this.logger.log(Level.WARNING, "The quaternion data received is not a number: " + qData);
                 }
             }
         }

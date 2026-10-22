@@ -67,14 +67,10 @@ public class ArgumentDescriptor implements Serializable {
             this.type = new long[0];
         } else if (type.equals("int[]")) {
             this.type = new int[0];
-        } else if (type.startsWith("int[")) {
-            String partial = type.substring(4);
-            partial = partial.substring(0, partial.length() - 1);
-            this.type = new int[Integer.parseInt(partial)];
-        } else if (type.startsWith("float[")) {
-            String partial = type.substring(6);
-            partial = partial.substring(0, partial.length() - 1);
-            this.type = new float[Integer.parseInt(partial)];
+        } else if (type.startsWith("int[") && arraySize(type, 4) >= 0) {
+            this.type = new int[arraySize(type, 4)];
+        } else if (type.startsWith("float[") && arraySize(type, 6) >= 0) {
+            this.type = new float[arraySize(type, 6)];
         } else if (type.equals("double")) {
             this.type = (double) 0.0;
         } else if (type.equals("double[]")) {
@@ -86,6 +82,25 @@ public class ArgumentDescriptor implements Serializable {
         }
         this.defaultType = this.type;
         this.defaultName = this.name;
+    }
+
+    /**
+     * Reads the size of a sized array type, such as {@code int[3]}.
+     *
+     * @param type the array type
+     * @param prefixLength the length of the type up to and including the {@code [}
+     * @return the size of the array, or -1 if it is not a number
+     */
+    private static int arraySize(String type, int prefixLength) {
+        if (!type.endsWith("]")) {
+            return -1;
+        }
+        try {
+            int size = Integer.parseInt(type.substring(prefixLength, type.length() - 1));
+            return size >= 0 ? size : -1;
+        } catch (NumberFormatException ex) {
+            return -1;
+        }
     }
 
     public void restoreArgument() {

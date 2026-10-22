@@ -26,9 +26,6 @@ import java.awt.Dimension;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -106,48 +103,7 @@ public class GuiSimulatorHeaderEdit {
     }
 
     private Date parseStringIntoDate(JTextField txtField) {
-        Date result = null;
-        Date originalResult = null;
-        DateFormat dateFormat = new SimpleDateFormat(simulatorHeader.DATE_FORMAT);
-        dateFormat.setLenient(true);
-        String originalText = txtField.getText();
-        try {
-            result = dateFormat.parse(originalText);
-            originalResult = dateFormat.parse(originalText);
-        } catch (ParseException ex) {
-            Logger.getLogger(GuiSimulatorHeaderEdit.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (result != null) {
-            DateFormat dateFormatYear = new SimpleDateFormat("yyyy");
-            String originalYear = dateFormatYear.format(result);
-            //System.out.println("Original year "+originalYear+Integer.parseInt(originalYear));
-
-            if (Integer.parseInt(originalYear) >= 2016 && Integer.parseInt(originalYear) < 2030) {
-                //Input year is ok, shift it back so it can be accepted with FALSE lenient
-                //System.out.println("Original year is ok");
-                String shiftedYear = String.valueOf(Integer.parseInt(originalYear) - 10);
-                //System.out.println("Shifted year "+shiftedYear);
-                String shiftedText = originalText;
-                shiftedText = shiftedText.replaceAll(originalYear, shiftedYear);
-                dateFormat = new SimpleDateFormat(simulatorHeader.DATE_FORMAT);
-                dateFormat.setLenient(false);
-                result = null;
-                try {
-                    result = dateFormat.parse(shiftedText);
-                } catch (ParseException ex) {
-                    Logger.getLogger(GuiSimulatorHeaderEdit.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                if (result != null) {
-                    //Lenient false was ok, return original parse with lenient true
-                    result = originalResult;
-                }
-            } else {
-                //Input year is out of range
-                //System.out.println("Original year is bad");
-                result = null;
-            }
-        }
-        return result;
+        return simulatorHeader.parseStringIntoDate(txtField.getText());
     }
 
     private void processTextFieldFocusGained(JTextField textField) {

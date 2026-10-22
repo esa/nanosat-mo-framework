@@ -108,8 +108,16 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             final DirectoryProviderServiceImpl directoryService) throws MALException {
         long timestamp = System.currentTimeMillis();
 
-        int kbyte = Integer.parseInt(System.getProperty(Const.APPSLAUNCHER_STD_LIMIT_PROPERTY,
-                Const.APPSLAUNCHER_STD_LIMIT_DEFAULT));
+        int kbyte = Const.APPSLAUNCHER_STD_LIMIT_DEFAULT;
+        String limit = System.getProperty(Const.APPSLAUNCHER_STD_LIMIT_PROPERTY);
+        if (limit != null) {
+            try {
+                kbyte = Integer.parseInt(limit.trim());
+            } catch (NumberFormatException ex) {
+                LOGGER.log(Level.WARNING, "Error when parsing the {0} property. Using the default value of {1}",
+                        new Object[]{Const.APPSLAUNCHER_STD_LIMIT_PROPERTY, Const.APPSLAUNCHER_STD_LIMIT_DEFAULT});
+            }
+        }
         stdLimit = kbyte * 1024; // init limit with value of property
         publisher = createMonitorExecutionPublisher(ConfigurationProviderSingleton.getDomain(),
                 null,
