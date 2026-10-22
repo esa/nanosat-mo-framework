@@ -275,8 +275,10 @@ public class LinuxUsersGroups {
                 p.destroyForcibly();
             }
 
-            String out = extractString(p.getInputStream());
-            out += extractString(p.getErrorStream());
+            // Each stream is read once, to its end, and closed
+            String stdout = extractString(p.getInputStream());
+            String error = extractString(p.getErrorStream());
+            String out = stdout + error;
             int exitValue = p.exitValue();
 
             if (exitValue == 127) { // Command not found!
@@ -285,10 +287,9 @@ public class LinuxUsersGroups {
             }
 
             if (exitValue != 0) { // Error!
-                String error = extractString(p.getErrorStream());
                 throw new IOException("There was an error with code " + exitValue
                         + ". For command:\n >> " + String.join(" ", cmd) + "\n"
-                        + out + "\nError:\n" + error + "\n----");
+                        + stdout + "\nError:\n" + error + "\n----");
             }
 
             return out;
@@ -298,13 +299,14 @@ public class LinuxUsersGroups {
     }
 
     private static String extractString(InputStream in) throws IOException {
-        InputStreamReader isr = new InputStreamReader(in);
-        BufferedReader br = new BufferedReader(isr);
         StringBuilder buffer = new StringBuilder();
-        String line;
-        while ((line = br.readLine()) != null) {
-            buffer.append(line);
-            buffer.append("\n");
+        // The stream of a process, which is read to its end and then closed
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                buffer.append(line);
+                buffer.append("\n");
+            }
         }
 
         return buffer.toString();
