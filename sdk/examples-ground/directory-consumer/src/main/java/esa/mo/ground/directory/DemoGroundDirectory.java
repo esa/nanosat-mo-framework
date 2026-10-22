@@ -81,7 +81,7 @@ public class DemoGroundDirectory
     new DemoGroundDirectory();
   }
 
-  private class SimpleDataReceivedAdapter extends SimpleDataReceivedListener
+  private static class SimpleDataReceivedAdapter extends SimpleDataReceivedListener
   {
 
     @Override
@@ -97,7 +97,7 @@ public class DemoGroundDirectory
     }
   }
 
-  private class CompleteDataReceivedAdapter extends CompleteDataReceivedListener
+  private static class CompleteDataReceivedAdapter extends CompleteDataReceivedListener
   {
 
     @Override

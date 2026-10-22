@@ -434,7 +434,7 @@ public class AutonomousADCSProviderServiceImpl extends AutonomousADCSInheritance
         return adapter.getAllReactionWheelParameters();
     }
 
-    private class PublishInteractionListener implements MALPublishInteractionListener {
+    private static class PublishInteractionListener implements MALPublishInteractionListener {
 
         @Override
         public void publishDeregisterAckReceived(final MALMessageHeader header, final Map qosProperties)

@@ -287,7 +287,7 @@ public class NanoSat {
         return this.active;
     }
 
-    protected class CompleteDataReceivedAdapter extends CompleteDataReceivedListener {
+    protected static class CompleteDataReceivedAdapter extends CompleteDataReceivedListener {
 
         private String name;
 
@@ -307,7 +307,7 @@ public class NanoSat {
         }
     }
 
-    protected class SimpleDataReceivedAdapter extends SimpleDataReceivedListener {
+    protected static class SimpleDataReceivedAdapter extends SimpleDataReceivedListener {
 
         private String name;
 

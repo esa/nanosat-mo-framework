@@ -208,7 +208,7 @@ public class SocketClient extends Thread {
 
     }
 
-    class SocketClientThreadSender extends Thread {
+    static class SocketClientThreadSender extends Thread {
 
         private Socket socket;
         private GuiApp parent;
