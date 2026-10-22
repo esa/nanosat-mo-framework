@@ -339,24 +339,14 @@ public class MOAdapterImpl extends NMFConsumer implements SimpleCommandingInterf
 
         }
 
-        if (this.comServices != null) {
-            this.comServices.closeConnections();
-        }
+        this.comServices.closeConnections();
+        this.mcServices.closeConnections();
+        this.platformServices.closeConnections();
 
-        if (this.mcServices != null) {
-            this.mcServices.closeConnections();
+        if (this.smServices.getHeartbeatService() != null) {
+            this.smServices.getHeartbeatService().stopListening();
         }
-
-        if (this.platformServices != null) {
-            this.platformServices.closeConnections();
-        }
-
-        if (this.smServices != null) {
-            if (this.smServices.getHeartbeatService() != null) {
-                this.smServices.getHeartbeatService().stopListening();
-            }
-            this.smServices.closeConnections();
-        }
+        this.smServices.closeConnections();
 
     }
 

@@ -104,10 +104,6 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
 
     @Override
     public COMServicesProvider getCOMServices() throws NMFException {
-        if (this.comServices == null) {
-            throw new NMFException("The COM services are not available.");
-        }
-
         return comServices;
     }
 
