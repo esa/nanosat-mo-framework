@@ -147,9 +147,10 @@ public class SimulatorNode extends TaskNode {
      * @param filename The properties file to read.
      */
     private Properties readProperties(String filename) throws FileNotFoundException, IOException {
-        InputStream input = new FileInputStream(filename);
         Properties prop = new Properties();
-        prop.load(input);
+        try (InputStream input = new FileInputStream(filename)) {
+            prop.load(input);
+        }
         return prop;
     }
 
@@ -473,12 +474,10 @@ public class SimulatorNode extends TaskNode {
             this.cameraBuffer.loadImageFromAbsolutePath(path);
         } else {
             path = platformProperties.getProperty("camerasim.imagedirectory");
-            try {
-                Stream<Path> walker = Files.walk(Paths.get(path));
+            try (Stream<Path> walker = Files.walk(Paths.get(path))) {
                 List<String> files = walker.map(p -> p.getFileName().toString()).filter(s -> s.toLowerCase().endsWith(
                         ".png") || s.toLowerCase().endsWith(".jpg") || s.toLowerCase().endsWith("bmp") || s.toLowerCase()
                         .endsWith(".raw")).collect(Collectors.toList());
-                walker.close();
                 Random r = new Random();
                 int filenum = r.nextInt(files.size());
                 String absolutePath = path + "/" + files.get(filenum);
@@ -499,8 +498,7 @@ public class SimulatorNode extends TaskNode {
         }
 
         ArrayList<String> result = new ArrayList<>();
-        try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(stream));
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(stream))) {
             String description = null;
             boolean skipRead;
             String line;

@@ -243,11 +243,12 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
         }
 
         // Get the textual message from the process
-        BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
         StringBuilder buffer = new StringBuilder();
-        String line;
-        while ((line = br.readLine()) != null) {
-            buffer.append(line).append("\n");
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                buffer.append(line).append("\n");
+            }
         }
 
         String message = buffer.toString();

@@ -114,9 +114,8 @@ public class NMFPackagePMBackend implements PMBackend {
         Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
                 "Uninstalling the package from: {0}", folderLocation);
 
-        try {
-            // Get the Package and descriptor to be uninstalled
-            ZipFile zipFile = new ZipFile(folderLocation);
+        // Get the Package and descriptor to be uninstalled
+        try (ZipFile zipFile = new ZipFile(folderLocation)) {
 
             // Verify integrity of the file: Are all the declared files matching their CRCs?
             Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,

@@ -234,9 +234,10 @@ public class ProcessExecutionHandler {
             @Override
             public void run() {
                 this.setName("ProcessExecutionHandler_ReaderThread_" + name);
-                try {
+                // The thread owns the reader, and closes it at the end of the stream
+                try (BufferedReader reader = br) {
                     String line;
-                    while ((line = br.readLine()) != null) {
+                    while ((line = reader.readLine()) != null) {
                         synchronized (buf) {
                             buf.append(line).append("\n");
                         }

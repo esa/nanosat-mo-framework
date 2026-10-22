@@ -70,9 +70,8 @@ public class SimpleDemoPackageAppCreation {
         builder.addFileOrDirectory(myAppFile);
         File location = builder.createPackage(new File("target"));
 
-        try {
-            // Test if the created file can be parsed
-            ZipFile writtenFile = new ZipFile(location);
+        // Test if the created file can be parsed
+        try (ZipFile writtenFile = new ZipFile(location)) {
 
             // Try to open the the metadata file inside the Zip file
             // and parse it into a Metadata object

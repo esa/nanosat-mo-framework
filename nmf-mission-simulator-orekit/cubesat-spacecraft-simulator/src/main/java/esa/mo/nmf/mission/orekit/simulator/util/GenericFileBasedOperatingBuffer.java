@@ -51,13 +51,14 @@ public abstract class GenericFileBasedOperatingBuffer implements SimulatorOperat
         try {
             String absolutePath = SimulatorNode.handleResourcePath(path, logger, getClass().getClassLoader(), false);
             //            this.dataBuffer = Files.readAllBytes(Paths.get(absolutePath));
-            RandomAccessFile f = new RandomAccessFile(absolutePath, "r");
-            if (f.length() > Integer.MAX_VALUE) {
-                throw new IOException("File is too large");
+            try (RandomAccessFile f = new RandomAccessFile(absolutePath, "r")) {
+                if (f.length() > Integer.MAX_VALUE) {
+                    throw new IOException("File is too large");
+                }
+                byte[] data = new byte[(int) f.length()];
+                f.readFully(data);
+                this.dataBuffer = data;
             }
-            byte[] data = new byte[(int) f.length()];
-            f.readFully(data);
-            this.dataBuffer = data;
 
         } catch (IOException ex) {
             return false;
@@ -73,16 +74,17 @@ public abstract class GenericFileBasedOperatingBuffer implements SimulatorOperat
             String[] parts = path.split("\\.");
             String ending = parts[parts.length - 1];
             if (ending.equals("raw")) {
-                RandomAccessFile f = new RandomAccessFile(path, "r");
-                if (f.length() > Integer.MAX_VALUE) {
-                    throw new IOException("File is too large");
+                try (RandomAccessFile f = new RandomAccessFile(path, "r")) {
+                    if (f.length() > Integer.MAX_VALUE) {
+                        throw new IOException("File is too large");
+                    }
+                    if (f.length() != SimulatorNode.CAMERA_MAX_SIZE) {
+                        throw new IllegalArgumentException("RAW file does not fit camera resolution.");
+                    }
+                    byte[] data = new byte[(int) f.length()];
+                    f.readFully(data);
+                    this.dataBuffer = data;
                 }
-                if (f.length() != SimulatorNode.CAMERA_MAX_SIZE) {
-                    throw new IllegalArgumentException("RAW file does not fit camera resolution.");
-                }
-                byte[] data = new byte[(int) f.length()];
-                f.readFully(data);
-                this.dataBuffer = data;
             } else {
                 this.dataBuffer = ImageLoader.loadNonRawImage(path);
             }

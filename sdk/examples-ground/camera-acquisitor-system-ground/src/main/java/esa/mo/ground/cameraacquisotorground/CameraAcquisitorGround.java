@@ -414,15 +414,12 @@ public class CameraAcquisitorGround {
      * @return the current TLE or null if the site is not reachable
      */
     private TLE loadTLE() {
-        try {
-            URL url = new URL("https://celestrak.com/NORAD/elements/gp.php?CATNR=" + NORAD_CATALOG_NUMBER);
-            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(new URL(
+                "https://celestrak.com/NORAD/elements/gp.php?CATNR=" + NORAD_CATALOG_NUMBER).openStream()))) {
             in.readLine(); // Skip the first line, which holds the satellite name
             String line1 = in.readLine();
             String line2 = in.readLine();
 
-            in.close();
             lastTLEUpdate = Instant.now();
             cachedTLE = new TLE(line1, line2);
             return cachedTLE;

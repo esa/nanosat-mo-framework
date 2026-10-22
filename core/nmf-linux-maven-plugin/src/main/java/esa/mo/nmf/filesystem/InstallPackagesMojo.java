@@ -122,7 +122,9 @@ public class InstallPackagesMojo extends AbstractMojo {
             // Read the package metadata to find which dep JARs it needs.
             Metadata metadata;
             try {
-                metadata = new NMFPackage(packageFile.getAbsolutePath()).getMetadata();
+                try (NMFPackage pack = new NMFPackage(packageFile.getAbsolutePath())) {
+                    metadata = pack.getMetadata();
+                }
             } catch (IOException ex) {
                 throw new MojoExecutionException(
                         "Failed to read package metadata: " + packageFile.getName(), ex);

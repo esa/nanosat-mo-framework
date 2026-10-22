@@ -302,23 +302,18 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
 
             File file = new File(path); // Select the file that we want to read from
 
-            try {
-                // Get the text out of that file...
-                InputStreamReader isr = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
-                BufferedReader br = new BufferedReader(isr);
-
-                try {
-                    String line = br.readLine(); // Reads the first line!
-                    br.close();
-                    return new URI(line);
-                } catch (IOException ex) {
-                    Logger.getLogger(NMFProvider.class.getName()).log(
-                            Level.SEVERE, "An error happened!", ex);
-                }
+            // Get the text out of that file...
+            try (BufferedReader br = new BufferedReader(
+                    new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
+                String line = br.readLine(); // Reads the first line!
+                return new URI(line);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,
                         "The File {0} could not be found!", file.getPath());
                 return null;
+            } catch (IOException ex) {
+                Logger.getLogger(NMFProvider.class.getName()).log(
+                        Level.SEVERE, "An error happened!", ex);
             }
             return null;
         }

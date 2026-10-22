@@ -94,34 +94,37 @@ public class SimpleDemoPackageJavaCreation {
      * @throws IOException if the extraction fails
      */
     public static void extractFileTo(File input, File outputFolder) throws IOException {
-        GZIPInputStream zipIS = new GZIPInputStream(new FileInputStream(input));
-        TarArchiveInputStream tarInput = new TarArchiveInputStream(zipIS);
         outputFolder.mkdirs();
         String outputPath = outputFolder.getAbsolutePath();
-
-        TarArchiveEntry entry;
         int BUFFER_SIZE = 1024;
 
-        while ((entry = tarInput.getNextTarEntry()) != null) {
-            File newFile = new File(outputPath, entry.getName());
-            File canonicalNewFile = newFile.getCanonicalFile();
-            // Validate that the new file is within the output folder
-            if (!canonicalNewFile.getPath().startsWith(outputFolder.getCanonicalPath())) {
-                throw new IOException("Entry is outside the target directory: " + entry.getName());
-            }
+        try (FileInputStream fileIS = new FileInputStream(input);
+                GZIPInputStream zipIS = new GZIPInputStream(fileIS);
+                TarArchiveInputStream tarInput = new TarArchiveInputStream(zipIS)) {
+            TarArchiveEntry entry;
 
-            // Create directories as required
-            if (entry.isDirectory()) {
-                canonicalNewFile.mkdirs();
-            } else {
-                int count;
-                byte data[] = new byte[BUFFER_SIZE];
-                FileOutputStream fos = new FileOutputStream(canonicalNewFile);
-                BufferedOutputStream dest = new BufferedOutputStream(fos, BUFFER_SIZE);
-                while ((count = tarInput.read(data, 0, BUFFER_SIZE)) != -1) {
-                    dest.write(data, 0, count);
+            while ((entry = tarInput.getNextTarEntry()) != null) {
+                File newFile = new File(outputPath, entry.getName());
+                File canonicalNewFile = newFile.getCanonicalFile();
+                // Validate that the new file is within the output folder. Paths
+                // are compared by their parts: as strings, "/out" starts "/out-x"
+                if (!canonicalNewFile.toPath().startsWith(outputFolder.getCanonicalFile().toPath())) {
+                    throw new IOException("Entry is outside the target directory: " + entry.getName());
                 }
-                dest.close();
+
+                // Create directories as required
+                if (entry.isDirectory()) {
+                    canonicalNewFile.mkdirs();
+                } else {
+                    int count;
+                    byte data[] = new byte[BUFFER_SIZE];
+                    try (BufferedOutputStream dest = new BufferedOutputStream(
+                            new FileOutputStream(canonicalNewFile), BUFFER_SIZE)) {
+                        while ((count = tarInput.read(data, 0, BUFFER_SIZE)) != -1) {
+                            dest.write(data, 0, count);
+                        }
+                    }
+                }
             }
         }
     }

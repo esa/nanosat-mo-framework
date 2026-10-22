@@ -21,7 +21,6 @@
 package esa.mo.helpertools.misc;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -69,17 +68,11 @@ public class FileDataSerialization {
         if (filename == null) {
             throw new IllegalArgumentException("Filename must not be null for deserialization.");
         }
-        try {
-            FileInputStream fin = new FileInputStream(filename);
-            ObjectInputStream ois = new ObjectInputStream(fin);
-
-            Object iHandler = ois.readObject();
-            ois.close();
-            return iHandler;
-        } catch (FileNotFoundException e) {
-            throw new FileNotFoundException();
-        } catch (IOException e) {
-            throw new IOException();
+        // Two resources: the ObjectInputStream reads a header, and the file is
+        // closed even when that fails
+        try (FileInputStream fin = new FileInputStream(filename);
+                ObjectInputStream ois = new ObjectInputStream(fin)) {
+            return ois.readObject();
         }
     }
 

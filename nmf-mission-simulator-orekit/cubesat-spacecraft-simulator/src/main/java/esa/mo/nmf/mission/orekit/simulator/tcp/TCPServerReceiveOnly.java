@@ -80,9 +80,9 @@ public class TCPServerReceiveOnly extends Thread {
                     break;
                 }
                 this.logger.log(Level.INFO, "Accepted Socket from [" + connectionSocket.getInetAddress() + "]");
-                BufferedReader inFromClient;
-                try {
-                    inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+                // The client socket is closed with its reader, also when the server is told to close
+                try (Socket client = connectionSocket;
+                        BufferedReader inFromClient = new BufferedReader(new InputStreamReader(client.getInputStream()))) {
                     while (!shouldClose) {
                         try {
                             clientSentence = inFromClient.readLine();

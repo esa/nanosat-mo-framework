@@ -440,7 +440,6 @@ public class OrekitCore {
         this.staESOCFrame = new TopocentricFrame(this.earth, stationESOC, "ESOC");
         this.sunVector = new double[3];
 
-        BufferedReader in;
         // GPS Constellation simulator
         if (!simulatorHeader.isUpdateInternet()) {
             // Handle gps file from resources
@@ -467,18 +466,15 @@ public class OrekitCore {
             }
             if (readerURL != null) {
                 String line;
-                BufferedWriter out = null;
                 File gpsOps = simulatorNode.getGPSOpsFile();
                 if (!gpsOps.getParentFile().exists() && !gpsOps.getParentFile().mkdirs()) {
                     logger.log(Level.WARNING, "Folder [" + gpsOps.getParentFile().getAbsolutePath()
                             + "] could not be created");
                 }
-                try {
-                    out = new BufferedWriter(new FileWriter(gpsOps.getAbsolutePath()));
+                try (BufferedWriter out = new BufferedWriter(new FileWriter(gpsOps.getAbsolutePath()))) {
                     while ((line = readerURL.readLine()) != null) {
                         out.write(line + "\n");
                     }
-                    out.close();
                 } catch (IOException ex) {
                     logger.log(Level.SEVERE, ex.toString());
                 }
@@ -491,39 +487,35 @@ public class OrekitCore {
         }
         gpsConstellation = new LinkedList<>();
         gpsSatsInView = new LinkedList<>();
-        try {
-            in = new BufferedReader(new FileReader(simulatorNode.getGPSOpsFile()));
+        try (BufferedReader in = new BufferedReader(new FileReader(simulatorNode.getGPSOpsFile()))) {
             String line;
-            try {
-                String name = null, tle1 = null, tle2 = null;
-                while ((line = in.readLine()) != null) {
-                    if (line.startsWith("1")) {
-                        tle1 = line;
-                    } else if (line.startsWith("2")) {
-                        tle2 = line;
-                    } else {
-                        name = line;
-                    }
-                    if (name != null && tle1 != null && tle2 != null) {
-                        if (TLE.isFormatOK(tle1, tle2)) {
-                            TLE newTLE = new TLE(tle1, tle2);
-                            TLEPropagator tempTLEPropagator = TLEPropagator.selectExtrapolator(newTLE);
-                            // tempTLEPropagator.setSlaveMode();
-                            GPSSatellite newSat = new GPSSatellite(name, tempTLEPropagator);
-                            this.gpsConstellation.add(newSat);
-                        }
-                        name = null;
-                        tle1 = null;
-                        tle2 = null;
-                    }
+            String name = null, tle1 = null, tle2 = null;
+            while ((line = in.readLine()) != null) {
+                if (line.startsWith("1")) {
+                    tle1 = line;
+                } else if (line.startsWith("2")) {
+                    tle2 = line;
+                } else {
+                    name = line;
                 }
-                in.close();
-            } catch (IOException ex) {
-                logger.log(Level.SEVERE, ex.toString());
+                if (name != null && tle1 != null && tle2 != null) {
+                    if (TLE.isFormatOK(tle1, tle2)) {
+                        TLE newTLE = new TLE(tle1, tle2);
+                        TLEPropagator tempTLEPropagator = TLEPropagator.selectExtrapolator(newTLE);
+                        // tempTLEPropagator.setSlaveMode();
+                        GPSSatellite newSat = new GPSSatellite(name, tempTLEPropagator);
+                        this.gpsConstellation.add(newSat);
+                    }
+                    name = null;
+                    tle1 = null;
+                    tle2 = null;
+                }
             }
         } catch (FileNotFoundException ex) {
             logger.log(Level.SEVERE, ex.toString());
             // No internet connection available and no file saved
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, ex.toString());
         }
         logger.log(Level.FINE, "GPS Constellation has [" + this.gpsConstellation.size() + "] satellites!");
     }

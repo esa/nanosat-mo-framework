@@ -34,7 +34,6 @@ import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import java.io.File;
 import java.nio.file.Path;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
@@ -110,7 +109,13 @@ public class NMFPackageManager {
                 "Reading the package on: " + packageLocation);
 
         // Get the File to be installed
-        NMFPackage nmfPackage = new NMFPackage(packageLocation);
+        try (NMFPackage nmfPackage = new NMFPackage(packageLocation)) {
+            install(nmfPackage, packageLocation, nmfDir, timestamp);
+        }
+    }
+
+    private void install(final NMFPackage nmfPackage, final String packageLocation,
+            final File nmfDir, long timestamp) throws IOException {
         Metadata metadata = nmfPackage.getMetadata();
 
         if (metadata.getMetadataVersion() < 3) {
@@ -303,7 +308,13 @@ public class NMFPackageManager {
                 "Reading the receipt file that includes the list of files to be updated...");
 
         // Get the Package to be uninstalled
-        NMFPackage newPack = new NMFPackage(packageLocation);
+        try (NMFPackage newPack = new NMFPackage(packageLocation)) {
+            update(newPack, packageLocation, nmfDir, timestamp);
+        }
+    }
+
+    private void update(final NMFPackage newPack, final String packageLocation,
+            final File nmfDir, long timestamp) throws IOException {
         Metadata newPackMetadata = newPack.getMetadata();
 
         if (newPackMetadata.getMetadataVersion() < 3) {
@@ -429,11 +440,9 @@ public class NMFPackageManager {
                 "Verifying if the package is installed...");
 
         // Find the newReceipt and get it out of the package
-        NMFPackage pack;
         Metadata metadata;
 
-        try {
-            pack = new NMFPackage(packageLocation);
+        try (NMFPackage pack = new NMFPackage(packageLocation)) {
             metadata = pack.getMetadata();
         } catch (IOException ex) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
@@ -454,7 +463,7 @@ public class NMFPackageManager {
         // Check the version of the installed newReceipt
         Metadata installedMetadata;
         try {
-            installedMetadata = Metadata.load(new FileInputStream(receiptFile));
+            installedMetadata = Metadata.load(receiptFile);
         } catch (IOException ex) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
                     "The file could not be loaded!", ex);
@@ -501,7 +510,9 @@ public class NMFPackageManager {
     public boolean isFinalVersionInstalled(final String packageLocation) {
         Metadata metadata;
         try {
-            metadata = new NMFPackage(packageLocation).getMetadata();
+            try (NMFPackage pack = new NMFPackage(packageLocation)) {
+                metadata = pack.getMetadata();
+            }
         } catch (IOException ex) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
                     "There was a problem while reading the NMF Package!", ex);
@@ -545,7 +556,7 @@ public class NMFPackageManager {
 
         Metadata installedMetadata;
         try {
-            installedMetadata = Metadata.load(new FileInputStream(receiptFile));
+            installedMetadata = Metadata.load(receiptFile);
         } catch (IOException ex) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
                     "The file could not be loaded!", ex);
@@ -579,7 +590,9 @@ public class NMFPackageManager {
         Metadata metadata;
 
         try {
-            metadata = (new NMFPackage(packageLocation)).getMetadata();
+            try (NMFPackage pack = new NMFPackage(packageLocation)) {
+                metadata = pack.getMetadata();
+            }
         } catch (IOException ex) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
                     "There was a problem while reading the NMF Package!", ex);
@@ -594,7 +607,7 @@ public class NMFPackageManager {
         }
 
         try {
-            Metadata installedMetadata = Metadata.load(new FileInputStream(receiptFile));
+            Metadata installedMetadata = Metadata.load(receiptFile);
             return (installedMetadata != null) ? installedMetadata.getPackageVersion() : null;
         } catch (IOException ex) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,

@@ -37,7 +37,7 @@ import java.util.zip.ZipFile;
  *
  * @author Cesar Coelho
  */
-public class NMFPackage {
+public class NMFPackage implements AutoCloseable {
 
     private final ZipFile zipFile;
     private Metadata metadata;
@@ -50,6 +50,16 @@ public class NMFPackage {
      */
     public NMFPackage(String filepath) throws IOException {
         this.zipFile = new ZipFile(filepath);
+    }
+
+    /**
+     * Closes the NMF Package file.
+     *
+     * @throws IOException If the file cannot be closed.
+     */
+    @Override
+    public void close() throws IOException {
+        zipFile.close();
     }
 
     /**

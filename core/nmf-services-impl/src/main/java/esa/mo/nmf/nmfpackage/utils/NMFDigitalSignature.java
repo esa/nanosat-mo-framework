@@ -80,14 +80,13 @@ public class NMFDigitalSignature {
             Signature dsa = Signature.getInstance(SIGNATURE_ALGORITHM, SIGNATURE_PROVIDER);
             dsa.initSign(privateKey);
 
-            FileInputStream fis = new FileInputStream(file);
-            BufferedInputStream bufin = new BufferedInputStream(fis);
-            byte[] buffer = new byte[1024];
-            int len;
-            while ((len = bufin.read(buffer)) >= 0) {
-                dsa.update(buffer, 0, len);
+            try (BufferedInputStream bufin = new BufferedInputStream(new FileInputStream(file))) {
+                byte[] buffer = new byte[1024];
+                int len;
+                while ((len = bufin.read(buffer)) >= 0) {
+                    dsa.update(buffer, 0, len);
+                }
             }
-            bufin.close();
 
             return dsa.sign(); // Returns the signature
         } catch (NoSuchProviderException
@@ -115,17 +114,15 @@ public class NMFDigitalSignature {
             Signature sig = Signature.getInstance(SIGNATURE_ALGORITHM, SIGNATURE_PROVIDER);
             sig.initVerify(publicKey);
 
-            FileInputStream datafis = new FileInputStream(file);
-            BufferedInputStream bufin = new BufferedInputStream(datafis);
-
-            byte[] buffer = new byte[1024];
-            int len;
-            while (bufin.available() != 0) {
-                len = bufin.read(buffer);
-                sig.update(buffer, 0, len);
+            try (BufferedInputStream bufin = new BufferedInputStream(new FileInputStream(file))) {
+                // Read to the end, rather than while bytes are available: what is
+                // available is only what can be read without blocking
+                byte[] buffer = new byte[1024];
+                int len;
+                while ((len = bufin.read(buffer)) >= 0) {
+                    sig.update(buffer, 0, len);
+                }
             }
-
-            bufin.close();
 
             return sig.verify(signatureToVerify);
         } catch (NoSuchProviderException

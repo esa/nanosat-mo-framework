@@ -62,8 +62,7 @@ class ConfigurationManager {
             node.logger.log(Level.FINE, "Header [" + headerFile.toString() + "] found!");
             boolean dataOk = true;
             node.simulatorHeader = new SimulatorHeader();
-            try {
-                BufferedReader in = new BufferedReader(new FileReader(headerFile.getAbsolutePath()));
+            try (BufferedReader in = new BufferedReader(new FileReader(headerFile.getAbsolutePath()))) {
                 String line;
                 label:
                 while ((line = in.readLine()) != null) {
@@ -166,7 +165,6 @@ class ConfigurationManager {
                     node.logger.log(Level.SEVERE, "Read from header file: startDate is not before endDate");
                     dataOk = false;
                 }
-                in.close();
             } catch (IOException ex) {
                 Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -207,8 +205,7 @@ class ConfigurationManager {
             node.logger.log(Level.FINE, "Filter [" + filterFile.toString() + "] found!");
             boolean dataOk = true;
 
-            try {
-                BufferedReader in = new BufferedReader(new FileReader(filterFile.getAbsolutePath()));
+            try (BufferedReader in = new BufferedReader(new FileReader(filterFile.getAbsolutePath()))) {
                 String line;
                 while ((line = in.readLine()) != null) {
                     List<String> items = Arrays.asList(line.split(" "));
@@ -234,7 +231,6 @@ class ConfigurationManager {
                         }
                     }
                 }
-                in.close();
             } catch (IOException ex) {
                 Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -257,8 +253,7 @@ class ConfigurationManager {
         long currentTime = 0;
         if (folder.exists()) {
             int customSchedulerCommands = 0;
-            try {
-                BufferedReader in = new BufferedReader(new FileReader(folder.getAbsolutePath()));
+            try (BufferedReader in = new BufferedReader(new FileReader(folder.getAbsolutePath()))) {
 
                 schedulerFile = node.getSchedulerFileAsBackup();
                 try {
@@ -335,7 +330,6 @@ class ConfigurationManager {
                         }
                     }
                 }
-                in.close();
             } catch (IOException ex) {
                 Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -381,8 +375,7 @@ class ConfigurationManager {
     void loadTemplatesFromFile(final File folder) {
         if (folder.exists()) {
             int customTemplates = 0;
-            try {
-                BufferedReader in = new BufferedReader(new FileReader(folder.getAbsolutePath()));
+            try (BufferedReader in = new BufferedReader(new FileReader(folder.getAbsolutePath()))) {
                 String line;
                 while ((line = in.readLine()) != null) {
                     if (!line.startsWith("#")) {
@@ -409,7 +402,6 @@ class ConfigurationManager {
                         }
                     }
                 }
-                in.close();
             } catch (IOException ex) {
                 Logger.getLogger(SimulatorNode.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -332,7 +332,9 @@ public class Deployment {
                 }
 
                 Properties props = new Properties();
-                props.load(new FileInputStream(release));
+                try (FileInputStream in = new FileInputStream(release)) {
+                    props.load(in);
+                }
                 String version = (String) props.get(VERSION_PROP);
 
                 if (version == null) {

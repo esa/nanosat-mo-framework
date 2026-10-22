@@ -76,40 +76,34 @@ public class ESASimulator extends GenericSimulator {
         if (propertiesFile.exists()) {
             // System.out.println(LoggerFormatter1Line.SIMULATOR_PRE_LOG + "PRE_INIT: Header
             // file was found");
-            BufferedReader in = null;
-            try {
-                in = new BufferedReader(new FileReader(fileName));
+            try (BufferedReader in = new BufferedReader(new FileReader(fileName))) {
                 String line;
-                try {
-                    while ((line = in.readLine()) != null) {
+                while ((line = in.readLine()) != null) {
 
-                        if (line.startsWith("#")) {
-                            // comment line
-                        } else {
-                            String[] split = line.split("=");
-                            if (split.length == 2) {
-                                Level temp = null;
-                                temp = getLevelFromString(split, "simulatorLogLevel");
-                                if (temp != null) {
-                                    this.simulatorLoggingLevel = temp;
-                                }
-                                temp = getLevelFromString(split, "centralLogLevel");
-                                if (temp != null) {
-                                    this.centralLoggingLevel = temp;
-                                }
-                                temp = getLevelFromString(split, "consoleLogLevel");
-                                if (temp != null) {
-                                    this.consoleLoggingLevel = temp;
-                                }
+                    if (line.startsWith("#")) {
+                        // comment line
+                    } else {
+                        String[] split = line.split("=");
+                        if (split.length == 2) {
+                            Level temp = null;
+                            temp = getLevelFromString(split, "simulatorLogLevel");
+                            if (temp != null) {
+                                this.simulatorLoggingLevel = temp;
+                            }
+                            temp = getLevelFromString(split, "centralLogLevel");
+                            if (temp != null) {
+                                this.centralLoggingLevel = temp;
+                            }
+                            temp = getLevelFromString(split, "consoleLogLevel");
+                            if (temp != null) {
+                                this.consoleLoggingLevel = temp;
                             }
                         }
                     }
-                    in.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(ESASimulator.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
             } catch (FileNotFoundException ex) {
+                Logger.getLogger(ESASimulator.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
                 Logger.getLogger(ESASimulator.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
