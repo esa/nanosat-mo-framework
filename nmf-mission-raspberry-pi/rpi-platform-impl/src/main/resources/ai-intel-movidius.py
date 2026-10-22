@@ -36,7 +36,8 @@ parser.add_argument("--device", type=str, default="MYRIAD", help="The device to 
 
 try:
 	opt = parser.parse_known_args()[0]
-except:
+except SystemExit:
+	# argparse exits on a command line it cannot parse
 	print("")
 	parser.print_help()
 	sys.exit(0)
