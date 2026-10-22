@@ -1,7 +1,6 @@
 import cv2
 import time
 from openvino.inference_engine import IECore
-from datetime import datetime
 import os
 import sys
 import argparse
