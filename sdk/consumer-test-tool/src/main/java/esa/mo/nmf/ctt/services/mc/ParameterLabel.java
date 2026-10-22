@@ -63,7 +63,7 @@ public class ParameterLabel extends javax.swing.JLabel implements Serializable {
         String newVal = value.getLabelValue();
 
         // display the new value
-        if (newVal.equals("")) {
+        if (newVal.isEmpty()) {
             setText("");
         } else {
             setText(newVal);
@@ -72,7 +72,7 @@ public class ParameterLabel extends javax.swing.JLabel implements Serializable {
         // if we are in error we highlight the label in a different colour
         final int ii = Math.abs(counter % 2);
 
-        if (!newVal.equals("")) {
+        if (!newVal.isEmpty()) {
             counter++;
         }
 
@@ -80,7 +80,7 @@ public class ParameterLabel extends javax.swing.JLabel implements Serializable {
             setBackground(Color.RED);
         } else {
             setBackground(coloursBackground[ii]);
-            if (newVal.equals("")) {
+            if (newVal.isEmpty()) {
                 setBackground(Color.WHITE);
             }
         }

@@ -141,7 +141,7 @@ public class CommandDescriptor implements Serializable {
         String argsBody = methodBody.substring(methodBody.indexOf("(") + 1);
         argsBody = argsBody.substring(0, argsBody.length() - 1);
         this.logger.log(Level.ALL, "argsBody is [" + argsBody + "]");
-        if (argsBody.equals("")) {
+        if (argsBody.isEmpty()) {
             this.logger.log(Level.ALL, "argsBody is empty");
         } else {
             String[] splitWords = argsBody.split(",");
@@ -234,7 +234,7 @@ public class CommandDescriptor implements Serializable {
         this.templateList = new ArrayList<>();
         this.templateList.add(new ArgumentTemplate(KEYWORD_DEFAULT, getInputArgs()));
 
-        if (comment.equals("")) {
+        if (comment.isEmpty()) {
             this.comment = "Placeholder";
         }
 

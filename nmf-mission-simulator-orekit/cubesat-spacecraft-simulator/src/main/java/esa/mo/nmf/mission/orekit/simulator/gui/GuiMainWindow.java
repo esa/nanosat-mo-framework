@@ -591,7 +591,7 @@ public class GuiMainWindow implements Runnable {
             String path = textFieldPath.getText();
             String mode = (String) selectMode.getSelectedItem();
             updates.add(new PlatformMessage("camerasim.imagemode", mode));
-            if (!path.equals("")) {
+            if (!path.isEmpty()) {
                 if (mode.equals("Fixed")) {
                     updates.add(new PlatformMessage("camerasim.imagefile", path));
                 } else if (mode.equals("Random")) {

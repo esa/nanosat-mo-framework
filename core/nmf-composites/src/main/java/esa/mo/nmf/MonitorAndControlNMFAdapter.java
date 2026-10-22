@@ -103,7 +103,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
      * field.
      */
     private int rawTypeOf(Field field, Parameter annotation) {
-        if (!annotation.malType().equals("")) {
+        if (!annotation.malType().isEmpty()) {
             Integer rawType = HelperAttributes.attributeName2typeShortForm(annotation.malType());
             if (rawType == null) {
                 throw new IllegalStateException("The malType '" + annotation.malType()
@@ -153,7 +153,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
             field.setAccessible(true);
             parameters.add(field);
             // if name is not set, use variable name
-            String name = annotation.name().equals("") ? field.getName() : annotation.name();
+            String name = annotation.name().isEmpty() ? field.getName() : annotation.name();
 
             //----------------collect ParameterDefinition----------------
             String description = annotation.description();
@@ -164,7 +164,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
             Duration reportInterval = new Duration(annotation.reportIntervalSeconds());
             ParameterExpression validityExpression = null;
             String valExpress = annotation.validityExpressionFieldName();
-            if (!valExpress.equals("")) {
+            if (!valExpress.isEmpty()) {
                 try {
                     Field validityField = this.getClass().getField(valExpress);
                     validityField.setAccessible(true);
@@ -180,7 +180,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
             ParameterConversion conversion = null;
             String convFun = annotation.conversionFunctionName();
-            if (!convFun.equals("")) {
+            if (!convFun.isEmpty()) {
                 try {
                     Field conversionField = this.getClass().getField(convFun);
                     conversionField.setAccessible(true);
@@ -233,7 +233,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                         AggregationParameterSetList parameterSet;
 
                         ThresholdFilter filter = null;
-                        if (!aggregation.thresholdFilterFieldName().equals("")) {
+                        if (!aggregation.thresholdFilterFieldName().isEmpty()) {
                             try {
                                 Field filterField = this.getClass().getField(aggregation.thresholdFilterFieldName());
                                 filter = (ThresholdFilter) filterField.get(this);
@@ -384,7 +384,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                     String rawUnit = "";
                     ActionParameter paramAnnotation = param.getAnnotation(ActionParameter.class);
                     if (paramAnnotation != null) {
-                        if (!paramAnnotation.name().equals("")) { // if user given name exist, use it
+                        if (!paramAnnotation.name().isEmpty()) { // if user given name exist, use it
                             identifier = new Identifier(paramAnnotation.name());
                         }
                         description = paramAnnotation.description();
@@ -399,7 +399,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 }
 
                 // use fallback name if no name was given
-                String acName = (annotation.name().equals("")) ? method.getName() : annotation.name();
+                String acName = (annotation.name().isEmpty()) ? method.getName() : annotation.name();
                 Identifier actionName = new Identifier(acName);
 
                 LOGGER.log(Level.INFO, "Action registered: {0}", actionName);
@@ -478,7 +478,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
 
         try {
             String onGet = param.onGetFunction();
-            if (!onGet.equals("")) {
+            if (!onGet.isEmpty()) {
                 Method onGetMethod = this.getClass().getMethod(onGet);
                 onGetMethod.setAccessible(true);
                 onGetMethod.invoke(this);

@@ -477,12 +477,11 @@ public class ParameterAddModify extends javax.swing.JFrame {
     }//GEN-LAST:event_conversionCBActionPerformed
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
-        if (nameTF.getText().equals("")
-                || descriptionTF.getText().equals("")
-                || descriptionTF.getText().equals("")
+        if (nameTF.getText().isEmpty()
+                || descriptionTF.getText().isEmpty()
                 || rawTypeCB.getSelectedIndex() == 0
-                || rawUnitTF.getText().equals("")
-                || updateIntervalTF.getText().equals("")) {
+                || rawUnitTF.getText().isEmpty()
+                || updateIntervalTF.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please fill-in all the necessary fields!", "Warning!",
                     JOptionPane.PLAIN_MESSAGE);
             return;
@@ -499,7 +498,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
         ParameterExpression PExp;
 
         if (validityExpressionCB.isSelected()) {
-            if (validity2.getSelectedIndex() != -1 && !validity3.getText().equals("")) {
+            if (validity2.getSelectedIndex() != -1 && !validity3.getText().isEmpty()) {
                 Long instId = ((Number) parameterTableData.getValueAt(validity1.getSelectedIndex(), 0)).longValue();
                 PExp = makeNewParameterExpression(instId, validity2.getSelectedIndex(), validity4.isSelected(),
                         validity3.getText());

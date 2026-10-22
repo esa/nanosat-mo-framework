@@ -462,7 +462,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
     }//GEN-LAST:event_thresholdValueTBActionPerformed
 
     private void aggregateParameterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aggregateParameterButtonActionPerformed
-        if (sampleIntervalTB.getText().equals("") || parameterCB.getSelectedIndex() == -1) {
+        if (sampleIntervalTB.getText().isEmpty() || parameterCB.getSelectedIndex() == -1) {
             JOptionPane.showMessageDialog(null, "Please fill-in all the necessary fields!", "Warning!",
                     JOptionPane.PLAIN_MESSAGE);
             return;
@@ -479,7 +479,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
         Double thresholdValue = null;
 
         if (thresholdTypeCB.getSelectedIndex() != 0) {
-            if (thresholdValueTB.getText().equals("")) {
+            if (thresholdValueTB.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Please enter a thresholdValue!", "Warning!",
                         JOptionPane.PLAIN_MESSAGE);
                 return;
@@ -514,11 +514,11 @@ public class AggregationAddModify extends javax.swing.JFrame {
     }//GEN-LAST:event_removeParameterActionPerformed
 
     private void submitButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButton1ActionPerformed
-        if (nameTF.getText().equals("")
-                || descriptionTF.getText().equals("")
+        if (nameTF.getText().isEmpty()
+                || descriptionTF.getText().isEmpty()
                 || categoryCB.getSelectedIndex() == 0
-                || updateIntervalTF.getText().equals("")
-                || filteredTimeoutTF.getText().equals("")) {
+                || updateIntervalTF.getText().isEmpty()
+                || filteredTimeoutTF.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null,
                     "Please fill-in all the necessary fields!", "Warning!",
                     JOptionPane.PLAIN_MESSAGE);

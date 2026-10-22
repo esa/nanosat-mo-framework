@@ -188,7 +188,7 @@ public class MetadataApp extends Metadata {
      */
     public boolean hasDependencies() {
         String dependencies = properties.getProperty(APP_DEPENDENCIES);
-        return (dependencies != null) && !(dependencies.equals(""));
+        return (dependencies != null) && !dependencies.isEmpty();
     }
 
     private String removeLastChar(String input) {

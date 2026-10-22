@@ -71,7 +71,7 @@ public class DatabaseBackend {
     public DatabaseBackend() {
         String urlP = System.getProperty("esa.nmf.archive.persistence.jdbc.url");
 
-        if (null != urlP && !"".equals(urlP)) {
+        if (null != urlP && !urlP.isEmpty()) {
             this.url = urlP;
         } else {
             File dbFile = getDatabaseFile();
@@ -98,11 +98,11 @@ public class DatabaseBackend {
         }
 
         String driver = System.getProperty("esa.nmf.archive.persistence.jdbc.driver");
-        this.jdbcDriver = (null != driver && !"".equals(driver)) ? driver : DRIVER_CLASS_NAME;
+        this.jdbcDriver = (null != driver && !driver.isEmpty()) ? driver : DRIVER_CLASS_NAME;
         String userP = System.getProperty("esa.nmf.archive.persistence.jdbc.user");
-        this.user = (null != userP && !"".equals(userP)) ? userP : null;
+        this.user = (null != userP && !userP.isEmpty()) ? userP : null;
         String pass = System.getProperty("esa.nmf.archive.persistence.jdbc.password");
-        this.password = (null != pass && !"".equals(pass)) ? pass : null;
+        this.password = (null != pass && !pass.isEmpty()) ? pass : null;
     }
 
     private File getDatabaseFile() {

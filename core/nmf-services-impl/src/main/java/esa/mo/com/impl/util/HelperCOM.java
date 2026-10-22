@@ -385,7 +385,7 @@ public class HelperCOM {
 
         try {
             for (String part : parts) {
-                if (!part.equals("")) {
+                if (!part.isEmpty()) {
                     obj = HelperCOM.getObjectInsideObject(part, obj);
                 } else {
                     // Then it is a Enumeration
@@ -405,7 +405,7 @@ public class HelperCOM {
             throw new NoSuchFieldException();
         }
 
-        if ("".equals(fieldName) && !(obj instanceof Enumeration)) {
+        if (fieldName != null && fieldName.isEmpty() && !(obj instanceof Enumeration)) {
             throw new NoSuchFieldException();
         }
 

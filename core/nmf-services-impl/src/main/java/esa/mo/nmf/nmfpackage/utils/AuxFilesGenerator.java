@@ -233,7 +233,7 @@ public class AuxFilesGenerator {
             throws IOException {
         String jarName = appDetails.getAppMainJar();
 
-        if (jarName.equals("")) {
+        if (jarName.isEmpty()) {
             File jar = HelperNMFPackage.findAppJarInFolder(appDir);
             jarName = jar.getName();
         }

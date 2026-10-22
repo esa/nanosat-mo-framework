@@ -238,7 +238,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
             if (tag.getValue() == null
                     || "*".equals(tag.getValue())
-                    || "".equals(tag.getValue())) {
+                    || tag.getValue().isEmpty()) {
                 throw new InvalidArgumentException(null);
             }
 

@@ -57,7 +57,7 @@ public class SortByField implements Comparator {
             this.fieldName = fieldName;
             this.timestampSorting = false;
 
-            if (fieldName.equals("")) {
+            if (fieldName.isEmpty()) {
                 return;
             }
         } else {  // timestamp
@@ -88,7 +88,7 @@ public class SortByField implements Comparator {
                         this.field = beanClass.getDeclaredField(part);
                         this.field.setAccessible(true);
                     } else // Then, it is done automatically...
-                    if (!part.equals("")) {
+                    if (!part.isEmpty()) {
                         this.field = ((Class) this.field.getGenericType()).getDeclaredField(part);
                         this.field.setAccessible(true);
                     } else {
