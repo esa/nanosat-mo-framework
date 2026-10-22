@@ -259,11 +259,6 @@ public class ConstellationManagerGui extends JFrame implements ConstellationList
     }
 
     /**
-     * Adds a row to the table that shows the NanoSat segments of the constellation.
-     *
-     * @param row row to be added to the table
-     */
-    /**
      * Reads the output of the shown segment over and over, so that the pane
      * follows the segment rather than showing what it said when it was selected.
      * <p>
@@ -353,6 +348,11 @@ public class ConstellationManagerGui extends JFrame implements ConstellationList
         }
     }
 
+    /**
+     * Adds a row to the table that shows the NanoSat segments of the constellation.
+     *
+     * @param row row to be added to the table
+     */
     private void addRowToNanoSatSegmentList(Object[] row) {
         this.tableModel.addRow(row);
     }

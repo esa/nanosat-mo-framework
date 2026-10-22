@@ -24,9 +24,6 @@ import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- *
- */
-/**
  * Dictionary.
  */
 public class Dictionary {

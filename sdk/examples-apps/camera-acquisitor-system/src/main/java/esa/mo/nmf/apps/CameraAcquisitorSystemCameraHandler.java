@@ -92,11 +92,10 @@ public class CameraAcquisitorSystemCameraHandler {
     /**
      * Action that immediately takes a photograph.
      *
-     * @see takePhotograph
-     * @param attributeValues
-     * @param executionId
-     * @param interaction
-     * @return
+     * @param executionId the action instance object id
+     * @param interaction the MAL interaction context
+     * @throws ExecutionFailedException if the photograph cannot be taken
+     * @see #takePhotograph
      */
     void photographNow(Long executionId,
             MALInteraction interaction) throws ExecutionFailedException {

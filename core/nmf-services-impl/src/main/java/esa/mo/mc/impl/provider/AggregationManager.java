@@ -543,7 +543,7 @@ public final class AggregationManager extends MCManager {
      * @param updateInterval
      * @param defId The definition Id.
      * @param indexParameterSet
-     * @param parameterSetValue
+     * @param val
      * @return
      */
     private AggregationSetValue calcAggrSetValueTimes(GenerationMode generationMode,
@@ -633,7 +633,6 @@ public final class AggregationManager extends MCManager {
      * Checks if the filter is triggered, comparing the previous and
      * currentvalues.
      *
-     * @param aggregationDefinition
      * @param aggregationParameterSet
      * @param previousUpdateValue
      * @param currentParameterValue

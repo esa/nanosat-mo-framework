@@ -221,17 +221,11 @@ public class ParameterManager extends MCManager {
     }
 
     /**
-     * Returns the current value of the parameter with the given identity-id
+     * Returns the current value of the parameter with the given definition id.
      *
      * @param defId The id of the definition.
      * @return The requested parameter value.
-     */
-    /**
-     * Returns the parameter value.
-     *
-     * @param defId the def id
-     * @return the parameter value
-     * @throws UnknownException if the operation fails
+     * @throws UnknownException if the parameter does not exist
      */
     public ParameterValue getParameterValue(Long defId) throws UnknownException {
         return getParameterValue(defId, false);
@@ -246,14 +240,7 @@ public class ParameterManager extends MCManager {
      * the aggregation-period. if true, the validity-state of the new parameter
      * will be expired.
      * @return The requested parameter value.
-     */
-    /**
-     * Returns the parameter value.
-     *
-     * @param defId the def id
-     * @param aggrExpired the aggr expired
-     * @return the parameter value
-     * @throws UnknownException if the operation fails
+     * @throws UnknownException if the parameter does not exist
      */
     public ParameterValue getParameterValue(Long defId, boolean aggrExpired) throws UnknownException {
         if (!this.existsDef(defId)) {  // The Parameter does not exist

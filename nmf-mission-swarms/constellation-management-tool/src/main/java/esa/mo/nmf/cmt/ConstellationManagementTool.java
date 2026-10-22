@@ -584,11 +584,6 @@ public class ConstellationManagementTool {
     }
 
     /**
-     * Gets the Constellation
-     *
-     * @return constellation
-     */
-    /**
      * Returns the node of the next spacecraft of this constellation.
      * <p>
      * The segments are the units of one mission, told apart by their node, so a
@@ -605,6 +600,11 @@ public class ConstellationManagementTool {
         return ++lastSpacecraftNode;
     }
 
+    /**
+     * Gets the Constellation
+     *
+     * @return constellation
+     */
     public ArrayList<NanoSat> getConstellation() {
         return this.constellation;
     }
