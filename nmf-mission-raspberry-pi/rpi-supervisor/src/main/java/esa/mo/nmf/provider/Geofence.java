@@ -124,7 +124,7 @@ public class Geofence {
 
             Identifier name = new Identifier(String.valueOf(geofence.appId)); // TODO: add random chars to make name unique
             String description = String.valueOf(geofence.appId);
-            Float distanceBoundary = geofence.range * 1000;
+            float distanceBoundary = geofence.range * 1000;
             PositionExtraDetails positionExtraDetails = new PositionExtraDetails();
             Position position = new Position(
                 Float.parseFloat(geofence.lat),

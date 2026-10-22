@@ -436,12 +436,12 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
         Package nmfPack = NMFProvider.class.getPackage();
         String nmfVersion = nmfPack.getImplementationVersion();
 
-        Integer version = 1;
+        int version = 1;
         if (nmfVersion != null) {
             // The conversion to Integer is on deliberate because
             // this way, no attempt of path injections can be made
             try {
-                version = Integer.valueOf(nmfVersion.split("\\.")[0]);
+                version = Integer.parseInt(nmfVersion.split("\\.")[0]);
             } catch (NumberFormatException ex) {
                 Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,
                         "The NMF version could not be read from: {0}", nmfVersion);

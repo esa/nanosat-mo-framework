@@ -98,7 +98,7 @@ public abstract class FastIndex<T> {
             ResultSet rs = c.createStatement().executeQuery(QUERY_SELECT);
 
             while (rs.next()) {
-                Integer id = rs.getInt(1);
+                int id = rs.getInt(1);
                 T value = (T) rs.getObject(2);
                 this.fastID.put(value, id);
                 this.fastIDreverse.put(id, value);

@@ -80,7 +80,7 @@ public class AppsLauncherCommands {
 
             try {
                 AppsLauncherStub appsLauncher = getAppsLauncher();
-                Long timestamp = System.currentTimeMillis();
+                long timestamp = System.currentTimeMillis();
                 Identifier subscriptionId = new Identifier("CLI-Consumer-AppsLauncherSubscription_" + timestamp);
                 Subscription subscription = new Subscription(subscriptionId, null, null, null);
 

@@ -190,11 +190,11 @@ public class HelperGPS {
     public static Position gpgga2Position(String gpgga) throws IOException {
         String[] items = gpgga.split(",");
         try {
-            Float altitude = Float.parseFloat(items[GPGGA_GEN_COL.ALTITUDE]);
-            Float latitude
+            float altitude = Float.parseFloat(items[GPGGA_GEN_COL.ALTITUDE]);
+            float latitude
                     = degMinutes2Degrees(items[GPGGA_GEN_COL.LAT]) * ((items[GPGGA_GEN_COL.LAT_DIR]).equals("S")
                     ? -1 : 1);
-            Float longitude
+            float longitude
                     = degMinutes2Degrees(items[GPGGA_GEN_COL.LONG]) * ((items[GPGGA_GEN_COL.LONG_DIR]).equals(
                     "W") ? -1 : 1);
 

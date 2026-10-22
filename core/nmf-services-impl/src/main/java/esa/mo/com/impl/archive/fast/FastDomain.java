@@ -71,7 +71,7 @@ public class FastDomain extends FastIndex<IdentifierList> {
             ResultSet rs = query.executeQuery(QUERY_SELECT);
 
             while (rs.next()) {
-                Integer id = rs.getInt(1);
+                int id = rs.getInt(1);
                 IdentifierList domain = HelperDomain.domainId2domain(rs.getString(2));
                 this.fastID.put(domain, id);
                 this.fastIDreverse.put(id, domain);

@@ -71,7 +71,7 @@ public class FastObjectType extends FastIndex<Long> {
             ResultSet rs = query.executeQuery(QUERY_SELECT);
 
             while (rs.next()) {
-                Integer id = rs.getInt(1);
+                int id = rs.getInt(1);
                 Long objType = TransactionsProcessor.convert2Long(rs.getObject(2));
                 this.fastID.put(objType, id);
                 this.fastIDreverse.put(id, objType);

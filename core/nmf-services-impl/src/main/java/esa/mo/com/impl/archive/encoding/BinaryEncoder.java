@@ -193,10 +193,10 @@ public class BinaryEncoder extends GENEncoder {
     @Override
     public void encodeEnumeration(Enumeration enumeration) throws MALException {
         int enumSize = enumeration.getEnumSize();
-        Integer value = enumeration.getValue();
+        int value = enumeration.getValue();
 
         if (enumSize < 256) {
-            this.encodeUOctet(new UOctet(value.shortValue()));
+            this.encodeUOctet(new UOctet((short) value));
         } else if (enumSize < 65536) {
             this.encodeUShort(new UShort(value));
         }
