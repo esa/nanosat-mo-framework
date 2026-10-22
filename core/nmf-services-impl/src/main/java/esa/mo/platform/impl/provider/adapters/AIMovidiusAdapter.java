@@ -50,11 +50,6 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
     private final File setupVarsPath;
 
     /**
-     * Creates a new {@code AIMovidiusAdapter}.
-     *
-     * @throws IOException if the operation fails
-     */
-    /**
      * Returns whether python3, which this adapter needs in order to run the
      * inference script, can be run here.
      *
@@ -65,6 +60,11 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
         return (out != null) && out.contains("Python ");
     }
 
+    /**
+     * Creates a new {@code AIMovidiusAdapter}.
+     *
+     * @throws IOException if the operation fails
+     */
     public AIMovidiusAdapter() throws IOException {
         // Check if Python3 is installed!
         ShellCommander shellCommander = new ShellCommander();
