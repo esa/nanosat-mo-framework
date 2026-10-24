@@ -180,7 +180,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     }
 
     @Override
-    public void install(final IdentifierList names, final InstallInteraction interaction)
+    public void install(final IdentifierList names, final StringList checksums,
+            final InstallInteraction interaction)
             throws UnknownException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
@@ -188,6 +189,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         if (names == null) { // Is the input null?
             throw new IllegalArgumentException("names argument must not be null");
         }
+        checkChecksumsMatchNames(names, checksums);
 
         BooleanList integrities = new BooleanList(names.size());
 
@@ -208,10 +210,13 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                 boolean integrity = backend.checkPackageIntegrity(availablePackages.get(index));
                 integrities.add(integrity);
 
-                // Reject if the integrity is false, or if a final (non-SNAPSHOT)
-                // build of this version is already installed. A SNAPSHOT version
-                // is not final and may always be re-installed (overridden).
-                if (!integrity || backend.isFinalVersionInstalled(names.get(i).getValue())) {
+                // Reject if the integrity is false, if the package file is not the
+                // one approved on ground, or if a final (non-SNAPSHOT) build of
+                // this version is already installed. A SNAPSHOT version is not
+                // final and may always be re-installed (overridden).
+                if (!integrity
+                        || !isChecksumAccepted(checksums, i, availablePackages.get(index))
+                        || backend.isFinalVersionInstalled(names.get(i).getValue())) {
                     invIndexList.add(new UInteger(i));
                 }
             }
@@ -319,10 +324,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     }
 
     @Override
-    public void update(final IdentifierList names,
+    public void update(final IdentifierList names, final StringList checksums,
             final UpdateInteraction interaction) throws UnknownException, InvalidArgumentException, MALException {
-        interaction.sendAcknowledgement();
-
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -330,6 +333,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         if (names == null) { // Is the input null?
             throw new IllegalArgumentException("names argument must not be null");
         }
+        checkChecksumsMatchNames(names, checksums);
 
         StringList availablePackages;
         try {
@@ -349,7 +353,9 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                 // they are shipped with install and activated with the
                 // setPrimaryBaseline action, never updated in place.
                 boolean integrity = backend.checkPackageIntegrity(availablePackages.get(index));
-                if (!integrity || backend.isBaselineComponent(availablePackages.get(index))) {
+                if (!integrity
+                        || !isChecksumAccepted(checksums, i, availablePackages.get(index))
+                        || backend.isBaselineComponent(availablePackages.get(index))) {
                     invIndexList.add(new UInteger(i));
                 }
             }
@@ -365,6 +371,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         if (!invIndexList.isEmpty()) {
             throw new InvalidArgumentException(invIndexList);
         }
+
+        interaction.sendAcknowledgement();
 
         for (Identifier packageName : names) {
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
@@ -493,6 +501,65 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         }
 
         return integrities;
+    }
+
+    /**
+     * The system property that makes install and update refuse a package that
+     * comes without the checksum it is expected to have. The bootloader sets it
+     * from {@code require-package-checksum} in its configuration, which the
+     * mission chooses when it generates its filesystem. Off by default.
+     */
+    public static final String PROPERTY_REQUIRE_CHECKSUM = "esa.mo.nmf.packagemanager.requirePackageChecksum";
+
+    /**
+     * Returns whether this provider refuses a package that comes without an
+     * expected checksum.
+     *
+     * @return true if an expected checksum is required for install and update
+     */
+    public static boolean isChecksumRequired() {
+        return Boolean.getBoolean(PROPERTY_REQUIRE_CHECKSUM);
+    }
+
+    private static void checkChecksumsMatchNames(IdentifierList names, StringList checksums) {
+        if (checksums != null && checksums.size() != names.size()) {
+            throw new IllegalArgumentException("checksums must have one element for each name, or be null");
+        }
+    }
+
+    /**
+     * Returns whether a package file may be used, given the checksum that it is
+     * expected to have. A given checksum must match the SHA-256 of the package
+     * file as stored. Without checksums, the package is accepted unless this
+     * provider requires them.
+     *
+     * @param checksums the expected checksums, one for each name, or null
+     * @param index the index of the package in the request
+     * @param packageName the name of the package file
+     * @return true if the package file may be used
+     * @throws IOException if the package file cannot be read
+     */
+    boolean isChecksumAccepted(StringList checksums, int index, String packageName) throws IOException {
+        String expected = (checksums == null) ? null : checksums.get(index);
+
+        if (expected == null) {
+            if (isChecksumRequired()) {
+                Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.WARNING,
+                        "The package {0} is refused: it has no expected checksum, which this provider requires",
+                        packageName);
+                return false;
+            }
+            return true;
+        }
+
+        String actual = backend.getPackageChecksum(packageName);
+        if (!expected.trim().equalsIgnoreCase(actual)) {
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "The package {0} is refused: its checksum {1} is not the expected {2}",
+                    new Object[]{packageName, actual, expected});
+            return false;
+        }
+        return true;
     }
 
     private static int packageExistsInIndex(String name, StringList packagesList) {

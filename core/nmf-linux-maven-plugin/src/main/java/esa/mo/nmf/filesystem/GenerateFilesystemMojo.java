@@ -86,6 +86,18 @@ public class GenerateFilesystemMojo extends AbstractMojo {
     private String appsIsolation;
 
     /**
+     * Whether the Supervisor refuses to install or update a package that comes
+     * without the SHA-256 checksum that its package file is expected to have.
+     * The checksum is computed on ground and sent with the install or update
+     * request, so that only the exact package file approved on ground is used.
+     * A checksum that is given is always checked; this decides whether one is
+     * required. Off by default, for development; a mission turns it on for
+     * flight.
+     */
+    @Parameter(property = "generate-filesystem.requirePackageChecksum", defaultValue = "false")
+    private boolean requirePackageChecksum;
+
+    /**
      * Files of the mission to add to the root of the generated filesystem, each
      * given as a path. A directory is added under its own name, a file on its
      * own. They are added last, so a mission can also replace what the generator
@@ -117,6 +129,7 @@ public class GenerateFilesystemMojo extends AbstractMojo {
         getLog().info(">> nmfVersion = " + nmfVersion);
         getLog().info(">> version = " + missionVersion);
         getLog().info(">> appsIsolation = " + appsIsolation);
+        getLog().info(">> requirePackageChecksum = " + requirePackageChecksum);
 
         if (supervisorMainClass == null) {
             throw new MojoExecutionException("The supervisorMainClass tag is not defined!"
@@ -229,7 +242,8 @@ public class GenerateFilesystemMojo extends AbstractMojo {
         try {
             File nmfRootDir = new File(outputDir, Deployment.DIR_NMF);
             BootloaderGenerator bootloader = new BootloaderGenerator(nmfRootDir);
-            bootloader.generate(nmfVersion, missionVersion, supervisorMainClass, appsIsolation);
+            bootloader.generate(nmfVersion, missionVersion, supervisorMainClass, appsIsolation,
+                    requirePackageChecksum);
         } catch (IOException ex) {
             throw new MojoExecutionException(ex);
         }

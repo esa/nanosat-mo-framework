@@ -50,6 +50,9 @@
                             <mal:field name="names" canBeNull="true" comment="The names of the packages.">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
+                            <mal:field name="checksums" canBeNull="true" comment="The SHA-256 checksum, as 64 lowercase hexadecimal digits, that each package file is expected to have, in the order of the names, so that only the exact file approved on ground is used. The package file stored on the provider must match it. NULL gives no checksums, which the provider refuses if it is configured to require them; otherwise there is one checksum for each name.">
+                                <mal:type area="MAL" list="true" name="String"/>
+                            </mal:field>
                         </mal:invoke>
                         <mal:acknowledgement>
                             <mal:field name="integrity" canBeNull="true" comment="The status of the package integrity.">
@@ -66,7 +69,7 @@
                                 <mal:type area="MAL" list="true" name="Integer"/>
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="When one or more of the requested packages is already installed.">
+                        <mal:errorRef comment="When one or more of the requested packages is already installed, fails its integrity check, does not match its expected checksum, or has no checksum while the provider requires one.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="Integer"/>
@@ -112,6 +115,9 @@
                             <mal:field name="names" canBeNull="true" comment="The names of the packages.">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
+                            <mal:field name="checksums" canBeNull="true" comment="The SHA-256 checksum, as 64 lowercase hexadecimal digits, that each package file is expected to have, in the order of the names, so that only the exact file approved on ground is used. The package file stored on the provider must match it. NULL gives no checksums, which the provider refuses if it is configured to require them; otherwise there is one checksum for each name.">
+                                <mal:type area="MAL" list="true" name="String"/>
+                            </mal:field>
                         </mal:invoke>
                         <mal:acknowledgement>
                         </mal:acknowledgement>
@@ -125,7 +131,7 @@
                                 <mal:type area="MAL" list="true" name="Integer"/>
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="When one or more of the requested packages is not installed.">
+                        <mal:errorRef comment="When one or more of the requested packages is not installed, is a baseline component, fails its integrity check, does not match its expected checksum, or has no checksum while the provider requires one.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="Integer"/>

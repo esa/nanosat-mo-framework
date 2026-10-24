@@ -34,6 +34,7 @@ import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.packagemanagement.body.FindPackageResponse;
 import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementAdapter;
@@ -104,7 +105,11 @@ public class PackageManagementCommands {
     }
 
     /**
-     * Implements the {@code software-management install} CLI command.
+     * Implements the {@code software-management install} CLI command:
+     * {@code install <packageName> [--sha256 <checksum>]}. The optional
+     * checksum is the SHA-256 of the package file computed on ground, which the
+     * package file on board must match; a provider configured to require one
+     * refuses the install without it.
      */
     public static class Install extends BaseCommand {
         /**
@@ -117,6 +122,7 @@ public class PackageManagementCommands {
         @Override
         public void run(Args args) {
             parseBaseOptions(args);
+            String sha256 = args.option("--sha256");
             List<String> positionals = args.positionals();
             if (positionals.isEmpty()) {
                 System.out.println("Missing required argument: <packageName>");
@@ -143,7 +149,7 @@ public class PackageManagementCommands {
                     String packageName = response.getNames().get(i).getValue();
                     Boolean isInstalled = response.getInstalled().get(i);
                     if (!isInstalled) {
-                        packageManagement.install(names,
+                        packageManagement.install(names, checksumsFor(sha256),
                                 new PackageManagementAdapter() {
                             @Override
                             public void installAckReceived(
@@ -265,7 +271,9 @@ public class PackageManagementCommands {
     }
 
     /**
-     * Implements the {@code software-management update} CLI command.
+     * Implements the {@code software-management update} CLI command:
+     * {@code update <packageName> [--sha256 <checksum>]}, with the same
+     * optional checksum as install.
      */
     public static class Update extends BaseCommand {
         /**
@@ -278,6 +286,7 @@ public class PackageManagementCommands {
         @Override
         public void run(Args args) {
             parseBaseOptions(args);
+            String sha256 = args.option("--sha256");
             List<String> positionals = args.positionals();
             if (positionals.isEmpty()) {
                 System.out.println("Missing required argument: <packageName>");
@@ -299,7 +308,7 @@ public class PackageManagementCommands {
                 PackageManagementStub packageManagement = getPackageManagement();
                 IdentifierList names = new IdentifierList();
                 names.add(new Identifier(name));
-                packageManagement.update(names,
+                packageManagement.update(names, checksumsFor(sha256),
                         new PackageManagementAdapter() {
                     @Override
                     public void updateAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
@@ -344,5 +353,18 @@ public class PackageManagementCommands {
     public static PackageManagementStub getPackageManagement() {
         return consumer.getSMServices()
                 .getPackageManagementService().getPackageManagementStub();
+    }
+
+    /**
+     * Returns the expected checksums to send with a request for one package:
+     * the given SHA-256, or null if none was given.
+     */
+    private static StringList checksumsFor(String sha256) {
+        if (sha256 == null) {
+            return null;
+        }
+        StringList checksums = new StringList();
+        checksums.add(sha256.trim().toLowerCase(java.util.Locale.ROOT));
+        return checksums;
     }
 }

@@ -31,6 +31,9 @@ The CLI groups commands by service area:
 - **aggregation** — subscribe to live updates, enable/disable reporting.
 - **action** — list available actions and trigger them with optional arguments.
 - **software-management** — find, install, uninstall, and update NMF packages on a remote provider.
+  ``install`` and ``update`` accept ``--sha256 <checksum>``,
+  the SHA-256 of the package file computed on ground, which the package file on board must match
+  (see :doc:`../concepts/packages`).
 - **gps** — retrieve NMEA sentences from a remote GPS provider.
 - **adcs** — query the ADCS provider's status.
 - **camera** — request an image from a remote Camera provider.

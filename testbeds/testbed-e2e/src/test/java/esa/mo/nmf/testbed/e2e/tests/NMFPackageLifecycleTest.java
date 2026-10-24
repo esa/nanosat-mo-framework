@@ -21,6 +21,7 @@
 package esa.mo.nmf.testbed.e2e.tests;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
+import esa.mo.nmf.nmfpackage.utils.ChecksumGenerator;
 import esa.mo.nmf.testbed.e2e.PackageManagementHarness;
 import esa.mo.nmf.testbed.e2e.SupervisorHarness;
 import java.io.File;
@@ -135,15 +136,37 @@ public class NMFPackageLifecycleTest {
     }
 
     // -------------------------------------------------------------------------
-    // Test 2 — Install stores a PackageInstalled object
+    // Test 1b — Install is refused when the package file does not match the
+    // checksum sent with the request, and stores nothing
+    // -------------------------------------------------------------------------
+
+    @Test
+    public void test1b_InstallWithAWrongChecksumIsRefused() throws Exception {
+        LOGGER.info(SEP + "\nRunning: test1b_InstallWithAWrongChecksumIsRefused()\n" + SEP);
+
+        int recordsBefore = pm.queryPackageInstalled().size();
+        String wrong = "0".repeat(64);
+        MOErrorException error = pm.install(benchmarkPackage, wrong);
+        Assert.assertNotNull("install must be refused when the package file does not match "
+                + "the expected checksum", error);
+        Assert.assertEquals("A refused install must not store a PackageInstalled object",
+                recordsBefore, pm.queryPackageInstalled().size());
+    }
+
+    // -------------------------------------------------------------------------
+    // Test 2 — Install with the checksum computed on ground stores a
+    // PackageInstalled object
     // -------------------------------------------------------------------------
 
     @Test
     public void test2_InstallStoresPackageInstalled() throws Exception {
         LOGGER.info(SEP + "\nRunning: test2_InstallStoresPackageInstalled()\n" + SEP);
 
-        MOErrorException error = pm.install(benchmarkPackage);
-        Assert.assertNull("install must succeed but returned: " + error, error);
+        // The checksum that ground computes from its own copy of the package
+        String sha256 = ChecksumGenerator.sha256Hex(
+                new File(new File(supervisorHarness.getNmfDir(), "packages"), benchmarkPackage));
+        MOErrorException error = pm.install(benchmarkPackage, sha256);
+        Assert.assertNull("install with the matching checksum must succeed but returned: " + error, error);
 
         List<ArchivePersistenceObject> records = newRecords(
                 pm.queryPackageInstalled(), installedBaseline);

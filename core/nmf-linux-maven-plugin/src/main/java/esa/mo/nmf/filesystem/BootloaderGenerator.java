@@ -86,6 +86,21 @@ public class BootloaderGenerator {
     }
 
     /**
+     * Generates the bootloader files, with no checksum required for install
+     * and update.
+     *
+     * @param nmfVersion The version of the NMF baseline.
+     * @param missionVersion The version of the mission baseline.
+     * @param supervisorMainClass The main class of the Supervisor.
+     * @param appsIsolation The apps isolation mode.
+     * @throws IOException if a file could not be generated.
+     */
+    public void generate(String nmfVersion, String missionVersion,
+            String supervisorMainClass, String appsIsolation) throws IOException {
+        generate(nmfVersion, missionVersion, supervisorMainClass, appsIsolation, false);
+    }
+
+    /**
      * Generates the bootloader script and its domain. Must be called after
      * the baseline jar directories have been populated, because the checksum
      * manifests cover their final contents.
@@ -95,10 +110,13 @@ public class BootloaderGenerator {
      * baseline.
      * @param supervisorMainClass The main class of the Supervisor.
      * @param appsIsolation The apps isolation mode.
+     * @param requirePackageChecksum Whether install and update refuse a package
+     * that comes without its expected checksum.
      * @throws IOException if a file could not be generated.
      */
     public void generate(String nmfVersion, String missionVersion,
-            String supervisorMainClass, String appsIsolation) throws IOException {
+            String supervisorMainClass, String appsIsolation,
+            boolean requirePackageChecksum) throws IOException {
         // The bootloader script: a static resource, copied verbatim
         copyResource(BOOTLOADER_SCRIPT);
 
@@ -119,6 +137,7 @@ public class BootloaderGenerator {
 
         String config = "# NMF Bootloader configuration\n"
                 + "apps-isolation=" + appsIsolation + "\n"
+                + "require-package-checksum=" + requirePackageChecksum + "\n"
                 + "max-report-file-size-kb=" + DEFAULT_MAX_REPORT_FILE_SIZE_KB + "\n"
                 + "min-free-disk-kb=" + DEFAULT_MIN_FREE_DISK_KB + "\n"
                 + "boot-confirm-timeout-s=" + DEFAULT_BOOT_CONFIRM_TIMEOUT_S + "\n"

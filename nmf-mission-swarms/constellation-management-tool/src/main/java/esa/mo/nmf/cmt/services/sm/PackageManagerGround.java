@@ -84,7 +84,7 @@ public class PackageManagerGround {
             LOGGER.log(Level.INFO, "Calling install on: {0}",
                     serviceSMPackageManagement.getConnectionDetails().getProviderURI().getValue());
 
-            serviceSMPackageManagement.getPackageManagementStub().asyncInstall(ids, new PackageManagementAdapter() {
+            serviceSMPackageManagement.getPackageManagementStub().asyncInstall(ids, null, new PackageManagementAdapter() {
 
                 @Override
                 public void installAckReceived(MALMessageHeader msgHeader,
@@ -127,7 +127,7 @@ public class PackageManagerGround {
         ids.add(new Identifier(packageName));
 
         try {
-            serviceSMPackageManagement.getPackageManagementStub().update(ids, new PackageManagementAdapter() {
+            serviceSMPackageManagement.getPackageManagementStub().update(ids, null, new PackageManagementAdapter() {
                 @Override
                 public void updateAckReceived(MALMessageHeader msgHeader, java.util.Map qosProperties) {
                     LOGGER.log(Level.INFO, "Updating...");

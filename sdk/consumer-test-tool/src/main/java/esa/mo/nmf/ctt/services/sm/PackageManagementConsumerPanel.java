@@ -204,7 +204,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         ids.add(packagesTable.getSelectedPackage());
 
         try {
-            this.serviceSMPackageManagement.getPackageManagementStub().update(ids, new PackageManagementAdapter() {
+            this.serviceSMPackageManagement.getPackageManagementStub().update(ids, null, new PackageManagementAdapter() {
                 @Override
                 public void updateAckReceived(MALMessageHeader msgHeader,
                         java.util.Map qosProperties) {
@@ -308,7 +308,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         ids.add(packagesTable.getSelectedPackage());
 
         try {
-            this.serviceSMPackageManagement.getPackageManagementStub().install(ids, new PackageManagementAdapter() {
+            this.serviceSMPackageManagement.getPackageManagementStub().install(ids, null, new PackageManagementAdapter() {
                 @Override
                 public void installAckReceived(MALMessageHeader msgHeader,
                         BooleanList integrity, java.util.Map qosProperties) {

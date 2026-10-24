@@ -88,11 +88,49 @@ whatever mission-specific distribution path applies (file uplink, ground network
 **Install.** The Supervisor's ``PackageManagement`` service handles installation.
 It verifies the metadata file, checks each entry's SHA-256 against the value declared in metadata,
 and extracts files to their target locations under ``NMF_HOME``.
+An install or update can also carry the SHA-256 that the package file is expected to have
+(see `Checking the package file against ground`_ below).
 
 **Run.** Once installed, an app is started via ``AppsLauncher.runApp`` (see :doc:`lifecycle`).
 
 **Uninstall.** ``PackageManagement.uninstall`` removes the installed files and the package registration.
 ``update`` performs uninstall + install of a newer version in one step.
+
+Checking the package file against ground
+----------------------------------------
+
+The checksums inside a package only prove that its files are the ones its metadata lists:
+whoever makes a package also writes its metadata.
+To make sure that the Supervisor installs exactly the package file that was approved on ground,
+the ``install`` and ``update`` operations take an optional list of expected checksums,
+one SHA-256 for each package file:
+
+1. On ground, compute the SHA-256 of the ``.nmfpack`` file, for example with ``sha256sum``.
+2. Send it with the request, for example ``software-management install <package> --sha256 <checksum>``
+   with the CLI.
+3. The Supervisor computes the SHA-256 of the package file it holds and refuses the request if they differ.
+
+The ``checkPackageIntegrity`` operation returns the SHA-256 of a package file on board,
+so that ground can also compare it before deciding to install.
+
+A checksum that is sent is always checked.
+Whether one is *required* is chosen by the mission when it generates its filesystem,
+with the ``requirePackageChecksum`` parameter of the ``nmf-linux-maven-plugin``:
+
+.. code-block:: xml
+
+   <configuration>
+     <requirePackageChecksum>true</requirePackageChecksum>
+   </configuration>
+
+It is ``false`` by default, for development and simulation.
+A mission turns it on for flight, so that a request without a checksum is refused.
+The choice is recorded as ``require-package-checksum`` in ``bootloader/config.properties``,
+which the bootloader passes to the Supervisor at startup.
+
+The checksum protects the package file, not the request:
+the requests that reach the Supervisor still have to be authenticated,
+by the mission's link security or by access control.
 
 Difference from a plain JAR
 ---------------------------

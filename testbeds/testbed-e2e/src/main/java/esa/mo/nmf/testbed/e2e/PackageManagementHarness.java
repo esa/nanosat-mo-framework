@@ -49,6 +49,7 @@ import org.ccsds.moims.mo.mal.structures.Element;
 import org.ccsds.moims.mo.mal.structures.HeterogeneousList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.packagemanagement.PackageManagementServiceInfo;
@@ -150,7 +151,20 @@ public class PackageManagementHarness {
      * @throws IOException if the operation could not be invoked or timed out.
      */
     public MOErrorException install(String packageFileName) throws IOException {
-        return invokeOperation(packageFileName, Operation.INSTALL, null);
+        return install(packageFileName, null);
+    }
+
+    /**
+     * Invokes the install operation with the checksum that the package file is
+     * expected to have, and waits for its outcome.
+     *
+     * @param packageFileName the package file name.
+     * @param sha256 the expected SHA-256 of the package file, or null for none.
+     * @return null on success, or the MO error returned by the provider.
+     * @throws IOException if the operation could not be invoked or timed out.
+     */
+    public MOErrorException install(String packageFileName, String sha256) throws IOException {
+        return invokeOperation(packageFileName, Operation.INSTALL, null, sha256);
     }
 
     /**
@@ -163,7 +177,7 @@ public class PackageManagementHarness {
      */
     public MOErrorException uninstall(String packageFileName, boolean keepConfigurations)
             throws IOException {
-        return invokeOperation(packageFileName, Operation.UNINSTALL, keepConfigurations);
+        return invokeOperation(packageFileName, Operation.UNINSTALL, keepConfigurations, null);
     }
 
     /**
@@ -174,7 +188,20 @@ public class PackageManagementHarness {
      * @throws IOException if the operation could not be invoked or timed out.
      */
     public MOErrorException update(String packageFileName) throws IOException {
-        return invokeOperation(packageFileName, Operation.UPDATE, null);
+        return update(packageFileName, null);
+    }
+
+    /**
+     * Invokes the update operation with the checksum that the package file is
+     * expected to have, and waits for its outcome.
+     *
+     * @param packageFileName the package file name.
+     * @param sha256 the expected SHA-256 of the package file, or null for none.
+     * @return null on success, or the MO error returned by the provider.
+     * @throws IOException if the operation could not be invoked or timed out.
+     */
+    public MOErrorException update(String packageFileName, String sha256) throws IOException {
+        return invokeOperation(packageFileName, Operation.UPDATE, null, sha256);
     }
 
     private enum Operation {
@@ -182,9 +209,14 @@ public class PackageManagementHarness {
     }
 
     private MOErrorException invokeOperation(String packageFileName, Operation op,
-            Boolean keepConfigurations) throws IOException {
+            Boolean keepConfigurations, String sha256) throws IOException {
         IdentifierList names = new IdentifierList();
         names.add(new Identifier(packageFileName));
+        StringList checksums = null;
+        if (sha256 != null) {
+            checksums = new StringList();
+            checksums.add(sha256);
+        }
 
         CountDownLatch latch = new CountDownLatch(1);
         AtomicReference<MOErrorException> error = new AtomicReference<>();
@@ -256,7 +288,7 @@ public class PackageManagementHarness {
             // is fixed in 14.1 (synchronized LazyMessageBody.decodeMessageBody).
             switch (op) {
                 case INSTALL:
-                    stub.asyncInstall(names, callback);
+                    stub.asyncInstall(names, checksums, callback);
                     break;
                 case UNINSTALL:
                     BooleanList keep = new BooleanList();
@@ -264,7 +296,7 @@ public class PackageManagementHarness {
                     stub.asyncUninstall(names, keep, callback);
                     break;
                 case UPDATE:
-                    stub.asyncUpdate(names, callback);
+                    stub.asyncUpdate(names, checksums, callback);
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown operation: " + op);

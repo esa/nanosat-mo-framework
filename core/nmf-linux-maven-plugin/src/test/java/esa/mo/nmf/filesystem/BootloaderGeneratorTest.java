@@ -106,6 +106,17 @@ public class BootloaderGeneratorTest {
     }
 
     @Test
+    public void aChecksumIsNotRequiredUnlessTheMissionAsksForIt() throws Exception {
+        generate("none");
+        Assert.assertTrue("By default, install and update do not require a checksum",
+                config().contains("require-package-checksum=false"));
+
+        new BootloaderGenerator(nmfRoot).generate(NMF_VERSION, MISSION_VERSION, MAIN_CLASS, "none", true);
+        Assert.assertTrue("A mission can require a checksum for install and update",
+                config().contains("require-package-checksum=true"));
+    }
+
+    @Test
     public void noneRecordsTheModeAndShipsNoSetupScript() throws Exception {
         generate("none");
 
