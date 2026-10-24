@@ -15,76 +15,71 @@ The installation of the NMF on a Raspberry Pi provides a cheap testbed environme
 
 # Configuring the Raspberry Pi
 
-**Note: This guide was created using a Raspberry Pi 3B with 1 GB of RAM and Raspbian 10 (Buster) OS.**
+The build copies the NMF to the Raspberry Pi over SSH, as root, into `/nanosat-mo-framework`.
+Use an SSH key for this copy, not a password:
+root then has no password, and nobody can log in as root over SSH with a password.
 
-1. By default, the root password is disabled on the Raspberry Pi. Set a root password: ```sudo passwd```
+1. Enable SSH on the Raspberry Pi: `sudo raspi-config` (Interface Options -> SSH).
 
-2. Enable SSH on the Raspberry Pi: ```sudo raspi-config```  (Interface Options -> SSH)
+2. On the development machine, create a key if you do not have one yet: `ssh-keygen -t ed25519`.
 
-3. Allow SSH access for root:
-	- Edit the **/etc/ssh/sshd_config** file: ```sudo nano /etc/ssh/sshd_config ```
-	- Replace the line: **#PermitRootLogin prohibit-password** with **PermitRootLogin yes**
-	- Save and exit (CTRL+O, CTRL+X)
-	- Restart SSH: ```sudo service ssh restart```
+3. Allow the key to log in as root on the Raspberry Pi.
+   Copy the public key to your own user on the Raspberry Pi, then append it to root's keys:
+   ```
+   ssh-copy-id <user>@<raspberry-pi>
+   ssh <user>@<raspberry-pi> 'sudo install -d -m 700 /root/.ssh && cat ~/.ssh/authorized_keys | sudo tee -a /root/.ssh/authorized_keys > /dev/null'
+   ```
+   Do not change `PermitRootLogin` in `/etc/ssh/sshd_config`:
+   its default, `prohibit-password`, already lets root log in with a key and refuses root's password.
+
+4. Check that `ssh root@<raspberry-pi>` logs in without asking for a password.
 
 # Building the project
 
-1. Follow the Readme instructions on the [NanoSat MO Framework](https://github.com/esa/nanosat-mo-framework/) project before continuing to the next steps
+1. Build the NanoSat MO Framework from the root of this repository, as described in its [README](../README.md).
 
-* This mission is currently working only with the phi-sat-2 branch, that adds some dependencioes the dev branch does not provide. to switch to this branch do `git checkout phi-sat-2` in the nanosat-mo-framework directory.
-* run `mvn install` both in the project root and in the sdk folder  
-
-
-2. Clone this (nmf-mission-raspberry-pi) repository:
-```
-git clone https://github.com/NanoSat-MO-Framework/nmf-mission-raspberry-pi.git
-```
-
-3. Go to the pom file of the rpi-space-filesystem project and edit the IP Address to match the Raspberry Pi machine on:
-```xml
-		<configuration>
-			<fromDir>${mission.outputdir}/${out.folder.nmf}</fromDir>
-			<url>scp://root@192.168.178.33/</url>
-			<toDir>${out.folder.nmf}</toDir>
-		</configuration>
-```
-* use `scpexe://` instead of `scp://` if you want to use your system's ssh system instead of the java ssh2 libraries. Recommended on Linux and Mac.
-
-4. Build the **nmf-mission-raspberry-pi** project:
-```
-mvn clean install
-```
-
-5. During compilation, the rpi-space-filesystem project will request the root password of the Raspberry Pi remote machine in order to execute the files transfer.
-
-**Warning:** This step will not work if the Raspberry Pi was not configured as presented in the section above.
+2. Build this mission and copy it to the Raspberry Pi with the `deploy-on-rpi` profile:
+   ```
+   mvn install -Pdeploy-on-rpi -Ddeploy.remote.url=scp://root@<raspberry-pi>/
+   ```
+   * Use `scpexe://` instead of `scp://` to use your system's `ssh` instead of the Java SSH library.
+     It also uses your `ssh-agent`.
+     This is recommended on Linux and Mac.
 
 # Installing the NMF on your Raspberry Pi and running it
 
-These are a continuation of the steps above:
+1. Install a Java 21 runtime on the Raspberry Pi, if it does not have one yet.
+   Raspberry Pi OS 12 (Bookworm) packages only Java 17,
+   so install, for example, Eclipse Temurin 21 from https://adoptium.net/installation/linux/.
 
-1. Install Java on the Raspberry Pi if not installed yet
-```bash
-sudo apt-get install openjdk-8-jdk
-```
+2. Provision the NMF, once, from the `/nanosat-mo-framework` folder:
+   ```
+   cd /nanosat-mo-framework/
+   sudo chmod +x setup_linux_userspace.sh
+   sudo ./setup_linux_userspace.sh
+   ```
+   The script creates the `nmf-admin` account that the Supervisor runs as.
+   The account has no password and is locked, so nobody can log in as it.
+   It also installs the `sudo` rules that the Supervisor needs to create the accounts of the Apps.
 
-2. Execute the following commmands on the /nanosat-mo-framework folder:
-```
-cd /nanosat-mo-framework/
-sudo chmod +x setup_linux_userspace.sh
-sudo ./setup_linux_userspace.sh
-```
+   **Warning**: If you get the error "sudo: unable to execute ./setup_linux_userspace.sh: No such file or directory",
+   it is because the file was generated on a Windows machine and has CRLF line endings.
+   Fix it with:
+   ```
+   sudo apt-get install dos2unix
+   sudo dos2unix setup_linux_userspace.sh
+   sudo ./setup_linux_userspace.sh
+   ```
 
-**Warning**: If you get the error "sudo: unable to execute ./setup_linux_userspace.sh: No such file or directory", it is because the file was generated in a Windows machine and has CRLF ending. Fix it with:
-```
-sudo apt-get install dos2unix
-sudo dos2unix setup_linux_userspace.sh
-sudo ./setup_linux_userspace.sh
-```
+3. The script should print the message "Success! The NanoSat MO Framework was set up for linux-userspace isolation!".
+   Otherwise, read the error and fix it accordingly.
 
-3. The installation should output the message: "Success! The NanoSat MO Framework was set up for linux-userspace isolation!". Otherwise, please read the error and fix it accordingly.
-
-4. Start the NanoSat MO Supervisor with the command: ```sudo ./start_supervisor.sh```
+4. Start the NanoSat MO Supervisor as `nmf-admin`, not as root
+   (the Supervisor refuses to run as root):
+   ```
+   cd /nanosat-mo-framework/
+   sudo -u nmf-admin ./start_supervisor.sh
+   ```
 
 # Bugs Reporting
 Bug Reports can be submitted on: [Bug Reports]

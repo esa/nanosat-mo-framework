@@ -43,6 +43,9 @@
         <out.folder.output>space-filesystem</out.folder.output>
         <out.folder.nmf>nanosat-mo-framework</out.folder.nmf>
         <mission.outputdir>${project.build.directory}/${out.folder.output}</mission.outputdir>
+        <!-- Remote target for the deploy-on-rpi profile; override with
+             -Ddeploy.remote.url=scp://root@host/ -->
+        <deploy.remote.url>scp://root@192.168.0.86/</deploy.remote.url>
     </properties>
 
     <dependencies>
@@ -154,7 +157,7 @@
                                 </goals>
                                 <configuration>
                                     <fromDir>${mission.outputdir}/${out.folder.nmf}</fromDir>
-                                    <url>scp://root@192.168.0.86/</url>
+                                    <url>${deploy.remote.url}</url>
                                     <toDir>${out.folder.nmf}</toDir>
                                     <skip>false</skip>
                                 </configuration>
