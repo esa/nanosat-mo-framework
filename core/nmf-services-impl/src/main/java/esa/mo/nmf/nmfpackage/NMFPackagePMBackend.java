@@ -23,6 +23,7 @@ package esa.mo.nmf.nmfpackage;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.environment.Deployment;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
+import esa.mo.nmf.nmfpackage.utils.ChecksumGenerator;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import esa.mo.sm.impl.util.PMBackend;
 import java.io.File;
@@ -147,9 +148,8 @@ public class NMFPackagePMBackend implements PMBackend {
     }
 
     @Override
-    public String getPublicKey(final String packageName) {
-        String folderLocation = this.getFolderLocation(packageName);
-        return NMFPackageManager.getPublicKey(folderLocation);
+    public String getPackageChecksum(final String packageName) throws IOException {
+        return ChecksumGenerator.sha256Hex(new File(this.getFolderLocation(packageName)));
     }
 
     @Override
@@ -171,8 +171,18 @@ public class NMFPackagePMBackend implements PMBackend {
     }
 
     @Override
-    public boolean checkPackageIntegrity(final String packageName) throws UnsupportedOperationException {
-        // To do: Check the package integrity!
+    public boolean checkPackageIntegrity(final String packageName) {
+        // Each file must match the checksum that the metadata lists for it
+        try (NMFPackage nmfPackage = new NMFPackage(this.getFolderLocation(packageName))) {
+            nmfPackage.verifyPackageIntegrity();
+        } catch (IOException ex) {
+            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.WARNING,
+                    "The integrity check failed for the package: " + packageName, ex);
+            return false;
+        }
+
+        // This proves that the files are the ones the metadata lists, but not
+        // who made the package: whoever makes a package also writes its metadata.
         //
         // Nothing signs an NMF Package today: the signing block in
         // NMFPackageBuilder is commented out and NMFDigitalSignature

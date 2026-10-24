@@ -89,14 +89,14 @@ public interface PMBackend {
     String getPackageVersion(final String packageName);
 
     /**
-     * Checks the integrity of a package.
+     * Checks the integrity of a package: whether each of its files matches the
+     * checksum that its metadata lists. This checks the content against the
+     * metadata, not who made the package.
      *
      * @param packageName The name of the package.
      * @return True if the package integrity is good, false otherwise.
-     * @throws UnsupportedOperationException if the backend does not support
-     * integrity checks.
      */
-    boolean checkPackageIntegrity(final String packageName) throws UnsupportedOperationException;
+    boolean checkPackageIntegrity(final String packageName);
 
     /**
      * Returns whether a package delivers a software baseline component (the NMF
@@ -111,11 +111,13 @@ public interface PMBackend {
     boolean isBaselineComponent(final String packageName) throws IOException;
 
     /**
-     * Returns the public key of a package.
+     * Returns the SHA-256 checksum of a package file, as stored on the provider,
+     * so that it can be compared with the checksum computed on ground.
      *
      * @param packageName The name of the package.
-     * @return The public key.
+     * @return The checksum as 64 lowercase hexadecimal digits.
+     * @throws IOException if the package file cannot be read.
      */
-    String getPublicKey(String packageName);
+    String getPackageChecksum(String packageName) throws IOException;
 
 }

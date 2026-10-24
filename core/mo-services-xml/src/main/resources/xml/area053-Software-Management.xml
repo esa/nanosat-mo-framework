@@ -135,19 +135,16 @@
                 </mal:invokeIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="3" comment="">
-                <mal:requestIP name="checkPackageIntegrity" number="5" comment="The checkPackageIntegrity operation allows a consumer to check the integrity of a certain package on the provider.">
+                <mal:requestIP name="checkPackageIntegrity" number="5" comment="The checkPackageIntegrity operation allows a consumer to check the integrity of packages on the provider, whether or not they are installed, and to obtain the checksum of each package file so that it can be compared with the one computed on ground.">
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="names" canBeNull="true" comment="The names of the packages.">
+                            <mal:field name="names" canBeNull="false" comment="The names of the packages.">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="validCRCs" canBeNull="true" comment="Whether the CRC of each package is valid.">
-                                <mal:type area="MAL" list="true" name="Boolean"/>
-                            </mal:field>
-                            <mal:field name="publicKeys" canBeNull="true" comment="The public key used to verify the digital signature of each package, or NULL if unavailable.">
-                                <mal:type area="MAL" list="true" name="String"/>
+                            <mal:field name="integrities" canBeNull="false" comment="The integrity of each package, in the order of the requested names.">
+                                <mal:type area="SM" list="true" name="PackageIntegrity"/>
                             </mal:field>
                         </mal:response>
                     </mal:messages>
@@ -156,12 +153,6 @@
                             <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="Integer"/>
-                            </mal:extraInformation>
-                        </mal:errorRef>
-                        <mal:errorRef comment="When one or more of the requested packages is not installed.">
-                            <mal:type area="COM" list="false" name="Invalid Argument"/>
-                            <mal:extraInformation comment="The indexes of the error values.">
-                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
@@ -715,6 +706,17 @@
                 </mal:field>
                 <mal:field name="triggeredBy" canBeNull="true" comment="The URI of the consumer that requested the uninstallation. NULL if unknown.">
                     <mal:type area="MAL" list="false" name="URI"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="PackageIntegrity" shortFormPart="13" comment="The integrity of a package file on the provider.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="valid" canBeNull="false" comment="Whether each file of the package matches the SHA-256 checksum that the package metadata lists for it. A check of the content against the metadata, not of who made the package.">
+                    <mal:type area="MAL" list="false" name="Boolean"/>
+                </mal:field>
+                <mal:field name="checksum" canBeNull="false" comment="The SHA-256 checksum of the package file as stored on the provider, as 64 lowercase hexadecimal digits, for comparison with the checksum computed on ground.">
+                    <mal:type area="MAL" list="false" name="String"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="PackageUpdated" shortFormPart="12" comment="The body of a PackageUpdated COM object, stored in the archive when a package is successfully updated.">

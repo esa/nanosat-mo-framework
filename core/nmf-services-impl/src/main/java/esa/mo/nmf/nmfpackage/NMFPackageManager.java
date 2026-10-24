@@ -316,6 +316,10 @@ public class NMFPackageManager {
         placeListedFiles(oldPackMetadata);
         newPack.placeFiles(nmfDir);
 
+        // The new files are checked against their checksums here too, so that
+        // a bad package leaves the installed version as it is
+        newPack.verifyPackageIntegrity();
+
         String packageName = oldPackMetadata.getPackageName();
         boolean isApp = oldPackMetadata.isApp();
 
@@ -813,27 +817,6 @@ public class NMFPackageManager {
             }
         }
         return null;
-    }
-
-    /**
-     * Returns the public key stored at the given folder location.
-     *
-     * @param folderLocation the folder containing the public key
-     * @return the public key, or {@code null} if it cannot be read
-     */
-    public static String getPublicKey(String folderLocation) {
-        /*
-        // Find the newReceipt and get it out of the package
-        ZipFile zipFile;
-        try {
-            zipFile = new ZipFile(packageLocation);
-        } catch (IOException ex) {
-            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-         */
-
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private static String generateUsername(String appName) {

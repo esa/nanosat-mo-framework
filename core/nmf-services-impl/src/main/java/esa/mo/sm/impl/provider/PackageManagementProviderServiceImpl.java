@@ -37,10 +37,11 @@ import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.sm.packagemanagement.PackageManagementHelper;
 import org.ccsds.moims.mo.sm.packagemanagement.PackageManagementServiceInfo;
-import org.ccsds.moims.mo.sm.packagemanagement.body.CheckPackageIntegrityResponse;
 import org.ccsds.moims.mo.sm.packagemanagement.body.FindPackageResponse;
 import org.ccsds.moims.mo.sm.packagemanagement.provider.*;
 import org.ccsds.moims.mo.sm.structures.PackageInstalled;
+import org.ccsds.moims.mo.sm.structures.PackageIntegrity;
+import org.ccsds.moims.mo.sm.structures.PackageIntegrityList;
 import org.ccsds.moims.mo.sm.structures.PackageUninstalled;
 import org.ccsds.moims.mo.sm.structures.PackageUpdated;
 
@@ -448,37 +449,28 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     }
 
     @Override
-    public CheckPackageIntegrityResponse checkPackageIntegrity(IdentifierList names,
-            MALInteraction interaction) throws UnknownException, InvalidArgumentException, MALException {
+    public PackageIntegrityList checkPackageIntegrity(IdentifierList names,
+            MALInteraction interaction) throws UnknownException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
-        UIntegerList invIndexList = new UIntegerList();
 
         // Add validation
         if (names == null) { // Is the input null?
             throw new IllegalArgumentException("names argument must not be null");
         }
 
+        // A package is checked whether or not it is installed, so that ground
+        // can compare it with its own copy before installing it
         StringList availablePackages;
         try {
             availablePackages = backend.getListOfPackages();
-
-            for (int i = 0; i < names.size(); i++) {
-                int index = packageExistsInIndex(names.get(i).getValue(), availablePackages);
-
-                if (index == -1) {
-                    unkIndexList.add(new UInteger(i));
-                }
-
-                if (backend.isPackageInstalled(names.get(i).getValue())) {
-                    invIndexList.add(new UInteger(i));
-                }
-
-                // Throw error if already installed!
-                // Before installing, we need to check the package integrity!
-                // The installation cannot go forward here if the integrity is false!
-            }
         } catch (IOException ex) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new MALException("The list of packages could not be read!", ex);
+        }
+
+        for (int i = 0; i < names.size(); i++) {
+            if (packageExistsInIndex(names.get(i).getValue(), availablePackages) == -1) {
+                unkIndexList.add(new UInteger(i));
+            }
         }
 
         // Errors
@@ -486,21 +478,21 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             throw new UnknownException(unkIndexList);
         }
 
-        if (!invIndexList.isEmpty()) {
-            throw new InvalidArgumentException(invIndexList);
-        }
-
-        final BooleanList integrities = new BooleanList();
-        final StringList publicKeys = new StringList();
+        final PackageIntegrityList integrities = new PackageIntegrityList();
 
         for (Identifier packageName : names) {
-            boolean integrity = backend.checkPackageIntegrity(packageName.getValue());
-            String publicKey = backend.getPublicKey(packageName.getValue());
-            integrities.add(integrity);
-            publicKeys.add(publicKey);
+            boolean valid = backend.checkPackageIntegrity(packageName.getValue());
+            String checksum;
+            try {
+                checksum = backend.getPackageChecksum(packageName.getValue());
+            } catch (IOException ex) {
+                throw new MALException("The checksum of the package could not be computed: "
+                        + packageName.getValue(), ex);
+            }
+            integrities.add(new PackageIntegrity(valid, checksum));
         }
 
-        return new CheckPackageIntegrityResponse(integrities, publicKeys);
+        return integrities;
     }
 
     private static int packageExistsInIndex(String name, StringList packagesList) {
