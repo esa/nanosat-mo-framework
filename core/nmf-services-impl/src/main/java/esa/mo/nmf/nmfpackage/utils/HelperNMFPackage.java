@@ -45,10 +45,6 @@ public class HelperNMFPackage {
 
     /** File name of the legacy package receipt. */
     public static final String RECEIPT_FILENAME = "nmfPackage.receipt";
-    /** File name of the package digital signature. */
-    public static final String DS_FILENAME = "digitalSignature.key";
-    /** File name of the signing private key. */
-    public static final String PRIVATE_KEY_FILENAME = "privateKey.key";
     /** Prefix of the descriptor-version line in the legacy receipt. */
     public static final String NMF_PACKAGE_DESCRIPTOR_VERSION = "NMFPackageDescriptorVersion=";
 

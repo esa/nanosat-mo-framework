@@ -184,10 +184,12 @@ public class NMFPackagePMBackend implements PMBackend {
         // This proves that the files are the ones the metadata lists, but not
         // who made the package: whoever makes a package also writes its metadata.
         //
-        // Nothing signs an NMF Package today: the signing block in
-        // NMFPackageBuilder is commented out and NMFDigitalSignature
-        // (SHA1withDSA) has no callers. SHA256SUMS catches a corrupted
-        // download but not a tampered one, as anyone can recompute it.
+        // Nothing signs an NMF Package today. An unfinished attempt (SHA1withDSA,
+        // with a new key pair for every package) was removed, as a key made for
+        // each build proves nothing. Until packages are signed, the install and
+        // update requests can carry the checksum computed on ground, which the
+        // package file must match. SHA256SUMS catches a corrupted download but
+        // not a tampered one, as anyone can recompute it.
         //
         // To do: Look into Post-Quantum Cryptography before this is written.
         // Nothing has to be migrated, so the scheme can be picked outright:

@@ -167,38 +167,6 @@ public class NMFPackageBuilder {
         // -------------------------------------------------------------------
 
         // -------------------------------------------------------------------
-        // Generate digital signature
-        /*
-        Logger.getLogger(NMFPackageBuilder.class.getName()).log(Level.INFO,
-                "Generating digital signature...");
-
-        // Generate Public and Private keys
-        KeyPair pair = NMFDigitalSignature.generateKeyPar();
-
-        // Generate the SHA (can only be done after having the receipt file)
-        byte[] signature = NMFDigitalSignature.signWithData(pair.getPrivate(), HelperNMFPackage.RECEIPT_FILENAME);
-
-        // Write the signature to the file: DS_FILENAME
-        try {
-            FileOutputStream sigfos = new FileOutputStream(HelperNMFPackage.DS_FILENAME);
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(sigfos));
-            bw.write(javax.xml.bind.DatatypeConverter.printHexBinary(signature));
-            bw.flush();
-            sigfos.close();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(NMFPackageBuilder.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(NMFPackageBuilder.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        // -------------------------------------------------------------------
-
-        // Add the signature file to the list of Files to be zipped
-        File digitalSignature = new File(HelperNMFPackage.DS_FILENAME);
-        files.add((new File(HelperNMFPackage.DS_FILENAME)).getPath());
-        newLocations.add(HelperNMFPackage.DS_FILENAME);
-         */
-        // -------------------------------------------------------------------
-        // -------------------------------------------------------------------
         // Compress:
         Logger.getLogger(NMFPackageBuilder.class.getName()).log(
                 Level.INFO, "Creating compressed NMF Package...");
@@ -209,24 +177,8 @@ public class NMFPackageBuilder {
                 : destinationFolder + File.separator + name;
         zipFiles(destinationPath, files, newLocations);
 
-        // Output the secret privateKey into a file
-        /*
-        try {
-            byte[] key = pair.getPrivate().getEncoded();
-            FileOutputStream keyfos = new FileOutputStream(HelperNMFPackage.PRIVATE_KEY_FILENAME);
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(keyfos));
-            bw.write(javax.xml.bind.DatatypeConverter.printHexBinary(key));
-            bw.flush();
-            keyfos.close();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(NMFPackageBuilder.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(NMFPackageBuilder.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         */
         // Delete temporary files:
         metadataFile.delete();
-        //digitalSignature.delete();
 
         return new File(destinationPath);
     }
