@@ -87,6 +87,11 @@ public class BootloaderGeneratorTest {
         Assert.assertFalse("the setup script must not set any password", setup.contains("chpasswd"));
         Assert.assertTrue("the setup script must lock the nmf-admin account",
                 setup.contains("passwd -l $user_nmf_admin"));
+        // The Supervisor and the Apps need a home they can write to, not /nonexistent.
+        Assert.assertTrue("nmf-admin must get a home directory",
+                setup.contains("adduser --system --home \"$dir_home$1\""));
+        Assert.assertTrue("the account of an App must get a home directory",
+                setup.contains("adduser --system --home \"/home/$user\""));
 
         // Its sudo rights must be the App account helper and su to an App user only.
         Assert.assertTrue("the setup script must install the App account helper",

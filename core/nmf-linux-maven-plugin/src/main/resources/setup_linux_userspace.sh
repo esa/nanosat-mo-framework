@@ -39,7 +39,7 @@ nmf_adduser() {
 		addgroup -S "$1"
 		adduser -S -s "$shell_nmf_admin" -G "$1" "$1"
 	else
-		adduser --system --shell "$shell_nmf_admin" --group "$1"
+		adduser --system --home "$dir_home$1" --shell "$shell_nmf_admin" --group "$1"
 	fi
 }
 
@@ -139,7 +139,7 @@ create)
 		addgroup -S "$user"
 		adduser -s /bin/bash -G "$user" -S "$user"
 	else
-		adduser --system --shell /bin/bash --group "$user"
+		adduser --system --home "/home/$user" --shell /bin/bash --group "$user"
 	fi
 	# The home directory belongs to the App, and to the Supervisor's group.
 	home=$(home_of "$user")
