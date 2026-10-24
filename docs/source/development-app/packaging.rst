@@ -64,8 +64,8 @@ The metadata file
 -----------------
 
 Every package contains ``package-metadata.properties`` at its root with package name, version, type, creation
-timestamp, and one entry per bundled file with its installed path and CRC. The Supervisor's
-``PackageManagement`` service verifies these CRCs before installing.
+timestamp, and one entry per bundled file with its installed path and SHA-256 checksum.
+The Supervisor's ``PackageManagement`` service verifies these checksums before installing.
 
 See :doc:`../concepts/packages` for the metadata schema and the in-archive directory layout.
 

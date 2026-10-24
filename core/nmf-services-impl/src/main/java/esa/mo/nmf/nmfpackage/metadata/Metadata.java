@@ -64,9 +64,17 @@ public class Metadata {
      * The latest metadata format version written by this library. Version 5
      * added the version of the NMF that an App was built against, so that the
      * App can be told apart from the framework it was compiled for; packages
-     * written before it carry no such field.
+     * written before it carry no such field. Version 6 replaced the CRC-32 of
+     * each file with its SHA-256.
      */
-    public static final String METADATA_VERSION_LATEST = "5";
+    public static final String METADATA_VERSION_LATEST = "6";
+
+    /**
+     * The first metadata format version that checks each file by its SHA-256.
+     * A package written before it has only the CRC-32 of each file, which
+     * catches accidental corruption but not a deliberate change.
+     */
+    public static final int METADATA_VERSION_SHA256 = 6;
 
     /** Property key for the package name. */
     public static final String PACKAGE_NAME = "info.name";
@@ -93,8 +101,16 @@ public class Metadata {
     public static final String FILE_COUNT = "zipped.file.count";
     /** Property key prefix for the path of each listed file. */
     public static final String FILE_PATH = "zipped.file.path";
-    /** Property key prefix for the CRC checksum of each listed file. */
+    /**
+     * Property key prefix for the CRC-32 checksum of each listed file, in a
+     * package written before metadata version 6.
+     */
     public static final String FILE_CRC = "zipped.file.crc";
+    /** Property key prefix for the SHA-256 checksum of each listed file. */
+    public static final String FILE_SHA256 = "zipped.file.sha256";
+
+    /** A SHA-256 checksum: 64 lowercase hexadecimal digits. */
+    private static final Pattern VALID_SHA256 = Pattern.compile("[0-9a-f]{64}");
 
     /** The backing properties holding all metadata entries. */
     protected final Properties properties;
@@ -221,8 +237,9 @@ public class Metadata {
      * first access.
      *
      * @return the list of package files
-     * @throws IOException if the file count or a CRC is not a number, or a
-     * listed file has no path
+     * @throws IOException if the file count is not a number, a listed file has
+     * no path, or its checksum is missing or malformed: a SHA-256 from
+     * metadata version 6, a CRC-32 before it
      */
     public synchronized ArrayList<NMFPackageFile> getFiles() throws IOException {
         if (files != null) {
@@ -238,6 +255,7 @@ public class Metadata {
         }
 
         ArrayList<NMFPackageFile> parsed = new ArrayList<>();
+        boolean bySHA256 = this.getMetadataVersion() >= METADATA_VERSION_SHA256;
 
         for (int i = 0; i < count; i++) {
             String index = "." + i;
@@ -245,6 +263,17 @@ public class Metadata {
             if (path == null) {
                 throw new IOException("The file " + i + " has no path");
             }
+
+            if (bySHA256) {
+                String sha256 = properties.getProperty(FILE_SHA256 + index);
+                if (sha256 == null || !VALID_SHA256.matcher(sha256).matches()) {
+                    throw new IOException("The SHA-256 of the file " + path
+                            + " is missing or is not 64 lowercase hexadecimal digits: " + sha256);
+                }
+                parsed.add(new NMFPackageFile(path, sha256));
+                continue;
+            }
+
             String crcValue = properties.getProperty(FILE_CRC + index);
             long crc;
             try {

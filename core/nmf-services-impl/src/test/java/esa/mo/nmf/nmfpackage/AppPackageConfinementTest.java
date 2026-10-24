@@ -25,6 +25,7 @@ import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
 import esa.mo.nmf.nmfpackage.metadata.MetadataNMF;
 import esa.mo.nmf.nmfpackage.utils.ChecksumGenerator;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,7 +35,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
@@ -209,11 +209,10 @@ public class AppPackageConfinementTest {
         metadata.addProperty(Metadata.PACKAGE_METADATA_VERSION, Metadata.METADATA_VERSION_LATEST);
         metadata.addProperty(Metadata.FILE_COUNT, String.valueOf(paths.length));
 
-        CRC32 crc = new CRC32();
-        crc.update(CONTENT);
+        String sha256 = ChecksumGenerator.sha256Hex(new ByteArrayInputStream(CONTENT));
         for (int i = 0; i < paths.length; i++) {
             metadata.addProperty(Metadata.FILE_PATH + "." + i, paths[i]);
-            metadata.addProperty(Metadata.FILE_CRC + "." + i, String.valueOf(crc.getValue()));
+            metadata.addProperty(Metadata.FILE_SHA256 + "." + i, sha256);
         }
 
         ByteArrayOutputStream properties = new ByteArrayOutputStream();

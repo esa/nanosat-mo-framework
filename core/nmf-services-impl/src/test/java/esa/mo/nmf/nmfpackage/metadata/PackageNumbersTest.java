@@ -31,7 +31,8 @@ import org.junit.Test;
  * metadata is read.
  *
  * A package is not to be trusted: a metadata version, a file count or a CRC
- * that is not a number refuses the package with an IOException, before
+ * that is not a number (or a SHA-256 that is malformed, see
+ * PackageChecksumTest) refuses the package with an IOException, before
  * anything is installed, instead of failing later with a NumberFormatException.
  */
 public class PackageNumbersTest {
@@ -63,7 +64,9 @@ public class PackageNumbersTest {
 
     @Test
     public void aCRCThatIsNotANumberIsRefused() {
+        // Only a package written before metadata version 6 is checked by CRC
         assertRefused(NAME
+                + Metadata.PACKAGE_METADATA_VERSION + "=5\n"
                 + Metadata.FILE_COUNT + "=1\n"
                 + Metadata.FILE_PATH + ".0=apps/hello-world/hello-world.jar\n"
                 + Metadata.FILE_CRC + ".0=0xBAD\n", "0xBAD");

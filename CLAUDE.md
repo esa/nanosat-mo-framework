@@ -162,7 +162,7 @@ When CCSDS MO service versions change, update the XML first.
 ## NMF Package System
 
 Space apps are deployed as `.nmfpackage` files (ZIP archives) built by the `nmf-package-maven-plugin`.
-The Supervisor's `PackageManagement` service installs/uninstalls them and verifies their integrity via the CRC checksums in the bundled `package-metadata.properties`.
+The Supervisor's `PackageManagement` service installs/uninstalls them and verifies their integrity via the SHA-256 checksum of each file in the bundled `package-metadata.properties` (CRC-32 in packages written before metadata version 6).
 Six package types are supported (`app`, `dependency`, `java`, `mission`, `nmf`, `delta`);
 most code deals with `app`.
 The two baseline types are produced by the `nmf-linux-maven-plugin`:

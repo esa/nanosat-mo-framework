@@ -21,6 +21,7 @@
 package esa.mo.nmf.nmfpackage;
 
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
+import esa.mo.nmf.nmfpackage.utils.ChecksumGenerator;
 import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import java.io.File;
 import java.io.IOException;
@@ -116,8 +117,13 @@ public class NMFPackage implements AutoCloseable {
     }
 
     /**
-     * Verifies the package integrity. Checks if the CRCs of the files match.
-     * This prevents package tainting.
+     * Verifies the package integrity: each file listed in the metadata must be
+     * in the package and match its SHA-256 (its CRC-32, in a package written
+     * before metadata version 6).
+     * <p>
+     * This proves that the files are the ones the metadata lists. It does not
+     * prove who made the package: whoever makes a package also writes its
+     * metadata.
      *
      * @throws IOException If the integrity check fails.
      */
@@ -141,9 +147,17 @@ public class NMFPackage implements AutoCloseable {
                         + "\nAvailable entries:\n" + allEntries.toString());
             }
 
-            // Are all the declared files matching their CRCs?
-            if (filepack.getCRC() != entry.getCrc()) {
-                throw new IOException("The CRC does not match!");
+            // Are all the declared files matching their checksums?
+            if (filepack.getSHA256() != null) {
+                String sha256;
+                try (InputStream in = zipFile.getInputStream(entry)) {
+                    sha256 = ChecksumGenerator.sha256Hex(in);
+                }
+                if (!filepack.getSHA256().equals(sha256)) {
+                    throw new IOException("The SHA-256 does not match for the file: " + path);
+                }
+            } else if (filepack.getCRC() != entry.getCrc()) {
+                throw new IOException("The CRC does not match for the file: " + path);
             }
         }
     }
@@ -220,12 +234,13 @@ public class NMFPackage implements AutoCloseable {
                 }
             }
 
-            long crc = HelperNMFPackage.calculateCRCFromFile(newFile.toString());
-
-            // We will also need to double check the CRCs again against the real files!
-            // Just to double-check.. better safe than sorry!
-            if (file.getCRC() != crc) {
-                throw new IOException("The CRC does not match!");
+            // The written file is checked again, against the same checksum
+            if (file.getSHA256() != null) {
+                if (!file.getSHA256().equals(ChecksumGenerator.sha256Hex(newFile.toFile()))) {
+                    throw new IOException("The SHA-256 does not match for the file: " + newFile);
+                }
+            } else if (file.getCRC() != HelperNMFPackage.calculateCRCFromFile(newFile.toString())) {
+                throw new IOException("The CRC does not match for the file: " + newFile);
             }
         }
     }

@@ -139,6 +139,20 @@ public class ChecksumGenerator {
      * @throws IOException if the file could not be read.
      */
     public static String sha256Hex(File file) throws IOException {
+        try (InputStream in = new FileInputStream(file)) {
+            return sha256Hex(in);
+        }
+    }
+
+    /**
+     * Computes the SHA-256 checksum of the bytes read from a stream, to its end.
+     * The stream is not closed.
+     *
+     * @param in The stream to read.
+     * @return The checksum as a lowercase hexadecimal string.
+     * @throws IOException if the stream could not be read.
+     */
+    public static String sha256Hex(InputStream in) throws IOException {
         MessageDigest digest;
         try {
             digest = MessageDigest.getInstance("SHA-256");
@@ -147,11 +161,9 @@ public class ChecksumGenerator {
         }
 
         byte[] buffer = new byte[8192];
-        try (InputStream in = new FileInputStream(file)) {
-            int read;
-            while ((read = in.read(buffer)) != -1) {
-                digest.update(buffer, 0, read);
-            }
+        int read;
+        while ((read = in.read(buffer)) != -1) {
+            digest.update(buffer, 0, read);
         }
 
         byte[] hash = digest.digest();

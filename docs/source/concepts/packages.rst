@@ -38,9 +38,9 @@ Package type                   In-archive directory
 ``java``                       ``java/...``
 ============================== =================================================
 
-Every package also contains a ``package-metadata.properties`` file at the archive root. It declares the
-package name, version, type, creation timestamp, metadata schema version, and one entry per included file with
-its installed path and CRC checksum:
+Every package also contains a ``package-metadata.properties`` file at the archive root.
+It declares the package name, version, type, creation timestamp, metadata schema version,
+and one entry per included file with its installed path and SHA-256 checksum:
 
 .. code-block:: properties
 
@@ -48,17 +48,22 @@ its installed path and CRC checksum:
    info.version=1.0.0
    info.type=app
    info.creation-timestamp=2026-05-16T10:00:00Z
-   info.metadata-version=4
+   info.metadata-version=6
    zipped.file.count=3
    zipped.file.path.0=apps/my-app/my-app-1.0.0.jar
-   zipped.file.crc.0=2847...
+   zipped.file.sha256.0=9f86d081884c7d65...
    zipped.file.path.1=apps/my-app/start_my_app.sh
-   zipped.file.crc.1=9831...
+   zipped.file.sha256.1=60303ae22b998861...
    zipped.file.path.2=apps/my-app/provider.properties
-   zipped.file.crc.2=4502...
+   zipped.file.sha256.2=fd61a03af4f77d87...
 
-The CRCs are checked at install time so the Supervisor can verify the package has not been corrupted in
-transit.
+The checksums are checked at install time,
+so the Supervisor installs only the files that the metadata lists, unchanged.
+They do not prove who made the package: whoever makes a package also writes its metadata.
+
+Packages written before metadata version 6 list a CRC-32 per file (``zipped.file.crc.<n>``) instead.
+They are still accepted and checked by their CRC-32,
+which catches accidental corruption but not a deliberate change.
 
 Package lifecycle
 -----------------
@@ -80,9 +85,9 @@ Development Guide for plugin configuration.
 **Distribute.** The resulting ``<name>-<version>.nmfpackage`` file is delivered to the spacecraft through
 whatever mission-specific distribution path applies (file uplink, ground network, etc.).
 
-**Install.** The Supervisor's ``PackageManagement`` service handles installation. It verifies the metadata
-file, checks each entry's CRC against the value declared in metadata, and extracts files to their target
-locations under ``NMF_HOME``.
+**Install.** The Supervisor's ``PackageManagement`` service handles installation.
+It verifies the metadata file, checks each entry's SHA-256 against the value declared in metadata,
+and extracts files to their target locations under ``NMF_HOME``.
 
 **Run.** Once installed, an app is started via ``AppsLauncher.runApp`` (see :doc:`lifecycle`).
 
@@ -94,10 +99,10 @@ Difference from a plain JAR
 
 A bare JAR contains compiled classes and resources. An NMF Package adds:
 
-- A **metadata descriptor** with versioning, type, and CRC information.
+- A **metadata descriptor** with versioning, type, and a SHA-256 checksum for each file.
 - A **deployment layout** that places files in the correct directories (``apps/``, ``jars-shared-libraries/``,
   etc.) without manual filesystem operations.
-- A **manifest of contents** that the Supervisor can verify before trusting the package.
+- A **manifest of contents** that the Supervisor checks before installing the package.
 - The ability to bundle **non-JAR artefacts** alongside the JAR — start scripts, property files, ML models,
   lookup tables, calibration data.
 

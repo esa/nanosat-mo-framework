@@ -12,7 +12,8 @@ It also contains the helper utilities shared by these services, and the NMF Pack
 NMF Packages
 ============
 
-An NMF Package is a ZIP archive used to install, uninstall and update software on a spacecraft that runs the NMF. It carries a descriptor with the version of its content and a CRC checksum for each file, so that corrupted content is detected before it is installed. The content does not have to be an NMF App: a package can also hold a dependency, a Java runtime, a mission baseline or an NMF core baseline.
+An NMF Package is a ZIP archive used to install, uninstall and update software on a spacecraft that runs the NMF. It carries a descriptor with the version of its content and a SHA-256 checksum for each file,
+so that content that is not what the descriptor lists is detected before it is installed. The content does not have to be an NMF App: a package can also hold a dependency, a Java runtime, a mission baseline or an NMF core baseline.
 
 The Package Management service only installs, uninstalls and updates packages that are already on the spacecraft. Transferring them there is left to other software.
 

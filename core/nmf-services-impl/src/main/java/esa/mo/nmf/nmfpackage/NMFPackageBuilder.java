@@ -23,7 +23,7 @@ package esa.mo.nmf.nmfpackage;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.environment.Deployment;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
-import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
+import esa.mo.nmf.nmfpackage.utils.ChecksumGenerator;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -135,13 +135,13 @@ public class NMFPackageBuilder {
         for (int i = 0; i < size; i++) {
             try {
                 String path = newLocations.get(i);
-                long crc = HelperNMFPackage.calculateCRCFromFile(files.get(i));
+                String sha256 = ChecksumGenerator.sha256Hex(new File(files.get(i)));
                 String index = "." + i;
                 metadata.addProperty(Metadata.FILE_PATH + index, path);
-                metadata.addProperty(Metadata.FILE_CRC + index, String.valueOf(crc));
+                metadata.addProperty(Metadata.FILE_SHA256 + index, sha256);
             } catch (IOException ex) {
                 Logger.getLogger(NMFPackageBuilder.class.getName()).log(Level.SEVERE,
-                        "There was a problem during the CRC calculation.", ex);
+                        "There was a problem during the SHA-256 calculation.", ex);
             }
         }
 

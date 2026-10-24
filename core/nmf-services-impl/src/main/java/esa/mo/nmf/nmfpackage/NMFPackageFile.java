@@ -29,9 +29,11 @@ public class NMFPackageFile {
 
     private final String path;
     private final long crc;
+    private final String sha256;
 
     /**
-     * Constructor for the NMFPackageFile object.
+     * Constructor for a file of a package written before metadata version 6,
+     * which is checked by its CRC-32.
      *
      * @param path The path to the file in the package.
      * @param crc The CRC to the file in the package.
@@ -39,6 +41,19 @@ public class NMFPackageFile {
     public NMFPackageFile(final String path, final long crc) {
         this.path = path;
         this.crc = crc;
+        this.sha256 = null;
+    }
+
+    /**
+     * Constructor for a file that is checked by its SHA-256.
+     *
+     * @param path The path to the file in the package.
+     * @param sha256 The SHA-256 of the file, as a lowercase hexadecimal string.
+     */
+    public NMFPackageFile(final String path, final String sha256) {
+        this.path = path;
+        this.crc = 0;
+        this.sha256 = sha256;
     }
 
     /**
@@ -57,5 +72,16 @@ public class NMFPackageFile {
      */
     public long getCRC() {
         return crc;
+    }
+
+    /**
+     * Returns the SHA-256 of the file in the package.
+     *
+     * @return The SHA-256 as a lowercase hexadecimal string, or {@code null}
+     * for a file of a package written before metadata version 6, which has
+     * only a CRC.
+     */
+    public String getSHA256() {
+        return sha256;
     }
 }
