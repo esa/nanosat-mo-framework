@@ -66,22 +66,24 @@ public class AuxFilesGenerator {
         str.append("cd ${0%/*}\n\n");
 
         str.append("# Java Runtime Environment:\n");
-        str.append("JAVA_CMD=").append(javaCommand).append("\n\n");
+        // Every value is quoted, so that the shell assigns it as it is and acts
+        // on none of its characters: most come from the package (NMF-2026-008).
+        str.append("JAVA_CMD=").append(shellQuote(javaCommand)).append("\n\n");
         str.append("# App-related constants:\n");
-        str.append("MAIN_CLASS=").append(meta.getAppMainclass()).append("\n");
-        str.append("MAX_HEAP=").append(meta.getAppMaxHeap()).append("\n");
-        str.append("MIN_HEAP=").append(meta.getAppMinHeap()).append("\n\n");
+        str.append("MAIN_CLASS=").append(shellQuote(meta.getAppMainclass())).append("\n");
+        str.append("MAX_HEAP=").append(shellQuote(meta.getAppMaxHeap())).append("\n");
+        str.append("MIN_HEAP=").append(shellQuote(meta.getAppMinHeap())).append("\n\n");
 
         str.append("# Jars from: App, NMF, and Shared dependencies:\n");
-        str.append("JAR_APP=").append(meta.getAppMainJar()).append("\n");
-        str.append("JARS_NMF_DIR=").append(Deployment.getJarsNMFDir()).append("\n");
+        str.append("JAR_APP=").append(shellQuote(meta.getAppMainJar())).append("\n");
+        str.append("JARS_NMF_DIR=").append(shellQuote(Deployment.getJarsNMFDir().toString())).append("\n");
         str.append("JARS_NMF=$(find \"$JARS_NMF_DIR\" -name \"*.jar\" | tr '\\n' ':')\n");
         String shared = "";
 
         if (meta.hasDependencies()) {
             File sharedLibs = Deployment.getJarsSharedDir();
             String paths = meta.getAppDependenciesFullPaths(sharedLibs);
-            str.append("JARS_SHARED=").append(paths);
+            str.append("JARS_SHARED=").append(shellQuote(paths));
             shared = ":$JARS_SHARED";
         }
         str.append("\n\nJARS_ALL=$JAR_APP:$JARS_NMF").append(shared);
@@ -96,10 +98,10 @@ public class AuxFilesGenerator {
 
         str.append("NOW=$(date +\"%F\")\n");
         String appName = meta.getPackageName();
-        str.append("FILENAME=").append(appName).append("_$NOW.log\n");
+        str.append("FILENAME=").append(shellQuote(appName)).append("_$NOW.log\n");
         String logPath = Deployment.getLogsDirForApp(appName).getAbsolutePath();
-        str.append("LOG_PATH=").append(logPath).append("\n");
-        str.append("mkdir -p $LOG_PATH\n\n");
+        str.append("LOG_PATH=").append(shellQuote(logPath)).append("\n");
+        str.append("mkdir -p \"$LOG_PATH\"\n\n");
 
         // Launch line. The generated comments below explain the POSIX-sh caveat
         // that forces the sidecar-file construct used to preserve the exit code.
@@ -118,6 +120,17 @@ public class AuxFilesGenerator {
         str.append("exit \"$(cat \"$LOG_PATH/$FILENAME.exit\" 2>/dev/null || echo 0)\"\n");
 
         return str.toString();
+    }
+
+    /**
+     * Quotes a value for a POSIX shell so that it is read as a single word with
+     * no special characters, by wrapping it in single quotes.
+     *
+     * @param value the value to quote
+     * @return the quoted value
+     */
+    static String shellQuote(final String value) {
+        return "'" + String.valueOf(value).replace("'", "'\\''") + "'";
     }
 
     /**

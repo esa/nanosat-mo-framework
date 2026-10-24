@@ -318,6 +318,11 @@ public class Metadata {
                     + "'.', '_', '+' and '-', and must start with a letter or a digit.");
         }
 
+        // The values of an App go into its start script, so they are checked too.
+        if (metadata.isApp()) {
+            metadata.castToApp().checkLaunchValues();
+        }
+
         return metadata;
     }
 

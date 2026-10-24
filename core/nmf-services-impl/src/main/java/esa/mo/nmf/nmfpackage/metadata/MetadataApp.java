@@ -21,9 +21,11 @@
 package esa.mo.nmf.nmfpackage.metadata;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 /**
  * The MetadataApp class holds the metadata of an App in a NMF Package.
@@ -48,6 +50,15 @@ public class MetadataApp extends Metadata {
      * the App was compiled for is simply not known.
      */
     public static final String APP_NMF_VERSION = "pack.app.nmf-version";
+
+    /** A JVM heap size: a number with an optional k, m, g or t suffix. */
+    private static final Pattern VALID_HEAP_SIZE = Pattern.compile("[0-9]{1,10}[kKmMgGtT]?");
+
+    /**
+     * A jar file name: letters, digits, '.', '_', '+' and '-', starting with a
+     * letter or a digit (which also excludes "." and "..").
+     */
+    private static final Pattern VALID_JAR_NAME = Pattern.compile("[A-Za-z0-9][A-Za-z0-9._+-]{0,254}");
 
     /**
      * Constructor for the MetadataApp class.
@@ -189,6 +200,86 @@ public class MetadataApp extends Metadata {
     public boolean hasDependencies() {
         String dependencies = properties.getProperty(APP_DEPENDENCIES);
         return (dependencies != null) && !dependencies.isEmpty();
+    }
+
+    /**
+     * Checks the values of the App that go into its start script: the main
+     * class, the main jar, the heap sizes and the dependencies. They come from
+     * the package, so each one must have the form of its kind, and none can
+     * hold a character that a shell or the Windows command line would act on.
+     *
+     * @throws IOException if a value is missing or does not have its form
+     */
+    public void checkLaunchValues() throws IOException {
+        if (!isValidMainClass(getAppMainclass())) {
+            throw invalid(APP_MAINCLASS, getAppMainclass(), "a Java class name, such as com.example.MyApp");
+        }
+        if (!isValidJarName(getAppMainJar())) {
+            throw invalid(APP_MAIN_JAR, getAppMainJar(), "a jar file name");
+        }
+        if (!isValidHeapSize(getAppMaxHeap())) {
+            throw invalid(APP_MAX_HEAP, getAppMaxHeap(), "a heap size, such as 128m");
+        }
+        if (!isValidHeapSize(getAppMinHeap())) {
+            throw invalid(APP_MIN_HEAP, getAppMinHeap(), "a heap size, such as 32m");
+        }
+        if (hasDependencies()) {
+            for (String dependency : getAppDependencies()) {
+                if (!isValidJarName(dependency)) {
+                    throw invalid(APP_DEPENDENCIES, dependency, "a list of jar file names, separated by ';'");
+                }
+            }
+        }
+    }
+
+    private static IOException invalid(String key, String value, String form) {
+        return new IOException("The value '" + value + "' of " + key + " is not valid. It must be " + form + ".");
+    }
+
+    /**
+     * Returns whether the given name is a valid main class: a Java binary name,
+     * that is, Java identifiers separated by dots.
+     *
+     * @param name the name to check
+     * @return {@code true} if the name is a valid main class
+     */
+    public static boolean isValidMainClass(final String name) {
+        if (name == null || name.isEmpty() || name.length() > 255) {
+            return false;
+        }
+        for (String identifier : name.split("\\.", -1)) {
+            if (identifier.isEmpty() || !Character.isJavaIdentifierStart(identifier.charAt(0))) {
+                return false;
+            }
+            for (int i = 0; i < identifier.length(); i++) {
+                char c = identifier.charAt(i);
+                // isJavaIdentifierPart also accepts control characters, which are ignorable
+                if (!Character.isJavaIdentifierPart(c) || Character.isIdentifierIgnorable(c)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Returns whether the given value is a valid JVM heap size.
+     *
+     * @param size the value to check
+     * @return {@code true} if the value is a number with an optional k, m, g or t suffix
+     */
+    public static boolean isValidHeapSize(final String size) {
+        return size != null && VALID_HEAP_SIZE.matcher(size).matches();
+    }
+
+    /**
+     * Returns whether the given name is a valid jar file name.
+     *
+     * @param name the name to check
+     * @return {@code true} if the name is one plain file name
+     */
+    public static boolean isValidJarName(final String name) {
+        return name != null && VALID_JAR_NAME.matcher(name).matches();
     }
 
     private String removeLastChar(String input) {

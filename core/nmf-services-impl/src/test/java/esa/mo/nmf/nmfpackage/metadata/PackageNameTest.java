@@ -119,7 +119,11 @@ public class PackageNameTest {
         try (ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(file))) {
             zip.putNextEntry(new ZipEntry(Metadata.FILENAME));
             String properties = Metadata.PACKAGE_NAME + "=" + name + "\n"
-                    + Metadata.PACKAGE_TYPE + "=" + Metadata.TYPE_APP + "\n";
+                    + Metadata.PACKAGE_TYPE + "=" + Metadata.TYPE_APP + "\n"
+                    + MetadataApp.APP_MAINCLASS + "=esa.mo.nmf.apps.DemoHelloWorldSimple\n"
+                    + MetadataApp.APP_MAIN_JAR + "=hello-world-6.0-SNAPSHOT.jar\n"
+                    + MetadataApp.APP_MAX_HEAP + "=128m\n"
+                    + MetadataApp.APP_MIN_HEAP + "=32m\n";
             zip.write(properties.getBytes(StandardCharsets.ISO_8859_1));
             zip.closeEntry();
         }

@@ -19,6 +19,7 @@ it must be reported privately, not added to this file.
 | [NMF-2026-005](#nmf-2026-005-path-traversal-zip-slip-when-installing-or-removing-nmf-packages) | Path traversal (Zip Slip) when installing or removing NMF packages | Fixed | < 2.1.0 | 2.1.0 | — |
 | [NMF-2026-006](#nmf-2026-006-packages-can-write-or-delete-files-outside-their-own-area) | Packages can write or delete files outside their own area | Fixed | < 6.0 | 6.0 | — |
 | [NMF-2026-007](#nmf-2026-007-default-password-and-root-equivalent-sudo-rights-for-the-nmf-admin-account) | Default password and root-equivalent sudo rights for the nmf-admin account | Fixed | >= 5.0, < 6.0 | 6.0 | — |
+| [NMF-2026-008](#nmf-2026-008-os-command-injection-through-the-launch-values-of-an-app-package) | OS command injection through the launch values of an App package | Fixed | < 6.0 | 6.0 | GHSA-36jr-c3j2-8jhw |
 
 ---
 
@@ -545,3 +546,77 @@ that the published password does not open the account, that the account is locke
 and that each of the sudo rights above is refused;
 `Nmf2026003Test`, which checks that the Supervisor still creates the account of a real app and runs it as that user;
 and `BootloaderGeneratorTest` (`nmf-linux-maven-plugin`), which checks the generated script.
+
+---
+
+### NMF-2026-008: OS command injection through the launch values of an App package
+
+| Field | Value |
+|---|---|
+| Status | Fixed |
+| GHSA / CVE | GHSA-36jr-c3j2-8jhw (not published) |
+| Ecosystem | Maven |
+| Package | `int.esa.nmf.core:nmf-services-impl` (in earlier versions, `int.esa.nmf.core:nmf-package-lib`) |
+| Affected versions | < 6.0 |
+| Fixed in | 6.0 |
+| Reported | freedomfoxvare, through a GitHub security advisory |
+| Severity | Low (requires the ability to install and run an app, which already runs code of the installer's choosing with the same privileges) |
+| Weaknesses | CWE-78: Improper Neutralization of Special Elements used in an OS Command; CWE-20: Improper Input Validation |
+
+#### Impact
+
+When an App is installed, the framework generates its start script, `start_app.sh` (`start_app.bat` on Windows),
+from the values in the package's `package-metadata.properties`:
+the main class (`pack.app.mainclass`), the main jar (`pack.app.mainjar`),
+the heap sizes (`pack.app.maxheap` and `pack.app.minheap`) and the dependencies (`pack.app.dependencies`).
+Each value was written into a shell assignment, such as `MAIN_CLASS=<value>`,
+without quotes and without any check.
+When the App was started, the shell acted on any shell syntax in a value,
+so a package could run commands of its choosing, for example with `pack.app.mainclass=$(<command>)`.
+The package checksums do not prevent this, because whoever makes the package also computes them.
+
+To exploit this, an attacker must get a package installed and the App run.
+Installing and running an App already executes code of the installer's choosing,
+and the start script runs with the App's own privileges,
+so the injected commands gain nothing over what the App's own code can do:
+
+* Without isolation (`none`), apps already run as the Supervisor's user.
+* Under linux-userspace isolation, the start script runs as the App's own unprivileged user.
+* Under Bubblewrap and Docker isolation, the start script runs inside the App's sandbox or container.
+
+The flaw is therefore a robustness and defence-in-depth issue rather than a privilege escalation,
+like [NMF-2026-004](#nmf-2026-004-os-command-injection-through-the-app-name-in-the-linux-launcher).
+The start script has been generated from the package's values since the 2.0.0 pre-release.
+
+#### Workarounds
+
+* Install only packages from trusted sources.
+  This is already necessary, because installing and running an App executes its code.
+* Before installing a package, check that its main class is a Java class name,
+  its jar and dependencies are plain file names, and its heap sizes are numbers with an optional unit.
+* Run apps under an isolation mode, so that each App, and anything it runs, is confined to its own user or sandbox.
+
+#### Fix
+
+The launch values of an App are now checked when a package file is read,
+so install, upgrade and uninstall all refuse a package with any other values:
+
+* the main class must be a Java class name: Java identifiers separated by dots;
+* the main jar and each dependency must be one plain file name:
+  letters, digits, `.`, `_`, `+` and `-`, starting with a letter or a digit;
+* each heap size must be a number with an optional `k`, `m`, `g` or `t` unit.
+
+The generated `start_app.sh` also quotes every value it assigns,
+so that the shell takes each one as it is, whatever characters it holds.
+
+#### References
+
+[1] Script generation: `AuxFilesGenerator.generateLinuxStartAppScript` and `AuxFilesGenerator.generateWindowsStartAppScript` in `nmf-services-impl`;
+before 3.0.0, `HelperNMFPackage.generateLinuxStartAppScript` in `nmf-package-lib`.
+
+[2] Value check: `MetadataApp.checkLaunchValues`, applied in `Metadata.parseZipFile`.
+
+[3] Regression test: `StartAppScriptTest` (`nmf-services-impl`),
+which checks that packages with shell syntax in each launch value are refused,
+and generates the start script from such values, runs it with a real `/bin/sh`,
+and checks that none of their commands runs and that `java` receives the main class as one argument.
