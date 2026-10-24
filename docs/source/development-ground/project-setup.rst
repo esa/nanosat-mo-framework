@@ -16,7 +16,6 @@ Available examples
 - ``set-and-command`` — sets parameter values and invokes actions on a remote app.
 - ``echo`` — minimal request/response loop.
 - ``camera-acquisitor-system-ground`` — drives the camera acquisitor system app from the ground.
-- ``facebook`` — historical example using a non-standard transport.
 
 Creating the project
 --------------------
