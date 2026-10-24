@@ -1,0 +1,115 @@
+/* ----------------------------------------------------------------------------
+ * Copyright (C) 2026      European Space Agency
+ *                         European Space Operations Centre
+ *                         Darmstadt
+ *                         Germany
+ * ----------------------------------------------------------------------------
+ * System                : ESA NanoSat MO Framework
+ * ----------------------------------------------------------------------------
+ * Licensed under European Space Agency Public License (ESA-PL) Weak Copyleft – v2.4
+ * You may not use this file except in compliance with the License.
+ *
+ * Except as expressly set forth in this License, the Software is provided to
+ * You on an "as is" basis and without warranties of any kind, including without
+ * limitation merchantability, fitness for a particular purpose, absence of
+ * defects or errors, accuracy or non-infringement of intellectual property rights.
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ----------------------------------------------------------------------------
+ */
+package esa.mo.platform.impl.provider;
+
+import esa.mo.platform.impl.provider.adapters.AIMovidiusAdapter;
+import esa.mo.platform.impl.provider.gen.ArtificialIntelligenceProviderServiceImpl;
+import java.io.File;
+import java.lang.reflect.Field;
+import java.nio.file.Files;
+import org.junit.Assert;
+import org.junit.Assume;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+
+/**
+ * NMF-2026-009: the Artificial Intelligence service passes the model and tile
+ * paths from a consumer's request into a shell command, so a crafted path could
+ * run arbitrary commands as the platform-services process.
+ * <p>
+ * The canary is benign: each payload tries only to create a marker file in a
+ * temporary folder. The tests check that no payload runs, both through the
+ * service (which must refuse a path that is not a plain file or folder) and
+ * straight into the adapter (which must never let a path reach the shell as
+ * code). They run only where {@code python3} is present, since the adapter
+ * needs it; otherwise they are skipped, not failed.
+ */
+public class AIServiceCommandInjectionTest {
+
+    @Rule
+    public TemporaryFolder tmp = new TemporaryFolder();
+
+    private File marker;
+    private String touchMarker;
+
+    @Before
+    public void setUp() {
+        Assume.assumeTrue("The AI adapter needs python3", AIMovidiusAdapter.isPython3Available());
+        marker = new File(tmp.getRoot(), "nmf_2026_009_marker");
+        // A command substitution that creates the marker: if the shell evaluates
+        // the path, the marker appears; if the path is treated as text, it does not.
+        touchMarker = "$(touch '" + marker.getAbsolutePath() + "')";
+    }
+
+    @Test
+    public void theServiceRefusesAModelPathThatRunsCommands() throws Exception {
+        ArtificialIntelligenceProviderServiceImpl service = new ArtificialIntelligenceProviderServiceImpl();
+        setAdapter(service, new AIMovidiusAdapter());
+
+        String modelPath = touchMarker + "x.xml";
+        boolean refused = false;
+        try {
+            Long id = service.setModel(modelPath, null);
+            // If the model was accepted, running inference is where the shell would evaluate it.
+            service.doInference(id, tmp.getRoot().getAbsolutePath(), null);
+        } catch (Exception expected) {
+            refused = true;
+        }
+
+        waitForQuiet();
+        Assert.assertFalse("A command from the model path must never run", marker.exists());
+        Assert.assertTrue("The service must refuse a model path that is not a plain .xml file", refused);
+    }
+
+    @Test
+    public void theAdapterNeverLetsAPathReachTheShellAsCode() throws Exception {
+        AIMovidiusAdapter adapter = new AIMovidiusAdapter();
+
+        // Straight into the adapter, bypassing the service checks: even so, a path
+        // must reach the inference process as one argument, never as shell code.
+        try {
+            adapter.executeInference(touchMarker + "x.xml", touchMarker + "x.bin",
+                    tmp.getRoot().getAbsolutePath(), tmp.getRoot().getAbsolutePath());
+        } catch (Exception ignored) {
+            // The stand-in inference script is absent, so the process fails; that is fine.
+        }
+
+        waitForQuiet();
+        Assert.assertFalse("A command from a path must never run, even when the adapter is called directly",
+                marker.exists());
+    }
+
+    /** Gives the inference process time to finish before the marker is checked. */
+    private void waitForQuiet() throws InterruptedException {
+        for (int i = 0; i < 50 && !marker.exists(); i++) {
+            Thread.sleep(100);
+        }
+    }
+
+    private static void setAdapter(ArtificialIntelligenceProviderServiceImpl service, Object adapter)
+            throws Exception {
+        Field field = ArtificialIntelligenceProviderServiceImpl.class.getDeclaredField("adapter");
+        field.setAccessible(true);
+        field.set(service, adapter);
+    }
+}

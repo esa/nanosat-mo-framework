@@ -118,6 +118,25 @@ public class ShellCommander {
      * @param dirPath The working directory for the process.
      * @return The Process object from the command.
      */
+    /**
+     * Runs a command given as an argument vector, executing it directly without
+     * a shell, so that none of the arguments is parsed as shell code. This is
+     * the safe way to run a command built from external input.
+     *
+     * @param command The command and its arguments, as separate elements.
+     * @param dirPath The working directory for the process, or {@code null}.
+     * @return The Process object from the command, or {@code null} on failure.
+     */
+    public Process runCommand(String[] command, File dirPath) {
+        try {
+            return Runtime.getRuntime().exec(command, null, dirPath);
+        } catch (IOException ex) {
+            Logger.getLogger(ShellCommander.class.getName()).log(Level.SEVERE,
+                    "The command could not be executed!", ex);
+        }
+        return null;
+    }
+
     public Process runCommand(String cmd, File dirPath) {
         try {
             if (osValidator.isUnix()) {

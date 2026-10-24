@@ -101,6 +101,23 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
         }
     }
 
+    /**
+     * Whether the given value holds a control character, such as a newline or a
+     * NUL. Such a character cannot be part of a legitimate single path and is a
+     * classic aid to command injection, so a path that holds one is refused.
+     *
+     * @param value the value to check
+     * @return {@code true} if the value holds a control character
+     */
+    private static boolean hasControlCharacter(String value) {
+        for (int i = 0; i < value.length(); i++) {
+            if (Character.isISOControl(value.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public Long setModel(String modelPath, MALInteraction interaction) throws MALException {
         if (modelPath == null) {
@@ -109,6 +126,16 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
 
         if (!modelPath.endsWith(".xml")) {
             throw new MALException("The model does not end with the file extension: .xml");
+        }
+
+        // The path becomes an argument of the inference command, so it must be a
+        // real model file and hold no control characters (NMF-2026-009).
+        if (hasControlCharacter(modelPath)) {
+            throw new MALException("The modelPath contains a control character!");
+        }
+
+        if (!new File(modelPath).isFile()) {
+            throw new MALException("The model does not exist as a file in path: " + modelPath);
         }
 
         for (int i = 0; i < modelPaths.size(); i++) {
@@ -134,11 +161,17 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
             throw new MALException("The inputTilesPath is null!");
         }
 
+        // The path becomes an argument of the inference command, so it must be a
+        // real folder and hold no control characters (NMF-2026-009).
+        if (hasControlCharacter(inputTilesPath)) {
+            throw new MALException("The inputTilesPath contains a control character!");
+        }
+
         // inputTilesPath needs to be an existing folder!!
         File inputTiles = new File(inputTilesPath);
 
-        if (!inputTiles.exists()) {
-            String msg = "The inputTilesPath does not exist in path: " + inputTilesPath;
+        if (!inputTiles.isDirectory()) {
+            String msg = "The inputTilesPath is not an existing folder: " + inputTilesPath;
             throw new InvalidArgumentException(msg);
         }
 
@@ -186,9 +219,13 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
             throw new MALException("The file does not end with the file extension: .json");
         }
 
+        if (hasControlCharacter(jsonPath)) {
+            throw new MALException("The jsonPath contains a control character!");
+        }
+
         File path = new File(jsonPath);
 
-        if (!path.exists()) {
+        if (!path.isFile()) {
             String msg = "The file does not exist in path: " + path;
             throw new InvalidArgumentException(msg);
         }

@@ -20,6 +20,7 @@ it must be reported privately, not added to this file.
 | [NMF-2026-006](#nmf-2026-006-packages-can-write-or-delete-files-outside-their-own-area) | Packages can write or delete files outside their own area | Fixed | < 6.0 | 6.0 | — |
 | [NMF-2026-007](#nmf-2026-007-default-password-and-root-equivalent-sudo-rights-for-the-nmf-admin-account) | Default password and root-equivalent sudo rights for the nmf-admin account | Fixed | >= 5.0, < 6.0 | 6.0 | — |
 | [NMF-2026-008](#nmf-2026-008-os-command-injection-through-the-launch-values-of-an-app-package) | OS command injection through the launch values of an App package | Fixed | < 6.0 | 6.0 | GHSA-36jr-c3j2-8jhw |
+| [NMF-2026-009](#nmf-2026-009-os-command-injection-through-the-artificial-intelligence-service) | OS command injection through the Artificial Intelligence service | Fixed | >= 3.0.0, < 6.0 | 6.0 | — |
 
 ---
 
@@ -620,3 +621,75 @@ before 3.0.0, `HelperNMFPackage.generateLinuxStartAppScript` in `nmf-package-lib
 which checks that packages with shell syntax in each launch value are refused,
 and generates the start script from such values, runs it with a real `/bin/sh`,
 and checks that none of their commands runs and that `java` receives the main class as one argument.
+
+---
+
+### NMF-2026-009: OS command injection through the Artificial Intelligence service
+
+| Field | Value |
+|---|---|
+| Status | Fixed |
+| GHSA / CVE | Not published |
+| Ecosystem | Maven |
+| Package | `int.esa.nmf.core:nmf-services-impl` (in earlier versions, the platform services module) |
+| Affected versions | >= 3.0.0, < 6.0 |
+| Fixed in | 6.0 |
+| Reported | Reported privately |
+| Severity | High (a consumer of the AI service runs commands as the platform-services process) |
+| Weaknesses | CWE-78: Improper Neutralization of Special Elements used in an OS Command; CWE-20: Improper Input Validation |
+
+#### Impact
+
+The Artificial Intelligence service runs inference by handing a command to a shell.
+Its Movidius adapter built that command by joining fixed text with the model path and the tile paths,
+and `ShellCommander` ran the result through `sh -c`, which parses the whole string.
+The two service operations that take those paths checked almost nothing:
+`setModel` only checked that the model path ended in `.xml`,
+and `doInference` only checked that the input path existed.
+
+A consumer of the AI service could therefore put shell syntax in a path and have the shell run it.
+For example, a model path of `$(<command>)x.xml` ends in `.xml`, so `setModel` accepted it,
+and `doInference` then ran `<command>` as part of the inference command.
+The commands run in the process that provides the platform services,
+with that process's user and access, which is the Supervisor's on a mission that provides the AI service in-process.
+
+Unlike the package flaws [NMF-2026-004](#nmf-2026-004-os-command-injection-through-the-app-name-in-the-linux-launcher)
+and [NMF-2026-008](#nmf-2026-008-os-command-injection-through-the-launch-values-of-an-app-package),
+this needs no package to be installed:
+any consumer allowed to reach the AI service can use it, and the commands run with the platform-services process's privileges, not an App's.
+
+The AI service is provided only by a mission whose platform layer starts it with a Movidius adapter.
+In this repository that is the Orekit simulator's provider, which starts the adapter when `python3` is present on the host.
+A mission that does not provide the AI service, or provides it with an adapter that does not shell out, is not affected.
+
+The service and its Movidius adapter have been present since 3.0.0.
+
+#### Workarounds
+
+* Do not provide the Artificial Intelligence service on a mission that is reachable by untrusted consumers,
+  or disable it in the mission's platform-services provider.
+* Turn on MO access control so that only trusted consumers can reach the service.
+
+#### Fix
+
+The service now validates the paths before anything runs, and the adapter no longer lets a path reach the shell as code:
+
+* `setModel` requires the model path to be an existing regular file ending in `.xml`,
+  and `doInference` requires the input path to be an existing directory;
+  both refuse a path that holds a control character.
+* The Movidius adapter runs the inference through an argument vector,
+  with each path as its own argument, executed directly rather than spliced into a shell string.
+  A fixed one-line script sources the Intel variables file and then replaces itself with that command,
+  so the shell never parses a path.
+* `ShellCommander` gained an argument-vector form, `runCommand(String[], File)`,
+  that executes a command directly without a shell; the string form keeps its warning that its input must not come from outside.
+
+#### References
+
+[1] Service checks: `ArtificialIntelligenceProviderServiceImpl.setModel` and `doInference` in `nmf-services-impl`.
+
+[2] Safe command: `AIMovidiusAdapter.executeInference` (an argument vector) and `ShellCommander.runCommand(String[], File)` in `nmf-services-impl`.
+
+[3] Regression test: `AIServiceCommandInjectionTest` (`nmf-services-impl`),
+which drives the service and the adapter with a path that would create a marker file if the shell evaluated it,
+and checks that no marker appears; it fails on the earlier code.

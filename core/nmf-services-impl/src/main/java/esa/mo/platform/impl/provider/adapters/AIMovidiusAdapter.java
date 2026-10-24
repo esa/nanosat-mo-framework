@@ -171,54 +171,45 @@ public class AIMovidiusAdapter implements AIAdapterInterface {
         return null;
     }
 
-    private String generateScriptSH(String pathIntelVar, String pythonCommand) {
-        StringBuilder str = new StringBuilder();
-        str.append("source ").append(pathIntelVar);
-        str.append(" ; ").append(pythonCommand);
-        return str.toString();
-    }
+    /**
+     * A fixed shell script that sources the Intel variables file named by its
+     * first argument, then replaces itself with the command given in the
+     * remaining arguments. Because the script text is constant and every path is
+     * passed as a separate argument (never spliced into the text), the shell
+     * never parses a path as code. See NMF-2026-009.
+     */
+    private static final String SOURCE_AND_RUN = ". \"$1\" >/dev/null 2>&1; shift; exec \"$@\"";
 
-    private String generateScriptBAT(String pathIntelVar, String pythonFile) {
-        StringBuilder str = new StringBuilder();
-        str.append(pathIntelVar).append(" & ").append(pythonFile);
-        return str.toString();
-    }
-
-    private String buildPythonCommand(String modelXml, String modelBin,
-            String inputTiles, String outputTiles) {
-        StringBuilder str = new StringBuilder();
-        str.append("python3 ").append(PYTHON_FILENAME);
-        str.append(" --model_xml ").append(modelXml);
-        str.append(" --model_bin ").append(modelBin);
-        str.append(" --input_tiles ").append(inputTiles);
-        str.append(" --output_tiles ").append(outputTiles);
-        return str.toString();
+    /**
+     * Builds the argument vector that runs the inference, with each path as its
+     * own element so that it reaches python3 as a single argument.
+     */
+    private String[] buildInferenceCommand(String modelPath, String weightsPath,
+            String inputPath, String outputPath) {
+        String pathIntelVar = setupVarsPath.getAbsolutePath();
+        return new String[]{"sh", "-c", SOURCE_AND_RUN, "sh", pathIntelVar,
+            "python3", PYTHON_FILENAME,
+            "--model_xml", modelPath,
+            "--model_bin", weightsPath,
+            "--input_tiles", inputPath,
+            "--output_tiles", outputPath};
     }
 
     @Override
     public void executeInference(String modelPath, String weightsPath,
             String inputPath, String outputPath) throws IOException {
-        String pathIntelVar = setupVarsPath.getAbsolutePath();
-        String pythonCmd = buildPythonCommand(modelPath, weightsPath, inputPath, outputPath);
-        String cmd = null;
-
-        if (os.isUnix() || os.isMac()) {
-            cmd = this.generateScriptSH(pathIntelVar, pythonCmd);
-        }
-        if (os.isWindows()) {
-            cmd = this.generateScriptBAT(pathIntelVar, pythonCmd);
-        }
-
-        if (cmd == null) {
+        if (!os.isUnix() && !os.isMac()) {
             throw new IOException("Unsupported OS!");
         }
 
+        String[] cmd = buildInferenceCommand(modelPath, weightsPath, inputPath, outputPath);
+
         long timestampCommand = System.currentTimeMillis();
         Logger.getLogger(AIMovidiusAdapter.class.getName()).log(
-                Level.INFO, "Running command:\n   >> " + cmd);
+                Level.INFO, "Running inference:\n   >> {0}", String.join(" ", cmd));
 
         ShellCommander shellCommander = new ShellCommander();
-        Process p = shellCommander.runCommand(cmd);
+        Process p = shellCommander.runCommand(cmd, null);
 
         long timeout = 2; // in minutes
         Logger.getLogger(AIMovidiusAdapter.class.getName()).log(
