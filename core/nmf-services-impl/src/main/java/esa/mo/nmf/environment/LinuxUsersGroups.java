@@ -43,135 +43,53 @@ public class LinuxUsersGroups {
 
     private static final String MSG_NOT_FOUND = "The command was not found.\n";
 
-    private static final String DEFAULT_SHELL = "/bin/bash";
-
     /**
-     * Adds a new Linux group.
-     *
-     * @param groupName The name of the group to be created.
-     * @param isSystemGroup Creates a system group.
-     * @throws IOException if the group could not be created.
+     * The root-owned helper, installed by setup_linux_userspace.sh, that runs
+     * the only operations the Supervisor may run as root: it accepts nothing
+     * but the account of an App and that App's own directories.
      */
-    public static void addgroup(String groupName, boolean isSystemGroup) throws IOException {
-        String[] cmd = isSystemGroup
-                ? new String[]{"sudo", "addgroup", "-S", groupName}
-                : new String[]{"sudo", "addgroup", groupName};
-        String out = runCommand(cmd);
-        checkIfPermissionDenied(cmd, out);
-        LinuxUsersGroups.printCommandAndOutput(cmd, out);
-    }
+    public static final String APP_ACCOUNT_HELPER = "/usr/local/sbin/nmf-app-account";
 
     /**
-     * Adds a new Linux user account and sets its respective password. The
-     * account can be created without a password by passing a null into the
-     * password field argument.
+     * Adds the Linux system account of an App, with a group of its own. The
+     * account has no password, so nobody can log in as it: the Supervisor
+     * switches to it with su.
      *
-     * @param username The username of the user account.
-     * @param password The Password of the user account. Can be null if no
-     * password is to be defined.
-     * @param withGroup Defines if a group with the same name must also be
-     * created during the user account creation.
+     * @param username The username of the App, which must be app-&lt;name&gt;.
      * @throws IOException if the user could not be created.
      */
-    public static void adduser(String username, String password,
-            boolean withGroup) throws IOException {
-        // First, we need to check if the "useradd" is from BusyBox or not
-        // Different Linux Systems have different syntaxes for the same command
-        // So we need to check if we are using the adduser from "BusyBox" or not
-        String[] cmd1 = {"sudo", "adduser", "--help"};
-        String out1 = runCommand(cmd1);
-        boolean isBusyBox = out1.contains("BusyBox");
-
-        // Second, we execute the adduser command
-        String[] cmd2;
-
-        if (isBusyBox) {
-            if (withGroup) {
-                LinuxUsersGroups.addgroup(username, true);
-
-                cmd2 = new String[]{"sudo", "adduser", "-s", DEFAULT_SHELL,
-                    "-G", username, "-S", username};
-            } else {
-                cmd2 = new String[]{"sudo", "adduser", "-s", DEFAULT_SHELL,
-                    "-S", username};
-            }
-        } else {
-            // It is NOT BusyBox:
-            cmd2 = new String[]{"sudo", "adduser", "--system",
-                "--shell", DEFAULT_SHELL, withGroup ? "--group" : "",
-                username};
-        }
-
-        String out2 = runCommand(cmd2);
-        checkIfPermissionDenied(cmd2, out2);
-
-        // Does the user account have a respective password?
-        if (password != null) {
-            LinuxUsersGroups.chpasswd(username, password);
-        }
-
-        LinuxUsersGroups.printCommandAndOutput(cmd2, out2);
+    public static void addAppUser(String username) throws IOException {
+        runAppAccountHelper("create", username);
     }
 
     /**
-     * Adds the given user to the given group.
+     * Deletes the Linux account of an App, together with its home directory.
      *
-     * @param username the username
-     * @param extraGroup the extra group
-     * @throws IOException if the operation fails
-     */
-    public static void addUserToGroup(String username, String extraGroup) throws IOException {
-        // Note: usermod does not exist in some trimmed Linux versions
-        // Therefore we will be using the adduser equivalent functionality
-        String[] cmd = {"sudo", "adduser", username, extraGroup};
-        String out = runCommand(cmd);
-        checkIfPermissionDenied(cmd, out);
-        LinuxUsersGroups.printCommandAndOutput(cmd, out);
-    }
-
-    /**
-     * Sets the given user's password (via {@code chpasswd}).
-     *
-     * @param username the username
-     * @param password the password
-     * @throws IOException if the operation fails
-     */
-    public static void chpasswd(String username, String password) throws IOException {
-        String[] cmd1 = {"chpasswd", "-h"};
-        String out1 = runCommand(cmd1);
-
-        // echo $user_nmf_admin:$user_nmf_admin_password | chpasswd
-        String userWithPass = username + ":" + password;
-        String[] cmd2 = {"echo", userWithPass, "|", "chpasswd"};
-        String out2 = runCommand(cmd2);
-        checkIfPermissionDenied(cmd2, out2);
-    }
-
-    /**
-     * Deletes an existing Linux user account.
-     *
-     * @param username The username of the user account.
-     * @param removeHome Sets if the user's home directory will be removed.
+     * @param username The username of the App, which must be app-&lt;name&gt;.
      * @throws IOException if the user could not be deleted.
      */
-    public static void userdel(String username, boolean removeHome) throws IOException {
-        String strRemove = removeHome ? "--remove" : "";
-        String[] cmd = {"sudo", "userdel", "--force", strRemove, username};
-        String out = runCommand(cmd);
-        checkIfPermissionDenied(cmd, out);
-        LinuxUsersGroups.printCommandAndOutput(cmd, out);
+    public static void deleteAppUser(String username) throws IOException {
+        runAppAccountHelper("delete", username);
     }
 
     /**
-     * Deletes an existing Linux user account.
+     * Gives the files of one of an App's own directories (its installation or
+     * its logs directory) to the App's group.
      *
-     * @param username The username of the user account.
-     * @param removeHome Sets if the user's home directory will be removed.
-     * @throws IOException if the user could not be deleted.
+     * @param username The username of the App, which must be app-&lt;name&gt;.
+     * @param path The App's directory.
+     * @throws IOException if the group could not be changed.
      */
-    public static void deluser(String username, boolean removeHome) throws IOException {
-        String strRemove = removeHome ? "--remove-home" : "";
-        String[] cmd = {"sudo", "deluser", strRemove, username};
+    public static void giveToAppGroup(String username, String path) throws IOException {
+        runAppAccountHelper("own", username, path);
+    }
+
+    private static void runAppAccountHelper(String... args) throws IOException {
+        String[] cmd = new String[args.length + 3];
+        cmd[0] = "sudo";
+        cmd[1] = "-n";
+        cmd[2] = APP_ACCOUNT_HELPER;
+        System.arraycopy(args, 0, cmd, 3, args.length);
         String out = runCommand(cmd);
         checkIfPermissionDenied(cmd, out);
         LinuxUsersGroups.printCommandAndOutput(cmd, out);
@@ -179,37 +97,19 @@ public class LinuxUsersGroups {
 
     /**
      * Changes the access permissions of file system objects (files and
-     * directories).
+     * directories) that the Supervisor owns.
      *
-     * @param sudo Sets if the command needs sudo.
      * @param recursive Sets if the command is recursive.
      * @param mode The mode to be set.
      * @param path The path of the file or directory.
      * @throws IOException if the permissions could not be changed.
      */
-    public static void chmod(boolean sudo, boolean recursive, String mode, String path) throws IOException {
+    public static void chmod(boolean recursive, String mode, String path) throws IOException {
         // Note: The flag has to be "-R" and not "--recursive", because of BusyBox
-        String strRecursive = recursive ? "-R" : "";
+        String[] cmd = recursive
+                ? new String[]{"chmod", "-R", mode, path}
+                : new String[]{"chmod", mode, path};
 
-        String[] cmd = sudo
-                ? new String[]{"sudo", "chmod", strRecursive, mode, path}
-                : new String[]{"chmod", strRecursive, mode, path};
-
-        String out = runCommand(cmd);
-        checkIfPermissionDenied(cmd, out);
-        LinuxUsersGroups.printCommandAndOutput(cmd, out);
-    }
-
-    /**
-     * Changes the group ownership of the given path (via {@code chgrp}).
-     *
-     * @param recursive the recursive
-     * @param newGroup the new group
-     * @param path the path
-     * @throws IOException if the operation fails
-     */
-    public static void chgrp(boolean recursive, String newGroup, String path) throws IOException {
-        String[] cmd = {"sudo", "chgrp", recursive ? "--recursive" : "", newGroup, path};
         String out = runCommand(cmd);
         checkIfPermissionDenied(cmd, out);
         LinuxUsersGroups.printCommandAndOutput(cmd, out);

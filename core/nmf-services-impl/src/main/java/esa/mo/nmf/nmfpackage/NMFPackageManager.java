@@ -56,16 +56,6 @@ public class NMFPackageManager {
 
     private static final String RECEIPT_ENDING = ".receipt";
 
-    // This must match the group_nmf_apps value in the setup_linux_userspace.sh file
-    private static final String GROUP_NMF_APPS = "nmf-apps";
-
-    // The groups will be disbled in the current state of the NMF because there
-    // is no need for it at the moment and it is not supported by the Phi-Sat-2
-    // mission on-board computer. This might have to be revised in the future...
-    private static final boolean GROUP_FLAG = false;
-
-    private static final String USER_NMF_ADMIN = "nmf-admin";
-
     private static final String USER_NMF_APP_PREFIX = "app-";
 
     private static final String SEPARATOR = "--------------\n";
@@ -150,7 +140,6 @@ public class NMFPackageManager {
         if (metadata.isApp()) {
             boolean linuxUserspace = AppsIsolationMode.isLinuxUserspace();
             String username = linuxUserspace ? generateUsername(packageName) : null;
-            String password = null;
 
             File appDir = new File(Deployment.getAppsDir(), packageName);
             AuxFilesGenerator.generateStartScript(metadata.castToApp(), appDir);
@@ -160,42 +149,16 @@ public class NMFPackageManager {
 
             if (OS.isUnix() && linuxUserspace) {
                 try {
-                    // Create the User for this App
-                    boolean withGroup = true;
-                    LinuxUsersGroups.adduser(username, password, withGroup);
+                    // Create the User for this App, with a group of its own and
+                    // a home directory that the Supervisor's group can access
+                    LinuxUsersGroups.addAppUser(username);
 
-                    if (GROUP_FLAG) {
-                        try {
-                            LinuxUsersGroups.addUserToGroup(username, GROUP_NMF_APPS);
-                        } catch (IOException ex) {
-                            Logger.getLogger(NMFPackageManager.class.getName()).log(
-                                    Level.INFO, "The User " + username
-                                    + " could not be added to the Group: "
-                                    + GROUP_NMF_APPS, ex);
-                        }
-                    }
-
-                    // Set the right Group and Permissions to the Home Directory
-                    // The owner remains with the app, the group is nmf-admin
-                    try {
-                        String appHomeDir = LinuxUsersGroups.findHomeDir(username);
-                        LinuxUsersGroups.chgrp(true, USER_NMF_ADMIN, appHomeDir);
-                        LinuxUsersGroups.chmod(true, true, "770", appHomeDir);
-                    } catch (IOException ex) {
-                        Logger.getLogger(NMFPackageManager.class.getName()).log(
-                                Level.INFO, "The permissions of the User Home "
-                                + "directory could not be set for username: "
-                                + username, ex);
-                    }
-
-                    // There is a group with the same name as the username:
-                    String toGroup = username;
-                    // Change Group owner of the appDir...
+                    // Give the appDir to the App's group...
                     // Usually something like: /nanosat-mo-framework/apps/my-app
-                    changeGroupAndSetPermissions(appDir, toGroup, "750");
+                    changeGroupAndSetPermissions(appDir, username, "750");
 
                     try {
-                        changeGroupAndSetPermissions(logDir, toGroup, "770");
+                        changeGroupAndSetPermissions(logDir, username, "770");
                     } catch (IOException ex) {
                         // The previous log files were created with a user that 
                         // might no longer exist, so just ignore the exception!
@@ -264,7 +227,7 @@ public class NMFPackageManager {
                 if (!keepUserData) {
                     String username = generateUsername(packageName);
                     try {
-                        LinuxUsersGroups.deluser(username, true);
+                        LinuxUsersGroups.deleteAppUser(username);
                     } catch (IOException ex) {
                         Logger.getLogger(NMFPackageManager.class.getName()).log(
                                 Level.WARNING, "The User could not be deleted: "
@@ -878,13 +841,13 @@ public class NMFPackageManager {
     }
 
     private static void changeGroupAndSetPermissions(File file,
-            String toGroup, String permissions) throws IOException {
-        if (toGroup != null) {
-            LinuxUsersGroups.chgrp(true, toGroup, file.getAbsolutePath());
+            String appUser, String permissions) throws IOException {
+        if (appUser != null) {
+            LinuxUsersGroups.giveToAppGroup(appUser, file.getAbsolutePath());
         }
 
         // chmod the installation directory with recursive
-        LinuxUsersGroups.chmod(false, true, permissions, file.getAbsolutePath());
+        LinuxUsersGroups.chmod(true, permissions, file.getAbsolutePath());
     }
 
     private void stopAppIfRunning(String name) {

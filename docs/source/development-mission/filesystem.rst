@@ -128,7 +128,11 @@ explicitly:
 
 When the ``linux-userspace`` apps isolation mode is selected, the generated ``setup_linux_userspace.sh``
 script provisions the Linux users and groups of that mode and locks the ``bootloader/`` domain (the
-factory baseline file becomes root-owned and read-only). It is executed once as root during initial
+factory baseline file becomes root-owned and read-only).
+It creates the Supervisor's ``nmf-admin`` account locked, with no password,
+and allows it, through ``sudo``, only the root-owned app account helper and ``su`` to an app's user
+(see :doc:`app-isolation`).
+It is executed once as root during initial
 hardware bring-up. In the default ``none`` mode no provisioning script is generated.
 
 Mission project structure

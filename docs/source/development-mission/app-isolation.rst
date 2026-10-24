@@ -87,9 +87,17 @@ separate home directory and file-permission boundary enforced by the OS kernel.
 
 **Requirements:**
 
-- The Supervisor user must have permission to call ``sudo adduser`` (or ``useradd`` on BusyBox-based systems)
-  and ``sudo su``. The recommended approach is a ``sudoers`` rule scoped to those two commands for the
-  Supervisor account only — not a blanket ``NOPASSWD: ALL``.
+- The Supervisor user, ``nmf-admin``, may run only two commands as root, through ``sudo``:
+  ``su - app-<name>``, to start an app,
+  and the root-owned helper ``/usr/local/sbin/nmf-app-account``, which creates and deletes the account of an app
+  and gives the app's own directories to its group.
+  The helper refuses any account that is not an app's and any other directory.
+  Generic commands such as ``adduser``, ``chgrp`` or ``chmod`` must not be allowed,
+  because they accept any argument and would make the Supervisor equivalent to root.
+  ``setup_linux_userspace.sh`` installs the helper and writes these rules to ``/etc/sudoers.d/nmf-admin``.
+- The ``nmf-admin`` account has no password and is locked, so nobody can log in as it.
+  It is started by root, for example from a service unit.
+  Operators who need a shell as ``nmf-admin`` use their own account and ``sudo -iu nmf-admin``.
 - The OS must have ``sudo`` and ``su`` available (standard on any full Linux distribution).
 
 This mode is the recommended choice for production missions on Linux hardware. It provides strong per-app

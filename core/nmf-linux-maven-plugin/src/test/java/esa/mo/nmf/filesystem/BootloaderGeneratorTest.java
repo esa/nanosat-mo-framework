@@ -82,6 +82,22 @@ public class BootloaderGeneratorTest {
         String setup = new String(Files.readAllBytes(setupScript().toPath()), StandardCharsets.UTF_8);
         Assert.assertTrue("the setup script must create the nmf-admin user", setup.contains("nmf-admin"));
         Assert.assertTrue("the setup script must create the nmf-apps group", setup.contains("nmf-apps"));
+
+        // The nmf-admin account must not get a password, nor sudo rights to set one.
+        Assert.assertFalse("the setup script must not set any password", setup.contains("chpasswd"));
+        Assert.assertTrue("the setup script must lock the nmf-admin account",
+                setup.contains("passwd -l $user_nmf_admin"));
+
+        // Its sudo rights must be the App account helper and su to an App user only.
+        Assert.assertTrue("the setup script must install the App account helper",
+                setup.contains("helper_path=\"/usr/local/sbin/nmf-app-account\""));
+        Assert.assertTrue("nmf-admin must be allowed the App account helper",
+                setup.contains("NOPASSWD: $helper_path\n"));
+        for (String generic : new String[]{"NOPASSWD:/usr/sbin/adduser", "NOPASSWD:/usr/sbin/deluser",
+            "NOPASSWD:/bin/chmod", "NOPASSWD:/bin/chgrp", "$rule_"}) {
+            Assert.assertFalse("nmf-admin must not be given a generic command: " + generic,
+                    setup.contains(generic));
+        }
     }
 
     @Test
