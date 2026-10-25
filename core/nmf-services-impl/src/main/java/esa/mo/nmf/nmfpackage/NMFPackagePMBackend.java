@@ -188,8 +188,10 @@ public class NMFPackagePMBackend implements PMBackend {
         try (NMFPackage nmfPackage = new NMFPackage(this.getFolderLocation(packageName))) {
             nmfPackage.verifyPackageIntegrity();
         } catch (IOException ex) {
+            // A failed check is a result, not a fault: the reason is enough
             Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.WARNING,
-                    "The integrity check failed for the package: " + packageName, ex);
+                    "The integrity check failed for the package {0}: {1}",
+                    new Object[]{packageName, ex.getMessage()});
             return false;
         }
 
