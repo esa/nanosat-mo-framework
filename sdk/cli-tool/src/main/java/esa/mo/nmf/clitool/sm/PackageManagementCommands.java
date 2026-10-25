@@ -35,6 +35,8 @@ import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.StringList;
+import org.ccsds.moims.mo.sm.structures.PackageApproval;
+import org.ccsds.moims.mo.sm.structures.PackageApprovalList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.packagemanagement.body.FindPackageResponse;
 import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementAdapter;
@@ -106,10 +108,13 @@ public class PackageManagementCommands {
 
     /**
      * Implements the {@code software-management install} CLI command:
-     * {@code install <packageName> [--sha256 <checksum>]}. The optional
-     * checksum is the SHA-256 of the package file computed on ground, which the
-     * package file on board must match; a provider configured to require one
-     * refuses the install without it.
+     * {@code install <packageName> [--sha256 <checksum>] [--grant <permissions>]}.
+     * The optional checksum is the SHA-256 of the package file computed on
+     * ground, which the package file on board must match; a provider configured
+     * to require one refuses the install without it. The optional permissions,
+     * separated by commas, are those that ground acknowledges for the App; a
+     * provider that enforces access control refuses an App whose declared
+     * permissions are not all acknowledged.
      */
     public static class Install extends BaseCommand {
         /**
@@ -123,6 +128,7 @@ public class PackageManagementCommands {
         public void run(Args args) {
             parseBaseOptions(args);
             String sha256 = args.option("--sha256");
+            String grant = args.option("--grant");
             List<String> positionals = args.positionals();
             if (positionals.isEmpty()) {
                 System.out.println("Missing required argument: <packageName>");
@@ -149,7 +155,7 @@ public class PackageManagementCommands {
                     String packageName = response.getNames().get(i).getValue();
                     Boolean isInstalled = response.getInstalled().get(i);
                     if (!isInstalled) {
-                        packageManagement.install(names, checksumsFor(sha256),
+                        packageManagement.install(approvalFor(name, sha256, grant),
                                 new PackageManagementAdapter() {
                             @Override
                             public void installAckReceived(
@@ -272,8 +278,8 @@ public class PackageManagementCommands {
 
     /**
      * Implements the {@code software-management update} CLI command:
-     * {@code update <packageName> [--sha256 <checksum>]}, with the same
-     * optional checksum as install.
+     * {@code update <packageName> [--sha256 <checksum>] [--grant <permissions>]},
+     * with the same options as install.
      */
     public static class Update extends BaseCommand {
         /**
@@ -287,6 +293,7 @@ public class PackageManagementCommands {
         public void run(Args args) {
             parseBaseOptions(args);
             String sha256 = args.option("--sha256");
+            String grant = args.option("--grant");
             List<String> positionals = args.positionals();
             if (positionals.isEmpty()) {
                 System.out.println("Missing required argument: <packageName>");
@@ -308,7 +315,7 @@ public class PackageManagementCommands {
                 PackageManagementStub packageManagement = getPackageManagement();
                 IdentifierList names = new IdentifierList();
                 names.add(new Identifier(name));
-                packageManagement.update(names, checksumsFor(sha256),
+                packageManagement.update(approvalFor(name, sha256, grant),
                         new PackageManagementAdapter() {
                     @Override
                     public void updateAckReceived(MALMessageHeader msgHeader, Map qosProperties) {
@@ -356,15 +363,23 @@ public class PackageManagementCommands {
     }
 
     /**
-     * Returns the expected checksums to send with a request for one package:
-     * the given SHA-256, or null if none was given.
+     * Returns the approval to send with a request for one package: its name,
+     * the SHA-256 that its file is expected to have, or null for none, and the
+     * permissions that ground acknowledges, separated by commas, or null for none.
      */
-    private static StringList checksumsFor(String sha256) {
-        if (sha256 == null) {
-            return null;
+    private static PackageApprovalList approvalFor(String name, String sha256, String grant) {
+        StringList permissions = null;
+        if (grant != null) {
+            permissions = new StringList();
+            for (String permission : grant.split(",")) {
+                if (!permission.trim().isEmpty()) {
+                    permissions.add(permission.trim());
+                }
+            }
         }
-        StringList checksums = new StringList();
-        checksums.add(sha256.trim().toLowerCase(java.util.Locale.ROOT));
-        return checksums;
+        String checksum = (sha256 == null) ? null : sha256.trim().toLowerCase(java.util.Locale.ROOT);
+        PackageApprovalList approvals = new PackageApprovalList();
+        approvals.add(new PackageApproval(new Identifier(name), checksum, permissions));
+        return approvals;
     }
 }

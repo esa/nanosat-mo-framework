@@ -60,6 +60,7 @@ import org.ccsds.moims.mo.sm.structures.AppDetails;
 import org.ccsds.moims.mo.sm.structures.AppEventType;
 import org.ccsds.moims.mo.sm.structures.AppStarted;
 import org.ccsds.moims.mo.sm.structures.AppStopped;
+import org.ccsds.moims.mo.sm.structures.UnauthorisedCall;
 
 /**
  * Apps Launcher service Provider.
@@ -177,6 +178,36 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
      */
     public void setStdQuotaPerApp(Quota q) {
         this.stdQuota = q;
+    }
+
+    /**
+     * Stores in the Archive a call that the Supervisor received without the
+     * permission or the credential it needs.
+     *
+     * @param app the App that made it, or null if the caller had no valid credential
+     * @param permission the permission it needs
+     * @param operation the operation called
+     * @param from the URI of the caller
+     * @param refused true if it was refused, false if it was only audited
+     */
+    public void storeUnauthorisedCall(String app, String permission, String operation, URI from,
+            boolean refused) {
+        if (this.manager.getCOMServices().getArchiveService() == null) {
+            return;
+        }
+        try {
+            Long appId = (app == null) ? null : this.manager.list(new Identifier(app));
+            HeterogeneousList bodies = new HeterogeneousList();
+            bodies.add(new UnauthorisedCall(app == null ? null : new Identifier(app), permission,
+                    new Identifier(operation), from, refused));
+            ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
+                    appId, connection.getPrimaryConnectionDetails().getProviderURI());
+            this.manager.getCOMServices().getArchiveService().store(
+                    true, AppsLauncherServiceInfo.UNAUTHORISEDCALL_OBJECT_TYPE,
+                    ConfigurationProviderSingleton.getDomain(), archDetails, bodies, null);
+        } catch (org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException | MALException ex) {
+            LOGGER.log(Level.WARNING, "Could not store UnauthorisedCall in archive", ex);
+        }
     }
 
     private void storeAppStarted(Long appId, MALInteraction interaction) {

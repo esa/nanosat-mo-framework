@@ -80,6 +80,14 @@ public class AppsLauncherManagerBubblewrap extends AppsLauncherManager {
         ret.add("/");
         ret.add("/");
 
+        // Hide what an App must not read: the storage of every App, where their
+        // credentials are (its own is bound back below), and the bootloader
+        // directory, which holds the credential of ground
+        ret.add("--tmpfs");
+        ret.add(System.getProperty("user.home") + File.separator + ".nmf-apps");
+        ret.add("--tmpfs");
+        ret.add(Deployment.getBootloaderDir().getAbsolutePath());
+
         // App directory read-write (state files, config written by the app)
         ret.add("--bind");
         ret.add(workDir);
@@ -106,6 +114,11 @@ public class AppsLauncherManagerBubblewrap extends AppsLauncherManager {
 
         ret.add("--tmpfs");
         ret.add("/tmp");
+
+        // A new /dev with only the standard devices (null, zero, random, urandom,
+        // tty, ...): the read-only host /dev cannot even be written to at /dev/null
+        ret.add("--dev");
+        ret.add("/dev");
 
         // Kill the sandbox if the Supervisor dies
         ret.add("--die-with-parent");

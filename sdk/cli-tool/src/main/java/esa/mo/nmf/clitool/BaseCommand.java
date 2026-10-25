@@ -21,6 +21,7 @@
 package esa.mo.nmf.clitool;
 
 import org.ccsds.moims.mo.mal.MOErrorException;
+import esa.mo.nmf.accesscontrol.NMFAccessControl;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchiveProviderServiceImpl;
 import esa.mo.nmf.NMFConsumer;
@@ -30,6 +31,7 @@ import esa.mo.nmf.clitool.mc.AggregationCommands;
 import esa.mo.nmf.clitool.mc.ParameterCommands;
 import esa.mo.nmf.clitool.sm.SoftwareManagementCommands;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -79,8 +81,9 @@ public abstract class BaseCommand {
     }
 
     /**
-     * Consumes the shared base options (-r/--remote, -l/--local, -p/--provider)
-     * from the supplied Args instance, populating the corresponding fields.
+     * Consumes the shared base options (-r/--remote, -l/--local, -p/--provider,
+     * --credential-file) from the supplied Args instance, populating the
+     * corresponding fields.
      *
      * @param args the parsed command line arguments
      */
@@ -88,6 +91,23 @@ public abstract class BaseCommand {
         providerURI   = args.option("-r", "--remote");
         databaseFile  = args.option("-l", "--local");
         providerName  = args.option("-p", "--provider");
+        String credentialFile = args.option("--credential-file");
+
+        // The ground credential is presented on the requests to the Supervisor
+        // at the given URI, and to nothing else
+        NMFAccessControl.install();
+        if (credentialFile != null && providerURI != null) {
+            try {
+                NMFAccessControl.INSTANCE.presentCredential(
+                        NMFAccessControl.readCredential(credentialFile), providerURI);
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, "The credential could not be read from " + credentialFile, ex);
+                System.exit(ExitCodes.GENERIC_ERROR);
+            }
+        } else {
+            // As in the playground: the credential file given as a system property
+            NMFAccessControl.presentGroundCredential(providerURI);
+        }
     }
 
     /**

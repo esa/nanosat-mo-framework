@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.filesystem;
 
+import esa.mo.nmf.accesscontrol.NMFAccessControl;
 import esa.mo.nmf.environment.AppsIsolationMode;
 import esa.mo.nmf.environment.Deployment;
 import esa.mo.nmf.environment.SoftwareBaseline;
@@ -117,6 +118,27 @@ public class BootloaderGenerator {
     public void generate(String nmfVersion, String missionVersion,
             String supervisorMainClass, String appsIsolation,
             boolean requirePackageChecksum) throws IOException {
+        generate(nmfVersion, missionVersion, supervisorMainClass, appsIsolation, requirePackageChecksum, "enforce");
+    }
+
+    /**
+     * Generates the bootloader script and its domain. Must be called after
+     * the baseline jar directories have been populated, because the checksum
+     * manifests cover their final contents.
+     *
+     * @param nmfVersion The NMF framework version of the deployed baseline.
+     * @param missionVersion The mission software version of the deployed
+     * baseline.
+     * @param supervisorMainClass The main class of the Supervisor.
+     * @param appsIsolation The apps isolation mode.
+     * @param requirePackageChecksum Whether install and update refuse a package
+     * that comes without its expected checksum.
+     * @param accessControl The access control mode: off, audit or enforce.
+     * @throws IOException if a file could not be generated.
+     */
+    public void generate(String nmfVersion, String missionVersion,
+            String supervisorMainClass, String appsIsolation,
+            boolean requirePackageChecksum, String accessControl) throws IOException {
         // The bootloader script: a static resource, copied verbatim
         copyResource(BOOTLOADER_SCRIPT);
 
@@ -138,12 +160,19 @@ public class BootloaderGenerator {
         String config = "# NMF Bootloader configuration\n"
                 + "apps-isolation=" + appsIsolation + "\n"
                 + "require-package-checksum=" + requirePackageChecksum + "\n"
+                + "access-control=" + accessControl + "\n"
                 + "max-report-file-size-kb=" + DEFAULT_MAX_REPORT_FILE_SIZE_KB + "\n"
                 + "min-free-disk-kb=" + DEFAULT_MIN_FREE_DISK_KB + "\n"
                 + "boot-confirm-timeout-s=" + DEFAULT_BOOT_CONFIRM_TIMEOUT_S + "\n"
                 + "boot-max-attempts=" + DEFAULT_BOOT_MAX_ATTEMPTS + "\n"
                 + "promotion-soak-s=" + DEFAULT_PROMOTION_SOAK_S + "\n";
         writeFile(new File(bootloaderDir, Deployment.FILE_BOOTLOADER_CONFIG), config);
+
+        // The credential of ground, new for each filesystem: requests that present
+        // it may call every service. It stays in the bootloader directory, which
+        // only the Supervisor can read under linux-userspace isolation.
+        writeFile(new File(bootloaderDir, Deployment.FILE_GROUND_CREDENTIAL),
+                NMFAccessControl.toText(NMFAccessControl.newCredential()) + "\n");
 
         // The Boot Report directory
         new File(new File(nmfRootDir, Deployment.DIR_LOGS), Deployment.DIR_BOOTLOADER).mkdirs();

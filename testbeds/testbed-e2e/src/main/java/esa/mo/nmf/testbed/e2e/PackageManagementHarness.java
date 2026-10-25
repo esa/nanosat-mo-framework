@@ -56,6 +56,8 @@ import org.ccsds.moims.mo.sm.packagemanagement.PackageManagementServiceInfo;
 import org.ccsds.moims.mo.sm.packagemanagement.body.FindPackageResponse;
 import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementAdapter;
 import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementStub;
+import org.ccsds.moims.mo.sm.structures.PackageApproval;
+import org.ccsds.moims.mo.sm.structures.PackageApprovalList;
 
 /**
  * Drives the Supervisor's Package Management service for end-to-end tests and
@@ -212,11 +214,8 @@ public class PackageManagementHarness {
             Boolean keepConfigurations, String sha256) throws IOException {
         IdentifierList names = new IdentifierList();
         names.add(new Identifier(packageFileName));
-        StringList checksums = null;
-        if (sha256 != null) {
-            checksums = new StringList();
-            checksums.add(sha256);
-        }
+        PackageApprovalList approvals = new PackageApprovalList();
+        approvals.add(new PackageApproval(new Identifier(packageFileName), sha256, null));
 
         CountDownLatch latch = new CountDownLatch(1);
         AtomicReference<MOErrorException> error = new AtomicReference<>();
@@ -288,7 +287,7 @@ public class PackageManagementHarness {
             // is fixed in 14.1 (synchronized LazyMessageBody.decodeMessageBody).
             switch (op) {
                 case INSTALL:
-                    stub.asyncInstall(names, checksums, callback);
+                    stub.asyncInstall(approvals, callback);
                     break;
                 case UNINSTALL:
                     BooleanList keep = new BooleanList();
@@ -296,7 +295,7 @@ public class PackageManagementHarness {
                     stub.asyncUninstall(names, keep, callback);
                     break;
                 case UPDATE:
-                    stub.asyncUpdate(names, checksums, callback);
+                    stub.asyncUpdate(approvals, callback);
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown operation: " + op);

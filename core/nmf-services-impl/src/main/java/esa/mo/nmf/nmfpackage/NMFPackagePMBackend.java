@@ -28,6 +28,8 @@ import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import esa.mo.sm.impl.util.PMBackend;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipFile;
@@ -93,7 +95,7 @@ public class NMFPackagePMBackend implements PMBackend {
     }
 
     @Override
-    public void install(final String packageName) {
+    public void install(final String packageName, final List<String> acknowledged) {
         String packageLocation = this.getFolderLocation(packageName);
         File destination = Deployment.getNMFRootDir();
 
@@ -102,7 +104,8 @@ public class NMFPackagePMBackend implements PMBackend {
                 + "\nPackage location: " + packageLocation);
 
         try {
-            manager.install(packageLocation, destination);
+            manager.install(packageLocation, destination,
+                    acknowledged == null ? new ArrayList<>() : acknowledged);
         } catch (IOException ex) {
             Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE,
                     "The package '" + packageName + "' could not be installed!", ex);
@@ -131,7 +134,7 @@ public class NMFPackagePMBackend implements PMBackend {
     }
 
     @Override
-    public void update(final String packageName) {
+    public void update(final String packageName, final List<String> acknowledged) {
         String packageLocation = this.getFolderLocation(packageName);
         Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
                 "Updating the package from: {0}", packageLocation);
@@ -140,10 +143,19 @@ public class NMFPackagePMBackend implements PMBackend {
         File destination = Deployment.getNMFRootDir();
 
         try {
-            manager.update(packageLocation, destination);
+            manager.update(packageLocation, destination,
+                    acknowledged == null ? new ArrayList<>() : acknowledged);
         } catch (IOException ex) {
             Logger.getLogger(NMFPackagePMBackend.class.getName()).log(
                     Level.SEVERE, "The package could not be updated!", ex);
+        }
+    }
+
+    @Override
+    public List<String> getDeclaredPermissions(final String packageName) throws IOException {
+        try (ZipFile zipFile = new ZipFile(this.getFolderLocation(packageName))) {
+            Metadata metadata = Metadata.parseZipFile(zipFile);
+            return metadata.isApp() ? metadata.castToApp().getAppPermissions() : null;
         }
     }
 

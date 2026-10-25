@@ -21,6 +21,7 @@
 package esa.mo.nmf.nanosatmoconnector;
 
 import org.ccsds.moims.mo.mal.MOErrorException;
+import esa.mo.nmf.accesscontrol.NMFAccessControl;
 import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.com.impl.util.COMServicesConsumer;
 import esa.mo.com.impl.util.HelperCommon;
@@ -88,6 +89,11 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
     public void init(final MonitorAndControlNMFAdapter mcAdapter) {
         super.startTime = System.currentTimeMillis();
         LOGGER.log(Level.INFO, this.generateStartBanner());
+
+        // Every MAL context of the App uses NMF's access control, which presents
+        // the App's credential on its requests to the Supervisor
+        NMFAccessControl.install();
+        this.presentCredential();
 
         // Loads: provider.properties; transport.properties
         NMFProvider.loadMOElements();
@@ -406,4 +412,29 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         // To be overridden
     }
 
+
+    /**
+     * Presents the credential that the Supervisor gave this App for this run,
+     * on its requests to the Supervisor. An App started outside the Supervisor,
+     * such as from an IDE, has none.
+     */
+    private void presentCredential() {
+        String file = System.getProperty(NMFAccessControl.CREDENTIAL_FILE_PROPERTY);
+        if (file == null) {
+            return;
+        }
+        try {
+            URI supervisor = this.readCentralDirectoryServiceURI();
+            if (supervisor != null) {
+                NMFAccessControl.INSTANCE.presentCredential(
+                        NMFAccessControl.readCredential(file), supervisor.getValue());
+            }
+            String granted = System.getProperty(NMFAccessControl.GRANTED_PROPERTY, "");
+            NMFAccessControl.INSTANCE.setGranted(granted.isEmpty()
+                    ? java.util.Collections.emptyList() : java.util.Arrays.asList(granted.split(";")));
+        } catch (IOException ex) {
+            LOGGER.log(Level.WARNING, "The credential of the App could not be read from " + file
+                    + ": its calls to the Supervisor will carry none", ex);
+        }
+    }
 }

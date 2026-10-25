@@ -15,4 +15,6 @@ if [ -z "$CLI_JAR" ]; then
     echo "CLI jar not found. Build the project first with: mvn install -Dmaven.javadoc.skip=true -Desa.nmf.sdk.assembly.quickbuild=true"
     exit 1
 fi
-exec java -Djava.util.logging.config.file="$NMF_HOME/etc/logging.properties" -jar "$CLI_JAR" "$@"
+# The playground's tools present the credential of ground to its Supervisor
+exec java -Djava.util.logging.config.file="$NMF_HOME/etc/logging.properties" \
+    -Desa.mo.nmf.accesscontrol.groundCredentialFile="$NMF_HOME/bootloader/ground.credential" -jar "$CLI_JAR" "$@"

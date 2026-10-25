@@ -93,6 +93,23 @@ public class NMFPackageManager {
      */
     public void install(final String packageLocation,
             final File nmfDir) throws FileNotFoundException, IOException {
+        install(packageLocation, nmfDir, null);
+    }
+
+    /**
+     * Installs an NMF Package on the specified NMF root folder, recording the
+     * permissions that its App is granted.
+     *
+     * @param packageLocation The NMF Package location
+     * @param nmfDir The NMF root directory
+     * @param acknowledged The permissions that ground acknowledged; the App is
+     * granted those of them that it declares. Null grants all that it declares,
+     * as when the App is part of the filesystem that the mission generates.
+     * @throws FileNotFoundException if the file was not found
+     * @throws IOException if there was a problem with the NMF Package
+     */
+    public void install(final String packageLocation, final File nmfDir,
+            final List<String> acknowledged) throws FileNotFoundException, IOException {
         long timestamp = System.currentTimeMillis();
         System.out.printf(SEPARATOR);
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
@@ -100,12 +117,12 @@ public class NMFPackageManager {
 
         // Get the File to be installed
         try (NMFPackage nmfPackage = new NMFPackage(packageLocation)) {
-            install(nmfPackage, packageLocation, nmfDir, timestamp);
+            install(nmfPackage, packageLocation, nmfDir, timestamp, acknowledged);
         }
     }
 
     private void install(final NMFPackage nmfPackage, final String packageLocation,
-            final File nmfDir, long timestamp) throws IOException {
+            final File nmfDir, long timestamp, final List<String> acknowledged) throws IOException {
         Metadata metadata = nmfPackage.getMetadata();
 
         if (metadata.getMetadataVersion() < 3) {
@@ -174,7 +191,7 @@ public class NMFPackageManager {
         File receiptsFolder = Deployment.getInstallationsTrackerDir();
         String receiptFilename = packageName + RECEIPT_ENDING;
         File receiptFile = new File(receiptsFolder, receiptFilename);
-        metadata.store(receiptFile);
+        receiptWithGrants(metadata, acknowledged).store(receiptFile);
 
         if (metadata.isApp() && appsLauncher != null) {
             appsLauncher.refresh();
@@ -265,6 +282,21 @@ public class NMFPackageManager {
      * @throws IOException if the package could not be updated
      */
     public void update(final String packageLocation, final File nmfDir) throws IOException {
+        update(packageLocation, nmfDir, null);
+    }
+
+    /**
+     * Updates an installed NMF Package, recording the permissions that its App
+     * is granted after the update.
+     *
+     * @param packageLocation The location of the new NMF Package
+     * @param nmfDir The NMF root directory
+     * @param acknowledged The permissions that ground acknowledged; the App is
+     * granted those of them that it declares. Null grants all that it declares.
+     * @throws IOException if the package could not be updated
+     */
+    public void update(final String packageLocation, final File nmfDir,
+            final List<String> acknowledged) throws IOException {
         long timestamp = System.currentTimeMillis();
         System.out.printf(SEPARATOR);
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
@@ -272,12 +304,12 @@ public class NMFPackageManager {
 
         // Get the Package to be uninstalled
         try (NMFPackage newPack = new NMFPackage(packageLocation)) {
-            update(newPack, packageLocation, nmfDir, timestamp);
+            update(newPack, packageLocation, nmfDir, timestamp, acknowledged);
         }
     }
 
     private void update(final NMFPackage newPack, final String packageLocation,
-            final File nmfDir, long timestamp) throws IOException {
+            final File nmfDir, long timestamp, final List<String> acknowledged) throws IOException {
         Metadata newPackMetadata = newPack.getMetadata();
 
         if (newPackMetadata.getMetadataVersion() < 3) {
@@ -381,7 +413,7 @@ public class NMFPackageManager {
         }
 
         // Store a copy of the newReceipt to know that it has been installed!
-        newPackMetadata.store(oldReceiptFile);
+        receiptWithGrants(newPackMetadata, acknowledged).store(oldReceiptFile);
 
         if (appsLauncher != null) {
             appsLauncher.refresh();
@@ -817,6 +849,21 @@ public class NMFPackageManager {
             }
         }
         return null;
+    }
+
+    /**
+     * Returns the receipt to store for an installed package: its metadata, with
+     * the permissions that its App is granted when it carries an App.
+     */
+    private static Metadata receiptWithGrants(Metadata metadata, List<String> acknowledged) {
+        if (!metadata.isApp()) {
+            return metadata;
+        }
+        // castToApp returns a copy, so the receipt is stored from that copy
+        MetadataApp app = metadata.castToApp();
+        app.setGrantedPermissions(acknowledged == null
+                ? app.getAppPermissions() : app.grantedFrom(acknowledged));
+        return app;
     }
 
     private static String generateUsername(String appName) {

@@ -19,8 +19,14 @@ jobs:
           key: ${{ runner.os }}-maven-mo-services-java-jdk21-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-mo-services-java-jdk21-
+      - name: Set up the App sandboxes (AppSandboxSecretsTest)
+        run: |
+          sudo apt-get update && sudo apt-get install -y bubblewrap
+          # Ubuntu 24.04 restricts the unprivileged user namespaces that bubblewrap uses
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true
+          docker pull eclipse-temurin:21-jre
       - name: Run Maven install
-        run: mvn --batch-mode --update-snapshots install
+        run: mvn --batch-mode --update-snapshots install -Desa.mo.nmf.test.requireSandboxes=true
 
   build-jdk25:
     runs-on: ubuntu-latest
@@ -38,8 +44,14 @@ jobs:
           key: ${{ runner.os }}-maven-mo-services-java-jdk25-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-mo-services-java-jdk25-
+      - name: Set up the App sandboxes (AppSandboxSecretsTest)
+        run: |
+          sudo apt-get update && sudo apt-get install -y bubblewrap
+          # Ubuntu 24.04 restricts the unprivileged user namespaces that bubblewrap uses
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true
+          docker pull eclipse-temurin:21-jre
       - name: Run Maven install
-        run: mvn --batch-mode --update-snapshots install
+        run: mvn --batch-mode --update-snapshots install -Desa.mo.nmf.test.requireSandboxes=true
   testbed-area-mc-jdk21:
     runs-on: ubuntu-latest
     timeout-minutes: 15

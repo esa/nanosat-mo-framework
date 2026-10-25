@@ -21,6 +21,7 @@
 package esa.mo.nmf.nmfpackage;
 
 import esa.mo.helpertools.misc.Const;
+import esa.mo.nmf.accesscontrol.Permissions;
 import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
 import esa.mo.nmf.nmfpackage.metadata.MetadataDependency;
 import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
@@ -103,6 +104,15 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
     private List<String> libs;
 
     /**
+     * The permissions that the App declares: the services it needs beyond the
+     * baseline that every App has, such as {@code Supervisor.Platform.Camera},
+     * {@code App.<name>.*} or {@code App.*}. Ground acknowledges them when the
+     * App is installed or updated.
+     */
+    @Parameter(property = "generate-nmf-package.permissions")
+    private List<String> permissions;
+
+    /**
      * The set of privileges that an App can have
      */
     public enum Privilege {
@@ -139,6 +149,18 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
         getLog().info(">> nmfVersion = " + nmfVersion);
         getLog().info(">> maxHeap = " + maxHeap);
         getLog().info(">> minHeap = " + minHeap);
+        getLog().info(">> permissions = " + permissions);
+
+        if (permissions != null) {
+            for (String permission : permissions) {
+                if (!Permissions.isValid(permission)) {
+                    throw new MojoExecutionException("The permission '" + permission + "' is not valid."
+                            + " A permission is Supervisor.<Area>.<Service>, with the area and service as in"
+                            + " the MO service definitions (for example Supervisor.Platform.Camera),"
+                            + " App.<name>.* for all the services of another App, or App.* for every App.");
+                }
+            }
+        }
 
         if (mainClass == null) {
             throw new MojoExecutionException("The mainClass tag is not defined!"
@@ -207,6 +229,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
 
         MetadataApp metadata = new MetadataApp(name, version,
                 mainClass, mainJar, maxHeap, minHeap, dependencies, nmfVersion);
+        metadata.setAppPermissions(permissions);
 
         NMFPackageBuilder builder = new NMFPackageBuilder(metadata);
         builder.addFileOrDirectory(myAppFilename);

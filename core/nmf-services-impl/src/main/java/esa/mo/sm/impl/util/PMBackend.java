@@ -21,6 +21,7 @@
 package esa.mo.sm.impl.util;
 
 import java.io.IOException;
+import java.util.List;
 import org.ccsds.moims.mo.mal.structures.StringList;
 
 /**
@@ -40,11 +41,13 @@ public interface PMBackend {
     StringList getListOfPackages() throws IOException;
 
     /**
-     * Installs the content of a package.
+     * Installs a package, granting its App the permissions it declares that
+     * ground acknowledged.
      *
-     * @param packageName The name of the package to install.
+     * @param packageName The name of the package.
+     * @param acknowledged The permissions that ground acknowledged; null for none.
      */
-    void install(final String packageName);
+    void install(final String packageName, final List<String> acknowledged);
 
     /**
      * Uninstalls a package.
@@ -55,11 +58,23 @@ public interface PMBackend {
     void uninstall(final String packageName, final boolean keepUserData);
 
     /**
-     * Updates an installed package to the version of the supplied package.
+     * Updates a package, granting its App the permissions it declares that
+     * ground acknowledged.
      *
-     * @param packageName The name of the package to update to.
+     * @param packageName The name of the package.
+     * @param acknowledged The permissions that ground acknowledged; null for none.
      */
-    void update(final String packageName);
+    void update(final String packageName, final List<String> acknowledged);
+
+    /**
+     * Returns the permissions that the App in a package declares.
+     *
+     * @param packageName The name of the package.
+     * @return The declared permissions, empty if the App declares none; null
+     * if the package is not an App.
+     * @throws IOException if the package cannot be read.
+     */
+    List<String> getDeclaredPermissions(final String packageName) throws IOException;
 
     /**
      * Checks if a package is currently installed.

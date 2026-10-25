@@ -96,6 +96,12 @@ public class Deployment {
     public static final String FILE_BASELINE_FACTORY = BASELINE_FILE_PREFIX + ROLE_FACTORY + BASELINE_FILE_SUFFIX;
     /** The file bootloader config. */
     public static final String FILE_BOOTLOADER_CONFIG = "config.properties";
+
+    /**
+     * The file, in the bootloader directory, that holds the credential of
+     * ground: the requests that present it may call every service.
+     */
+    public static final String FILE_GROUND_CREDENTIAL = "ground.credential";
     /** The file bootloader state. */
     public static final String FILE_BOOTLOADER_STATE = "state.properties";
     /** The file boot confirmed. */

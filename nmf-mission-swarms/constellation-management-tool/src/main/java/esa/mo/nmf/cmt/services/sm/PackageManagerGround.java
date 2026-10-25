@@ -37,6 +37,8 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.packagemanagement.body.FindPackageResponse;
 import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementAdapter;
+import org.ccsds.moims.mo.sm.structures.PackageApproval;
+import org.ccsds.moims.mo.sm.structures.PackageApprovalList;
 
 /**
  * This class implements the functionality of the NMF Package Management Service
@@ -84,7 +86,7 @@ public class PackageManagerGround {
             LOGGER.log(Level.INFO, "Calling install on: {0}",
                     serviceSMPackageManagement.getConnectionDetails().getProviderURI().getValue());
 
-            serviceSMPackageManagement.getPackageManagementStub().asyncInstall(ids, null, new PackageManagementAdapter() {
+            serviceSMPackageManagement.getPackageManagementStub().asyncInstall(approvalsOf(ids), new PackageManagementAdapter() {
 
                 @Override
                 public void installAckReceived(MALMessageHeader msgHeader,
@@ -127,7 +129,7 @@ public class PackageManagerGround {
         ids.add(new Identifier(packageName));
 
         try {
-            serviceSMPackageManagement.getPackageManagementStub().update(ids, null, new PackageManagementAdapter() {
+            serviceSMPackageManagement.getPackageManagementStub().update(approvalsOf(ids), new PackageManagementAdapter() {
                 @Override
                 public void updateAckReceived(MALMessageHeader msgHeader, java.util.Map qosProperties) {
                     LOGGER.log(Level.INFO, "Updating...");
@@ -206,5 +208,17 @@ public class PackageManagerGround {
         } catch (MOErrorException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * Returns an approval for each package, with no expected checksum and no
+     * acknowledged permissions: a provider that requires either refuses them.
+     */
+    private static PackageApprovalList approvalsOf(IdentifierList names) {
+        PackageApprovalList approvals = new PackageApprovalList();
+        for (Identifier name : names) {
+            approvals.add(new PackageApproval(name, null, null));
+        }
+        return approvals;
     }
 }

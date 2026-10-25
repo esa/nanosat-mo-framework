@@ -23,10 +23,13 @@ package esa.mo.sm.impl.provider;
 import esa.mo.sm.impl.util.PMBackend;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
-import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.StringList;
+import org.ccsds.moims.mo.sm.structures.PackageApproval;
+import org.ccsds.moims.mo.sm.structures.PackageApprovalList;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -67,26 +70,26 @@ public class PackageChecksumRequestTest {
 
     @Test
     public void aMatchingChecksumIsAccepted() throws IOException {
-        Assert.assertTrue(provider.isChecksumAccepted(checksums(ON_BOARD), 0, PACKAGE));
+        Assert.assertTrue(provider.isChecksumAccepted(ON_BOARD, PACKAGE));
         Assert.assertTrue("Case and surrounding spaces do not matter",
-                provider.isChecksumAccepted(checksums(" " + ON_BOARD.toUpperCase() + " "), 0, PACKAGE));
+                provider.isChecksumAccepted(" " + ON_BOARD.toUpperCase() + " ", PACKAGE));
     }
 
     @Test
     public void aChecksumThatDoesNotMatchIsRefused() throws IOException {
-        Assert.assertFalse(provider.isChecksumAccepted(checksums(OTHER), 0, PACKAGE));
+        Assert.assertFalse(provider.isChecksumAccepted(OTHER, PACKAGE));
     }
 
     @Test
     public void aChecksumThatDoesNotMatchIsRefusedEvenWhenNoneIsRequired() throws Exception {
         try {
-            provider.install(names(), checksums(OTHER), null);
+            provider.install(approvals(OTHER), null);
             Assert.fail("An install whose package file does not match its checksum must be refused");
         } catch (InvalidArgumentException expected) {
             // The package is refused before anything is acknowledged
         }
         try {
-            provider.update(names(), checksums(OTHER), null);
+            provider.update(approvals(OTHER), null);
             Assert.fail("An update whose package file does not match its checksum must be refused");
         } catch (InvalidArgumentException expected) {
             // The package is refused before anything is acknowledged
@@ -95,41 +98,29 @@ public class PackageChecksumRequestTest {
 
     @Test
     public void noChecksumIsAcceptedWhenNoneIsRequired() throws IOException {
-        Assert.assertTrue(provider.isChecksumAccepted(null, 0, PACKAGE));
+        Assert.assertTrue(provider.isChecksumAccepted(null, PACKAGE));
     }
 
     @Test
     public void noChecksumIsRefusedWhenOneIsRequired() throws Exception {
         System.setProperty(PackageManagementProviderServiceImpl.PROPERTY_REQUIRE_CHECKSUM, "true");
 
-        Assert.assertFalse(provider.isChecksumAccepted(null, 0, PACKAGE));
+        Assert.assertFalse(provider.isChecksumAccepted(null, PACKAGE));
         Assert.assertTrue("A matching checksum is still accepted",
-                provider.isChecksumAccepted(checksums(ON_BOARD), 0, PACKAGE));
+                provider.isChecksumAccepted(ON_BOARD, PACKAGE));
         try {
-            provider.install(names(), null, null);
+            provider.install(approvals((String) null), null);
             Assert.fail("An install without a checksum must be refused when one is required");
         } catch (InvalidArgumentException expected) {
             // The package is refused before anything is acknowledged
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void checksumsMustMatchTheNamesOneToOne() throws Exception {
-        provider.install(names(), checksums(ON_BOARD, ON_BOARD), null);
-    }
-
-    private static IdentifierList names() {
-        IdentifierList names = new IdentifierList();
-        names.add(new Identifier(PACKAGE));
-        return names;
-    }
-
-    private static StringList checksums(String... values) {
-        StringList list = new StringList();
-        for (String value : values) {
-            list.add(value);
-        }
-        return list;
+    /** A request for the one package, with the given expected checksum and no permissions. */
+    private static PackageApprovalList approvals(String checksum) {
+        PackageApprovalList approvals = new PackageApprovalList();
+        approvals.add(new PackageApproval(new Identifier(PACKAGE), checksum, null));
+        return approvals;
     }
 
     /** One package on board, valid, not installed, whose file has the checksum ON_BOARD. */
@@ -143,7 +134,7 @@ public class PackageChecksumRequestTest {
         }
 
         @Override
-        public void install(String packageName) {
+        public void install(String packageName, List<String> acknowledged) {
             throw new AssertionError("Nothing may be installed in this test");
         }
 
@@ -153,7 +144,7 @@ public class PackageChecksumRequestTest {
         }
 
         @Override
-        public void update(String packageName) {
+        public void update(String packageName, List<String> acknowledged) {
             throw new AssertionError("Nothing may be updated in this test");
         }
 
@@ -180,6 +171,11 @@ public class PackageChecksumRequestTest {
         @Override
         public boolean isBaselineComponent(String packageName) {
             return false;
+        }
+
+        @Override
+        public List<String> getDeclaredPermissions(String packageName) {
+            return new ArrayList<>();
         }
 
         @Override

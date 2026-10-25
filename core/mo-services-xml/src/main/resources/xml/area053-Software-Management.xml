@@ -47,11 +47,8 @@
                 <mal:invokeIP name="install" number="2" comment="The install operation allows a consumer to install the content of a package on the provider. The selected packages will be installed sequentially.">
                     <mal:messages>
                         <mal:invoke>
-                            <mal:field name="names" canBeNull="true" comment="The names of the packages.">
-                                <mal:type area="MAL" list="true" name="Identifier"/>
-                            </mal:field>
-                            <mal:field name="checksums" canBeNull="true" comment="The SHA-256 checksum, as 64 lowercase hexadecimal digits, that each package file is expected to have, in the order of the names, so that only the exact file approved on ground is used. The package file stored on the provider must match it. NULL gives no checksums, which the provider refuses if it is configured to require them; otherwise there is one checksum for each name.">
-                                <mal:type area="MAL" list="true" name="String"/>
+                            <mal:field name="packages" canBeNull="false" comment="The packages, each with what ground approved for it: the checksum of its file and its permissions.">
+                                <mal:type area="SM" list="true" name="PackageApproval"/>
                             </mal:field>
                         </mal:invoke>
                         <mal:acknowledgement>
@@ -112,11 +109,8 @@
                 <mal:invokeIP name="update" number="4" comment="The update operation allows a consumer to update the content of a package on the provider. The selected packages will be updated sequentially.">
                     <mal:messages>
                         <mal:invoke>
-                            <mal:field name="names" canBeNull="true" comment="The names of the packages.">
-                                <mal:type area="MAL" list="true" name="Identifier"/>
-                            </mal:field>
-                            <mal:field name="checksums" canBeNull="true" comment="The SHA-256 checksum, as 64 lowercase hexadecimal digits, that each package file is expected to have, in the order of the names, so that only the exact file approved on ground is used. The package file stored on the provider must match it. NULL gives no checksums, which the provider refuses if it is configured to require them; otherwise there is one checksum for each name.">
-                                <mal:type area="MAL" list="true" name="String"/>
+                            <mal:field name="packages" canBeNull="false" comment="The packages, each with what ground approved for it: the checksum of its file and its permissions.">
+                                <mal:type area="SM" list="true" name="PackageApproval"/>
                             </mal:field>
                         </mal:invoke>
                         <mal:acknowledgement>
@@ -525,7 +519,7 @@
                 </mal:pubsubIP>
             </mal:capabilitySet>
             <com:features>
-                <com:objects comment="The AppDetails, AppStarted, and AppStopped COM objects used by the Apps Launcher service.">
+                <com:objects comment="The AppDetails, AppStarted, AppStopped, and UnauthorisedCall COM objects used by the Apps Launcher service.">
                     <com:object comment="" number="1" name="AppDetails">
                         <com:objectType>
                             <mal:type area="SM" list="false" name="AppDetails"/>
@@ -547,6 +541,15 @@
                             <mal:type area="SM" list="false" name="AppStopped"/>
                         </com:objectType>
                         <com:relatedObject comment="The related object shall be the AppDetails COM object of the stopped app.">
+                            <com:objectType area="SM" number="1" service="AppsLauncher"/>
+                        </com:relatedObject>
+                    </com:object>
+
+                    <com:object comment="Stored in the archive when the Supervisor receives a call that lacks the permission or the credential it needs: refused when access control is enforced, only recorded when it is audited." number="4" name="UnauthorisedCall">
+                        <com:objectType>
+                            <mal:type area="SM" list="false" name="UnauthorisedCall"/>
+                        </com:objectType>
+                        <com:relatedObject comment="The related object shall be the AppDetails COM object of the app that made the call, or NULL if the caller presented no valid credential.">
                             <com:objectType area="SM" number="1" service="AppsLauncher"/>
                         </com:relatedObject>
                     </com:object>
@@ -678,6 +681,26 @@
                     <mal:type area="MAL" list="false" name="String"/>
                 </mal:field>
             </mal:composite>
+            <mal:composite name="UnauthorisedCall" shortFormPart="15" comment="The body of an UnauthorisedCall COM object, stored in the archive when the Supervisor receives a call that lacks the permission or the credential it needs.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="app" canBeNull="true" comment="The name of the app that made the call. NULL if the caller presented no valid credential.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="permission" canBeNull="false" comment="The permission that the call needs, such as Supervisor.Platform.Camera.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="operation" canBeNull="false" comment="The operation that was called.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="from" canBeNull="true" comment="The URI of the caller. NULL if unknown.">
+                    <mal:type area="MAL" list="false" name="URI"/>
+                </mal:field>
+                <mal:field name="refused" canBeNull="false" comment="Whether the call was refused, when access control is enforced, or only recorded, when it is audited.">
+                    <mal:type area="MAL" list="false" name="Boolean"/>
+                </mal:field>
+            </mal:composite>
             <mal:enumeration name="CommandOutputType" shortFormPart="9" comment="The CommandOutputType enumeration identifies the kind of a command output notification.">
                 <mal:item nvalue="1" value="STDOUT"   comment="A chunk of the command's standard output stream."/>
                 <mal:item nvalue="2" value="STDERR"   comment="A chunk of the command's standard error stream."/>
@@ -695,6 +718,9 @@
                 </mal:field>
                 <mal:field name="triggeredBy" canBeNull="true" comment="The URI of the consumer that requested the installation. NULL if unknown.">
                     <mal:type area="MAL" list="false" name="URI"/>
+                </mal:field>
+                <mal:field name="permissions" canBeNull="true" comment="The permissions granted to the App: those it declares that ground acknowledged in the install request. NULL for a package that is not an App.">
+                    <mal:type area="MAL" list="true" name="String"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="PackageUninstalled" shortFormPart="11" comment="The body of a PackageUninstalled COM object, stored in the archive when a package is successfully uninstalled.">
@@ -740,6 +766,23 @@
                 </mal:field>
                 <mal:field name="triggeredBy" canBeNull="true" comment="The URI of the consumer that requested the update. NULL if unknown.">
                     <mal:type area="MAL" list="false" name="URI"/>
+                </mal:field>
+                <mal:field name="permissions" canBeNull="true" comment="The permissions granted to the App after the update: those it declares that ground acknowledged in the update request. NULL for a package that is not an App.">
+                    <mal:type area="MAL" list="true" name="String"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="PackageApproval" shortFormPart="14" comment="What ground approved for a package to be installed or updated.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="name" canBeNull="false" comment="The name of the package file.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="checksum" canBeNull="true" comment="The SHA-256 checksum that the package file is expected to have, as 64 lowercase hexadecimal digits, computed on ground so that only the exact file approved there is used. NULL gives no checksum, which the provider refuses if it is configured to require one.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="permissions" canBeNull="true" comment="The permissions that ground acknowledges for the App in the package, such as Supervisor.Platform.Camera. Each permission that the App declares must be acknowledged, or the provider refuses the package when access control is enforced. NULL acknowledges none.">
+                    <mal:type area="MAL" list="true" name="String"/>
                 </mal:field>
             </mal:composite>
         </mal:dataTypes>

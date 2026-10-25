@@ -26,6 +26,11 @@ import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCommon;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
+import esa.mo.nmf.accesscontrol.AccessControlAuthority;
+import esa.mo.nmf.accesscontrol.AccessControlMode;
+import esa.mo.nmf.accesscontrol.NMFAccessControl;
+import esa.mo.nmf.environment.Deployment;
+import esa.mo.nmf.environment.LinuxUsersGroups;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -40,6 +45,10 @@ import java.util.function.Consumer;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.util.List;
 import org.ccsds.moims.mo.com.DuplicateException;
 import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.structures.*;
@@ -475,6 +484,19 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         File appsFolderPath = this.getAppsFolderPath(app.getName());
         final File appFolder = new File(appsFolderPath + File.separator + appName);
         Map<String, String> env = assembleAppLauncherEnvironment(directoryServiceURI);
+
+        // The App's credential, for as long as it runs: only the path of the file
+        // that holds it is passed, as the command line can be read by anyone
+        String credentialFile = giveCredential(appName, app.getRunAs());
+        if (credentialFile != null) {
+            // With the mode and what it was granted, so that it can warn about what it lacks
+            String granted = String.join(";", grantedPermissionsOf(appName));
+            env.put("JAVA_OPTS", env.getOrDefault("JAVA_OPTS", "")
+                    + " -D" + NMFAccessControl.CREDENTIAL_FILE_PROPERTY + "=" + credentialFile
+                    + " -D" + AccessControlMode.PROPERTY + "=" + AccessControlMode.current().configName()
+                    + (granted.isEmpty() ? "" : " -D" + NMFAccessControl.GRANTED_PROPERTY + "=" + granted));
+        }
+
         String[] appLauncherCommand = assembleCommand(
                 appFolder.getAbsolutePath(),
                 appName,
@@ -655,6 +677,103 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         );
 
         this.update(appInstId, newAppDetails, interaction); // Update the Archive
+
+        if (!running) {
+            revokeCredential(previousAppDetails.getName().getValue(), previousAppDetails.getRunAs());
+        }
+    }
+
+    /**
+     * Gives an App a new credential for this run: writes it into a file that
+     * only the App can read, and registers it with the permissions the App was
+     * granted at installation. Under linux-userspace the file is in the App's
+     * home directory, which other Apps cannot enter; otherwise it is in the
+     * App's own storage, which a sandbox makes visible to the App.
+     *
+     * @param appName the name of the App
+     * @param runAs the user the App runs as, or null for the Supervisor's own
+     * @return the path of the file, or null if access control is not in use
+     */
+    private String giveCredential(final String appName, final String runAs) {
+        AccessControlAuthority authority = NMFAccessControl.INSTANCE.getAuthority();
+        if (authority == null) {
+            return null;
+        }
+        try {
+            File file = credentialFileOf(appName, runAs);
+            byte[] secret = NMFAccessControl.newCredential();
+            Files.deleteIfExists(file.toPath());
+            try {
+                Files.createFile(file.toPath(), PosixFilePermissions.asFileAttribute(
+                        PosixFilePermissions.fromString("rw-------")));
+            } catch (UnsupportedOperationException noPosix) {
+                Files.createFile(file.toPath());
+            }
+            Files.write(file.toPath(), NMFAccessControl.toText(secret).getBytes(StandardCharsets.US_ASCII));
+            if (runAs != null) {
+                // The App reads the file as its own user, through the others bit:
+                // its home directory keeps the other Apps out
+                Files.setPosixFilePermissions(file.toPath(), PosixFilePermissions.fromString("rw-r--r--"));
+            }
+            authority.registerApp(appName, secret, grantedPermissionsOf(appName));
+            return file.getAbsolutePath();
+        } catch (IOException | RuntimeException ex) {
+            LOGGER.log(Level.WARNING, "The App " + appName + " could not be given its credential:"
+                    + " its calls to the Supervisor will carry none", ex);
+            return null;
+        }
+    }
+
+    private void revokeCredential(final String appName, final String runAs) {
+        AccessControlAuthority authority = NMFAccessControl.INSTANCE.getAuthority();
+        if (authority == null) {
+            return;
+        }
+        authority.revokeApp(appName);
+        try {
+            Files.deleteIfExists(credentialFileOf(appName, runAs).toPath());
+        } catch (IOException | RuntimeException ex) {
+            LOGGER.log(Level.FINE, "The credential file of " + appName + " could not be deleted", ex);
+        }
+    }
+
+    private static File credentialFileOf(final String appName, final String runAs) throws IOException {
+        if (runAs != null) {
+            return new File(LinuxUsersGroups.findHomeDir(runAs), ".nmf-credential");
+        }
+        File file = storageCredentialFileOf(appName);
+        if (!file.getParentFile().isDirectory() && !file.getParentFile().mkdirs()) {
+            throw new IOException("The directory could not be created: " + file.getParentFile());
+        }
+        return file;
+    }
+
+    /**
+     * Returns where the credential of an App that runs as the Supervisor's own
+     * user is: in the App's own storage, which a sandbox makes visible to it.
+     * Nothing is created.
+     *
+     * @param appName the name of the App
+     * @return the credential file
+     */
+    static File storageCredentialFileOf(final String appName) {
+        return new File(System.getProperty("user.home"),
+                ".nmf-apps" + File.separator + appName + File.separator + "credential");
+    }
+
+    /** The permissions an App was granted at installation, as its receipt records them. */
+    private static List<String> grantedPermissionsOf(final String appName) {
+        File receipt = new File(Deployment.getInstallationsTrackerDir(), appName + ".receipt");
+        if (!receipt.isFile()) {
+            return new ArrayList<>();
+        }
+        try {
+            Metadata metadata = Metadata.load(receipt);
+            return metadata.isApp() ? metadata.castToApp().getGrantedPermissions() : new ArrayList<>();
+        } catch (IOException ex) {
+            LOGGER.log(Level.WARNING, "The receipt of " + appName + " could not be read", ex);
+            return new ArrayList<>();
+        }
     }
 
     /**

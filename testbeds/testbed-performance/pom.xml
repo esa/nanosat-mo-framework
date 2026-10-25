@@ -149,6 +149,9 @@
                             <goal>generate-filesystem</goal>
                         </goals>
                         <configuration>
+                            <!-- As for development: nothing is refused, but what an App
+                                 does without permission is logged and recorded -->
+                            <accessControl>audit</accessControl>
                             <supervisorMainClass>esa.mo.nmf.mission.barebone.BareboneSupervisorImpl</supervisorMainClass>
                             <mission>
                                 <missionName>Testbed</missionName>

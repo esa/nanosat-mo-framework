@@ -18,6 +18,7 @@ services, and consumes Platform services. It assumes familiarity with the archit
    logging
    storage
    packaging
+   permissions
    testing
    worked-example
    sobel-example

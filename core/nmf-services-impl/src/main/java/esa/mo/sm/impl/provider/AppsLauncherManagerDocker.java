@@ -23,6 +23,7 @@ package esa.mo.sm.impl.provider;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.environment.Deployment;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -121,6 +122,18 @@ public class AppsLauncherManagerDocker extends AppsLauncherManager {
         // finds the shared jars and its log directory.
         ret.add("-v");
         ret.add(nmfHome + ":" + nmfHome);
+        // The bootloader directory, inside the NMF home, holds the credential of
+        // ground: it is hidden behind an empty one
+        ret.add("--mount");
+        ret.add("type=tmpfs,destination=" + Deployment.getBootloaderDir().getAbsolutePath());
+        // The App's own credential for this run, read-only, at the path it is told.
+        // There is none when access control is not in use; Docker would create a
+        // directory in place of a missing file, so nothing is mounted then.
+        File credential = storageCredentialFileOf(appName);
+        if (credential.isFile()) {
+            ret.add("-v");
+            ret.add(credential.getAbsolutePath() + ":" + credential.getAbsolutePath() + ":ro");
+        }
         ret.add("-w");
         ret.add(workDir);
         for (String envVar : env) {

@@ -20,10 +20,12 @@
  */
 package esa.mo.nmf.nmfpackage.metadata;
 
+import esa.mo.nmf.accesscontrol.Permissions;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
@@ -50,6 +52,17 @@ public class MetadataApp extends Metadata {
      * the App was compiled for is simply not known.
      */
     public static final String APP_NMF_VERSION = "pack.app.nmf-version";
+    /**
+     * Property key for the permissions that the App declares, separated by
+     * {@code ;}. Absent if the App declares none, and has only the baseline.
+     */
+    public static final String APP_PERMISSIONS = "pack.app.permissions";
+    /**
+     * Property key, in the receipt of an installed App, for the permissions it
+     * was granted: those it declares that ground acknowledged at installation,
+     * separated by {@code ;}. Never part of a package.
+     */
+    public static final String APP_GRANTED_PERMISSIONS = "pack.app.granted-permissions";
 
     /** A JVM heap size: a number with an optional k, m, g or t suffix. */
     private static final Pattern VALID_HEAP_SIZE = Pattern.compile("[0-9]{1,10}[kKmMgGtT]?");
@@ -193,6 +206,76 @@ public class MetadataApp extends Metadata {
     }
 
     /**
+     * Returns the permissions that the App declares.
+     *
+     * @return the permissions, empty if the App declares none
+     */
+    public List<String> getAppPermissions() {
+        String p = properties.getProperty(APP_PERMISSIONS);
+        if (p == null || p.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return new ArrayList<>(Arrays.asList(p.split(";")));
+    }
+
+    /**
+     * Sets the permissions that the App declares.
+     *
+     * @param permissions the permissions; null or empty for none
+     */
+    public void setAppPermissions(final List<String> permissions) {
+        if (permissions == null || permissions.isEmpty()) {
+            properties.remove(APP_PERMISSIONS);
+        } else {
+            properties.put(APP_PERMISSIONS, String.join(";", permissions));
+        }
+    }
+
+    /**
+     * Returns the permissions that the App was granted at installation, as
+     * recorded in its receipt.
+     *
+     * @return the granted permissions, empty if none
+     */
+    public List<String> getGrantedPermissions() {
+        String p = properties.getProperty(APP_GRANTED_PERMISSIONS);
+        if (p == null || p.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return new ArrayList<>(Arrays.asList(p.split(";")));
+    }
+
+    /**
+     * Records the permissions that the App was granted at installation.
+     *
+     * @param permissions the granted permissions; null or empty for none
+     */
+    public void setGrantedPermissions(final List<String> permissions) {
+        if (permissions == null || permissions.isEmpty()) {
+            properties.remove(APP_GRANTED_PERMISSIONS);
+        } else {
+            properties.put(APP_GRANTED_PERMISSIONS, String.join(";", permissions));
+        }
+    }
+
+    /**
+     * Returns the permissions that the App declares and that are in the given
+     * acknowledged ones: what it is granted.
+     *
+     * @param acknowledged the permissions that ground acknowledged; null for none
+     * @return the granted permissions, in the order they are declared
+     */
+    public List<String> grantedFrom(final List<String> acknowledged) {
+        List<String> granted = new ArrayList<>();
+        for (String permission : getAppPermissions()) {
+            if (acknowledged != null && acknowledged.contains(permission)) {
+                granted.add(permission);
+            }
+        }
+        return granted;
+    }
+
+    /**
      * Whether the App declares any dependency JARs.
      *
      * @return {@code true} if the App has at least one dependency
@@ -228,6 +311,12 @@ public class MetadataApp extends Metadata {
                 if (!isValidJarName(dependency)) {
                     throw invalid(APP_DEPENDENCIES, dependency, "a list of jar file names, separated by ';'");
                 }
+            }
+        }
+        for (String permission : getAppPermissions()) {
+            if (!Permissions.isValid(permission)) {
+                throw invalid(APP_PERMISSIONS, permission,
+                        "a list of permissions, such as Supervisor.Platform.Camera or App.<name>.*, separated by ';'");
             }
         }
     }

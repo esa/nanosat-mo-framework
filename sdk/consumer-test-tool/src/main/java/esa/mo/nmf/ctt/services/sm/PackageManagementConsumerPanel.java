@@ -33,6 +33,8 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementAdapter;
+import org.ccsds.moims.mo.sm.structures.PackageApproval;
+import org.ccsds.moims.mo.sm.structures.PackageApprovalList;
 
 /**
  * The PackageManagementConsumerPanel class holds a panel to interact with a
@@ -204,7 +206,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         ids.add(packagesTable.getSelectedPackage());
 
         try {
-            this.serviceSMPackageManagement.getPackageManagementStub().update(ids, null, new PackageManagementAdapter() {
+            this.serviceSMPackageManagement.getPackageManagementStub().update(approvalsOf(ids), new PackageManagementAdapter() {
                 @Override
                 public void updateAckReceived(MALMessageHeader msgHeader,
                         java.util.Map qosProperties) {
@@ -308,7 +310,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         ids.add(packagesTable.getSelectedPackage());
 
         try {
-            this.serviceSMPackageManagement.getPackageManagementStub().install(ids, null, new PackageManagementAdapter() {
+            this.serviceSMPackageManagement.getPackageManagementStub().install(approvalsOf(ids), new PackageManagementAdapter() {
                 @Override
                 public void installAckReceived(MALMessageHeader msgHeader,
                         BooleanList integrity, java.util.Map qosProperties) {
@@ -346,6 +348,18 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
 
     private void defaultTableComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_defaultTableComponentAdded
     }//GEN-LAST:event_defaultTableComponentAdded
+
+    /**
+     * Returns an approval for each package, with no expected checksum and no
+     * acknowledged permissions: a provider that requires either refuses them.
+     */
+    private static PackageApprovalList approvalsOf(IdentifierList names) {
+        PackageApprovalList approvals = new PackageApprovalList();
+        for (Identifier name : names) {
+            approvals.add(new PackageApproval(name, null, null));
+        }
+        return approvals;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable defaultTable;

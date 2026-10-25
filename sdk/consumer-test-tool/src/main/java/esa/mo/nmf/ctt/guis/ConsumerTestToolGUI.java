@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.ctt.guis;
 
+import esa.mo.nmf.accesscontrol.NMFAccessControl;
 import esa.mo.nmf.ctt.utils.DirectoryConnectionConsumerPanel;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -48,6 +49,10 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(final String[] args) {
+        // Every MAL context of the CTT uses NMF's access control, which presents the
+        // credential of ground, if one is configured, to the Supervisor it connects to
+        NMFAccessControl.install();
+
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         } catch (UnsupportedLookAndFeelException | InstantiationException | ClassNotFoundException | IllegalAccessException e) {

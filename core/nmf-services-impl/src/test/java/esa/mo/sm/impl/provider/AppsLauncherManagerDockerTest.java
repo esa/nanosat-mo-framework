@@ -67,6 +67,8 @@ public class AppsLauncherManagerDockerTest {
                 "--name", "nmf-app-MyApp",
                 "--network", "host",
                 "-v", nmfHome + ":" + nmfHome,
+                // The bootloader directory, with the credential of ground, is hidden
+                "--mount", "type=tmpfs,destination=" + Deployment.getBootloaderDir().getAbsolutePath(),
                 "-w", workDir,
                 "-e", "JAVA_OPTS=-Dfoo=bar",
                 "eclipse-temurin:21-jre",

@@ -34,6 +34,7 @@ BOOT_MAX_ATTEMPTS=2
 PROMOTION_SOAK_S=60
 APPS_ISOLATION=none
 REQUIRE_PACKAGE_CHECKSUM=false
+ACCESS_CONTROL=enforce
 SCHEMA_VERSION=1
 
 # =============================================================================
@@ -96,6 +97,8 @@ initialisation() {
         [ -n "$_v" ] && APPS_ISOLATION=$_v
         _v=$(get_prop require-package-checksum "$CONFIG_FILE")
         [ -n "$_v" ] && REQUIRE_PACKAGE_CHECKSUM=$_v
+        _v=$(get_prop access-control "$CONFIG_FILE")
+        [ -n "$_v" ] && ACCESS_CONTROL=$_v
         _v=$(get_prop boot-confirm-timeout-s "$CONFIG_FILE")
         [ -n "$_v" ] && BOOT_CONFIRM_TIMEOUT_S=$_v
         _v=$(get_prop boot-max-attempts "$CONFIG_FILE")
@@ -264,6 +267,7 @@ execution() {
         -Djava.util.logging.config.file="$NMF_HOME/etc/logging.properties" \
         -Desa.mo.nmf.packagemanager.appsIsolation="$APPS_ISOLATION" \
         -Desa.mo.nmf.packagemanager.requirePackageChecksum="$REQUIRE_PACKAGE_CHECKSUM" \
+        -Desa.mo.nmf.accesscontrol.mode="$ACCESS_CONTROL" \
         -classpath "$CLASSPATH" \
         "$MAIN_CLASS" \
         >> "$SUPERVISOR_LOG" 2>&1 &

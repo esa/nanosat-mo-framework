@@ -117,6 +117,32 @@ public class BootloaderGeneratorTest {
     }
 
     @Test
+    public void accessControlIsEnforcedUnlessTheMissionChoosesAnotherMode() throws Exception {
+        generate("none");
+        Assert.assertTrue("By default, access control is enforced",
+                config().contains("access-control=enforce"));
+
+        new BootloaderGenerator(nmfRoot).generate(NMF_VERSION, MISSION_VERSION, MAIN_CLASS, "none", false,
+                "audit");
+        Assert.assertTrue("A mission can choose the access control mode",
+                config().contains("access-control=audit"));
+    }
+
+    @Test
+    public void aGroundCredentialIsGeneratedWithTheFilesystem() throws Exception {
+        generate("none");
+        File credential = new File(new File(nmfRoot, Deployment.DIR_BOOTLOADER), Deployment.FILE_GROUND_CREDENTIAL);
+        Assert.assertTrue("The filesystem must hold the credential of ground", credential.isFile());
+        String first = new String(Files.readAllBytes(credential.toPath()), StandardCharsets.US_ASCII).trim();
+        Assert.assertTrue("The credential must be 32 random bytes, as 64 hexadecimal digits: " + first,
+                first.matches("[0-9a-f]{64}"));
+
+        generate("none");
+        String second = new String(Files.readAllBytes(credential.toPath()), StandardCharsets.US_ASCII).trim();
+        Assert.assertNotEquals("Each filesystem must get its own credential", first, second);
+    }
+
+    @Test
     public void noneRecordsTheModeAndShipsNoSetupScript() throws Exception {
         generate("none");
 

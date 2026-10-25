@@ -82,27 +82,31 @@ public class SMServicesConsumer {
             details = connectionConsumer.getServicesDetails().get(
                     AppsLauncherServiceInfo.APPSLAUNCHER_SERVICE_NAME);
             if (details != null) {
-                appsLauncherService = new AppsLauncherConsumerServiceImpl(details, comServices);
+                appsLauncherService = new AppsLauncherConsumerServiceImpl(details, comServices,
+                        authenticationId, localNamePrefix);
             }
 
             // Initialize the Command Executor Service service
             details = connectionConsumer.getServicesDetails().get(
                     CommandExecutorServiceInfo.COMMANDEXECUTOR_SERVICE_NAME);
             if (details != null) {
-                commandExecutorService = new CommandExecutorConsumerServiceImpl(details, comServices);
+                commandExecutorService = new CommandExecutorConsumerServiceImpl(details, comServices,
+                        authenticationId, localNamePrefix);
             }
 
             // Initialize the Package Management service
             details = connectionConsumer.getServicesDetails().get(
                     PackageManagementServiceInfo.PACKAGEMANAGEMENT_SERVICE_NAME);
             if (details != null) {
-                packageManagementService = new PackageManagementConsumerServiceImpl(details, comServices);
+                packageManagementService = new PackageManagementConsumerServiceImpl(details, comServices,
+                        authenticationId, localNamePrefix);
             }
 
             // Initialize the Heartbeat service
             details = connectionConsumer.getServicesDetails().get(HeartbeatServiceInfo.HEARTBEAT_SERVICE_NAME);
             if (details != null) {
-                heartbeatService = new HeartbeatConsumerServiceImpl(details, comServices);
+                heartbeatService = new HeartbeatConsumerServiceImpl(details, comServices,
+                        authenticationId, localNamePrefix);
             }
         } catch (MALException ex) {
             Logger.getLogger(SMServicesConsumer.class.getName()).log(Level.SEVERE, null, ex);

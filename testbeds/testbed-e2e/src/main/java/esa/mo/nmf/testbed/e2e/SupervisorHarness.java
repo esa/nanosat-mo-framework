@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.testbed.e2e;
 
+import esa.mo.nmf.accesscontrol.NMFAccessControl;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -95,6 +96,9 @@ public class SupervisorHarness {
      * does not become ready within the timeout.
      */
     public void setUp(final File filesystem) throws IOException {
+        // The calls of the testbed come from ground: they present the credential
+        // of ground that the filesystem was generated with
+        NMFAccessControl.install();
         nmfDir = filesystem;
         if (!nmfDir.exists()) {
             throw new IOException("NMF filesystem directory not found: " + nmfDir.getAbsolutePath());
@@ -123,6 +127,10 @@ public class SupervisorHarness {
 
         this.waitForReadiness();
         LOGGER.info("Supervisor is ready. Directory URI: " + directoryURI);
+
+        System.setProperty(NMFAccessControl.GROUND_CREDENTIAL_FILE_PROPERTY,
+                new File(new File(nmfDir, "bootloader"), "ground.credential").getAbsolutePath());
+        NMFAccessControl.presentGroundCredential(directoryURI);
     }
 
     /**

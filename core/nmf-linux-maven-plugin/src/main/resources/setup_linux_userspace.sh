@@ -224,6 +224,8 @@ create_dir 700 $user_nmf_admin $user_nmf_admin nmf_updates
 ###############################################################################
 chown -R $user_nmf_admin:$user_nmf_admin bootloader
 chmod 700 bootloader
+# The credential of ground: only the Supervisor may read it
+chmod 600 bootloader/ground.credential
 chown root:root bootloader/baseline-factory.properties
 chmod 444 bootloader/baseline-factory.properties
 

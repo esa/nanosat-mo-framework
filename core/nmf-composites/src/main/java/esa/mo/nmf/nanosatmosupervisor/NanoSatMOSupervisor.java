@@ -20,6 +20,9 @@
  */
 package esa.mo.nmf.nanosatmosupervisor;
 
+import esa.mo.nmf.accesscontrol.AccessControlAuthority;
+import esa.mo.nmf.accesscontrol.AccessControlMode;
+import esa.mo.nmf.accesscontrol.NMFAccessControl;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.Quota;
 import esa.mo.helpertools.misc.Const;
@@ -115,6 +118,9 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             mcAdapters.add(mcAdapter);
         }
         mcAdapter = new CompositeMCAdapter(mcAdapters);
+
+        // Every MAL context of the Supervisor uses NMF's access control
+        NMFAccessControl.install();
 
         // The Supervisor has no provider.properties of its own, so it sets the
         // transport in-process rather than via HelperMisc (which only warned).
@@ -240,6 +246,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         SingleConnectionDetails det
                 = directoryService.getConnection().getSecondaryConnectionDetails();
         String secondaryURI = (det != null) ? det.getProviderURI().toString() : null;
+        startAccessControl(primaryURI, secondaryURI);
         writeCentralDirectoryServiceURI(primaryURI, secondaryURI);
         this.writeBootConfirmation();
 
@@ -247,6 +254,29 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                 + (((float) (System.currentTimeMillis() - super.startTime)) / 1000)
                 + " seconds!");
         LOGGER.log(Level.INFO, "URI: {0}\n", primaryURI);
+    }
+
+    /**
+     * Has the Supervisor check every request it receives, as the access control
+     * mode says, with the credential of ground that the filesystem was
+     * generated with. The credential of each App is added when it starts.
+     */
+    private void startAccessControl(String primaryURI, String secondaryURI) {
+        AccessControlAuthority authority = new AccessControlAuthority(primaryURI, secondaryURI);
+        authority.setRecorder(appsLauncherService::storeUnauthorisedCall);
+        File groundCredential = new File(Deployment.getBootloaderDir(), Deployment.FILE_GROUND_CREDENTIAL);
+        if (groundCredential.isFile()) {
+            try {
+                authority.setGroundCredential(NMFAccessControl.readCredential(groundCredential.getPath()));
+            } catch (IOException ex) {
+                LOGGER.log(Level.SEVERE, "The ground credential could not be read: " + groundCredential, ex);
+            }
+        } else if (AccessControlMode.current() != AccessControlMode.OFF) {
+            LOGGER.log(Level.WARNING, "There is no ground credential at {0}: in enforce mode, "
+                    + "no call from ground will be accepted", groundCredential);
+        }
+        NMFAccessControl.INSTANCE.enforce(authority);
+        LOGGER.log(Level.INFO, "Access control: {0}", AccessControlMode.current().configName());
     }
 
     /**

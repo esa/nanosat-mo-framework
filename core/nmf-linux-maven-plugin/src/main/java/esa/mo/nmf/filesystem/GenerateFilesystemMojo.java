@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.filesystem;
 
+import esa.mo.nmf.accesscontrol.AccessControlMode;
 import esa.mo.nmf.environment.Deployment;
 import esa.mo.nmf.environment.AppsIsolationMode;
 import java.io.File;
@@ -98,6 +99,19 @@ public class GenerateFilesystemMojo extends AbstractMojo {
     private boolean requirePackageChecksum;
 
     /**
+     * The access control mode, which decides what happens when an App uses a
+     * service that it was not granted:
+     * <ul>
+     * <li>{@code off} — no checks.</li>
+     * <li>{@code audit} — nothing is refused, but every call that enforce would
+     * refuse is logged. For development.</li>
+     * <li>{@code enforce} — the call is refused. For flight. The default.</li>
+     * </ul>
+     */
+    @Parameter(property = "generate-filesystem.accessControl", defaultValue = "enforce")
+    private String accessControl;
+
+    /**
      * Files of the mission to add to the root of the generated filesystem, each
      * given as a path. A directory is added under its own name, a file on its
      * own. They are added last, so a mission can also replace what the generator
@@ -130,6 +144,12 @@ public class GenerateFilesystemMojo extends AbstractMojo {
         getLog().info(">> version = " + missionVersion);
         getLog().info(">> appsIsolation = " + appsIsolation);
         getLog().info(">> requirePackageChecksum = " + requirePackageChecksum);
+        getLog().info(">> accessControl = " + accessControl);
+
+        if (!AccessControlMode.parse(accessControl).configName().equalsIgnoreCase(accessControl.trim())) {
+            throw new MojoExecutionException("The accessControl mode '" + accessControl
+                    + "' is not valid. It must be off, audit or enforce.");
+        }
 
         if (supervisorMainClass == null) {
             throw new MojoExecutionException("The supervisorMainClass tag is not defined!"
@@ -243,7 +263,7 @@ public class GenerateFilesystemMojo extends AbstractMojo {
             File nmfRootDir = new File(outputDir, Deployment.DIR_NMF);
             BootloaderGenerator bootloader = new BootloaderGenerator(nmfRootDir);
             bootloader.generate(nmfVersion, missionVersion, supervisorMainClass, appsIsolation,
-                    requirePackageChecksum);
+                    requirePackageChecksum, AccessControlMode.parse(accessControl).configName());
         } catch (IOException ex) {
             throw new MojoExecutionException(ex);
         }

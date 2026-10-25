@@ -22,8 +22,11 @@ package esa.mo.sm.impl.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
+import esa.mo.nmf.accesscontrol.AccessControlMode;
 import esa.mo.sm.impl.util.PMBackend;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.InvalidArgumentException;
@@ -39,6 +42,8 @@ import org.ccsds.moims.mo.sm.packagemanagement.PackageManagementHelper;
 import org.ccsds.moims.mo.sm.packagemanagement.PackageManagementServiceInfo;
 import org.ccsds.moims.mo.sm.packagemanagement.body.FindPackageResponse;
 import org.ccsds.moims.mo.sm.packagemanagement.provider.*;
+import org.ccsds.moims.mo.sm.structures.PackageApproval;
+import org.ccsds.moims.mo.sm.structures.PackageApprovalList;
 import org.ccsds.moims.mo.sm.structures.PackageInstalled;
 import org.ccsds.moims.mo.sm.structures.PackageIntegrity;
 import org.ccsds.moims.mo.sm.structures.PackageIntegrityList;
@@ -180,25 +185,25 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     }
 
     @Override
-    public void install(final IdentifierList names, final StringList checksums,
-            final InstallInteraction interaction)
+    public void install(final PackageApprovalList packages, final InstallInteraction interaction)
             throws UnknownException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
-        if (names == null) { // Is the input null?
-            throw new IllegalArgumentException("names argument must not be null");
+        if (packages == null) { // Is the input null?
+            throw new IllegalArgumentException("packages argument must not be null");
         }
-        checkChecksumsMatchNames(names, checksums);
 
-        BooleanList integrities = new BooleanList(names.size());
+        BooleanList integrities = new BooleanList(packages.size());
 
         StringList availablePackages;
         try {
             availablePackages = backend.getListOfPackages();
 
-            for (int i = 0; i < names.size(); i++) {
-                int index = packageExistsInIndex(names.get(i).getValue(), availablePackages);
+            for (int i = 0; i < packages.size(); i++) {
+                PackageApproval approval = packages.get(i);
+                String name = approval.getName().getValue();
+                int index = packageExistsInIndex(name, availablePackages);
 
                 if (index == -1) {
                     unkIndexList.add(new UInteger(i));
@@ -211,12 +216,14 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                 integrities.add(integrity);
 
                 // Reject if the integrity is false, if the package file is not the
-                // one approved on ground, or if a final (non-SNAPSHOT) build of
-                // this version is already installed. A SNAPSHOT version is not
-                // final and may always be re-installed (overridden).
+                // one approved on ground, if its App's permissions were not all
+                // acknowledged, or if a final (non-SNAPSHOT) build of this version
+                // is already installed. A SNAPSHOT version is not final and may
+                // always be re-installed (overridden).
                 if (!integrity
-                        || !isChecksumAccepted(checksums, i, availablePackages.get(index))
-                        || backend.isFinalVersionInstalled(names.get(i).getValue())) {
+                        || !isChecksumAccepted(approval.getChecksum(), availablePackages.get(index))
+                        || !arePermissionsAcknowledged(approval, availablePackages.get(index))
+                        || backend.isFinalVersionInstalled(name)) {
                     invIndexList.add(new UInteger(i));
                 }
             }
@@ -235,14 +242,15 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
         interaction.sendAcknowledgement(integrities);
 
-        for (Identifier packageName : names) {
+        for (PackageApproval approval : packages) {
+            String name = approval.getName().getValue();
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
-                    Level.INFO, "Installing: {0}", packageName.getValue());
+                    Level.INFO, "Installing: {0}", name);
 
-            backend.install(packageName.getValue());
+            backend.install(name, toList(approval.getPermissions()));
 
-            if (backend.isPackageInstalled(packageName.getValue())) {
-                storePackageInstalled(packageName.getValue(), interaction.getInteraction());
+            if (backend.isPackageInstalled(name)) {
+                storePackageInstalled(name, grantedPermissions(approval), interaction.getInteraction());
             }
         }
 
@@ -324,23 +332,23 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     }
 
     @Override
-    public void update(final IdentifierList names, final StringList checksums,
+    public void update(final PackageApprovalList packages,
             final UpdateInteraction interaction) throws UnknownException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
         // Add validation
-        if (names == null) { // Is the input null?
-            throw new IllegalArgumentException("names argument must not be null");
+        if (packages == null) { // Is the input null?
+            throw new IllegalArgumentException("packages argument must not be null");
         }
-        checkChecksumsMatchNames(names, checksums);
 
         StringList availablePackages;
         try {
             availablePackages = backend.getListOfPackages();
 
-            for (int i = 0; i < names.size(); i++) {
-                int index = packageExistsInIndex(names.get(i).getValue(), availablePackages);
+            for (int i = 0; i < packages.size(); i++) {
+                PackageApproval approval = packages.get(i);
+                int index = packageExistsInIndex(approval.getName().getValue(), availablePackages);
 
                 if (index == -1) {
                     unkIndexList.add(new UInteger(i));
@@ -354,7 +362,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                 // setPrimaryBaseline action, never updated in place.
                 boolean integrity = backend.checkPackageIntegrity(availablePackages.get(index));
                 if (!integrity
-                        || !isChecksumAccepted(checksums, i, availablePackages.get(index))
+                        || !isChecksumAccepted(approval.getChecksum(), availablePackages.get(index))
+                        || !arePermissionsAcknowledged(approval, availablePackages.get(index))
                         || backend.isBaselineComponent(availablePackages.get(index))) {
                     invIndexList.add(new UInteger(i));
                 }
@@ -374,24 +383,26 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
         interaction.sendAcknowledgement();
 
-        for (Identifier packageName : names) {
+        for (PackageApproval approval : packages) {
+            String name = approval.getName().getValue();
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
-                    Level.INFO, "Updating: {0}", packageName.getValue());
+                    Level.INFO, "Updating: {0}", name);
 
-            String fromVersion = backend.getPackageVersion(packageName.getValue());
-            backend.update(packageName.getValue());
-            String toVersion = backend.getPackageVersion(packageName.getValue());
+            String fromVersion = backend.getPackageVersion(name);
+            backend.update(name, toList(approval.getPermissions()));
+            String toVersion = backend.getPackageVersion(name);
 
             if (toVersion != null) {
-                storePackageUpdated(packageName.getValue(), fromVersion,
-                        toVersion, interaction.getInteraction());
+                storePackageUpdated(name, fromVersion, toVersion,
+                        grantedPermissions(approval), interaction.getInteraction());
             }
         }
 
         interaction.sendResponse();
     }
 
-    private void storePackageInstalled(String packageName, MALInteraction interaction) {
+    private void storePackageInstalled(String packageName, StringList permissions,
+            MALInteraction interaction) {
         if (comServices == null || comServices.getArchiveService() == null) {
             return;
         }
@@ -400,7 +411,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                     ? interaction.getMessageHeader().getFromURI() : null;
             String version = backend.getPackageVersion(packageName);
             HeterogeneousList bodies = new HeterogeneousList();
-            bodies.add(new PackageInstalled(new Identifier(packageName), version, triggeredBy));
+            bodies.add(new PackageInstalled(new Identifier(packageName), version, triggeredBy, permissions));
             ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
                     null, connection.getPrimaryConnectionDetails().getProviderURI());
             comServices.getArchiveService().store(
@@ -435,7 +446,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     }
 
     private void storePackageUpdated(String packageName, String fromVersion,
-            String toVersion, MALInteraction interaction) {
+            String toVersion, StringList permissions, MALInteraction interaction) {
         if (comServices == null || comServices.getArchiveService() == null) {
             return;
         }
@@ -444,7 +455,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                     ? interaction.getMessageHeader().getFromURI() : null;
             HeterogeneousList bodies = new HeterogeneousList();
             bodies.add(new PackageUpdated(new Identifier(packageName),
-                    fromVersion, toVersion, triggeredBy));
+                    fromVersion, toVersion, triggeredBy, permissions));
             ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
                     null, connection.getPrimaryConnectionDetails().getProviderURI());
             comServices.getArchiveService().store(
@@ -521,26 +532,18 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         return Boolean.getBoolean(PROPERTY_REQUIRE_CHECKSUM);
     }
 
-    private static void checkChecksumsMatchNames(IdentifierList names, StringList checksums) {
-        if (checksums != null && checksums.size() != names.size()) {
-            throw new IllegalArgumentException("checksums must have one element for each name, or be null");
-        }
-    }
-
     /**
      * Returns whether a package file may be used, given the checksum that it is
      * expected to have. A given checksum must match the SHA-256 of the package
      * file as stored. Without checksums, the package is accepted unless this
      * provider requires them.
      *
-     * @param checksums the expected checksums, one for each name, or null
-     * @param index the index of the package in the request
+     * @param expected the checksum that ground expects, or null for none
      * @param packageName the name of the package file
      * @return true if the package file may be used
      * @throws IOException if the package file cannot be read
      */
-    boolean isChecksumAccepted(StringList checksums, int index, String packageName) throws IOException {
-        String expected = (checksums == null) ? null : checksums.get(index);
+    boolean isChecksumAccepted(String expected, String packageName) throws IOException {
 
         if (expected == null) {
             if (isChecksumRequired()) {
@@ -560,6 +563,79 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             return false;
         }
         return true;
+    }
+
+    /**
+     * Returns whether every permission that the App in a package declares was
+     * acknowledged. What is not acknowledged is refused in enforce mode, logged
+     * in audit mode, and ignored when access control is off.
+     *
+     * @param approval what ground approved for the package
+     * @param packageName the name of the package file
+     * @return true if the package may be installed or updated
+     */
+    boolean arePermissionsAcknowledged(PackageApproval approval, String packageName) {
+        List<String> declared;
+        try {
+            declared = backend.getDeclaredPermissions(packageName);
+        } catch (IOException ex) {
+            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.WARNING,
+                    "The permissions of the package " + packageName + " could not be read", ex);
+            return false;
+        }
+        if (declared == null || declared.isEmpty()) {
+            return true;
+        }
+
+        List<String> missing = new ArrayList<>(declared);
+        missing.removeAll(toList(approval.getPermissions()));
+        if (missing.isEmpty()) {
+            return true;
+        }
+
+        switch (AccessControlMode.current()) {
+            case ENFORCE:
+                Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.WARNING,
+                        "Refused: the package {0} declares permissions that were not acknowledged: {1}",
+                        new Object[]{packageName, String.join(", ", missing)});
+                return false;
+            case AUDIT:
+                Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.WARNING,
+                        "Audit: the package {0} declares permissions that were not acknowledged: {1};"
+                        + " enforce mode would refuse it",
+                        new Object[]{packageName, String.join(", ", missing)});
+                return true;
+            default:
+                return true;
+        }
+    }
+
+    /**
+     * Returns the permissions that the App in a package is granted: those it
+     * declares that were acknowledged. Null if the package is not an App.
+     */
+    private StringList grantedPermissions(PackageApproval approval) {
+        List<String> declared;
+        try {
+            declared = backend.getDeclaredPermissions(approval.getName().getValue());
+        } catch (IOException ex) {
+            return null;
+        }
+        if (declared == null) {
+            return null;
+        }
+        List<String> acknowledged = toList(approval.getPermissions());
+        StringList granted = new StringList();
+        for (String permission : declared) {
+            if (acknowledged.contains(permission)) {
+                granted.add(permission);
+            }
+        }
+        return granted;
+    }
+
+    private static List<String> toList(StringList list) {
+        return (list == null) ? new ArrayList<>() : new ArrayList<>(list);
     }
 
     private static int packageExistsInIndex(String name, StringList packagesList) {

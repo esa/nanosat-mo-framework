@@ -21,6 +21,7 @@
 package esa.mo.nmf.ctt.utils;
 
 import org.ccsds.moims.mo.mal.MOErrorException;
+import esa.mo.nmf.accesscontrol.NMFAccessControl;
 import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
 import java.awt.Component;
 import java.awt.Font;
@@ -444,6 +445,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     private void load_URI_links1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_load_URI_links1ActionPerformed
         try {
+            NMFAccessControl.presentGroundCredential(this.getAddressToBeUsed().getValue());
             providerList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(this.getAddressToBeUsed());
             DefaultListModel listOfProviders = new DefaultListModel();
 
