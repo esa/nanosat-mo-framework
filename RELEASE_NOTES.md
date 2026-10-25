@@ -6,6 +6,10 @@ The different versions and respective updates are the following:
 
 ### Version 6.0 (in development)
 * Removes the automatic serialization of objects into parameter and action values: values must now be MO attribute types, which closes an unsafe Java deserialization vulnerability (NMF-2026-002)
+* Adds access control to the Supervisor: ground and each App must present a credential, and an App may call only a baseline of services plus the permissions it declares and ground acknowledges, which closes unauthenticated command execution through the CommandExecutor (NMF-2026-010)
+* Adds the accessControl option of the nmf-linux-maven-plugin (off, audit or enforce), with enforce as the default; the playground and the testbeds use audit
+* Changes the install and update operations of the Package Management service to take a list of PackageApproval, holding the checksum and the acknowledged permissions of each package
+* Stores each refused or audited call in the COM Archive as an UnauthorisedCall object of the Apps Launcher service
 
 ### Version 5.1 (25 September 2026)
 * Upgrades to CCSDS MO services v14.2

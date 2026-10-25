@@ -21,6 +21,7 @@ it must be reported privately, not added to this file.
 | [NMF-2026-007](#nmf-2026-007-default-password-and-root-equivalent-sudo-rights-for-the-nmf-admin-account) | Default password and root-equivalent sudo rights for the nmf-admin account | Fixed | >= 5.0, < 6.0 | 6.0 | — |
 | [NMF-2026-008](#nmf-2026-008-os-command-injection-through-the-launch-values-of-an-app-package) | OS command injection through the launch values of an App package | Fixed | < 6.0 | 6.0 | GHSA-36jr-c3j2-8jhw |
 | [NMF-2026-009](#nmf-2026-009-os-command-injection-through-the-artificial-intelligence-service) | OS command injection through the Artificial Intelligence service | Fixed | >= 3.0.0, < 6.0 | 6.0 | — |
+| [NMF-2026-010](#nmf-2026-010-unauthenticated-command-execution-through-the-commandexecutor-service) | Unauthenticated command execution through the CommandExecutor service | Fixed | >= 2.0.0, < 6.0 | 6.0 | — |
 
 ---
 
@@ -693,3 +694,93 @@ The service now validates the paths before anything runs, and the adapter no lon
 [3] Regression test: `AIServiceCommandInjectionTest` (`nmf-services-impl`),
 which drives the service and the adapter with a path that would create a marker file if the shell evaluated it,
 and checks that no marker appears; it fails on the earlier code.
+
+---
+
+### NMF-2026-010: Unauthenticated command execution through the CommandExecutor service
+
+| Field | Value |
+|---|---|
+| Status | Fixed |
+| GHSA / CVE | Not published |
+| Ecosystem | Maven |
+| Package | `int.esa.nmf.core:nmf-services-impl`, `int.esa.nmf.core:nmf-composites` |
+| Affected versions | >= 2.0.0, < 6.0 |
+| Fixed in | 6.0 |
+| Reported | — |
+| Severity | Critical (any party that can reach the Supervisor runs shell commands as the Supervisor's user, without credentials) |
+| Weaknesses | CWE-306: Missing Authentication for Critical Function; CWE-862: Missing Authorization |
+
+#### Impact
+
+The Supervisor always provides the CommandExecutor service of the Software Management area.
+Its `runCommand` operation runs the command it is given through `/bin/sh -c`,
+in the Supervisor's process and with the Supervisor's user.
+
+The MAL calls an access control hook on every message,
+but when none is configured it falls back to `EchoSecurityManager`, which lets every message through.
+The NMF never configured one, so no service of the Supervisor checked who called it.
+
+Anyone who could reach the Supervisor over the network could therefore call `runCommand`
+and run any shell command, without presenting any credential.
+This was reproduced on the playground environment of 5.0.
+
+Apps could do the same, so the flaw also bypassed every isolation mode:
+an App under linux-userspace, Bubblewrap or Docker isolation could run commands as the Supervisor's user, outside its own sandbox.
+
+The CommandExecutor has been part of the Supervisor since the 2.0.0 pre-releases.
+
+#### Workarounds
+
+* Make sure that only ground can reach the Supervisor's MAL ports,
+  for example with a firewall on the spacecraft's network.
+* Run the Supervisor as an unprivileged user (see [NMF-2026-003](#nmf-2026-003-supervisor-and-apps-run-with-excessive-privileges)),
+  so that the commands run without root rights.
+
+These limit the impact but do not stop an App from calling the service.
+
+#### Fix
+
+The NMF now configures its own access control in the MAL, and the Supervisor checks each message it receives:
+
+* Ground presents a credential, `bootloader/ground.credential`,
+  which the filesystem generator creates anew for each filesystem and which only the Supervisor may read.
+  The CLI, the Consumer Test Tool and the testbeds present it to the Supervisor's Directory only.
+* Each App receives its own credential when it is started, revoked when it stops.
+  It may call only a baseline of services, plus the permissions it declares in its package and that ground acknowledges in the install or update request.
+  The CommandExecutor is not in the baseline.
+* A caller without a valid credential may only look up the Directory.
+  This holds whatever host, port, area version, service or operation the header of its request names.
+* Publishing to the Supervisor's brokers is checked as well.
+* Each refused call is stored in the COM Archive as an `UnauthorisedCall` object of the Apps Launcher service.
+* The Supervisor keeps its copy of the ground credential in a file on board, and writes each App's credential to a file for that App.
+  An App must not read any of these files except its own.
+  Under linux-userspace isolation, file permissions keep them apart.
+  Under Bubblewrap and Docker isolation, the sandbox now hides them:
+  before, it showed the App the whole filesystem read-only, so an App could read them.
+  Without isolation (`none`), every App runs as the Supervisor's user and can read them;
+  `none` gives no protection between Apps and the Supervisor.
+
+A mission chooses the mode with the `accessControl` parameter of the `nmf-linux-maven-plugin`:
+`off`, `audit` or `enforce`.
+`enforce` is the default, also when the Supervisor starts without a mode or with one it does not know.
+In `audit` mode, calls that would be refused are only logged and archived;
+the playground environment and the testbeds use it, so the CommandExecutor still runs commands there.
+
+The ground credential travels in clear, in the authentication field of each MAL message,
+so the link between ground and the spacecraft must be encrypted.
+
+#### References
+
+[1] Command execution: `CommandExecutorProviderServiceImpl.runCommand` in `nmf-services-impl`.
+
+[2] Access control: `NMFAccessControl`, `AccessControlAuthority` and `AccessControlMode` in `nmf-services-impl` (package `esa.mo.nmf.accesscontrol`);
+set up by `NanoSatMOSupervisor` and `NanoSatMOConnectorImpl` in `nmf-composites`.
+
+[3] Regression tests: `RequestsToTheSupervisorTest` and `AccessControlModeTest` (`nmf-services-impl`),
+which check that a request without credentials to the CommandExecutor is refused whatever its header names,
+and that a missing or unknown mode is enforced;
+`AppSandboxSecretsTest` (`nmf-services-impl`), which checks that a sandboxed App cannot read other credentials;
+`AccessControlAuditTest` (`testbed-e2e`);
+and `AppPermissionsTest` (`security-toolkit/access-control-tests`),
+which runs an App against a Supervisor in audit and in enforce mode and checks each call it makes, including `runCommand`.
