@@ -518,7 +518,9 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
      * The system property that makes install and update refuse a package that
      * comes without the checksum it is expected to have. The bootloader sets it
      * from {@code require-package-checksum} in its configuration, which the
-     * mission chooses when it generates its filesystem. Off by default.
+     * mission chooses when it generates its filesystem. A checksum is required
+     * unless the property is {@code false}, also when the Supervisor starts
+     * without it, such as from an IDE.
      */
     public static final String PROPERTY_REQUIRE_CHECKSUM = "esa.mo.nmf.packagemanager.requirePackageChecksum";
 
@@ -529,7 +531,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
      * @return true if an expected checksum is required for install and update
      */
     public static boolean isChecksumRequired() {
-        return Boolean.getBoolean(PROPERTY_REQUIRE_CHECKSUM);
+        String value = System.getProperty(PROPERTY_REQUIRE_CHECKSUM);
+        return value == null || !"false".equalsIgnoreCase(value.trim());
     }
 
     /**

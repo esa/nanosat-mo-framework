@@ -37,8 +37,8 @@ import org.junit.Test;
 
 /**
  * Holds that install and update use a package file only if it matches the
- * checksum sent with the request, and that a provider configured to require a
- * checksum refuses a request without one.
+ * checksum sent with the request, and that a provider refuses a request
+ * without one unless it is configured not to require one.
  */
 public class PackageChecksumRequestTest {
 
@@ -82,6 +82,7 @@ public class PackageChecksumRequestTest {
 
     @Test
     public void aChecksumThatDoesNotMatchIsRefusedEvenWhenNoneIsRequired() throws Exception {
+        System.setProperty(PackageManagementProviderServiceImpl.PROPERTY_REQUIRE_CHECKSUM, "false");
         try {
             provider.install(approvals(OTHER), null);
             Assert.fail("An install whose package file does not match its checksum must be refused");
@@ -98,7 +99,25 @@ public class PackageChecksumRequestTest {
 
     @Test
     public void noChecksumIsAcceptedWhenNoneIsRequired() throws IOException {
+        System.setProperty(PackageManagementProviderServiceImpl.PROPERTY_REQUIRE_CHECKSUM, "false");
         Assert.assertTrue(provider.isChecksumAccepted(null, PACKAGE));
+        System.setProperty(PackageManagementProviderServiceImpl.PROPERTY_REQUIRE_CHECKSUM, " False ");
+        Assert.assertTrue("Case and surrounding spaces do not matter", provider.isChecksumAccepted(null, PACKAGE));
+    }
+
+    @Test
+    public void withoutTheSettingAChecksumIsRequired() throws IOException {
+        // A Supervisor started without the bootloader, such as from an IDE
+        Assert.assertTrue(PackageManagementProviderServiceImpl.isChecksumRequired());
+        Assert.assertFalse(provider.isChecksumAccepted(null, PACKAGE));
+    }
+
+    @Test
+    public void aSettingOtherThanFalseRequiresAChecksum() {
+        for (String value : new String[]{"", "true", "no", "off", "0", "flase"}) {
+            System.setProperty(PackageManagementProviderServiceImpl.PROPERTY_REQUIRE_CHECKSUM, value);
+            Assert.assertTrue("The setting '" + value + "'", PackageManagementProviderServiceImpl.isChecksumRequired());
+        }
     }
 
     @Test

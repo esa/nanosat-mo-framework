@@ -87,8 +87,8 @@ public class BootloaderGenerator {
     }
 
     /**
-     * Generates the bootloader files, with no checksum required for install
-     * and update.
+     * Generates the bootloader files, with a checksum required for install
+     * and update, and access control enforced.
      *
      * @param nmfVersion The version of the NMF baseline.
      * @param missionVersion The version of the mission baseline.
@@ -98,7 +98,7 @@ public class BootloaderGenerator {
      */
     public void generate(String nmfVersion, String missionVersion,
             String supervisorMainClass, String appsIsolation) throws IOException {
-        generate(nmfVersion, missionVersion, supervisorMainClass, appsIsolation, false);
+        generate(nmfVersion, missionVersion, supervisorMainClass, appsIsolation, true);
     }
 
     /**

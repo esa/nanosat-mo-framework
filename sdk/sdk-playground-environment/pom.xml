@@ -156,6 +156,9 @@
                             <!-- As for development: nothing is refused, but what an App
                                  does without permission is logged and recorded -->
                             <accessControl>audit</accessControl>
+                            <!-- As for development: a package can be installed without
+                                 the checksum approved on ground -->
+                            <requirePackageChecksum>false</requirePackageChecksum>
                             <supervisorMainClass>esa.mo.nmf.mission.orekit.NanosatMOSupervisorBasicImpl</supervisorMainClass>
                             <mission>
                                 <missionName>sdk</missionName>

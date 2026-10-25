@@ -92,10 +92,10 @@ public class GenerateFilesystemMojo extends AbstractMojo {
      * The checksum is computed on ground and sent with the install or update
      * request, so that only the exact package file approved on ground is used.
      * A checksum that is given is always checked; this decides whether one is
-     * required. Off by default, for development; a mission turns it on for
-     * flight.
+     * required. On by default; a filesystem for development or simulation may
+     * turn it off.
      */
-    @Parameter(property = "generate-filesystem.requirePackageChecksum", defaultValue = "false")
+    @Parameter(property = "generate-filesystem.requirePackageChecksum", defaultValue = "true")
     private boolean requirePackageChecksum;
 
     /**

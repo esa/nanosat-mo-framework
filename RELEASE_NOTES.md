@@ -10,6 +10,7 @@ The different versions and respective updates are the following:
 * Adds the accessControl option of the nmf-linux-maven-plugin (off, audit or enforce), with enforce as the default; the playground and the testbeds use audit
 * Changes the install and update operations of the Package Management service to take a list of PackageApproval, holding the checksum and the acknowledged permissions of each package
 * Stores each refused or audited call in the COM Archive as an UnauthorisedCall object of the Apps Launcher service
+* Requires by default that install and update carry the SHA-256 of each package file, computed on ground, so that only the exact package file approved there is used; the playground and the testbeds turn it off with the requirePackageChecksum option of the nmf-linux-maven-plugin
 
 ### Version 5.1 (25 September 2026)
 * Upgrades to CCSDS MO services v14.2

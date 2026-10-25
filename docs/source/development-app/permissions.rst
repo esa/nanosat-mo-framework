@@ -52,7 +52,8 @@ Acknowledgment by ground
 
 An install or update request must acknowledge every permission that the package declares,
 otherwise it is refused in ``enforce`` mode, and logged in ``audit`` mode.
-With the CLI: ``software-management install <package> --grant Supervisor.Platform.Camera,Supervisor.Platform.GPS``.
+With the CLI: ``software-management install <package> --sha256 <checksum> --grant Supervisor.Platform.Camera,Supervisor.Platform.GPS``,
+where the checksum is the SHA-256 of the package file (see :doc:`../concepts/packages`).
 The granted permissions are recorded in the ``PackageInstalled`` and ``PackageUpdated`` objects of the Archive.
 
 Without the permission

@@ -62,10 +62,12 @@ echo "Directory URI = $URI"
 
 # The Supervisor lists packages by file name, so install by the .nmfpack name.
 PKG=$(basename "$(ls "$NMF"/packages/$APP_NAME-*.nmfpack | head -1)")
+# The Supervisor requires the checksum approved on ground, as in flight
+SHA256=$(sha256sum "$NMF/packages/$PKG" | cut -d" " -f1)
 GRANT_OPTION=""
 [ "$GRANTS" != "-" ] && GRANT_OPTION="--grant $GRANTS"
 echo "=== install $PKG $GRANT_OPTION ==="
-java -jar "$CLI" software-management install "$PKG" $GRANT_OPTION $CRED -r "$URI" 2>&1 \
+java -jar "$CLI" software-management install "$PKG" --sha256 "$SHA256" $GRANT_OPTION $CRED -r "$URI" 2>&1 \
     | grep -i "installed\|error\|severe\|refused" | head -5 || true
 
 echo "---INSTALL---"

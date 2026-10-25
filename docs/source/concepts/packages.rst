@@ -102,8 +102,7 @@ Checking the package file against ground
 The checksums inside a package only prove that its files are the ones its metadata lists:
 whoever makes a package also writes its metadata.
 To make sure that the Supervisor installs exactly the package file that was approved on ground,
-the ``install`` and ``update`` operations take an optional list of expected checksums,
-one SHA-256 for each package file:
+the ``install`` and ``update`` requests carry, for each package file, the SHA-256 it is expected to have:
 
 1. On ground, compute the SHA-256 of the ``.nmfpack`` file, for example with ``sha256sum``.
 2. Send it with the request, for example ``software-management install <package> --sha256 <checksum>``
@@ -113,6 +112,13 @@ one SHA-256 for each package file:
 The ``checkPackageIntegrity`` operation returns the SHA-256 of a package file on board,
 so that ground can also compare it before deciding to install.
 
+The Consumer Test Tool works this way:
+on install and update, it shows the SHA-256 of each package file on board
+and asks the operator to confirm that it is the one of the package file approved on ground.
+It sends the confirmed checksum with the request,
+so that the Supervisor refuses a package file that changed since.
+The confirmation protects only if the operator compares the two.
+
 A checksum that is sent is always checked.
 Whether one is *required* is chosen by the mission when it generates its filesystem,
 with the ``requirePackageChecksum`` parameter of the ``nmf-linux-maven-plugin``:
@@ -120,11 +126,13 @@ with the ``requirePackageChecksum`` parameter of the ``nmf-linux-maven-plugin``:
 .. code-block:: xml
 
    <configuration>
-     <requirePackageChecksum>true</requirePackageChecksum>
+     <requirePackageChecksum>false</requirePackageChecksum>
    </configuration>
 
-It is ``false`` by default, for development and simulation.
-A mission turns it on for flight, so that a request without a checksum is refused.
+It is ``true`` by default, so that a request without a checksum is refused.
+A filesystem for development or simulation may set it to ``false``,
+as the SDK playground environment and the testbeds do.
+A Supervisor started without the setting, for example from an IDE, also requires a checksum.
 The choice is recorded as ``require-package-checksum`` in ``bootloader/config.properties``,
 which the bootloader passes to the Supervisor at startup.
 
