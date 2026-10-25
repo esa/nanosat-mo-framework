@@ -31,9 +31,10 @@ jobs:
       - name: Build the cli-tool fat jar (NMF-2026-003)
         run: >-
           mvn --batch-mode -DskipTests -Passembly-with-dependencies -pl sdk/cli-tool install
-      - name: Build the privilege-probe app package (NMF-2026-003)
+      - name: Build the probe app packages (NMF-2026-003, access control)
         run: >-
-          mvn --batch-mode -DskipTests -f security-toolkit/pom.xml -pl app-privilege-probe package
+          mvn --batch-mode -DskipTests -f security-toolkit/pom.xml
+          -pl app-privilege-probe,app-permissions-probe package
       - name: Generate the barebone filesystem with linux-userspace (NMF-2026-003, NMF-2026-007)
         run: >-
           mvn --batch-mode -DskipTests -pl nmf-mission-barebone/barebone-space-filesystem package
