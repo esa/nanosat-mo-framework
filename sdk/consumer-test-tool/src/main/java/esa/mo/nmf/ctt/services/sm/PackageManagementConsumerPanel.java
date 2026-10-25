@@ -21,10 +21,12 @@
 package esa.mo.nmf.ctt.services.sm;
 
 import esa.mo.sm.impl.consumer.PackageManagementConsumerServiceImpl;
+import java.awt.Font;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
@@ -35,6 +37,8 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementAdapter;
 import org.ccsds.moims.mo.sm.structures.PackageApproval;
 import org.ccsds.moims.mo.sm.structures.PackageApprovalList;
+import org.ccsds.moims.mo.sm.structures.PackageIntegrity;
+import org.ccsds.moims.mo.sm.structures.PackageIntegrityList;
 
 /**
  * The PackageManagementConsumerPanel class holds a panel to interact with a
@@ -206,7 +210,11 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         ids.add(packagesTable.getSelectedPackage());
 
         try {
-            this.serviceSMPackageManagement.getPackageManagementStub().update(approvalsOf(ids), new PackageManagementAdapter() {
+            PackageApprovalList approvals = confirmedApprovalsOf(ids, "update");
+            if (approvals == null) {
+                return;
+            }
+            this.serviceSMPackageManagement.getPackageManagementStub().update(approvals, new PackageManagementAdapter() {
                 @Override
                 public void updateAckReceived(MALMessageHeader msgHeader,
                         java.util.Map qosProperties) {
@@ -310,7 +318,11 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         ids.add(packagesTable.getSelectedPackage());
 
         try {
-            this.serviceSMPackageManagement.getPackageManagementStub().install(approvalsOf(ids), new PackageManagementAdapter() {
+            PackageApprovalList approvals = confirmedApprovalsOf(ids, "install");
+            if (approvals == null) {
+                return;
+            }
+            this.serviceSMPackageManagement.getPackageManagementStub().install(approvals, new PackageManagementAdapter() {
                 @Override
                 public void installAckReceived(MALMessageHeader msgHeader,
                         BooleanList integrity, java.util.Map qosProperties) {
@@ -350,15 +362,61 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_defaultTableComponentAdded
 
     /**
-     * Returns an approval for each package, with no expected checksum and no
-     * acknowledged permissions: a provider that requires either refuses them.
+     * Shows the operator the SHA-256 of each package file on board and asks
+     * them to confirm that it is the one of the package file approved on ground.
+     * The confirmed checksums go with the request, so that the provider refuses
+     * a package file that changed since. No permissions are acknowledged: a
+     * provider that enforces access control refuses a package that declares any.
+     *
+     * @param names the names of the packages
+     * @param operation the operation, for the title of the dialog
+     * @return an approval for each package, or null if the operator did not
+     * confirm or a package failed its integrity check
      */
-    private static PackageApprovalList approvalsOf(IdentifierList names) {
+    private PackageApprovalList confirmedApprovalsOf(IdentifierList names, String operation)
+            throws MOErrorException, MALException {
+        PackageIntegrityList integrities = serviceSMPackageManagement.getPackageManagementStub()
+                .checkPackageIntegrity(names);
+
+        StringBuilder text = new StringBuilder();
+        boolean valid = true;
+        for (int i = 0; i < names.size(); i++) {
+            PackageIntegrity integrity = integrities.get(i);
+            text.append(names.get(i)).append("\n  SHA-256: ").append(integrity.getChecksum()).append("\n");
+            if (!Boolean.TRUE.equals(integrity.getValid())) {
+                valid = false;
+                text.append("  Its files do not match the checksums of its metadata.\n");
+            }
+        }
+
+        if (!valid) {
+            JOptionPane.showMessageDialog(this, textArea(text.toString()),
+                    "The package cannot be used", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+
+        text.append("\nCompare it with the SHA-256 of the package file approved on ground.\n")
+                .append("Is it the same?");
+        int answer = JOptionPane.showConfirmDialog(this, textArea(text.toString()),
+                "Confirm the package to " + operation, JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (answer != JOptionPane.YES_OPTION) {
+            return null;
+        }
+
         PackageApprovalList approvals = new PackageApprovalList();
-        for (Identifier name : names) {
-            approvals.add(new PackageApproval(name, null, null));
+        for (int i = 0; i < names.size(); i++) {
+            approvals.add(new PackageApproval(names.get(i), integrities.get(i).getChecksum(), null));
         }
         return approvals;
+    }
+
+    /** A read-only text in a fixed-width font, which the operator can select and copy. */
+    private static JTextArea textArea(String text) {
+        JTextArea area = new JTextArea(text);
+        area.setEditable(false);
+        area.setFont(new Font(Font.MONOSPACED, Font.PLAIN, area.getFont().getSize()));
+        area.setOpaque(false);
+        return area;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
