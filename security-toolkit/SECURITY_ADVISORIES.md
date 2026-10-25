@@ -563,7 +563,7 @@ and `BootloaderGeneratorTest` (`nmf-linux-maven-plugin`), which checks the gener
 | Fixed in | 6.0 |
 | Reported | freedomfoxvare, through a GitHub security advisory |
 | Severity | Low (requires the ability to install and run an app, which already runs code of the installer's choosing with the same privileges) |
-| Weaknesses | CWE-78: Improper Neutralization of Special Elements used in an OS Command; CWE-20: Improper Input Validation |
+| Weaknesses | CWE-78: Improper Neutralization of Special Elements used in an OS Command; CWE-22: Improper Limitation of a Pathname to a Restricted Directory (Path Traversal); CWE-20: Improper Input Validation |
 
 #### Impact
 
@@ -575,6 +575,9 @@ Each value was written into a shell assignment, such as `MAIN_CLASS=<value>`,
 without quotes and without any check.
 When the App was started, the shell acted on any shell syntax in a value,
 so a package could run commands of its choosing, for example with `pack.app.mainclass=$(<command>)`.
+The main jar and the dependencies could also be any path,
+so a package could make its App load a jar from outside its own directory,
+such as the jar of another installed App, with `pack.app.mainjar=../hello-world/hello-world-5.1.jar`.
 The package checksums do not prevent this, because whoever makes the package also computes them.
 
 To exploit this, an attacker must get a package installed and the App run.
@@ -605,7 +608,8 @@ so install, upgrade and uninstall all refuse a package with any other values:
 
 * the main class must be a Java class name: Java identifiers separated by dots;
 * the main jar and each dependency must be one plain file name:
-  letters, digits, `.`, `_`, `+` and `-`, starting with a letter or a digit;
+  letters, digits, `.`, `_`, `+` and `-`, starting with a letter or a digit,
+  so that no path, absolute or relative, can lead outside the App's own directory;
 * each heap size must be a number with an optional `k`, `m`, `g` or `t` unit.
 
 The generated `start_app.sh` also quotes every value it assigns,
@@ -621,7 +625,8 @@ before 3.0.0, `HelperNMFPackage.generateLinuxStartAppScript` in `nmf-package-lib
 [3] Regression test: `StartAppScriptTest` (`nmf-services-impl`),
 which checks that packages with shell syntax in each launch value are refused,
 and generates the start script from such values, runs it with a real `/bin/sh`,
-and checks that none of their commands runs and that `java` receives the main class as one argument.
+and checks that none of their commands runs and that `java` receives the main class as one argument;
+it also checks that packages whose main jar or dependencies point outside the App's directory are refused.
 
 ---
 

@@ -138,6 +138,33 @@ public class StartAppScriptTest {
     }
 
     @Test
+    public void aPackageWhoseJarsPointOutsideItsAppCannotBeRead() throws IOException {
+        // The jar of another installed App, or any other file, must not be loaded
+        String[] paths = {
+            "../hello-world/hello-world-5.1.jar",
+            "../../apps/hello-world/hello-world-5.1.jar",
+            "/home/nmf/apps/hello-world/hello-world-5.1.jar",
+            "lib/../../hello-world/hello-world-5.1.jar",
+            "..\\hello-world\\hello-world-5.1.jar",
+            "..",
+            ".",
+            ".hidden.jar"};
+
+        for (String path : paths) {
+            for (String key : new String[]{MetadataApp.APP_MAIN_JAR, MetadataApp.APP_DEPENDENCIES}) {
+                Properties props = validAppProperties();
+                props.setProperty(key, path);
+                try (ZipFile zip = packageWith(props)) {
+                    Metadata.parseZipFile(zip);
+                    Assert.fail("a package with " + key + "=" + path + " must not be read");
+                } catch (IOException expected) {
+                    Assert.assertTrue(expected.getMessage(), expected.getMessage().contains(key));
+                }
+            }
+        }
+    }
+
+    @Test
     public void theStartScriptRunsNoCommandFromTheLaunchValues() throws Exception {
         Assume.assumeTrue("A POSIX shell is needed", new File("/bin/sh").canExecute());
 
