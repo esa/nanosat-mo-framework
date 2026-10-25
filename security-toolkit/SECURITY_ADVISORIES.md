@@ -691,7 +691,7 @@ The service now validates the paths before anything runs, and the adapter no lon
 
 [2] Safe command: `AIMovidiusAdapter.executeInference` (an argument vector) and `ShellCommander.runCommand(String[], File)` in `nmf-services-impl`.
 
-[3] Regression test: `AIServiceCommandInjectionTest` (`nmf-services-impl`),
+[3] Regression test: `Nmf2026009Test` (`security-toolkit/vulnerability-tests`),
 which drives the service and the adapter with a path that would create a marker file if the shell evaluated it,
 and checks that no marker appears; it fails on the earlier code.
 
