@@ -51,6 +51,10 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
  * Heartbeat, and the events of the Apps Launcher, which carry its shutdown
  * signal. A caller without a valid credential may only look up the Directory.
  * <p>
+ * The entries of the Directory belong to their providers: an App may add or
+ * remove only its own entry, and no caller, ground included, may add or remove
+ * the Supervisor's (see {@link #checkDirectoryEntry}).
+ * <p>
  * Only the Supervisor itself publishes on its services: it marks what its own
  * publishers send to its brokers, and the brokers refuse every other publisher.
  */
@@ -74,19 +78,27 @@ public final class AccessControlAuthority {
         }
     }
 
-    /** Records each call made without the permission or credential it needs. */
+    /**
+     * Records each call made without the permission or credential it needs, or
+     * that adds or removes an entry of the Directory that belongs to another
+     * provider.
+     */
     public interface Recorder {
 
         /**
-         * Records a call made without the permission or credential it needs.
+         * Records a call made without the permission or credential it needs, or
+         * that adds or removes an entry of the Directory that belongs to another
+         * provider.
          *
          * @param app the App that made it, or null if the caller had no valid credential
          * @param permission the permission it needs
          * @param operation the operation called
          * @param from the URI of the caller
+         * @param entry the name of the provider whose entry of the Directory the call
+         * tried to add or remove, or null for a call that lacks a permission or credential
          * @param refused true if it was refused, false if it was only audited
          */
-        void record(String app, String permission, String operation, URI from, boolean refused);
+        void record(String app, String permission, String operation, URI from, String entry, boolean refused);
     }
 
     private final Set<String> supervisorAddresses = new HashSet<>();
@@ -212,6 +224,53 @@ public final class AccessControlAuthority {
     }
 
     /**
+     * Checks that the caller of a request to the Supervisor's Directory may add
+     * or remove the entry of the given provider. Only an App may, and only its
+     * own entry, which it adds when it starts and removes when it stops: ground
+     * and the other Apps may not, so that no caller can make a look-up of an
+     * App, or of the Supervisor, lead elsewhere. The entry that the Supervisor
+     * added for itself is refused to every caller in every mode, so that a
+     * look-up of the Supervisor always leads to the Supervisor.
+     *
+     * @param header the header of the request
+     * @param entry the name of the provider whose entry the request adds or removes
+     * @param operation the operation: add or remove
+     * @param supervisorsOwn true if the Supervisor added the entry for itself
+     * @throws AuthorisationFailException if the request is refused
+     */
+    public void checkDirectoryEntry(final MALMessageHeader header, final String entry,
+            final String operation, final boolean supervisorsOwn) throws AuthorisationFailException {
+        AccessControlMode mode = AccessControlMode.current();
+        Caller caller = callers.get(credentialOf(header.getAuthenticationId()));
+        String app = (caller == null) ? null : caller.app;
+        String what;
+
+        if (supervisorsOwn) {
+            what = callerName(caller, header) + " tried to " + operation + " the entry of '" + entry
+                    + "' in the Directory, which the Supervisor added for itself";
+            mode = AccessControlMode.ENFORCE; // Refused whatever the mode
+        } else if (mode == AccessControlMode.OFF || (app != null && app.equals(entry))) {
+            return;
+        } else {
+            what = callerName(caller, header) + " tried to " + operation + " the entry of '" + entry
+                    + "' in the Directory: only the App '" + entry + "' may";
+        }
+
+        Call call = new Call("COM.Directory", operation, false);
+        if (record(mode, what, app, call, header, entry)) {
+            throw new AuthorisationFailException("Only the provider '" + entry
+                    + "' may " + operation + " its entry in the Directory");
+        }
+    }
+
+    private static String callerName(final Caller caller, final MALMessageHeader header) {
+        if (caller == null) {
+            return "a caller at " + header.getFromURI() + " without valid credentials";
+        }
+        return caller.isGround() ? "ground" : "App '" + caller.app + "'";
+    }
+
+    /**
      * Marks a message that one of the Supervisor's own publishers sends to one
      * of its brokers, so that the broker accepts it. The NMF access control
      * calls this only for the messages that the Supervisor sends; the mark is
@@ -334,21 +393,33 @@ public final class AccessControlAuthority {
 
     private void refuse(AccessControlMode mode, MOErrorException error, String what, String app, Call call,
             MALMessageHeader header) throws MALCheckErrorException {
+        if (record(mode, what, app, call, header, null)) {
+            throw new MALCheckErrorException(error, null);
+        }
+    }
+
+    /**
+     * Logs and records a call that the mode refuses or audits.
+     *
+     * @return true if the call is refused, false if it is only audited
+     */
+    private boolean record(AccessControlMode mode, String what, String app, Call call,
+            MALMessageHeader header, String entry) {
         boolean refused = (mode != AccessControlMode.AUDIT);
         Recorder r = recorder;
         if (r != null) {
             try {
-                r.record(app, call.permission, call.operation, header.getFromURI(), refused);
+                r.record(app, call.permission, call.operation, header.getFromURI(), entry, refused);
             } catch (RuntimeException e) {
                 LOGGER.log(Level.WARNING, "The unauthorised call could not be recorded", e);
             }
         }
         if (!refused) {
             LOGGER.log(Level.WARNING, "Audit: {0}; enforce mode would refuse it", what);
-            return;
+            return false;
         }
         LOGGER.log(Level.WARNING, "Refused: {0}", what);
-        throw new MALCheckErrorException(error, null);
+        return true;
     }
 
     /**

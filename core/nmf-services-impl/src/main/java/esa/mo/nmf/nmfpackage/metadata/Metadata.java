@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.nmfpackage.metadata;
 
+import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.nmfpackage.NMFPackageFile;
 import esa.mo.nmf.nmfpackage.NMFPackageManager;
 import java.io.File;
@@ -350,6 +351,13 @@ public class Metadata {
         // The values of an App go into its start script, so they are checked too.
         if (metadata.isApp()) {
             metadata.castToApp().checkLaunchValues();
+
+            // An App is listed in the Directory under its name, where ground and
+            // the other Apps look up the Supervisor by its own (NMF-2026-011)
+            if (Const.NANOSAT_MO_SUPERVISOR_NAME.equals(metadata.getPackageName())) {
+                throw new IOException("An App cannot be named '" + Const.NANOSAT_MO_SUPERVISOR_NAME
+                        + "': the name is the Supervisor's.");
+            }
         }
 
         return metadata;

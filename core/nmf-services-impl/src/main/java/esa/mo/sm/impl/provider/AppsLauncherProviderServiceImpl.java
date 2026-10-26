@@ -182,16 +182,19 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     /**
      * Stores in the Archive a call that the Supervisor received without the
-     * permission or the credential it needs.
+     * permission or the credential it needs, or that adds or removes an entry
+     * of its Directory that belongs to another provider.
      *
      * @param app the App that made it, or null if the caller had no valid credential
      * @param permission the permission it needs
      * @param operation the operation called
      * @param from the URI of the caller
+     * @param entry the name of the provider whose entry of the Directory the call
+     * tried to add or remove, or null for a call that lacks a permission or credential
      * @param refused true if it was refused, false if it was only audited
      */
     public void storeUnauthorisedCall(String app, String permission, String operation, URI from,
-            boolean refused) {
+            String entry, boolean refused) {
         if (this.manager.getCOMServices().getArchiveService() == null) {
             return;
         }
@@ -199,7 +202,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             Long appId = (app == null) ? null : this.manager.list(new Identifier(app));
             HeterogeneousList bodies = new HeterogeneousList();
             bodies.add(new UnauthorisedCall(app == null ? null : new Identifier(app), permission,
-                    new Identifier(operation), from, refused));
+                    new Identifier(operation), from, entry == null ? null : new Identifier(entry), refused));
             ArchiveDetailsList archDetails = HelperArchive.generateArchiveDetailsList(
                     appId, connection.getPrimaryConnectionDetails().getProviderURI());
             this.manager.getCOMServices().getArchiveService().store(

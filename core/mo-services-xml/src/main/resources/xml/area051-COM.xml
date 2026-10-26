@@ -648,6 +648,9 @@
                         <mal:errorRef comment="When any submitted field value is invalid.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the providerName field names a provider that the service provider added for itself, or, when access control is enforced, a provider other than the consumer that its credential identifies.">
+                            <mal:type area="MAL" list="false" name="Authorisation Fail"/>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
                 <mal:submitIP name="remove" number="3" comment="The remove operation removes an existing entry from the list of providers held in the Directory service. If no match is found for the withdraw request, then nothing is changed.">
@@ -670,6 +673,9 @@
                         </mal:errorRef>
                         <mal:errorRef comment="When the supplied providerId is '0'.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the supplied providerId names the Provider COM object of a provider that the service provider added for itself, or, when access control is enforced, of a provider other than the consumer that its credential identifies.">
+                            <mal:type area="MAL" list="false" name="Authorisation Fail"/>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:submitIP>

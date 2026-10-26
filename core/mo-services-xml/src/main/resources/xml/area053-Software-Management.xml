@@ -557,7 +557,7 @@
                         </com:relatedObject>
                     </com:object>
 
-                    <com:object comment="Stored in the archive when the Supervisor receives a call that lacks the permission or the credential it needs: refused when access control is enforced, only recorded when it is audited." number="4" name="UnauthorisedCall">
+                    <com:object comment="Stored in the archive when the Supervisor receives a call that lacks the permission or the credential it needs, or that adds or removes an entry of its Directory service that belongs to another provider: refused when access control is enforced, only recorded when it is audited." number="4" name="UnauthorisedCall">
                         <com:objectType>
                             <mal:type area="SM" list="false" name="UnauthorisedCall"/>
                         </com:objectType>
@@ -693,14 +693,14 @@
                     <mal:type area="MAL" list="false" name="String"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="UnauthorisedCall" shortFormPart="15" comment="The body of an UnauthorisedCall COM object, stored in the archive when the Supervisor receives a call that lacks the permission or the credential it needs.">
+            <mal:composite name="UnauthorisedCall" shortFormPart="15" comment="The body of an UnauthorisedCall COM object, stored in the archive when the Supervisor receives a call that lacks the permission or the credential it needs, or that adds or removes an entry of its Directory service that belongs to another provider.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
                 <mal:field name="app" canBeNull="true" comment="The name of the app that made the call. NULL if the caller presented no valid credential.">
                     <mal:type area="MAL" list="false" name="Identifier"/>
                 </mal:field>
-                <mal:field name="permission" canBeNull="false" comment="The permission that the call needs, such as Supervisor.Platform.Camera.">
+                <mal:field name="permission" canBeNull="false" comment="The permission that the call needs, such as Supervisor.Platform.Camera. Supervisor.COM.Directory for a call that adds or removes an entry of the Directory service.">
                     <mal:type area="MAL" list="false" name="String"/>
                 </mal:field>
                 <mal:field name="operation" canBeNull="false" comment="The operation that was called.">
@@ -709,7 +709,10 @@
                 <mal:field name="from" canBeNull="true" comment="The URI of the caller. NULL if unknown.">
                     <mal:type area="MAL" list="false" name="URI"/>
                 </mal:field>
-                <mal:field name="refused" canBeNull="false" comment="Whether the call was refused, when access control is enforced, or only recorded, when it is audited.">
+                <mal:field name="entry" canBeNull="true" comment="The name of the provider whose entry of the Directory service the call tried to add or remove, which belongs to another provider. NULL for a call that lacks a permission or a credential.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="refused" canBeNull="false" comment="Whether the call was refused, or only recorded. A call is only recorded when access control is audited, except one that adds or removes the entry that the Supervisor added for itself, which is always refused.">
                     <mal:type area="MAL" list="false" name="Boolean"/>
                 </mal:field>
             </mal:composite>

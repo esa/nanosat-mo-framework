@@ -26,6 +26,7 @@ import esa.mo.com.impl.util.HelperCOM;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,6 +36,7 @@ import org.ccsds.moims.mo.com.directory.DirectoryHelper;
 import org.ccsds.moims.mo.com.directory.DirectoryServiceInfo;
 import org.ccsds.moims.mo.com.directory.provider.DirectoryInheritanceSkeleton;
 import org.ccsds.moims.mo.com.structures.*;
+import org.ccsds.moims.mo.mal.AuthorisationFailException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.UnknownException;
@@ -45,6 +47,7 @@ import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 
 /**
  * Directory service Provider.
@@ -63,6 +66,30 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     /** Mutex guarding access to {@link #providersAvailable}. */
     protected final Object MUTEX = new Object();
     private COMServicesProvider comServices;
+    /** The names of the providers whose entries this service added for itself. */
+    private final Set<String> ownEntries = ConcurrentHashMap.newKeySet();
+    private volatile EntryCheck entryCheck;
+
+    /**
+     * Checks that a consumer may add or remove the entry of a provider, such as
+     * the access control of the Supervisor.
+     */
+    @FunctionalInterface
+    public interface EntryCheck {
+
+        /**
+         * Checks that the consumer of a request may add or remove the entry of
+         * the given provider.
+         *
+         * @param header the header of the request
+         * @param entry the name of the provider whose entry the request adds or removes
+         * @param operation the operation: add or remove
+         * @param own true if this service added the entry for itself
+         * @throws AuthorisationFailException if the request is refused
+         */
+        void check(MALMessageHeader header, String entry, String operation, boolean own)
+                throws AuthorisationFailException;
+    }
 
     /**
      * Default constructor.
@@ -146,6 +173,40 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     @Override
     public ConnectionProvider getConnection() {
         return this.connection;
+    }
+
+    /**
+     * Sets what checks that a consumer may add or remove the entry of a
+     * provider. Without one, a consumer may add or remove every entry except
+     * those that this service added for itself.
+     *
+     * @param check the check
+     */
+    public void setEntryCheck(final EntryCheck check) {
+        this.entryCheck = check;
+    }
+
+    /**
+     * Checks that the consumer of an interaction may add or remove the entry of
+     * the given provider. This service itself, which makes no interaction, may
+     * add or remove every entry.
+     */
+    private void checkEntry(final String entry, final String operation, final MALInteraction interaction)
+            throws AuthorisationFailException {
+        if (interaction == null) {
+            return;
+        }
+        boolean own = ownEntries.contains(entry);
+        EntryCheck check = this.entryCheck;
+        if (check != null) {
+            check.check(interaction.getMessageHeader(), entry, operation, own);
+        } else if (own) {
+            LOGGER.log(Level.WARNING, "Refused: {0} tried to {1} the entry of ''{2}'', which this "
+                    + "Directory added for itself", new Object[]{interaction.getMessageHeader().getFromURI(),
+                        operation, entry});
+            throw new AuthorisationFailException("Only the provider '" + entry
+                    + "' may " + operation + " its entry in the Directory");
+        }
     }
 
     @Override
@@ -266,10 +327,12 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
     @Override
     public Long add(final Provider newProviderDetails, final MALInteraction interaction)
-            throws InvalidArgumentException, MALException {
+            throws InvalidArgumentException, AuthorisationFailException, MALException {
         Identifier serviceProviderName = newProviderDetails.getProviderName();
 
         synchronized (MUTEX) {
+            checkEntry(serviceProviderName.getValue(), "add", interaction);
+
             final HashMap<Long, Provider> list = new HashMap<>(providersAvailable);
 
             // Do we already have this provider in the Directory service?
@@ -280,11 +343,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                     // It is repeated!!
                     LOGGER.warning("There was already a provider with the same name in the "
                             + "Directory service. Removing the old one and adding the new one...");
-                    try {
-                        remove(key, null);
-                    } catch (UnknownException ex) {
-                        LOGGER.warning("Unexpected UnknownException removing duplicate provider: " + ex.getMessage());
-                    }
+                    removeEntry(key);
                 }
             }
 
@@ -322,26 +381,35 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
             Long provObjId = returnedProvObjIds.get(0);
             this.providersAvailable.put(provObjId, newProviderDetails);
+            if (interaction == null) {
+                ownEntries.add(serviceProviderName.getValue());
+            }
             return provObjId;
         }
     }
 
     @Override
-    public void remove(Long providerObjectKey,
-            MALInteraction interaction) throws UnknownException, InvalidArgumentException, MALException {
+    public void remove(Long providerObjectKey, MALInteraction interaction)
+            throws UnknownException, InvalidArgumentException, AuthorisationFailException, MALException {
         synchronized (MUTEX) {
             if (!this.providersAvailable.containsKey(providerObjectKey)) { // The requested provider does not exist
                 throw new UnknownException(null);
             }
-
-            ArchiveManager manager = comServices.getArchiveService().getArchiveManager();
-            IdentifierList domain = ConfigurationProviderSingleton.getDomain();
-            LongList providerIds = new LongList();
-            providerIds.add(providerObjectKey);
-            manager.removeEntries(DirectoryServiceInfo.PROVIDER_OBJECT_TYPE, domain, providerIds, null);
-
-            this.providersAvailable.remove(providerObjectKey); // Remove the provider...
+            checkEntry(this.providersAvailable.get(providerObjectKey).getProviderName().getValue(),
+                    "remove", interaction);
+            removeEntry(providerObjectKey);
         }
+    }
+
+    /** Removes an entry, from the Archive too, without any check. The caller holds the MUTEX. */
+    private void removeEntry(final Long providerObjectKey) throws MALException {
+        ArchiveManager manager = comServices.getArchiveService().getArchiveManager();
+        IdentifierList domain = ConfigurationProviderSingleton.getDomain();
+        LongList providerIds = new LongList();
+        providerIds.add(providerObjectKey);
+        manager.removeEntries(DirectoryServiceInfo.PROVIDER_OBJECT_TYPE, domain, providerIds, null);
+
+        this.providersAvailable.remove(providerObjectKey); // Remove the provider...
     }
 
     /**
@@ -354,7 +422,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     public void withdrawAllProviders() throws UnknownException, InvalidArgumentException, MALException {
         synchronized (MUTEX) {
             for (Long key : providersAvailable.keySet()) {
-                remove(key, null);
+                removeEntry(key);
             }
         }
     }
@@ -431,7 +499,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         try {
             this.add(newProviderDetails, null);
             return newProviderDetails;
-        } catch (InvalidArgumentException | MALException ex) {
+        } catch (InvalidArgumentException | AuthorisationFailException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 

@@ -43,6 +43,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.directory.DirectoryServiceInfo;
 import org.ccsds.moims.mo.com.structures.*;
+import org.ccsds.moims.mo.mal.AuthorisationFailException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.*;
@@ -296,6 +297,9 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
                 }
             } catch (MALException ex) {
                 LOGGER.log(Level.SEVERE, null, ex);
+            } catch (AuthorisationFailException ex) {
+                LOGGER.log(Level.SEVERE, "The Central Directory service refused to list the App under the name "
+                        + "''{0}'': {1}", new Object[]{this.providerName, ex.getExtraInformation()});
             } catch (MOErrorException ex) {
                 LOGGER.log(Level.SEVERE, "Could not connect to the Central Directory service! Maybe it is down...");
             }

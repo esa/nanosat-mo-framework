@@ -24,6 +24,7 @@
     <modules>
         <module>app-privilege-probe</module>
         <module>app-permissions-probe</module>
+        <module>app-directory-probe</module>
         <module>vulnerability-tests</module>
         <module>access-control-tests</module>
     </modules>

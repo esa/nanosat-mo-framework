@@ -113,6 +113,18 @@ public class PackageNameTest {
         }
     }
 
+    @Test
+    public void anAppNamedAfterTheSupervisorCannotBeRead() throws IOException {
+        // NMF-2026-011: an App is listed in the Directory under its name, where
+        // ground and the other Apps look up the Supervisor by its own
+        try (ZipFile zip = packageNamed("nanosat-mo-supervisor")) {
+            Metadata.parseZipFile(zip);
+            Assert.fail("an App named after the Supervisor must not be read");
+        } catch (IOException expected) {
+            Assert.assertTrue(expected.getMessage(), expected.getMessage().contains("the Supervisor's"));
+        }
+    }
+
     /** Writes a package file holding only its metadata, with the given name. */
     private ZipFile packageNamed(String name) throws IOException {
         File file = tmp.newFile();

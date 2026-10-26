@@ -22,6 +22,7 @@ it must be reported privately, not added to this file.
 | [NMF-2026-008](#nmf-2026-008-os-command-injection-through-the-launch-values-of-an-app-package) | OS command injection through the launch values of an App package | Fixed | < 6.0 | 6.0 | GHSA-36jr-c3j2-8jhw |
 | [NMF-2026-009](#nmf-2026-009-os-command-injection-through-the-artificial-intelligence-service) | OS command injection through the Artificial Intelligence service | Fixed | >= 3.0.0, < 6.0 | 6.0 | — |
 | [NMF-2026-010](#nmf-2026-010-unauthenticated-command-execution-through-the-commandexecutor-service) | Unauthenticated command execution through the CommandExecutor service | Fixed | >= 2.0.0, < 6.0 | 6.0 | — |
+| [NMF-2026-011](#nmf-2026-011-an-app-can-take-over-the-supervisors-entry-in-the-directory-service) | An App can take over the Supervisor's entry in the Directory service | Fixed | < 6.0 | 6.0 | — |
 
 ---
 
@@ -789,3 +790,129 @@ and that a missing or unknown mode is enforced;
 `AccessControlAuditTest` (`testbed-e2e`);
 and `AppPermissionsTest` (`security-toolkit/access-control-tests`),
 which runs an App against a Supervisor in audit and in enforce mode and checks each call it makes, including `runCommand`.
+
+---
+
+### NMF-2026-011: An App can take over the Supervisor's entry in the Directory service
+
+| Field | Value |
+|---|---|
+| Status | Fixed |
+| GHSA / CVE | Not published |
+| Ecosystem | Maven |
+| Package | `int.esa.nmf.core:nmf-services-impl`, `int.esa.nmf.core:nmf-composites` |
+| Affected versions | < 6.0 |
+| Fixed in | 6.0 |
+| Reported | — |
+| Severity | High (an installed App makes ground, and the Apps started after it, talk to it instead of the Supervisor) |
+| Weaknesses | CWE-290: Authentication Bypass by Spoofing; CWE-862: Missing Authorization |
+
+#### Impact
+
+Ground and the Apps find the Supervisor through its Directory service:
+they look up the provider named `nanosat-mo-supervisor` and connect to the service addresses of that entry.
+
+The `add` operation of the Directory service adds a provider entry under the name it is given.
+If an entry with that name already exists, `add` removes it and stores the new one in its place,
+whoever made the request.
+`remove` likewise removes any entry, given its identifier.
+Neither checks that the provider named in the request belongs to the caller.
+
+An App can therefore replace the Supervisor's entry with one that lists its own service addresses:
+
+* An App registers itself under its own name when it starts,
+  and that name is the name of its package.
+  The package name may be `nanosat-mo-supervisor`,
+  so a package of that name takes over the Supervisor's entry just by being run.
+* Any running App can also call `add` itself with any provider name.
+  The access control of the Supervisor in 6.0 lets every App call the Directory service,
+  so, before this fix, this needed no permission there either.
+
+Once the entry is replaced:
+
+* Ground looks up the Supervisor and connects to the App instead.
+  The App receives the requests that ground meant for the Supervisor,
+  such as install, update and runApp requests, and can answer them with responses of its choosing,
+  so that ground sees packages as installed and Apps as running when they are not.
+  When the App does not provide a service of the Supervisor, such as Package Management,
+  that service is no longer available to ground.
+* Every App started afterwards looks up the Supervisor in the same way to reach the Platform services,
+  so it receives the App's camera, GPS and other Platform data, and its Platform requests go to the App.
+* The Supervisor itself keeps running at its own addresses with its own privileges.
+  A client that connects to known Supervisor service addresses, without a look-up, is not affected.
+
+Ground and each App present their credential only to the address of the Supervisor that they were configured with,
+so the App does not receive the credential of ground or of other Apps:
+it impersonates the Supervisor, but cannot act as ground towards the real one.
+
+To exploit this, an attacker must get an App installed and run, which ground must approve.
+In versions before 6.0, the Supervisor checks no caller
+(see [NMF-2026-010](#nmf-2026-010-unauthenticated-command-execution-through-the-commandexecutor-service)),
+so anyone who can reach the Supervisor over the network can call `add` without installing an App.
+
+This was reproduced on the barebone mission of 6.0 in development, before the fix,
+under linux-userspace isolation and with access control enforced,
+both with an App that adds an entry under the Supervisor's name and with an App packaged as `nanosat-mo-supervisor`:
+while the App ran, ground found the App under the Supervisor's name, and Package Management was no longer available to it.
+
+The ground MO proxy (`GroundMOProxy`) has a related weakness:
+it relays as the Supervisor every provider whose name starts with `nanosat-mo-supervisor`,
+so an App named, for example, `nanosat-mo-supervisor-x` is relayed to ground as the Supervisor
+without replacing any entry.
+
+The Directory service has replaced an entry of the same name since 2017,
+and Apps have been registered under the name of their folder, which is the name of their package, since the same year.
+
+#### Workarounds
+
+* Install only packages from trusted sources,
+  and refuse a package whose name is `nanosat-mo-supervisor` or starts with it.
+* On ground, after looking up the Supervisor, check that the service addresses of its entry
+  have the host and port of the Directory service that was looked up:
+  the Supervisor provides all its services at the same address as its Directory.
+
+#### Fix
+
+The entries of the Supervisor's Directory service now belong to their providers:
+
+* The Directory service refuses an `add` or a `remove` of an entry that it added for itself to every consumer, in every access control mode.
+  The Supervisor adds its own entry when it starts, so a look-up of the Supervisor always leads to the Supervisor.
+* When access control is enforced, the Supervisor lets an App add and remove only its own entry,
+  the one under the App's name, which the App adds when it starts and removes when it stops.
+  It refuses every other `add` and `remove`, from other Apps and from ground alike,
+  which never needs to add or remove an entry.
+  In `audit` mode, such a call goes through and is logged.
+* Each refused or audited call is logged and stored in the COM Archive as an `UnauthorisedCall` object of the Apps Launcher service,
+  whose new `entry` field names the entry that the call tried to add or remove.
+* A package cannot be installed as an App named `nanosat-mo-supervisor`.
+* The ground MO proxy relays as the Supervisor only the provider named exactly `nanosat-mo-supervisor`.
+
+The `add` and `remove` operations of the Directory service return the `Authorisation Fail` error of the MAL for a refused call.
+
+#### References
+
+[1] Directory entries: `DirectoryProviderServiceImpl.add` and `DirectoryProviderServiceImpl.remove` in `nmf-services-impl`;
+the check of the caller is `AccessControlAuthority.checkDirectoryEntry`, set up by `NanoSatMOSupervisor` in `nmf-composites`.
+
+[2] Registration of an App: `NanoSatMOConnectorImpl.init` in `nmf-composites`,
+which takes the provider name from the App's folder and adds it to the Supervisor's Directory;
+its look-up of the Platform services by the name `nanosat-mo-supervisor` is in the same method.
+
+[3] Package names: `Metadata.parseZipFile` in `nmf-services-impl`, which now refuses an App named `nanosat-mo-supervisor`.
+
+[4] Access control: `AccessControlAuthority.Call.isBaseline` in `nmf-services-impl`, which lets every App call the Directory service.
+
+[5] Ground MO proxy: `GroundMOProxy.getRemoteNMSProviderSpecificService` in `nmf-composites`.
+
+[6] Regression test: `Nmf2026011Test` (`security-toolkit/vulnerability-tests`),
+which gives a Directory service the Supervisor's entry, as the Supervisor does at start-up,
+and checks that a separate consumer, standing for an App, can neither replace that entry with its own addresses nor remove it;
+it fails on the earlier code.
+`Nmf2026011EndToEndTest` (`security-toolkit/vulnerability-tests`), with the `app-directory-probe` App,
+which has the real Supervisor install and run the App under linux-userspace isolation, with access control enforced,
+both as `directory-probe` and as `nanosat-mo-supervisor`,
+and checks that ground still reaches the Supervisor's Package Management while the App runs,
+or that the package named after the Supervisor is not installed;
+it fails on the earlier code.
+`DirectoryEntryOwnershipTest` and `PackageNameTest` (`nmf-services-impl`),
+which check the rule for each caller and each access control mode, and the reserved name.

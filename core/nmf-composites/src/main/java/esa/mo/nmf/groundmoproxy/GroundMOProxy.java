@@ -176,7 +176,8 @@ public abstract class GroundMOProxy {
         Iterator itr = list.iterator();
         while (itr.hasNext()) {
             Provider ps = (Provider) itr.next();
-            if (!ps.getProviderName().getValue().startsWith(Const.NANOSAT_MO_SUPERVISOR_NAME)) {
+            // The Supervisor's name exactly: an App may be named so that it starts with it
+            if (!ps.getProviderName().getValue().equals(Const.NANOSAT_MO_SUPERVISOR_NAME)) {
                 itr.remove();
             }
         }

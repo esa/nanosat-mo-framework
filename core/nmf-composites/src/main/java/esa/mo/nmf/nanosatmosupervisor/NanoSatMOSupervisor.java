@@ -276,6 +276,8 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                     + "no call from ground will be accepted", groundCredential);
         }
         NMFAccessControl.INSTANCE.enforce(authority);
+        // Only an App may add or remove its own entry in the Directory, and no caller the Supervisor's
+        directoryService.setEntryCheck(authority::checkDirectoryEntry);
         LOGGER.log(Level.INFO, "Access control: {0}", AccessControlMode.current().configName());
     }
 

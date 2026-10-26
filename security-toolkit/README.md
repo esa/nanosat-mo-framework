@@ -11,6 +11,9 @@ Security projects for the NanoSat MO Framework.
   fixed.
 * `app-privilege-probe/` — a benign NMF app that reports the privileges the Supervisor gave it. A
   test installs and runs it through the real Supervisor to check that app isolation confines it.
+* `app-directory-probe/` — a benign NMF app that tries to take over the Supervisor's entry in the
+  Directory service, packaged both as `directory-probe` and as `nanosat-mo-supervisor`. A test
+  installs and runs each package through the real Supervisor and checks that ground still reaches it.
 * Further projects will be added, such as a malicious app used to exercise the framework's
   defences.
 

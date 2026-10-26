@@ -47,6 +47,18 @@ Service                         Operations
 Any other service, including the rest of ``Supervisor.SM.AppsLauncher`` (running, stopping and killing other Apps), must be declared.
 ``Supervisor.SM.CommandExecutor`` gives the App the privileges of the Supervisor itself.
 
+Entries of the Directory
+------------------------
+
+The entries of the Supervisor's Directory belong to their providers,
+because ground and the Apps find the Supervisor, and each App, by looking up its name there.
+An App may add and remove only its own entry, the one under its own name, and ground may add or remove none.
+In ``enforce`` mode, any other ``add`` or ``remove`` is refused with an ``AuthorisationFailException``;
+in ``audit`` mode, it goes through and is logged.
+The entry that the Supervisor adds for itself is refused to every caller in every mode, ``off`` included,
+so that a look-up of the Supervisor always leads to the Supervisor.
+For the same reason, an App cannot be named ``nanosat-mo-supervisor``.
+
 Acknowledgment by ground
 ------------------------
 
@@ -71,6 +83,8 @@ In ``audit`` mode, the call goes through, and the App logs a warning with the sa
 
 In both modes, the Supervisor logs the call and records it in the Archive as an ``UnauthorisedCall`` object,
 so that ground can see which Apps used, or tried to use, a service they were not granted.
+A refused or audited ``add`` or ``remove`` of an entry of the Directory is recorded in the same way,
+with the name of the entry in its ``entry`` field.
 
 Modes
 -----
