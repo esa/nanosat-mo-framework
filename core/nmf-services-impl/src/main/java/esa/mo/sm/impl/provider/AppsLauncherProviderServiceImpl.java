@@ -344,6 +344,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             }
         }
 
+        Set<Long> requested = new HashSet<>();
         for (int index = 0; index < appInstIds.size(); index++) {
             // Get it from the list of available apps:
             AppDetails app = this.manager.get(appInstIds.get(index));
@@ -354,8 +355,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                 continue;
             }
 
-            // Is the app already running?
-            if (manager.isAppRunning(appInstIds.get(index))) {
+            // Is the app already running, or asked for twice in this request?
+            if (manager.isAppRunning(appInstIds.get(index)) || !requested.add(appInstIds.get(index))) {
                 invIndexList.add(new UInteger(index)); // Throw an INVALID error
                 continue;
             }
@@ -388,7 +389,12 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                 publishAppEvent(app.getName().toString(), appId, AppEventType.START_REQUESTED, null, null);
                 CallbacksImpl calback = new CallbacksImpl();
                 ProcessExecutionHandler pHandler = new ProcessExecutionHandler(calback, appId);
-                manager.startAppProcess(pHandler, interaction, directoryServiceURI);
+                if (!manager.startAppProcess(pHandler, interaction, directoryServiceURI)) {
+                    // Started meanwhile by another request
+                    UIntegerList runningIndexList = new UIntegerList();
+                    runningIndexList.add(new UInteger(i));
+                    throw new InvalidArgumentException(runningIndexList);
+                }
                 publishAppEvent(app.getName().toString(), appId, AppEventType.STARTED, null, null);
                 storeAppStarted(appId, interaction);
             } catch (IOException ex) {

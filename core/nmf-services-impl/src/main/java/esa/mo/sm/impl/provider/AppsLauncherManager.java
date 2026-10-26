@@ -467,15 +467,23 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
             final String directoryServiceURI);
 
     /**
-     * Starts the OS process for the given app.
+     * Starts the OS process for the given app, unless it is already running.
+     * The check and the start are one step, so that requests that arrive
+     * together start the app once.
      *
      * @param handler the handler
      * @param interaction the MAL interaction context
      * @param directoryServiceURI the directory service uri
+     * @return true if the process was started, false if the app is already
+     * running and nothing was started
      * @throws IOException if the operation fails
      */
-    protected void startAppProcess(final ProcessExecutionHandler handler,
+    protected synchronized boolean startAppProcess(final ProcessExecutionHandler handler,
             final MALInteraction interaction, final String directoryServiceURI) throws IOException {
+        if (isAppRunning(handler.getObjId())) {
+            return false;
+        }
+
         // get it from the list of available apps
         AppDetails app = (AppDetails) this.getDef(handler.getObjId());
         String appName = app.getName().getValue();
@@ -514,6 +522,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         handler.monitorProcess(proc);
         handlers.put(handler.getObjId(), handler);
         this.setRunning(handler.getObjId(), true, interaction); // Update the Archive
+        return true;
     }
 
     /**
