@@ -912,7 +912,9 @@ it fails on the earlier code.
 which has the real Supervisor install and run the App under linux-userspace isolation, with access control enforced,
 both as `directory-probe` and as `nanosat-mo-supervisor`,
 and checks that ground still reaches the Supervisor's Package Management while the App runs,
-or that the package named after the Supervisor is not installed;
+or that the package named after the Supervisor is not installed,
+and that the App can add no entry under the name of another App or under a name that is no App's,
+and cannot remove the Supervisor's entry;
 it fails on the earlier code.
 `DirectoryEntryOwnershipTest` and `PackageNameTest` (`nmf-services-impl`),
 which check the rule for each caller and each access control mode, and the reserved name.

@@ -53,7 +53,9 @@ import org.ccsds.moims.mo.mal.structures.UShort;
  * Supervisor leads to this App instead:
  * <ul>
  * <li>packaged as {@code directory-probe}, it adds an entry named
- * {@code nanosat-mo-supervisor} that lists its own service addresses;</li>
+ * {@code nanosat-mo-supervisor} that lists its own service addresses, adds
+ * entries under the name of another App and under a name that is no App's,
+ * and removes the Supervisor's entry;</li>
  * <li>packaged as {@code nanosat-mo-supervisor}, it does nothing more than
  * every App does: it registers under its own name when it starts.</li>
  * </ul>
@@ -63,6 +65,11 @@ import org.ccsds.moims.mo.mal.structures.UShort;
  * it registers are its own, and it provides only what every App provides.
  */
 public class DirectoryProbe {
+
+    /** The name of another App, under which the probe tries to add an entry. */
+    private static final String OTHER_APP = "hello-world";
+    /** A name that is no App's, under which the probe tries to add an entry. */
+    private static final String MADE_UP = "made-up-provider";
 
     private final NanoSatMOConnectorImpl connector = new NanoSatMOConnectorImpl();
     private final StringBuilder report = new StringBuilder();
@@ -129,20 +136,38 @@ public class DirectoryProbe {
 
         if (!Const.NANOSAT_MO_SUPERVISOR_NAME.equals(name)) {
             Provider entry = own.get(0);
-            Provider takeover = new Provider(null, new Identifier(Const.NANOSAT_MO_SUPERVISOR_NAME),
-                    entry.getDomain(), entry.getServiceCapabilities(), entry.getProviderAddresses(),
-                    entry.getProviderType());
-            try {
-                directory.getDirectoryStub().add(takeover);
-                report.append("ADD=ACCEPTED\n");
-            } catch (Exception refused) {
-                report.append("ADD=REFUSED ").append(refused).append('\n');
+            report.append("ADD=").append(add(directory, entry, Const.NANOSAT_MO_SUPERVISOR_NAME)).append('\n');
+            report.append("ADD_OTHER_APP=").append(add(directory, entry, OTHER_APP)).append('\n');
+            report.append("OTHER_APP_ENTRIES=").append(lookUp(directory, OTHER_APP).size()).append('\n');
+            report.append("ADD_MADE_UP=").append(add(directory, entry, MADE_UP)).append('\n');
+            report.append("MADE_UP_ENTRIES=").append(lookUp(directory, MADE_UP).size()).append('\n');
+
+            ProviderList supervisor = lookUp(directory, Const.NANOSAT_MO_SUPERVISOR_NAME);
+            if (!supervisor.isEmpty()) {
+                try {
+                    directory.getDirectoryStub().remove(supervisor.get(0).getId());
+                    report.append("REMOVE_SUPERVISOR=ACCEPTED\n");
+                } catch (Exception refused) {
+                    report.append("REMOVE_SUPERVISOR=REFUSED ").append(refused).append('\n');
+                }
             }
         }
 
         ProviderList supervisor = lookUp(directory, Const.NANOSAT_MO_SUPERVISOR_NAME);
         report.append("SUPERVISOR_ENTRIES=").append(supervisor.size()).append('\n');
         report.append("SUPERVISOR_ADDRESSES=").append(addressesOf(supervisor)).append('\n');
+    }
+
+    /** Adds an entry under the given name that lists the App's own addresses, and says how it went. */
+    private static String add(DirectoryConsumerServiceImpl directory, Provider own, String name) {
+        Provider entry = new Provider(null, new Identifier(name), own.getDomain(), own.getServiceCapabilities(),
+                own.getProviderAddresses(), own.getProviderType());
+        try {
+            directory.getDirectoryStub().add(entry);
+            return "ACCEPTED";
+        } catch (Exception refused) {
+            return "REFUSED " + refused;
+        }
     }
 
     private static ProviderList lookUp(DirectoryConsumerServiceImpl directory, String name) throws Exception {
