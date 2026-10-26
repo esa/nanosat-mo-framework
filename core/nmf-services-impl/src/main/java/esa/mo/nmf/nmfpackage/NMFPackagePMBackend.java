@@ -134,6 +134,19 @@ public class NMFPackagePMBackend implements PMBackend {
     }
 
     @Override
+    public boolean stopApp(final String packageName) {
+        try (ZipFile zipFile = new ZipFile(this.getFolderLocation(packageName))) {
+            Metadata metadata = Metadata.parseZipFile(zipFile);
+            return !metadata.isApp() || manager.stopApp(metadata.getPackageName());
+        } catch (IOException ex) {
+            // The uninstall or update of a package that cannot be read fails on its own
+            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.WARNING,
+                    "The App of the package '" + packageName + "' could not be stopped!", ex);
+            return true;
+        }
+    }
+
+    @Override
     public void update(final String packageName, final List<String> acknowledged) {
         String packageLocation = this.getFolderLocation(packageName);
         Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,

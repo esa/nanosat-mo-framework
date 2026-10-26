@@ -95,6 +95,11 @@ An install or update can also carry the SHA-256 that the package file is expecte
 
 **Uninstall.** ``PackageManagement.uninstall`` removes the installed files and the package registration.
 ``update`` performs uninstall + install of a newer version in one step.
+Before any file is removed, the Supervisor stops the App of each requested package and checks that no process still runs it,
+including one that the Apps Launcher did not start, such as a start script run by hand.
+If one does, the request fails with the ``App Running`` error, which names the packages whose App is still running,
+and no package of the request is changed.
+The Supervisor never kills an App for an uninstall or an update: an App that does not close when asked has to be stopped or killed first.
 
 Checking the package file against ground
 ----------------------------------------

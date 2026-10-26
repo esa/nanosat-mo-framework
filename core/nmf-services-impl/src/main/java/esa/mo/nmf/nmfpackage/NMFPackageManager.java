@@ -888,6 +888,19 @@ public class NMFPackageManager {
     }
 
     /**
+     * Stops the App if the Apps Launcher runs it, and checks that no process
+     * still runs it, wherever that process came from.
+     *
+     * @param packageName The name of the App's package.
+     * @return True if no process runs the App, false if one still does.
+     * @throws IOException if the directory of the App cannot be resolved.
+     */
+    public boolean stopApp(String packageName) throws IOException {
+        this.stopAppIfRunning(packageName);
+        return processesStillRunning(packageName).isEmpty();
+    }
+
+    /**
      * Refuses to go on while any process still runs the App, before any of its
      * files is removed. The Apps Launcher only stops the processes that it
      * started, and an App that it did not start, or that did not close when
@@ -895,11 +908,7 @@ public class NMFPackageManager {
      * receipt left to show that it was ever installed.
      */
     private static void refuseIfStillRunning(String packageName) throws IOException {
-        File appDir = new File(Deployment.getAppsDir(), packageName);
-        String username = AppsIsolationMode.isLinuxUserspace()
-                ? generateUsername(packageName) : null;
-        List<ProcessHandle> running = AppProcesses.awaitExit(appDir, username,
-                APP_EXIT_TIMEOUT_MS);
+        List<ProcessHandle> running = processesStillRunning(packageName);
 
         if (!running.isEmpty()) {
             String pids = running.stream()
@@ -909,6 +918,14 @@ public class NMFPackageManager {
                     + " (process " + pids + "), so its files were left as they"
                     + " are! Stop the processes and try again.");
         }
+    }
+
+    private static List<ProcessHandle> processesStillRunning(String packageName)
+            throws IOException {
+        File appDir = new File(Deployment.getAppsDir(), packageName);
+        String username = AppsIsolationMode.isLinuxUserspace()
+                ? generateUsername(packageName) : null;
+        return AppProcesses.awaitExit(appDir, username, APP_EXIT_TIMEOUT_MS);
     }
 
     private void stopAppIfRunning(String name) {

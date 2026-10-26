@@ -168,6 +168,11 @@ public class PackageChecksumRequestTest {
         }
 
         @Override
+        public boolean stopApp(String packageName) {
+            throw new AssertionError("No App may be stopped in this test");
+        }
+
+        @Override
         public boolean isPackageInstalled(String packageName) {
             return false;
         }

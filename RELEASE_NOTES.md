@@ -13,6 +13,7 @@ The different versions and respective updates are the following:
 * Requires by default that install and update carry the SHA-256 of each package file, computed on ground, so that only the exact package file approved there is used; the playground and the testbeds turn it off with the requirePackageChecksum option of the nmf-linux-maven-plugin
 * Fixes runApp starting an App more than once when requests for it arrive together, or when a request names it twice, which left the Supervisor tracking a process that had already ended
 * Fixes the percentage filter of the Aggregation service, which never reported a change of a parameter whose previous value was negative
+* Fixes uninstall and update removing the files of an App that was still running, either started outside the Apps Launcher or not closing when asked: they now fail with the new App Running error of the Software Management area, and no package of the request is changed
 
 ### Version 5.1 (25 September 2026)
 * Upgrades to CCSDS MO services v14.2

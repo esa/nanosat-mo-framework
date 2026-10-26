@@ -34,6 +34,7 @@ import org.ccsds.moims.mo.mal.structures.BooleanList;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.sm.AppRunningException;
 import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementAdapter;
 import org.ccsds.moims.mo.sm.structures.PackageApproval;
 import org.ccsds.moims.mo.sm.structures.PackageApprovalList;
@@ -246,7 +247,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                 public void updateResponseErrorReceived(MALMessageHeader msgHeader,
                         MOErrorException error, java.util.Map qosProperties) {
                     JOptionPane.showMessageDialog(null,
-                            "There was an error during the update operation.", "Error",
+                            errorMessageOf("update", error), "Error",
                             JOptionPane.PLAIN_MESSAGE);
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(
                             Level.SEVERE,
@@ -299,7 +300,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                 @Override
                 public void uninstallResponseErrorReceived(MALMessageHeader msgHeader,
                         MOErrorException error, java.util.Map qosProperties) {
-                    String msg = "There was an error during the uninstall operation.";
+                    String msg = errorMessageOf("uninstall", error);
                     JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.PLAIN_MESSAGE);
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, msg, error);
                 }
@@ -308,6 +309,15 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
             Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_uninstallButtonActionPerformed
+
+    /** What the operator is told when an uninstall or an update fails. */
+    private static String errorMessageOf(String operation, MOErrorException error) {
+        if (error instanceof AppRunningException) {
+            return "The App is still running, so the " + operation + " was refused"
+                    + " and no package was changed.\nStop or kill the App, and try again.";
+        }
+        return "There was an error during the " + operation + " operation.";
+    }
 
     private void installButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_installButtonActionPerformed
         if (packagesTable.getSelectedRow() == -1) { // The row is not selected?

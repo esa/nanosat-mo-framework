@@ -38,6 +38,7 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.sm.AppRunningException;
 import org.ccsds.moims.mo.sm.packagemanagement.PackageManagementHelper;
 import org.ccsds.moims.mo.sm.packagemanagement.PackageManagementServiceInfo;
 import org.ccsds.moims.mo.sm.packagemanagement.body.FindPackageResponse;
@@ -259,7 +260,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public void uninstall(final IdentifierList names, final BooleanList keepConfigurations,
-            final UninstallInteraction interaction) throws UnknownException, InvalidArgumentException, MALException {
+            final UninstallInteraction interaction)
+            throws UnknownException, InvalidArgumentException, AppRunningException, MALException {
         interaction.sendAcknowledgement();
 
         UIntegerList unkIndexList = new UIntegerList();
@@ -312,6 +314,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             throw new InvalidArgumentException(invIndexList);
         }
 
+        stopApps(names.stream().map(Identifier::getValue).toList());
+
         for (int i = 0; i < names.size(); i++) {
             Identifier packageName = names.get(i);
             Boolean keepConfiguration = keepConfigurations.get(i);
@@ -333,7 +337,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public void update(final PackageApprovalList packages,
-            final UpdateInteraction interaction) throws UnknownException, InvalidArgumentException, MALException {
+            final UpdateInteraction interaction)
+            throws UnknownException, InvalidArgumentException, AppRunningException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
@@ -383,6 +388,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
         interaction.sendAcknowledgement();
 
+        stopApps(packages.stream().map(approval -> approval.getName().getValue()).toList());
+
         for (PackageApproval approval : packages) {
             String name = approval.getName().getValue();
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
@@ -399,6 +406,30 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         }
 
         interaction.sendResponse();
+    }
+
+    /**
+     * Stops the App of each package before any package is removed, so that a
+     * request with an App that is still running removes nothing at all.
+     *
+     * @param names The names of the packages, in the order of the request.
+     * @throws AppRunningException with the indexes of the packages whose App
+     * is still running.
+     */
+    private void stopApps(final List<String> names) throws AppRunningException {
+        UIntegerList runningIndexList = new UIntegerList();
+
+        for (int i = 0; i < names.size(); i++) {
+            if (!backend.stopApp(names.get(i))) {
+                runningIndexList.add(new UInteger(i));
+                Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
+                        Level.SEVERE, "The App of the package {0} is still running!", names.get(i));
+            }
+        }
+
+        if (!runningIndexList.isEmpty()) {
+            throw new AppRunningException(runningIndexList);
+        }
     }
 
     private void storePackageInstalled(String packageName, StringList permissions,

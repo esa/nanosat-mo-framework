@@ -77,6 +77,16 @@ public interface PMBackend {
     List<String> getDeclaredPermissions(final String packageName) throws IOException;
 
     /**
+     * Stops the App of a package if it is running, and checks that no process
+     * still runs it, wherever that process came from.
+     *
+     * @param packageName The name of the package.
+     * @return True if no process runs the App of the package, or if the
+     * package is not an App; false if a process still runs it.
+     */
+    boolean stopApp(final String packageName);
+
+    /**
      * Checks if a package is currently installed.
      *
      * @param packageName The name of the package.

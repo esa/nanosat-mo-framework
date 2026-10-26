@@ -102,6 +102,12 @@
                                 <mal:type area="MAL" list="true" name="Integer"/>
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the App of one or more of the requested packages is still running after it was asked to stop.">
+                            <mal:type area="SM" list="false" name="App Running"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:invokeIP>
             </mal:capabilitySet>
@@ -129,6 +135,12 @@
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="Integer"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the App of one or more of the requested packages is still running after it was asked to stop.">
+                            <mal:type area="SM" list="false" name="App Running"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
@@ -786,5 +798,8 @@
                 </mal:field>
             </mal:composite>
         </mal:dataTypes>
+        <mal:errors>
+            <mal:error number="1" name="App Running" comment="The App of the referenced package is still running, so its files cannot be removed."/>
+        </mal:errors>
     </mal:area>
 </mal:specification>
