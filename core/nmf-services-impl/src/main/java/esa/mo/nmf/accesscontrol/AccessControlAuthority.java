@@ -57,6 +57,8 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
  * <p>
  * Only the Supervisor itself publishes on its services: it marks what its own
  * publishers send to its brokers, and the brokers refuse every other publisher.
+ * It marks the requests that it sends to its own services in the same way, so
+ * that they are accepted without a credential of their own.
  */
 public final class AccessControlAuthority {
 
@@ -105,9 +107,9 @@ public final class AccessControlAuthority {
     private volatile Recorder recorder;
     private final Map<String, Caller> callers = new ConcurrentHashMap<>();
     private final Map<String, String> credentialOfApp = new ConcurrentHashMap<>();
-    /** The mark of the Supervisor's own publishers, which never leaves the Supervisor. */
-    private final byte[] ownPublisherMark = NMFAccessControl.newCredential();
-    private final String ownPublisherKey = NMFAccessControl.toText(ownPublisherMark);
+    /** The mark of the messages that the Supervisor sends to itself, which never leaves the Supervisor. */
+    private final byte[] ownMark = NMFAccessControl.newCredential();
+    private final String ownKey = NMFAccessControl.toText(ownMark);
 
     /**
      * Creates the authority of a Supervisor.
@@ -191,6 +193,9 @@ public final class AccessControlAuthority {
         if (!isInitiating(header)) {
             return;
         }
+        if (ownKey.equals(credentialOf(header.getAuthenticationId()))) {
+            return; // The Supervisor's own request to one of its services
+        }
 
         Caller caller = callers.get(credentialOf(header.getAuthenticationId()));
         if (caller != null && caller.isGround()) {
@@ -271,16 +276,23 @@ public final class AccessControlAuthority {
     }
 
     /**
-     * Marks a message that one of the Supervisor's own publishers sends to one
-     * of its brokers, so that the broker accepts it. The NMF access control
+     * Marks a message that the Supervisor sends to one of its own services, so
+     * that the service accepts it: what one of its publishers sends to one of
+     * its brokers, and a request of one of its consumers, such as the one with
+     * which the Supervisor monitors its own attitude. The NMF access control
      * calls this only for the messages that the Supervisor sends; the mark is
      * not given out, so no other process can make it.
      *
      * @param header the header of the message that the Supervisor sends
      */
-    public void markOwnPublishing(final MALMessageHeader header) {
-        if (isPublishing(header) && isToSupervisor(header)) {
-            header.setAuthenticationId(new Blob(ownPublisherMark.clone()));
+    public void markOwnMessage(final MALMessageHeader header) {
+        if (!isToSupervisor(header)) {
+            return;
+        }
+        if (isPublishing(header)) {
+            header.setAuthenticationId(new Blob(ownMark.clone()));
+        } else if (isInitiating(header) && NMFAccessControl.isEmpty(header.getAuthenticationId())) {
+            header.setAuthenticationId(new Blob(ownMark.clone()));
         }
     }
 
@@ -289,7 +301,7 @@ public final class AccessControlAuthority {
      * the Supervisor's own publishers sent it.
      */
     private void checkPublishing(AccessControlMode mode, MALMessageHeader header) throws MALCheckErrorException {
-        if (ownPublisherKey.equals(credentialOf(header.getAuthenticationId()))) {
+        if (ownKey.equals(credentialOf(header.getAuthenticationId()))) {
             return;
         }
         Call call = Call.of(header);

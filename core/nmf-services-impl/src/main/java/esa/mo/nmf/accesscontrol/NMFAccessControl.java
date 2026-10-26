@@ -186,7 +186,7 @@ public final class NMFAccessControl implements MALAccessControl {
             // What the Supervisor sends is not checked: only what it receives. The
             // destination in a received header cannot tell, as the sender writes it.
             if (isSentByThisProcess()) {
-                a.markOwnPublishing(header);
+                a.markOwnMessage(header);
             } else {
                 a.check(header);
             }

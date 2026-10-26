@@ -90,7 +90,7 @@ public class PublishingToTheSupervisorTest {
         for (UOctet stage : PUBLISHER_STAGES) {
             MALMessageHeader header = publisherMessage(stage, SUPERVISOR + "/AppsLauncherInternalBroker",
                     new Blob());
-            authority.markOwnPublishing(header);
+            authority.markOwnMessage(header);
             authority.check(header);
         }
     }
@@ -101,7 +101,7 @@ public class PublishingToTheSupervisorTest {
         AccessControlAuthority other = new AccessControlAuthority(SUPERVISOR + "/Directory");
         MALMessageHeader header = publisherMessage(MALPubSubOperation.PUBLISH_STAGE,
                 SUPERVISOR + "/AppsLauncherInternalBroker", new Blob());
-        other.markOwnPublishing(header);
+        other.markOwnMessage(header);
         try {
             new AccessControlAuthority(SUPERVISOR + "/Directory").check(header);
             Assert.fail("A mark made by another Supervisor must be refused");
@@ -115,7 +115,7 @@ public class PublishingToTheSupervisorTest {
         AccessControlAuthority authority = new AccessControlAuthority(SUPERVISOR + "/Directory");
         MALMessageHeader header = publisherMessage(MALPubSubOperation.PUBLISH_STAGE, APP + "/ParameterBroker",
                 new Blob());
-        authority.markOwnPublishing(header);
+        authority.markOwnMessage(header);
         Assert.assertTrue("The mark must not be given to an App", NMFAccessControl.isEmpty(header.getAuthenticationId()));
     }
 
