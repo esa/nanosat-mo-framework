@@ -294,7 +294,14 @@ public final class AggregationManager extends MCManager {
 
         if (filter.getThresholdType() == ThresholdType.PERCENTAGE) // requirement: Aggregation#10
         {
-            return (Math.abs(previousValueDouble - currentValueDouble) / previousValueDouble * 100 > thresholdValue);
+            final double change = Math.abs(previousValueDouble - currentValueDouble);
+            // Any change from zero exceeds every percentage
+            if (previousValueDouble == 0) {
+                return change > 0;
+            }
+            // Against the size of the previous value, so that negative values
+            // are filtered as positive ones are
+            return (change / Math.abs(previousValueDouble) * 100 > thresholdValue);
         }
 
         return false;
