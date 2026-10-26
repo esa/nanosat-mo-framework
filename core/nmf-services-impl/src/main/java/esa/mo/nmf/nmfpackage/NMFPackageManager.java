@@ -28,6 +28,7 @@ import esa.mo.nmf.environment.LinuxUsersGroups;
 import esa.mo.nmf.environment.SoftwareBaseline;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
+import esa.mo.nmf.nmfpackage.utils.AppProcesses;
 import esa.mo.nmf.nmfpackage.utils.AuxFilesGenerator;
 import esa.mo.nmf.nmfpackage.utils.ChecksumGenerator;
 import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
@@ -39,6 +40,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -61,6 +63,9 @@ public class NMFPackageManager {
     private static final String SEPARATOR = "--------------\n";
 
     private static final OSValidator OS = new OSValidator();
+
+    // How long a stopped App is given to close before its files are kept
+    private static final long APP_EXIT_TIMEOUT_MS = 5000;
 
     private AppsLauncherProviderServiceImpl appsLauncher;
 
@@ -227,6 +232,7 @@ public class NMFPackageManager {
 
         if (packageMetadata.isApp()) { // If the App is running, then stop it!
             this.stopAppIfRunning(packageName);
+            refuseIfStillRunning(packageName);
         }
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(
@@ -357,6 +363,7 @@ public class NMFPackageManager {
 
         if (isApp) { // If the App is running, then stop it!
             this.stopAppIfRunning(packageName);
+            refuseIfStillRunning(packageName);
         }
 
         Logger.getLogger(NMFPackageManager.class.getName()).log(
@@ -878,6 +885,30 @@ public class NMFPackageManager {
 
         // chmod the installation directory with recursive
         LinuxUsersGroups.chmod(true, permissions, file.getAbsolutePath());
+    }
+
+    /**
+     * Refuses to go on while any process still runs the App, before any of its
+     * files is removed. The Apps Launcher only stops the processes that it
+     * started, and an App that it did not start, or that did not close when
+     * asked, would otherwise keep running from files that are gone, with no
+     * receipt left to show that it was ever installed.
+     */
+    private static void refuseIfStillRunning(String packageName) throws IOException {
+        File appDir = new File(Deployment.getAppsDir(), packageName);
+        String username = AppsIsolationMode.isLinuxUserspace()
+                ? generateUsername(packageName) : null;
+        List<ProcessHandle> running = AppProcesses.awaitExit(appDir, username,
+                APP_EXIT_TIMEOUT_MS);
+
+        if (!running.isEmpty()) {
+            String pids = running.stream()
+                    .map(p -> String.valueOf(p.pid()))
+                    .collect(Collectors.joining(", "));
+            throw new IOException("The " + packageName + " App is still running"
+                    + " (process " + pids + "), so its files were left as they"
+                    + " are! Stop the processes and try again.");
+        }
     }
 
     private void stopAppIfRunning(String name) {

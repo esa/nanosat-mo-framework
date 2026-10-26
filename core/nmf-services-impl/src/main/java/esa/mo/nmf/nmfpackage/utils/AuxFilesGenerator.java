@@ -75,7 +75,9 @@ public class AuxFilesGenerator {
         str.append("MIN_HEAP=").append(shellQuote(meta.getAppMinHeap())).append("\n\n");
 
         str.append("# Jars from: App, NMF, and Shared dependencies:\n");
-        str.append("JAR_APP=").append(shellQuote(meta.getAppMainJar())).append("\n");
+        // The jar of the App is named by its full path, so that the command line
+        // of the App shows the directory that it runs from (see AppProcesses)
+        str.append("JAR_APP=\"$(pwd -P)\"/").append(shellQuote(meta.getAppMainJar())).append("\n");
         str.append("JARS_NMF_DIR=").append(shellQuote(Deployment.getJarsNMFDir().toString())).append("\n");
         str.append("JARS_NMF=$(find \"$JARS_NMF_DIR\" -name \"*.jar\" | tr '\\n' ':')\n");
         String shared = "";
