@@ -264,9 +264,9 @@ while under none the app runs as the Supervisor's own user and shares its files 
 | Package | `int.esa.nmf.core:nmf-services-impl` (in earlier versions, the Software Management services module) |
 | Affected versions | < 6.0 |
 | Fixed in | 6.0 |
-| Reported | deadf00d, Hack CYSAT 2022 |
+| Reported | deadf00d, Hack CYSAT 2022; the receipt path, in a later private report |
 | Severity | Low (requires the ability to install and run an app, which already runs code of the installer's choosing with the same privileges) |
-| Weaknesses | CWE-78: Improper Neutralization of Special Elements used in an OS Command; CWE-20: Improper Input Validation |
+| Weaknesses | CWE-78: Improper Neutralization of Special Elements used in an OS Command; CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal'); CWE-20: Improper Input Validation |
 
 #### Impact
 
@@ -292,6 +292,16 @@ They run with the same privileges:
 
 The flaw is therefore a robustness and defence-in-depth issue rather than a privilege escalation.
 
+The name is also the file name of the package's receipt, `<name>.receipt`, which the Supervisor writes in `etc/installations-tracker` when the package is installed,
+for every type of package, a dependency included.
+A name such as `../../apps/hello-world` therefore put the receipt outside that folder, at `apps/hello-world.receipt`,
+and a name that leaves the folder and comes back to it, such as `../installations-tracker/hello-world`,
+overwrote the receipt of another package, so that the Supervisor took that package to be installed as the forged receipt described it.
+An update reads the old receipt and removes the files it lists,
+but a package could already have files outside its own area removed through its own file list
+(see [NMF-2026-006](#nmf-2026-006-packages-can-write-or-delete-files-outside-their-own-area)),
+so the forged receipt gains nothing more.
+
 The command string above was used from the 2.0.0 pre-release onwards.
 The earlier OPS-SAT flight and 2.0.0 test builds started an app with `su - <user> -m -c './start_<name>.sh'` when the app ran under its own user,
 and with `/bin/sh ./start_<name>.sh` otherwise.
@@ -309,6 +319,7 @@ there, a `'` in the name ended the quoting. 1.2.0 ran the app's own command line
 A package name must now be one plain file name: letters, digits, `.`, `_`, `+` and `-`,
 starting with a letter or a digit, at most 128 characters.
 The check is made when a package file is read, so install, upgrade and uninstall all refuse a package with any other name.
+As the name can no longer hold a path, the receipt of a package is always written in `etc/installations-tracker`, under the package's own name.
 The Supervisor also ignores a folder in the `apps` folder whose name is not a valid app name.
 
 The Linux launcher now quotes the app directory and each environment value,
@@ -329,6 +340,8 @@ applied in `Metadata.parseZipFile` and when the Supervisor reads the `apps` fold
 
 [4] Regression tests: `PackageNameTest` and `AppsLauncherManagerLinuxTest` (`nmf-services-impl`).
 The latter starts a real shell in a directory whose name holds shell characters, and checks that the start script runs in that directory.
+`AppPackageConfinementTest` (`nmf-services-impl`) installs dependency packages whose names are paths,
+and checks that they are refused, write no receipt outside the receipts folder, and overwrite no other receipt.
 
 ---
 

@@ -23,6 +23,7 @@ package esa.mo.nmf.nmfpackage;
 import esa.mo.nmf.environment.Deployment;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
+import esa.mo.nmf.nmfpackage.metadata.MetadataDependency;
 import esa.mo.nmf.nmfpackage.metadata.MetadataNMF;
 import esa.mo.nmf.nmfpackage.utils.ChecksumGenerator;
 import java.io.ByteArrayInputStream;
@@ -187,10 +188,42 @@ public class AppPackageConfinementTest {
                 new File(root, "jars-nmf/9.9.9/" + ChecksumGenerator.CHECKSUMS_FILENAME).isFile());
     }
 
+    @Test
+    public void aPackageNameCannotPutItsReceiptOutsideTheReceiptsFolder() throws Exception {
+        // The receipt is named after the package, in etc/installations-tracker: two levels up is the NMF root
+        Assert.assertTrue(new File(root, "apps").mkdirs());
+        File pack = packageCarrying(new MetadataDependency("../../apps/hello-world", "1.0"),
+                Deployment.DIR_JARS_SHARED + "/shared.jar");
+
+        installExpectingRefusal(pack);
+
+        Assert.assertFalse("A package name must not place the receipt outside the receipts folder",
+                new File(root, "apps/hello-world.receipt").exists());
+        Assert.assertFalse("A refused package must write nothing, not even its own files",
+                new File(root, Deployment.DIR_JARS_SHARED + "/shared.jar").exists());
+    }
+
+    @Test
+    public void aPackageNameCannotOverwriteTheReceiptOfAnotherPackage() throws Exception {
+        File receipts = Deployment.getInstallationsTrackerDir();
+        Assert.assertTrue(receipts.isDirectory() || receipts.mkdirs());
+        File receipt = new File(receipts, "hello-world.receipt");
+        Files.write(receipt.toPath(), CONTENT);
+
+        // A path that leaves the receipts folder and comes back to it, through folders that exist
+        File pack = packageCarrying(new MetadataDependency("../installations-tracker/hello-world", "1.0"),
+                Deployment.DIR_JARS_SHARED + "/shared.jar");
+
+        installExpectingRefusal(pack);
+
+        Assert.assertArrayEquals("A package name must not overwrite the receipt of another package",
+                CONTENT, Files.readAllBytes(receipt.toPath()));
+    }
+
     private void installExpectingRefusal(File pack) {
         try {
             new NMFPackageManager(null).install(pack.getAbsolutePath(), root);
-            Assert.fail("A package that lists a file outside its own area must be refused");
+            Assert.fail("A package that leads outside its own area must be refused");
         } catch (IOException refused) {
             // Expected
         }
@@ -218,7 +251,9 @@ public class AppPackageConfinementTest {
         ByteArrayOutputStream properties = new ByteArrayOutputStream();
         metadata.store(properties);
 
-        File pack = new File(tmp.newFolder(), metadata.getPackageName() + "-1.0.nmfpack");
+        // The file is named after the package, but a name that is a path must not lead elsewhere
+        String fileName = metadata.getPackageName().replaceAll("[^A-Za-z0-9._-]", "_");
+        File pack = new File(tmp.newFolder(), fileName + "-1.0.nmfpack");
         try (ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(pack))) {
             zip.putNextEntry(new ZipEntry(Metadata.FILENAME));
             zip.write(properties.toByteArray());
