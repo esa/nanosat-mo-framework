@@ -13,6 +13,8 @@ The different versions and respective updates are the following:
 * Requires by default that install and update carry the SHA-256 of each package file, computed on ground, so that only the exact package file approved there is used; the playground and the testbeds turn it off with the requirePackageChecksum option of the nmf-linux-maven-plugin
 * Fixes runApp starting an App more than once when requests for it arrive together, or when a request names it twice, which left the Supervisor tracking a process that had already ended
 * Fixes the percentage filter of the Aggregation service, which never reported a change of a parameter whose previous value was negative
+* Changes the socket between the spacecraft simulator and its GUI from Java serialization to JSON, so that no Java object is deserialized on it, and fixes the GUI losing its connection when it changed a camera setting or the header
+* Adds testbed-simulator, which runs the spacecraft simulator and checks what its clients receive
 * Fixes an App being able to take over the Supervisor's entry in the Directory service, so that ground and the other Apps looked it up instead of the Supervisor (NMF-2026-011): an App may now add and remove only its own entry, no caller may add or remove the Supervisor's, and an App cannot be named nanosat-mo-supervisor; each refused call is stored as an UnauthorisedCall with the entry it named
 * Fixes uninstall and update removing the files of an App that was still running, either started outside the Apps Launcher or not closing when asked: they now fail with the new App Running error of the Software Management area, and no package of the request is changed
 

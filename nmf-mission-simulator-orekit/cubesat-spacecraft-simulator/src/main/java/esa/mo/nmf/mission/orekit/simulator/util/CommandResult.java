@@ -139,6 +139,24 @@ public class CommandResult implements Serializable {
                 + "}";
     }
 
+    /**
+     * When the command was run.
+     *
+     * @return the time
+     */
+    public Date getExecutionTime() {
+        return executionTime;
+    }
+
+    /**
+     * The time of the simulator when the command was run.
+     *
+     * @return the simulated time
+     */
+    public Date getSimulatorTime() {
+        return simulatorTime;
+    }
+
     public CommandDescriptor getCommandDescriptor() {
         return commandDescriptor;
     }

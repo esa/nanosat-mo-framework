@@ -116,6 +116,24 @@ public class ArgumentDescriptor implements Serializable {
         return ((int[]) type)[index];
     }
 
+    /**
+     * The value that {@link #restoreArgument()} gives the argument back.
+     *
+     * @return the default value
+     */
+    public Object getDefaultType() {
+        return defaultType;
+    }
+
+    /**
+     * The name that {@link #restoreArgument()} gives the argument back.
+     *
+     * @return the default name
+     */
+    public String getDefaultName() {
+        return defaultName;
+    }
+
     public Object getType() {
         return type;
     }

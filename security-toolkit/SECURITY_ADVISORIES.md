@@ -72,6 +72,10 @@ so they rejected legitimate traffic on long-lived connections.
 
 The reporter verified the fix with the original proof of concept.
 
+> Note: Since 6.0, the simulator and its GUI no longer use Java serialization on this socket.
+> They exchange their messages as JSON, one message per line, of a fixed set of types (`SimulatorMessages`),
+> so no Java object is deserialized at all and `SimulatorSerialFilter` was removed.
+
 #### Workarounds
 
 Do not expose the simulator's TCP port to an untrusted network.

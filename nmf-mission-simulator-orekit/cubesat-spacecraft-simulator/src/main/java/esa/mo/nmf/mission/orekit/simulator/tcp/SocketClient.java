@@ -21,9 +21,11 @@
  */
 package esa.mo.nmf.mission.orekit.simulator.tcp;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -164,51 +166,28 @@ public class SocketClient extends Thread {
 
         @Override
         public void run() {
-            ObjectInputStream in = null;
+            InputStream in = null;
             try {
-                // Create the streams to send and receive information
+                // The server is read as the simulator's own messages, one line
+                // of JSON each, and nothing else, in case it is hostile or MitM'd.
+                in = new BufferedInputStream(socket.getInputStream());
 
-                in = new ObjectInputStream(socket.getInputStream());
-                // Restrict deserialization to the simulator's own DTO types and
-                // bound resource use, in case the server is hostile or MitM'd.
-                in.setObjectInputFilter(SimulatorSerialFilter.clientFilter());
-
-                while (true) {
-
-                    try {
-                        // Object received=
-                        // Receive the reply.
-                        Object received = in.readObject();
-                        //System.out.println("Received something ["+received.getClass().getName()+"]"+received.toString());
-                        parent.getFromServerQueue().offer(received);
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(SocketClient.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    if (in.available() == 0) {
-                        try {
-                            Thread.sleep(250);
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(SocketClient.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
+                Object received;
+                while ((received = SimulatorMessages.read(in)) != null) {
+                    parent.getFromServerQueue().offer(received);
                 }
+                throw new IOException("The server closed the connection");
             } catch (IOException ioe) {
                 System.out.println("Receiver Exception during communication. Server probably closed connection.");
                 this.parent.connectionLost();
-                // If the deserialization filter rejected a message, report which
-                // one so a blocked (but legitimate) type is diagnosable here.
-                String detail = (ioe instanceof java.io.InvalidClassException
-                        && SimulatorSerialFilter.lastRejection() != null)
-                                ? " [deserialization filter rejected " + SimulatorSerialFilter.lastRejection() + "]"
-                                : "";
                 this.parent.getFromServerQueue().offer(
                     "Local;Receiver;Exception during communication. Server probably closed connection."
-                    + ioe + detail);
+                    + ioe);
 
             } finally {
                 try {
                     // Close the input and output streams
-                    if (in != null) { // null when the server left before the stream header
+                    if (in != null) {
                         in.close();
                     }
                     // Close the socket before quitting
@@ -235,21 +214,24 @@ public class SocketClient extends Thread {
 
         @Override
         public void run() {
-            ObjectOutputStream out = null;
+            OutputStream out = null;
             try {
                 // Create the streams to send and receive information
 
-                out = new ObjectOutputStream(this.socket.getOutputStream());
+                out = new BufferedOutputStream(this.socket.getOutputStream());
 
                 while (true) {
 
                     Object toSend = this.parent.getToServerQueue().poll();
-                    out.reset();
                     if (toSend != null) {
                         this.parent.getLogger().log(Level.FINE, "Sending something [" + toSend + "]");
-                        out.writeObject(toSend);
+                        try {
+                            SimulatorMessages.write(toSend, out);
+                        } catch (SimulatorMessages.NotAMessageException ex) {
+                            this.parent.getLogger().log(Level.WARNING, "Not sent to the server: " + ex.getMessage());
+                        }
                     } else {
-                        out.writeObject(0);
+                        SimulatorMessages.write(0, out);
                     }
 
                     try {
@@ -267,7 +249,7 @@ public class SocketClient extends Thread {
             } finally {
                 try {
                     // Close the input and output streams
-                    if (out != null) { // null when the stream could not be created
+                    if (out != null) {
                         out.close();
                     }
                     // Close the socket before quitting

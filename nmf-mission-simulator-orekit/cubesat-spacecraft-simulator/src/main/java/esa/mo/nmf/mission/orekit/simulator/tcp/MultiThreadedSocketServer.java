@@ -25,10 +25,11 @@ package esa.mo.nmf.mission.orekit.simulator.tcp;
  *
  * @author Cezar Suteu
  */
-import java.io.EOFException;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -257,17 +258,16 @@ public class MultiThreadedSocketServer extends Thread {
             // Obtain the input stream and the output stream for the socket
             // A good practice is to encapsulate them with a BufferedReader
             // and a PrintWriter as shown below.
-            ObjectInputStream in = null;
+            InputStream in = null;
 
             // Print out details of this connection
             logger.log(Level.INFO, "Accepted Client Address - " + myClientSocket.getInetAddress().getHostName());
 
             try {
 
-                in = new ObjectInputStream(myClientSocket.getInputStream());
-                // Restrict deserialization to the expected message types and
-                // bound resource use: the client is untrusted network input.
-                in.setObjectInputFilter(SimulatorSerialFilter.serverFilter());
+                // The client is untrusted network input: it is read as the
+                // simulator's own messages, one line of JSON each, and nothing else
+                in = new BufferedInputStream(myClientSocket.getInputStream());
                 // At this point, we can read for input and reply with appropriate output.
 
                 // Run in a loop until m_bRunThread is set to false
@@ -275,8 +275,13 @@ public class MultiThreadedSocketServer extends Thread {
                     Object clientCommand = null;
                     try {
                         // read incoming stream
-                        clientCommand = in.readObject();
-                    } catch (EOFException | SocketException ex) {
+                        clientCommand = SimulatorMessages.read(in);
+                        if (clientCommand == null) {
+                            logger.log(Level.INFO, "Disconnected Client Address - "
+                                    + myClientSocket.getInetAddress().getHostName());
+                            m_bRunThread = false;
+                        }
+                    } catch (SocketException ex) {
                         logger.log(Level.INFO, "Disconnected Client Address - "
                                 + myClientSocket.getInetAddress().getHostName());
                         m_bRunThread = false;
@@ -307,16 +312,17 @@ public class MultiThreadedSocketServer extends Thread {
                         m_bRunThread = false;
 
                     }
-                    if (in.available() == 0) {
-                        Thread.sleep(150);
-                    }
                 }
+            } catch (IOException e) {
+                // Something that is not a message of the simulator: the client is dropped
+                logger.log(Level.WARNING, "Closing the connection of the client "
+                        + myClientSocket.getInetAddress().getHostName() + ": " + e.getMessage());
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 // Clean up
                 try {
-                    if (in != null) { // null when the client left before the stream header
+                    if (in != null) {
                         in.close();
                     }
 
@@ -389,14 +395,14 @@ public class MultiThreadedSocketServer extends Thread {
             // Obtain the input stream and the output stream for the socket
             // A good practice is to encapsulate them with a BufferedReader
             // and a PrintWriter as shown below.
-            ObjectOutputStream out = null;
+            OutputStream out = null;
 
             // Print out details of this connection
             logger.log(Level.FINE, "Sender Accepted Client Address - "
                     + myClientSocket.getInetAddress().getHostName());
 
             try {
-                out = new ObjectOutputStream(myClientSocket.getOutputStream());
+                out = new BufferedOutputStream(myClientSocket.getOutputStream());
 
                 // At this point, we can read for input and reply with appropriate output.
                 // Run in a loop until m_bRunThread is set to false
@@ -405,8 +411,9 @@ public class MultiThreadedSocketServer extends Thread {
                     Object toClientObj;
                     while ((toClientObj = this.toClient.poll()) != null) {
                         try {
-                            out.reset();
-                            out.writeObject(toClientObj);
+                            SimulatorMessages.write(toClientObj, out);
+                        } catch (SimulatorMessages.NotAMessageException ex) {
+                            logger.log(Level.WARNING, "Not sent to the client: " + ex.getMessage());
                         } catch (SocketException ex) {
                             m_bRunThread = false;
                         }
@@ -424,7 +431,7 @@ public class MultiThreadedSocketServer extends Thread {
                 // Clean up
                 try {
                     try {
-                        if (out != null) { // null when the client left before the stream header
+                        if (out != null) {
                             out.close();
                         }
                     } catch (SocketException ex) {

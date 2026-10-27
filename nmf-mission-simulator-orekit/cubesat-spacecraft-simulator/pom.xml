@@ -59,6 +59,12 @@ the License. -->
             <artifactId>orekit-resources</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- The socket of the simulator carries its messages as JSON (SimulatorMessages) -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.9</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
