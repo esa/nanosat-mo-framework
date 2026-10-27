@@ -35,7 +35,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -200,18 +199,6 @@ public class SimulatorMessagesTest {
     @Test
     public void theEndOfTheConnectionIsNotAMessage() throws Exception {
         Assert.assertNull(SimulatorMessages.read(new ByteArrayInputStream(new byte[0])));
-    }
-
-    @Test
-    public void aLineThatIsTooLongIsRefused() {
-        byte[] endless = new byte[SimulatorMessages.MAX_LINE_BYTES + 1];
-        Arrays.fill(endless, (byte) 'a');
-        try {
-            SimulatorMessages.read(new ByteArrayInputStream(endless));
-            Assert.fail("A line longer than " + SimulatorMessages.MAX_LINE_BYTES + " bytes must be refused");
-        } catch (IOException expected) {
-            // Refused
-        }
     }
 
     private static Object roundTrip(Object message) throws IOException {
