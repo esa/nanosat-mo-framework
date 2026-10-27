@@ -46,16 +46,18 @@ public interface PMBackend {
      *
      * @param packageName The name of the package.
      * @param acknowledged The permissions that ground acknowledged; null for none.
+     * @throws IOException if the package could not be installed.
      */
-    void install(final String packageName, final List<String> acknowledged);
+    void install(final String packageName, final List<String> acknowledged) throws IOException;
 
     /**
      * Uninstalls a package.
      *
      * @param packageName The name of the package to uninstall.
      * @param keepUserData Whether the user data of the package is kept.
+     * @throws IOException if the package could not be uninstalled.
      */
-    void uninstall(final String packageName, final boolean keepUserData);
+    void uninstall(final String packageName, final boolean keepUserData) throws IOException;
 
     /**
      * Updates a package, granting its App the permissions it declares that
@@ -63,8 +65,9 @@ public interface PMBackend {
      *
      * @param packageName The name of the package.
      * @param acknowledged The permissions that ground acknowledged; null for none.
+     * @throws IOException if the package could not be updated.
      */
-    void update(final String packageName, final List<String> acknowledged);
+    void update(final String packageName, final List<String> acknowledged) throws IOException;
 
     /**
      * Returns the permissions that the App in a package declares.

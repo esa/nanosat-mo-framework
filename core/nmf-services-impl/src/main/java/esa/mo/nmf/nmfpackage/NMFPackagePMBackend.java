@@ -95,7 +95,7 @@ public class NMFPackagePMBackend implements PMBackend {
     }
 
     @Override
-    public void install(final String packageName, final List<String> acknowledged) {
+    public void install(final String packageName, final List<String> acknowledged) throws IOException {
         String packageLocation = this.getFolderLocation(packageName);
         File destination = Deployment.getNMFRootDir();
 
@@ -103,17 +103,12 @@ public class NMFPackagePMBackend implements PMBackend {
                 "Installing the package...\nPackage name: " + packageName
                 + "\nPackage location: " + packageLocation);
 
-        try {
-            manager.install(packageLocation, destination,
-                    acknowledged == null ? new ArrayList<>() : acknowledged);
-        } catch (IOException ex) {
-            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE,
-                    "The package '" + packageName + "' could not be installed!", ex);
-        }
+        manager.install(packageLocation, destination,
+                acknowledged == null ? new ArrayList<>() : acknowledged);
     }
 
     @Override
-    public void uninstall(final String packageName, final boolean keepUserData) {
+    public void uninstall(final String packageName, final boolean keepUserData) throws IOException {
         String folderLocation = this.getFolderLocation(packageName);
         Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
                 "Uninstalling the package from: {0}", folderLocation);
@@ -127,9 +122,6 @@ public class NMFPackagePMBackend implements PMBackend {
 
             Metadata metadata = Metadata.parseZipFile(zipFile);
             manager.uninstall(metadata, keepUserData);
-        } catch (IOException ex) {
-            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.SEVERE,
-                    "The package '" + packageName + "' could not be uninstalled!", ex);
         }
     }
 
@@ -147,7 +139,7 @@ public class NMFPackagePMBackend implements PMBackend {
     }
 
     @Override
-    public void update(final String packageName, final List<String> acknowledged) {
+    public void update(final String packageName, final List<String> acknowledged) throws IOException {
         String packageLocation = this.getFolderLocation(packageName);
         Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.INFO,
                 "Updating the package from: {0}", packageLocation);
@@ -155,13 +147,8 @@ public class NMFPackagePMBackend implements PMBackend {
         // Define the location to be installed!
         File destination = Deployment.getNMFRootDir();
 
-        try {
-            manager.update(packageLocation, destination,
-                    acknowledged == null ? new ArrayList<>() : acknowledged);
-        } catch (IOException ex) {
-            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(
-                    Level.SEVERE, "The package could not be updated!", ex);
-        }
+        manager.update(packageLocation, destination,
+                acknowledged == null ? new ArrayList<>() : acknowledged);
     }
 
     @Override

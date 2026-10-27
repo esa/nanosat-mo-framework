@@ -31,6 +31,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.mal.InternalException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
@@ -229,7 +230,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            interaction.sendError(internalError("The packages could not be read", ex));
+            return;
         }
 
         // Errors
@@ -248,7 +250,13 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
                     Level.INFO, "Installing: {0}", name);
 
-            backend.install(name, toList(approval.getPermissions()));
+            try {
+                backend.install(name, toList(approval.getPermissions()));
+            } catch (IOException ex) {
+                // The packages before this one stay installed
+                interaction.sendError(internalError("The package '" + name + "' could not be installed", ex));
+                return;
+            }
 
             if (backend.isPackageInstalled(name)) {
                 storePackageInstalled(name, grantedPermissions(approval), interaction.getInteraction());
@@ -301,8 +309,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE,
-                    "The list of packages could not be retrieved!", ex);
+            interaction.sendError(internalError("The packages could not be read", ex));
+            return;
         }
 
         // Errors
@@ -324,7 +332,14 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
             // Capture the version before the receipt is removed by the uninstall
             String version = backend.getPackageVersion(packageName.getValue());
-            backend.uninstall(packageName.getValue(), keepConfiguration);
+            try {
+                backend.uninstall(packageName.getValue(), keepConfiguration);
+            } catch (IOException ex) {
+                // The packages before this one stay uninstalled
+                interaction.sendError(internalError("The package '" + packageName.getValue()
+                        + "' could not be uninstalled", ex));
+                return;
+            }
 
             if (!backend.isPackageInstalled(packageName.getValue())) {
                 storePackageUninstalled(packageName.getValue(), version,
@@ -360,6 +375,18 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                     continue;
                 }
 
+                // The package given is the new version, so it is not installed
+                // itself: some version of a package with its name must be. The
+                // version is not compared, so that a package can also be
+                // updated back to an older version, or to the same one.
+                if (backend.getPackageVersion(availablePackages.get(index)) == null) {
+                    invIndexList.add(new UInteger(i));
+                    Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
+                            Level.SEVERE, "No version of the package {0} is installed!",
+                            approval.getName().getValue());
+                    continue;
+                }
+
                 // Before updating, we need to check the package integrity!
                 // The update cannot go forward here if the integrity is false!
                 // Baseline components (nmf, mission, java) are also rejected:
@@ -374,7 +401,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            interaction.sendError(internalError("The packages could not be read", ex));
+            return;
         }
 
         // Errors
@@ -396,7 +424,13 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                     Level.INFO, "Updating: {0}", name);
 
             String fromVersion = backend.getPackageVersion(name);
-            backend.update(name, toList(approval.getPermissions()));
+            try {
+                backend.update(name, toList(approval.getPermissions()));
+            } catch (IOException ex) {
+                // The packages before this one stay updated
+                interaction.sendError(internalError("The package '" + name + "' could not be updated", ex));
+                return;
+            }
             String toVersion = backend.getPackageVersion(name);
 
             if (toVersion != null) {
@@ -406,6 +440,19 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         }
 
         interaction.sendResponse();
+    }
+
+    /**
+     * Logs a failure of the backend and returns it as a MAL Internal error, so
+     * that the consumer is told why the operation failed.
+     *
+     * @param what What failed.
+     * @param ex The failure.
+     * @return The error to send to the consumer.
+     */
+    private static InternalException internalError(String what, IOException ex) {
+        Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE, what, ex);
+        return new InternalException(new Union(what + ": " + ex.getMessage()));
     }
 
     /**
