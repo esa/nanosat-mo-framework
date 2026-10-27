@@ -63,14 +63,13 @@ public class MCRegistration {
     private final ActionProviderServiceImpl actionService;
 
     /**
-     * Creates a registration object bound to the given COM and Monitor and Control services.
+     * Creates a registration object bound to the given Monitor and Control services.
      *
-     * @param comServices the COM services stack backing the Monitor and Control services
-     * @param mcServices the Monitor and Control services stack the definitions are
-     * registered in
+     * @param mcServices the initialized Monitor and Control services stack the
+     * definitions are registered in
      */
-    public MCRegistration(COMServicesProvider comServices, MCServicesProviderNMF mcServices) {
-        this.comServices = comServices;
+    public MCRegistration(MCServicesProviderNMF mcServices) {
+        this.comServices = mcServices.getCOMServices();
         this.parameterService = mcServices.getParameterService();
         this.aggregationService = mcServices.getAggregationService();
         this.alertService = mcServices.getAlertService();

@@ -233,7 +233,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             }
         }
 
-        MCRegistration registration = new MCRegistration(comServices, mcServices);
+        MCRegistration registration = new MCRegistration(mcServices);
         mcAdapter.initialRegistrations(registration);
 
         // Populate the Directory service with the entries from the URIs File

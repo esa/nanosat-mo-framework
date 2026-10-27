@@ -38,6 +38,7 @@ public class MCServicesProviderNMF {
     private final AlertProviderServiceImpl alertService = new AlertProviderServiceImpl();
     private final AggregationProviderServiceImpl aggregationService = new AggregationProviderServiceImpl();
     private ParameterManager parameterManager;
+    private COMServicesProvider comServices;
 
     /**
      * Creates the Monitor and Control services holder. The services must be initialized
@@ -57,6 +58,7 @@ public class MCServicesProviderNMF {
      */
     public void init(COMServicesProvider comServices, ActionInvocationListener actions,
             ParameterStatusListener monitoringParameters) throws MALException {
+        this.comServices = comServices;
         parameterManager = new ParameterManager(comServices, monitoringParameters);
         parameterService.init(parameterManager);
         actionService.init(comServices, actions);
@@ -74,11 +76,21 @@ public class MCServicesProviderNMF {
      */
     public void init(final COMServicesProvider comServices,
             final MonitorAndControlNMFAdapter adapter) throws MALException {
+        this.comServices = comServices;
         parameterManager = new ParameterManager(comServices, adapter);
         parameterService.init(parameterManager);
         actionService.init(comServices, adapter);
         alertService.init(comServices);
         aggregationService.init(comServices, parameterManager);
+    }
+
+    /**
+     * Returns the COM services stack backing the Monitor and Control services.
+     *
+     * @return the COM services stack, or null before {@code init} is called
+     */
+    public COMServicesProvider getCOMServices() {
+        return this.comServices;
     }
 
     /**

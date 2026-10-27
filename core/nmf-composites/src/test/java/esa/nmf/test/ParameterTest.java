@@ -89,7 +89,7 @@ public class ParameterTest {
     private static class RegistrationTester extends MCRegistration {
 
         public RegistrationTester() {
-            super(null, new MCServicesProviderNMF());
+            super(new MCServicesProviderNMF());
         }
 
         @Override

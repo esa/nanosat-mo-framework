@@ -146,7 +146,7 @@ public abstract class NanoSatMOMonolithic extends NMFProvider {
         }
 
         if (mcAdapter != null) {
-            MCRegistration registration = new MCRegistration(comServices, mcServices);
+            MCRegistration registration = new MCRegistration(mcServices);
             mcAdapter.initialRegistrations(registration);
         }
 
