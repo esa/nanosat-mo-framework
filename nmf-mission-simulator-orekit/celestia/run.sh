@@ -136,9 +136,16 @@ case "$MODE" in
         ;;
 esac
 
-echo "Celestia expects the simulator's Celestia server on 127.0.0.1:$PORT."
-echo "Start the Supervisor Simulator with celestia=true and orekit=true first;"
+echo "Celestia listens on port $PORT, and the simulator connects to it."
+echo "Start the Supervisor Simulator with celestia=true and orekit=true;"
 echo "see README.md."
+
+# The scripts are mounted from the source tree rather than taken from the
+# image, so that an image built from older sources still runs the current
+# ones: the image is only rebuilt when asked. The shim was baked into the
+# image, and an image built before the add-on moved from extras/opssat to
+# extras/cubesat looked for the module where it no longer is, so Celestia
+# never listened and the simulator never connected.
 
 # shellcheck disable=SC2086
 exec docker run --rm $TTY_ARGS \
@@ -154,6 +161,8 @@ exec docker run --rm $TTY_ARGS \
     -v "$HERE/extras:/home/celestia/.local/share/celestia/extras:ro" \
     -v "$HERE/startup.celx:/opt/nmf/startup.celx:ro" \
     -v "$HERE/luahook.lua:/opt/nmf/luahook.lua:ro" \
+    -v "$HERE/module-shim.lua:/usr/share/celestia/celxx/orbitattitude-realtime.lua:ro" \
+    -v "$HERE/module-shim.lua:/usr/share/celestia/orbitattitude-realtime.lua:ro" \
     $XAUTH_ARGS \
     $GPU_ARGS \
     "$IMAGE" \
