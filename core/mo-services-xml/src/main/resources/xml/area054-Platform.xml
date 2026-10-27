@@ -1349,9 +1349,6 @@
                         <mal:acknowledgement>
                         </mal:acknowledgement>
                         <mal:response>
-                            <mal:field name="success" canBeNull="false" comment="TRUE if the execution of the computer vision was successful; FALSE otherwise.">
-                                <mal:type area="MAL" list="false" name="Boolean" />
-                            </mal:field>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>

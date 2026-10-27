@@ -245,7 +245,7 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
         }
 
         if (interaction != null) {
-            interaction.sendResponse(true);
+            interaction.sendResponse();
         }
     }
 }
