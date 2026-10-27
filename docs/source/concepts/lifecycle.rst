@@ -65,6 +65,29 @@ Lifecycle diagram
 The ``running`` boolean on ``AppDetails`` (returned by ``listApp``) still tracks the binary
 not-running / running distinction. ``monitorEvents`` provides the finer-grained view above.
 
+Lifecycle history
+-----------------
+
+``monitorEvents`` is not stored.
+For the history, the Supervisor stores two COM objects of the ``AppsLauncher`` service in its COM Archive.
+The related link of both is the ``AppDetails`` object of the App.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 20 35 45
+
+   * - COM object
+     - Stored when
+     - Body
+   * - ``AppStarted`` (2)
+     - The App process is spawned.
+     - ``triggeredBy``: URI of the consumer that called ``runApp``; NULL for an App started at Supervisor boot.
+   * - ``AppStopped`` (3)
+     - The App process ends.
+     - ``stopReason``: ``STOPPED``, ``KILLED``, ``EXITED`` or ``CRASHED``; ``exitCode``; ``extraInfo`` (optional).
+
+A ground system retrieves the history with the ``query`` operation of the Archive service, filtered by object type and related link.
+
 Operations
 ----------
 
