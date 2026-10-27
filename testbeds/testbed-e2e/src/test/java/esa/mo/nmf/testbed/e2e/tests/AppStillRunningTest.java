@@ -18,9 +18,10 @@
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.nmfpackage;
+package esa.mo.nmf.testbed.e2e.tests;
 
 import esa.mo.nmf.environment.Deployment;
+import esa.mo.nmf.nmfpackage.NMFPackageManager;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
 import esa.mo.nmf.nmfpackage.utils.AppProcesses;
