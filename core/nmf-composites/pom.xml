@@ -80,7 +80,13 @@ under the License. -->
         </dependency>
 </dependencies>
     <build>
-        <resources></resources>
+        <resources>
+            <!-- Filtered, so that nmf-version.properties holds the version -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

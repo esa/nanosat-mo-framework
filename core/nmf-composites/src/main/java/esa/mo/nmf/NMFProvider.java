@@ -429,8 +429,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
      * @since 5.0
      */
     public static Integer getMajorVersionNMF() {
-        Package nmfPack = NMFProvider.class.getPackage();
-        String nmfVersion = nmfPack.getImplementationVersion();
+        String nmfVersion = getVersionNMF();
 
         int version = 1;
         if (nmfVersion != null) {
@@ -444,6 +443,32 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
             }
         }
         return version;
+    }
+
+    /**
+     * Returns the version of the NMF, as written by the build into the
+     * nmf-version.properties resource. Unlike the jar manifest, the resource is
+     * also there when the classes are loaded from a directory, such as in a
+     * reactor build or from an IDE.
+     *
+     * @return The version of the NMF, or null if it cannot be read.
+     * @since 6.0
+     */
+    public static String getVersionNMF() {
+        try (InputStream in = NMFProvider.class.getResourceAsStream("nmf-version.properties")) {
+            if (in == null) {
+                Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,
+                        "The resource nmf-version.properties is missing, so the NMF version is not known");
+                return null;
+            }
+            Properties properties = new Properties();
+            properties.load(in);
+            return properties.getProperty("version");
+        } catch (IOException ex) {
+            Logger.getLogger(NMFProvider.class.getName()).log(Level.WARNING,
+                    "The resource nmf-version.properties could not be read", ex);
+            return null;
+        }
     }
 
     /**
@@ -501,8 +526,7 @@ public abstract class NMFProvider implements ReconfigurableProvider, NMFInterfac
          */
         // NMF version
         banner.append("NMF version: ");
-        Package nmfPack = NMFProvider.class.getPackage();
-        String nmfVersion = nmfPack.getImplementationVersion();
+        String nmfVersion = getVersionNMF();
         banner.append(nmfVersion == null ? "?" : nmfVersion);
         banner.append("\n");
 

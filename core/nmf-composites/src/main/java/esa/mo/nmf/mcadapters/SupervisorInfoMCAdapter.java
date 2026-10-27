@@ -75,7 +75,7 @@ public class SupervisorInfoMCAdapter extends MonitorAndControlNMFAdapter {
         }
         switch (identifier.getValue()) {
             case PARAM_NMF_VERSION: {
-                String version = NMFProvider.class.getPackage().getImplementationVersion();
+                String version = NMFProvider.getVersionNMF();
                 return (Attribute) Attribute.javaType2Attribute(version == null ? "unknown" : version);
             }
             case PARAM_NMF_UPTIME: {
