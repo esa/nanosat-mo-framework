@@ -5,6 +5,8 @@ These Release Notes include a short summary of the updates done for each version
 The different versions and respective updates are the following:
 
 ### Version 6.0 (in development)
+* Upgrades to CCSDS MO services v15.0, whose consumer stubs throw the declared error classes instead of MALInteractionException
+* Requires Java 21 or later
 * Removes the automatic serialization of objects into parameter and action values: values must now be MO attribute types, which closes an unsafe Java deserialization vulnerability (NMF-2026-002)
 * Adds access control to the Supervisor: ground and each App must present a credential, and an App may call only a baseline of services plus the permissions it declares and ground acknowledges, which closes unauthenticated command execution through the CommandExecutor (NMF-2026-010)
 * Adds the accessControl option of the nmf-linux-maven-plugin (off, audit or enforce), with enforce as the default; the playground and the testbeds use audit
@@ -17,6 +19,30 @@ The different versions and respective updates are the following:
 * Adds testbed-simulator, which runs the spacecraft simulator and checks what its clients receive
 * Fixes an App being able to take over the Supervisor's entry in the Directory service, so that ground and the other Apps looked it up instead of the Supervisor (NMF-2026-011): an App may now add and remove only its own entry, no caller may add or remove the Supervisor's, and an App cannot be named nanosat-mo-supervisor; each refused call is stored as an UnauthorisedCall with the entry it named
 * Fixes uninstall and update removing the files of an App that was still running, either started outside the Apps Launcher or not closing when asked: they now fail with the new App Running error of the Software Management area, and no package of the request is changed
+* Fixes OS command injection through the name of an App package in the Linux launcher (NMF-2026-004): a package name must now be a plain file name
+* Confines each package to its own area of the NMF root, so that an App package can no longer add, replace or delete the files of another App or of the software baseline (NMF-2026-006)
+* Creates the nmf-admin account locked, with no password, and limits its sudo rights to the App accounts (NMF-2026-007)
+* Fixes OS command injection through the launch values of an App package (NMF-2026-008): its main class, jars and heap sizes are now checked and quoted
+* Fixes OS command injection through the model and input paths of the Artificial Intelligence service (NMF-2026-009)
+* Checks each file of an NMF Package by its SHA-256 instead of its CRC-32, from package metadata version 6, and makes the integrity check of the Package Management service real, as it always answered true before
+* Renames the upgrade operation of the Package Management service to update, and its PackageUpgraded COM object to PackageUpdated
+* Removes the Configuration service: its ConfigurationService and ConfigurationProvider COM objects are now objects 2 and 3 of the Directory service
+* Removes the source link of the COM objects, together with the ObjectLinks structure: ArchiveDetails now has a relatedLink field
+* Changes ParameterStatusListener.onGetValue(Identifier, AttributeType) to onGetValue(Identifier): Apps that implement it must update the signature, because without @Override the old method silently stops being called
+* Removes ParameterStatusListener.onGetValue(Long), so parameter values are asked for by name only; Apps that use the annotations are not affected
+* Removes the deprecated pushParameterValue(Identifier, ParameterValue, ObjectKey, Time) of the Parameter service; use pushSingleParameterValueAttribute instead
+* Removes the deprecated MonitorAndControlNMFAdapter.getTypeShortForm; use HelperAttributes.getTypeShortForm of the MO library instead
+* Merges nmf-package-lib into nmf-services-impl: the nmf-package-lib artifact is no longer published, so projects that used it depend on nmf-services-impl instead, with the same Java packages
+* Moves the simulator code from the opssat.simulator packages to esa.mo.nmf.mission.orekit.simulator and esa.mo.nmf.mission.lite.simulator, and the Orekit Supervisor from esa.mo.nmf.sim.supervisor to esa.mo.nmf.mission.orekit.NanosatMOSupervisorBasicImpl, which is the main class to give when setting a 6.0 baseline
+* Removes the OPS-SAT leftovers from the code and the READMEs, and renames the add-on folder of the Celestia visualisation to extras/cubesat
+* Builds the MCP adapter with the rest of the SDK again, as a prototype
+* Fixes the stopApp crash when an App is killed at the same time
+* Fixes the Geofence of the Raspberry Pi mission, which never started the App it names
+* Gives nmf-admin and the App accounts a home directory on Debian and Ubuntu
+* Changes the Raspberry Pi guide to copy the NMF with an SSH key for root, instead of a root password
+* Removes the unused stop_app.sh launch path of the Apps Launcher, which was meant for non-NMF Apps on OPS-SAT
+* Removes the unfinished package signing code, which was never called
+* Removes the Facebook ground example
 
 ### Version 5.1 (25 September 2026)
 * Upgrades to CCSDS MO services v14.2
