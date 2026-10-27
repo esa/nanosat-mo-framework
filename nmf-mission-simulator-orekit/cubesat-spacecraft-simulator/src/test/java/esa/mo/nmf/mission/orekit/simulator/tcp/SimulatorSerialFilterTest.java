@@ -36,6 +36,7 @@ import java.util.logging.Logger;
 import esa.mo.nmf.mission.orekit.simulator.util.CommandDescriptor;
 import esa.mo.nmf.mission.orekit.simulator.util.CommandResult;
 import esa.mo.nmf.mission.orekit.simulator.util.SimulatorData;
+import esa.mo.nmf.mission.orekit.simulator.util.PlatformMessage;
 import esa.mo.nmf.mission.orekit.simulator.util.SimulatorHeader;
 import org.junit.Assert;
 import org.junit.Test;
@@ -89,6 +90,9 @@ public class SimulatorSerialFilterTest {
         assertAllowed("List", f);
         assertAllowed(Integer.valueOf(0), f);
         assertAllowed(descriptor(), f);
+        // A changed setting and a changed header, as the GUI sends them
+        assertAllowed(new PlatformMessage("camerasim.imagemode", "Fixed"), f);
+        assertAllowed(new SimulatorHeader(), f);
         Assert.assertEquals("hi", read("hi", f));
     }
 
@@ -96,7 +100,6 @@ public class SimulatorSerialFilterTest {
     public void testServerFilterRejectsTelemetryAndForeignTypes() throws Exception {
         ObjectInputFilter f = SimulatorSerialFilter.serverFilter();
         // Telemetry DTOs are server->client only; a client must not send them
-        assertRejected(new SimulatorHeader(), f);
         assertRejected(new SimulatorData(0), f);
         // Classes outside the allowlist
         assertRejected(new File("/etc/passwd"), f);

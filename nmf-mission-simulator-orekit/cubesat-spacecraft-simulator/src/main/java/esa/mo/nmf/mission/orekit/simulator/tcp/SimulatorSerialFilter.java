@@ -121,6 +121,9 @@ public final class SimulatorSerialFilter {
      * Strict allowlist for input from untrusted clients: only the command
      * message types a client legitimately sends, plus the JDK scalar and
      * collection types they carry. No telemetry DTOs, no package wildcard.
+     * The GUI also sends a changed setting as a PlatformMessage and a changed
+     * header as a SimulatorHeader; both hold only Strings, numbers, booleans
+     * and Dates.
      */
     private static final String SERVER_PATTERN = String.join(";",
             LIMITS,
@@ -128,6 +131,8 @@ public final class SimulatorSerialFilter {
             "esa.mo.nmf.mission.orekit.simulator.util.CommandResult",
             "esa.mo.nmf.mission.orekit.simulator.util.ArgumentDescriptor",
             "esa.mo.nmf.mission.orekit.simulator.util.ArgumentTemplate",
+            "esa.mo.nmf.mission.orekit.simulator.util.PlatformMessage",
+            "esa.mo.nmf.mission.orekit.simulator.util.SimulatorHeader",
             JDK_SCALARS,
             "java.util.ArrayList",
             "java.util.LinkedList",
