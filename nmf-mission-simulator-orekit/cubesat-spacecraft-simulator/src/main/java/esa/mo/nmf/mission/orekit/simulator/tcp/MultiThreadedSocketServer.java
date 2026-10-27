@@ -46,6 +46,8 @@ public class MultiThreadedSocketServer extends Thread {
 
     private static final int MAX_PORTS_OPEN = 10;
     public static final int DEFAULT_SOCKET_PORT = 11111;
+    /** The system property that sets the port of the simulator's socket, {@value #DEFAULT_SOCKET_PORT} if unset. */
+    public static final String PROPERTY_SOCKET_PORT = "esa.mo.nmf.simulator.port";
     public static final int DEFAULT_CELESTIA_PORT = 5909;
     ServerSocket myServerSocket;
     boolean ServerOn = true;
@@ -60,6 +62,28 @@ public class MultiThreadedSocketServer extends Thread {
     private HashMap<ClientServiceThreadSender, LinkedList<String>> hMapManualCommandsList;
     private int listenPort;
     private Logger logger;
+
+    /**
+     * Returns the port of the simulator's socket: the one that the
+     * {@value #PROPERTY_SOCKET_PORT} system property sets, or
+     * {@value #DEFAULT_SOCKET_PORT}.
+     *
+     * @return the port
+     */
+    public static int socketPort() {
+        String port = System.getProperty(PROPERTY_SOCKET_PORT);
+        if (port == null || port.isBlank()) {
+            return DEFAULT_SOCKET_PORT;
+        }
+        try {
+            return Integer.parseInt(port.trim());
+        } catch (NumberFormatException ex) {
+            Logger.getLogger(MultiThreadedSocketServer.class.getName()).log(Level.WARNING,
+                    "The port {0} is not a number, so the simulator listens on {1}",
+                    new Object[]{port, DEFAULT_SOCKET_PORT});
+            return DEFAULT_SOCKET_PORT;
+        }
+    }
 
     public Logger getLogger() {
         return logger;

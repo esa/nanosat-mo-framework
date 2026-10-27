@@ -29,7 +29,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import esa.mo.nmf.mission.orekit.simulator.gui.GuiApp;
 
 /**
  *
@@ -87,13 +86,28 @@ public class SocketClient extends Thread {
     }
 
     private boolean connectionEstablished;
-    private GuiApp parent;
-    private Socket s;
+    private SocketClientOwner parent;
+    private volatile Socket s;
 
-    public SocketClient(String targetURL, int targetPort, GuiApp tcpClientNode) {
+    public SocketClient(String targetURL, int targetPort, SocketClientOwner tcpClientNode) {
         this.targetURL = targetURL;
         this.targetPort = targetPort;
         this.parent = tcpClientNode;
+    }
+
+    /**
+     * Closes the connection to the simulator. The owner is then told that the
+     * connection was lost, as when the simulator closes it.
+     */
+    public void close() {
+        Socket socket = this.s;
+        if (socket != null) {
+            try {
+                socket.close();
+            } catch (IOException ex) {
+                Logger.getLogger(SocketClient.class.getName()).log(Level.FINE, "The socket could not be closed", ex);
+            }
+        }
     }
 
     @Override
@@ -140,9 +154,9 @@ public class SocketClient extends Thread {
     class SocketClientThreadReceiver extends Thread {
 
         private Socket socket;
-        private GuiApp parent;
+        private SocketClientOwner parent;
 
-        SocketClientThreadReceiver(Socket socket, GuiApp tcpClientNode) {
+        SocketClientThreadReceiver(Socket socket, SocketClientOwner tcpClientNode) {
             this.socket = socket;
             this.parent = tcpClientNode;
             System.out.println("Created SocketClientThreadReceiver");
@@ -180,7 +194,7 @@ public class SocketClient extends Thread {
                 }
             } catch (IOException ioe) {
                 System.out.println("Receiver Exception during communication. Server probably closed connection.");
-                this.parent.getGuiMainWindow().showConnectedInfo(false);
+                this.parent.connectionLost();
                 // If the deserialization filter rejected a message, report which
                 // one so a blocked (but legitimate) type is diagnosable here.
                 String detail = (ioe instanceof java.io.InvalidClassException
@@ -211,9 +225,9 @@ public class SocketClient extends Thread {
     static class SocketClientThreadSender extends Thread {
 
         private Socket socket;
-        private GuiApp parent;
+        private SocketClientOwner parent;
 
-        SocketClientThreadSender(Socket socket, GuiApp tcpClientNode) {
+        SocketClientThreadSender(Socket socket, SocketClientOwner tcpClientNode) {
             this.socket = socket;
             this.parent = tcpClientNode;
             System.out.println("Created SocketClientThreadSender");

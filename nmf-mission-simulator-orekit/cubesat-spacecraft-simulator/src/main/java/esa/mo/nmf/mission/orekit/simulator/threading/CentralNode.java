@@ -71,7 +71,7 @@ public class CentralNode extends TaskNode {
         this.qToCelestia = new ConcurrentLinkedQueue<>();
         super.getLogObject().log(Level.FINE, "Creating listener on URL [" + listenURL + "]..");
         this.multiThreadedSocketServer = new MultiThreadedSocketServer(listenURL, this,
-            MultiThreadedSocketServer.DEFAULT_SOCKET_PORT, super.getLogObject());
+            MultiThreadedSocketServer.socketPort(), super.getLogObject());
         multiThreadedSocketServer.start();
         this.parent = sim;
     }

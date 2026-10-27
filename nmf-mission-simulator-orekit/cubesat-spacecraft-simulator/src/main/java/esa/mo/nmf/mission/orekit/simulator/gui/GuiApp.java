@@ -26,6 +26,7 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import esa.mo.nmf.mission.orekit.simulator.tcp.SocketClient;
+import esa.mo.nmf.mission.orekit.simulator.tcp.SocketClientOwner;
 import esa.mo.nmf.mission.orekit.simulator.util.CommandDescriptor;
 import esa.mo.nmf.mission.orekit.simulator.util.LoggerFormatter1Line;
 
@@ -33,7 +34,7 @@ import esa.mo.nmf.mission.orekit.simulator.util.LoggerFormatter1Line;
  *
  * @author Cezar Suteu
  */
-public class GuiApp {
+public class GuiApp implements SocketClientOwner {
 
     private final GuiMainWindow guiMainWindow;
     private final ConcurrentLinkedQueue<Object> toServerQueue;
@@ -62,11 +63,13 @@ public class GuiApp {
         this.socketClient.setTargetConnection(targetURL, targetPort);
     }
 
+    @Override
     public ConcurrentLinkedQueue<Object> getFromServerQueue() {
         return fromServerQueue;
 
     }
 
+    @Override
     public ConcurrentLinkedQueue<Object> getToServerQueue() {
         return toServerQueue;
     }
@@ -75,11 +78,13 @@ public class GuiApp {
         return guiMainWindow;
     }
 
+    @Override
     public void restartSocket() {
         socketClient = new SocketClient(targetURL, targetPort, this);
         socketClient.start();
     }
 
+    @Override
     public Logger getLogger() {
         return logger;
     }
@@ -97,6 +102,11 @@ public class GuiApp {
         this.targetPort = targetPort;
         guiMainWindow = new GuiMainWindow(this, targetURL, targetPort);
         (new Thread(guiMainWindow)).start();
+    }
+
+    @Override
+    public void connectionLost() {
+        guiMainWindow.showConnectedInfo(false);
     }
 
     public void startSocket() {

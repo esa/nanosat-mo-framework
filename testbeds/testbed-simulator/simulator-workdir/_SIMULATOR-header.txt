@@ -1,0 +1,18 @@
+# The header of the simulator that the testbed runs: the simulator's own
+# defaults, without Celestia, so that nothing else is opened on the machine.
+#Run the processing of internal models
+startModels=true
+#Increment the simulated time (depends on startModels)
+startTime=true
+#Speed up of time factor
+timeFactor=1
+#Kepler elements for orbit A[km];E;i[deg];RAAN[deg];ARG_PER[deg];TRUE_A[deg]
+keplerElements=6886.0;0.0;98.05;340.0;0.0;0.0
+#Enable the Orekit library for orbital and attitude simulation
+orekit=true
+#Enable updates from Internet (used for gps constellation TLEs)
+updateFromInternet=false
+celestia=false
+centralLogLevel=WARNING
+simulatorLogLevel=WARNING
+consoleLogLevel=WARNING
