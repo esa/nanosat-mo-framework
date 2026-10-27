@@ -42,6 +42,12 @@
                                 <mal:type area="MAL" list="true" name="Integer"/>
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the provider cannot read the packages.">
+                            <mal:type area="MAL" list="false" name="Internal"/>
+                            <mal:extraInformation comment="The reason.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
                 <mal:invokeIP name="install" number="2" comment="The install operation allows a consumer to install the content of a package on the provider. The selected packages will be installed sequentially.">
@@ -66,10 +72,34 @@
                                 <mal:type area="MAL" list="true" name="Integer"/>
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="When one or more of the requested packages is already installed, fails its integrity check, does not match its expected checksum, or has no checksum while the provider requires one.">
-                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                        <mal:errorRef comment="When the same final version of one or more of the requested packages is already installed.">
+                            <mal:type area="SM" list="false" name="Package Installed"/>
                             <mal:extraInformation comment="The indexes of the error values.">
-                                <mal:type area="MAL" list="true" name="Integer"/>
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When one or more of the requested packages fails its integrity check.">
+                            <mal:type area="SM" list="false" name="Integrity Check Failed"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When one or more of the requested packages does not match its expected checksum, or has no checksum while the provider requires one.">
+                            <mal:type area="SM" list="false" name="Checksum Mismatch"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the App of one or more of the requested packages declares a permission that the request does not acknowledge, and access control is enforced.">
+                            <mal:type area="SM" list="false" name="Permissions Not Acknowledged"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the provider cannot read the packages, or cannot install one of them. The packages before it in the request stay installed.">
+                            <mal:type area="MAL" list="false" name="Internal"/>
+                            <mal:extraInformation comment="The reason, naming the package that could not be processed.">
+                                <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
@@ -97,15 +127,27 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When one or more of the requested packages is not installed.">
-                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:type area="SM" list="false" name="Package Not Installed"/>
                             <mal:extraInformation comment="The indexes of the error values.">
-                                <mal:type area="MAL" list="true" name="Integer"/>
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When one or more of the requested packages fails its integrity check.">
+                            <mal:type area="SM" list="false" name="Integrity Check Failed"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the App of one or more of the requested packages is still running after it was asked to stop.">
                             <mal:type area="SM" list="false" name="App Running"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the provider cannot read the packages, or cannot uninstall one of them. The packages before it in the request stay uninstalled.">
+                            <mal:type area="MAL" list="false" name="Internal"/>
+                            <mal:extraInformation comment="The reason, naming the package that could not be processed.">
+                                <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
@@ -131,16 +173,46 @@
                                 <mal:type area="MAL" list="true" name="Integer"/>
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="When one or more of the requested packages is not installed, is a baseline component, fails its integrity check, does not match its expected checksum, or has no checksum while the provider requires one.">
+                        <mal:errorRef comment="When no version of one or more of the requested packages is installed under the same name.">
+                            <mal:type area="SM" list="false" name="Package Not Installed"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When one or more of the requested packages is a baseline component, which is installed and activated instead of updated.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The indexes of the error values.">
-                                <mal:type area="MAL" list="true" name="Integer"/>
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When one or more of the requested packages fails its integrity check.">
+                            <mal:type area="SM" list="false" name="Integrity Check Failed"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When one or more of the requested packages does not match its expected checksum, or has no checksum while the provider requires one.">
+                            <mal:type area="SM" list="false" name="Checksum Mismatch"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the App of one or more of the requested packages declares a permission that the request does not acknowledge, and access control is enforced.">
+                            <mal:type area="SM" list="false" name="Permissions Not Acknowledged"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the App of one or more of the requested packages is still running after it was asked to stop.">
                             <mal:type area="SM" list="false" name="App Running"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the provider cannot read the packages, or cannot update one of them. The packages before it in the request stay updated.">
+                            <mal:type area="MAL" list="false" name="Internal"/>
+                            <mal:extraInformation comment="The reason, naming the package that could not be processed.">
+                                <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
@@ -165,6 +237,12 @@
                             <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="Integer"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the provider cannot read the packages, or cannot compute the checksum of one of them.">
+                            <mal:type area="MAL" list="false" name="Internal"/>
+                            <mal:extraInformation comment="The reason.">
+                                <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
@@ -386,6 +464,12 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When one or more of the requested apps is already running.">
+                            <mal:type area="SM" list="false" name="App Running"/>
+                            <mal:extraInformation comment="The indexes of the error values.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the same app is requested more than once.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
@@ -415,7 +499,7 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When one or more of the requested apps is not running.">
-                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:type area="SM" list="false" name="App Not Running"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -464,7 +548,7 @@
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When one or more of the requested apps is not running.">
-                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:type area="SM" list="false" name="App Not Running"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
@@ -802,7 +886,13 @@
             </mal:composite>
         </mal:dataTypes>
         <mal:errors>
-            <mal:error number="1" name="App Running" comment="The App of the referenced package is still running, so its files cannot be removed."/>
+            <mal:error number="1" name="App Running" comment="The referenced App is running."/>
+            <mal:error number="2" name="App Not Running" comment="The referenced App is not running."/>
+            <mal:error number="3" name="Package Installed" comment="The referenced package is already installed."/>
+            <mal:error number="4" name="Package Not Installed" comment="The referenced package is not installed."/>
+            <mal:error number="5" name="Integrity Check Failed" comment="A file of the referenced package does not match the checksum that the package metadata lists for it."/>
+            <mal:error number="6" name="Checksum Mismatch" comment="The referenced package file does not match the checksum approved on ground, or no checksum was given while the provider requires one."/>
+            <mal:error number="7" name="Permissions Not Acknowledged" comment="The App of the referenced package declares a permission that ground did not acknowledge."/>
         </mal:errors>
     </mal:area>
 </mal:specification>

@@ -25,9 +25,9 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.StringList;
+import org.ccsds.moims.mo.sm.ChecksumMismatchException;
 import org.ccsds.moims.mo.sm.structures.PackageApproval;
 import org.ccsds.moims.mo.sm.structures.PackageApprovalList;
 import org.junit.After;
@@ -86,13 +86,13 @@ public class PackageChecksumRequestTest {
         try {
             provider.install(approvals(OTHER), null);
             Assert.fail("An install whose package file does not match its checksum must be refused");
-        } catch (InvalidArgumentException expected) {
+        } catch (ChecksumMismatchException expected) {
             // The package is refused before anything is acknowledged
         }
         try {
             provider.update(approvals(OTHER), null);
             Assert.fail("An update whose package file does not match its checksum must be refused");
-        } catch (InvalidArgumentException expected) {
+        } catch (ChecksumMismatchException expected) {
             // The package is refused before anything is acknowledged
         }
     }
@@ -130,7 +130,7 @@ public class PackageChecksumRequestTest {
         try {
             provider.install(approvals((String) null), null);
             Assert.fail("An install without a checksum must be refused when one is required");
-        } catch (InvalidArgumentException expected) {
+        } catch (ChecksumMismatchException expected) {
             // The package is refused before anything is acknowledged
         }
     }

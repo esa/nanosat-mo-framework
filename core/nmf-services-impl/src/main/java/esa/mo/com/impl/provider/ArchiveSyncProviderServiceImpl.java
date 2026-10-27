@@ -31,7 +31,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.archivesync.ArchiveSyncHelper;
 import org.ccsds.moims.mo.com.archivesync.body.GetTimeResponse;
 import org.ccsds.moims.mo.com.archivesync.provider.ArchiveSyncInheritanceSkeleton;
@@ -215,11 +214,11 @@ public class ArchiveSyncProviderServiceImpl extends ArchiveSyncInheritanceSkelet
     @Override
     public void retrieveRangeAgain(final Long transactionTicket, final UIntegerList missingIndexes,
             final RetrieveRangeAgainInteraction interaction)
-            throws InvalidArgumentException, MALException {
+            throws UnknownException, MALException {
         final Dispatcher dispatcher = dispatchers.get(transactionTicket);
 
         if (dispatcher == null) {
-            throw new InvalidArgumentException(null);
+            throw new UnknownException(null);
         }
 
         TimerTask timerTask = timerTasks.get(transactionTicket);

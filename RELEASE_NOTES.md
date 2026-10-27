@@ -43,6 +43,8 @@ The different versions and respective updates are the following:
 * Removes the unused stop_app.sh launch path of the Apps Launcher, which was meant for non-NMF Apps on OPS-SAT
 * Removes the unfinished package signing code, which was never called
 * Removes the Facebook ground example
+* Fixes install, uninstall and update reporting success when they failed on board: they now fail with the MAL Internal error
+* Adds errors that say why a request was refused: App Not Running, Package Installed, Package Not Installed, Integrity Check Failed, Checksum Mismatch and Permissions Not Acknowledged in Software Management, and Execution Failed in Platform
 
 ### Version 5.1 (25 September 2026)
 * Upgrades to CCSDS MO services v14.2

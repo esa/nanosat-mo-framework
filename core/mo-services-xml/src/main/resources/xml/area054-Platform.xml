@@ -1355,8 +1355,14 @@
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="When the execution could not be completed successfully.">
+                        <mal:errorRef comment="When the file that the jsonPath field references does not exist.">
                             <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="A description of the error.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the computer vision task fails while it runs.">
+                            <mal:type area="Platform" list="false" name="Execution Failed" />
                             <mal:extraInformation comment="A description of the error.">
                                 <mal:type area="MAL" list="false" name="String" />
                             </mal:extraInformation>
@@ -2219,6 +2225,7 @@
             <mal:error number="2" name="Device Not Available" comment="The device is currently not available." />
             <mal:error number="3" name="Incompatible" comment="The referenced item was built against a different version of the platform than the one running." />
             <mal:error number="4" name="Verification Failed" comment="The integrity verification of the referenced item failed." />
+            <mal:error number="5" name="Execution Failed" comment="The device ran the requested task, and the task failed." />
         </mal:errors>
     </mal:area>
 </mal:specification>

@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mal.InternalException;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.structures.BooleanList;
@@ -35,6 +34,7 @@ import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.transport.MALMessage;
+import org.ccsds.moims.mo.sm.PackageNotInstalledException;
 import org.ccsds.moims.mo.sm.packagemanagement.provider.InstallInteraction;
 import org.ccsds.moims.mo.sm.packagemanagement.provider.UninstallInteraction;
 import org.ccsds.moims.mo.sm.packagemanagement.provider.UpdateInteraction;
@@ -121,7 +121,7 @@ public class PackageFailureTest {
         try {
             provider.update(approvals(WORKS, NOT_INSTALLED), updateInteraction());
             Assert.fail("An update of a package of which no version is installed must be refused");
-        } catch (InvalidArgumentException refused) {
+        } catch (PackageNotInstalledException refused) {
             UIntegerList indexes = (UIntegerList) refused.getExtraInformation();
             Assert.assertEquals(1, indexes.size());
             Assert.assertEquals(new UInteger(1), indexes.get(0));
@@ -135,15 +135,20 @@ public class PackageFailureTest {
     public void packagesThatCannotBeReadAreReportedAsAnInternalError() throws Exception {
         backend.listFails = true;
 
-        provider.install(approvals(WORKS), installInteraction());
-        Assert.assertEquals("Install fails before it is acknowledged", List.of("error"), sent);
-        Assert.assertTrue(error instanceof InternalException);
+        try {
+            provider.install(approvals(WORKS), installInteraction());
+            Assert.fail("An install whose packages cannot be read must fail");
+        } catch (InternalException expected) {
+            // Before it is acknowledged
+        }
+        try {
+            provider.update(approvals(WORKS), updateInteraction());
+            Assert.fail("An update whose packages cannot be read must fail");
+        } catch (InternalException expected) {
+            // Before it is acknowledged
+        }
 
-        sent.clear();
-        provider.update(approvals(WORKS), updateInteraction());
-        Assert.assertEquals("Update fails before it is acknowledged", List.of("error"), sent);
-        Assert.assertTrue(error instanceof InternalException);
-
+        Assert.assertTrue("Nothing is acknowledged", sent.isEmpty());
         Assert.assertTrue(backend.changed.isEmpty());
     }
 

@@ -31,6 +31,7 @@ import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.platform.DeviceInUseException;
 import org.ccsds.moims.mo.platform.DeviceNotAvailableException;
+import org.ccsds.moims.mo.platform.ExecutionFailedException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
@@ -210,7 +211,8 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
 
     @Override
     public void doComputerVision(String jsonPath,
-            DoComputerVisionInteraction interaction) throws InvalidArgumentException, DeviceNotAvailableException, DeviceInUseException, MALException {
+            DoComputerVisionInteraction interaction) throws InvalidArgumentException, ExecutionFailedException,
+            DeviceNotAvailableException, DeviceInUseException, MALException {
         if (jsonPath == null) {
             throw new MALException("The jsonPath cannot be null!");
         }
@@ -234,15 +236,16 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
             interaction.sendAcknowledgement();
         }
 
-        boolean success = true;
         try {
             adapter.doComputerVision(jsonPath);
         } catch (IOException ex) {
-            success = false;
+            Logger.getLogger(ArtificialIntelligenceProviderServiceImpl.class.getName()).log(
+                    Level.SEVERE, "The computer vision task failed!", ex);
+            throw new ExecutionFailedException("The computer vision task failed: " + ex.getMessage());
         }
 
         if (interaction != null) {
-            interaction.sendResponse(success);
+            interaction.sendResponse(true);
         }
     }
 }

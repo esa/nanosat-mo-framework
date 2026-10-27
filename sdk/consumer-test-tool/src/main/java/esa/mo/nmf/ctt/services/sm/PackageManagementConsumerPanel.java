@@ -27,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import org.ccsds.moims.mo.mal.InternalException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.MOErrorException;
@@ -35,6 +36,11 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.AppRunningException;
+import org.ccsds.moims.mo.sm.ChecksumMismatchException;
+import org.ccsds.moims.mo.sm.IntegrityCheckFailedException;
+import org.ccsds.moims.mo.sm.PackageInstalledException;
+import org.ccsds.moims.mo.sm.PackageNotInstalledException;
+import org.ccsds.moims.mo.sm.PermissionsNotAcknowledgedException;
 import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementAdapter;
 import org.ccsds.moims.mo.sm.structures.PackageApproval;
 import org.ccsds.moims.mo.sm.structures.PackageApprovalList;
@@ -235,7 +241,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                 public void updateAckErrorReceived(MALMessageHeader msgHeader,
                         MOErrorException error, java.util.Map qosProperties) {
                     JOptionPane.showMessageDialog(null,
-                            "There was an error during the update operation.", "Error",
+                            errorMessageOf("update", error), "Error",
                             JOptionPane.PLAIN_MESSAGE);
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(
                             Level.SEVERE,
@@ -292,7 +298,7 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                 @Override
                 public void uninstallAckErrorReceived(MALMessageHeader msgHeader,
                         MOErrorException error, java.util.Map qosProperties) {
-                    String msg = "There was an error during the uninstall operation.";
+                    String msg = errorMessageOf("uninstall", error);
                     JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.PLAIN_MESSAGE);
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, msg, error);
                 }
@@ -310,11 +316,31 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_uninstallButtonActionPerformed
 
-    /** What the operator is told when an uninstall or an update fails. */
+    /** What the operator is told when an install, an uninstall or an update fails. */
     private static String errorMessageOf(String operation, MOErrorException error) {
         if (error instanceof AppRunningException) {
             return "The App is still running, so the " + operation + " was refused"
                     + " and no package was changed.\nStop or kill the App, and try again.";
+        }
+        if (error instanceof PackageInstalledException) {
+            return "This version of the package is already installed, so the " + operation + " was refused.";
+        }
+        if (error instanceof PackageNotInstalledException) {
+            return "The package is not installed, so the " + operation + " was refused.";
+        }
+        if (error instanceof IntegrityCheckFailedException) {
+            return "A file of the package does not match its checksum, so the " + operation + " was refused."
+                    + "\nThe package file on board is damaged or was changed: upload it again.";
+        }
+        if (error instanceof ChecksumMismatchException) {
+            return "The package file on board is not the one approved on ground, or no checksum was given,"
+                    + " so the " + operation + " was refused.";
+        }
+        if (error instanceof PermissionsNotAcknowledgedException) {
+            return "The App declares permissions that were not acknowledged, so the " + operation + " was refused.";
+        }
+        if (error instanceof InternalException) {
+            return "The " + operation + " failed on board: " + error.getExtraInformation();
         }
         return "There was an error during the " + operation + " operation.";
     }
@@ -350,15 +376,15 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                 @Override
                 public void installAckErrorReceived(MALMessageHeader msgHeader,
                         MOErrorException error, java.util.Map qosProperties) {
-                    String msg = "There was an error during the install operation.";
-                    JOptionPane.showMessageDialog(null, "There was an error during the install operation.", "Error", JOptionPane.PLAIN_MESSAGE);
+                    String msg = errorMessageOf("install", error);
+                    JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.PLAIN_MESSAGE);
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, msg, error);
                 }
 
                 @Override
                 public void installResponseErrorReceived(MALMessageHeader msgHeader,
                         MOErrorException error, java.util.Map qosProperties) {
-                    String msg = "There was an error during the install operation.";
+                    String msg = errorMessageOf("install", error);
                     JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.PLAIN_MESSAGE);
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.SEVERE, msg, error);
                 }

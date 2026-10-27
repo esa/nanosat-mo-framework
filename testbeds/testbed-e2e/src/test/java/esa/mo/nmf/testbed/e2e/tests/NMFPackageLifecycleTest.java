@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.sm.SMHelper;
 import org.ccsds.moims.mo.sm.structures.PackageInstalled;
 import org.ccsds.moims.mo.sm.structures.PackageUninstalled;
 import org.ccsds.moims.mo.sm.structures.PackageUpdated;
@@ -149,6 +150,8 @@ public class NMFPackageLifecycleTest {
         MOErrorException error = pm.install(benchmarkPackage, wrong);
         Assert.assertNotNull("install must be refused when the package file does not match "
                 + "the expected checksum", error);
+        Assert.assertEquals("The refusal must be the Checksum Mismatch error: " + error,
+                SMHelper.CHECKSUM_MISMATCH_ERROR_NUMBER, error.getErrorNumber());
         Assert.assertEquals("A refused install must not store a PackageInstalled object",
                 recordsBefore, pm.queryPackageInstalled().size());
     }
@@ -241,6 +244,8 @@ public class NMFPackageLifecycleTest {
         // The package installed right now is the updated one (test3)
         MOErrorException error = pm.install(updatedPackage);
         Assert.assertNotNull("Installing an already-installed package must return an error", error);
+        Assert.assertEquals("The refusal must be the Package Installed error: " + error,
+                SMHelper.PACKAGE_INSTALLED_ERROR_NUMBER, error.getErrorNumber());
 
         Assert.assertEquals("No additional PackageInstalled record may be stored",
                 recordsBefore, pm.queryPackageInstalled().size());

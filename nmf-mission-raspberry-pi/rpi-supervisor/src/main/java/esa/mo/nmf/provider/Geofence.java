@@ -33,6 +33,7 @@ import org.ccsds.moims.mo.platform.structures.NearbyPosition;
 import org.ccsds.moims.mo.platform.structures.NearbyPositionList;
 import org.ccsds.moims.mo.platform.structures.Position;
 import org.ccsds.moims.mo.platform.structures.PositionExtraDetails;
+import org.ccsds.moims.mo.sm.AppRunningException;
 
 
 /**
@@ -170,7 +171,7 @@ public class Geofence {
             LongList ids = new LongList();
             ids.add(appId);
             this.supervisor.getAppsLauncherService().runApp(ids, null);
-        } catch (MALException | UnknownException
+        } catch (MALException | UnknownException | AppRunningException
                 | InvalidArgumentException | InternalException ex) {            
             LOGGER.log(Level.SEVERE, "Failed to start App: " + ex.getMessage());
         }

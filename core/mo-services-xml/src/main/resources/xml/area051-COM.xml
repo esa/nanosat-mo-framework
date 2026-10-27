@@ -441,7 +441,7 @@
                     </mal:messages>
                     <mal:errors>
                         <mal:errorRef comment="When the transactionTicket does not match an ongoing retrieveRange interaction.">
-                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:type area="MAL" list="false" name="Unknown"/>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:progressIP>

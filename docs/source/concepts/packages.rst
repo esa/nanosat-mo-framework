@@ -88,6 +88,7 @@ whatever mission-specific distribution path applies (file uplink, ground network
 **Install.** The Supervisor's ``PackageManagement`` service handles installation.
 It verifies the metadata file, checks each entry's SHA-256 against the value declared in metadata,
 and extracts files to their target locations under ``NMF_HOME``.
+A package whose files do not match is refused with the ``Integrity Check Failed`` error.
 An install or update can also carry the SHA-256 that the package file is expected to have
 (see `Checking the package file against ground`_ below).
 
@@ -112,7 +113,8 @@ the ``install`` and ``update`` requests carry, for each package file, the SHA-25
 1. On ground, compute the SHA-256 of the ``.nmfpack`` file, for example with ``sha256sum``.
 2. Send it with the request, for example ``software-management install <package> --sha256 <checksum>``
    with the CLI.
-3. The Supervisor computes the SHA-256 of the package file it holds and refuses the request if they differ.
+3. The Supervisor computes the SHA-256 of the package file it holds and refuses the request if they differ,
+   with the ``Checksum Mismatch`` error.
 
 The ``checkPackageIntegrity`` operation returns the SHA-256 of a package file on board,
 so that ground can also compare it before deciding to install.
@@ -134,7 +136,7 @@ with the ``requirePackageChecksum`` parameter of the ``nmf-linux-maven-plugin``:
      <requirePackageChecksum>false</requirePackageChecksum>
    </configuration>
 
-It is ``true`` by default, so that a request without a checksum is refused.
+It is ``true`` by default, so that a request without a checksum is refused, with the same error.
 A filesystem for development or simulation may set it to ``false``,
 as the SDK playground environment and the testbeds do.
 A Supervisor started without the setting, for example from an IDE, also requires a checksum.

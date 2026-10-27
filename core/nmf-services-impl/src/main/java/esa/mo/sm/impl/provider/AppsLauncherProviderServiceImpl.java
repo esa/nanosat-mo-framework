@@ -35,6 +35,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.InvalidArgumentException;
+import org.ccsds.moims.mo.sm.AppNotRunningException;
+import org.ccsds.moims.mo.sm.AppRunningException;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.InternalException;
 import org.ccsds.moims.mo.mal.MALException;
@@ -327,8 +329,9 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     @Override
     public void runApp(LongList appInstIds, MALInteraction interaction) throws UnknownException,
-            InvalidArgumentException, InternalException, MALException {
+            AppRunningException, InvalidArgumentException, InternalException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
+        UIntegerList runningIndexList = new UIntegerList();
         UIntegerList invIndexList = new UIntegerList();
 
         if (appInstIds == null) { // Is the input null?
@@ -358,16 +361,25 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                 continue;
             }
 
-            // Is the app already running, or asked for twice in this request?
-            if (manager.isAppRunning(appInstIds.get(index)) || !requested.add(appInstIds.get(index))) {
-                invIndexList.add(new UInteger(index)); // Throw an INVALID error
+            // Asked for twice in this request?
+            if (!requested.add(appInstIds.get(index))) {
+                invIndexList.add(new UInteger(index));
                 continue;
+            }
+
+            // Is the app already running?
+            if (manager.isAppRunning(appInstIds.get(index))) {
+                runningIndexList.add(new UInteger(index));
             }
         }
 
         // Errors
         if (!invIndexList.isEmpty()) {
             throw new InvalidArgumentException(invIndexList);
+        }
+
+        if (!runningIndexList.isEmpty()) {
+            throw new AppRunningException(runningIndexList);
         }
 
         if (!unkIndexList.isEmpty()) {
@@ -394,9 +406,9 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                 ProcessExecutionHandler pHandler = new ProcessExecutionHandler(calback, appId);
                 if (!manager.startAppProcess(pHandler, interaction, directoryServiceURI)) {
                     // Started meanwhile by another request
-                    UIntegerList runningIndexList = new UIntegerList();
-                    runningIndexList.add(new UInteger(i));
-                    throw new InvalidArgumentException(runningIndexList);
+                    UIntegerList startedIndexList = new UIntegerList();
+                    startedIndexList.add(new UInteger(i));
+                    throw new AppRunningException(startedIndexList);
                 }
                 publishAppEvent(app.getName().toString(), appId, AppEventType.STARTED, null, null);
                 storeAppStarted(appId, interaction);
@@ -412,9 +424,9 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     @Override
     public void killApp(LongList appInstIds, MALInteraction interaction)
-            throws UnknownException, InvalidArgumentException, MALException {
+            throws UnknownException, AppNotRunningException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
-        UIntegerList invIndexList = new UIntegerList();
+        UIntegerList notRunningIndexList = new UIntegerList();
 
         if (appInstIds == null) { // Is the input null?
             throw new IllegalArgumentException("appInstIds argument must not be null");
@@ -442,16 +454,16 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                 continue;
             }
 
-            // Is the app the app not running?
+            // Is the app not running?
             if (!manager.isAppRunning(appInstIds.get(index))) {
-                invIndexList.add(new UInteger(index)); // Throw an INVALID error
+                notRunningIndexList.add(new UInteger(index));
                 continue;
             }
         }
 
         // Errors
-        if (!invIndexList.isEmpty()) {
-            throw new InvalidArgumentException(invIndexList);
+        if (!notRunningIndexList.isEmpty()) {
+            throw new AppNotRunningException(notRunningIndexList);
         }
 
         if (!unkIndexList.isEmpty()) {
@@ -467,9 +479,9 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     @Override
     public void stopApp(final LongList appInstIds, final Duration timeout, final StopAppInteraction interaction)
-            throws UnknownException, InvalidArgumentException, MALException {
+            throws UnknownException, AppNotRunningException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
-        UIntegerList invIndexList = new UIntegerList();
+        UIntegerList notRunningIndexList = new UIntegerList();
 
         if (appInstIds == null) { // Is the input null?
             throw new IllegalArgumentException("appInstIds argument must not be null");
@@ -495,7 +507,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
                 unkIndexList.add(new UInteger(i));
                 LOGGER.log(Level.WARNING, "App with id {0} unknown", new Object[]{appId});
             } else if (!manager.isAppRunning(appId)) {
-                invIndexList.add(new UInteger(i));
+                notRunningIndexList.add(new UInteger(i));
                 LOGGER.log(Level.WARNING, "App with id {0} not running", new Object[]{appId});
             }
         }
@@ -505,8 +517,8 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             throw new UnknownException(unkIndexList);
         }
 
-        if (!invIndexList.isEmpty()) {
-            throw new InvalidArgumentException(invIndexList);
+        if (!notRunningIndexList.isEmpty()) {
+            throw new AppNotRunningException(notRunningIndexList);
         }
 
         if (interaction != null) {

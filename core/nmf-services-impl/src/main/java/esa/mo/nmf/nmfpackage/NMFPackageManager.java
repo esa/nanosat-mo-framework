@@ -957,9 +957,9 @@ public class NMFPackageManager {
 
                 appsLauncher.stopApp(runningApp, null, null);
             }
-        } catch (org.ccsds.moims.mo.mal.UnknownException | org.ccsds.moims.mo.com.InvalidArgumentException ex) {
+        } catch (org.ccsds.moims.mo.mal.UnknownException | org.ccsds.moims.mo.sm.AppNotRunningException ex) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
-                    "The " + name + " App was not found in the Directory service!");
+                    "The " + name + " App is not known to the Apps Launcher, or no longer runs!");
         } catch (MALException ex) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(
                     Level.SEVERE, "(2) Something went wrong...", ex);

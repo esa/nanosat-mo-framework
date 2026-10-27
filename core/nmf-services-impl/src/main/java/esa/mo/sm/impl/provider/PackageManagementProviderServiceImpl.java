@@ -40,6 +40,11 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.sm.AppRunningException;
+import org.ccsds.moims.mo.sm.ChecksumMismatchException;
+import org.ccsds.moims.mo.sm.IntegrityCheckFailedException;
+import org.ccsds.moims.mo.sm.PackageInstalledException;
+import org.ccsds.moims.mo.sm.PackageNotInstalledException;
+import org.ccsds.moims.mo.sm.PermissionsNotAcknowledgedException;
 import org.ccsds.moims.mo.sm.packagemanagement.PackageManagementHelper;
 import org.ccsds.moims.mo.sm.packagemanagement.PackageManagementServiceInfo;
 import org.ccsds.moims.mo.sm.packagemanagement.body.FindPackageResponse;
@@ -125,7 +130,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public FindPackageResponse findPackage(IdentifierList names, MALInteraction interaction)
-            throws UnknownException, MALException {
+            throws UnknownException, InternalException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         FindPackageResponse outList;
 
@@ -171,11 +176,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
             outList = new FindPackageResponse(packages, installed);
         } catch (IOException ex) {
-            Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(Level.SEVERE,
-                    "The list of packages could not be retrieved!", ex);
-
-            // Just return empty lists
-            outList = new FindPackageResponse(new IdentifierList(), new BooleanList());
+            throw internalError("The packages could not be read", ex);
         }
 
         // Errors
@@ -188,9 +189,10 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public void install(final PackageApprovalList packages, final InstallInteraction interaction)
-            throws UnknownException, InvalidArgumentException, MALException {
+            throws UnknownException, PackageInstalledException, IntegrityCheckFailedException,
+            ChecksumMismatchException, PermissionsNotAcknowledgedException, InternalException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
-        UIntegerList invIndexList = new UIntegerList();
+        Refusals refusals = new Refusals();
 
         if (packages == null) { // Is the input null?
             throw new IllegalArgumentException("packages argument must not be null");
@@ -217,21 +219,16 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                 boolean integrity = backend.checkPackageIntegrity(availablePackages.get(index));
                 integrities.add(integrity);
 
-                // Reject if the integrity is false, if the package file is not the
-                // one approved on ground, if its App's permissions were not all
-                // acknowledged, or if a final (non-SNAPSHOT) build of this version
-                // is already installed. A SNAPSHOT version is not final and may
-                // always be re-installed (overridden).
-                if (!integrity
-                        || !isChecksumAccepted(approval.getChecksum(), availablePackages.get(index))
-                        || !arePermissionsAcknowledged(approval, availablePackages.get(index))
-                        || backend.isFinalVersionInstalled(name)) {
-                    invIndexList.add(new UInteger(i));
+                // A final (non-SNAPSHOT) build of a version is installed once. A
+                // SNAPSHOT version is not final and may always be re-installed
+                // (overridden).
+                if (backend.isFinalVersionInstalled(name)) {
+                    refusals.installed.add(new UInteger(i));
                 }
+                refusals.check(i, integrity, approval, availablePackages.get(index));
             }
         } catch (IOException ex) {
-            interaction.sendError(internalError("The packages could not be read", ex));
-            return;
+            throw internalError("The packages could not be read", ex);
         }
 
         // Errors
@@ -239,9 +236,11 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             throw new UnknownException(unkIndexList);
         }
 
-        if (!invIndexList.isEmpty()) {
-            throw new InvalidArgumentException(invIndexList);
+        if (!refusals.installed.isEmpty()) {
+            throw new PackageInstalledException(refusals.installed);
         }
+
+        refusals.throwIfAny();
 
         interaction.sendAcknowledgement(integrities);
 
@@ -269,11 +268,13 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     @Override
     public void uninstall(final IdentifierList names, final BooleanList keepConfigurations,
             final UninstallInteraction interaction)
-            throws UnknownException, InvalidArgumentException, AppRunningException, MALException {
+            throws UnknownException, PackageNotInstalledException, IntegrityCheckFailedException,
+            AppRunningException, InternalException, MALException {
         interaction.sendAcknowledgement();
 
         UIntegerList unkIndexList = new UIntegerList();
-        UIntegerList invIndexList = new UIntegerList();
+        UIntegerList notInstalledIndexList = new UIntegerList();
+        UIntegerList integrityIndexList = new UIntegerList();
 
         // Add validation
         if (names == null || keepConfigurations == null) { // Is the input null?
@@ -293,7 +294,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                 }
 
                 if (!backend.isPackageInstalled(names.get(i).getValue())) {
-                    invIndexList.add(new UInteger(i));
+                    notInstalledIndexList.add(new UInteger(i));
                     Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
                             Level.SEVERE, "The package is not installed!");
                     continue;
@@ -303,7 +304,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                 boolean integrity = backend.checkPackageIntegrity(availablePackages.get(index));
 
                 if (!integrity) {
-                    invIndexList.add(new UInteger(i));
+                    integrityIndexList.add(new UInteger(i));
                     Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
                             Level.SEVERE, "The integrity of the package is bad!");
                 }
@@ -318,8 +319,12 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             throw new UnknownException(unkIndexList);
         }
 
-        if (!invIndexList.isEmpty()) {
-            throw new InvalidArgumentException(invIndexList);
+        if (!notInstalledIndexList.isEmpty()) {
+            throw new PackageNotInstalledException(notInstalledIndexList);
+        }
+
+        if (!integrityIndexList.isEmpty()) {
+            throw new IntegrityCheckFailedException(integrityIndexList);
         }
 
         stopApps(names.stream().map(Identifier::getValue).toList());
@@ -353,9 +358,13 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     @Override
     public void update(final PackageApprovalList packages,
             final UpdateInteraction interaction)
-            throws UnknownException, InvalidArgumentException, AppRunningException, MALException {
+            throws UnknownException, PackageNotInstalledException, InvalidArgumentException,
+            IntegrityCheckFailedException, ChecksumMismatchException, PermissionsNotAcknowledgedException,
+            AppRunningException, InternalException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
-        UIntegerList invIndexList = new UIntegerList();
+        UIntegerList notInstalledIndexList = new UIntegerList();
+        UIntegerList baselineIndexList = new UIntegerList();
+        Refusals refusals = new Refusals();
 
         // Add validation
         if (packages == null) { // Is the input null?
@@ -380,29 +389,27 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                 // version is not compared, so that a package can also be
                 // updated back to an older version, or to the same one.
                 if (backend.getPackageVersion(availablePackages.get(index)) == null) {
-                    invIndexList.add(new UInteger(i));
+                    notInstalledIndexList.add(new UInteger(i));
                     Logger.getLogger(PackageManagementProviderServiceImpl.class.getName()).log(
                             Level.SEVERE, "No version of the package {0} is installed!",
                             approval.getName().getValue());
                     continue;
                 }
 
-                // Before updating, we need to check the package integrity!
-                // The update cannot go forward here if the integrity is false!
-                // Baseline components (nmf, mission, java) are also rejected:
-                // they are shipped with install and activated with the
+                // Baseline components (nmf, mission, java) are rejected: they
+                // are shipped with install and activated with the
                 // setPrimaryBaseline action, never updated in place.
-                boolean integrity = backend.checkPackageIntegrity(availablePackages.get(index));
-                if (!integrity
-                        || !isChecksumAccepted(approval.getChecksum(), availablePackages.get(index))
-                        || !arePermissionsAcknowledged(approval, availablePackages.get(index))
-                        || backend.isBaselineComponent(availablePackages.get(index))) {
-                    invIndexList.add(new UInteger(i));
+                if (backend.isBaselineComponent(availablePackages.get(index))) {
+                    baselineIndexList.add(new UInteger(i));
+                    continue;
                 }
+
+                // Before updating, we need to check the package integrity!
+                boolean integrity = backend.checkPackageIntegrity(availablePackages.get(index));
+                refusals.check(i, integrity, approval, availablePackages.get(index));
             }
         } catch (IOException ex) {
-            interaction.sendError(internalError("The packages could not be read", ex));
-            return;
+            throw internalError("The packages could not be read", ex);
         }
 
         // Errors
@@ -410,9 +417,15 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             throw new UnknownException(unkIndexList);
         }
 
-        if (!invIndexList.isEmpty()) {
-            throw new InvalidArgumentException(invIndexList);
+        if (!notInstalledIndexList.isEmpty()) {
+            throw new PackageNotInstalledException(notInstalledIndexList);
         }
+
+        if (!baselineIndexList.isEmpty()) {
+            throw new InvalidArgumentException(baselineIndexList);
+        }
+
+        refusals.throwIfAny();
 
         interaction.sendAcknowledgement();
 
@@ -440,6 +453,46 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         }
 
         interaction.sendResponse();
+    }
+
+    /**
+     * The packages of an install or update request that are refused, by
+     * reason, as the indexes of the request.
+     */
+    private final class Refusals {
+
+        private final UIntegerList installed = new UIntegerList();
+        private final UIntegerList integrity = new UIntegerList();
+        private final UIntegerList checksum = new UIntegerList();
+        private final UIntegerList permissions = new UIntegerList();
+
+        /**
+         * Refuses the package at the given index of the request if its files
+         * fail the integrity check, if its file is not the one approved on
+         * ground, or if its App's permissions were not all acknowledged.
+         */
+        void check(int i, boolean valid, PackageApproval approval, String packageName) throws IOException {
+            if (!valid) {
+                integrity.add(new UInteger(i));
+            } else if (!isChecksumAccepted(approval.getChecksum(), packageName)) {
+                checksum.add(new UInteger(i));
+            } else if (!arePermissionsAcknowledged(approval, packageName)) {
+                permissions.add(new UInteger(i));
+            }
+        }
+
+        void throwIfAny() throws IntegrityCheckFailedException, ChecksumMismatchException,
+                PermissionsNotAcknowledgedException {
+            if (!integrity.isEmpty()) {
+                throw new IntegrityCheckFailedException(integrity);
+            }
+            if (!checksum.isEmpty()) {
+                throw new ChecksumMismatchException(checksum);
+            }
+            if (!permissions.isEmpty()) {
+                throw new PermissionsNotAcknowledgedException(permissions);
+            }
+        }
     }
 
     /**
@@ -547,7 +600,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public PackageIntegrityList checkPackageIntegrity(IdentifierList names,
-            MALInteraction interaction) throws UnknownException, MALException {
+            MALInteraction interaction) throws UnknownException, InternalException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
 
         // Add validation
@@ -561,7 +614,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
         try {
             availablePackages = backend.getListOfPackages();
         } catch (IOException ex) {
-            throw new MALException("The list of packages could not be read!", ex);
+            throw internalError("The packages could not be read", ex);
         }
 
         for (int i = 0; i < names.size(); i++) {
@@ -583,8 +636,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             try {
                 checksum = backend.getPackageChecksum(packageName.getValue());
             } catch (IOException ex) {
-                throw new MALException("The checksum of the package could not be computed: "
-                        + packageName.getValue(), ex);
+                throw internalError("The checksum of the package '" + packageName.getValue()
+                        + "' could not be computed", ex);
             }
             integrities.add(new PackageIntegrity(valid, checksum));
         }
