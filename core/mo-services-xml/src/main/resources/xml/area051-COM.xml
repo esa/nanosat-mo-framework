@@ -268,7 +268,10 @@
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="When one or more of the objects being stored contains an invalid value: a wildcard value of '0' in the object type, a wildcard value of '*' in the domain, a value of '0', '*', or NULL in the timestamp or provider fields of the archive details, or mismatched objDetails and objBodies list sizes.">
+                        <mal:errorRef comment="When the objType field or the domain field contains a wildcard value, or the objDetails field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When one or more of the objects being stored contains an invalid value: a value of '0', '*', or NULL in the timestamp or provider fields of the archive details, or an entry of the longer of the objDetails and objBodies lists that has no counterpart in the other.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="A list of the indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
@@ -308,7 +311,10 @@
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="When one or more of the objects being updated contains a wildcard value in the object type, domain, or id fields.">
+                        <mal:errorRef comment="When the objType field or the domain field contains a wildcard value.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When one or more of the objects being updated has the wildcard value '0' as its id, or is an entry of the longer of the objDetails and objBodies lists that has no counterpart in the other.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="A list of the indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
@@ -474,6 +480,9 @@
                     <mal:errors>
                         <mal:errorRef comment="When the provided transaction ticket does not match a known transaction.">
                             <mal:type area="MAL" list="false" name="Unknown"/>
+                            <mal:extraInformation comment="A description of what is not known for the ticket.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:submitIP>
@@ -603,6 +612,12 @@
                         <mal:errorRef comment="When the domain field contains a wildcard value in any position other than the final identifier.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the filter field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
@@ -650,6 +665,12 @@
                         </mal:errorRef>
                         <mal:errorRef comment="When the providerName field names a provider that the service provider added for itself, or, when access control is enforced, a provider other than the consumer that its credential identifies.">
                             <mal:type area="MAL" list="false" name="Authorisation Fail"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the provider cannot store the Provider object.">
+                            <mal:type area="MAL" list="false" name="Internal"/>
+                            <mal:extraInformation comment="A description of the error.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
@@ -700,6 +721,12 @@
                         </mal:errorRef>
                         <mal:errorRef comment="When the requested XML file is not found.">
                             <mal:type area="MAL" list="false" name="Unknown"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the provider cannot read the XML files.">
+                            <mal:type area="MAL" list="false" name="Internal"/>
+                            <mal:extraInformation comment="A description of the error.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>

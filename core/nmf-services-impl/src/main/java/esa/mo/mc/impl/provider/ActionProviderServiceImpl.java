@@ -175,11 +175,11 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
 
     @Override
     public LongList listDefinition(final IdentifierList actionNames, final MALInteraction interaction)
-            throws UnknownException, MALException {
+            throws UnknownException, InvalidArgumentException, MALException {
         LongList outPairLst = new LongList();
 
         if (actionNames == null) { // Is the input null?
-            throw new IllegalArgumentException("actionNames argument must not be null");
+            throw new InvalidArgumentException("The actionNames field must not be NULL");
         }
 
         boolean wildcardFound = false;

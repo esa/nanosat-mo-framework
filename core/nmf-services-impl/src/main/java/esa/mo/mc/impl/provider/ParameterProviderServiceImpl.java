@@ -146,9 +146,9 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     @Override
     public ParameterValueDetailsList getValue(final LongList ids, final MALInteraction interaction)
-            throws UnknownException, MALException {
+            throws UnknownException, InvalidArgumentException, MALException {
         if (ids == null) { // Is the input null?
-            throw new IllegalArgumentException("LongList argument must not be null");
+            throw new InvalidArgumentException("The ids field must not be NULL");
         }
         // requirement: Parameter.getValue#2 : check for wildcard first
         boolean wildcardFound = false;
@@ -191,16 +191,16 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     @Override
     public void enableReporting(final Boolean enable, final LongList ids,
-            final MALInteraction interaction) throws UnknownException, MALException {
+            final MALInteraction interaction) throws UnknownException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
 
         LongList objIdToBeEnabled = new LongList();
 
         if (enable == null) {
-            throw new IllegalArgumentException("enable argument must not be null");
+            throw new InvalidArgumentException("The enable field must not be NULL");
         }
         if (ids == null) {
-            throw new IllegalArgumentException("ids argument must not be null");
+            throw new InvalidArgumentException("The ids field must not be NULL");
         }
 
         boolean foundWildcard = false;
@@ -251,7 +251,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         UIntegerList readOnlyIndexList = new UIntegerList();
 
         if (rawValueList == null) {
-            throw new IllegalArgumentException("rawValueList inputs must not be null");
+            throw new InvalidArgumentException("The newRawValues field must not be NULL");
         }
 
         for (int index = 0; index < rawValueList.size(); index++) {
@@ -331,11 +331,11 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
     @Override
     public LongList listDefinition(final IdentifierList paramNames, final MALInteraction interaction)
-            throws UnknownException, MALException {
+            throws UnknownException, InvalidArgumentException, MALException {
         LongList retDefinitions = new LongList();
 
         if (paramNames == null) { // Is the input null?
-            throw new IllegalArgumentException("IdentifierList argument must not be null");
+            throw new InvalidArgumentException("The paramNames field must not be NULL");
         }
 
         boolean wildcardFound = false;
@@ -460,7 +460,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         UIntegerList invIndexList = new UIntegerList();
 
         if (ids == null || paramDefDetails == null) { // Are the inputs null?
-            throw new IllegalArgumentException("ids and paramDefDetails arguments must not be null");
+            throw new InvalidArgumentException("The ids and definitions fields must not be NULL");
         }
 
         for (int index = 0; index < ids.size(); index++) {

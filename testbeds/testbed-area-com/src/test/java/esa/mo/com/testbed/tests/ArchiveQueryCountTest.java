@@ -280,6 +280,8 @@ public class ArchiveQueryCountTest {
         LOGGER.info("Error number returned: " + error.getErrorNumber());
         Assert.assertEquals("Error must be INVALID",
                 COMHelper.INVALID_ARGUMENT_ERROR_NUMBER, error.getErrorNumber());
+        Assert.assertTrue("The error must name the unknown sort field: " + error.getExtraInformation(),
+                String.valueOf(error.getExtraInformation()).contains("nonExistentField"));
     }
 
     /**

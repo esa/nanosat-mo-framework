@@ -29,6 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.platform.DeviceInUseException;
 import org.ccsds.moims.mo.platform.DeviceNotAvailableException;
 import org.ccsds.moims.mo.platform.ExecutionFailedException;
@@ -120,23 +121,23 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
     }
 
     @Override
-    public Long setModel(String modelPath, MALInteraction interaction) throws MALException {
+    public Long setModel(String modelPath, MALInteraction interaction) throws InvalidArgumentException, MALException {
         if (modelPath == null) {
-            throw new MALException("The modelPath cannot be null!");
+            throw new InvalidArgumentException("The modelPath cannot be null!");
         }
 
         if (!modelPath.endsWith(".xml")) {
-            throw new MALException("The model does not end with the file extension: .xml");
+            throw new InvalidArgumentException("The model does not end with the file extension: .xml");
         }
 
         // The path becomes an argument of the inference command, so it must be a
         // real model file and hold no control characters (NMF-2026-009).
         if (hasControlCharacter(modelPath)) {
-            throw new MALException("The modelPath contains a control character!");
+            throw new InvalidArgumentException("The modelPath contains a control character!");
         }
 
         if (!new File(modelPath).isFile()) {
-            throw new MALException("The model does not exist as a file in path: " + modelPath);
+            throw new InvalidArgumentException("The model does not exist as a file in path: " + modelPath);
         }
 
         for (int i = 0; i < modelPaths.size(); i++) {
@@ -153,19 +154,20 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
 
     @Override
     public String doInference(Long modelId, String inputTilesPath,
-            MALInteraction interaction) throws InvalidArgumentException, MALException {
+            MALInteraction interaction) throws InvalidArgumentException, UnknownException,
+            ExecutionFailedException, MALException {
         if (modelId == null) {
-            throw new MALException("The modelId is null!");
+            throw new InvalidArgumentException("The modelId is null!");
         }
 
         if (inputTilesPath == null) {
-            throw new MALException("The inputTilesPath is null!");
+            throw new InvalidArgumentException("The inputTilesPath is null!");
         }
 
         // The path becomes an argument of the inference command, so it must be a
         // real folder and hold no control characters (NMF-2026-009).
         if (hasControlCharacter(inputTilesPath)) {
-            throw new MALException("The inputTilesPath contains a control character!");
+            throw new InvalidArgumentException("The inputTilesPath contains a control character!");
         }
 
         // inputTilesPath needs to be an existing folder!!
@@ -176,10 +178,14 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
             throw new InvalidArgumentException(msg);
         }
 
-        String modelPath = modelPaths.get((int) (modelId - TIMESTAMP));
+        long index = modelId - TIMESTAMP;
+        if (index < 0 || index >= modelPaths.size()) {
+            throw new UnknownException(null);
+        }
+        String modelPath = modelPaths.get((int) index);
 
         if (!modelPath.endsWith(".xml")) {
-            throw new MALException("The model does not end with the file extension: .xml");
+            throw new InvalidArgumentException("The model does not end with the file extension: .xml");
         }
 
         int endIndex = modelPath.length() - 4;
@@ -204,9 +210,8 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
         } catch (IOException ex) {
             Logger.getLogger(ArtificialIntelligenceProviderServiceImpl.class.getName()).log(
                     Level.SEVERE, "The inference could not be performed!", ex);
+            throw new ExecutionFailedException("The inference could not be performed: " + ex.getMessage());
         }
-
-        throw new MALException("The inference could not be performed!");
     }
 
     @Override
@@ -214,15 +219,15 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
             DoComputerVisionInteraction interaction) throws InvalidArgumentException, ExecutionFailedException,
             DeviceNotAvailableException, DeviceInUseException, MALException {
         if (jsonPath == null) {
-            throw new MALException("The jsonPath cannot be null!");
+            throw new InvalidArgumentException("The jsonPath cannot be null!");
         }
 
         if (!jsonPath.endsWith(".json")) {
-            throw new MALException("The file does not end with the file extension: .json");
+            throw new InvalidArgumentException("The file does not end with the file extension: .json");
         }
 
         if (hasControlCharacter(jsonPath)) {
-            throw new MALException("The jsonPath contains a control character!");
+            throw new InvalidArgumentException("The jsonPath contains a control character!");
         }
 
         File path = new File(jsonPath);

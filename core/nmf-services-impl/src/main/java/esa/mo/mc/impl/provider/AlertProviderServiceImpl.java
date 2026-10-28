@@ -137,16 +137,16 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
     @Override
     public void enableReporting(final Boolean enable, final LongList ids,
-            MALInteraction interaction) throws UnknownException, MALException {
+            MALInteraction interaction) throws UnknownException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
 
         LongList objIdToBeEnabled = new LongList();
 
         if (enable == null) {
-            throw new IllegalArgumentException("enable argument must not be null");
+            throw new InvalidArgumentException("The enable field must not be NULL");
         }
         if (ids == null) {
-            throw new IllegalArgumentException("ids argument must not be null");
+            throw new InvalidArgumentException("The ids field must not be NULL");
         }
 
         boolean foundWildcard = false;
@@ -190,11 +190,11 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
 
     @Override
     public LongList listDefinition(IdentifierList alertNames, MALInteraction interaction)
-            throws UnknownException, MALException {
+            throws UnknownException, InvalidArgumentException, MALException {
         LongList outPairLst = new LongList();
 
         if (alertNames == null) { // Is the input null?
-            throw new IllegalArgumentException("alertNames argument must not be null");
+            throw new InvalidArgumentException("The alertNames field must not be NULL");
         }
 
         boolean wildcardFound = false;
@@ -296,7 +296,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         UIntegerList invIndexList = new UIntegerList();
 
         if (alertObjInstIds == null || newAlertDefDetails == null) { // Are the inputs null?
-            throw new IllegalArgumentException("ids and definitions arguments must not be null");
+            throw new InvalidArgumentException("The ids and definitions fields must not be NULL");
         }
         for (int index = 0; index < alertObjInstIds.size(); index++) {
             final Long defId = alertObjInstIds.get(index);

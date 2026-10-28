@@ -47,6 +47,7 @@ import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.platform.DeviceInUseException;
 import org.ccsds.moims.mo.platform.DeviceNotAvailableException;
+import org.ccsds.moims.mo.platform.ExecutionFailedException;
 import org.ccsds.moims.mo.platform.IncompatibleException;
 import org.ccsds.moims.mo.platform.VerificationFailedException;
 import org.ccsds.moims.mo.platform.fpga.FPGAHelper;
@@ -196,6 +197,8 @@ public class FPGAProviderServiceImpl extends FPGAInheritanceSkeleton {
             occupancies.put(partitionId.getValue(), new Occupancy(moduleName, true));
         }
 
+        // A failure before the file is verified is a failed verification, after it a failed load
+        boolean verified = false;
         try {
             interaction.sendAcknowledgement();
             publishPartition(partitionId);
@@ -205,6 +208,7 @@ public class FPGAProviderServiceImpl extends FPGAInheritanceSkeleton {
                 throw new IOException("The bitstream file failed its checksum verification: "
                         + variant.getFile());
             }
+            verified = true;
 
             adapter.loadModule(partitionId, variant.getFile(), stage -> {
                 try {
@@ -230,14 +234,15 @@ public class FPGAProviderServiceImpl extends FPGAInheritanceSkeleton {
             }
             publishPartition(partitionId);
             LOGGER.log(Level.WARNING, "The module load failed", ex);
-            interaction.sendError(new VerificationFailedException(ex.getMessage()));
+            interaction.sendError(verified ? new ExecutionFailedException(ex.getMessage())
+                    : new VerificationFailedException(ex.getMessage()));
         }
     }
 
     @Override
     public synchronized void unloadModule(final Identifier partitionId,
             final MALInteraction interaction) throws UnknownException,
-            DeviceNotAvailableException, MALException {
+            DeviceNotAvailableException, ExecutionFailedException, MALException {
         if (!adapter.isUnitAvailable()) {
             throw new DeviceNotAvailableException(null);
         }
@@ -255,7 +260,7 @@ public class FPGAProviderServiceImpl extends FPGAInheritanceSkeleton {
         try {
             adapter.unloadModule(partitionId);
         } catch (IOException ex) {
-            throw new MALException("The unload failed: " + ex.getMessage(), ex);
+            throw new ExecutionFailedException("The unload failed: " + ex.getMessage());
         }
 
         storeFPGAModuleUnloaded(occupancy.moduleName, partitionId, occupancy.archiveObjId);

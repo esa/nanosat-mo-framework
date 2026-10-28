@@ -957,7 +957,8 @@ public class NMFPackageManager {
 
                 appsLauncher.stopApp(runningApp, null, null);
             }
-        } catch (org.ccsds.moims.mo.mal.UnknownException | org.ccsds.moims.mo.sm.AppNotRunningException ex) {
+        } catch (org.ccsds.moims.mo.mal.UnknownException | org.ccsds.moims.mo.sm.AppNotRunningException
+                | org.ccsds.moims.mo.com.InvalidArgumentException ex) {
             Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                     "The " + name + " App is not known to the Apps Launcher, or no longer runs!");
         } catch (MALException ex) {

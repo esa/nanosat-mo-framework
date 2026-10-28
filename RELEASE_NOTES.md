@@ -45,6 +45,7 @@ The different versions and respective updates are the following:
 * Removes the Facebook ground example
 * Fixes install, uninstall and update reporting success when they failed on board: they now fail with the MAL Internal error
 * Adds errors that say why a request was refused: App Not Running, Package Installed, Package Not Installed, Integrity Check Failed, Checksum Mismatch and Permissions Not Acknowledged in Software Management, and Execution Failed in Platform
+* Fixes requests with a NULL argument, or for an operation that is not implemented, failing with a Java exception instead of an MO error: they now fail with Invalid Argument or Unsupported Operation
 
 ### Version 5.1 (25 September 2026)
 * Upgrades to CCSDS MO services v14.2

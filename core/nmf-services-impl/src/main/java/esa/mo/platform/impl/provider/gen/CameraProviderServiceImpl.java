@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
+import org.ccsds.moims.mo.mal.UnsupportedOperationException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.misc.TaskScheduler;
@@ -220,7 +221,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             publishTimer.stopLast();
         } else {
             if (tag == null) { // Is the input null?
-                throw new IllegalArgumentException("tag argument must not be null");
+                throw new InvalidArgumentException("The tag field must not be NULL");
             }
 
             // Is the requested streaming rate less than the minimum period?
@@ -318,8 +319,8 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
 
     @Override
     public void preprocessPicture(Picture inputPicture, CameraSettings settings,
-            PreprocessPictureInteraction interaction) throws MALException {
-        throw new UnsupportedOperationException("Not supported yet.");
+            PreprocessPictureInteraction interaction) throws UnsupportedOperationException, MALException {
+        throw new UnsupportedOperationException(null);
     }
 
     /**

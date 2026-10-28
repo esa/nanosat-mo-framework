@@ -130,12 +130,12 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public FindPackageResponse findPackage(IdentifierList names, MALInteraction interaction)
-            throws UnknownException, InternalException, MALException {
+            throws UnknownException, InternalException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         FindPackageResponse outList;
 
         if (names == null) { // Is the input null?
-            throw new IllegalArgumentException("names argument and category argument must not be null");
+            throw new InvalidArgumentException("The names field must not be NULL");
         }
 
         boolean returnAll = false;
@@ -190,12 +190,12 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     @Override
     public void install(final PackageApprovalList packages, final InstallInteraction interaction)
             throws UnknownException, PackageInstalledException, IntegrityCheckFailedException,
-            ChecksumMismatchException, PermissionsNotAcknowledgedException, InternalException, MALException {
+            ChecksumMismatchException, PermissionsNotAcknowledgedException, InternalException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         Refusals refusals = new Refusals();
 
         if (packages == null) { // Is the input null?
-            throw new IllegalArgumentException("packages argument must not be null");
+            throw new InvalidArgumentException("The packages field must not be NULL");
         }
 
         BooleanList integrities = new BooleanList(packages.size());
@@ -269,7 +269,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     public void uninstall(final IdentifierList names, final BooleanList keepConfigurations,
             final UninstallInteraction interaction)
             throws UnknownException, PackageNotInstalledException, IntegrityCheckFailedException,
-            AppRunningException, InternalException, MALException {
+            AppRunningException, InternalException, InvalidArgumentException, MALException {
         interaction.sendAcknowledgement();
 
         UIntegerList unkIndexList = new UIntegerList();
@@ -278,7 +278,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
         // Add validation
         if (names == null || keepConfigurations == null) { // Is the input null?
-            throw new IllegalArgumentException("names argument and keepConfigurations argument must not be null");
+            throw new InvalidArgumentException("The names and keepConfigurations fields must not be NULL");
         }
 
         StringList availablePackages;
@@ -368,7 +368,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
         // Add validation
         if (packages == null) { // Is the input null?
-            throw new IllegalArgumentException("packages argument must not be null");
+            throw new InvalidArgumentException("The packages field must not be NULL");
         }
 
         StringList availablePackages;
@@ -600,12 +600,12 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
     @Override
     public PackageIntegrityList checkPackageIntegrity(IdentifierList names,
-            MALInteraction interaction) throws UnknownException, InternalException, MALException {
+            MALInteraction interaction) throws UnknownException, InternalException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
 
         // Add validation
         if (names == null) { // Is the input null?
-            throw new IllegalArgumentException("names argument must not be null");
+            throw new InvalidArgumentException("The names field must not be NULL");
         }
 
         // A package is checked whether or not it is installed, so that ground

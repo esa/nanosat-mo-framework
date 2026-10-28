@@ -166,6 +166,12 @@
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the actionNames field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
@@ -323,6 +329,12 @@
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the ids field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
@@ -351,7 +363,7 @@
                         </mal:submit>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="When the paramInstId field contains the wildcard value '0', or one or more of the referenced ParameterDefinitions is unknown.">
+                        <mal:errorRef comment="When one or more of the referenced ParameterDefinitions is unknown.">
                             <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
@@ -363,10 +375,16 @@
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="When the supplied raw value does not match the defined attribute type for the referenced ParameterDefinition.">
+                        <mal:errorRef comment="When the parameterId of one or more entries is the wildcard value '0', or the supplied raw value does not match the defined attribute type for the referenced ParameterDefinition.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the newRawValues field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
@@ -418,6 +436,12 @@
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the enable or the ids field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:submitIP>
             </mal:capabilitySet>
@@ -449,6 +473,12 @@
                             <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the paramNames field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
@@ -489,6 +519,12 @@
                             <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the ids or the definitions field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
@@ -606,6 +642,12 @@
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the enable or the ids field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:submitIP>
             </mal:capabilitySet>
@@ -637,6 +679,12 @@
                             <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the alertNames field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
@@ -677,6 +725,12 @@
                             <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the ids or the definitions field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
@@ -828,6 +882,12 @@
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the ids field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
@@ -877,6 +937,12 @@
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the enable or the ids field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:submitIP>
                 <mal:submitIP name="enableFilter" number="4" comment="The enableFilter operation allows a consumer to control whether reports for specific aggregations are filtered or not. This affects both periodic and ad-hoc aggregations.">
@@ -924,6 +990,12 @@
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the enable or the ids field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:submitIP>
             </mal:capabilitySet>
@@ -955,6 +1027,12 @@
                             <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the aggregationNames field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
@@ -996,6 +1074,12 @@
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the definitions field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
                 <mal:submitIP name="updateDefinition" number="7" comment="The updateDefinition operation allows a consumer to update a definition for one or more aggregations.&#xA;The replacement definition should be stored in the COM archive by the service provider. The operation does not remove the previous object from the COM archive, merely removes the object from the provider.">
@@ -1034,6 +1118,12 @@
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the ids or the definitions field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:submitIP>
                 <mal:submitIP name="removeAggregation" number="8" comment="The removeAggregation operation allows a consumer to remove one or more aggregations from the list of aggregations supported by the aggregation provider.&#xA;The operation does not remove the AggregationDefinition objects from the COM archive, merely removes the objects from the provider. This permits existing AggregationValue objects to continue to reference the correct AggregationDefinition object in the COM archive.">
@@ -1064,6 +1154,12 @@
                             <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the ids field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>

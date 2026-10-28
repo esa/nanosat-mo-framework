@@ -22,7 +22,7 @@
                 <mal:requestIP name="findPackage" number="1" comment="The findPackage operation allows a consumer to find the available packages on the provider.">
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="names" canBeNull="true" comment="The names of the packages.">
+                            <mal:field name="names" canBeNull="false" comment="The names of the packages.">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
                         </mal:request>
@@ -39,12 +39,18 @@
                         <mal:errorRef comment="When one or more of the requested packages is unknown.">
                             <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the error values.">
-                                <mal:type area="MAL" list="true" name="Integer"/>
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the provider cannot read the packages.">
                             <mal:type area="MAL" list="false" name="Internal"/>
                             <mal:extraInformation comment="The reason.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the names field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
                                 <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
@@ -69,7 +75,7 @@
                         <mal:errorRef comment="When one or more of the requested packages is unknown.">
                             <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the error values.">
-                                <mal:type area="MAL" list="true" name="Integer"/>
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the same final version of one or more of the requested packages is already installed.">
@@ -102,15 +108,21 @@
                                 <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the packages field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:invokeIP>
                 <mal:invokeIP name="uninstall" number="3" comment="The uninstall operation allows a consumer to uninstall the content of a package on the provider. The selected packages will be uninstalled sequentially.">
                     <mal:messages>
                         <mal:invoke>
-                            <mal:field name="names" canBeNull="true" comment="The names of the packages.">
+                            <mal:field name="names" canBeNull="false" comment="The names of the packages.">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
-                            <mal:field name="keepConfigurations" canBeNull="true" comment="Whether the configuration files of the executable shall be preserved after uninstall.">
+                            <mal:field name="keepConfigurations" canBeNull="false" comment="Whether the configuration files of the executable shall be preserved after uninstall.">
                                 <mal:type area="MAL" list="true" name="Boolean"/>
                             </mal:field>
                         </mal:invoke>
@@ -123,7 +135,7 @@
                         <mal:errorRef comment="When one or more of the requested packages is unknown.">
                             <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the error values.">
-                                <mal:type area="MAL" list="true" name="Integer"/>
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When one or more of the requested packages is not installed.">
@@ -150,6 +162,12 @@
                                 <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the names or the keepConfigurations field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:invokeIP>
             </mal:capabilitySet>
@@ -170,7 +188,7 @@
                         <mal:errorRef comment="When one or more of the requested packages is unknown.">
                             <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the error values.">
-                                <mal:type area="MAL" list="true" name="Integer"/>
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When no version of one or more of the requested packages is installed under the same name.">
@@ -215,6 +233,12 @@
                                 <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the packages field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:invokeIP>
             </mal:capabilitySet>
@@ -236,12 +260,18 @@
                         <mal:errorRef comment="When one or more of the requested packages is unknown.">
                             <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the error values.">
-                                <mal:type area="MAL" list="true" name="Integer"/>
+                                <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the provider cannot read the packages, or cannot compute the checksum of one of them.">
                             <mal:type area="MAL" list="false" name="Internal"/>
                             <mal:extraInformation comment="The reason.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the names field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
                                 <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
@@ -349,7 +379,7 @@
                 <mal:requestIP name="runCommand" number="1" comment="The runCommand operation allows a consumer to spawn a new shell instance and execute an arbitrary command on the provider host.">
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="command" canBeNull="true" comment="Details of the command to be run.">
+                            <mal:field name="command" canBeNull="false" comment="Details of the command to be run.">
                                 <mal:type area="SM" list="false" name="Command"/>
                             </mal:field>
                         </mal:request>
@@ -359,6 +389,20 @@
                             </mal:field>
                         </mal:response>
                     </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the command field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the provider cannot store the Command object or cannot start its process.">
+                            <mal:type area="MAL" list="false" name="Internal"/>
+                            <mal:extraInformation comment="A description of the error.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="2" comment="">
@@ -451,7 +495,7 @@
                 <mal:submitIP name="runApp" number="2" comment="The runApp operation allows a consumer to run an application on the provider.">
                     <mal:messages>
                         <mal:submit>
-                            <mal:field name="appIds" canBeNull="true" comment="The list of apps to run.">
+                            <mal:field name="appIds" canBeNull="false" comment="The list of apps to run.">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:submit>
@@ -481,12 +525,18 @@
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the appIds field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:submitIP>
                 <mal:submitIP name="killApp" number="3" comment="The killApp operation allows a consumer to kill the execution of an application on the provider in case an application becomes unresponsive.">
                     <mal:messages>
                         <mal:submit>
-                            <mal:field name="appIds" canBeNull="true" comment="The list of apps to be killed.">
+                            <mal:field name="appIds" canBeNull="false" comment="The list of apps to be killed.">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:submit>
@@ -502,6 +552,12 @@
                             <mal:type area="SM" list="false" name="App Not Running"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the appIds field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
@@ -523,7 +579,7 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:progress>
-                            <mal:field name="appIds" canBeNull="true" comment="The list of apps to stop.">
+                            <mal:field name="appIds" canBeNull="false" comment="The list of apps to stop.">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                             <mal:field name="timeout" canBeNull="true" comment="The grace period allowed for each app to close before the service provider forcibly kills it. If NULL, then the app is never forcibly killed.">
@@ -553,6 +609,12 @@
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the appIds field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:progressIP>
             </mal:capabilitySet>
@@ -563,7 +625,7 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="appNames" canBeNull="true" comment="The list of application names.">
+                            <mal:field name="appNames" canBeNull="false" comment="The list of application names.">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
                             <mal:field name="category" canBeNull="true" comment="The category identifier to filter on.">
@@ -584,6 +646,12 @@
                             <mal:type area="MAL" list="false" name="Unknown"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the appNames field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>

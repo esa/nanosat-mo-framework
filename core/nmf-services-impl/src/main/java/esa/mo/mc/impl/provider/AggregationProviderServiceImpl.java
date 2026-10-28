@@ -255,11 +255,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public AggregationValueDetailsList getValue(final LongList inIdentityIds,
-            final MALInteraction interaction) throws UnknownException, MALException {
+            final MALInteraction interaction) throws UnknownException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
 
         if (inIdentityIds == null) { // Is the input null?
-            throw new IllegalArgumentException("LongList argument must not be null");
+            throw new InvalidArgumentException("The ids field must not be NULL");
         }
 
         for (int index = 0; index < inIdentityIds.size(); index++) {
@@ -296,16 +296,16 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public void enableReporting(final Boolean enable, final LongList ids,
-            final MALInteraction interaction) throws UnknownException, MALException {
+            final MALInteraction interaction) throws UnknownException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
 
         LongList objIdToBeEnabled = new LongList();
 
         if (enable == null) {
-            throw new IllegalArgumentException("enable argument must not be null");
+            throw new InvalidArgumentException("The enable field must not be NULL");
         }
         if (ids == null) {
-            throw new IllegalArgumentException("ids argument must not be null");
+            throw new InvalidArgumentException("The ids field must not be NULL");
         }
 
         boolean foundWildcard = false;
@@ -352,16 +352,16 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public void enableFilter(final Boolean enable, final LongList ids,
-            final MALInteraction interaction) throws UnknownException, MALException {
+            final MALInteraction interaction) throws UnknownException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
 
         LongList objIdToBeEnabled = new LongList();
 
         if (enable == null) {
-            throw new IllegalArgumentException("enable argument must not be null");
+            throw new InvalidArgumentException("The enable field must not be NULL");
         }
         if (ids == null) {
-            throw new IllegalArgumentException("ids argument must not be null");
+            throw new InvalidArgumentException("The ids field must not be NULL");
         }
 
         boolean foundWildcard = false;
@@ -411,12 +411,12 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public LongList listDefinition(final IdentifierList nameList, final MALInteraction interaction)
-            throws UnknownException, MALException {
+            throws UnknownException, InvalidArgumentException, MALException {
         LongList outLongLst = new LongList();
         UIntegerList unkIndexList = new UIntegerList();
 
         if (nameList == null) { // Is the input null?
-            throw new IllegalArgumentException("IdentifierList argument must not be null");
+            throw new InvalidArgumentException("The aggregationNames field must not be NULL");
         }
 
         for (int index = 0; index < nameList.size(); index++) {
@@ -456,7 +456,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         UIntegerList dupIndexList = new UIntegerList();
 
         if (defsList == null) { // Is the input null?
-            throw new IllegalArgumentException("defsList argument must not be null");
+            throw new InvalidArgumentException("The definitions field must not be NULL");
         }
 
         for (int index = 0; index < defsList.size(); index++) {
@@ -532,7 +532,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         UIntegerList invIndexList = new UIntegerList();
 
         if (aDefs == null || ids == null) { // Are the inputs null?
-            throw new IllegalArgumentException("ids and definitions arguments must not be null");
+            throw new InvalidArgumentException("The ids and definitions fields must not be NULL");
         }
 
         for (int index = 0; index < ids.size(); index++) {
@@ -597,13 +597,13 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
     @Override
     public void removeAggregation(final LongList ids, final MALInteraction interaction)
-            throws UnknownException, MALException {
+            throws UnknownException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         Long id;
         LongList removalLst = new LongList();
 
         if (ids == null) { // Is the input null?
-            throw new IllegalArgumentException("LongList argument must not be null");
+            throw new InvalidArgumentException("The ids field must not be NULL");
         }
 
         for (int index = 0; index < ids.size(); index++) {

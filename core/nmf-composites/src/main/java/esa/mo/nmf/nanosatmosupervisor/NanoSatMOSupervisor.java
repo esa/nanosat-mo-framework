@@ -200,7 +200,8 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                             Level.SEVERE, "Stopping {0} App(s)!", runningApps.size());
 
                     appsLauncherService.stopApp(runningApps, null, null);
-                } catch (UnknownException | org.ccsds.moims.mo.sm.AppNotRunningException ex) {
+                } catch (UnknownException | org.ccsds.moims.mo.sm.AppNotRunningException
+                        | org.ccsds.moims.mo.com.InvalidArgumentException ex) {
                     Logger.getLogger(NanoSatMOSupervisor.class.getName()).log(
                             Level.SEVERE, "(0) Something went wrong...", ex);
                 } catch (MALException ex) {

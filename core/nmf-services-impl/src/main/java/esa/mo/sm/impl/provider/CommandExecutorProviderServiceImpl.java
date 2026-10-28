@@ -33,7 +33,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.mal.InternalException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
@@ -131,10 +133,10 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
 
     @Override
     public Long runCommand(Command command, MALInteraction interaction)
-            throws MALException {
+            throws InvalidArgumentException, InternalException, MALException {
         Long storedCommandObject;
         if (command == null) {
-            throw new MALException("Received null Command.");
+            throw new InvalidArgumentException("The command field must not be NULL");
         }
 
         // Source could be mapped to an OperationActivity associated with this transaction, but for now
@@ -147,13 +149,14 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
             objIds = archiveService.store(true, CommandExecutorServiceInfo.COMMAND_OBJECT_TYPE,
                     connection.getPrimaryConnectionDetails().getDomain(), archDetails, objBodies, null);
         } catch (org.ccsds.moims.mo.com.DuplicateException | org.ccsds.moims.mo.com.InvalidArgumentException ex) {
-            throw new MALException("The Command object could not be stored", ex);
+            LOGGER.log(Level.SEVERE, "The Command object could not be stored", ex);
+            throw new InternalException("The Command object could not be stored: " + ex.getMessage());
         }
 
         if (objIds.size() == 1) {
             storedCommandObject = objIds.get(0);
         } else {
-            throw new MALException("Unexpected return from the archive store.");
+            throw new InternalException("Unexpected return from the archive store.");
         }
 
         String[] shellCommand = assembleCommand(command.getCommand());
@@ -176,7 +179,7 @@ public class CommandExecutorProviderServiceImpl extends CommandExecutorInheritan
             handler.monitorProcess(proc);
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
-            throw new MALException("Cannot start the process!", ex);
+            throw new InternalException("Cannot start the process: " + ex.getMessage());
         }
         long pid;
         try {

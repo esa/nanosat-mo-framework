@@ -94,6 +94,9 @@
                         </mal:errorRef>
                         <mal:errorRef comment="When the enable field is TRUE and the tag field is NULL, empty, or a wildcard.">
                             <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="The name of the field that is invalid.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:submitIP>
@@ -252,6 +255,9 @@
                                 <mal:type area="MAL" list="false" name="String" />
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the provider does not implement the preprocessing of pictures.">
+                            <mal:type area="MAL" list="false" name="Unsupported Operation" />
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:invokeIP>
             </mal:capabilitySet>
@@ -389,7 +395,7 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="names" canBeNull="true" comment="The list of NearbyPositionEvent names.">
+                            <mal:field name="names" canBeNull="false" comment="The list of NearbyPositionEvent names.">
                                 <mal:type area="MAL" list="true" name="Identifier" />
                             </mal:field>
                         </mal:request>
@@ -399,6 +405,14 @@
                             </mal:field>
                         </mal:response>
                     </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the names field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="6" comment="">
@@ -411,7 +425,7 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="nearbyPositionDefinitions" canBeNull="true" comment="The list of nearby position definitions to add.">
+                            <mal:field name="nearbyPositionDefinitions" canBeNull="false" comment="The list of nearby position definitions to add.">
                                 <mal:type area="Platform" list="true" name="NearbyPosition" />
                             </mal:field>
                         </mal:request>
@@ -436,6 +450,12 @@
                                 <mal:type area="MAL" list="true" name="UInteger" />
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the nearbyPositionDefinitions field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
                 <mal:submitIP name="removeNearbyPosition" number="7" comment="The removeNearbyPosition operation allows a consumer to remove a list of nearby position events set in the service.">
@@ -444,7 +464,7 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
-                            <mal:field name="ids" canBeNull="true" comment="The list of ids of the NearbyPosition objects to remove.">
+                            <mal:field name="ids" canBeNull="false" comment="The list of ids of the NearbyPosition objects to remove.">
                                 <mal:type area="MAL" list="true" name="Long" />
                             </mal:field>
                         </mal:submit>
@@ -454,6 +474,12 @@
                             <mal:type area="MAL" list="false" name="Unknown" />
                             <mal:extraInformation comment="The indexes of the unknown entries in the ids list.">
                                 <mal:type area="MAL" list="true" name="UInteger" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the ids field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String" />
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
@@ -626,6 +652,9 @@
                         </mal:errorRef>
                         <mal:errorRef comment="When the TLE is unknown.">
                             <mal:type area="MAL" list="false" name="Unknown" />
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the provider does not implement the retrieval of the TLE.">
+                            <mal:type area="MAL" list="false" name="Unsupported Operation" />
                         </mal:errorRef>
                     </mal:errors>
                 </mal:invokeIP>
@@ -1128,6 +1157,12 @@
                                 <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the fabric fails to load the module after its bitstream passed the verification.">
+                            <mal:type area="Platform" list="false" name="Execution Failed"/>
+                            <mal:extraInformation comment="A description of the error.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:progressIP>
             </mal:capabilitySet>
@@ -1160,6 +1195,12 @@
                         </mal:errorRef>
                         <mal:errorRef comment="When the platform has no reconfigurable fabric.">
                             <mal:type area="Platform" list="false" name="Device Not Available"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the fabric fails to unload the module.">
+                            <mal:type area="Platform" list="false" name="Execution Failed"/>
+                            <mal:extraInformation comment="A description of the error.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
@@ -1239,7 +1280,7 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:request>
-                            <mal:field name="names" canBeNull="true" comment="The name of the units.">
+                            <mal:field name="names" canBeNull="false" comment="The name of the units.">
                                 <mal:type area="MAL" list="true" name="Identifier" />
                             </mal:field>
                         </mal:request>
@@ -1254,6 +1295,12 @@
                             <mal:type area="MAL" list="false" name="Unknown" />
                             <mal:extraInformation comment="The indexes of the unknown entries in the names list.">
                                 <mal:type area="MAL" list="true" name="UInteger" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the names field is NULL.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String" />
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
@@ -1303,6 +1350,14 @@
                             </mal:field>
                         </mal:response>
                     </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When the modelPath field is NULL, does not end with the file extension .xml, contains a control character, or does not refer to an existing file.">
+                            <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="A description of the error.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
             <mal:capabilitySet number="2" comment="">
@@ -1329,8 +1384,20 @@
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="When the inputTilesPath field does not refer to an existing folder.">
+                        <mal:errorRef comment="When the modelId or the inputTilesPath field is NULL, when the inputTilesPath field contains a control character or does not refer to an existing folder, or when the model does not end with the file extension .xml.">
                             <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="A description of the error.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the modelId field does not match a model set with the setModel operation.">
+                            <mal:type area="MAL" list="false" name="Unknown" />
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the inference fails while it runs.">
+                            <mal:type area="Platform" list="false" name="Execution Failed" />
+                            <mal:extraInformation comment="A description of the error.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
@@ -1352,7 +1419,7 @@
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="When the file that the jsonPath field references does not exist.">
+                        <mal:errorRef comment="When the jsonPath field is NULL, does not end with the file extension .json, contains a control character, or does not refer to an existing file.">
                             <mal:type area="COM" list="false" name="Invalid Argument" />
                             <mal:extraInformation comment="A description of the error.">
                                 <mal:type area="MAL" list="false" name="String" />
@@ -1465,6 +1532,12 @@
                                 <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the hypervisor fails to start the image after it passed the verification.">
+                            <mal:type area="Platform" list="false" name="Execution Failed"/>
+                            <mal:extraInformation comment="A description of the error.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:progressIP>
             </mal:capabilitySet>
@@ -1498,6 +1571,12 @@
                         <mal:errorRef comment="When the platform has no hypervisor.">
                             <mal:type area="Platform" list="false" name="Device Not Available"/>
                         </mal:errorRef>
+                        <mal:errorRef comment="When the hypervisor fails to stop the image.">
+                            <mal:type area="Platform" list="false" name="Execution Failed"/>
+                            <mal:extraInformation comment="A description of the error.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
                 <mal:requestIP name="restartImage" number="4" comment="The restartImage operation allows a consumer to reset a partition without reloading its image.">
@@ -1519,9 +1598,18 @@
                         </mal:errorRef>
                         <mal:errorRef comment="When the partition has no image loaded.">
                             <mal:type area="MAL" list="false" name="Incorrect State"/>
+                            <mal:extraInformation comment="A description of the error.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the platform has no hypervisor.">
                             <mal:type area="Platform" list="false" name="Device Not Available"/>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the hypervisor fails to restart the image.">
+                            <mal:type area="Platform" list="false" name="Execution Failed"/>
+                            <mal:extraInformation comment="A description of the error.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>

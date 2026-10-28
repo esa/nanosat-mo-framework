@@ -335,7 +335,7 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         UIntegerList invIndexList = new UIntegerList();
 
         if (appInstIds == null) { // Is the input null?
-            throw new IllegalArgumentException("appInstIds argument must not be null");
+            throw new InvalidArgumentException("The appIds field must not be NULL");
         }
         LOGGER.log(Level.INFO, "runApp received with arguments: {0}", appInstIds);
 
@@ -424,12 +424,12 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     @Override
     public void killApp(LongList appInstIds, MALInteraction interaction)
-            throws UnknownException, AppNotRunningException, MALException {
+            throws UnknownException, AppNotRunningException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList notRunningIndexList = new UIntegerList();
 
         if (appInstIds == null) { // Is the input null?
-            throw new IllegalArgumentException("appInstIds argument must not be null");
+            throw new InvalidArgumentException("The appIds field must not be NULL");
         }
         LOGGER.log(Level.INFO, "killApp received with arguments: {0}", appInstIds);
 
@@ -479,12 +479,12 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     @Override
     public void stopApp(final LongList appInstIds, final Duration timeout, final StopAppInteraction interaction)
-            throws UnknownException, AppNotRunningException, MALException {
+            throws UnknownException, AppNotRunningException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         UIntegerList notRunningIndexList = new UIntegerList();
 
         if (appInstIds == null) { // Is the input null?
-            throw new IllegalArgumentException("appInstIds argument must not be null");
+            throw new InvalidArgumentException("The appIds field must not be NULL");
         }
         LOGGER.log(Level.INFO, "stopApp received with arguments: {0}", appInstIds);
 
@@ -559,11 +559,11 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
 
     @Override
     public ListAppResponse listApp(final IdentifierList appNames, final Identifier category,
-            final MALInteraction interaction) throws UnknownException, MALException {
+            final MALInteraction interaction) throws UnknownException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
 
         if (appNames == null) { // Is the input null?
-            throw new IllegalArgumentException("IdentifierList argument must not be null");
+            throw new InvalidArgumentException("The appNames field must not be NULL");
         }
 
         // Refresh the list of available Apps

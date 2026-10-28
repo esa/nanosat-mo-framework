@@ -38,6 +38,7 @@ import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.UnknownException;
+import org.ccsds.moims.mo.mal.UnsupportedOperationException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
@@ -280,11 +281,11 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
     @Override
     public LongList listNearbyPosition(IdentifierList names, MALInteraction interaction)
-            throws MALException {
+            throws InvalidArgumentException, MALException {
         LongList outLongLst = new LongList();
 
         if (names == null) { // Is the input null?
-            throw new IllegalArgumentException("names argument must not be null");
+            throw new InvalidArgumentException("The names field must not be NULL");
         }
 
         for (Identifier attitudeName : names) {
@@ -313,7 +314,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
         NearbyPosition def;
 
         if (nearbyPositionDefinitions == null) { // Is the input null?
-            throw new IllegalArgumentException("nearbyPositionDefinitions argument must not be null");
+            throw new InvalidArgumentException("The nearbyPositionDefinitions field must not be NULL");
         }
 
         for (int index = 0; index < nearbyPositionDefinitions.size(); index++) {
@@ -350,13 +351,13 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
 
     @Override
     public void removeNearbyPosition(LongList objInstIds, MALInteraction interaction)
-            throws UnknownException, MALException {
+            throws UnknownException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         Long tempLong;
         LongList tempLongLst = new LongList();
 
         if (objInstIds == null) { // Is the input null?
-            throw new IllegalArgumentException("objInstIds argument must not be null");
+            throw new InvalidArgumentException("The ids field must not be NULL");
         }
 
         for (int index = 0; index < objInstIds.size(); index++) {
@@ -447,8 +448,9 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
     }
 
     @Override
-    public void getTLE(GetTLEInteraction interaction) throws DeviceNotAvailableException, UnknownException, MALException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void getTLE(GetTLEInteraction interaction) throws DeviceNotAvailableException, UnknownException,
+            UnsupportedOperationException, MALException {
+        throw new UnsupportedOperationException(null);
     }
 
     /**

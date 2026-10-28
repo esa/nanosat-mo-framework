@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.UnknownException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
@@ -99,9 +100,9 @@ public class PowerControlProviderServiceImpl extends PowerControlInheritanceSkel
 
     @Override
     public DeviceList listDevices(IdentifierList names, MALInteraction interaction)
-            throws UnknownException, MALException {
+            throws UnknownException, InvalidArgumentException, MALException {
         if (names == null) {
-            throw new MALException("IdentifierList cannot be empty.");
+            throw new InvalidArgumentException("The names field must not be NULL");
         }
         final Map<Identifier, Device> devices = adapter.getDeviceMap();
         UIntegerList unkIndexList = new UIntegerList();

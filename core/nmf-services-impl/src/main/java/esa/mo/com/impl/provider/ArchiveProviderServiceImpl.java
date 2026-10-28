@@ -235,7 +235,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             try {
                 perObjs = ArchiveManager.filterQuery(perObjs, (CompositeFilterSet) queryFilter);
             } catch (SecurityException | IllegalArgumentException ex) {
-                throw new InvalidArgumentException(null);
+                throw new InvalidArgumentException("The queryFilter field is invalid: " + ex.getMessage());
             }
         }
 
@@ -260,7 +260,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                         lArchiveQuery.getSortFieldName(),
                         lArchiveQuery.getSortOrder());
             } catch (NoSuchFieldException ex) {
-                throw new InvalidArgumentException(null);
+                throw new InvalidArgumentException("The sortFieldName " + lArchiveQuery.getSortFieldName()
+                        + " is not a field of the object body");
             }
         }
 
@@ -314,7 +315,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             try {
                 perObjs = ArchiveManager.filterQuery(perObjs, (CompositeFilterSet) filter);
             } catch (SecurityException | IllegalArgumentException ex) {
-                throw new InvalidArgumentException(null);
+                throw new InvalidArgumentException("The queryFilter field is invalid: " + ex.getMessage());
             }
         }
 
@@ -337,7 +338,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 perObjs = SortByField.sortPersistenceObjects(perObjs, lArchiveQuery.getSortFieldName(),
                         lArchiveQuery.getSortOrder());
             } catch (NoSuchFieldException ex) {
-                throw new InvalidArgumentException(null);
+                throw new InvalidArgumentException("The sortFieldName " + lArchiveQuery.getSortFieldName()
+                        + " is not a field of the object body");
             }
         }
 
@@ -507,7 +509,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             final LongList lLongList, final MALInteraction interaction) throws UnknownException,
             InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
-        UIntegerList invIndexList = new UIntegerList();
         LongList toBeDeleted = new LongList();
 
         if (ArchiveManager.objectTypeContainsWildcard(objType)) {
@@ -537,10 +538,6 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
             // Errors
             if (!unkIndexList.isEmpty()) {
                 throw new UnknownException(unkIndexList);
-            }
-
-            if (!invIndexList.isEmpty()) {
-                throw new InvalidArgumentException(invIndexList);
             }
 
             return manager.removeEntries(objType, domain, toBeDeleted, interaction); // requirement: Archive.delete#2, Archive.delete#3

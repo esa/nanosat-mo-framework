@@ -20,9 +20,9 @@
  */
 package esa.mo.mc.impl.proxy;
 
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mal.MALStandardError;
 import org.ccsds.moims.mo.mal.UnknownException;
-import org.ccsds.moims.mo.com.InvalidArgumentException;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
 import esa.mo.mc.impl.provider.ActionManager;
@@ -134,11 +134,11 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
 
     @Override
     public LongList listDefinition(IdentifierList il,
-            MALInteraction mali) throws UnknownException, MALException {
+            MALInteraction mali) throws UnknownException, InvalidArgumentException, MALException {
         try {
             return actionConsumer.getActionStub().listDefinition(il);
-        } catch (UnknownException ex) {
-            // UNKNOWN is a MAL standard error that this operation declares: it is relayed as is
+        } catch (UnknownException | InvalidArgumentException ex) {
+            // Errors that this operation declares are relayed as they are
             throw ex;
         } catch (MALStandardError ex) {
             throw new MALException("The proxied Action service returned an error: " + ex, ex);

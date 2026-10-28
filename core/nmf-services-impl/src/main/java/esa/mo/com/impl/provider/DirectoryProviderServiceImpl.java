@@ -37,6 +37,7 @@ import org.ccsds.moims.mo.com.directory.DirectoryServiceInfo;
 import org.ccsds.moims.mo.com.directory.provider.DirectoryInheritanceSkeleton;
 import org.ccsds.moims.mo.com.structures.*;
 import org.ccsds.moims.mo.mal.AuthorisationFailException;
+import org.ccsds.moims.mo.mal.InternalException;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.UnknownException;
@@ -213,7 +214,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     public ProviderList lookup(final ServiceFilter filter, final MALInteraction interaction)
             throws InvalidArgumentException, MALException {
         if (filter == null) { // Is the input null?
-            throw new IllegalArgumentException("filter argument must not be null");
+            throw new InvalidArgumentException("The filter field must not be NULL");
         }
 
         final IdentifierList inputDomain = filter.getDomain();
@@ -327,7 +328,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
     @Override
     public Long add(final Provider newProviderDetails, final MALInteraction interaction)
-            throws InvalidArgumentException, AuthorisationFailException, MALException {
+            throws InvalidArgumentException, AuthorisationFailException, InternalException, MALException {
         Identifier serviceProviderName = newProviderDetails.getProviderName();
 
         synchronized (MUTEX) {
@@ -372,7 +373,8 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                         DirectoryServiceInfo.PROVIDER_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
                         archDetails, body, null);
             } catch (DuplicateException ex) {
-                throw new MALException("The Provider object could not be stored", ex);
+                LOGGER.log(Level.SEVERE, "The Provider object could not be stored", ex);
+                throw new InternalException("The Provider object could not be stored: " + ex.getMessage());
             }
 
             if (returnedProvObjIds.isEmpty()) {
@@ -499,7 +501,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         try {
             this.add(newProviderDetails, null);
             return newProviderDetails;
-        } catch (InvalidArgumentException | AuthorisationFailException | MALException ex) {
+        } catch (InvalidArgumentException | AuthorisationFailException | InternalException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -508,7 +510,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
     @Override
     public FileList getAreaXML(String filename, MALInteraction interaction)
-            throws InvalidArgumentException, UnknownException, MALException {
+            throws InvalidArgumentException, UnknownException, InternalException, MALException {
         if (filename == null || filename.isEmpty()) {
             throw new InvalidArgumentException(null);
         }
@@ -520,7 +522,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             return result;
         } catch (IOException ex) {
             LOGGER.log(Level.SEVERE, "Failed to load XML resources from classpath", ex);
-            throw new MALException("Failed to load XML resources: " + ex.getMessage(), ex);
+            throw new InternalException("Failed to load XML resources: " + ex.getMessage());
         }
     }
 

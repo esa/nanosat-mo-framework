@@ -41,6 +41,7 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.platform.DeviceInUseException;
 import org.ccsds.moims.mo.platform.DeviceNotAvailableException;
+import org.ccsds.moims.mo.platform.ExecutionFailedException;
 import org.ccsds.moims.mo.platform.IncompatibleException;
 import org.ccsds.moims.mo.platform.VerificationFailedException;
 import org.ccsds.moims.mo.platform.softwareimages.SoftwareImagesHelper;
@@ -181,6 +182,8 @@ public class SoftwareImagesProviderServiceImpl extends SoftwareImagesInheritance
             occupancies.put(partitionId.getValue(), new Occupancy(imageName, true));
         }
 
+        // A failure before the file is verified is a failed verification, after it a failed start
+        boolean verified = false;
         try {
             interaction.sendAcknowledgement();
 
@@ -189,6 +192,7 @@ public class SoftwareImagesProviderServiceImpl extends SoftwareImagesInheritance
                 throw new IOException("The image file failed its checksum verification: "
                         + variant.getFile());
             }
+            verified = true;
 
             adapter.startImage(partitionId, variant.getFile(), stage -> {
                 try {
@@ -211,14 +215,15 @@ public class SoftwareImagesProviderServiceImpl extends SoftwareImagesInheritance
                 occupancies.remove(partitionId.getValue());
             }
             LOGGER.log(Level.WARNING, "The image start failed", ex);
-            interaction.sendError(new VerificationFailedException(ex.getMessage()));
+            interaction.sendError(verified ? new ExecutionFailedException(ex.getMessage())
+                    : new VerificationFailedException(ex.getMessage()));
         }
     }
 
     @Override
     public synchronized void stopImage(final Identifier partitionId,
             final MALInteraction interaction) throws UnknownException,
-            DeviceNotAvailableException, MALException {
+            DeviceNotAvailableException, ExecutionFailedException, MALException {
         if (!adapter.isUnitAvailable()) {
             throw new DeviceNotAvailableException(null);
         }
@@ -236,7 +241,7 @@ public class SoftwareImagesProviderServiceImpl extends SoftwareImagesInheritance
         try {
             adapter.stopImage(partitionId);
         } catch (IOException ex) {
-            throw new MALException("The stop failed: " + ex.getMessage(), ex);
+            throw new ExecutionFailedException("The stop failed: " + ex.getMessage());
         }
 
         storeSoftwareImageStopped(occupancy.imageName, partitionId, occupancy.archiveObjId);
@@ -248,7 +253,7 @@ public class SoftwareImagesProviderServiceImpl extends SoftwareImagesInheritance
     @Override
     public synchronized void restartImage(final Identifier partitionId,
             final MALInteraction interaction) throws UnknownException,
-            IncorrectStateException, DeviceNotAvailableException, MALException {
+            IncorrectStateException, DeviceNotAvailableException, ExecutionFailedException, MALException {
         if (!adapter.isUnitAvailable()) {
             throw new DeviceNotAvailableException(null);
         }
@@ -267,7 +272,7 @@ public class SoftwareImagesProviderServiceImpl extends SoftwareImagesInheritance
         try {
             adapter.restartImage(partitionId);
         } catch (IOException ex) {
-            throw new MALException("The restart failed: " + ex.getMessage(), ex);
+            throw new ExecutionFailedException("The restart failed: " + ex.getMessage());
         }
         LOGGER.log(Level.INFO, "Image {0} restarted in partition {1}",
                 new Object[]{occupancy.imageName, partitionId});
