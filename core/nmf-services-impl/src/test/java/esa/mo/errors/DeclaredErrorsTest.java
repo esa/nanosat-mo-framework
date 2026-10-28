@@ -63,12 +63,12 @@ public class DeclaredErrorsTest {
     @Test
     public void aBadPathOfTheArtificialIntelligenceServiceIsAnInvalidArgument() throws Exception {
         ArtificialIntelligenceProviderServiceImpl ai = new ArtificialIntelligenceProviderServiceImpl();
-        assertError(InvalidArgumentException.class, "The modelPath cannot be null!", () -> ai.setModel(null, null));
-        assertError(InvalidArgumentException.class, "The model does not end with the file extension: .xml",
+        assertError(InvalidArgumentException.class, "The modelPath field must not be NULL", () -> ai.setModel(null, null));
+        assertError(InvalidArgumentException.class, "The modelPath field must end with .xml",
                 () -> ai.setModel("model.bin", null));
-        assertError(InvalidArgumentException.class, "The model does not exist as a file in path: /no/model.xml",
+        assertError(InvalidArgumentException.class, "The modelPath field must refer to an existing file: /no/model.xml",
                 () -> ai.setModel("/no/model.xml", null));
-        assertError(InvalidArgumentException.class, "The jsonPath cannot be null!",
+        assertError(InvalidArgumentException.class, "The jsonPath field must not be NULL",
                 () -> ai.doComputerVision(null, null));
     }
 

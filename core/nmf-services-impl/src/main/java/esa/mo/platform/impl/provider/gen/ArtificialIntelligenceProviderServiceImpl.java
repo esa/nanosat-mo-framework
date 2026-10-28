@@ -123,21 +123,21 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
     @Override
     public Long setModel(String modelPath, MALInteraction interaction) throws InvalidArgumentException, MALException {
         if (modelPath == null) {
-            throw new InvalidArgumentException("The modelPath cannot be null!");
+            throw new InvalidArgumentException("The modelPath field must not be NULL");
         }
 
         if (!modelPath.endsWith(".xml")) {
-            throw new InvalidArgumentException("The model does not end with the file extension: .xml");
+            throw new InvalidArgumentException("The modelPath field must end with .xml");
         }
 
         // The path becomes an argument of the inference command, so it must be a
         // real model file and hold no control characters (NMF-2026-009).
         if (hasControlCharacter(modelPath)) {
-            throw new InvalidArgumentException("The modelPath contains a control character!");
+            throw new InvalidArgumentException("The modelPath field must not contain a control character");
         }
 
         if (!new File(modelPath).isFile()) {
-            throw new InvalidArgumentException("The model does not exist as a file in path: " + modelPath);
+            throw new InvalidArgumentException("The modelPath field must refer to an existing file: " + modelPath);
         }
 
         for (int i = 0; i < modelPaths.size(); i++) {
@@ -157,24 +157,24 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
             MALInteraction interaction) throws InvalidArgumentException, UnknownException,
             ExecutionFailedException, MALException {
         if (modelId == null) {
-            throw new InvalidArgumentException("The modelId is null!");
+            throw new InvalidArgumentException("The modelId field must not be NULL");
         }
 
         if (inputTilesPath == null) {
-            throw new InvalidArgumentException("The inputTilesPath is null!");
+            throw new InvalidArgumentException("The inputTilesPath field must not be NULL");
         }
 
         // The path becomes an argument of the inference command, so it must be a
         // real folder and hold no control characters (NMF-2026-009).
         if (hasControlCharacter(inputTilesPath)) {
-            throw new InvalidArgumentException("The inputTilesPath contains a control character!");
+            throw new InvalidArgumentException("The inputTilesPath field must not contain a control character");
         }
 
         // inputTilesPath needs to be an existing folder!!
         File inputTiles = new File(inputTilesPath);
 
         if (!inputTiles.isDirectory()) {
-            String msg = "The inputTilesPath is not an existing folder: " + inputTilesPath;
+            String msg = "The inputTilesPath field must refer to an existing folder: " + inputTilesPath;
             throw new InvalidArgumentException(msg);
         }
 
@@ -185,7 +185,7 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
         String modelPath = modelPaths.get((int) index);
 
         if (!modelPath.endsWith(".xml")) {
-            throw new InvalidArgumentException("The model does not end with the file extension: .xml");
+            throw new InvalidArgumentException("The model of the modelId field must end with .xml");
         }
 
         int endIndex = modelPath.length() - 4;
@@ -219,21 +219,21 @@ public class ArtificialIntelligenceProviderServiceImpl extends ArtificialIntelli
             DoComputerVisionInteraction interaction) throws InvalidArgumentException, ExecutionFailedException,
             DeviceNotAvailableException, DeviceInUseException, MALException {
         if (jsonPath == null) {
-            throw new InvalidArgumentException("The jsonPath cannot be null!");
+            throw new InvalidArgumentException("The jsonPath field must not be NULL");
         }
 
         if (!jsonPath.endsWith(".json")) {
-            throw new InvalidArgumentException("The file does not end with the file extension: .json");
+            throw new InvalidArgumentException("The jsonPath field must end with .json");
         }
 
         if (hasControlCharacter(jsonPath)) {
-            throw new InvalidArgumentException("The jsonPath contains a control character!");
+            throw new InvalidArgumentException("The jsonPath field must not contain a control character");
         }
 
         File path = new File(jsonPath);
 
         if (!path.isFile()) {
-            String msg = "The file does not exist in path: " + path;
+            String msg = "The jsonPath field must refer to an existing file: " + path;
             throw new InvalidArgumentException(msg);
         }
 

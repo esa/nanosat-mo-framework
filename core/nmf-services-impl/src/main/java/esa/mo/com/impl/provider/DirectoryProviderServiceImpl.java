@@ -224,7 +224,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             Identifier domainPart = inputDomain.get(i);
 
             if (domainPart.toString().equals("*") && i != (inputDomain.size() - 1)) {
-                throw new InvalidArgumentException(null);
+                throw new InvalidArgumentException("The domain field may contain the wildcard only as its last part");
             }
         }
 
@@ -328,7 +328,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
     @Override
     public Long add(final Provider newProviderDetails, final MALInteraction interaction)
-            throws InvalidArgumentException, AuthorisationFailException, InternalException, MALException {
+            throws AuthorisationFailException, InternalException, MALException {
         Identifier serviceProviderName = newProviderDetails.getProviderName();
 
         synchronized (MUTEX) {
@@ -355,12 +355,12 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
             // Check if there are comServices...
             if (comServices == null) {
-                throw new InvalidArgumentException(null);
+                throw new InternalException("The COM services are not available");
             }
 
             // Check if the archive is available...
             if (comServices.getArchiveService() == null) {
-                throw new InvalidArgumentException(null);
+                throw new InternalException("The Archive service is not available");
             }
 
             HeterogeneousList body = new HeterogeneousList();
@@ -372,13 +372,13 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
                 returnedProvObjIds = comServices.getArchiveService().store(true,
                         DirectoryServiceInfo.PROVIDER_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
                         archDetails, body, null);
-            } catch (DuplicateException ex) {
+            } catch (DuplicateException | InvalidArgumentException ex) {
                 LOGGER.log(Level.SEVERE, "The Provider object could not be stored", ex);
                 throw new InternalException("The Provider object could not be stored: " + ex.getMessage());
             }
 
             if (returnedProvObjIds.isEmpty()) {
-                throw new InvalidArgumentException(null);
+                throw new InternalException("The Archive returned no id for the Provider object");
             }
 
             Long provObjId = returnedProvObjIds.get(0);
@@ -501,7 +501,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         try {
             this.add(newProviderDetails, null);
             return newProviderDetails;
-        } catch (InvalidArgumentException | AuthorisationFailException | InternalException | MALException ex) {
+        } catch (AuthorisationFailException | InternalException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 
@@ -512,7 +512,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     public FileList getAreaXML(String filename, MALInteraction interaction)
             throws InvalidArgumentException, UnknownException, InternalException, MALException {
         if (filename == null || filename.isEmpty()) {
-            throw new InvalidArgumentException(null);
+            throw new InvalidArgumentException("The filename field must not be NULL or empty");
         }
         try {
             FileList result = AreaXMLExtractor.loadAreaXML(filename);

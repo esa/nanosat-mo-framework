@@ -305,6 +305,9 @@
                     <mal:errors>
                         <mal:errorRef comment="When the requested sentence identifier is invalid.">
                             <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="A description of the invalid value.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the GPS unit is not available.">
                             <mal:type area="Platform" list="false" name="Device Not Available" />
@@ -995,6 +998,9 @@
                     <mal:errors>
                         <mal:errorRef comment="When the initialConfiguration field contains an invalid value.">
                             <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="A description of the invalid value.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the Software-defined Radio is not available.">
                             <mal:type area="Platform" list="false" name="Device Not Available" />
@@ -1020,6 +1026,9 @@
                     <mal:errors>
                         <mal:errorRef comment="When the configuration field contains an invalid value.">
                             <mal:type area="COM" list="false" name="Invalid Argument" />
+                            <mal:extraInformation comment="A description of the invalid value.">
+                                <mal:type area="MAL" list="false" name="String" />
+                            </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the Software-defined Radio is not available.">
                             <mal:type area="Platform" list="false" name="Device Not Available" />

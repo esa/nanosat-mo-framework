@@ -167,7 +167,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
                 throw new DeviceNotAvailableException(null);
             }
             if (!adapter.setConfiguration(initialConfiguration)) {
-                throw new InvalidArgumentException(null);
+                throw new InvalidArgumentException("The radio does not accept the initialConfiguration");
             }
             sdrInUse = true;
             int period = (int) (publishingPeriod.getInSeconds() * 1000); // In milliseconds
@@ -196,7 +196,7 @@ public class SoftwareDefinedRadioProviderServiceImpl extends SoftwareDefinedRadi
             throw new DeviceNotAvailableException(null);
         }
         if (!adapter.setConfiguration(sdrConfiguration)) {
-            throw new InvalidArgumentException(null);
+            throw new InvalidArgumentException("The radio does not accept the configuration");
         }
     }
 

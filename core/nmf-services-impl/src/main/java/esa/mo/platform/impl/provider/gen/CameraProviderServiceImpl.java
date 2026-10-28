@@ -240,7 +240,7 @@ public class CameraProviderServiceImpl extends CameraInheritanceSkeleton {
             if (tag.getValue() == null
                     || "*".equals(tag.getValue())
                     || tag.getValue().isEmpty()) {
-                throw new InvalidArgumentException(null);
+                throw new InvalidArgumentException("The tag field must not be empty or a wildcard");
             }
 
             cameraInUse = true;

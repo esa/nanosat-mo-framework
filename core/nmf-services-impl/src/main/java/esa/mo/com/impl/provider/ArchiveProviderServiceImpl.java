@@ -129,22 +129,20 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         LongList longList = new LongList();
 
         if (inObjectType == null) {
-            throw new InvalidArgumentException(null);
+            throw new InvalidArgumentException("The objType field must not be NULL");
         }
         if (inDomain == null) {
-            throw new InvalidArgumentException(null);
+            throw new InvalidArgumentException("The domain field must not be NULL");
         }
         if (inObjIds == null) {
-            throw new InvalidArgumentException(null);
+            throw new InvalidArgumentException("The ids field must not be NULL");
         }
         if (ArchiveManager.objectTypeContainsWildcard(inObjectType)) {
-//            interaction.sendError(new InvalidArgumentException(null));
-            throw new InvalidArgumentException(null);
+            throw new InvalidArgumentException("The objType field must not contain a wildcard");
         }
 
         if (HelperCOM.domainContainsWildcard(inDomain)) {
-//            interaction.sendError(new InvalidArgumentException(null));
-            throw new InvalidArgumentException(null);
+            throw new InvalidArgumentException("The domain field must not contain a wildcard");
         }
 
         boolean wildcardFound = false;
@@ -356,7 +354,7 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
 
         // What if the list is null?
         if (details == null) {
-            throw new InvalidArgumentException(null);
+            throw new InvalidArgumentException("The objDetails field must not be NULL");
         }
 
         if (bodies != null) {
@@ -375,11 +373,11 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         }
 
         if (ArchiveManager.objectTypeContainsWildcard(objType)) {
-            throw new InvalidArgumentException(null);
+            throw new InvalidArgumentException("The objType field must not contain a wildcard");
         }
 
         if (HelperCOM.domainContainsWildcard(domain)) {
-            throw new InvalidArgumentException(null);
+            throw new InvalidArgumentException("The domain field must not contain a wildcard");
         }
 
         // Do we have Duplicates in the objId array?
@@ -457,9 +455,11 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         if (details == null) {
             return;
         }
-        if (ArchiveManager.objectTypeContainsWildcard(objType)
-                || HelperCOM.domainContainsWildcard(domain)) {
-            throw new InvalidArgumentException(null);
+        if (ArchiveManager.objectTypeContainsWildcard(objType)) {
+            throw new InvalidArgumentException("The objType field must not contain a wildcard");
+        }
+        if (HelperCOM.domainContainsWildcard(domain)) {
+            throw new InvalidArgumentException("The domain field must not contain a wildcard");
         }
 
         if (null != objBodies && details.size() != objBodies.size()) {
@@ -512,11 +512,11 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         LongList toBeDeleted = new LongList();
 
         if (ArchiveManager.objectTypeContainsWildcard(objType)) {
-            throw new InvalidArgumentException(null);
+            throw new InvalidArgumentException("The objType field must not contain a wildcard");
         }
 
         if (HelperCOM.domainContainsWildcard(domain)) {
-            throw new InvalidArgumentException(null);
+            throw new InvalidArgumentException("The domain field must not contain a wildcard");
         }
 
         synchronized (manager) {

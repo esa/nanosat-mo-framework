@@ -40,13 +40,13 @@
                     </mal:documentation>
                     <mal:messages>
                         <mal:invoke>
-                            <mal:field name="objType" canBeNull="true" comment="The type of the object to be retrieved.">
+                            <mal:field name="objType" canBeNull="false" comment="The type of the object to be retrieved.">
                                 <mal:type area="COM" list="false" name="ObjectType"/>
                             </mal:field>
-                            <mal:field name="domain" canBeNull="true" comment="The domain of the object to be retrieved.">
+                            <mal:field name="domain" canBeNull="false" comment="The domain of the object to be retrieved.">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
                             </mal:field>
-                            <mal:field name="ids" canBeNull="true" comment="The list of ids to be retrieved.">
+                            <mal:field name="ids" canBeNull="false" comment="The list of ids to be retrieved.">
                                 <mal:type area="MAL" list="true" name="Long"/>
                             </mal:field>
                         </mal:invoke>
@@ -62,8 +62,11 @@
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="When any field of the object type contains the wildcard value '0', or the domain contains the wildcard value '*'.">
+                        <mal:errorRef comment="When the objType, domain or ids field is NULL, when any field of the object type contains the wildcard value '0', or when the domain contains the wildcard value '*'.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="A description of the invalid value.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When one or more of the requested objects specified in the operation do not exist in the archive.">
                             <mal:type area="MAL" list="false" name="Unknown"/>
@@ -270,6 +273,9 @@
                         </mal:errorRef>
                         <mal:errorRef comment="When the objType field or the domain field contains a wildcard value, or the objDetails field is NULL.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="A description of the invalid value.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When one or more of the objects being stored contains an invalid value: a value of '0', '*', or NULL in the timestamp or provider fields of the archive details, or an entry of the longer of the objDetails and objBodies lists that has no counterpart in the other.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
@@ -313,6 +319,9 @@
                         </mal:errorRef>
                         <mal:errorRef comment="When the objType field or the domain field contains a wildcard value.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="A description of the invalid value.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When one or more of the objects being updated has the wildcard value '0' as its id, or is an entry of the longer of the objDetails and objBodies lists that has no counterpart in the other.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
@@ -361,6 +370,9 @@
                         </mal:errorRef>
                         <mal:errorRef comment="When the objType field or the domain field contains a wildcard value.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="A description of the invalid value.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>
                 </mal:requestIP>
@@ -611,6 +623,9 @@
                     <mal:errors>
                         <mal:errorRef comment="When the domain field contains a wildcard value in any position other than the final identifier.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="A description of the invalid value.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the filter field is NULL.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
@@ -660,9 +675,6 @@
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="When any submitted field value is invalid.">
-                            <mal:type area="COM" list="false" name="Invalid Argument"/>
-                        </mal:errorRef>
                         <mal:errorRef comment="When the providerName field names a provider that the service provider added for itself, or, when access control is enforced, a provider other than the consumer that its credential identifies.">
                             <mal:type area="MAL" list="false" name="Authorisation Fail"/>
                         </mal:errorRef>
@@ -716,8 +728,11 @@
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
-                        <mal:errorRef comment="When the supplied filename is invalid.">
+                        <mal:errorRef comment="When the filename field is NULL or empty.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="A description of the invalid value.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
                         </mal:errorRef>
                         <mal:errorRef comment="When the requested XML file is not found.">
                             <mal:type area="MAL" list="false" name="Unknown"/>

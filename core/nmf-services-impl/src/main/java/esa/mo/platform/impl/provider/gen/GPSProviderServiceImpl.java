@@ -218,7 +218,7 @@ public class GPSProviderServiceImpl extends GPSInheritanceSkeleton implements Re
             interaction.sendResponse(nmeaSentence);
         } catch (IOException ex) {
             LOGGER.log(Level.FINE, "getNMEASentence error", ex);
-            throw new InvalidArgumentException(null);
+            throw new InvalidArgumentException("The GPS unit refused the sentence identifier: " + ex.getMessage());
         }
     }
 
