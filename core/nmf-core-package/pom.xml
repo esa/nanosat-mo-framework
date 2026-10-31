@@ -54,14 +54,14 @@
         </developer>
     </developers>
 
-    <!-- The single dependency is deliberate: the runtime tree of nmf-composites,
-         together with nmf-composites itself, is exactly the set of JARs that a
+    <!-- The single dependency is deliberate: the runtime tree of nmf-core,
+         together with nmf-core itself, is exactly the set of JARs that a
          generated filesystem places in jars-nmf/<version>. Listing them one by one
          would be a second copy of that set, free to drift from the first. -->
     <dependencies>
         <dependency>
             <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nmf-composites</artifactId>
+            <artifactId>nmf-core</artifactId>
         </dependency>
     </dependencies>
 

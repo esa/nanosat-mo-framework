@@ -209,7 +209,7 @@ public class GenerateNMFPackageMojo extends AbstractMojo {
             boolean fromConnector = false;
             List<String> trail = artifact.getDependencyTrail();
             if (trail != null && trail.size() > 2) {
-                fromConnector = trail.get(1).contains("nmf-composites");
+                fromConnector = trail.get(1).contains(":nmf-core:");
             }
 
             if (isKnown || fromConnector) {

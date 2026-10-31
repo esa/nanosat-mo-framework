@@ -52,9 +52,8 @@
     <modules>
         <module>mo-services-xml</module>
         <module>mo-services-apis</module>
-        <module>nmf-services-impl</module>
+        <module>nmf-core</module>
         <module>nmf-package-maven-plugin</module>
-        <module>nmf-composites</module>
         <module>nmf-linux-maven-plugin</module>
         <module>nmf-core-package</module>
     </modules>

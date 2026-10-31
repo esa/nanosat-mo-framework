@@ -94,16 +94,10 @@
                 <artifactId>api-nmf-platform</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
-            <!-- Services Implementations (Unified) -->
+            <!-- NMF Core: the composites and the service implementations -->
             <dependency>
                 <groupId>int.esa.nmf.core</groupId>
-                <artifactId>nmf-services-impl</artifactId>
-                <version>${esa.nmf.version}</version>
-            </dependency>
-            <!-- NMF Composites -->
-            <dependency>
-                <groupId>int.esa.nmf.core</groupId>
-                <artifactId>nmf-composites</artifactId>
+                <artifactId>nmf-core</artifactId>
                 <version>${esa.nmf.version}</version>
             </dependency>
             <dependency>

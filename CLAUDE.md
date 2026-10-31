@@ -27,7 +27,7 @@ mvn install -Dmaven.javadoc.skip=true -Desa.nmf.sdk.assembly.quickbuild=true
 mvn install -P assembly-with-dependencies
 
 # Build a single module
-mvn install -pl core/nmf-composites
+mvn install -pl core/nmf-core
 
 # Run all tests
 mvn test
@@ -49,12 +49,13 @@ core/
   mo-services-xml/          # CCSDS MO XML service definitions (source of truth for APIs)
   mo-services-apis/         # Generated API jars: api-nmf-com, api-nmf-mc,
                             #   api-nmf-sm, api-nmf-platform
-  nmf-services-impl/        # Single unified module: all service implementations (COM, MC, SM,
-                            #   Platform), helper utilities (clock, misc, environment) and the
-                            #   NMF Package implementation (esa.mo.nmf.nmfpackage)
+  nmf-core/                 # Single core module: the key composites and the NMF app-facing API
+                            #   (see below), all service implementations (COM, MC, SM, Platform),
+                            #   helper utilities (clock, misc, environment) and the NMF Package
+                            #   implementation (esa.mo.nmf.nmfpackage)
   nmf-package-maven-plugin/ # Maven plugin: builds .nmfpackage files
   nmf-linux-maven-plugin/   # Maven plugin: generates Linux filesystem layout + bootloader files
-  nmf-composites/           # Key composites and the NMF app-facing API (see below)
+  nmf-core-package/         # Packages the NMF core baseline as an NMF Package
 nmf-mission-barebone/       # Minimal mission impl for testing NMF features at runtime
 nmf-mission-simulator-lite/ # Analytic orbit simulator (cubesat-gps-simulator)
 nmf-mission-simulator-orekit/ # Orekit-propagated spacecraft simulator (platform services impl,
@@ -70,7 +71,7 @@ sdk/
                             #   ant-based sdk-execution-environment)
 ```
 
-## Architecture: Key Composites (`core/nmf-composites`)
+## Architecture: Key Composites (`core/nmf-core`)
 
 This module defines the main abstractions that space apps and missions use:
 

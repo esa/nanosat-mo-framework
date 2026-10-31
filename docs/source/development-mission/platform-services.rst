@@ -47,7 +47,7 @@ The Platform service backend interfaces
 ---------------------------------------
 
 Each Platform service has a Java adapter interface in
-``core/mo-services-impl/nmf-services-platform-generic`` (``gen`` package). The service itself calls
+``core/nmf-core`` (package ``esa.mo.platform.impl.provider.gen``). The service itself calls
 this interface for every incoming MO operation; the mission implements it to forward the call to real
 hardware or a hardware abstraction layer.
 

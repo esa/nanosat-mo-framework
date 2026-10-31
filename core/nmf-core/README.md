@@ -1,3 +1,8 @@
+NMF Core
+============
+
+The core of the NMF: the NMF Composites, which Apps, Supervisors and ground software are built on, and the implementation of the MO services that they provide and consume.
+
 NMF Composites
 ============
 
@@ -108,3 +113,24 @@ When the connection to the spacecraft is done using the MAL-SPP transport, addre
 
 For some services, the Ground MO Proxy follows the concept of proxy service extension defined in the MO Reference Model book. This allows, for example, exposing a Directory service with re-routed URIs to the correct location, having an Archive service replica on ground in order to minimize the access to the on-board Archive services of each NMF App and activity tracking for the forwarding of actions.
 
+
+NMF Services
+============
+
+The implementation of the MO services of the NMF:
+* COM services (including Directory and Login)
+* M&C services
+* Software Management services
+* Platform services
+
+It also contains the helper utilities shared by these services, and the NMF Package implementation used by the Package Management service.
+
+NMF Packages
+============
+
+An NMF Package is a ZIP archive used to install, uninstall and update software on a spacecraft that runs the NMF. It carries a descriptor with the version of its content and a SHA-256 checksum for each file,
+so that content that is not what the descriptor lists is detected before it is installed. The content does not have to be an NMF App: a package can also hold a dependency, a Java runtime, a mission baseline or an NMF core baseline.
+
+The Package Management service only installs, uninstalls and updates packages that are already on the spacecraft. Transferring them there is left to other software.
+
+The code is in the package `esa.mo.nmf.nmfpackage`. Packages are built at compile time by the `nmf-package-maven-plugin`.

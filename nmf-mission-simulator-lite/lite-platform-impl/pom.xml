@@ -55,7 +55,7 @@ under the License. -->
         </dependency>
         <dependency>
             <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nmf-services-impl</artifactId>
+            <artifactId>nmf-core</artifactId>
         </dependency>
     </dependencies>
     <build>

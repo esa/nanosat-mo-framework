@@ -72,7 +72,7 @@
     <dependencies>
         <dependency>
             <groupId>int.esa.nmf.core</groupId>
-            <artifactId>nmf-composites</artifactId>
+            <artifactId>nmf-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>

@@ -226,19 +226,19 @@ public class GenerateFilesystemMojo extends AbstractMojo {
             boolean isMO = artifactId.contains("int.esa.ccsds.mo");
             boolean isNMFCore = artifactId.contains("int.esa.nmf.core");
 
-            // Resolves transitive dependencies like sqlite pulled in by nmf-composites
-            boolean fromComposites = false;
+            // Resolves transitive dependencies like sqlite pulled in by nmf-core
+            boolean fromNMFCore = false;
             List<String> trail = artifact.getDependencyTrail();
             if (trail != null) {
                 for (String step : trail) {
-                    if (step.contains("nmf-composites")) {
-                        fromComposites = true;
+                    if (step.contains(":nmf-core:")) {
+                        fromNMFCore = true;
                         break;
                     }
                 }
             }
 
-            if (isMO || isNMFCore || fromComposites) {
+            if (isMO || isNMFCore || fromNMFCore) {
                 StringBuilder str = new StringBuilder();
                 str.append(artifact.getGroupId()).append(":");
                 str.append(artifact.getArtifactId()).append(":");

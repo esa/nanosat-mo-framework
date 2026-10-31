@@ -5,7 +5,7 @@ Implementing the NMF Supervisor
 .. contents:: Table of contents
    :local:
 
-The ``NanoSatMOSupervisor`` abstract class in ``core/nmf-composites`` is the base for every mission-specific
+The ``NanoSatMOSupervisor`` abstract class in ``core/nmf-core`` is the base for every mission-specific
 Supervisor. It handles all the generic NMF machinery — COM services, MC services, Heartbeat, Apps Launcher,
 Package Management, Command Executor, and the Central Directory service. The mission subclass supplies only
 what is unique to its hardware: the Platform service adapters.
@@ -28,7 +28,7 @@ Most missions call through to this from a one-argument override::
              new NMFPackagePMBackend("packages", this.getAppsLauncherService()));
     }
 
-The ``MCSupervisorBasicAdapter`` bundled in ``nmf-composites`` is a ready-to-use MC adapter that exposes basic
+The ``MCSupervisorBasicAdapter`` bundled in ``nmf-core`` is a ready-to-use MC adapter that exposes basic
 Supervisor health parameters and actions. Pass an instance of it (after calling
 ``adapter.setNmfSupervisor(supervisor)``) unless the mission needs custom Supervisor-level parameters or
 actions.
