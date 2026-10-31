@@ -114,6 +114,12 @@
                                 <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>
+                        <mal:errorRef comment="When one of the requested packages is not a valid package, such as one whose name is not one plain file name.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The reason, naming the package.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                     </mal:errors>
                 </mal:invokeIP>
                 <mal:invokeIP name="uninstall" number="3" comment="The uninstall operation allows a consumer to uninstall the content of a package on the provider. The selected packages will be uninstalled sequentially.">
@@ -236,6 +242,12 @@
                         <mal:errorRef comment="When the packages field is NULL.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The name of the field that is NULL.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When one of the requested packages is not a valid package, such as one whose name is not one plain file name.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The reason, naming the package.">
                                 <mal:type area="MAL" list="false" name="String"/>
                             </mal:extraInformation>
                         </mal:errorRef>

@@ -321,8 +321,8 @@ public class MetadataApp extends Metadata {
         }
     }
 
-    private static IOException invalid(String key, String value, String form) {
-        return new IOException("The value '" + value + "' of " + key + " is not valid. It must be " + form + ".");
+    private static InvalidPackageException invalid(String key, String value, String form) {
+        return new InvalidPackageException("The value '" + value + "' of " + key + " is not valid. It must be " + form + ".");
     }
 
     /**

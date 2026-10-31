@@ -22,6 +22,7 @@ package esa.mo.nmf.nmfpackage;
 
 import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.environment.Deployment;
+import esa.mo.nmf.nmfpackage.metadata.InvalidPackageException;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.nmf.nmfpackage.utils.ChecksumGenerator;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import org.ccsds.moims.mo.mal.structures.StringList;
 
@@ -180,6 +182,16 @@ public class NMFPackagePMBackend implements PMBackend {
     public boolean replacesInstalledPackage(final String packageName) {
         String folderLocation = this.getFolderLocation(packageName);
         return manager.replacesInstalledPackage(folderLocation);
+    }
+
+    @Override
+    public void checkPackageIsValid(final String packageName) throws IOException {
+        // Reading the package checks its metadata, its name included
+        try (NMFPackage nmfPackage = new NMFPackage(this.getFolderLocation(packageName))) {
+            nmfPackage.getMetadata();
+        } catch (ZipException ex) {
+            throw new InvalidPackageException("The file is not an NMF Package: " + ex.getMessage(), ex);
+        }
     }
 
     @Override

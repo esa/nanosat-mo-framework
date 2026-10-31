@@ -220,6 +220,28 @@ public class AppPackageConfinementTest {
                 CONTENT, Files.readAllBytes(receipt.toPath()));
     }
 
+    @Test
+    public void anAppNameCannotCreateADirectoryOutsideTheNMFRoot() throws Exception {
+        // An ordinary install has already made the receipts folder
+        File receipts = Deployment.getInstallationsTrackerDir();
+        Assert.assertTrue(receipts.isDirectory() || receipts.mkdirs());
+
+        // The App directory is apps/<name>: two levels up is the folder above the NMF root.
+        // The package lists no file, so that only its name can lead outside its area.
+        File pack = packageCarrying(new MetadataApp("../../nmf-escape", "1.0", "esa.mo.nmf.apps.Probe",
+                "probe.jar", null, null, new ArrayList<>(), "6.0"));
+
+        installExpectingRefusal(pack);
+
+        File outside = root.getParentFile();
+        Assert.assertFalse("An App name must not create a directory outside the NMF root",
+                new File(outside, "nmf-escape").exists());
+        Assert.assertFalse("An App name must not place its receipt outside the receipts folder",
+                new File(root, "nmf-escape.receipt").exists());
+        Assert.assertFalse("An App name must not place its receipt outside the NMF root",
+                new File(outside, "nmf-escape.receipt").exists());
+    }
+
     private void installExpectingRefusal(File pack) {
         try {
             new NMFPackageManager(null).install(pack.getAbsolutePath(), root);

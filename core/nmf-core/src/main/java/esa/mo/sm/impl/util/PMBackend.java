@@ -20,6 +20,7 @@
  */
 package esa.mo.sm.impl.util;
 
+import esa.mo.nmf.nmfpackage.metadata.InvalidPackageException;
 import java.io.IOException;
 import java.util.List;
 import org.ccsds.moims.mo.mal.structures.StringList;
@@ -117,6 +118,19 @@ public interface PMBackend {
      * or the version cannot be determined.
      */
     String getPackageVersion(final String packageName);
+
+    /**
+     * Checks that a package file is a valid package, before anything else is
+     * asked about it. A package is not to be trusted: its metadata, such as its
+     * name, must have the form that the backend relies on. The default accepts
+     * every package, for a backend that does not read package files.
+     *
+     * @param packageName The name of the package.
+     * @throws InvalidPackageException if the package is not valid, with the reason.
+     * @throws IOException if the package could not be read.
+     */
+    default void checkPackageIsValid(final String packageName) throws IOException {
+    }
 
     /**
      * Checks the integrity of a package: whether each of its files matches the

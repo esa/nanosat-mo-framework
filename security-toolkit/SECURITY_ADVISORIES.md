@@ -269,7 +269,7 @@ while under none the app runs as the Supervisor's own user and shares its files 
 | Package | `int.esa.nmf.core:nmf-services-impl` (in earlier versions, the Software Management services module) |
 | Affected versions | < 6.0 |
 | Fixed in | 6.0 |
-| Reported | deadf00d, Hack CYSAT 2022; the receipt path, in a later private report |
+| Reported | deadf00d, Hack CYSAT 2022; the receipt path, in a later private report; the App directory outside the NMF root and the uninstall path, Mari ([mpiirstatebuilding](https://github.com/mpiirstatebuilding)), reported privately |
 | Severity | Low (requires the ability to install and run an app, which already runs code of the installer's choosing with the same privileges) |
 | Weaknesses | CWE-78: Improper Neutralization of Special Elements used in an OS Command; CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal'); CWE-20: Improper Input Validation |
 
@@ -307,6 +307,17 @@ but a package could already have files outside its own area removed through its 
 (see [NMF-2026-006](#nmf-2026-006-packages-can-write-or-delete-files-outside-their-own-area)),
 so the forged receipt gains nothing more.
 
+For an App, the name is also the name of its directory, `apps/<name>`, which install creates,
+so a name that leaves the `apps` folder created directories elsewhere, outside the NMF root as well:
+on 5.1, a package named `../../../../tmp/nmf-escape` created `/tmp/nmf-escape`.
+Once the receipts folder existed, which any earlier install creates,
+its receipt was written outside the NMF root too, at `/tmp/nmf-escape.receipt`,
+with the content of the package's own metadata.
+The start script and the properties files of such an App were not written, and the install was reported as successful.
+With that receipt in place, an uninstall of the package would delete `start_app.sh`, `provider.properties` and `transport.properties`
+from the directory that the name leads to.
+This happens before any isolation mode applies, as the Supervisor installs and uninstalls packages itself.
+
 The command string above was used from the 2.0.0 pre-release onwards.
 The earlier OPS-SAT flight and 2.0.0 test builds started an app with `su - <user> -m -c './start_<name>.sh'` when the app ran under its own user,
 and with `/bin/sh ./start_<name>.sh` otherwise.
@@ -324,6 +335,8 @@ there, a `'` in the name ended the quoting. 1.2.0 ran the app's own command line
 A package name must now be one plain file name: letters, digits, `.`, `_`, `+` and `-`,
 starting with a letter or a digit, at most 128 characters.
 The check is made when a package file is read, so install, upgrade and uninstall all refuse a package with any other name.
+Install and update refuse such a package with the `Invalid Argument` error of the COM area, whose reason names the package file and says why it is not valid;
+nothing is written.
 As the name can no longer hold a path, the receipt of a package is always written in `etc/installations-tracker`, under the package's own name.
 The Supervisor also ignores a folder in the `apps` folder whose name is not a valid app name.
 
@@ -347,6 +360,9 @@ applied in `Metadata.parseZipFile` and when the Supervisor reads the `apps` fold
 The latter starts a real shell in a directory whose name holds shell characters, and checks that the start script runs in that directory.
 `AppPackageConfinementTest` (`nmf-services-impl`) installs dependency packages whose names are paths,
 and checks that they are refused, write no receipt outside the receipts folder, and overwrite no other receipt.
+It also installs an App package, listing no file, whose name leaves the NMF root, after the receipts folder has been created,
+and checks that it creates no directory and writes no receipt outside the NMF root; it fails without the name check.
+`PackageRefusalTest` (`nmf-core`) checks that install and update refuse a package that is not valid with `Invalid Argument` and the reason.
 
 ---
 

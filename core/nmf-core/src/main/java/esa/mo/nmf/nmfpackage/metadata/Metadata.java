@@ -252,7 +252,7 @@ public class Metadata {
         try {
             count = Integer.parseInt(countValue);
         } catch (NumberFormatException ex) {
-            throw new IOException("The file count is not a number: " + countValue, ex);
+            throw new InvalidPackageException("The file count is not a number: " + countValue, ex);
         }
 
         ArrayList<NMFPackageFile> parsed = new ArrayList<>();
@@ -262,13 +262,13 @@ public class Metadata {
             String index = "." + i;
             String path = properties.getProperty(FILE_PATH + index);
             if (path == null) {
-                throw new IOException("The file " + i + " has no path");
+                throw new InvalidPackageException("The file " + i + " has no path");
             }
 
             if (bySHA256) {
                 String sha256 = properties.getProperty(FILE_SHA256 + index);
                 if (sha256 == null || !VALID_SHA256.matcher(sha256).matches()) {
-                    throw new IOException("The SHA-256 of the file " + path
+                    throw new InvalidPackageException("The SHA-256 of the file " + path
                             + " is missing or is not 64 lowercase hexadecimal digits: " + sha256);
                 }
                 parsed.add(new NMFPackageFile(path, sha256));
@@ -280,7 +280,7 @@ public class Metadata {
             try {
                 crc = Long.parseLong(crcValue);
             } catch (NumberFormatException ex) {
-                throw new IOException("The CRC of the file " + path + " is not a number: " + crcValue, ex);
+                throw new InvalidPackageException("The CRC of the file " + path + " is not a number: " + crcValue, ex);
             }
             parsed.add(new NMFPackageFile(path, crc));
         }
@@ -330,7 +330,7 @@ public class Metadata {
         ZipEntry receipt = zipFile.getEntry(FILENAME);
 
         if (receipt == null) {
-            throw new IOException("The " + FILENAME + " file does not exist!");
+            throw new InvalidPackageException("The " + FILENAME + " file does not exist!");
         }
 
         // Try to open the the receipt file inside the Zip file
@@ -343,7 +343,7 @@ public class Metadata {
         // Every package read from disk is checked here, before its name is used
         // for a directory, a user or a command (install, upgrade and uninstall).
         if (!isValidPackageName(metadata.getPackageName())) {
-            throw new IOException("The package name '" + metadata.getPackageName()
+            throw new InvalidPackageException("The package name '" + metadata.getPackageName()
                     + "' is not valid. A package name may only contain letters, digits, "
                     + "'.', '_', '+' and '-', and must start with a letter or a digit.");
         }
@@ -355,7 +355,7 @@ public class Metadata {
             // An App is listed in the Directory under its name, where ground and
             // the other Apps look up the Supervisor by its own (NMF-2026-011)
             if (Const.NANOSAT_MO_SUPERVISOR_NAME.equals(metadata.getPackageName())) {
-                throw new IOException("An App cannot be named '" + Const.NANOSAT_MO_SUPERVISOR_NAME
+                throw new InvalidPackageException("An App cannot be named '" + Const.NANOSAT_MO_SUPERVISOR_NAME
                         + "': the name is the Supervisor's.");
             }
         }
@@ -400,7 +400,7 @@ public class Metadata {
         try {
             Integer.parseInt(version);
         } catch (NumberFormatException ex) {
-            throw new IOException("The metadata version is not a number: " + version, ex);
+            throw new InvalidPackageException("The metadata version is not a number: " + version, ex);
         }
         metadata.getFiles();
 

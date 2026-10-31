@@ -21,6 +21,7 @@
 package esa.mo.sm.impl.provider;
 
 import esa.mo.nmf.accesscontrol.AccessControlMode;
+import esa.mo.nmf.nmfpackage.metadata.InvalidPackageException;
 import esa.mo.sm.impl.util.PMBackend;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -60,6 +61,8 @@ public class PackageRefusalTest {
     private static final String INSTALLED = "installed-1.0.nmfpack";
     private static final String NOT_INSTALLED = "not-installed-1.0.nmfpack";
     private static final String BASELINE = "baseline-1.0.nmfpack";
+    private static final String INVALID = "invalid-1.0.nmfpack";
+    private static final String INVALID_REASON = "The package name '../x' is not valid.";
     private static final String CHECKSUM = "ab".repeat(32);
 
     private PackageManagementProviderServiceImpl provider;
@@ -110,6 +113,23 @@ public class PackageRefusalTest {
         assertUninstallRefused(PackageNotInstalledException.class, NOT_INSTALLED);
         assertUninstallRefused(IntegrityCheckFailedException.class, DAMAGED);
         Assert.assertTrue("No package may be uninstalled", backend.changed.isEmpty());
+    }
+
+    @Test
+    public void installAndUpdateGiveTheReasonWhyAPackageIsNotValid() throws Exception {
+        try {
+            provider.install(approvals(GOOD, INVALID), null);
+            Assert.fail("The install of a package that is not valid must be refused");
+        } catch (InvalidArgumentException error) {
+            Assert.assertEquals(INVALID + ": " + INVALID_REASON, error.getExtraInformation().toString());
+        }
+        try {
+            provider.update(approvals(GOOD, INVALID), null);
+            Assert.fail("The update of a package that is not valid must be refused");
+        } catch (InvalidArgumentException error) {
+            Assert.assertEquals(INVALID + ": " + INVALID_REASON, error.getExtraInformation().toString());
+        }
+        Assert.assertTrue("No package may be changed", backend.changed.isEmpty());
     }
 
     /** Requests the good package and then the refused one, which must be named by its index, 1. */
@@ -182,7 +202,7 @@ public class PackageRefusalTest {
         @Override
         public StringList getListOfPackages() {
             StringList list = new StringList();
-            list.addAll(List.of(GOOD, DAMAGED, OTHER_FILE, UNACKNOWLEDGED, INSTALLED, NOT_INSTALLED, BASELINE));
+            list.addAll(List.of(GOOD, DAMAGED, OTHER_FILE, UNACKNOWLEDGED, INSTALLED, NOT_INSTALLED, BASELINE, INVALID));
             return list;
         }
 
@@ -219,6 +239,13 @@ public class PackageRefusalTest {
         @Override
         public String getPackageVersion(String packageName) {
             return NOT_INSTALLED.equals(packageName) ? null : "1.0";
+        }
+
+        @Override
+        public void checkPackageIsValid(String packageName) throws InvalidPackageException {
+            if (INVALID.equals(packageName)) {
+                throw new InvalidPackageException(INVALID_REASON);
+            }
         }
 
         @Override

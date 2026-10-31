@@ -23,6 +23,7 @@ package esa.mo.sm.impl.provider;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.nmf.accesscontrol.AccessControlMode;
+import esa.mo.nmf.nmfpackage.metadata.InvalidPackageException;
 import esa.mo.sm.impl.util.PMBackend;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -215,6 +216,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                     continue;
                 }
 
+                checkPackageIsValid(availablePackages.get(index));
+
                 // Before installing, we need to check the package integrity!
                 boolean integrity = backend.checkPackageIntegrity(availablePackages.get(index));
                 integrities.add(integrity);
@@ -386,6 +389,8 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                     continue;
                 }
 
+                checkPackageIsValid(availablePackages.get(index));
+
                 // The package given is the new version, so it is not installed
                 // itself: some version of a package with its name must be. The
                 // version is not compared, so that a package can also be
@@ -518,6 +523,18 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
      * @throws AppRunningException with the indexes of the packages whose App
      * is still running.
      */
+    /**
+     * Refuses a package that is not valid, such as one whose name is not one
+     * plain file name, with the reason, before its name is used for anything.
+     */
+    private void checkPackageIsValid(final String packageFile) throws InvalidArgumentException, IOException {
+        try {
+            backend.checkPackageIsValid(packageFile);
+        } catch (InvalidPackageException ex) {
+            throw new InvalidArgumentException(packageFile + ": " + ex.getMessage());
+        }
+    }
+
     private void stopApps(final List<String> names) throws AppRunningException {
         UIntegerList runningIndexList = new UIntegerList();
 
