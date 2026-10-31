@@ -272,7 +272,7 @@ while under none the app runs as the Supervisor's own user and shares its files 
 | Package | `int.esa.nmf.core:nmf-services-impl` (in earlier versions, the Software Management services module) |
 | Affected versions | < 6.0 |
 | Fixed in | 6.0 |
-| Reported | deadf00d, Hack CYSAT 2022; the receipt path, in a later private report; the App directory outside the NMF root and the uninstall path, Mari ([mpiirstatebuilding](https://github.com/mpiirstatebuilding)), reported privately |
+| Reported | deadf00d, Hack CYSAT 2022; [MannuMourya](https://github.com/MannuMourya), reported privately; the App directory outside the NMF root and the uninstall path, Mari ([mpiirstatebuilding](https://github.com/mpiirstatebuilding)), reported privately |
 | Severity | Low (requires the ability to install and run an app, which already runs code of the installer's choosing with the same privileges) |
 | Weaknesses | CWE-78: Improper Neutralization of Special Elements used in an OS Command; CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal'); CWE-20: Improper Input Validation |
 
@@ -517,7 +517,7 @@ while ordinary App and framework packages still install where they belong.
 | Package | `int.esa.nmf.core:nmf-linux-maven-plugin` (the generated `setup_linux_userspace.sh`) and `int.esa.nmf.core:nmf-services-impl` |
 | Affected versions | >= 5.0, < 6.0 |
 | Fixed in | 6.0 |
-| Reported | Reported privately |
+| Reported | Haider Shawi ([h050sh](https://github.com/h050sh)), reported privately |
 | Severity | High where the host accepts password logins, at a console or over SSH; Low otherwise (requires code already running as the Supervisor) |
 | Weaknesses | CWE-1392: Use of Default Credentials; CWE-798: Use of Hard-coded Credentials; CWE-269: Improper Privilege Management |
 
@@ -678,7 +678,7 @@ it also checks that packages whose main jar or dependencies point outside the Ap
 | Package | `int.esa.nmf.core:nmf-services-impl` (in earlier versions, the platform services module) |
 | Affected versions | >= 3.0.0, < 6.0 |
 | Fixed in | 6.0 |
-| Reported | Reported privately |
+| Reported | [gueco99](https://github.com/gueco99), with [copocris](https://github.com/copocris), reported privately |
 | Severity | High (a consumer of the AI service runs commands as the platform-services process) |
 | Weaknesses | CWE-78: Improper Neutralization of Special Elements used in an OS Command; CWE-20: Improper Input Validation |
 
