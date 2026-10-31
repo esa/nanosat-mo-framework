@@ -33,6 +33,9 @@
                             <mal:field name="installed" canBeNull="true" comment="The status of the package.">
                                 <mal:type area="MAL" list="true" name="Boolean"/>
                             </mal:field>
+                            <mal:field name="contents" canBeNull="true" comment="The content of each package file found, in the same order as the names field: the name, version and type that its metadata gives, so that the App name that the Apps Launcher takes can be found from the file.">
+                                <mal:type area="SM" list="true" name="PackageContent"/>
+                            </mal:field>
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
@@ -968,6 +971,20 @@
                 </mal:field>
                 <mal:field name="permissions" canBeNull="true" comment="The permissions that ground acknowledges for the App in the package, such as Supervisor.Platform.Camera. Each permission that the App declares must be acknowledged, or the provider refuses the package when access control is enforced. NULL acknowledges none.">
                     <mal:type area="MAL" list="true" name="String"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="PackageContent" shortFormPart="16" comment="The PackageContent is what the metadata of a package file says that it holds.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="name" canBeNull="true" comment="The name of the package, such as hello-world, which is the name of its App for a package of type app. NULL if the package file cannot be read.">
+                    <mal:type area="MAL" list="false" name="Identifier"/>
+                </mal:field>
+                <mal:field name="version" canBeNull="true" comment="The version of the package, such as 5.1. NULL if the package file cannot be read.">
+                    <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+                <mal:field name="type" canBeNull="true" comment="The type of the package: app, dependency, java, mission, nmf or delta. NULL if the package file cannot be read.">
+                    <mal:type area="MAL" list="false" name="String"/>
                 </mal:field>
             </mal:composite>
         </mal:dataTypes>

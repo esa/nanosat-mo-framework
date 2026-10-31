@@ -44,6 +44,8 @@ import org.ccsds.moims.mo.sm.PermissionsNotAcknowledgedException;
 import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementAdapter;
 import org.ccsds.moims.mo.sm.structures.PackageApproval;
 import org.ccsds.moims.mo.sm.structures.PackageApprovalList;
+import org.ccsds.moims.mo.sm.structures.PackageContent;
+import org.ccsds.moims.mo.sm.structures.PackageContentList;
 import org.ccsds.moims.mo.sm.structures.PackageIntegrity;
 import org.ccsds.moims.mo.sm.structures.PackageIntegrityList;
 
@@ -181,11 +183,14 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                     new PackageManagementAdapter() {
                 @Override
                 public void findPackageResponseReceived(MALMessageHeader msgHeader,
-                        IdentifierList names, BooleanList installed, Map qosProperties) {
+                        IdentifierList names, BooleanList installed, PackageContentList contents,
+                        Map qosProperties) {
                     javax.swing.SwingUtilities.invokeLater(() -> {
                         packagesTable.removeAllEntries();
                         for (int i = 0; i < names.size(); i++) {
-                            packagesTable.addEntry(names.get(i), installed.get(i));
+                            PackageContent content = (contents != null && i < contents.size())
+                                    ? contents.get(i) : null;
+                            packagesTable.addEntry(names.get(i), installed.get(i), content);
                         }
                     });
                     Logger.getLogger(PackageManagementConsumerPanel.class.getName()).log(Level.INFO,

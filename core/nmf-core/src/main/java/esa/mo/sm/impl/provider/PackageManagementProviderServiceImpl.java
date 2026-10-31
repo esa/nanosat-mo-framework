@@ -52,6 +52,8 @@ import org.ccsds.moims.mo.sm.packagemanagement.body.FindPackageResponse;
 import org.ccsds.moims.mo.sm.packagemanagement.provider.*;
 import org.ccsds.moims.mo.sm.structures.PackageApproval;
 import org.ccsds.moims.mo.sm.structures.PackageApprovalList;
+import org.ccsds.moims.mo.sm.structures.PackageContent;
+import org.ccsds.moims.mo.sm.structures.PackageContentList;
 import org.ccsds.moims.mo.sm.structures.PackageInstalled;
 import org.ccsds.moims.mo.sm.structures.PackageIntegrity;
 import org.ccsds.moims.mo.sm.structures.PackageIntegrityList;
@@ -153,12 +155,14 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
             availablePackages = backend.getListOfPackages();
             final IdentifierList packages = new IdentifierList();
             final BooleanList installed = new BooleanList();
+            final PackageContentList contents = new PackageContentList();
 
             if (returnAll) {
                 for (String pack : availablePackages) {
                     boolean isInstalled = backend.isPackageInstalled(pack);
                     packages.add(new Identifier(pack));
                     installed.add(isInstalled);
+                    contents.add(contentOf(pack));
                 }
             } else {
                 for (int j = 0; j < names.size(); j++) {
@@ -171,11 +175,12 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                         boolean isInstalled = backend.isPackageInstalled(availablePackages.get(index));
                         packages.add(new Identifier(availablePackages.get(index)));
                         installed.add(isInstalled);
+                        contents.add(contentOf(availablePackages.get(index)));
                     }
                 }
             }
 
-            outList = new FindPackageResponse(packages, installed);
+            outList = new FindPackageResponse(packages, installed, contents);
         } catch (IOException ex) {
             throw internalError("The packages could not be read", ex);
         }
@@ -523,6 +528,16 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
      * @throws AppRunningException with the indexes of the packages whose App
      * is still running.
      */
+    /**
+     * What the metadata of a package file says that it holds. A list of the MAL
+     * cannot hold a NULL element, so a file whose content cannot be read gets
+     * an entry whose fields are all NULL.
+     */
+    private PackageContent contentOf(final String packageFile) {
+        PackageContent content = backend.getPackageContent(packageFile);
+        return (content != null) ? content : new PackageContent(null, null, null);
+    }
+
     /**
      * Refuses a package that is not valid, such as one whose name is not one
      * plain file name, with the reason, before its name is used for anything.

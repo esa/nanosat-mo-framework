@@ -105,6 +105,8 @@ The Apps Launcher works on the installed Apps, by the name in the metadata of th
 ``listApp`` takes App names, and ``runApp``, ``stopApp`` and ``killApp`` take the App ids that ``listApp`` returns.
 The two differ because an App can have a package file on board for each of its versions,
 and a package file can also hold a dependency or a baseline instead of an App.
+To go from one to the other, ``findPackage`` gives, for each package file, the name, version and type that its metadata holds,
+in its ``contents`` field: for a package of type ``app``, that name is the App name that the Apps Launcher takes.
 
 **Uninstall.** ``PackageManagement.uninstall`` removes the installed files and the package registration.
 ``update`` performs uninstall + install of another version in one step, newer, older or the same.

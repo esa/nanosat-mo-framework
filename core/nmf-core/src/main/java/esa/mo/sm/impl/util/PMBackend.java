@@ -24,6 +24,7 @@ import esa.mo.nmf.nmfpackage.metadata.InvalidPackageException;
 import java.io.IOException;
 import java.util.List;
 import org.ccsds.moims.mo.mal.structures.StringList;
+import org.ccsds.moims.mo.sm.structures.PackageContent;
 
 /**
  * An interface to be implemented in order to allow the Package Management
@@ -130,6 +131,19 @@ public interface PMBackend {
      * @throws IOException if the package could not be read.
      */
     default void checkPackageIsValid(final String packageName) throws IOException {
+    }
+
+    /**
+     * Returns what the metadata of a package file says that it holds: its
+     * name, which is the name of its App for a package of type app, its
+     * version and its type. The default knows nothing of the content, for a
+     * backend that does not read package files.
+     *
+     * @param packageName The name of the package file.
+     * @return The content, or null if it cannot be read.
+     */
+    default PackageContent getPackageContent(final String packageName) {
+        return null;
     }
 
     /**

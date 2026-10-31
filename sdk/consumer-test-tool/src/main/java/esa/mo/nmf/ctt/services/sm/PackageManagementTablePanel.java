@@ -26,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.sm.structures.PackageContent;
 
 /**
  * Table panel listing the packages known to the PackageManagement service and whether each is
@@ -71,17 +72,21 @@ public class PackageManagementTablePanel extends SharedTablePanel {
     /**
      * Adds a package row to the table.
      *
-     * @param name the package name
+     * @param name the name of the package file
      * @param isInstalled whether the package is installed
+     * @param content what the metadata of the package file holds, or null if unknown
      */
-    public void addEntry(final Identifier name, final boolean isInstalled) {
+    public void addEntry(final Identifier name, final boolean isInstalled, final PackageContent content) {
         try {
             semaphore.acquire();
         } catch (InterruptedException ex) {
             Logger.getLogger(SharedTablePanel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        tableData.addRow(new Object[]{name, isInstalled});
+        boolean known = content != null && content.getName() != null;
+        tableData.addRow(new Object[]{name, isInstalled,
+            known ? content.getName().getValue() : "", known ? content.getVersion() : "",
+            known ? content.getType() : ""});
 
         semaphore.release();
     }
@@ -107,14 +112,15 @@ public class PackageManagementTablePanel extends SharedTablePanel {
     @Override
     public void defineTableContent() {
 
-        String[] tableCol = new String[]{"Package name", "isInstalled"};
+        String[] tableCol = new String[]{"Package file", "isInstalled", "Name", "Version", "Type"};
 
         tableData = new javax.swing.table.DefaultTableModel(new Object[][]{}, tableCol) {
             // Column 0 holds an Identifier object (see getSelectedPackage), not a
             // String. Declaring it Object makes the row sorter compare via
             // toString() instead of casting the value to String, which threw a
             // ClassCastException when the table was sorted or rows were removed.
-            Class[] types = new Class[]{java.lang.Object.class, java.lang.Boolean.class};
+            Class[] types = new Class[]{java.lang.Object.class, java.lang.Boolean.class,
+                java.lang.String.class, java.lang.String.class, java.lang.String.class};
 
             @Override               //all cells false
             public boolean isCellEditable(int row, int column) {

@@ -35,7 +35,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
+import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.StringList;
+import org.ccsds.moims.mo.sm.structures.PackageContent;
 
 /**
  * The Package Management backend to handle the NMF Packages.
@@ -191,6 +193,20 @@ public class NMFPackagePMBackend implements PMBackend {
             nmfPackage.getMetadata();
         } catch (ZipException ex) {
             throw new InvalidPackageException("The file is not an NMF Package: " + ex.getMessage(), ex);
+        }
+    }
+
+    @Override
+    public PackageContent getPackageContent(final String packageName) {
+        try (NMFPackage nmfPackage = new NMFPackage(this.getFolderLocation(packageName))) {
+            Metadata metadata = nmfPackage.getMetadata();
+            return new PackageContent(new Identifier(metadata.getPackageName()),
+                    metadata.getPackageVersion(), metadata.getPackageType());
+        } catch (IOException ex) {
+            Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.FINE,
+                    "The content of the package {0} could not be read: {1}",
+                    new Object[]{packageName, ex.getMessage()});
+            return null;
         }
     }
 

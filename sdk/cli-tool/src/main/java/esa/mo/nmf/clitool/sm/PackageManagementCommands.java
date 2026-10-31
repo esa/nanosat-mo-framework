@@ -37,6 +37,8 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.sm.structures.PackageApproval;
 import org.ccsds.moims.mo.sm.structures.PackageApprovalList;
+import org.ccsds.moims.mo.sm.structures.PackageContent;
+import org.ccsds.moims.mo.sm.structures.PackageContentList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.packagemanagement.body.FindPackageResponse;
 import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementAdapter;
@@ -96,13 +98,23 @@ public class PackageManagementCommands {
                     String packageName = response.getNames().get(i).getValue();
                     Boolean isInstalled = response.getInstalled().get(i);
                     String installedStr = isInstalled ? "  (installed)" : "";
-                    System.out.println("Package name: " + packageName + installedStr);
+                    System.out.println("Package name: " + packageName + installedStr
+                            + contentOf(response.getContents(), i));
                 }
             } catch (MOErrorException | MALException e) {
                 LOGGER.log(Level.SEVERE,
                         "Error during the execution of the findPackage operation!", e);
                 System.exit(ExitCodes.GENERIC_ERROR);
             }
+        }
+
+        /** What the metadata of the i-th package file holds, such as " - app hello-world 5.1". */
+        private static String contentOf(PackageContentList contents, int i) {
+            if (contents == null || i >= contents.size() || contents.get(i).getName() == null) {
+                return "";
+            }
+            PackageContent content = contents.get(i);
+            return " - " + content.getType() + " " + content.getName().getValue() + " " + content.getVersion();
         }
     }
 

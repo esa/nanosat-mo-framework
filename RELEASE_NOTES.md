@@ -51,6 +51,7 @@ The different versions and respective updates are the following:
 * Fixes an unknown or missing apps-isolation setting running the Apps without isolation (NMF-2026-013): the Supervisor now runs no App until the setting is one of the four modes, and the Boot Report states the security settings on every boot
 * Fixes a bubblewrap sandbox letting an App read the whole filesystem, the other Apps and the logs, and see every process of the host (NMF-2026-014): the sandbox now mounts only what the App needs and has its own /proc
 * Fixes an App container under docker-containers isolation running as root with the whole NMF root mounted read-write, so an App could change the software of the Supervisor and of the other Apps (NMF-2026-015): the container now runs as the Supervisor's user, mounts only what the App needs, drops the Linux capabilities, and caps the App's processes, memory and processor time
+* Adds the contents field to the response of findPackage of the Package Management service: the name, version and type that the metadata of each package file holds, so that the App name that the Apps Launcher takes can be found from the package file
 * Fixes an App under bubblewrap isolation failing to start where java is not in /usr/local/bin, /usr/bin or /bin, as in the eclipse-temurin images: the PATH of the sandbox now starts with the bin directory of the Supervisor's Java runtime, and the esa.mo.nmf.packagemanager.bubblewrap.path property replaces it
 
 ### Version 5.1 (25 September 2026)
