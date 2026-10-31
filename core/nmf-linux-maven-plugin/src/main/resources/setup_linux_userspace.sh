@@ -15,7 +15,8 @@ dir_home="/home/"
 # The commands that create and delete users and groups differ between a full
 # Linux distribution and BusyBox. The distribution is detected here rather than
 # declared, because the same mission is deployed to both: the NMF makes the same
-# check when it creates the user of an App (see LinuxUsersGroups.adduser).
+# check when it creates the user of an App (see the create command of
+# nmf-app-account, below).
 ###############################################################################
 if adduser --help 2>&1 | grep -q "BusyBox"; then
 	is_busybox="true"
@@ -37,7 +38,7 @@ nmf_deluser() {
 nmf_adduser() {
 	if [ "$is_busybox" = "true" ]; then
 		addgroup -S "$1"
-		adduser -S -s "$shell_nmf_admin" -G "$1" "$1"
+		adduser -S -h "$dir_home$1" -s "$shell_nmf_admin" -G "$1" "$1"
 	else
 		adduser --system --home "$dir_home$1" --shell "$shell_nmf_admin" --group "$1"
 	fi
@@ -137,7 +138,7 @@ case "$command" in
 create)
 	if is_busybox; then
 		addgroup -S "$user"
-		adduser -s /bin/bash -G "$user" -S "$user"
+		adduser -h "/home/$user" -s /bin/bash -G "$user" -S "$user"
 	else
 		adduser --system --home "/home/$user" --shell /bin/bash --group "$user"
 	fi
