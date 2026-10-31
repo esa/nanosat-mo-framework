@@ -102,6 +102,22 @@ public class BootloaderTest {
                 contains(report, "CONFIRMATION confirmed"));
     }
 
+    // Test — The report states the security settings that the Supervisor was
+    // started with, so that no isolation is told apart from an unknown mode
+    // (NMF-2026-013): the testbed runs Apps without isolation, in audit mode
+
+    @Test
+    public void testBootReportStatesTheSecuritySettings() throws IOException {
+        LOGGER.info(SEP + "\nRunning: testBootReportStatesTheSecuritySettings()\n" + SEP);
+        List<String> report = readTodaysReport();
+
+        Assert.assertTrue("The Boot Report must state the security settings",
+                contains(report, "INITIALISATION security: apps-isolation=none access-control=audit"
+                        + " require-package-checksum=false"));
+        Assert.assertFalse("A known isolation mode must not be reported as unknown",
+                contains(report, "INITIALISATION FAIL apps-isolation"));
+    }
+
     // Test — The report records a successful nominal boot: primary baseline
     // selected, all self-tests and integrity tests OK
 

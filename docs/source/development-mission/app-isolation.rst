@@ -61,6 +61,15 @@ Add the parameter inside the plugin's ``<configuration>`` block in the mission f
 
 If ``appsIsolation`` is omitted the default value is ``none``.
 
+The plugin writes the mode as ``apps-isolation`` in ``bootloader/config.properties``,
+which the startup script reads at every boot.
+The Boot Report states the mode on its ``INITIALISATION security`` line, with the other security settings.
+If the value in that file is not one of the four modes, or the file has no such value,
+the Supervisor still starts but runs no App:
+``runApp`` fails with the ``Internal`` error, whose reason names the value,
+and the Boot Report has an ``INITIALISATION FAIL apps-isolation`` line.
+An unknown value is never taken for ``none``.
+
 .. note::
 
    The isolation mode applies on Linux. When the Supervisor runs on Windows it always uses the Windows app

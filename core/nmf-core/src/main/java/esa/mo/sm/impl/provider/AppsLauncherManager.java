@@ -30,6 +30,7 @@ import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.nmf.accesscontrol.AccessControlAuthority;
 import esa.mo.nmf.accesscontrol.AccessControlMode;
 import esa.mo.nmf.accesscontrol.NMFAccessControl;
+import esa.mo.nmf.environment.AppsIsolationMode;
 import esa.mo.nmf.environment.Deployment;
 import esa.mo.nmf.environment.LinuxUsersGroups;
 import java.io.File;
@@ -481,6 +482,12 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
      */
     protected synchronized boolean startAppProcess(final ProcessExecutionHandler handler,
             final MALInteraction interaction, final String directoryServiceURI) throws IOException {
+        // An unknown isolation mode must not run the App without isolation
+        String invalidMode = AppsIsolationMode.invalidModeReason();
+        if (invalidMode != null) {
+            throw new IOException(invalidMode);
+        }
+
         if (isAppRunning(handler.getObjId())) {
             return false;
         }

@@ -32,7 +32,9 @@ MIN_FREE_DISK_KB=10240
 BOOT_CONFIRM_TIMEOUT_S=60
 BOOT_MAX_ATTEMPTS=2
 PROMOTION_SOAK_S=60
-APPS_ISOLATION=none
+# No default isolation: without the setting, the mode that the mission chose is
+# not known, and the Supervisor runs no App rather than run them unisolated
+APPS_ISOLATION=
 REQUIRE_PACKAGE_CHECKSUM=true
 ACCESS_CONTROL=enforce
 SCHEMA_VERSION=1
@@ -126,6 +128,15 @@ initialisation() {
     fi
     report "INITIALISATION nmf-home: $NMF_HOME"
     report "INITIALISATION config: $CONFIG_STATUS"
+    _security="apps-isolation=${APPS_ISOLATION:-<missing>} access-control=$ACCESS_CONTROL"
+    report "INITIALISATION security: $_security require-package-checksum=$REQUIRE_PACKAGE_CHECKSUM"
+    case "$APPS_ISOLATION" in
+        none|linux-userspace|bubblewrap|docker-containers) ;;
+        *)
+            _modes="none, linux-userspace, bubblewrap, docker-containers"
+            report "INITIALISATION FAIL apps-isolation '$APPS_ISOLATION' is not one of $_modes - no App will be run"
+            ;;
+    esac
 
     # Cold/warm restart detection via the kernel boot identifier
     BOOT_ID=$(cat /proc/sys/kernel/random/boot_id 2>/dev/null || echo "unknown")

@@ -154,6 +154,9 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
         } else {
             manager = new AppsLauncherManagerLinux(comServices);
         }
+        if (AppsIsolationMode.invalidModeReason() != null) {
+            LOGGER.severe(AppsIsolationMode.invalidModeReason());
+        }
         appsLauncherServiceProvider = connection.startService(
                 AppsLauncherHelper.APPSLAUNCHER_SERVICE, true, this);
         running = true;
@@ -338,6 +341,13 @@ public class AppsLauncherProviderServiceImpl extends AppsLauncherInheritanceSkel
             throw new InvalidArgumentException("The appIds field must not be NULL");
         }
         LOGGER.log(Level.INFO, "runApp received with arguments: {0}", appInstIds);
+
+        // An unknown isolation mode must not run the Apps without isolation
+        String invalidMode = AppsIsolationMode.invalidModeReason();
+        if (invalidMode != null) {
+            LOGGER.severe(invalidMode);
+            throw new InternalException(new Union(invalidMode));
+        }
 
         // Refresh the list of available Apps
         boolean anyChanges = this.manager.refreshAvailableAppsList(

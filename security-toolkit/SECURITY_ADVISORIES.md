@@ -24,6 +24,7 @@ it must be reported privately, not added to this file.
 | [NMF-2026-010](#nmf-2026-010-unauthenticated-command-execution-through-the-commandexecutor-service) | Unauthenticated command execution through the CommandExecutor service | Fixed | >= 2.0.0, < 6.0 | 6.0 | — |
 | [NMF-2026-011](#nmf-2026-011-an-app-can-take-over-the-supervisors-entry-in-the-directory-service) | An App can take over the Supervisor's entry in the Directory service | Fixed | < 6.0 | 6.0 | — |
 | [NMF-2026-012](#nmf-2026-012-a-package-with-the-name-of-an-installed-app-takes-it-over) | A package with the name of an installed App takes it over | Fixed | < 6.0 | 6.0 | — |
+| [NMF-2026-013](#nmf-2026-013-an-unknown-or-missing-apps-isolation-setting-runs-apps-without-isolation) | An unknown or missing apps-isolation setting runs Apps without isolation | Fixed | >= 5.0, < 6.0 | 6.0 | — |
 
 ---
 
@@ -953,6 +954,8 @@ it fails on the earlier code.
 `DirectoryEntryOwnershipTest` and `PackageNameTest` (`nmf-services-impl`),
 which check the rule for each caller and each access control mode, and the reserved name.
 
+---
+
 ### NMF-2026-012: A package with the name of an installed App takes it over
 
 | Field | Value |
@@ -1046,3 +1049,82 @@ installs an App, and checks that packages of its name and of a higher, a lower o
 and leave the App's start script, files and receipt unchanged;
 it fails on the earlier code.
 It also checks that the same SNAPSHOT version can still be installed again and that an update still replaces the App.
+
+---
+
+### NMF-2026-013: An unknown or missing apps-isolation setting runs Apps without isolation
+
+| Field | Value |
+|---|---|
+| Status | Fixed |
+| GHSA / CVE | Not published |
+| Ecosystem | Maven |
+| Package | `int.esa.nmf.core:nmf-services-impl`, `int.esa.nmf:nmf-linux-maven-plugin` |
+| Affected versions | >= 5.0, < 6.0 |
+| Fixed in | 6.0 |
+| Reported | Mari ([mpiirstatebuilding](https://github.com/mpiirstatebuilding)), reported privately |
+| Severity | Low (a wrong or damaged setting silently runs every App as the Supervisor's user; changing the setting on purpose already needs the Supervisor's account) |
+| Weaknesses | CWE-636: Not Failing Securely ('Failing Open'); CWE-1188: Initialization of a Resource with an Insecure Default |
+
+#### Impact
+
+The isolation mode of the Apps is the `apps-isolation` setting in `bootloader/config.properties`,
+one of `none`, `linux-userspace`, `bubblewrap` and `docker-containers`.
+The boot script `start_supervisor.sh` passes it to the Supervisor, which chooses how to start each App from it.
+
+A value that is none of the four, such as a typing error (`linux_userspace`), an empty value or a damaged file,
+matches no mode, and the Supervisor starts the Apps as it does without isolation:
+each App runs as the Supervisor's own user, with access to everything that user can read and write.
+A missing file, or a file without the setting, has the same result, as the boot script then uses `none`.
+Nothing is logged, and the Boot Report names only the configuration file,
+so this cannot be told apart from a mission that chose `none`.
+
+The other security settings of the same file fail safe:
+an unknown `access-control` value enforces access control, and any `require-package-checksum` value other than `false` requires the checksum.
+
+The file is in the `bootloader` directory, which belongs to the Supervisor's account under linux-userspace
+and is hidden from the Apps under bubblewrap,
+so an App cannot change the setting.
+Whoever can change it on purpose already has the Supervisor's account, which gains nothing from running the Apps as itself.
+The weakness is that a wrong value weakens the isolation silently, instead of being refused.
+
+The isolation modes, and the setting, were introduced in 5.0.
+
+#### Workarounds
+
+* Check that `apps-isolation` in `bootloader/config.properties` is exactly one of the four modes after every change to the file.
+* Check the user that each App runs as.
+
+#### Fix
+
+An isolation mode that is not one of the four no longer runs the Apps without isolation:
+
+* The Supervisor still starts, so that ground can reach it and correct the file, but its Apps Launcher runs no App.
+  `runApp` fails with the `Internal` error of the MAL, whose reason names the unknown value and the four modes,
+  and the Supervisor logs it when the Apps Launcher starts and on each refused `runApp`.
+* A missing file, or a file without the setting, is treated the same way: the boot script no longer uses `none` in its place.
+  The filesystem generator of the `nmf-linux-maven-plugin` always writes the setting, so a generated filesystem is not affected.
+* A Supervisor started without the setting at all, as from an IDE, still runs its Apps without isolation, as before.
+* The Boot Report states the security settings on every boot, on an `INITIALISATION security` line:
+  the isolation mode, the access control mode and whether the package checksum is required.
+  An unknown or missing isolation mode is also reported on an `INITIALISATION FAIL apps-isolation` line.
+
+The Supervisor does not choose another isolation mode in place of an unknown one:
+each mode needs its own set-up, such as the accounts of linux-userspace or the image of docker-containers,
+and the Apps installed under one mode are set up for it.
+
+#### References
+
+[1] Isolation mode: `AppsIsolationMode` in `nmf-services-impl`, whose checks all fail for an unknown value,
+and `AppsLauncherProviderServiceImpl`, which then starts the Apps with `AppsLauncherManagerLinux`, without a separate user.
+In 6.0, `AppsIsolationMode.invalidModeReason` (`nmf-core`) tells an unknown mode apart,
+and `AppsLauncherProviderServiceImpl.runApp` and `AppsLauncherManager.startAppProcess` refuse to run an App while the mode is unknown.
+
+[2] Boot script: `start_supervisor.sh` of the `nmf-linux-maven-plugin`, which uses `none` when the setting is missing.
+
+[3] Regression test: `Nmf2026013Test` (`security-toolkit/vulnerability-tests`),
+which sets the isolation mode to `linux_userspace`, a typing error for `linux-userspace`,
+and checks that `runApp` is refused with the `Internal` error and its reason, and that the Linux launcher starts no App process;
+it fails on the earlier code, where the App is started with `/bin/sh -c`, as the Supervisor's user.
+`AppsIsolationModeTest` (`nmf-core`) checks which values are valid,
+and `BootloaderTest` (`testbeds/testbed-e2e`) checks the `INITIALISATION security` line of the Boot Report.

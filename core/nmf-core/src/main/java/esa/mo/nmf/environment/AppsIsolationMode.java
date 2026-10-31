@@ -20,6 +20,8 @@
  */
 package esa.mo.nmf.environment;
 
+import java.util.List;
+
 /**
  * Defines the isolation mode applied to NMF Apps managed by a Supervisor.
  * The active mode is set by the mission designer via the
@@ -47,6 +49,28 @@ public class AppsIsolationMode {
 
     /** Each app runs inside a bubblewrap sandbox. */
     public static final String BUBBLEWRAP = "bubblewrap";
+
+    /** The isolation modes. */
+    public static final List<String> MODES = List.of(NONE, LINUX_USERSPACE, BUBBLEWRAP, DOCKER_CONTAINERS);
+
+    /**
+     * Returns why the isolation mode is not valid, or null if it is. The mode is
+     * valid if it is one of the {@link #MODES}, or if the property is not set at
+     * all, as when the Supervisor is started from an IDE, which means
+     * {@value #NONE}. Any other value, an empty one included, is not valid: the
+     * isolation that the mission chose cannot be known, so no App may be run,
+     * rather than run without isolation (NMF-2026-013).
+     *
+     * @return The reason, or null if the mode is valid.
+     */
+    public static String invalidModeReason() {
+        String value = System.getProperty(PROPERTY);
+        if (value == null || MODES.contains(value)) {
+            return null;
+        }
+        return "The isolation mode of the Apps '" + value + "' is not one of " + String.join(", ", MODES)
+                + ": no App is run until apps-isolation in bootloader/config.properties is one of them";
+    }
 
     /**
      * Returns the active isolation mode read from the system property,
