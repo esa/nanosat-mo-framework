@@ -22,8 +22,14 @@ jobs:
       - name: Set up the App sandboxes (AppSandboxSecretsTest)
         run: |
           sudo apt-get update && sudo apt-get install -y bubblewrap
-          # Ubuntu 24.04 restricts the unprivileged user namespaces that bubblewrap uses
-          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true
+          # Ubuntu 24.04 restricts the unprivileged user namespaces that bubblewrap
+          # uses: an AppArmor profile lets bwrap alone create them, as the App
+          # isolation documentation recommends, instead of lifting the restriction
+          # for every program on the runner
+          printf '%s\n' 'abi <abi/4.0>,' 'include <tunables/global>' \
+            'profile bwrap /usr/bin/bwrap flags=(unconfined) {' '  userns,' \
+            '  include if exists <local/bwrap>' '}' | sudo tee /etc/apparmor.d/bwrap > /dev/null
+          sudo apparmor_parser -r /etc/apparmor.d/bwrap
           docker pull eclipse-temurin:21-jre
       - name: Run Maven install
         run: mvn --batch-mode --update-snapshots install -Desa.mo.nmf.test.requireSandboxes=true
@@ -47,8 +53,14 @@ jobs:
       - name: Set up the App sandboxes (AppSandboxSecretsTest)
         run: |
           sudo apt-get update && sudo apt-get install -y bubblewrap
-          # Ubuntu 24.04 restricts the unprivileged user namespaces that bubblewrap uses
-          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true
+          # Ubuntu 24.04 restricts the unprivileged user namespaces that bubblewrap
+          # uses: an AppArmor profile lets bwrap alone create them, as the App
+          # isolation documentation recommends, instead of lifting the restriction
+          # for every program on the runner
+          printf '%s\n' 'abi <abi/4.0>,' 'include <tunables/global>' \
+            'profile bwrap /usr/bin/bwrap flags=(unconfined) {' '  userns,' \
+            '  include if exists <local/bwrap>' '}' | sudo tee /etc/apparmor.d/bwrap > /dev/null
+          sudo apparmor_parser -r /etc/apparmor.d/bwrap
           docker pull eclipse-temurin:21-jre
       - name: Run Maven install
         run: mvn --batch-mode --update-snapshots install -Desa.mo.nmf.test.requireSandboxes=true
