@@ -149,6 +149,25 @@ for example by confining the Supervisor and the processes that it starts.
   bubblewrap``.
 - The Supervisor user must have permission to execute ``bwrap``. On kernels with user-namespace support this
   is typically available without any special privilege.
+- Ubuntu 23.10 and later restrict, by default, the unprivileged user namespaces that ``bwrap`` creates
+  (``kernel.apparmor_restrict_unprivileged_userns=1``).
+  ``bwrap`` then fails, for example with ``bwrap: setting up uid map: Permission denied``,
+  and no app starts.
+  The narrowest way out is an AppArmor profile that lets only ``bwrap`` create user namespaces,
+  saved as ``/etc/apparmor.d/bwrap`` and loaded with ``sudo apparmor_parser -r /etc/apparmor.d/bwrap``:
+
+  .. code-block:: text
+
+      abi <abi/4.0>,
+      include <tunables/global>
+
+      profile bwrap /usr/bin/bwrap flags=(unconfined) {
+        userns,
+        include if exists <local/bwrap>
+      }
+
+  Setting ``kernel.apparmor_restrict_unprivileged_userns=0`` also works,
+  but it lifts the restriction for every program on the host, not only for ``bwrap``.
 
 Bubblewrap restricts what each App can see, its namespaces and its capabilities,
 but every App runs as the same user, the Supervisor's.
