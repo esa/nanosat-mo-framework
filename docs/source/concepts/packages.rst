@@ -98,6 +98,14 @@ An install or update can also carry the SHA-256 that the package file is expecte
 
 **Run.** Once installed, an app is started via ``AppsLauncher.runApp`` (see :doc:`lifecycle`).
 
+**Package files and Apps.** The two services name what they work on differently.
+Package Management works on the package files on board, by their file name, such as ``hello-world-5.1.nmfpack``:
+``findPackage``, ``install``, ``update``, ``uninstall`` and ``checkPackageIntegrity`` take file names.
+The Apps Launcher works on the installed Apps, by the name in the metadata of their package, such as ``hello-world``:
+``listApp`` takes App names, and ``runApp``, ``stopApp`` and ``killApp`` take the App ids that ``listApp`` returns.
+The two differ because an App can have a package file on board for each of its versions,
+and a package file can also hold a dependency or a baseline instead of an App.
+
 **Uninstall.** ``PackageManagement.uninstall`` removes the installed files and the package registration.
 ``update`` performs uninstall + install of another version in one step, newer, older or the same.
 Before any file is removed, the Supervisor stops the App of each requested package and checks that no process still runs it,
