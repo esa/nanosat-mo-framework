@@ -159,12 +159,19 @@ Each NMF App runs inside its own Docker container, started by the Supervisor wit
 container configuration applied by the NMF is:
 
 - The container is named ``nmf-app-<appname>`` and is removed once the app exits (``--rm``).
-- The NMF home directory is bind-mounted at the same absolute path inside the container, so the app's start
-  script finds the shared JARs and its log directory unchanged.
+- The container runs as the Supervisor's own user (``--user``), never as root.
+- Only what the app needs is bind-mounted, at the same absolute path, so its start script resolves it:
+  the ``jars-nmf``, ``jars-shared-libraries`` and ``java`` directories of the NMF read-only,
+  and the app's own directory, its logs and its storage read-write.
+  The rest of the NMF root is not mounted, so the app cannot change the Supervisor's software or the other apps.
+- The container drops every Linux capability and cannot gain any (``--cap-drop ALL``, ``--security-opt no-new-privileges``).
+- The number of processes, the memory and the processor time are capped (see the configuration below).
 - The container joins the Docker network configured below (``host`` by default) so that the app can reach the
   Supervisor's Directory service.
 - The Directory service URI is passed into the container through ``JAVA_OPTS``.
 - Stopping an app stops its container, rather than signalling a process.
+
+The NMF root must not be inside one of the system directories, so that the app's bind mounts do not expose it.
 
 **Configuration:**
 
@@ -172,6 +179,12 @@ container configuration applied by the NMF is:
   ``eclipse-temurin:21-jre``. It must provide a JRE the apps can run on and a POSIX shell.
 - ``esa.mo.nmf.packagemanager.docker.network`` — the Docker network the containers join. Defaults to
   ``host``.
+- ``esa.mo.nmf.packagemanager.docker.pidsLimit`` — the most processes a container may run. Defaults to
+  ``512``; ``0`` turns the cap off.
+- ``esa.mo.nmf.packagemanager.docker.memory`` — the container memory limit, a Docker value such as
+  ``512m``. By default the app's maximum heap plus 256 MB; an empty value turns the cap off.
+- ``esa.mo.nmf.packagemanager.docker.cpus`` — the processor limit, a Docker ``--cpus`` value such as
+  ``1.5``. Off by default.
 
 **Requirements:**
 
@@ -180,6 +193,6 @@ container configuration applied by the NMF is:
   ``docker`` group. Note that this is equivalent to root on the host, so it weakens the boundary between the
   Supervisor and the OS even as it strengthens the one between the apps.
 
-Docker containers isolate the filesystem and the process tree, and additionally pin the runtime that each app
-sees, which none of the other modes do. The trade-offs are the Docker daemon as a runtime dependency and the
-privilege that access to it carries.
+Docker containers isolate the filesystem and the process tree, pin the runtime that each app sees, and cap the
+resources each app may use, which the other modes do not. The trade-offs are the Docker daemon as a runtime
+dependency and the privilege that access to it carries.

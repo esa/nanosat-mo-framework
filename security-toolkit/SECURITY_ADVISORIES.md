@@ -26,6 +26,7 @@ it must be reported privately, not added to this file.
 | [NMF-2026-012](#nmf-2026-012-a-package-with-the-name-of-an-installed-app-takes-it-over) | A package with the name of an installed App takes it over | Fixed | < 6.0 | 6.0 | — |
 | [NMF-2026-013](#nmf-2026-013-an-unknown-or-missing-apps-isolation-setting-runs-apps-without-isolation) | An unknown or missing apps-isolation setting runs Apps without isolation | Fixed | >= 5.0, < 6.0 | 6.0 | — |
 | [NMF-2026-014](#nmf-2026-014-a-bubblewrap-sandbox-lets-an-app-read-the-whole-filesystem-and-the-other-apps) | A bubblewrap sandbox lets an App read the whole filesystem and the other Apps | Fixed | >= 5.0, < 6.0 | 6.0 | — |
+| [NMF-2026-015](#nmf-2026-015-an-app-container-can-change-the-nmf-root-and-has-no-resource-limits) | An App container can change the NMF root, and has no resource limits | Fixed | >= 5.0, < 6.0 | 6.0 | — |
 
 ---
 
@@ -1202,3 +1203,69 @@ but cannot read the other App, its logs, the logs of the Supervisor, the package
 and sees only its own processes; it fails on the earlier code, where the App reads all of them and sees every process of the host.
 It is skipped where bubblewrap is not available.
 `AppsLauncherManagerBubblewrapTest` (`nmf-core`) checks that the command mounts no `/`, and mounts its own `/proc`.
+
+---
+
+### NMF-2026-015: An App container can change the NMF root, and has no resource limits
+
+| Field | Value |
+|---|---|
+| Status | Fixed |
+| GHSA / CVE | Not published |
+| Ecosystem | Maven |
+| Package | `int.esa.nmf.core:nmf-services-impl` |
+| Affected versions | >= 5.0, < 6.0 |
+| Fixed in | 6.0 |
+| Reported | The resource limits, Mari ([mpiirstatebuilding](https://github.com/mpiirstatebuilding)), reported privately; the NMF root, found by the NMF maintainers while reviewing that report |
+| Severity | High (under docker-containers isolation, an App can change the software of the Supervisor and of the other Apps) |
+| Weaknesses | CWE-732: Incorrect Permission Assignment for Critical Resource; CWE-250: Execution with Unnecessary Privileges; CWE-770: Allocation of Resources Without Limits or Throttling |
+
+#### Impact
+
+Under docker-containers isolation, the Supervisor starts each App in a container of its own.
+
+The container mounts the whole NMF root read-write, with only the `bootloader` directory hidden,
+and runs as the default user of its image, which is root for the default image.
+The App can therefore change any file of the NMF root:
+the software of the Supervisor in `jars-nmf`, the other Apps, the packages and the receipts,
+and it can create files there that belong to root.
+The Supervisor runs the software in `jars-nmf` when it next starts,
+so a change to it gives the App's code the privileges of the Supervisor.
+The App can also read the files of the other Apps and their logs.
+
+The container sets no limit on the number of processes, the memory or the processor time of the App,
+so one App can use up the resources of the whole computer.
+
+Docker-containers isolation was introduced in 5.0.
+
+#### Workarounds
+
+* Use linux-userspace or bubblewrap isolation.
+* Use an App image whose default user is not root.
+
+#### Fix
+
+The container now runs as the Supervisor's own user and mounts only what the App needs:
+
+* `--user <uid>:<gid>` of the Supervisor's user, so the App never runs as root, and a file it writes belongs to that user, as under the other modes.
+* Read-only, the `jars-nmf`, `jars-shared-libraries` and `java` directories of the NMF, which the start script uses.
+  Read-write, the App's own directory, its logs and its storage.
+  The whole NMF root is no longer mounted, so the App cannot change the Supervisor's software, the other Apps, the packages or the receipts.
+* `--cap-drop ALL` and `--security-opt no-new-privileges`, so the App has no Linux capability and cannot gain one.
+
+The container is also given resource caps, so that one App cannot starve the others:
+
+* `--pids-limit`, by default 512, overridable with the `esa.mo.nmf.packagemanager.docker.pidsLimit` property (0 turns it off);
+* `--memory`, by default the App's maximum heap plus 256 MB, read from its receipt, overridable with the `docker.memory` property (empty turns it off);
+* `--cpus`, off by default, set with the `docker.cpus` property.
+
+#### References
+
+[1] Container: `AppsLauncherManagerDocker.assembleCommand` in `nmf-services-impl` (`nmf-core` in 6.0).
+
+[2] Regression test: `Nmf2026015Test` (`security-toolkit/vulnerability-tests`),
+which starts a real container through the launcher, on an NMF root that holds another App and a Supervisor jar,
+and checks that the App is not root, cannot change the Supervisor's jar or the other App, and cannot read the other App,
+and that the container is given the process and memory caps; it fails on the earlier code.
+It is skipped where Docker or the image is not available.
+`AppsLauncherManagerDockerTest` and `AppSandboxSecretsTest` (`nmf-core`) check the command and that an App in a container reads only its own credential.

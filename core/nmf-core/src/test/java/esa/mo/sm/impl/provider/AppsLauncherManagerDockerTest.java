@@ -39,8 +39,24 @@ public class AppsLauncherManagerDockerTest {
     // The manager needs no COM archive for command assembly.
     private final AppsLauncherManagerDocker manager = new AppsLauncherManagerDocker(null);
 
+    @org.junit.Rule
+    public org.junit.rules.TemporaryFolder tmp = new org.junit.rules.TemporaryFolder(
+            new java.io.File("target").getAbsoluteFile());
+
+    private String originalHome;
+
+    @org.junit.Before
+    public void redirectHome() {
+        // assembleCommand creates the app's storage under user.home; keep that in target/
+        originalHome = System.getProperty("user.home");
+        System.setProperty("user.home", tmp.getRoot().getAbsolutePath());
+    }
+
     @After
     public void clearProperties() {
+        if (originalHome != null) {
+            System.setProperty("user.home", originalHome);
+        }
         System.clearProperty(AppsLauncherManagerDocker.IMAGE_PROPERTY);
         System.clearProperty(AppsLauncherManagerDocker.NETWORK_PROPERTY);
     }
@@ -59,21 +75,29 @@ public class AppsLauncherManagerDockerTest {
         String workDir = nmfHome + "/apps/MyApp";
         String[] env = {"JAVA_OPTS=-Dfoo=bar"};
 
-        List<String> actual = Arrays.asList(
+        List<String> cmd = Arrays.asList(
                 manager.assembleCommand(workDir, "MyApp", null, env));
 
-        List<String> expected = Arrays.asList(
-                "docker", "run", "--rm",
-                "--name", "nmf-app-MyApp",
-                "--network", "host",
-                "-v", nmfHome + ":" + nmfHome,
-                // The bootloader directory, with the credential of ground, is hidden
-                "--mount", "type=tmpfs,destination=" + Deployment.getBootloaderDir().getAbsolutePath(),
-                "-w", workDir,
-                "-e", "JAVA_OPTS=-Dfoo=bar",
-                "eclipse-temurin:21-jre",
-                "/bin/sh", "-c", "./start_app.sh");
-        Assert.assertEquals(expected, actual);
+        Assert.assertEquals(Arrays.asList("docker", "run", "--rm", "--name", "nmf-app-MyApp",
+                "--network", "host"), cmd.subList(0, 7));
+        Assert.assertEquals("the app's command must end with its start script",
+                Arrays.asList("eclipse-temurin:21-jre", "/bin/sh", "-c", "./start_app.sh"),
+                cmd.subList(cmd.size() - 4, cmd.size()));
+
+        // NMF-2026-015: never root, no capabilities, resource caps
+        Assert.assertTrue("the container must run as the Supervisor's user, not root",
+                cmd.contains("--user") && !cmd.get(cmd.indexOf("--user") + 1).startsWith("0:"));
+        Assert.assertEquals("ALL", cmd.get(cmd.indexOf("--cap-drop") + 1));
+        Assert.assertTrue(cmd.contains("--security-opt")
+                && cmd.get(cmd.indexOf("--security-opt") + 1).equals("no-new-privileges"));
+        Assert.assertTrue("the number of processes must be capped", cmd.contains("--pids-limit"));
+
+        // The whole NMF root must not be mounted, only the working directory of the app
+        Assert.assertFalse("the whole NMF root must not be mounted",
+                cmd.contains(nmfHome + ":" + nmfHome));
+        Assert.assertTrue("the app directory must be mounted read-write",
+                cmd.contains(workDir + ":" + workDir));
+        Assert.assertEquals("JAVA_OPTS=-Dfoo=bar", cmd.get(cmd.lastIndexOf("-e") + 1));
     }
 
     @Test
