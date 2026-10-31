@@ -25,6 +25,7 @@ it must be reported privately, not added to this file.
 | [NMF-2026-011](#nmf-2026-011-an-app-can-take-over-the-supervisors-entry-in-the-directory-service) | An App can take over the Supervisor's entry in the Directory service | Fixed | < 6.0 | 6.0 | — |
 | [NMF-2026-012](#nmf-2026-012-a-package-with-the-name-of-an-installed-app-takes-it-over) | A package with the name of an installed App takes it over | Fixed | < 6.0 | 6.0 | — |
 | [NMF-2026-013](#nmf-2026-013-an-unknown-or-missing-apps-isolation-setting-runs-apps-without-isolation) | An unknown or missing apps-isolation setting runs Apps without isolation | Fixed | >= 5.0, < 6.0 | 6.0 | — |
+| [NMF-2026-014](#nmf-2026-014-a-bubblewrap-sandbox-lets-an-app-read-the-whole-filesystem-and-the-other-apps) | A bubblewrap sandbox lets an App read the whole filesystem and the other Apps | Fixed | >= 5.0, < 6.0 | 6.0 | — |
 
 ---
 
@@ -1128,3 +1129,76 @@ and checks that `runApp` is refused with the `Internal` error and its reason, an
 it fails on the earlier code, where the App is started with `/bin/sh -c`, as the Supervisor's user.
 `AppsIsolationModeTest` (`nmf-core`) checks which values are valid,
 and `BootloaderTest` (`testbeds/testbed-e2e`) checks the `INITIALISATION security` line of the Boot Report.
+
+---
+
+### NMF-2026-014: A bubblewrap sandbox lets an App read the whole filesystem and the other Apps
+
+| Field | Value |
+|---|---|
+| Status | Fixed |
+| GHSA / CVE | Not published |
+| Ecosystem | Maven |
+| Package | `int.esa.nmf.core:nmf-services-impl` |
+| Affected versions | >= 5.0, < 6.0 |
+| Fixed in | 6.0 |
+| Reported | Mari ([mpiirstatebuilding](https://github.com/mpiirstatebuilding)), reported privately |
+| Severity | Low (an App under bubblewrap isolation can read, but not change, the files of the other Apps and of the Supervisor, and see every process of the host) |
+| Weaknesses | CWE-668: Exposure of Resource to Wrong Sphere; CWE-552: Files or Directories Accessible to External Parties |
+
+#### Impact
+
+Under bubblewrap isolation, the Supervisor starts each App in a bubblewrap sandbox
+that mounts the whole filesystem of the host read-only (`--ro-bind / /`),
+and then mounts the App's own directories read-write on top.
+Every App runs as the Supervisor's own user, so the App can read every file that this user can read.
+Only the storage of the Apps (`.nmf-apps`) and the `bootloader` directory are hidden, by an empty file system mounted over them.
+The App can therefore read:
+
+* the directories of the other Apps, with their code and their `provider.properties` and `transport.properties` files;
+* the logs of the other Apps and of the Supervisor;
+* the packages on board and the installation receipts, with the permissions that each App was granted;
+* the rest of the home directory of the Supervisor's user, and any other file of the host that this user can read.
+
+The sandbox has its own process namespace, but its `/proc` is the one of the host, taken from the read-only mount of `/`,
+so the App sees every process of the host and its command line.
+It cannot reach the files of another process through `/proc`, as the user namespace of the sandbox refuses it.
+
+The App cannot change any of these files, and none of them holds a credential:
+the credentials of the Apps are in their storage and the credential of ground is in the `bootloader` directory, both hidden.
+
+The sandbox drops every capability and sets `no_new_privs`; it applies no seccomp filter.
+
+Bubblewrap isolation was introduced in 5.0.
+
+#### Workarounds
+
+* Use linux-userspace isolation, where each App runs as its own user, and the directories of the other Apps belong to their own users.
+* Keep no file that an App must not read where the Supervisor's user can read it.
+
+#### Fix
+
+The sandbox now mounts only what the App needs, instead of the whole filesystem:
+
+* read-only, the system directories (`/usr`, `/etc`, `/bin`, `/sbin` and the `/lib` directories) and the Java runtime of the Supervisor;
+* read-only, the `jars-nmf`, `jars-shared-libraries` and `java` directories of the NMF, which the start script of the App uses;
+* read-write, as before, the App's own directory, its logs and its storage.
+
+The other Apps, the logs, the packages, the receipts, the `bootloader` directory and the home directory of the Supervisor's user are not mounted.
+The sandbox has its own `/proc`, so the App sees only its own processes.
+
+The sandbox still applies no seccomp filter.
+Bubblewrap takes one only as a compiled program, which the NMF does not build;
+a mission that needs one, or an AppArmor or SELinux profile, sets it up on the host.
+
+#### References
+
+[1] Sandbox: `AppsLauncherManagerBubblewrap.assembleCommand` in `nmf-services-impl` (`nmf-core` in 6.0).
+
+[2] Regression test: `Nmf2026014Test` (`security-toolkit/vulnerability-tests`),
+which starts a real bubblewrap sandbox through the launcher, on an NMF root that holds another App,
+and checks that the App can read its own files, the NMF jars and the shared libraries, run Java and write its logs,
+but cannot read the other App, its logs, the logs of the Supervisor, the packages, the receipts or the home directory of the Supervisor's user,
+and sees only its own processes; it fails on the earlier code, where the App reads all of them and sees every process of the host.
+It is skipped where bubblewrap is not available.
+`AppsLauncherManagerBubblewrapTest` (`nmf-core`) checks that the command mounts no `/`, and mounts its own `/proc`.

@@ -71,15 +71,18 @@ public class AppsLauncherManagerBubblewrapTest {
     }
 
     @Test
-    public void filesystemIsReadOnlyExceptTheAppDirectory() {
+    public void onlyWhatTheAppNeedsIsMounted() {
         List<String> cmd = Arrays.asList(
                 manager.assembleCommand("/w", "MyApp", null, new String[0]));
 
-        // The whole filesystem is bound read-only: '--ro-bind / /'.
-        int roIdx = cmd.indexOf("--ro-bind");
-        Assert.assertTrue("the filesystem must be mounted read-only", roIdx >= 0);
-        Assert.assertEquals("/", cmd.get(roIdx + 1));
-        Assert.assertEquals("/", cmd.get(roIdx + 2));
+        // NMF-2026-014: the whole filesystem is not mounted, only the system,
+        // read-only, and the App's own directories
+        for (int i = 0; i < cmd.size() - 2; i++) {
+            if (cmd.get(i).startsWith("--ro-bind") || cmd.get(i).equals("--bind")) {
+                Assert.assertNotEquals("the whole filesystem must not be mounted", "/", cmd.get(i + 1));
+            }
+        }
+        Assert.assertTrue("the system must be mounted read-only", containsInOrder(cmd, "--ro-bind-try", "/usr", "/usr"));
 
         // The app's own working directory is bound read-write: '--bind /w /w'. It is the
         // first --bind, before the log and storage directories.
@@ -87,5 +90,11 @@ public class AppsLauncherManagerBubblewrapTest {
         Assert.assertTrue("the app directory must be writable", bindIdx >= 0);
         Assert.assertEquals("/w", cmd.get(bindIdx + 1));
         Assert.assertEquals("/w", cmd.get(bindIdx + 2));
+
+        Assert.assertTrue("the sandbox must have its own /proc", containsInOrder(cmd, "--proc", "/proc"));
+    }
+
+    private static boolean containsInOrder(List<String> cmd, String... args) {
+        return java.util.Collections.indexOfSubList(cmd, Arrays.asList(args)) >= 0;
     }
 }

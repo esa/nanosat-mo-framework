@@ -49,6 +49,7 @@ The different versions and respective updates are the following:
 * Fixes install replacing an installed App with a package of the same name and another version, which took over its files, its storage and, under linux-userspace, its account (NMF-2026-012): such an install now fails with Package Installed, and an App is replaced with update
 * Fixes install and update reporting a package that is not valid, such as one whose name is not a plain file name, as failing its integrity check: they now fail with Invalid Argument and the reason
 * Fixes an unknown or missing apps-isolation setting running the Apps without isolation (NMF-2026-013): the Supervisor now runs no App until the setting is one of the four modes, and the Boot Report states the security settings on every boot
+* Fixes a bubblewrap sandbox letting an App read the whole filesystem, the other Apps and the logs, and see every process of the host (NMF-2026-014): the sandbox now mounts only what the App needs and has its own /proc
 
 ### Version 5.1 (25 September 2026)
 * Upgrades to CCSDS MO services v14.2

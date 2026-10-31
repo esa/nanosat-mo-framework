@@ -117,14 +117,28 @@ Isolation mode: bubblewrap
 
 Each NMF App runs inside a bubblewrap (``bwrap``) sandbox. The sandbox configuration applied by the NMF is:
 
-- The full host filesystem is mounted read-only inside the sandbox.
-- The app's working directory and its log directory are bind-mounted read-write.
-- ``/tmp`` is a private ``tmpfs``.
+- Only what the App needs is mounted.
+  Every App runs as the Supervisor's user, so anything else that was mounted could be read by the App.
+- The system directories (``/usr``, ``/etc``, ``/bin``, ``/sbin`` and the ``/lib`` directories)
+  and the Supervisor's Java runtime are mounted read-only.
+- From the NMF, only ``jars-nmf``, ``jars-shared-libraries`` and ``java`` are mounted read-only,
+  as the App's start script uses them.
+- The App's working directory, its log directory and its storage are mounted read-write.
+- The other Apps, the logs, the packages, the receipts, the ``bootloader`` directory and the Supervisor's home are not mounted.
+- ``/proc`` belongs to the sandbox, so the App sees only its own processes;
+  ``/dev`` holds only the standard devices, and ``/tmp`` is a private ``tmpfs``.
 - All Linux namespaces except the network namespace are unshared (``--unshare-all --share-net``).
+- The sandbox has no capabilities and cannot gain any (``no_new_privs``).
 - The sandbox inherits only ``JAVA_OPTS`` and a minimal ``PATH`` from the Supervisor; all other environment
   variables are cleared.
 - The sandbox process is linked to the Supervisor via ``--die-with-parent``: if the Supervisor is killed the
   sandboxed app is killed with it.
+
+The NMF root must not be inside one of the system directories, or it would be mounted with them.
+
+The NMF applies no seccomp filter to the sandbox.
+A mission that needs one, or an AppArmor or SELinux profile, sets it up on the host,
+for example by confining the Supervisor and the processes that it starts.
 
 **Requirements:**
 
@@ -133,8 +147,10 @@ Each NMF App runs inside a bubblewrap (``bwrap``) sandbox. The sandbox configura
 - The Supervisor user must have permission to execute ``bwrap``. On kernels with user-namespace support this
   is typically available without any special privilege.
 
-Bubblewrap provides stronger isolation than ``linux-userspace`` because it also restricts namespace
-visibility. The trade-off is the dependency on ``bwrap`` being available on the target hardware.
+Bubblewrap restricts what each App can see, its namespaces and its capabilities,
+but every App runs as the same user, the Supervisor's.
+Under ``linux-userspace``, each App runs as its own user instead.
+The trade-off is the dependency on ``bwrap`` being available on the target hardware.
 
 Isolation mode: docker-containers
 ---------------------------------

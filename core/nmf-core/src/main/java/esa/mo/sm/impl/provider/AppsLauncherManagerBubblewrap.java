@@ -34,10 +34,14 @@ import java.util.logging.Logger;
 /**
  * Bubblewrap-based implementation of the Apps Launcher manager.
  *
- * Each app is launched inside a bubblewrap sandbox: the full host filesystem
- * is mounted read-only, then the app directory and its log directory are
- * bind-mounted read-write. The sandbox environment is cleared and only
- * {@code JAVA_OPTS} (carrying the central directory URI) and a minimal
+ * Each app is launched inside a bubblewrap sandbox that mounts only what the
+ * app needs: the system directories, the Java runtime and the NMF jars
+ * read-only, and the app's own directory, logs and storage read-write. Every
+ * app runs as the Supervisor's user, so nothing else of the host or of the NMF
+ * is mounted: not the other apps, not the logs and not the packages. The
+ * sandbox has its own {@code /proc}, {@code /dev} and {@code /tmp}, has no
+ * capabilities and cannot gain any. The sandbox environment is cleared and
+ * only {@code JAVA_OPTS} (carrying the central directory URI) and a minimal
  * {@code PATH} are set explicitly.
  *
  * @author Cesar Coelho
@@ -49,6 +53,12 @@ public class AppsLauncherManagerBubblewrap extends AppsLauncherManager {
 
     private static final String BWRAP_CMD = "/usr/bin/bwrap";
     private static final String DEFAULT_PATH = "/usr/local/bin:/usr/bin:/bin";
+
+    /**
+     * The system directories, mounted read-only where they exist. On a system
+     * with a merged /usr, the top-level ones are links into it.
+     */
+    private static final String[] SYSTEM_DIRS = {"/usr", "/etc", "/bin", "/sbin", "/lib", "/lib32", "/lib64", "/libx32"};
 
     /**
      * Creates a new {@code AppsLauncherManagerBubblewrap}.
@@ -71,18 +81,20 @@ public class AppsLauncherManagerBubblewrap extends AppsLauncherManager {
         ret.add("--unshare-all");
         ret.add("--share-net");
 
-        // Full filesystem read-only, then selectively open writable paths
-        ret.add("--ro-bind");
-        ret.add("/");
-        ret.add("/");
+        // Only what the App needs is mounted: every App runs as the Supervisor's
+        // user, so the App could read anything else that is (NMF-2026-014). The
+        // system and the Java runtime of the Supervisor, which can be outside of
+        // it, read-only
+        for (String dir : SYSTEM_DIRS) {
+            roBindIfExists(ret, dir);
+        }
+        roBindIfExists(ret, System.getProperty("java.home"));
 
-        // Hide what an App must not read: the storage of every App, where their
-        // credentials are (its own is bound back below), and the bootloader
-        // directory, which holds the credential of ground
-        ret.add("--tmpfs");
-        ret.add(AppStorage.getStorageRootDir().getAbsolutePath());
-        ret.add("--tmpfs");
-        ret.add(Deployment.getBootloaderDir().getAbsolutePath());
+        // The NMF jars, the shared libraries and the Java runtimes of the NMF,
+        // which the start script uses, read-only
+        roBindIfExists(ret, Deployment.getJarsNMFDir().getAbsolutePath());
+        roBindIfExists(ret, Deployment.getJarsSharedDir().getAbsolutePath());
+        roBindIfExists(ret, Deployment.getJavaDir().getAbsolutePath());
 
         // App directory read-write (state files, config written by the app)
         ret.add("--bind");
@@ -109,6 +121,11 @@ public class AppsLauncherManagerBubblewrap extends AppsLauncherManager {
 
         ret.add("--tmpfs");
         ret.add("/tmp");
+
+        // A /proc of the sandbox's own process namespace, so that the App sees
+        // its own processes only, not those of the host
+        ret.add("--proc");
+        ret.add("/proc");
 
         // A new /dev with only the standard devices (null, zero, random, urandom,
         // tty, ...): the read-only host /dev cannot even be written to at /dev/null
@@ -140,6 +157,16 @@ public class AppsLauncherManagerBubblewrap extends AppsLauncherManager {
         ret.add("./start_app.sh");
 
         return ret.toArray(new String[0]);
+    }
+
+    /** Mounts a directory read-only at the same path, if it exists. */
+    private static void roBindIfExists(final ArrayList<String> command, final String dir) {
+        if (dir == null) {
+            return;
+        }
+        command.add("--ro-bind-try");
+        command.add(dir);
+        command.add(dir);
     }
 
     @Override
