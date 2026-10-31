@@ -75,6 +75,11 @@ Notes:
 - The runtime base image defaults to `eclipse-temurin:21-jre`; so does the
   per-app image used by the `docker-containers` isolation mode
   (override with `-Desa.mo.nmf.packagemanager.docker.image=<image>`).
+- This image does not run the `docker-containers` isolation mode:
+  it copies the NMF root into the image and has no `docker` client.
+  That mode needs the NMF root and the Supervisor's home bind-mounted from the host at the same paths,
+  the `docker` client, and the socket of the host's daemon;
+  see the docker-containers section of the App isolation documentation.
 
 ### Deploying to a remote machine
 

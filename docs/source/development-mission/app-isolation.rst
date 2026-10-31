@@ -195,6 +195,16 @@ The NMF root must not be inside one of the system directories, so that the app's
 - The Supervisor user must be allowed to talk to the Docker daemon, which usually means membership of the
   ``docker`` group. Note that this is equivalent to root on the host, so it weakens the boundary between the
   Supervisor and the OS even as it strengthens the one between the apps.
+- When the Supervisor itself runs in a container, it starts the app containers through the Docker daemon of
+  the host, beside its own container rather than inside it.
+  The daemon then looks up every mounted path on the host,
+  so the NMF root and the Supervisor's home directory must be bind-mounted into the Supervisor's container
+  from the host, at the same paths.
+  The Supervisor's container also needs the ``docker`` client and the socket of the daemon
+  (``/var/run/docker.sock``).
+  A filesystem copied into the Supervisor's image is not on the host,
+  and every app then fails to start with the Docker error
+  ``mounts denied: The path ... is not shared from the host and is not known to Docker``.
 
 Docker containers isolate the filesystem and the process tree, pin the runtime that each app sees, and cap the
 resources each app may use, which the other modes do not. The trade-offs are the Docker daemon as a runtime
