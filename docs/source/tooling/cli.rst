@@ -38,6 +38,9 @@ The CLI groups commands by service area:
 - **adcs** — query the ADCS provider's status.
 - **camera** — request an image from a remote Camera provider.
 - **apps-launcher** — subscribe to apps' stdout, run, stop, and kill apps remotely.
+  It names an App by the name in its package metadata, such as ``hello-world``,
+  while ``software-management`` names the package file, such as ``hello-world-5.1.nmfpack``;
+  ``software-management findPackage`` shows the App name of each file.
 - **heartbeat** — subscribe to a provider's heartbeat.
 
 Each command supports either a **local** mode (``-l <database>``) for querying a local SQLite COM Archive

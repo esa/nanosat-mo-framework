@@ -72,6 +72,12 @@ Build the ``.nmfpackage`` for your app with ``mvn install``, then transfer it to
 install it via the Supervisor's **Package Management** service — either through the CTT, the CLI tool, or a
 dedicated ground application using the Ground MO Adapter.
 
+.. note::
+
+   Package Management names a package by its file name, such as ``hello-world-5.1.nmfpack``,
+   and the Apps Launcher names the App by the name in the package metadata, such as ``hello-world``:
+   ``findPackage`` gives that name for each package file (see :doc:`../concepts/packages`).
+
 **CI/CD integration**
 
 A typical pipeline looks like this:
@@ -83,5 +89,6 @@ A typical pipeline looks like this:
 4. A ground-side test script connects to the running app and exercises its parameters and actions to verify
    correct behaviour on real hardware.
 
-Keep deployment steps idempotent: the Package Management service supports reinstalling an already-installed
-package, so pipeline retries are safe.
+Keep deployment steps idempotent: ``install`` refuses a package whose App is already installed,
+with the ``Package Installed`` error and without changing anything, so a retried install is safe.
+A new version of an installed App is deployed with ``update``.
