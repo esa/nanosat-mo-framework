@@ -115,6 +115,9 @@ public class AppsLauncherManagerBubblewrapTest {
         Assert.assertEquals("/w", cmd.get(bindIdx + 2));
 
         Assert.assertTrue("the sandbox must have its own /proc", containsInOrder(cmd, "--proc", "/proc"));
+        // A /dev of its own, so that /dev/null is writable: the start script
+        // relies on it, and the read-only host /dev made every exit code 0
+        Assert.assertTrue("the sandbox must have its own /dev", containsInOrder(cmd, "--dev", "/dev"));
     }
 
     private static boolean containsInOrder(List<String> cmd, String... args) {

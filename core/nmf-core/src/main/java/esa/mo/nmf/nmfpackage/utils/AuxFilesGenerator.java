@@ -118,8 +118,15 @@ public class AuxFilesGenerator {
         str.append("  -classpath \"$JARS_ALL\" \\\n");
         str.append("  \"$MAIN_CLASS\" \\\n");
         str.append("  \"$@\" ; echo $? > \"$LOG_PATH/$FILENAME.exit\" ; } 2>&1 | tee -a \"$LOG_PATH/$FILENAME\"\n\n");
-        str.append("# Re-export the app's real exit code (defaulting to 0 if unavailable).\n");
-        str.append("exit \"$(cat \"$LOG_PATH/$FILENAME.exit\" 2>/dev/null || echo 0)\"\n");
+        // The code is read without a redirection to /dev/null, which a sandbox
+        // may not let the script write to, and a code that cannot be read is
+        // reported as a failure, never as a clean exit.
+        str.append("# Re-export the app's real exit code. If it cannot be read, the app is\n");
+        str.append("# reported as failed (1): an unknown outcome is never a clean exit.\n");
+        str.append("if [ -r \"$LOG_PATH/$FILENAME.exit\" ]; then\n");
+        str.append("    exit \"$(cat \"$LOG_PATH/$FILENAME.exit\")\"\n");
+        str.append("fi\n");
+        str.append("exit 1\n");
 
         return str.toString();
     }

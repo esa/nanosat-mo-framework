@@ -204,6 +204,50 @@ public class StartAppScriptTest {
                 received.contains(mainClass));
     }
 
+    @Test
+    public void theStartScriptExitsWithTheExitCodeOfTheApp() throws Exception {
+        Assume.assumeTrue("A POSIX shell is needed", new File("/bin/sh").canExecute());
+
+        Assert.assertEquals("a crash must not be reported as a clean exit", 3, runAppWhoseJavaDoes("exit 3"));
+        Assert.assertEquals("a clean exit must be reported as one", 0, runAppWhoseJavaDoes("exit 0"));
+    }
+
+    @Test
+    public void anExitCodeThatCannotBeReadIsReportedAsAFailure() throws Exception {
+        Assume.assumeTrue("A POSIX shell is needed", new File("/bin/sh").canExecute());
+
+        // The App removes its log directory, so its exit code cannot be recorded there
+        String logDir = Deployment.getLogsDirForApp("probe").getAbsolutePath();
+        Assert.assertEquals("an unknown exit code must be reported as a failure", 1,
+                runAppWhoseJavaDoes("rm -rf '" + logDir + "'; exit 0"));
+    }
+
+    /**
+     * Generates the start script of an App whose stand-in for java runs the given
+     * shell commands, runs the script, and answers its exit code.
+     */
+    private int runAppWhoseJavaDoes(String commands) throws Exception {
+        File java = new File(tmp.getRoot(), "java-" + Integer.toHexString(commands.hashCode()));
+        Files.write(java.toPath(), ("#!/bin/sh\n" + commands + "\n").getBytes(StandardCharsets.UTF_8));
+        Assert.assertTrue(java.setExecutable(true));
+
+        MetadataApp meta = new MetadataApp("probe", "1.0", "esa.mo.nmf.apps.Probe", "probe.jar",
+                "64m", "16m", new ArrayList<>(), "6.0");
+        File appDir = new File(root, "apps/probe");
+        Assert.assertTrue(appDir.isDirectory() || appDir.mkdirs());
+        File script = new File(appDir, "start_app.sh");
+        Files.write(script.toPath(), AuxFilesGenerator.generateLinuxStartAppScript(java.getAbsolutePath(), meta)
+                .getBytes(StandardCharsets.UTF_8));
+
+        ProcessBuilder pb = new ProcessBuilder("/bin/sh", script.getAbsolutePath());
+        pb.environment().remove("JAVA_OPTS");
+        pb.redirectErrorStream(true);
+        pb.redirectOutput(new File(tmp.getRoot(), "script-output"));
+        Process p = pb.start();
+        Assert.assertTrue("the start script must finish", p.waitFor(30, TimeUnit.SECONDS));
+        return p.exitValue();
+    }
+
     private static Properties validAppProperties() {
         Properties props = new Properties();
         props.setProperty(Metadata.PACKAGE_TYPE, Metadata.TYPE_APP);
