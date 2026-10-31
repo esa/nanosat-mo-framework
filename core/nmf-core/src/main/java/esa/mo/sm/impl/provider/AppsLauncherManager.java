@@ -25,6 +25,7 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCommon;
+import esa.mo.nmf.AppStorage;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.nmf.accesscontrol.AccessControlAuthority;
 import esa.mo.nmf.accesscontrol.AccessControlMode;
@@ -766,8 +767,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
      * @return the credential file
      */
     static File storageCredentialFileOf(final String appName) {
-        return new File(System.getProperty("user.home"),
-                ".nmf-apps" + File.separator + appName + File.separator + "credential");
+        return new File(new File(AppStorage.getStorageRootDir(), appName), "credential");
     }
 
     /** The permissions an App was granted at installation, as its receipt records them. */

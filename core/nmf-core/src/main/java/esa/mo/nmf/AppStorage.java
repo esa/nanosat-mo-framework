@@ -126,23 +126,39 @@ public class AppStorage {
         return directory;
     }
 
+    /**
+     * Returns the directory that holds the storage of every App. Nothing is
+     * created.
+     *
+     * @return The storage directory of all the Apps.
+     */
+    public static File getStorageRootDir() {
+        return new File(System.getProperty("user.home"), FOLDER_USER_NMF_DIR);
+    }
+
+    /**
+     * Returns the storage directory of the named App, and creates it if it does
+     * not exist. It is the directory that the App itself gets from this class,
+     * so the Supervisor uses it to prepare the storage of an App it starts.
+     *
+     * @param appName The name of the App.
+     * @return The storage directory of the App.
+     */
+    public static File getAppDir(String appName) {
+        File directory = new File(getStorageRootDir(), appName);
+        AppStorage.mkDirAndSetPermissions(directory);
+        return directory;
+    }
+
     private static StringBuilder pathToUserAppDir() {
-        StringBuilder path = new StringBuilder();
-        path.append(System.getProperty("user.home"));
-        path.append(File.separator);
-        path.append(FOLDER_USER_NMF_DIR);
-        path.append(File.separator);
         String name = System.getProperty(HelperMisc.PROP_MO_APP_NAME);
         if (name == null || "null".equals(name)) {
             throw new IllegalArgumentException("The App name property was not set! "
                     + "Property: HelperMisc.PROP_MO_APP_NAME");
         }
-        path.append(name);
+        StringBuilder path = new StringBuilder();
+        path.append(getAppDir(name).getPath());
         path.append(File.separator);
-
-        // Create it if it does not exist...
-        File directory = new File(path.toString());
-        AppStorage.mkDirAndSetPermissions(directory);
         return path;
     }
 
