@@ -57,6 +57,29 @@ public class AppsLauncherManagerBubblewrapTest {
         if (originalHome != null) {
             System.setProperty("user.home", originalHome);
         }
+        System.clearProperty(AppsLauncherManagerBubblewrap.PATH_PROPERTY);
+    }
+
+    @Test
+    public void thePathStartsWithTheBinOfTheSupervisorsJava() {
+        // Java is not always in the system directories, as in the eclipse-temurin images
+        String expected = System.getProperty("java.home") + "/bin:/usr/local/bin:/usr/bin:/bin";
+        Assert.assertEquals(expected, pathIn(manager.assembleCommand("/w", "MyApp", null, new String[0])));
+    }
+
+    @Test
+    public void thePathPropertyReplacesThePath() {
+        System.setProperty(AppsLauncherManagerBubblewrap.PATH_PROPERTY, "/opt/jdk/bin:/usr/bin");
+        Assert.assertEquals("/opt/jdk/bin:/usr/bin",
+                pathIn(manager.assembleCommand("/w", "MyApp", null, new String[0])));
+    }
+
+    /** The value that the command gives PATH with --setenv. */
+    private static String pathIn(String[] command) {
+        List<String> cmd = Arrays.asList(command);
+        int i = java.util.Collections.indexOfSubList(cmd, Arrays.asList("--setenv", "PATH"));
+        Assert.assertTrue("the command must set PATH", i >= 0);
+        return cmd.get(i + 2);
     }
 
     @Test

@@ -131,6 +131,9 @@ Each NMF App runs inside a bubblewrap (``bwrap``) sandbox. The sandbox configura
 - The sandbox has no capabilities and cannot gain any (``no_new_privs``).
 - The sandbox inherits only ``JAVA_OPTS`` and a minimal ``PATH`` from the Supervisor; all other environment
   variables are cleared.
+- The ``PATH`` is the bin directory of the Supervisor's Java runtime, then ``/usr/local/bin:/usr/bin:/bin``,
+  so that the app finds ``java`` where it is not in the system directories, as in the ``eclipse-temurin`` images.
+  The ``esa.mo.nmf.packagemanager.bubblewrap.path`` property replaces it.
 - The sandbox process is linked to the Supervisor via ``--die-with-parent``: if the Supervisor is killed the
   sandboxed app is killed with it.
 

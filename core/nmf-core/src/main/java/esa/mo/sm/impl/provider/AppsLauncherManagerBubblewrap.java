@@ -42,7 +42,9 @@ import java.util.logging.Logger;
  * sandbox has its own {@code /proc}, {@code /dev} and {@code /tmp}, has no
  * capabilities and cannot gain any. The sandbox environment is cleared and
  * only {@code JAVA_OPTS} (carrying the central directory URI) and a minimal
- * {@code PATH} are set explicitly.
+ * {@code PATH} are set explicitly. The {@code PATH} starts with the bin
+ * directory of the Supervisor's Java runtime, and the
+ * {@code esa.mo.nmf.packagemanager.bubblewrap.path} property replaces it.
  *
  * @author Cesar Coelho
  */
@@ -53,6 +55,9 @@ public class AppsLauncherManagerBubblewrap extends AppsLauncherManager {
 
     private static final String BWRAP_CMD = "/usr/bin/bwrap";
     private static final String DEFAULT_PATH = "/usr/local/bin:/usr/bin:/bin";
+
+    /** System property replacing the PATH of the sandbox. */
+    public static final String PATH_PROPERTY = "esa.mo.nmf.packagemanager.bubblewrap.path";
 
     /**
      * The system directories, mounted read-only where they exist. On a system
@@ -152,11 +157,27 @@ public class AppsLauncherManagerBubblewrap extends AppsLauncherManager {
 
         ret.add("--setenv");
         ret.add("PATH");
-        ret.add(DEFAULT_PATH);
+        ret.add(sandboxPath());
 
         ret.add("./start_app.sh");
 
         return ret.toArray(new String[0]);
+    }
+
+    /**
+     * The PATH of the sandbox: the bin directory of the Supervisor's own Java
+     * runtime first, which is mounted, so that the start script finds
+     * {@code java} where it is not in the system directories, as in the
+     * eclipse-temurin images, and then the system directories. The
+     * {@value #PATH_PROPERTY} property replaces it.
+     */
+    static String sandboxPath() {
+        String path = System.getProperty(PATH_PROPERTY);
+        if (path != null && !path.trim().isEmpty()) {
+            return path.trim();
+        }
+        String javaHome = System.getProperty("java.home");
+        return (javaHome != null) ? javaHome + File.separator + "bin:" + DEFAULT_PATH : DEFAULT_PATH;
     }
 
     /** Mounts a directory read-only at the same path, if it exists. */
