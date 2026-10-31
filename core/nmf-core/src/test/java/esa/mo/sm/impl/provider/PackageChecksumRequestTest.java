@@ -178,7 +178,7 @@ public class PackageChecksumRequestTest {
         }
 
         @Override
-        public boolean isFinalVersionInstalled(String packageName) {
+        public boolean replacesInstalledPackage(String packageName) {
             return false;
         }
 

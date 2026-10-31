@@ -98,14 +98,16 @@ public interface PMBackend {
     boolean isPackageInstalled(final String packageName);
 
     /**
-     * Checks whether a final (non-SNAPSHOT) build of a package's version is
-     * already installed, so installing it again must be rejected. A SNAPSHOT
-     * version returns false: it is not final and may always be overridden.
+     * Checks whether installing a package would replace a package that is
+     * installed, so that installing it must be refused. An App package replaces
+     * the App of its name, whatever the version, except the same SNAPSHOT
+     * version, which may be installed again over itself. Any other package
+     * replaces only the same final (non-SNAPSHOT) version of itself.
      *
      * @param packageName The name of the package.
-     * @return True if this final version is already installed.
+     * @return True if installing the package would replace an installed one.
      */
-    boolean isFinalVersionInstalled(final String packageName);
+    boolean replacesInstalledPackage(final String packageName);
 
     /**
      * Returns the currently installed version of a package.

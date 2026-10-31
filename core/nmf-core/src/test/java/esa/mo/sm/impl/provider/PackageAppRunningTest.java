@@ -171,7 +171,7 @@ public class PackageAppRunningTest {
         }
 
         @Override
-        public boolean isFinalVersionInstalled(String packageName) {
+        public boolean replacesInstalledPackage(String packageName) {
             return false;
         }
 

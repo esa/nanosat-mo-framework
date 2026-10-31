@@ -496,24 +496,33 @@ public class NMFPackageManager {
     }
 
     /**
-     * Checks whether a package's version is already installed and therefore may
-     * not be installed again. Used only to reject a re-install; it is distinct
-     * from {@link #isPackageInstalled} (which answers "is this exact package
-     * present" for uninstall and post-install confirmation).
+     * Checks whether installing a package would replace a package that is
+     * installed, and therefore may not be done with an install. Used only to
+     * refuse an install; it is distinct from {@link #isPackageInstalled} (which
+     * answers "is this exact package present" for uninstall and post-install
+     * confirmation).
      *
      * <p>
-     * A final (release) version is immutable: once its name and version are
-     * installed, re-installing the same version is rejected. A
-     * {@code -SNAPSHOT} version is not final and may always be overridden, so it
-     * is never reported as installed here. For a baseline component (nmf,
+     * An App is identified by its name: its directory, its storage, its
+     * receipt and, under linux-userspace, its Linux account follow the name. A
+     * package of another version, or of another publisher, with the name of an
+     * installed App would take the App over, so it is refused whatever its
+     * version; an App is replaced with an update instead. Only the same
+     * {@code -SNAPSHOT} version may be installed again, over itself.
+     *
+     * <p>
+     * Any other package replaces only the same final version of itself. A final
+     * (release) version is immutable: once its name and version are installed,
+     * re-installing the same version is rejected. A {@code -SNAPSHOT} version
+     * is not final and may always be overridden. For a baseline component (nmf,
      * mission, java) "installed" means its versioned directory (e.g.
      * {@code jars-nmf/<v>}) already exists on disk; for other packages it means
      * an installation receipt with the same name and version exists.
      *
      * @param packageLocation The package location.
-     * @return {@code true} if this final version is already installed.
+     * @return {@code true} if installing the package would replace an installed one.
      */
-    public boolean isFinalVersionInstalled(final String packageLocation) {
+    public boolean replacesInstalledPackage(final String packageLocation) {
         Metadata metadata;
         try {
             try (NMFPackage pack = new NMFPackage(packageLocation)) {
@@ -527,6 +536,10 @@ public class NMFPackageManager {
 
         String packageName = metadata.getPackageName();
         String version = metadata.getPackageVersion();
+
+        if (metadata.isApp()) {
+            return replacesInstalledApp(packageName, version);
+        }
 
         // SNAPSHOT versions are not final: they may always be re-installed
         // (overridden), so they are never treated as an existing installation.
@@ -572,6 +585,40 @@ public class NMFPackageManager {
         return installedMetadata != null
                 && packageName.equals(installedMetadata.getPackageName())
                 && version.equals(installedMetadata.getPackageVersion());
+    }
+
+    /**
+     * Whether an App package of this name and version would replace the
+     * installed App of its name: always, except the same SNAPSHOT version.
+     */
+    private static boolean replacesInstalledApp(final String packageName, final String version) {
+        File receiptFile = new File(Deployment.getInstallationsTrackerDir(),
+                packageName + RECEIPT_ENDING);
+        if (!receiptFile.exists()) {
+            return false;
+        }
+
+        Metadata installedMetadata;
+        try {
+            installedMetadata = Metadata.load(receiptFile);
+        } catch (IOException ex) {
+            // An App of this name is installed, even if its receipt cannot be read
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.SEVERE,
+                    "The receipt of the App " + packageName + " could not be loaded!", ex);
+            return true;
+        }
+
+        String installedVersion = (installedMetadata != null) ? installedMetadata.getPackageVersion() : null;
+        if (isSnapshotVersion(version) && version.equals(installedVersion)) {
+            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.FINE,
+                    "The package " + packageName + " is the installed SNAPSHOT and can be overridden.");
+            return false;
+        }
+
+        Logger.getLogger(NMFPackageManager.class.getName()).log(Level.WARNING,
+                "The App " + packageName + " " + installedVersion + " is installed: the package of version "
+                + version + " may only replace it with an update");
+        return true;
     }
 
     /**

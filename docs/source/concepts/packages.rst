@@ -89,13 +89,17 @@ whatever mission-specific distribution path applies (file uplink, ground network
 It verifies the metadata file, checks each entry's SHA-256 against the value declared in metadata,
 and extracts files to their target locations under ``NMF_HOME``.
 A package whose files do not match is refused with the ``Integrity Check Failed`` error.
+An install never replaces an installed App:
+an App package with the name of an installed App is refused with the ``Package Installed`` error, whatever its version,
+except the same SNAPSHOT version, which may be installed again over itself.
+An installed App is replaced with ``update``.
 An install or update can also carry the SHA-256 that the package file is expected to have
 (see `Checking the package file against ground`_ below).
 
 **Run.** Once installed, an app is started via ``AppsLauncher.runApp`` (see :doc:`lifecycle`).
 
 **Uninstall.** ``PackageManagement.uninstall`` removes the installed files and the package registration.
-``update`` performs uninstall + install of a newer version in one step.
+``update`` performs uninstall + install of another version in one step, newer, older or the same.
 Before any file is removed, the Supervisor stops the App of each requested package and checks that no process still runs it,
 including one that the Apps Launcher did not start, such as a start script run by hand.
 If one does, the request fails with the ``App Running`` error, which names the packages whose App is still running,

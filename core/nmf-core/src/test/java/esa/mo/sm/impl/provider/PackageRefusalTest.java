@@ -212,7 +212,7 @@ public class PackageRefusalTest {
         }
 
         @Override
-        public boolean isFinalVersionInstalled(String packageName) {
+        public boolean replacesInstalledPackage(String packageName) {
             return INSTALLED.equals(packageName);
         }
 

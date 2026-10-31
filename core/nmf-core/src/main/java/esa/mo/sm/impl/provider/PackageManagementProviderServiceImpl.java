@@ -219,10 +219,12 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                 boolean integrity = backend.checkPackageIntegrity(availablePackages.get(index));
                 integrities.add(integrity);
 
-                // A final (non-SNAPSHOT) build of a version is installed once. A
-                // SNAPSHOT version is not final and may always be re-installed
-                // (overridden).
-                if (backend.isFinalVersionInstalled(name)) {
+                // An install never replaces an installed package: an App of
+                // the same name, whatever its version (except the same SNAPSHOT
+                // version, which may be installed again), is replaced with an
+                // update, and any other package is installed once per final
+                // version.
+                if (backend.replacesInstalledPackage(name)) {
                     refusals.installed.add(new UInteger(i));
                 }
                 refusals.check(i, integrity, approval, availablePackages.get(index));

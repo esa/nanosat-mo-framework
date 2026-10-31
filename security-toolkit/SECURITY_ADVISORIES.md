@@ -23,6 +23,7 @@ it must be reported privately, not added to this file.
 | [NMF-2026-009](#nmf-2026-009-os-command-injection-through-the-artificial-intelligence-service) | OS command injection through the Artificial Intelligence service | Fixed | >= 3.0.0, < 6.0 | 6.0 | — |
 | [NMF-2026-010](#nmf-2026-010-unauthenticated-command-execution-through-the-commandexecutor-service) | Unauthenticated command execution through the CommandExecutor service | Fixed | >= 2.0.0, < 6.0 | 6.0 | — |
 | [NMF-2026-011](#nmf-2026-011-an-app-can-take-over-the-supervisors-entry-in-the-directory-service) | An App can take over the Supervisor's entry in the Directory service | Fixed | < 6.0 | 6.0 | — |
+| [NMF-2026-012](#nmf-2026-012-a-package-with-the-name-of-an-installed-app-takes-it-over) | A package with the name of an installed App takes it over | Fixed | < 6.0 | 6.0 | — |
 
 ---
 
@@ -935,3 +936,97 @@ and cannot remove the Supervisor's entry;
 it fails on the earlier code.
 `DirectoryEntryOwnershipTest` and `PackageNameTest` (`nmf-services-impl`),
 which check the rule for each caller and each access control mode, and the reserved name.
+
+### NMF-2026-012: A package with the name of an installed App takes it over
+
+| Field | Value |
+|---|---|
+| Status | Fixed |
+| GHSA / CVE | Not published |
+| Ecosystem | Maven |
+| Package | `int.esa.nmf.core:nmf-package-lib`, `int.esa.nmf.core:nmf-services-impl` |
+| Affected versions | < 6.0 |
+| Fixed in | 6.0 |
+| Reported | Mari ([mpiirstatebuilding](https://github.com/mpiirstatebuilding)), reported privately |
+| Severity | Medium (a package installed under the name of another App replaces its code and takes over its directory, its storage and, under linux-userspace, its Linux account) |
+| Weaknesses | CWE-694: Use of Multiple Resources with Duplicate Identifier; CWE-284: Improper Access Control |
+
+#### Impact
+
+An App is identified by the name that its package declares.
+The name gives the App directory (`apps/<name>`), its storage (`.nmf-apps/<name>`), its log directory, its installation receipt and,
+under linux-userspace isolation, its Linux account (`app-<name>`).
+
+The `install` operation of the Package Management service refuses a package only when a package with the same name and the same final version is installed.
+A package with the name of an installed App and any other version, higher or lower, is installed as if the name were free:
+
+* Its files are written into the directory of the installed App, whose own files stay in place.
+* The start script and the provider and transport properties of the App are generated again for the new package,
+  so the App runs the code of the new package from then on.
+* The receipt of the installed App is replaced by the receipt of the new package, with the permissions that ground acknowledged for it.
+* Under linux-userspace isolation, the new package gets the Linux account of the installed App, with the same uid and gid.
+* The App is not stopped first, the result is reported as a successful install,
+  and no error or warning says that another App was replaced.
+
+The `findPackage` operation compares the whole package, not only its name,
+so it reports the new package as not installed while the other App is,
+and gives ground no sign of the collision before it approves the install.
+
+The new package therefore takes over everything that belonged to the installed App:
+its code, its configuration, the data in its storage and, under linux-userspace, its account and every file that the account owns.
+The `update` operation, which is meant for replacing an App, stops it first and removes its files; `install` does neither.
+
+This needs no crafted package.
+Two developers who choose the same App name by chance cause it.
+
+To exploit this, an attacker must get a package installed, which ground must approve.
+In 6.0, ground approves the SHA-256 of each package file it installs,
+but nothing in the approval tells ground that the package replaces another App.
+In versions before 6.0, the Supervisor checks no caller
+(see [NMF-2026-010](#nmf-2026-010-unauthenticated-command-execution-through-the-commandexecutor-service)),
+so anyone who can reach the Supervisor over the network can install a package already on board.
+
+Packages have been refused only when the same name and version are installed since 2.0.0;
+the takeover of the Linux account needs linux-userspace isolation, available since 3.0.0.
+Mari reproduced it on 6.0 in development, under linux-userspace, also with a package of a lower version than the installed one.
+It was also reproduced with the real Package Management service of 6.0 in development, before the fix:
+packages of a higher version, of a lower version and of another SNAPSHOT version were each installed over an App of their name,
+and the App then started the jar of the new package.
+
+#### Workarounds
+
+* Before installing a package, check with `findPackage` and the list of installed Apps that no installed App has its name.
+* Replace an installed App only with `update`, or with `uninstall` followed by `install`.
+
+#### Fix
+
+The `install` operation no longer replaces an installed App:
+
+* A package of an App is refused when an App of its name is installed, whatever the version of either,
+  with the `Package Installed` error of the Software Management area, which names the refused packages by their index in the request.
+  No file, receipt or account is changed.
+* The same SNAPSHOT version may still be installed again over itself, so that a development build can be re-installed.
+* An installed App is replaced only with `update`, which stops the App, removes the files of the installed package
+  and stores a `PackageUpdated` object with both versions in the COM Archive.
+  An update may go to a higher, a lower or the same version.
+
+The rule for the other packages is unchanged: a dependency or a baseline component (NMF, mission or Java runtime) is refused only when its same final version is installed.
+The packages of a dependency are named after the library, so the packages of two versions of one library share a name, and two Apps may need different versions of it.
+
+#### References
+
+[1] Installation: `PackageManagementProviderServiceImpl.install` in `nmf-services-impl`,
+which refused a package only when `NMFPackageManager.isFinalVersionInstalled` found a receipt with its name and version.
+In 6.0, it refuses a package when `NMFPackageManager.replacesInstalledPackage` (`nmf-core`) finds that it would replace an installed one.
+
+[2] Files, receipt and account of an App: `NMFPackageManager.install` in `nmf-package-lib` (`nmf-core` in 6.0),
+which writes into `apps/<name>`, replaces the receipt `<name>.receipt` and creates the account `app-<name>`, or reuses it if it exists.
+
+[3] Installed status: `NMFPackageManager.isPackageInstalled`, used by `findPackage`, which compares the whole package with the receipt.
+
+[4] Regression test: `Nmf2026012Test` (`security-toolkit/vulnerability-tests`),
+which runs the real Package Management service with the real NMF Package backend on an NMF root of its own,
+installs an App, and checks that packages of its name and of a higher, a lower or another SNAPSHOT version are refused
+and leave the App's start script, files and receipt unchanged;
+it fails on the earlier code.
+It also checks that the same SNAPSHOT version can still be installed again and that an update still replaces the App.

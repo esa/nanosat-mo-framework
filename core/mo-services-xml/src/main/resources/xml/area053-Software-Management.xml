@@ -78,7 +78,7 @@
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="When the same final version of one or more of the requested packages is already installed.">
+                        <mal:errorRef comment="When one or more of the requested packages would replace an installed package: an App package with the name of an installed App, unless it is the same SNAPSHOT version, or any other package whose same final version is installed.">
                             <mal:type area="SM" list="false" name="Package Installed"/>
                             <mal:extraInformation comment="The indexes of the error values.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
