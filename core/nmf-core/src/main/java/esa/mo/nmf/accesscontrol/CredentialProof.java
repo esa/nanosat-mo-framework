@@ -169,19 +169,6 @@ public final class CredentialProof {
         return new Parsed(keyId, session, counter, mac);
     }
 
-    /**
-     * Returns whether the bytes look like a token rather than a credential sent
-     * as it is, so that the two can be told apart in the one
-     * {@code authenticationId} field.
-     *
-     * @param authenticationId the bytes
-     * @return true if they are a token
-     */
-    public static boolean looksLikeToken(final byte[] authenticationId) {
-        return authenticationId != null && authenticationId.length == LENGTH
-                && authenticationId[0] == VERSION;
-    }
-
     private static byte[] mac(final byte[] credential, final byte[] keyId, final byte[] session,
             final long counter, final byte[] runId, final MALMessageHeader header) {
         try {

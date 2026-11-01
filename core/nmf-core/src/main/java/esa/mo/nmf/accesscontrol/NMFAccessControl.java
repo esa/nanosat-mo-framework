@@ -58,6 +58,9 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
  */
 public final class NMFAccessControl implements MALAccessControl {
 
+    /** Declared before {@link #INSTANCE}, whose session it makes while the class initialises. */
+    private static final SecureRandom RANDOM = new SecureRandom();
+
     /** The access control of this process. */
     public static final NMFAccessControl INSTANCE = new NMFAccessControl();
 
@@ -81,8 +84,6 @@ public final class NMFAccessControl implements MALAccessControl {
 
     private static final Logger LOGGER = Logger.getLogger(NMFAccessControl.class.getName());
 
-    private static final SecureRandom RANDOM = new SecureRandom();
-
     /**
      * The classes of the MAL implementation that call the check for the messages
      * that the process sends: requests and replies, and what its brokers send on.
@@ -102,11 +103,11 @@ public final class NMFAccessControl implements MALAccessControl {
     private volatile boolean ground;
     /** The run id that the Supervisor last gave, or null before it gave one. */
     private volatile byte[] runId;
-    /** Whether the Supervisor has answered without a run id: it takes credentials as they are. */
-    private volatile boolean answeredPlain;
 
+    /** The counter of this process's requests, shared by all its threads. */
     private final AtomicLong counter = new AtomicLong();
-    private final ThreadLocal<byte[]> session = ThreadLocal.withInitial(NMFAccessControl::newSession);
+    /** The session of this process, one for all its threads, so the Supervisor keeps one window for it. */
+    private final byte[] session = newSession();
 
     private NMFAccessControl() {
     }
@@ -153,7 +154,6 @@ public final class NMFAccessControl implements MALAccessControl {
         this.credential = secret.clone();
         this.ground = isGround;
         this.runId = null;
-        this.answeredPlain = false;
     }
 
     /**
@@ -252,43 +252,41 @@ public final class NMFAccessControl implements MALAccessControl {
     }
 
     /**
-     * Notes what an answer of the Supervisor says: a run id to sign over, or,
-     * when it carries none and none came before, that the Supervisor takes
-     * credentials as they are. Once a run id has come, a ground tool never sends
-     * its credential as it is again.
+     * Notes the run id that an answer of the Supervisor gives, the newest one
+     * winning, so that a ground tool signs over the run id of the Supervisor
+     * that is running now. An answer never changes how the credential is
+     * proved: that follows the {@link CredentialsMode} of this process.
      */
     private void learnFromAnswer(final MALMessageHeader header) {
         Blob id = header.getAuthenticationId();
         if (!isEmpty(id) && id.getValue().length == CredentialProof.RUN_ID_LENGTH) {
             runId = id.getValue().clone();
-        } else if (runId == null) {
-            answeredPlain = true;
         }
     }
 
     /**
      * Returns what a request to the Supervisor carries to prove this process's
      * credential, or null for nothing yet.
-     * <ul>
-     * <li>An App follows the mission's {@link CredentialsMode}, which the
-     * Supervisor passes to it.</li>
-     * <li>A ground tool follows the Supervisor: it signs over the run id the
-     * Supervisor gave, sends the credential as it is to a Supervisor that
-     * answered without one, and sends nothing before the first answer.</li>
-     * </ul>
+     * <p>
+     * Every caller follows the {@link CredentialsMode} of its process: the
+     * Supervisor passes it to the Apps it starts, and a ground tool of a plain
+     * mission is given it by hand. Under plain credentials the credential goes
+     * as it is. Under signed credentials, the default, an App signs each
+     * request, and a ground tool signs over the Supervisor's run id and sends
+     * nothing until an answer has given it one.
      */
     private Blob proofFor(final byte[] secret, final MALMessageHeader header) {
-        if (ground) {
-            byte[] id = runId;
-            if (id != null) {
-                return new Blob(CredentialProof.sign(secret, session.get(), counter.incrementAndGet(), id, header));
-            }
-            return answeredPlain ? new Blob(secret.clone()) : null;
-        }
         if (CredentialsMode.current() == CredentialsMode.PLAIN) {
             return new Blob(secret.clone());
         }
-        return new Blob(CredentialProof.sign(secret, session.get(), counter.incrementAndGet(), null, header));
+        byte[] id = null;
+        if (ground) {
+            id = runId;
+            if (id == null) {
+                return null;
+            }
+        }
+        return new Blob(CredentialProof.sign(secret, session, counter.incrementAndGet(), id, header));
     }
 
     /**

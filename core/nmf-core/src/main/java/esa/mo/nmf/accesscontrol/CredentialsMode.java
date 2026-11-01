@@ -56,6 +56,7 @@ public enum CredentialsMode {
      * The system property, set by the bootloader from
      * {@code access-control-credentials} in its configuration and by the
      * Supervisor for each App it starts, that holds the mode: signed or plain.
+     * A ground tool reads it too; those of a plain mission must be given it.
      */
     public static final String PROPERTY = "esa.mo.nmf.accesscontrol.credentials";
 

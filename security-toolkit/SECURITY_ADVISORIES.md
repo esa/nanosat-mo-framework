@@ -1338,7 +1338,9 @@ A caller no longer sends its credential: it signs each request to the Supervisor
   a counter, which the process increases with each request;
   and the first 16 bytes of an HMAC-SHA256, keyed with the credential, of all of these and of the area, area version, service, operation and interaction of the request.
   The credential never leaves its holder, and a token taken from one request cannot be put on a request to another operation.
-* The Supervisor keeps, for each session, the highest counter it has accepted and which of the 128 before it it has seen,
+  The token does not cover the arguments of the request, so whoever can stop a request on its way, rather than only read it, can still send it once with other arguments.
+* A process signs with one session for all its threads.
+  The Supervisor keeps, for each session, the highest counter it has accepted and which of the 4,096 before it it has seen,
   and refuses a counter it has already accepted or that is older than that.
   A captured request is therefore refused when it is sent again.
 * An App's credential is new each time the App starts and is revoked when it stops, so its sessions last as long as the App.
@@ -1357,13 +1359,14 @@ Signed credentials are the default, and a mission can choose at design time to s
   `plain` is meant for a mission whose Supervisor can be reached only through the loopback,
   where capturing its traffic needs root, which can read the credential files anyway.
 * The Supervisor passes the setting to each App it starts.
-  A ground tool sends no credential until it has received a first answer from the Supervisor;
-  it then signs if the Supervisor gave a run identifier, and sends its credential as before if it did not.
-  Once it has received a run identifier from a Supervisor, it no longer sends that Supervisor its credential itself.
+  A ground tool reads it from the same system property, `esa.mo.nmf.accesscontrol.credentials`, which defaults to `signed`;
+  the ground tools of a `plain` mission must be given `plain`.
+  Under `signed` a ground tool sends no credential until an answer of the Supervisor has given it a run identifier,
+  and no answer can make it send its credential as it is.
 * With `signed`, the Supervisor refuses a request that carries a credential itself.
 
 Signing adds 5 bytes to a request, a token of 37 bytes in place of a credential of 32,
-17 bytes to the responses of the Directory and to errors,
+16 bytes to the responses of the Directory and to errors,
 and one HMAC-SHA256 on each side of a request, a fraction of a microsecond on a desktop processor.
 
 #### References

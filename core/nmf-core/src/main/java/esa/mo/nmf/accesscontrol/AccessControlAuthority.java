@@ -79,8 +79,13 @@ public final class AccessControlAuthority {
      */
     static final int MAX_GROUND_SESSIONS = 10_000;
 
-    /** How many sessions an App, or the Supervisor itself, may have at once: one per sending thread. */
-    private static final int MAX_SESSIONS = 4_096;
+    /**
+     * How many sessions an App, or the Supervisor itself, may have. A process
+     * signs with one session, and an App gets a new credential each time it
+     * starts, so this only bounds what a misbehaving caller can make the
+     * Supervisor hold.
+     */
+    private static final int MAX_SESSIONS = 64;
 
     /** A known caller: an App with what it was granted, or ground. */
     private static final class Caller {
@@ -153,7 +158,7 @@ public final class AccessControlAuthority {
     private final byte[] ownMark = NMFAccessControl.newCredential();
     private final String ownKey = NMFAccessControl.toText(ownMark);
     private final AtomicLong ownCounter = new AtomicLong();
-    private final ThreadLocal<byte[]> ownSession = ThreadLocal.withInitial(NMFAccessControl::newSession);
+    private final byte[] ownSession = NMFAccessControl.newSession();
 
     private volatile Generation current = new Generation();
     private volatile Generation previous;
@@ -335,18 +340,17 @@ public final class AccessControlAuthority {
      * not given out, so no other process can make it.
      *
      * <p>
-     * Under signed credentials, a reply or notification that the Supervisor sends
-     * to anyone else carries its current run id, so that a ground tool learns
-     * what to sign over from the first answer it gets, the look-up of the
-     * Directory, which needs no credential.
+     * Under signed credentials, the replies of the Directory and the errors that
+     * the Supervisor sends to anyone else carry its current run id, so that a
+     * ground tool learns what to sign over from the look-up of the Directory it
+     * makes first, which needs no credential (see {@link #carriesRunId}).
      *
      * @param header the header of the message that the Supervisor sends
      */
     public void markOwnMessage(final MALMessageHeader header) {
         boolean signed = CredentialsMode.current() == CredentialsMode.SIGNED;
         if (!isToSupervisor(header)) {
-            if (signed && !isInitiating(header) && !isPublishing(header)
-                    && NMFAccessControl.isEmpty(header.getAuthenticationId())) {
+            if (signed && carriesRunId(header) && NMFAccessControl.isEmpty(header.getAuthenticationId())) {
                 header.setAuthenticationId(new Blob(current.runId.clone()));
             }
             return;
@@ -354,9 +358,27 @@ public final class AccessControlAuthority {
         if (isPublishing(header)
                 || (isInitiating(header) && NMFAccessControl.isEmpty(header.getAuthenticationId()))) {
             header.setAuthenticationId(new Blob(signed
-                    ? CredentialProof.sign(ownMark, ownSession.get(), ownCounter.incrementAndGet(), null, header)
+                    ? CredentialProof.sign(ownMark, ownSession, ownCounter.incrementAndGet(), null, header)
                     : ownMark.clone()));
         }
+    }
+
+    /**
+     * Returns whether a message that the Supervisor sends to someone else is one
+     * that gives the run id: a reply of the Directory, which a ground tool gets
+     * first, from the look-up that needs no credential, and an error, which a
+     * tool gets when its run id is no longer accepted. Other replies and the
+     * notifications go without it.
+     */
+    private static boolean carriesRunId(final MALMessageHeader header) {
+        if (isInitiating(header) || isPublishing(header)) {
+            return false;
+        }
+        if (Boolean.TRUE.equals(header.getIsErrorMessage())) {
+            return true;
+        }
+        Call call = Call.of(header);
+        return call != null && "COM.Directory".equals(call.service);
     }
 
     /**
@@ -398,9 +420,8 @@ public final class AccessControlAuthority {
         if (proof == null) {
             return null; // A credential sent as it is, or nothing this authority knows
         }
-        if (Arrays.equals(proof.keyId, self.keyId)) {
-            return (CredentialProof.verify(ownMark, value, null, header)
-                    && fresh(self.sessions, proof, consume, MAX_SESSIONS)) ? self : null;
+        if (Arrays.equals(proof.keyId, self.keyId) && CredentialProof.verify(ownMark, value, null, header)) {
+            return fresh(self.sessions, proof, consume, MAX_SESSIONS) ? self : null;
         }
         for (Caller caller : callers.values()) {
             if (!Arrays.equals(proof.keyId, caller.keyId)) {
