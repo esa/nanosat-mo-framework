@@ -87,6 +87,12 @@ end
 
 celestia:select(spacecraft)
 
+-- The orbit paths of the planets and the Moon are drawn at their true distance,
+-- astronomical units out, and all lie near the ecliptic, so they stack up into
+-- a band of lines across the sky behind the spacecraft. The picture is meant to
+-- be of the spacecraft and the Earth, so the orbit paths are turned off.
+celestia:setrenderflags{orbits = false}
+
 if earth ~= nil and earth:type() ~= "null" then
     local earthPosition = earth:getposition()
     local spacecraftPosition = spacecraft:getposition()
