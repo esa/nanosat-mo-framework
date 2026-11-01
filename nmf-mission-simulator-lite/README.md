@@ -11,7 +11,7 @@ needed, use `nmf-mission-simulator-orekit` instead.
 
 The spacecraft can be flown in Celestia, the same viewer the Orekit mission
 uses.
-Start Celestia with `nmf-mission-simulator-orekit/celestia/run.sh` and give the
+Start Celestia with `celestia/run.sh` and give the
 lite Supervisor these in its environment:
 
 ```

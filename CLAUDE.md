@@ -58,8 +58,9 @@ core/
   nmf-core-package/         # Packages the NMF core baseline as an NMF Package
 nmf-mission-barebone/       # Minimal mission impl for testing NMF features at runtime
 nmf-mission-simulator-lite/ # Analytic orbit simulator (cubesat-gps-simulator)
-nmf-mission-simulator-orekit/ # Orekit-propagated spacecraft simulator (platform services impl,
-                            #   Celestia visualisation)
+nmf-mission-simulator-orekit/ # Orekit-propagated spacecraft simulator (platform services impl)
+celestia/                   # Celestia visualisation of the simulated spacecraft (container +
+                            #   add-on); shared by both the Orekit and the lite missions
 sdk/
   consumer-test-tool/       # GUI tool for consuming all NMF services (CTT)
   cli-tool/                 # CLI interface to NMF

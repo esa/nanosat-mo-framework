@@ -17,7 +17,7 @@ It introduces the concept of apps in space that can be started and stopped from 
 <p align="center">
   <img src="docs/source/images/cubesat-india.png" alt="The simulated CubeSat over the Indian subcontinent, rendered in Celestia" width="840"/>
   <br/>
-  <em>The simulated spacecraft flying over the Indian subcontinent, shown in <a href="nmf-mission-simulator-orekit/celestia">Celestia</a>.</em>
+  <em>The simulated spacecraft flying over the Indian subcontinent, shown in <a href="celestia">Celestia</a>.</em>
 </p>
 
 A Software Development Kit (SDK) is available in order to facilitate the development with the [NanoSat MO Framework].

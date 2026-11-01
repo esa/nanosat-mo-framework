@@ -33,7 +33,7 @@ Implements Space Applications Supervisor, exposing NMF Platform Services to the 
 
 Framework for a single, integrated space application, without Supervisor/Apps split.
 
-#### [Celestia](celestia)
+#### [Celestia](../celestia)
 
 Shows the simulated spacecraft flying, in Celestia, running in a container.
 
