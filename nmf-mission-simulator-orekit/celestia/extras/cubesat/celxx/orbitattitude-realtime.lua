@@ -398,7 +398,7 @@ local function acceptOne()
         -- Said once for each spacecraft turned away. They come back every few
         -- seconds for as long as they run, and saying so each time buries
         -- everything else in the log.
-        local who = tostring(name or "a simulator that did not say")
+        local who = tostring(name or "an unnamed simulator")
 
         if not refused[who] then
             io.write("orbitattitude-realtime: no slot free for ", who,
@@ -426,7 +426,7 @@ local function acceptOne()
     end
 
     io.write("orbitattitude-realtime: slot ", tostring(slot.number), " is ",
-             tostring(slot.name or "a simulator that did not say"), "\n")
+             tostring(slot.name or "an unnamed simulator"), "\n")
     io.flush()
     return true
 end
@@ -904,7 +904,7 @@ local function showStatus()
             -- The name on screen first, then the name the simulator gave, so
             -- that the spacecraft in the picture can be told from the list.
             local line = (SLOT_OBJECTS[slot.number] or slot.number) .. " = "
-                    .. tostring(slot.name or "a simulator that did not say")
+                    .. tostring(slot.name or "an unnamed simulator")
 
             if slot.mode ~= nil then
                 line = line .. "  " .. slot.mode
