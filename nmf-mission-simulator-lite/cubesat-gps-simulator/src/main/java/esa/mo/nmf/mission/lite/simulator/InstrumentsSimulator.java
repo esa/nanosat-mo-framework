@@ -71,6 +71,15 @@ public class InstrumentsSimulator {
         return this.gps;
     }
 
+    /**
+     * @return The orbit the simulator flies, which works the position out
+     * analytically. The Celestia feed reads it directly, for the inertial
+     * position before the GPS rounds it to a receiver's resolution.
+     */
+    public Orbit getOrbit() {
+        return this.orbit;
+    }
+
     /*
     public double getGPSlatitude() {
         return this.gps.getPosition().getlatitude();

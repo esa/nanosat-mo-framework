@@ -169,7 +169,8 @@ public class Orbit {
                 this.v,
                 time,
                 positionEarthFixed,
-                velocityEarthFixed);
+                velocityEarthFixed,
+                this.r);
     }
 
     // Calculates ascending node change (RAAN)

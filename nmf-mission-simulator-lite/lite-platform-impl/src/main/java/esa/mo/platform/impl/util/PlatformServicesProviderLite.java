@@ -24,8 +24,11 @@ import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.platform.impl.provider.gen.GPSProviderServiceImpl;
 import esa.mo.platform.impl.provider.lite.GPSLiteAdapter;
 import esa.mo.platform.impl.provider.lite.OrbitFromEnvironment;
+import esa.mo.nmf.mission.lite.simulator.CelestiaFeeder;
 import esa.mo.nmf.mission.lite.simulator.InstrumentsSimulator;
 import esa.mo.nmf.mission.lite.simulator.Orbit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.platform.artificialintelligence.provider.ArtificialIntelligenceInheritanceSkeleton;
 import org.ccsds.moims.mo.platform.autonomousadcs.provider.AutonomousADCSInheritanceSkeleton;
@@ -44,6 +47,24 @@ import org.ccsds.moims.mo.platform.softwaredefinedradio.provider.SoftwareDefined
  */
 public class PlatformServicesProviderLite implements PlatformServicesProviderInterface {
 
+    private static final Logger LOGGER = Logger.getLogger(PlatformServicesProviderLite.class.getName());
+
+    /** Set to {@code true} in the environment to show the spacecraft in Celestia. */
+    private static final String ENV_CELESTIA = "CELESTIA";
+
+    /** Where Celestia is listening; the loopback by default. */
+    private static final String ENV_CELESTIA_HOST = "CELESTIA_HOST";
+
+    /** The port Celestia is listening on; its usual one by default. */
+    private static final String ENV_CELESTIA_PORT = "CELESTIA_PORT";
+
+    /** The name the spacecraft announces to Celestia. */
+    private static final String ENV_SPACECRAFT_NAME = "SPACECRAFT_NAME";
+
+    private static final String DEFAULT_CELESTIA_HOST = "127.0.0.1";
+    private static final int DEFAULT_CELESTIA_PORT = 5909;
+    private static final String DEFAULT_SPACECRAFT_NAME = "cubesat";
+
     private final InstrumentsSimulator simulator = newSimulator();
 
     /**
@@ -60,6 +81,49 @@ public class PlatformServicesProviderLite implements PlatformServicesProviderInt
     @Override
     public void init(COMServicesProvider comServices) throws MALException {
         gpsService.init(comServices, new GPSLiteAdapter(simulator));
+        startCelestiaFeed();
+    }
+
+    /**
+     * Starts feeding the position to Celestia, when the environment asks for
+     * it. The feed is off unless {@code CELESTIA} is {@code true}, so that a
+     * Supervisor with nowhere to draw does not spend the session dialling a
+     * Celestia that is not there.
+     */
+    private void startCelestiaFeed() {
+        if (!Boolean.parseBoolean(System.getenv(ENV_CELESTIA))) {
+            return;
+        }
+
+        String host = valueOr(ENV_CELESTIA_HOST, DEFAULT_CELESTIA_HOST);
+        int port = intValueOr(ENV_CELESTIA_PORT, DEFAULT_CELESTIA_PORT);
+        String name = valueOr(ENV_SPACECRAFT_NAME, DEFAULT_SPACECRAFT_NAME);
+
+        CelestiaFeeder feeder = new CelestiaFeeder(simulator.getOrbit(), host, port, name, LOGGER);
+        Thread thread = new Thread(feeder, "lite-" + CelestiaFeeder.class.getSimpleName());
+        thread.setDaemon(true);
+        thread.start();
+        LOGGER.log(Level.INFO, "The Celestia feed is on: {0} will be drawn from {1}:{2}.",
+                new Object[]{name, host, port});
+    }
+
+    private static String valueOr(String name, String fallback) {
+        String value = System.getenv(name);
+        return (value == null || value.trim().isEmpty()) ? fallback : value.trim();
+    }
+
+    private static int intValueOr(String name, int fallback) {
+        String value = System.getenv(name);
+        if (value == null || value.trim().isEmpty()) {
+            return fallback;
+        }
+        try {
+            return Integer.parseInt(value.trim());
+        } catch (NumberFormatException ex) {
+            LOGGER.log(Level.WARNING, "The Celestia port in {0} is not a number: ''{1}''. "
+                    + "Using {2}.", new Object[]{name, value, fallback});
+            return fallback;
+        }
     }
 
     @Override

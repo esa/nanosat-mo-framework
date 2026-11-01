@@ -38,6 +38,8 @@ public class OrbitParameters {
     private final Vector velocityEarthFixed;
     private final Vector velocity;
 
+    private final Vector positionInertial;
+
     /**
      * Constructor.
      *
@@ -68,6 +70,29 @@ public class OrbitParameters {
      */
     public OrbitParameters(double latitude, double longitude, double a,
             Vector velocity, Date time, Vector positionEarthFixed, Vector velocityEarthFixed) {
+        this(latitude, longitude, a, velocity, time, positionEarthFixed, velocityEarthFixed, null);
+    }
+
+    /**
+     * Constructor that also carries the position in the inertial frame, which
+     * is the frame a visualisation such as Celestia places the spacecraft in.
+     *
+     * @param latitude The latitude, in degrees.
+     * @param longitude The longitude, in degrees.
+     * @param a The distance to the centre of the Earth, in kilometres.
+     * @param velocity The velocity in the inertial frame, in kilometres per
+     * second.
+     * @param time The time this position is for.
+     * @param positionEarthFixed The position in the Earth-fixed frame, in
+     * kilometres.
+     * @param velocityEarthFixed The velocity in the Earth-fixed frame, in
+     * kilometres per second.
+     * @param positionInertial The position in the inertial frame, in
+     * kilometres.
+     */
+    public OrbitParameters(double latitude, double longitude, double a,
+            Vector velocity, Date time, Vector positionEarthFixed, Vector velocityEarthFixed,
+            Vector positionInertial) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.a = a;
@@ -75,6 +100,7 @@ public class OrbitParameters {
         this.time = time;
         this.positionEarthFixed = positionEarthFixed;
         this.velocityEarthFixed = velocityEarthFixed;
+        this.positionInertial = positionInertial;
     }
 
     public double getLongitude() {
@@ -117,5 +143,14 @@ public class OrbitParameters {
 
     public Vector getVelocity() {
         return velocity;
+    }
+
+    /**
+     * @return The position in the inertial frame, in kilometres, or null when
+     * this position was not worked out in it. This is the frame a visualisation
+     * such as Celestia places the spacecraft in.
+     */
+    public Vector getPositionInertial() {
+        return positionInertial;
     }
 }
