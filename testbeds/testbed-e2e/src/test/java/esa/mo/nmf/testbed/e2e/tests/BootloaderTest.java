@@ -113,7 +113,7 @@ public class BootloaderTest {
 
         Assert.assertTrue("The Boot Report must state the security settings",
                 contains(report, "INITIALISATION security: apps-isolation=none access-control=audit"
-                        + " require-package-checksum=false"));
+                        + " access-control-credentials=signed require-package-checksum=false"));
         Assert.assertFalse("A known isolation mode must not be reported as unknown",
                 contains(report, "INITIALISATION FAIL apps-isolation"));
     }
