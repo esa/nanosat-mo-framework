@@ -27,6 +27,7 @@ it must be reported privately, not added to this file.
 | [NMF-2026-013](#nmf-2026-013-an-unknown-or-missing-apps-isolation-setting-runs-apps-without-isolation) | An unknown or missing apps-isolation setting runs Apps without isolation | Fixed | >= 5.0, < 6.0 | 6.0 | — |
 | [NMF-2026-014](#nmf-2026-014-a-bubblewrap-sandbox-lets-an-app-read-the-whole-filesystem-and-the-other-apps) | A bubblewrap sandbox lets an App read the whole filesystem and the other Apps | Fixed | >= 5.0, < 6.0 | 6.0 | — |
 | [NMF-2026-015](#nmf-2026-015-an-app-container-can-change-the-nmf-root-and-has-no-resource-limits) | An App container can change the NMF root, and has no resource limits | Fixed | >= 5.0, < 6.0 | 6.0 | — |
+| [NMF-2026-016](#nmf-2026-016-a-credential-sent-to-the-supervisor-can-be-captured-and-replayed) | A credential sent to the Supervisor can be captured and replayed | Fixed | 6.0 development snapshots | 6.0 | — |
 
 ---
 
@@ -1269,3 +1270,106 @@ and checks that the App is not root, cannot change the Supervisor's jar or the o
 and that the container is given the process and memory caps; it fails on the earlier code.
 It is skipped where Docker or the image is not available.
 `AppsLauncherManagerDockerTest` and `AppSandboxSecretsTest` (`nmf-core`) check the command and that an App in a container reads only its own credential.
+
+---
+
+### NMF-2026-016: A credential sent to the Supervisor can be captured and replayed
+
+| Field | Value |
+|---|---|
+| Status | Fixed |
+| GHSA / CVE | Not published |
+| Ecosystem | Maven |
+| Package | `int.esa.nmf.core:nmf-core` |
+| Affected versions | 6.0 development snapshots; no released version, as the access control was added in 6.0 |
+| Fixed in | 6.0 |
+| Reported | Found by the NMF maintainers |
+| Severity | High (whoever captures the ground credential can call every service of the Supervisor) |
+| Weaknesses | CWE-294: Authentication Bypass by Capture-replay; CWE-319: Cleartext Transmission of Sensitive Information |
+
+#### Impact
+
+The access control of the Supervisor identifies a caller by a credential, a random secret of 32 bytes.
+Each App is given one when it starts, and ground tools such as the CTT and the CLI read the ground credential from a file.
+
+The caller sends the secret itself, unchanged, in the `authenticationId` field of the header of every request to the Supervisor,
+and the Supervisor accepts any request whose `authenticationId` is a secret it knows.
+The MAL TCP/IP transport sends the messages unencrypted.
+Anyone who captures one request can therefore read the secret and send requests of their own with it, from another connection,
+with the permissions of the caller it belongs to:
+the permissions of an App for as long as that App runs,
+and, with the ground credential, every service of the Supervisor, until the ground credential is changed.
+
+Capturing the traffic needs one of the following:
+
+* Access to a network that the Supervisor's transport is bound to.
+  By default (`autohost=true`) the transport binds to the computer's network address rather than to the loopback,
+  so the traffic between the Supervisor and a ground tool on another computer crosses that network.
+* The `CAP_NET_RAW` capability, or root, on the computer of the Supervisor.
+  Under linux-userspace, bubblewrap and docker-containers isolation an App has neither, unless the image gives it a way to gain them.
+  Under `none` isolation the App runs as the Supervisor's user, and can read the credentials from their files without capturing anything.
+
+The Supervisor also puts a mark of its own on the requests it sends to its own services,
+such as the one with which it monitors its attitude, and accepts that mark as coming from itself.
+Its consumers have a transport of their own, so these requests go over TCP like any other,
+and the mark can be captured in the same way; it is valid for as long as that Supervisor runs.
+
+This advisory covers the replay of credentials.
+The traffic itself remains readable to whoever can capture it; encrypting the MAL transport is outside its scope.
+
+#### Workarounds
+
+* Bind the Supervisor's transport to the loopback wherever nothing outside the computer needs to reach it:
+  `org.ccsds.moims.mo.mal.transport.tcpip.autohost=false` and `org.ccsds.moims.mo.mal.transport.tcpip.host=127.0.0.1` in its `transport.properties`.
+* Keep packet capture out of the reach of the Apps:
+  use linux-userspace, bubblewrap or docker-containers isolation,
+  install no capture tool with the `cap_net_raw` capability or the setuid bit in the image,
+  and give App containers no extra capability.
+* Change the ground credential if its traffic may have been captured.
+
+#### Fix
+
+A caller no longer sends its credential: it signs each request to the Supervisor with it.
+
+* The `authenticationId` of a request carries a token of 37 bytes:
+  a version;
+  a key identifier, the first 4 bytes of a SHA-256 digest of the credential, which tells the Supervisor whose credential signed without revealing it;
+  a session, 8 random bytes chosen by each process;
+  a counter, which the process increases with each request;
+  and the first 16 bytes of an HMAC-SHA256, keyed with the credential, of all of these and of the area, area version, service, operation and interaction of the request.
+  The credential never leaves its holder, and a token taken from one request cannot be put on a request to another operation.
+* The Supervisor keeps, for each session, the highest counter it has accepted and which of the 128 before it it has seen,
+  and refuses a counter it has already accepted or that is older than that.
+  A captured request is therefore refused when it is sent again.
+* An App's credential is new each time the App starts and is revoked when it stops, so its sessions last as long as the App.
+* The ground credential lasts from one run to the next, so a ground tool also signs over the run identifier of the Supervisor, 16 random bytes chosen when it starts.
+  The Supervisor gives it in the `authenticationId` of the responses of its Directory and of the errors it returns,
+  so that a tool learns it from the look-up it makes first, which needs no credential.
+  When the Supervisor holds 10,000 ground sessions it chooses a new run identifier, keeps the sessions of the previous one,
+  and drops those of the one before, whose requests it then refuses.
+  A captured ground request therefore stops working when the Supervisor restarts, and at the latest at the second change of run identifier after it.
+* The Supervisor signs, in the same way and with its own mark, the requests it sends to its own services and what its publishers send to its brokers.
+
+Signed credentials are the default, and a mission can choose at design time to send them as before:
+
+* `access-control-credentials` in the configuration of the bootloader, set by the `accessControlCredentials` parameter of the `generate-filesystem` goal of the `nmf-linux-maven-plugin`:
+  `signed`, the default, or `plain`.
+  `plain` is meant for a mission whose Supervisor can be reached only through the loopback,
+  where capturing its traffic needs root, which can read the credential files anyway.
+* The Supervisor passes the setting to each App it starts.
+  A ground tool sends no credential until it has received a first answer from the Supervisor;
+  it then signs if the Supervisor gave a run identifier, and sends its credential as before if it did not.
+  Once it has received a run identifier from a Supervisor, it no longer sends that Supervisor its credential itself.
+* With `signed`, the Supervisor refuses a request that carries a credential itself.
+
+Signing adds 5 bytes to a request, a token of 37 bytes in place of a credential of 32,
+17 bytes to the responses of the Directory and to errors,
+and one HMAC-SHA256 on each side of a request, a fraction of a microsecond on a desktop processor.
+
+#### References
+
+[1] Proof: `CredentialProof` and `CounterWindow` in `nmf-core`; `NMFAccessControl.check` signs a request with the credential, and `AccessControlAuthority.identify` checks the signature and the counter.
+
+[2] Setting: `access-control-credentials` in the bootloader configuration, from the `accessControlCredentials` parameter of the `generate-filesystem` goal (`nmf-linux-maven-plugin`), passed to each App by `AppsLauncherManager`.
+
+[3] Tests: `CounterWindowTest` (`nmf-core`) checks that each counter of a session is accepted once and never again; `DirectoryEntryOwnershipTest` now signs its requests as a caller does.

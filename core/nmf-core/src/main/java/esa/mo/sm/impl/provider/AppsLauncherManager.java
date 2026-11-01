@@ -29,6 +29,7 @@ import esa.mo.nmf.AppStorage;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.nmf.accesscontrol.AccessControlAuthority;
 import esa.mo.nmf.accesscontrol.AccessControlMode;
+import esa.mo.nmf.accesscontrol.CredentialsMode;
 import esa.mo.nmf.accesscontrol.NMFAccessControl;
 import esa.mo.nmf.environment.AppsIsolationMode;
 import esa.mo.nmf.environment.Deployment;
@@ -510,6 +511,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
             env.put("JAVA_OPTS", env.getOrDefault("JAVA_OPTS", "")
                     + " -D" + NMFAccessControl.CREDENTIAL_FILE_PROPERTY + "=" + credentialFile
                     + " -D" + AccessControlMode.PROPERTY + "=" + AccessControlMode.current().configName()
+                    + " -D" + CredentialsMode.PROPERTY + "=" + CredentialsMode.current().configName()
                     + (granted.isEmpty() ? "" : " -D" + NMFAccessControl.GRANTED_PROPERTY + "=" + granted));
         }
 

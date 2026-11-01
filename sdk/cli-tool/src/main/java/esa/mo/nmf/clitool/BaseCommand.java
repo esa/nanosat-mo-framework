@@ -98,7 +98,7 @@ public abstract class BaseCommand {
         NMFAccessControl.install();
         if (credentialFile != null && providerURI != null) {
             try {
-                NMFAccessControl.INSTANCE.presentCredential(
+                NMFAccessControl.INSTANCE.presentGroundCredential(
                         NMFAccessControl.readCredential(credentialFile), providerURI);
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, "The credential could not be read from " + credentialFile, ex);

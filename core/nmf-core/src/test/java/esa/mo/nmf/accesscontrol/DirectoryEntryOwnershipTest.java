@@ -23,6 +23,7 @@ package esa.mo.nmf.accesscontrol;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 import org.ccsds.moims.mo.mal.AuthorisationFailException;
 import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -50,6 +51,8 @@ public class DirectoryEntryOwnershipTest {
     private static final String SUPERVISOR = "maltcp://10.0.0.1:1024";
     private static final byte[] PROBE = NMFAccessControl.newCredential();
     private static final byte[] GROUND = NMFAccessControl.newCredential();
+    private static final byte[] SESSION = NMFAccessControl.newSession();
+    private static final AtomicLong COUNTER = new AtomicLong();
 
     private AccessControlAuthority authority;
     private final List<String> recorded = new ArrayList<>();
@@ -136,12 +139,21 @@ public class DirectoryEntryOwnershipTest {
         System.setProperty(AccessControlMode.PROPERTY, mode);
     }
 
-    /** A request to the Supervisor's Directory, with the given credential or none. */
-    private static MALMessageHeader request(byte[] credential) {
-        return new MALMessageHeader(new Identifier("maltcp://10.0.0.2:1025/caller"),
-                credential == null ? new Blob() : new Blob(credential.clone()),
-                new Identifier(SUPERVISOR + "/nanosat-mo-supervisor-Directory"), Time.now(),
+    /**
+     * A request to the Supervisor's Directory, proving the given credential as a
+     * caller does under signed credentials, the default, or carrying none.
+     * Ground signs over the Supervisor's run id; an App does not.
+     */
+    private MALMessageHeader request(byte[] credential) {
+        MALMessageHeader header = new MALMessageHeader(new Identifier("maltcp://10.0.0.2:1025/caller"),
+                new Blob(), new Identifier(SUPERVISOR + "/nanosat-mo-supervisor-Directory"), Time.now(),
                 InteractionType.REQUEST, new UOctet((short) 1), 1L, new UShort(2), new UShort(1),
                 new UShort(2), new UOctet((short) 1), Boolean.FALSE, new NamedValueList());
+        if (credential != null) {
+            byte[] runId = (credential == GROUND) ? authority.currentRunId() : null;
+            header.setAuthenticationId(new Blob(CredentialProof.sign(credential, SESSION,
+                    COUNTER.incrementAndGet(), runId, header)));
+        }
+        return header;
     }
 }

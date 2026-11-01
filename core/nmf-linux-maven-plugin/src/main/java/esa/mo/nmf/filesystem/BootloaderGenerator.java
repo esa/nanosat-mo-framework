@@ -139,6 +139,31 @@ public class BootloaderGenerator {
     public void generate(String nmfVersion, String missionVersion,
             String supervisorMainClass, String appsIsolation,
             boolean requirePackageChecksum, String accessControl) throws IOException {
+        generate(nmfVersion, missionVersion, supervisorMainClass, appsIsolation, requirePackageChecksum,
+                accessControl, "signed");
+    }
+
+    /**
+     * Generates the bootloader script and its domain. Must be called after
+     * the baseline jar directories have been populated, because the checksum
+     * manifests cover their final contents.
+     *
+     * @param nmfVersion The NMF framework version of the deployed baseline.
+     * @param missionVersion The mission software version of the deployed
+     * baseline.
+     * @param supervisorMainClass The main class of the Supervisor.
+     * @param appsIsolation The apps isolation mode.
+     * @param requirePackageChecksum Whether install and update refuse a package
+     * that comes without its expected checksum.
+     * @param accessControl The access control mode: off, audit or enforce.
+     * @param accessControlCredentials How callers prove their credentials:
+     * signed or plain.
+     * @throws IOException if a file could not be generated.
+     */
+    public void generate(String nmfVersion, String missionVersion,
+            String supervisorMainClass, String appsIsolation,
+            boolean requirePackageChecksum, String accessControl,
+            String accessControlCredentials) throws IOException {
         // The bootloader script: a static resource, copied verbatim
         copyResource(BOOTLOADER_SCRIPT);
 
@@ -161,6 +186,10 @@ public class BootloaderGenerator {
                 + "apps-isolation=" + appsIsolation + "\n"
                 + "require-package-checksum=" + requirePackageChecksum + "\n"
                 + "access-control=" + accessControl + "\n"
+                + "# signed: callers prove their credentials and never send them. plain: they send\n"
+                + "# them as they are, which is safe only if the Supervisor is reachable solely\n"
+                + "# through the loopback.\n"
+                + "access-control-credentials=" + accessControlCredentials + "\n"
                 + "max-report-file-size-kb=" + DEFAULT_MAX_REPORT_FILE_SIZE_KB + "\n"
                 + "min-free-disk-kb=" + DEFAULT_MIN_FREE_DISK_KB + "\n"
                 + "boot-confirm-timeout-s=" + DEFAULT_BOOT_CONFIRM_TIMEOUT_S + "\n"

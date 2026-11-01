@@ -37,6 +37,7 @@ PROMOTION_SOAK_S=60
 APPS_ISOLATION=
 REQUIRE_PACKAGE_CHECKSUM=true
 ACCESS_CONTROL=enforce
+ACCESS_CONTROL_CREDENTIALS=signed
 SCHEMA_VERSION=1
 
 # =============================================================================
@@ -101,6 +102,8 @@ initialisation() {
         [ -n "$_v" ] && REQUIRE_PACKAGE_CHECKSUM=$_v
         _v=$(get_prop access-control "$CONFIG_FILE")
         [ -n "$_v" ] && ACCESS_CONTROL=$_v
+        _v=$(get_prop access-control-credentials "$CONFIG_FILE")
+        [ -n "$_v" ] && ACCESS_CONTROL_CREDENTIALS=$_v
         _v=$(get_prop boot-confirm-timeout-s "$CONFIG_FILE")
         [ -n "$_v" ] && BOOT_CONFIRM_TIMEOUT_S=$_v
         _v=$(get_prop boot-max-attempts "$CONFIG_FILE")
@@ -128,7 +131,7 @@ initialisation() {
     fi
     report "INITIALISATION nmf-home: $NMF_HOME"
     report "INITIALISATION config: $CONFIG_STATUS"
-    _security="apps-isolation=${APPS_ISOLATION:-<missing>} access-control=$ACCESS_CONTROL"
+    _security="apps-isolation=${APPS_ISOLATION:-<missing>} access-control=$ACCESS_CONTROL access-control-credentials=$ACCESS_CONTROL_CREDENTIALS"
     report "INITIALISATION security: $_security require-package-checksum=$REQUIRE_PACKAGE_CHECKSUM"
     case "$APPS_ISOLATION" in
         none|linux-userspace|bubblewrap|docker-containers) ;;
@@ -279,6 +282,7 @@ execution() {
         -Desa.mo.nmf.packagemanager.appsIsolation="$APPS_ISOLATION" \
         -Desa.mo.nmf.packagemanager.requirePackageChecksum="$REQUIRE_PACKAGE_CHECKSUM" \
         -Desa.mo.nmf.accesscontrol.mode="$ACCESS_CONTROL" \
+        -Desa.mo.nmf.accesscontrol.credentials="$ACCESS_CONTROL_CREDENTIALS" \
         -classpath "$CLASSPATH" \
         "$MAIN_CLASS" \
         >> "$SUPERVISOR_LOG" 2>&1 &

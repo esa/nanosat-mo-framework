@@ -20,12 +20,14 @@
  */
 package esa.mo.nmf.accesscontrol;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.AuthenticationFailedException;
@@ -59,26 +61,62 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
  * publishers send to its brokers, and the brokers refuse every other publisher.
  * It marks the requests that it sends to its own services in the same way, so
  * that they are accepted without a credential of their own.
+ * <p>
+ * Under {@link CredentialsMode#SIGNED}, the default, a caller proves its
+ * credential with a {@link CredentialProof} instead of sending it, and the
+ * authority refuses a proof whose counter it has already accepted, so that a
+ * request read off the wire cannot be sent again. A ground tool also signs over
+ * the run id of this Supervisor, which the Supervisor gives on its replies, so
+ * that what was read in one run is refused in the next.
  */
 public final class AccessControlAuthority {
 
     private static final Logger LOGGER = Logger.getLogger(AccessControlAuthority.class.getName());
+
+    /**
+     * How many ground sessions one run id serves before the Supervisor chooses a
+     * new one. The sessions of the run id before the previous are then dropped.
+     */
+    static final int MAX_GROUND_SESSIONS = 10_000;
+
+    /** How many sessions an App, or the Supervisor itself, may have at once: one per sending thread. */
+    private static final int MAX_SESSIONS = 4_096;
 
     /** A known caller: an App with what it was granted, or ground. */
     private static final class Caller {
 
         private final String app;
         private final Set<String> granted;
+        private final byte[] secret;
+        private final byte[] keyId;
+        /** The counters each session of an App has used; ground keeps its sessions per run id. */
+        private final Map<String, CounterWindow> sessions = new ConcurrentHashMap<>();
 
-        Caller(String app, Collection<String> granted) {
+        Caller(String app, Collection<String> granted, byte[] secret) {
             this.app = app;
             this.granted = Collections.unmodifiableSet(new HashSet<>(granted));
+            this.secret = secret.clone();
+            this.keyId = CredentialProof.keyId(secret);
         }
 
         boolean isGround() {
             return app == null;
         }
     }
+
+    /** The ground sessions signed over one run id of the Supervisor. */
+    private static final class Generation {
+
+        private final byte[] runId;
+        private final Map<String, CounterWindow> sessions = new ConcurrentHashMap<>();
+
+        Generation() {
+            this.runId = Arrays.copyOf(NMFAccessControl.newCredential(), CredentialProof.RUN_ID_LENGTH);
+        }
+    }
+
+    /** The Supervisor itself, as a caller of its own services. */
+    private final Caller self;
 
     /**
      * Records each call made without the permission or credential it needs, or
@@ -107,9 +145,18 @@ public final class AccessControlAuthority {
     private volatile Recorder recorder;
     private final Map<String, Caller> callers = new ConcurrentHashMap<>();
     private final Map<String, String> credentialOfApp = new ConcurrentHashMap<>();
-    /** The mark of the messages that the Supervisor sends to itself, which never leaves the Supervisor. */
+    /**
+     * The credential with which the Supervisor marks the messages it sends to
+     * its own services. It is never given out; under signed credentials it does
+     * not leave the Supervisor either, only proofs made with it do.
+     */
     private final byte[] ownMark = NMFAccessControl.newCredential();
     private final String ownKey = NMFAccessControl.toText(ownMark);
+    private final AtomicLong ownCounter = new AtomicLong();
+    private final ThreadLocal<byte[]> ownSession = ThreadLocal.withInitial(NMFAccessControl::newSession);
+
+    private volatile Generation current = new Generation();
+    private volatile Generation previous;
 
     /**
      * Creates the authority of a Supervisor.
@@ -124,6 +171,7 @@ public final class AccessControlAuthority {
                 supervisorAddresses.add(NMFAccessControl.addressOf(uri));
             }
         }
+        self = new Caller(null, Collections.emptySet(), ownMark);
     }
 
     /**
@@ -142,7 +190,7 @@ public final class AccessControlAuthority {
      * @param secret the ground credential
      */
     public void setGroundCredential(final byte[] secret) {
-        callers.put(NMFAccessControl.toText(secret), new Caller(null, Collections.emptySet()));
+        callers.put(NMFAccessControl.toText(secret), new Caller(null, Collections.emptySet(), secret));
     }
 
     /**
@@ -156,7 +204,7 @@ public final class AccessControlAuthority {
     public void registerApp(final String app, final byte[] secret, final Collection<String> granted) {
         revokeApp(app);
         String key = NMFAccessControl.toText(secret);
-        callers.put(key, new Caller(app, granted));
+        callers.put(key, new Caller(app, granted, secret));
         credentialOfApp.put(app, key);
     }
 
@@ -193,11 +241,10 @@ public final class AccessControlAuthority {
         if (!isInitiating(header)) {
             return;
         }
-        if (ownKey.equals(credentialOf(header.getAuthenticationId()))) {
+        Caller caller = identify(header, true);
+        if (caller == self) {
             return; // The Supervisor's own request to one of its services
         }
-
-        Caller caller = callers.get(credentialOf(header.getAuthenticationId()));
         if (caller != null && caller.isGround()) {
             return;
         }
@@ -246,7 +293,11 @@ public final class AccessControlAuthority {
     public void checkDirectoryEntry(final MALMessageHeader header, final String entry,
             final String operation, final boolean supervisorsOwn) throws AuthorisationFailException {
         AccessControlMode mode = AccessControlMode.current();
-        Caller caller = callers.get(credentialOf(header.getAuthenticationId()));
+        // The request was checked, and its counter used, when it arrived
+        Caller caller = identify(header, false);
+        if (caller == self) {
+            caller = null;
+        }
         String app = (caller == null) ? null : caller.app;
         String what;
 
@@ -283,17 +334,155 @@ public final class AccessControlAuthority {
      * calls this only for the messages that the Supervisor sends; the mark is
      * not given out, so no other process can make it.
      *
+     * <p>
+     * Under signed credentials, a reply or notification that the Supervisor sends
+     * to anyone else carries its current run id, so that a ground tool learns
+     * what to sign over from the first answer it gets, the look-up of the
+     * Directory, which needs no credential.
+     *
      * @param header the header of the message that the Supervisor sends
      */
     public void markOwnMessage(final MALMessageHeader header) {
+        boolean signed = CredentialsMode.current() == CredentialsMode.SIGNED;
         if (!isToSupervisor(header)) {
+            if (signed && !isInitiating(header) && !isPublishing(header)
+                    && NMFAccessControl.isEmpty(header.getAuthenticationId())) {
+                header.setAuthenticationId(new Blob(current.runId.clone()));
+            }
             return;
         }
-        if (isPublishing(header)) {
-            header.setAuthenticationId(new Blob(ownMark.clone()));
-        } else if (isInitiating(header) && NMFAccessControl.isEmpty(header.getAuthenticationId())) {
-            header.setAuthenticationId(new Blob(ownMark.clone()));
+        if (isPublishing(header)
+                || (isInitiating(header) && NMFAccessControl.isEmpty(header.getAuthenticationId()))) {
+            header.setAuthenticationId(new Blob(signed
+                    ? CredentialProof.sign(ownMark, ownSession.get(), ownCounter.incrementAndGet(), null, header)
+                    : ownMark.clone()));
         }
+    }
+
+    /**
+     * Returns the run id that a ground tool signs over now.
+     *
+     * @return a copy of the current run id
+     */
+    byte[] currentRunId() {
+        return current.runId.clone();
+    }
+
+    /**
+     * Finds the caller whose credential a message carries or proves.
+     * <p>
+     * Under plain credentials the message must carry a credential as it is.
+     * Under signed credentials it must carry a {@link CredentialProof} made with
+     * a credential this authority knows, for this message, and, when the
+     * counter is consumed, with a counter that its session has not used yet; a
+     * credential sent as it is does not count.
+     *
+     * @param header the header of the message
+     * @param consume true to use up the proof's counter, false when the message
+     * was already checked on arrival
+     * @return the caller, {@link #self} for the Supervisor's own messages, or
+     * null if the message proves no known credential
+     */
+    private Caller identify(final MALMessageHeader header, final boolean consume) {
+        Blob blob = header.getAuthenticationId();
+        if (NMFAccessControl.isEmpty(blob)) {
+            return null;
+        }
+        byte[] value = blob.getValue();
+        if (CredentialsMode.current() == CredentialsMode.PLAIN) {
+            String key = NMFAccessControl.toText(value);
+            return ownKey.equals(key) ? self : callers.get(key);
+        }
+
+        CredentialProof.Parsed proof = CredentialProof.parse(value);
+        if (proof == null) {
+            return null; // A credential sent as it is, or nothing this authority knows
+        }
+        if (Arrays.equals(proof.keyId, self.keyId)) {
+            return (CredentialProof.verify(ownMark, value, null, header)
+                    && fresh(self.sessions, proof, consume, MAX_SESSIONS)) ? self : null;
+        }
+        for (Caller caller : callers.values()) {
+            if (!Arrays.equals(proof.keyId, caller.keyId)) {
+                continue;
+            }
+            if (caller.isGround()) {
+                if (groundProofHolds(caller, value, proof, header, consume)) {
+                    return caller;
+                }
+            } else if (CredentialProof.verify(caller.secret, value, null, header)
+                    && fresh(caller.sessions, proof, consume, MAX_SESSIONS)) {
+                return caller;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Checks a ground proof against the current run id, and then against the
+     * previous one, whose sessions are kept until the next change of run id.
+     * When the current run id has served {@value #MAX_GROUND_SESSIONS} sessions,
+     * a new session makes the Supervisor choose a new run id and is refused; the
+     * error that refuses it carries the new run id, so the tool's next request
+     * is accepted.
+     */
+    private boolean groundProofHolds(final Caller ground, final byte[] value, final CredentialProof.Parsed proof,
+            final MALMessageHeader header, final boolean consume) {
+        Generation now = current;
+        if (CredentialProof.verify(ground.secret, value, now.runId, header)) {
+            if (!consume) {
+                return true;
+            }
+            if (!now.sessions.containsKey(sessionOf(proof)) && now.sessions.size() >= MAX_GROUND_SESSIONS) {
+                newRunId(now);
+                return false;
+            }
+            return fresh(now.sessions, proof, true, Integer.MAX_VALUE);
+        }
+        Generation before = previous;
+        if (before != null && CredentialProof.verify(ground.secret, value, before.runId, header)) {
+            // Only the sessions that the previous run id already had
+            return !consume || (before.sessions.containsKey(sessionOf(proof))
+                    && fresh(before.sessions, proof, true, Integer.MAX_VALUE));
+        }
+        return false;
+    }
+
+    private synchronized void newRunId(final Generation full) {
+        if (current == full) {
+            previous = full;
+            current = new Generation();
+            LOGGER.log(Level.INFO, "The ground sessions of this run id reached {0}: a new run id is in use",
+                    MAX_GROUND_SESSIONS);
+        }
+    }
+
+    /**
+     * Uses up the counter of a proof in its session, starting the session if it
+     * is new and there is room for it.
+     *
+     * @return true if the counter had not been used, or if nothing is consumed
+     */
+    private static boolean fresh(final Map<String, CounterWindow> sessions, final CredentialProof.Parsed proof,
+            final boolean consume, final int maxSessions) {
+        if (!consume) {
+            return true;
+        }
+        String session = sessionOf(proof);
+        CounterWindow window = sessions.get(session);
+        if (window == null) {
+            if (sessions.size() >= maxSessions) {
+                return false;
+            }
+            window = sessions.computeIfAbsent(session, s -> new CounterWindow());
+        }
+        synchronized (window) {
+            return window.accept(proof.counter);
+        }
+    }
+
+    private static String sessionOf(final CredentialProof.Parsed proof) {
+        return NMFAccessControl.toText(proof.session);
     }
 
     /**
@@ -301,7 +490,7 @@ public final class AccessControlAuthority {
      * the Supervisor's own publishers sent it.
      */
     private void checkPublishing(AccessControlMode mode, MALMessageHeader header) throws MALCheckErrorException {
-        if (ownKey.equals(credentialOf(header.getAuthenticationId()))) {
+        if (identify(header, true) == self) {
             return;
         }
         Call call = Call.of(header);
@@ -475,10 +664,4 @@ public final class AccessControlAuthority {
                 || stage == MALPubSubOperation._PUBLISH_DEREGISTER_STAGE;
     }
 
-    private static String credentialOf(Blob blob) {
-        if (NMFAccessControl.isEmpty(blob)) {
-            return "";
-        }
-        return NMFAccessControl.toText(blob.getValue());
-    }
 }

@@ -21,6 +21,7 @@
 package esa.mo.nmf.filesystem;
 
 import esa.mo.nmf.accesscontrol.AccessControlMode;
+import esa.mo.nmf.accesscontrol.CredentialsMode;
 import esa.mo.nmf.environment.Deployment;
 import esa.mo.nmf.environment.AppsIsolationMode;
 import java.io.File;
@@ -112,6 +113,18 @@ public class GenerateFilesystemMojo extends AbstractMojo {
     private String accessControl;
 
     /**
+     * How callers prove their credentials to the Supervisor:
+     * <ul>
+     * <li>{@code signed} — each request is signed with the credential, which is
+     * never sent, and a request cannot be sent again. The default.</li>
+     * <li>{@code plain} — the credential is sent as it is. Only for a mission
+     * whose Supervisor can be reached solely through the loopback.</li>
+     * </ul>
+     */
+    @Parameter(property = "generate-filesystem.accessControlCredentials", defaultValue = "signed")
+    private String accessControlCredentials;
+
+    /**
      * Files of the mission to add to the root of the generated filesystem, each
      * given as a path. A directory is added under its own name, a file on its
      * own. They are added last, so a mission can also replace what the generator
@@ -149,6 +162,13 @@ public class GenerateFilesystemMojo extends AbstractMojo {
         if (!AccessControlMode.parse(accessControl).configName().equalsIgnoreCase(accessControl.trim())) {
             throw new MojoExecutionException("The accessControl mode '" + accessControl
                     + "' is not valid. It must be off, audit or enforce.");
+        }
+
+        getLog().info(">> accessControlCredentials = " + accessControlCredentials);
+        if (!CredentialsMode.parse(accessControlCredentials).configName()
+                .equalsIgnoreCase(accessControlCredentials.trim())) {
+            throw new MojoExecutionException("The accessControlCredentials mode '" + accessControlCredentials
+                    + "' is not valid. It must be signed or plain.");
         }
 
         if (supervisorMainClass == null) {
@@ -263,7 +283,8 @@ public class GenerateFilesystemMojo extends AbstractMojo {
             File nmfRootDir = new File(outputDir, Deployment.DIR_NMF);
             BootloaderGenerator bootloader = new BootloaderGenerator(nmfRootDir);
             bootloader.generate(nmfVersion, missionVersion, supervisorMainClass, appsIsolation,
-                    requirePackageChecksum, AccessControlMode.parse(accessControl).configName());
+                    requirePackageChecksum, AccessControlMode.parse(accessControl).configName(),
+                    CredentialsMode.parse(accessControlCredentials).configName());
         } catch (IOException ex) {
             throw new MojoExecutionException(ex);
         }

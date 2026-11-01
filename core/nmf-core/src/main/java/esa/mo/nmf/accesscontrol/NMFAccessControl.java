@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.accesscontrol.MALAccessControl;
@@ -92,10 +93,20 @@ public final class NMFAccessControl implements MALAccessControl {
 
     private static final StackWalker STACK = StackWalker.getInstance();
 
-    private volatile Blob credential;
+    private volatile byte[] credential;
     private volatile String credentialTarget;
     private volatile Set<String> granted = Collections.emptySet();
     private volatile AccessControlAuthority authority;
+
+    /** Whether the credential is ground's, which signs over the Supervisor's run id. */
+    private volatile boolean ground;
+    /** The run id that the Supervisor last gave, or null before it gave one. */
+    private volatile byte[] runId;
+    /** Whether the Supervisor has answered without a run id: it takes credentials as they are. */
+    private volatile boolean answeredPlain;
+
+    private final AtomicLong counter = new AtomicLong();
+    private final ThreadLocal<byte[]> session = ThreadLocal.withInitial(NMFAccessControl::newSession);
 
     private NMFAccessControl() {
     }
@@ -120,8 +131,29 @@ public final class NMFAccessControl implements MALAccessControl {
      * @param supervisorURI any URI of the Supervisor, such as its Directory's
      */
     public void presentCredential(final byte[] secret, final String supervisorURI) {
+        present(secret, supervisorURI, false);
+    }
+
+    /**
+     * Presents the credential of ground on the requests that this tool sends to
+     * the Supervisor at the given URI, and only there. Under signed credentials
+     * the tool signs over the run id the Supervisor gives it, as a ground tool
+     * does; it is the credential, not the way it is presented, that may call
+     * every service.
+     *
+     * @param secret the ground credential
+     * @param supervisorURI any URI of the Supervisor, such as its Directory's
+     */
+    public void presentGroundCredential(final byte[] secret, final String supervisorURI) {
+        present(secret, supervisorURI, true);
+    }
+
+    private synchronized void present(final byte[] secret, final String supervisorURI, final boolean isGround) {
         this.credentialTarget = addressOf(supervisorURI);
-        this.credential = new Blob(secret);
+        this.credential = secret.clone();
+        this.ground = isGround;
+        this.runId = null;
+        this.answeredPlain = false;
     }
 
     /**
@@ -140,7 +172,7 @@ public final class NMFAccessControl implements MALAccessControl {
         }
         install();
         try {
-            INSTANCE.presentCredential(readCredential(file), directoryURI);
+            INSTANCE.present(readCredential(file), directoryURI, true);
             return true;
         } catch (IOException ex) {
             LOGGER.log(Level.WARNING, "The ground credential could not be read from " + file, ex);
@@ -193,16 +225,70 @@ public final class NMFAccessControl implements MALAccessControl {
             return msg;
         }
 
-        // A request to the Supervisor carries this process's credential
-        Blob c = credential;
-        if (c != null && AccessControlAuthority.isInitiating(header)
-                && credentialTarget != null && credentialTarget.equals(addressOf(header.getToURI()))) {
+        byte[] c = credential;
+        String target = credentialTarget;
+        if (c == null || target == null) {
+            return msg;
+        }
+        if (!AccessControlAuthority.isInitiating(header)) {
+            // An answer from the Supervisor says whether it wants signed proofs
+            if (target.equals(addressOf(header.getFromURI()))) {
+                learnFromAnswer(header);
+            }
+            return msg;
+        }
+
+        // A request to the Supervisor proves this process's credential
+        if (target.equals(addressOf(header.getToURI()))) {
             if (isEmpty(header.getAuthenticationId())) {
-                header.setAuthenticationId(c);
+                Blob proof = proofFor(c, header);
+                if (proof != null) {
+                    header.setAuthenticationId(proof);
+                }
             }
             warnIfNotGranted(header);
         }
         return msg;
+    }
+
+    /**
+     * Notes what an answer of the Supervisor says: a run id to sign over, or,
+     * when it carries none and none came before, that the Supervisor takes
+     * credentials as they are. Once a run id has come, a ground tool never sends
+     * its credential as it is again.
+     */
+    private void learnFromAnswer(final MALMessageHeader header) {
+        Blob id = header.getAuthenticationId();
+        if (!isEmpty(id) && id.getValue().length == CredentialProof.RUN_ID_LENGTH) {
+            runId = id.getValue().clone();
+        } else if (runId == null) {
+            answeredPlain = true;
+        }
+    }
+
+    /**
+     * Returns what a request to the Supervisor carries to prove this process's
+     * credential, or null for nothing yet.
+     * <ul>
+     * <li>An App follows the mission's {@link CredentialsMode}, which the
+     * Supervisor passes to it.</li>
+     * <li>A ground tool follows the Supervisor: it signs over the run id the
+     * Supervisor gave, sends the credential as it is to a Supervisor that
+     * answered without one, and sends nothing before the first answer.</li>
+     * </ul>
+     */
+    private Blob proofFor(final byte[] secret, final MALMessageHeader header) {
+        if (ground) {
+            byte[] id = runId;
+            if (id != null) {
+                return new Blob(CredentialProof.sign(secret, session.get(), counter.incrementAndGet(), id, header));
+            }
+            return answeredPlain ? new Blob(secret.clone()) : null;
+        }
+        if (CredentialsMode.current() == CredentialsMode.PLAIN) {
+            return new Blob(secret.clone());
+        }
+        return new Blob(CredentialProof.sign(secret, session.get(), counter.incrementAndGet(), null, header));
     }
 
     /**
@@ -246,6 +332,17 @@ public final class NMFAccessControl implements MALAccessControl {
         byte[] secret = new byte[32];
         RANDOM.nextBytes(secret);
         return secret;
+    }
+
+    /**
+     * Returns a new random session identifier for a {@link CredentialProof}.
+     *
+     * @return {@value CredentialProof#SESSION_LENGTH} random bytes
+     */
+    static byte[] newSession() {
+        byte[] id = new byte[CredentialProof.SESSION_LENGTH];
+        RANDOM.nextBytes(id);
+        return id;
     }
 
     /**
