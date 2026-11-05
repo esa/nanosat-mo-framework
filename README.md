@@ -15,9 +15,9 @@ The [NanoSat MO Framework] is a software framework for small satellites based on
 It introduces the concept of apps in space that can be started and stopped from ground. Apps can retrieve data from the platform through a set of well-defined MO services. Many possibilities for extensions are available due to its modular and flexible design approach which is not limited to the space segment but extends down to ground by providing all the building blocks for a complete and free end-to-end solution.
 
 <p align="center">
-  <img src="docs/source/images/cubesat-india.png" alt="The simulated CubeSat over the Indian subcontinent, rendered in Celestia" width="840"/>
+  <img src="docs/source/images/cubesat-iberia.png" alt="The simulated CubeSat over the Atlantic, near the Iberian Peninsula, rendered in Celestia" width="840"/>
   <br/>
-  <em>The simulated spacecraft flying over the Indian subcontinent, shown in <a href="celestia">Celestia</a>.</em>
+  <em>The simulated spacecraft flying over the Atlantic, near the Iberian Peninsula, shown in <a href="celestia">Celestia</a>.</em>
 </p>
 
 A Software Development Kit (SDK) is available in order to facilitate the development with the [NanoSat MO Framework].
