@@ -22,7 +22,7 @@ package esa.mo.nmf.testbed.e2e;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.nmf.NMFConsumer;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import esa.mo.nmf.composites.GroundMOAdapterImpl;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

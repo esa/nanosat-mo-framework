@@ -28,7 +28,7 @@ import esa.mo.ground.restservice.PositionAndTime;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.apps.CameraAcquisitorSystemCameraTargetHandler;
 import esa.mo.nmf.apps.CameraAcquisitorSystemMCAdapter;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import esa.mo.nmf.composites.GroundMOAdapterImpl;
 import esa.mo.nmf.sdk.OrekitResources;
 import java.io.BufferedReader;
 import java.io.IOException;

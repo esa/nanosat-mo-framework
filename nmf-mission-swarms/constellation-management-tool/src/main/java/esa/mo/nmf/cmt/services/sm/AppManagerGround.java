@@ -25,7 +25,7 @@ package esa.mo.nmf.cmt.services.sm;
 import esa.mo.com.impl.consumer.ArchiveConsumerServiceImpl;
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
 import esa.mo.com.impl.util.HelperArchive;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import esa.mo.nmf.composites.GroundMOAdapterImpl;
 import esa.mo.sm.impl.consumer.AppsLauncherConsumerServiceImpl;
 import javax.swing.*;
 import java.util.List;

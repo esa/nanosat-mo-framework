@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.nanosatmomonolithic;
+package esa.mo.nmf.composites;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.helpertools.misc.Const;

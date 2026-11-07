@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.commonmoadapter;
+package esa.mo.nmf.composites;
 
 import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.mc.impl.provider.AggregationInstance;

@@ -25,7 +25,7 @@ import esa.mo.nmf.ctt.utils.TableUtils;
 import esa.mo.mc.impl.consumer.ActionConsumerServiceImpl;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.ctt.windows.element.MOWindow;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import esa.mo.nmf.composites.GroundMOAdapterImpl;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.HierarchyEvent;

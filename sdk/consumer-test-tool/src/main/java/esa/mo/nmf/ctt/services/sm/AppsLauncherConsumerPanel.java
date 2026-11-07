@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import esa.mo.nmf.composites.GroundMOAdapterImpl;
 import esa.mo.nmf.ctt.utils.DirectoryConnectionConsumerPanel;
 import org.ccsds.moims.mo.com.structures.Provider;
 import org.ccsds.moims.mo.com.structures.ProviderList;

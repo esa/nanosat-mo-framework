@@ -18,7 +18,7 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.nanosatmosupervisor;
+package esa.mo.nmf.composites;
 
 import esa.mo.nmf.accesscontrol.AccessControlAuthority;
 import esa.mo.nmf.accesscontrol.AccessControlMode;

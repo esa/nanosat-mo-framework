@@ -23,7 +23,7 @@
 package esa.mo.nmf.cmt.services.sm;
 
 import esa.mo.nmf.cmt.ConstellationManagementTool;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import esa.mo.nmf.composites.GroundMOAdapterImpl;
 import esa.mo.sm.impl.consumer.PackageManagementConsumerServiceImpl;
 import javax.swing.*;
 import java.util.logging.Level;

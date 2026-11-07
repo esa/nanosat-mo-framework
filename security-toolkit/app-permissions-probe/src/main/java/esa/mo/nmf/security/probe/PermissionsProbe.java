@@ -25,7 +25,7 @@ import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.SimpleMonitorAndControlAdapter;
-import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
+import esa.mo.nmf.composites.NanoSatMOConnectorImpl;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;

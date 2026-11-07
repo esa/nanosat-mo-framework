@@ -33,7 +33,8 @@ The different versions and respective updates are the following:
 * Removes ParameterStatusListener.onGetValue(Long), so parameter values are asked for by name only; Apps that use the annotations are not affected
 * Removes the deprecated pushParameterValue(Identifier, ParameterValue, ObjectKey, Time) of the Parameter service; use pushSingleParameterValueAttribute instead
 * Removes the deprecated MonitorAndControlNMFAdapter.getTypeShortForm; use HelperAttributes.getTypeShortForm of the MO library instead
-* Merges nmf-composites, nmf-services-impl and nmf-package-lib into a single nmf-core module: the three artifacts are no longer published, so Apps, missions and other projects that used them depend on nmf-core instead, with the same Java packages
+* Merges nmf-composites, nmf-services-impl and nmf-package-lib into a single nmf-core module: the three artifacts are no longer published, so Apps, missions and other projects that used them depend on nmf-core instead
+* Moves the composites and the MO adapters of nmf-core into the esa.mo.nmf.composites package; esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl stays, deprecated, so that Apps built for 5.x still load
 * Moves the simulator code from the opssat.simulator packages to esa.mo.nmf.mission.orekit.simulator and esa.mo.nmf.mission.lite.simulator, and the Orekit Supervisor from esa.mo.nmf.sim.supervisor to esa.mo.nmf.mission.orekit.NanosatMOSupervisorBasicImpl, which is the main class to give when setting a 6.0 baseline
 * Removes the OPS-SAT leftovers from the code and the READMEs, and renames the add-on folder of the Celestia visualisation to extras/cubesat
 * Builds the MCP adapter with the rest of the SDK again, as a prototype

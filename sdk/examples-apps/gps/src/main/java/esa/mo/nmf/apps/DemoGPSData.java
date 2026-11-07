@@ -25,7 +25,7 @@ import esa.mo.nmf.MCRegistration.RegistrationMode;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
-import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
+import esa.mo.nmf.composites.NanoSatMOConnectorImpl;
 import java.io.IOException;
 import java.util.Date;
 import java.util.concurrent.Semaphore;

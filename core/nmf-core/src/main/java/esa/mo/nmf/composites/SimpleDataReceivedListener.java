@@ -18,30 +18,32 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.commonmoadapter;
+package esa.mo.nmf.composites;
 
-import esa.mo.mc.impl.provider.ParameterInstance;
+import java.io.Serializable;
 
 /**
- * An abstract class that passes the received data from the Parameter service
- * coming via the monitorValue operation with the complete parameter data
+ * An abstract class that pushes the received data from the Parameter service 
+ * coming via the monitorValue operation with the basic parameter data: name of 
+ * the parameter and the content
  *
  * @author Cesar Coelho
  */
-public abstract class CompleteDataReceivedListener implements DataReceivedListener {
+public abstract class SimpleDataReceivedListener implements DataReceivedListener {
 
     /**
      * Default constructor.
      */
-    public CompleteDataReceivedListener() {
+    public SimpleDataReceivedListener() {
     }
 
     /**
      * This interface must be implemented in order to receive the parameter
-     * content from the Parameter service coming via the monitorValue operation.
+     * content from the Parameter service coming via the monitorValue operation
      *
-     * @param parameterInstance The parameter instance.
+     * @param parameterName Name of the Parameter
+     * @param data The content of the data
      */
-    public abstract void onDataReceived(ParameterInstance parameterInstance);
+    public abstract void onDataReceived(String parameterName, Serializable data);
 
 }

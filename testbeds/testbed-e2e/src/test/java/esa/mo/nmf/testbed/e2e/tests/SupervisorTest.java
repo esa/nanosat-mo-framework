@@ -21,7 +21,7 @@
 package esa.mo.nmf.testbed.e2e.tests;
 
 import esa.mo.nmf.NMFConsumer;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import esa.mo.nmf.composites.GroundMOAdapterImpl;
 import esa.mo.nmf.testbed.e2e.SupervisorHarness;
 import java.io.IOException;
 import java.util.logging.Logger;

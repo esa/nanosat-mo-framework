@@ -26,7 +26,7 @@ import esa.mo.mc.impl.interfaces.ActionNotFoundException;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
-import esa.mo.nmf.nanosatmosupervisor.NanoSatMOSupervisor;
+import esa.mo.nmf.composites.NanoSatMOSupervisor;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

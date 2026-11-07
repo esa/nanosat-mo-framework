@@ -20,7 +20,7 @@
  */
 package esa.mo.nmf.apps;
 
-import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
+import esa.mo.nmf.composites.NanoSatMOConnectorImpl;
 
 /**
  * This is a simple NMF App that allows the Benchmark of the NanoSat MO

@@ -21,7 +21,7 @@
 package esa.mo.nmf.mcp;
 
 import esa.mo.nmf.NMFConsumer;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import esa.mo.nmf.composites.GroundMOAdapterImpl;
 import io.modelcontextprotocol.json.McpJsonMapper;
 import io.modelcontextprotocol.json.jackson3.JacksonMcpJsonMapperSupplier;
 import io.modelcontextprotocol.server.McpServer;

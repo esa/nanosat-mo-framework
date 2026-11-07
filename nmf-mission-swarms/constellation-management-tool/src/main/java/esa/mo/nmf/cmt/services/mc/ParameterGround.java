@@ -26,7 +26,7 @@ package esa.mo.nmf.cmt.services.mc;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.mc.impl.consumer.ParameterConsumerServiceImpl;
 import esa.mo.nmf.cmt.ConstellationManagementTool;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import esa.mo.nmf.composites.GroundMOAdapterImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;

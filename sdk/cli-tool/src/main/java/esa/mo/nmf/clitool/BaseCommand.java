@@ -30,7 +30,7 @@ import esa.mo.nmf.clitool.adapters.QueryStatusProvider;
 import esa.mo.nmf.clitool.mc.AggregationCommands;
 import esa.mo.nmf.clitool.mc.ParameterCommands;
 import esa.mo.nmf.clitool.sm.SoftwareManagementCommands;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import esa.mo.nmf.composites.GroundMOAdapterImpl;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.logging.Level;

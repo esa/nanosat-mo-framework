@@ -74,7 +74,9 @@ sdk/
 
 ## Architecture: Key Composites (`core/nmf-core`)
 
-This module defines the main abstractions that space apps and missions use:
+This module defines the main abstractions that space apps and missions use,
+all in the `esa.mo.nmf.composites` package
+(`esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl` is a deprecated stand-in kept for Apps built for 5.x):
 
 | Class | Role |
 |---|---|

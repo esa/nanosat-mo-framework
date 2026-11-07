@@ -26,7 +26,7 @@ import esa.mo.mc.impl.util.MCServicesConsumer;
 import esa.mo.nmf.ctt.services.com.ArchiveConsumerManagerPanel;
 import esa.mo.nmf.ctt.services.mc.*;
 import esa.mo.nmf.ctt.services.sm.*;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import esa.mo.nmf.composites.GroundMOAdapterImpl;
 import esa.mo.sm.impl.consumer.HeartbeatConsumerServiceImpl;
 import esa.mo.sm.impl.util.SMServicesConsumer;
 import java.awt.Color;

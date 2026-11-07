@@ -21,7 +21,7 @@
 package esa.mo.nmf.apps.pictureprocessor;
 
 import esa.mo.nmf.apps.pictureprocessor.mo.PictureProcessorMCAdapter;
-import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
+import esa.mo.nmf.composites.NanoSatMOConnectorImpl;
 
 /**
  * An NMF App that that takes pictures and processes them through a python

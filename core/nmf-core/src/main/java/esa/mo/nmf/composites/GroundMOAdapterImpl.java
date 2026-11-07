@@ -18,9 +18,8 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.groundmoadapter;
+package esa.mo.nmf.composites;
 
-import esa.mo.nmf.commonmoadapter.MOAdapterImpl;
 import org.ccsds.moims.mo.com.structures.Provider;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.structures.Blob;

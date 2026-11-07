@@ -18,7 +18,7 @@
  * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.commonmoadapter;
+package esa.mo.nmf.composites;
 
 import esa.mo.nmf.NMFException;
 import java.io.Serializable;

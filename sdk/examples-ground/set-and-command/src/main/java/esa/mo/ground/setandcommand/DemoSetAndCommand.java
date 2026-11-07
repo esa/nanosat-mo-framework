@@ -21,7 +21,7 @@
 package esa.mo.ground.setandcommand;
 
 import org.ccsds.moims.mo.mal.MOErrorException;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import esa.mo.nmf.composites.GroundMOAdapterImpl;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -21,8 +21,8 @@
 package esa.mo.ground.simpleground;
 
 import org.ccsds.moims.mo.mal.MOErrorException;
-import esa.mo.nmf.commonmoadapter.SimpleDataReceivedListener;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import esa.mo.nmf.composites.SimpleDataReceivedListener;
+import esa.mo.nmf.composites.GroundMOAdapterImpl;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.logging.Level;

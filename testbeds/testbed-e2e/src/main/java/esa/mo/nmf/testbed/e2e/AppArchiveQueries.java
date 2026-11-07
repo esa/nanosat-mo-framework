@@ -21,7 +21,7 @@
 package esa.mo.nmf.testbed.e2e;
 
 import esa.mo.com.impl.provider.ArchivePersistenceObject;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import esa.mo.nmf.composites.GroundMOAdapterImpl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;

@@ -22,7 +22,7 @@ package esa.mo.nmf.ctt.utils;
 
 import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.nmf.accesscontrol.NMFAccessControl;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import esa.mo.nmf.composites.GroundMOAdapterImpl;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;

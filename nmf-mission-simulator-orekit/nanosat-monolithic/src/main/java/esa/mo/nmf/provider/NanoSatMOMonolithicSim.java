@@ -23,7 +23,7 @@ package esa.mo.nmf.provider;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
-import esa.mo.nmf.nanosatmomonolithic.NanoSatMOMonolithic;
+import esa.mo.nmf.composites.NanoSatMOMonolithic;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesProviderSoftSim;
 import java.io.FileNotFoundException;

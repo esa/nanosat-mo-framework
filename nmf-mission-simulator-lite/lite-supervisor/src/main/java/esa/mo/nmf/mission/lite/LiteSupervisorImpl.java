@@ -26,7 +26,7 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionProvider;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.mcadapters.MCSupervisorBasicAdapter;
-import esa.mo.nmf.nanosatmosupervisor.NanoSatMOSupervisor;
+import esa.mo.nmf.composites.NanoSatMOSupervisor;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesProviderLite;
 import java.util.logging.Level;

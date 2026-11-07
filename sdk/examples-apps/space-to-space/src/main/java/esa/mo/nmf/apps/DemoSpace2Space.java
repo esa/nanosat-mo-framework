@@ -20,8 +20,8 @@
  */
 package esa.mo.nmf.apps;
 
-import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
-import esa.mo.nmf.spacemoadapter.SpaceMOAdapterImpl;
+import esa.mo.nmf.composites.NanoSatMOConnectorImpl;
+import esa.mo.nmf.composites.SpaceMOAdapterImpl;
 import org.ccsds.moims.mo.mal.structures.URI;
 
 /**

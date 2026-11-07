@@ -20,7 +20,7 @@
  */
 package esa.mo.nmf.apps.edgeai;
 
-import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
+import esa.mo.nmf.composites.NanoSatMOConnectorImpl;
 
 /**
  * An NMF App that runs an AI model directly on-board

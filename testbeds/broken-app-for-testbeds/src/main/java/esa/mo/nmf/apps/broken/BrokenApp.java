@@ -21,7 +21,7 @@
 package esa.mo.nmf.apps.broken;
 
 import esa.mo.nmf.CloseAppListener;
-import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
+import esa.mo.nmf.composites.NanoSatMOConnectorImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

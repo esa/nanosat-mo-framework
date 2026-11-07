@@ -18,32 +18,25 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.commonmoadapter;
+package esa.mo.nmf.composites;
 
-import java.io.Serializable;
+import esa.mo.mc.impl.provider.AggregationInstance;
 
 /**
- * An abstract class that pushes the received data from the Parameter service 
- * coming via the monitorValue operation with the basic parameter data: name of 
- * the parameter and the content
+ * An abstract class that passes the received data from the Aggregation service
+ * coming via the monitorValue operation
  *
- * @author Cesar Coelho
+ * @author Phil Brabbin
  */
-public abstract class SimpleDataReceivedListener implements DataReceivedListener {
-
-    /**
-     * Default constructor.
-     */
-    public SimpleDataReceivedListener() {
-    }
+public interface CompleteAggregationReceivedListener extends DataReceivedListener {
 
     /**
      * This interface must be implemented in order to receive the parameter
-     * content from the Parameter service coming via the monitorValue operation
+     * content from the Aggregation service coming via the monitorValue
+     * operation.
      *
-     * @param parameterName Name of the Parameter
-     * @param data The content of the data
+     * @param aggregationInstance The aggregation instance.
      */
-    public abstract void onDataReceived(String parameterName, Serializable data);
+    void onDataReceived(AggregationInstance aggregationInstance);
 
 }

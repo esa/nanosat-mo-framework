@@ -1,5 +1,5 @@
 /* ----------------------------------------------------------------------------
- * Copyright (C) 2021      European Space Agency
+ * Copyright (C) 2026      European Space Agency
  *                         European Space Operations Centre
  *                         Darmstadt
  *                         Germany
@@ -13,30 +13,25 @@
  * You on an "as is" basis and without warranties of any kind, including without
  * limitation merchantability, fitness for a particular purpose, absence of
  * defects or errors, accuracy or non-infringement of intellectual property rights.
- * 
+ *
  * See the License for the specific language governing permissions and
- * limitations under the License. 
+ * limitations under the License.
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.commonmoadapter;
-
-import esa.mo.mc.impl.provider.AggregationInstance;
-
 /**
- * An abstract class that passes the received data from the Aggregation service
- * coming via the monitorValue operation
- *
- * @author Phil Brabbin
+ * The composites of the NMF, built on {@link esa.mo.nmf.NMFProvider} and
+ * {@link esa.mo.nmf.NMFConsumer}.
+ * <ul>
+ * <li>The providers: {@link esa.mo.nmf.composites.NanoSatMOConnectorImpl},
+ * which an App creates to provide its services and consume the Supervisor's;
+ * {@link esa.mo.nmf.composites.NanoSatMOSupervisor}, which a mission extends
+ * for its Supervisor; and {@link esa.mo.nmf.composites.NanoSatMOMonolithic},
+ * a single provider for standalone deployments that is not an App.</li>
+ * <li>The adapters, which consume a provider through a simpler interface:
+ * {@link esa.mo.nmf.composites.SpaceMOAdapterImpl} for an App that consumes
+ * another App, and {@link esa.mo.nmf.composites.GroundMOAdapterImpl} for a
+ * ground tool, both built on {@link esa.mo.nmf.composites.MOAdapterImpl},
+ * with the listeners through which they deliver the data they receive.</li>
+ * </ul>
  */
-public interface CompleteAggregationReceivedListener extends DataReceivedListener {
-
-    /**
-     * This interface must be implemented in order to receive the parameter
-     * content from the Aggregation service coming via the monitorValue
-     * operation.
-     *
-     * @param aggregationInstance The aggregation instance.
-     */
-    void onDataReceived(AggregationInstance aggregationInstance);
-
-}
+package esa.mo.nmf.composites;

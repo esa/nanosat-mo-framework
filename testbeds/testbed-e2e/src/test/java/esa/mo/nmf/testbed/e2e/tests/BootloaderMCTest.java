@@ -23,7 +23,7 @@ package esa.mo.nmf.testbed.e2e.tests;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.environment.Deployment;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import esa.mo.nmf.composites.GroundMOAdapterImpl;
 import esa.mo.nmf.testbed.e2e.SupervisorHarness;
 import java.io.File;
 import java.io.FileInputStream;

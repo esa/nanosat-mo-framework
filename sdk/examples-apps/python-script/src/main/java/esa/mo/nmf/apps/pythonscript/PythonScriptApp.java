@@ -21,7 +21,7 @@
 package esa.mo.nmf.apps.pythonscript;
 
 import esa.mo.nmf.apps.pythonscript.run.MCAdapter;
-import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
+import esa.mo.nmf.composites.NanoSatMOConnectorImpl;
 
 /**
  * An NMF App that runs a python script

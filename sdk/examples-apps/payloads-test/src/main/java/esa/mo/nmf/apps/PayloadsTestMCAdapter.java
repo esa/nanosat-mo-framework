@@ -28,7 +28,7 @@ import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
 import esa.mo.nmf.NMFInterface;
 import esa.mo.nmf.annotations.*;
-import esa.mo.nmf.commonmoadapter.SimpleCommandingInterface;
+import esa.mo.nmf.composites.SimpleCommandingInterface;
 import esa.mo.sm.impl.provider.AppsLauncherManager;
 import java.io.IOException;
 import java.net.MalformedURLException;

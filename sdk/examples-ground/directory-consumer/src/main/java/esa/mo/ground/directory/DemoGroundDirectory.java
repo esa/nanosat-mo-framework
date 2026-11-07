@@ -22,9 +22,9 @@ package esa.mo.ground.directory;
 
 import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.mc.impl.provider.ParameterInstance;
-import esa.mo.nmf.commonmoadapter.CompleteDataReceivedListener;
-import esa.mo.nmf.commonmoadapter.SimpleDataReceivedListener;
-import esa.mo.nmf.groundmoadapter.GroundMOAdapterImpl;
+import esa.mo.nmf.composites.CompleteDataReceivedListener;
+import esa.mo.nmf.composites.SimpleDataReceivedListener;
+import esa.mo.nmf.composites.GroundMOAdapterImpl;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.logging.Level;

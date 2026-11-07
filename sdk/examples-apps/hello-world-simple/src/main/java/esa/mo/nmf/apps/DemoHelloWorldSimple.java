@@ -23,7 +23,7 @@ package esa.mo.nmf.apps;
 import esa.mo.nmf.MCRegistration.RegistrationMode;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.SimpleMonitorAndControlAdapter;
-import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
+import esa.mo.nmf.composites.NanoSatMOConnectorImpl;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;

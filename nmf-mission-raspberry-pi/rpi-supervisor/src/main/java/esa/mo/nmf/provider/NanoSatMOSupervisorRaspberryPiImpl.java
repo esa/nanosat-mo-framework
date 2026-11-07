@@ -22,7 +22,7 @@ package esa.mo.nmf.provider;
 
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
-import esa.mo.nmf.nanosatmosupervisor.NanoSatMOSupervisor;
+import esa.mo.nmf.composites.NanoSatMOSupervisor;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.platform.impl.util.PlatformServicesProviderInterface;
 import esa.mo.platform.impl.util.PlatformServicesProviderRaspberryPi;

@@ -20,7 +20,7 @@
  */
 package esa.mo.nmf.apps;
 
-import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
+import esa.mo.nmf.composites.NanoSatMOConnectorImpl;
 
 /**
  * An NMF App that that takes pictures

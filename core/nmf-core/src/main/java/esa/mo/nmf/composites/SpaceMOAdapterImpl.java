@@ -18,13 +18,12 @@
  * limitations under the License. 
  * ----------------------------------------------------------------------------
  */
-package esa.mo.nmf.spacemoadapter;
+package esa.mo.nmf.composites;
 
 import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.consumer.DirectoryConsumerServiceImpl;
 import esa.mo.com.impl.util.HelperCommon;
 import esa.mo.helpertools.misc.Const;
-import esa.mo.nmf.commonmoadapter.MOAdapterImpl;
 import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

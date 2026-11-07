@@ -23,7 +23,7 @@ package esa.mo.nmf.apps;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
 import esa.mo.nmf.NMFException;
-import esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl;
+import esa.mo.nmf.composites.NanoSatMOConnectorImpl;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
