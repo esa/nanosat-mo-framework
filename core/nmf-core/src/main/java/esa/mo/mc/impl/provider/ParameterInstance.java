@@ -48,14 +48,16 @@ public class ParameterInstance {
     }
 
     /**
-     * Creates a new {@code ParameterInstance}.
+     * Creates a new {@code ParameterInstance}. The definitionId of its value
+     * is NULL: the Parameter service sets it, from the name, when the value is
+     * pushed.
      *
      * @param name the name
      * @param value the value
      * @param timestamp the timestamp
      */
     public ParameterInstance(final Identifier name, final Attribute value, final Time timestamp) {
-        this(name, new ParameterValue(ValidityState.VALID, value, timestamp), timestamp);
+        this(name, new ParameterValue(null, ValidityState.VALID, value, timestamp), timestamp);
     }
 
     /**

@@ -49,9 +49,8 @@ A consumer that needs current values without subscribing can call ``getValue`` d
 .. code-block:: java
 
    ParameterStub params = gma.getMCServices().getParameterService();
-   GetValueResponse response = params.getValue(parameterDefinitionIds);
-   // response.getDefIds() and response.getValues() are in the same order;
-   // each ParameterValue carries its validityState, rawValue and sampleTime.
+   ParameterValueList values = params.getValue(parameterDefinitionIds);
+   // each ParameterValue carries its definitionId, validityState, rawValue and sampleTime
 
 For continuous updates, subscribe to the Parameter service's PubSub operation:
 

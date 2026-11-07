@@ -213,6 +213,7 @@
 &lt;/ol&gt;</mal:documentation>
             <mal:documentation name="Service-level Requirement" order="2">Each parameter value report shall contain:
 &lt;ol&gt;
+ &lt;li&gt;The ParameterDefinition id of the parameter;&lt;/li&gt;
  &lt;li&gt;The validity of the parameter value;&lt;/li&gt;
  &lt;li&gt;The raw value of the parameter;&lt;/li&gt;
  &lt;li&gt;The time at which the raw value was sampled.&lt;/li&gt;
@@ -305,10 +306,7 @@
                             </mal:field>
                         </mal:request>
                         <mal:response>
-                            <mal:field name="defIds" canBeNull="false" comment="The ParameterDefinition ids of the returned values.">
-                                <mal:type area="MAL" list="true" name="Long"/>
-                            </mal:field>
-                            <mal:field name="values" canBeNull="false" comment="The parameter values, in the same order as the defIds field.">
+                            <mal:field name="values" canBeNull="false" comment="The parameter values, in the same order as the ids field.">
                                 <mal:type area="MC" list="true" name="ParameterValue"/>
                             </mal:field>
                         </mal:response>
@@ -1311,10 +1309,13 @@
                     <mal:type area="MAL" list="false" name="Boolean"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="ParameterValue" shortFormPart="13" comment="A specific value of a parameter, including its validity state, raw value, and sample time. The type of the value shall match that specified in the parameter definition.">
+            <mal:composite name="ParameterValue" shortFormPart="13" comment="A specific value of a parameter, including its ParameterDefinition id, validity state, raw value, and sample time. The type of the value shall match that specified in the parameter definition.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
+                <mal:field name="definitionId" canBeNull="false" comment="The id of the ParameterDefinition of the value.">
+                    <mal:type area="MAL" list="false" name="Long"/>
+                </mal:field>
                 <mal:field name="validityState" canBeNull="false" comment="The validity state for the parameter value. '0' indicates the parameter is valid.">
                     <mal:type area="MC" list="false" name="ValidityState"/>
                 </mal:field>

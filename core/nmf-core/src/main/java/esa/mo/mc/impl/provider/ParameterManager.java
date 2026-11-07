@@ -242,9 +242,9 @@ public class ParameterManager extends MCManager {
         try {
             Attribute rawValue = getRawValue(defId);
             // Generate final Parameter Value
-            return generateNewParameterValue(rawValue, sampleTime, pDef, aggrExpired);
+            return generateNewParameterValue(defId, rawValue, sampleTime, pDef, aggrExpired);
         } catch (IOException ex) {
-            return new ParameterValue(ValidityState.INVALID_RAW, null, sampleTime);
+            return new ParameterValue(defId, ValidityState.INVALID_RAW, null, sampleTime);
         }
     }
 
@@ -563,7 +563,7 @@ public class ParameterManager extends MCManager {
         for (ParameterRawValue newRawValue : newRawValues) {
             Long id = newRawValue.getParameterId();
             ParameterDefinition def = getParameterDefinition(id);
-            paramValList.add(generateNewParameterValue(newRawValue.getRawValue(), sampleTime, def, false));
+            paramValList.add(generateNewParameterValue(id, newRawValue.getRawValue(), sampleTime, def, false));
             names.add(((ParameterDefinition) def).getName());
         }
 
@@ -576,9 +576,10 @@ public class ParameterManager extends MCManager {
     }
 
     /**
-     * This method fills a new parameter value with its rawValue, sampleTime
-     * and validityState
+     * This method fills a new parameter value with its definitionId, rawValue,
+     * sampleTime and validityState
      *
+     * @param defId the id of the parameter-definition the value belongs to
      * @param rawValue the rawValue to be set
      * @param sampleTime the time at which the rawValue was sampled
      * @param pDef the parameter-defintion the value belongs to
@@ -588,7 +589,7 @@ public class ParameterManager extends MCManager {
      * will be expired.
      * @return a filled ParameterValue
      */
-    public ParameterValue generateNewParameterValue(Attribute rawValue, final Time sampleTime,
+    public ParameterValue generateNewParameterValue(final Long defId, Attribute rawValue, final Time sampleTime,
             final ParameterDefinition pDef, final boolean aggrExpired) {
         //check the validity and set the state
         ValidityState validityState = generateValidityState(pDef, rawValue, aggrExpired);
@@ -597,7 +598,7 @@ public class ParameterManager extends MCManager {
             rawValue = null; //requirement: Parameter#8
         }
 
-        return new ParameterValue(validityState, rawValue, sampleTime);
+        return new ParameterValue(defId, validityState, rawValue, sampleTime);
     }
 
     /**

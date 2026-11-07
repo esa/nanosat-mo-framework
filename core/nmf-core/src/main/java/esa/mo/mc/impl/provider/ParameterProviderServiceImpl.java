@@ -51,7 +51,6 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.ReadOnlyException;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
-import org.ccsds.moims.mo.mc.parameter.body.GetValueResponse;
 import org.ccsds.moims.mo.mc.parameter.provider.MonitorValuePublisher;
 import org.ccsds.moims.mo.mc.parameter.provider.ParameterInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.structures.*;
@@ -146,7 +145,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     }
 
     @Override
-    public GetValueResponse getValue(final LongList ids, final MALInteraction interaction)
+    public ParameterValueList getValue(final LongList ids, final MALInteraction interaction)
             throws UnknownException, InvalidArgumentException, MALException {
         if (ids == null) { // Is the input null?
             throw new InvalidArgumentException("The ids field must not be NULL");
@@ -178,7 +177,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             }
         }
 
-        return new GetValueResponse(ids, manager.getParameterValues(ids, false));
+        return manager.getParameterValues(ids, false);
     }
 
     @Override
@@ -787,9 +786,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      */
     public Boolean pushSingleParameterValueAttribute(final Identifier name,
             final Attribute value, final Time timestamp) {
-        final ParameterValue parameterValue = new ParameterValue(ValidityState.VALID, value, timestamp);
         ArrayList<ParameterInstance> parameters = new ArrayList<>(1);
-        parameters.add(new ParameterInstance(name, parameterValue, timestamp));
+        parameters.add(new ParameterInstance(name, value, timestamp));
 
         return this.pushMultipleParameterValues(parameters);
     }
@@ -886,7 +884,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                     if (sampleTime == null) {
                         sampleTime = (parameter.getTimestamp() != null) ? parameter.getTimestamp() : defaultTimestamp;
                     }
-                    pVals.add(manager.generateNewParameterValue(value.getRawValue(), sampleTime, pDef2, false));
+                    pVals.add(manager.generateNewParameterValue(id, value.getRawValue(), sampleTime, pDef2, false));
                 }
             }
 

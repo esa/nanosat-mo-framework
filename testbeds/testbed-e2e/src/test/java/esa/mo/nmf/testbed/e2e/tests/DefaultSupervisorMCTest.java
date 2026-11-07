@@ -125,7 +125,7 @@ public class DefaultSupervisorMCTest {
         names.add(new Identifier(NMF_UPTIME));
         LongList ids = parameterStub.listDefinition(names);
 
-        ParameterValueList values = parameterStub.getValue(ids).getValues();
+        ParameterValueList values = parameterStub.getValue(ids);
         Assert.assertEquals("Two values must be returned", 2, values.size());
 
         String version = ((Union) values.get(0).getRawValue()).getStringValue();
@@ -148,7 +148,7 @@ public class DefaultSupervisorMCTest {
         LongList ids = parameterStub.listDefinition(names);
         Assert.assertEquals("Both memory parameters must be defined", 2, ids.size());
 
-        ParameterValueList values = parameterStub.getValue(ids).getValues();
+        ParameterValueList values = parameterStub.getValue(ids);
         long ramTotal = ((Union) values.get(0).getRawValue()).getLongValue();
         double ramPct = ((Union) values.get(1).getRawValue()).getDoubleValue();
         Assert.assertTrue("memory.ram.total must be positive", ramTotal > 0);

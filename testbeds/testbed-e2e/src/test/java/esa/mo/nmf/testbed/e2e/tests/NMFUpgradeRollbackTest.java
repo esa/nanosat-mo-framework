@@ -237,7 +237,7 @@ public class NMFUpgradeRollbackTest {
         names.add(new Identifier(name));
         LongList ids = stub.listDefinition(names);
         Assert.assertEquals("Parameter must be defined: " + name, 1, ids.size());
-        ParameterValueList values = stub.getValue(ids).getValues();
+        ParameterValueList values = stub.getValue(ids);
         Assert.assertEquals("Parameter must have a value: " + name, 1, values.size());
         return values.get(0).getRawValue();
     }

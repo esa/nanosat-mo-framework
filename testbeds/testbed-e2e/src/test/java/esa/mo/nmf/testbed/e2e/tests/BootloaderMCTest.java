@@ -201,7 +201,7 @@ public class BootloaderMCTest {
         names.add(new Identifier(name));
         LongList ids = parameterStub.listDefinition(names);
         Assert.assertEquals("Parameter must be defined: " + name, 1, ids.size());
-        ParameterValueList values = parameterStub.getValue(ids).getValues();
+        ParameterValueList values = parameterStub.getValue(ids);
         return ((Union) values.get(0).getRawValue()).getStringValue();
     }
 

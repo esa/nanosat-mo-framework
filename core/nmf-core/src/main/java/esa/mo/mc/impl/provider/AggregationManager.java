@@ -242,7 +242,7 @@ public final class AggregationManager extends MCManager {
         try {
             return parameterManager.getParameterValue(paramIdentityId, aggrExpired);
         } catch (MOErrorException ex) {
-            return new ParameterValue(ValidityState.INVALID_RAW, null, Time.now());
+            return new ParameterValue(paramIdentityId, ValidityState.INVALID_RAW, null, Time.now());
         }
     }
 
@@ -471,7 +471,8 @@ public final class AggregationManager extends MCManager {
                 AggregationParameterValue agg = newParameterValueSamples.get(k);
                 ParameterValue pVal = agg.getValue();
                 if (currentParamValues.get(k).getValue().getRawValue().equals(pVal.getRawValue())) {
-                    ParameterValue newValue = new ParameterValue(ValidityState.EXPIRED, pVal.getRawValue(), pVal.getSampleTime());
+                    ParameterValue newValue = new ParameterValue(pVal.getDefinitionId(), ValidityState.EXPIRED,
+                            pVal.getRawValue(), pVal.getSampleTime());
                     newParameterValueSamples.add(k, new AggregationParameterValue(newValue, agg.getParamDefinitionId()));
                 }
             }

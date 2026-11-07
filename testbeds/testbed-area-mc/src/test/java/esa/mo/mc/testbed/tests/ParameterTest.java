@@ -34,13 +34,13 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mc.MCHelper;
-import org.ccsds.moims.mo.mc.parameter.body.GetValueResponse;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
 import org.ccsds.moims.mo.mc.structures.ParameterDefinition;
 import org.ccsds.moims.mo.mc.structures.ParameterDefinitionList;
 import org.ccsds.moims.mo.mc.structures.ParameterRawValue;
 import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
 import org.ccsds.moims.mo.mc.structures.ParameterValue;
+import org.ccsds.moims.mo.mc.structures.ParameterValueList;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -86,16 +86,15 @@ public class ParameterTest {
 
         ParameterStub stub = harness.getParameterConsumerStub().getParameterStub();
         Time before = Time.now();
-        GetValueResponse result = stub.getValue(ids);
+        ParameterValueList result = stub.getValue(ids);
         Time after = Time.now();
 
-        Assert.assertNotNull("getValue must return a response", result);
-        Assert.assertEquals("One id must be returned", 1, result.getDefIds().size());
-        Assert.assertEquals("The id must be the one asked for", ids.get(0), result.getDefIds().get(0));
-        Assert.assertEquals("One value must be returned", 1, result.getValues().size());
+        Assert.assertNotNull("getValue must return a non-null list", result);
+        Assert.assertEquals("One value must be returned", 1, result.size());
 
-        ParameterValue value = result.getValues().get(0);
+        ParameterValue value = result.get(0);
         Assert.assertNotNull("The ParameterValue must not be null", value);
+        Assert.assertEquals("The definitionId must be the one asked for", ids.get(0), value.getDefinitionId());
 
         Time sampleTime = value.getSampleTime();
         Assert.assertNotNull("The sampleTime must be set", sampleTime);

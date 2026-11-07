@@ -58,7 +58,8 @@ public class StoreParameters {
      */
     public static void storeParameterValues(int numberOfObjs, NMFInterface connector) {
         try {
-            ParameterValue pValue = new ParameterValue(ValidityState.VALID,
+            // The stored values belong to no ParameterDefinition, and 0 is never a definition id
+            ParameterValue pValue = new ParameterValue(0L, ValidityState.VALID,
                     (Attribute) Attribute.javaType2Attribute(123.4567), Time.now());
 
             ParameterValueList values = new ParameterValueList();

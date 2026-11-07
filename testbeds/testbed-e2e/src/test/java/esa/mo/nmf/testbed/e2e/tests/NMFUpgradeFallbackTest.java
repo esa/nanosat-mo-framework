@@ -158,7 +158,7 @@ public class NMFUpgradeFallbackTest {
             names.add(new Identifier(SupervisorInfoMCAdapter.PARAM_NMF_VERSION));
             LongList ids = stub.listDefinition(names);
             Assert.assertEquals("Parameter must be defined: " + SupervisorInfoMCAdapter.PARAM_NMF_VERSION, 1, ids.size());
-            ParameterValueList values = stub.getValue(ids).getValues();
+            ParameterValueList values = stub.getValue(ids);
 
             Assert.assertEquals("The Supervisor that came up must be the released version",
                     released, values.get(0).getRawValue().toString());

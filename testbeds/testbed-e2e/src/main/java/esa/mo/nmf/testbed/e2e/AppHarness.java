@@ -309,7 +309,7 @@ public class AppHarness {
             IdentifierList paramNames = new IdentifierList();
             names.forEach(n -> paramNames.add(new Identifier(n)));
             LongList ids = parameterStub.listDefinition(paramNames);
-            return parameterStub.getValue(ids).getValues();
+            return parameterStub.getValue(ids);
         } catch (MALException | MOErrorException e) {
             throw new IOException("getValue (parameters) failed for app '" + appName + "': "
                     + e.getMessage(), e);

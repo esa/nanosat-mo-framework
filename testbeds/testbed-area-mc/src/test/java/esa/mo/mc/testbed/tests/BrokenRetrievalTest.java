@@ -70,7 +70,7 @@ public class BrokenRetrievalTest {
         LongList ids = new LongList();
         ids.add(id);
         ParameterValueList result = harness.getParameterConsumerStub()
-                .getParameterStub().getValue(ids).getValues();
+                .getParameterStub().getValue(ids);
 
         Assert.assertEquals("One value must be returned", 1, result.size());
         Assert.assertEquals("A parameter whose read throws must come back as INVALID_RAW",

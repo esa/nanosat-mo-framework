@@ -40,7 +40,6 @@ import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
-import org.ccsds.moims.mo.mc.parameter.body.GetValueResponse;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.structures.*;
 
@@ -351,15 +350,13 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         LongList longlist = new LongList();
         longlist.add(parameterTable.getSelectedDefinitionObjId());
 
-        GetValueResponse response;
+        ParameterValueList values;
         try {
-            response = this.serviceMCParameter.getParameterStub().getValue(longlist);
-            LongList defIds = response.getDefIds();
-            ParameterValueList values = response.getValues();
+            values = this.serviceMCParameter.getParameterStub().getValue(longlist);
 
             StringBuilder str = new StringBuilder();
             for (int i = 0; i < values.size(); i++) {
-                str.append("The value for objId ").append(defIds.get(i).toString()).append(" is:");
+                str.append("The value for objId ").append(values.get(i).getDefinitionId().toString()).append(" is:");
 
                 ValidityState validityState = values.get(i).getValidityState();
                 Attribute rawValue = values.get(i).getRawValue();
