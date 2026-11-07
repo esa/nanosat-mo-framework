@@ -498,7 +498,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
      */
     public Boolean onSetValue(ParameterRawValue newRawValue) {
         Object value;
-        Field param = parameterMapping.get(newRawValue.getParameterId());
+        Field param = parameterMapping.get(newRawValue.getDefinitionId());
 
         if (param == null) {
             return false;

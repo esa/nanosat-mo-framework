@@ -561,7 +561,7 @@ public class ParameterManager extends MCManager {
         //each Raw Value shall be set, all at the same time
         Time sampleTime = Time.now();
         for (ParameterRawValue newRawValue : newRawValues) {
-            Long id = newRawValue.getParameterId();
+            Long id = newRawValue.getDefinitionId();
             ParameterDefinition def = getParameterDefinition(id);
             paramValList.add(generateNewParameterValue(id, newRawValue.getRawValue(), sampleTime, def, false));
             names.add(((ParameterDefinition) def).getName());

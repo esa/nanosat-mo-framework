@@ -364,7 +364,7 @@
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>
-                        <mal:errorRef comment="When the parameterId of one or more entries is the wildcard value '0', or the supplied raw value does not match the defined attribute type for the referenced ParameterDefinition.">
+                        <mal:errorRef comment="When the definitionId of one or more entries is the wildcard value '0', or the supplied raw value does not match the defined attribute type for the referenced ParameterDefinition.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
@@ -1330,7 +1330,7 @@
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
-                <mal:field name="parameterId" canBeNull="false" comment="The id of the parameter.">
+                <mal:field name="definitionId" canBeNull="false" comment="The id of the ParameterDefinition of the value.">
                     <mal:type area="MAL" list="false" name="Long"/>
                 </mal:field>
                 <mal:field name="rawValue" canBeNull="true" comment="The parameter raw value. The value of NULL is a valid value and carries no special significance in the parameter service.">

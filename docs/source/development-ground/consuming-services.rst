@@ -32,7 +32,7 @@ The ``setValue`` and ``executeAction`` operations are sufficient for straightfor
    ParameterStub params = gma.getMCServices().getParameterService();
    // set a parameter
    ParameterRawValueList newValues = new ParameterRawValueList();
-   newValues.add(new ParameterRawValue(parameterInstanceId, new Union("ON")));
+   newValues.add(new ParameterRawValue(parameterDefinitionId, new Union("ON")));
    params.setValue(newValues);
 
    ActionStub actions = gma.getMCServices().getActionService();

@@ -246,7 +246,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         }
 
         for (int index = 0; index < rawValueList.size(); index++) {
-            Long defId = rawValueList.get(index).getParameterId();
+            Long defId = rawValueList.get(index).getDefinitionId();
             ParameterRawValue newValue = rawValueList.get(index);
             ParameterDefinition pDef = manager.getParameterDefinition(defId);
 
@@ -294,7 +294,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
         LongList noPublishRelatedIds = new LongList();
         TimeList timestamps = new TimeList();
         for (int i = 0; i < newParamValues.size(); i++) {
-            final Long id = rawValueList.get(i).getParameterId();
+            final Long id = rawValueList.get(i).getDefinitionId();
             if (manager.getParameterDefinition(id).getReportingEnabled()) {
                 //for the parameters where values have to be published (generation is enabled)
                 toPublishParamInstances.add(new ParameterInstance(manager.getName(id),
