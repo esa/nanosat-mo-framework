@@ -121,43 +121,43 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
         ParameterDefinitionList paramDefs = new ParameterDefinitionList();
         paramDefs.add(new ParameterDefinition(new Identifier(PARAM_OS_VERSION),
                 "The version of the operating system.",
-                AttributeType.STRING, "", false, new Duration(0), null, null, true));
+                AttributeType.STRING, "", false, new Duration(0), null, true));
         paramDefs.add(new ParameterDefinition(new Identifier(PARAM_OS_PARTITION),
                 "The current partition where the OS is running. Only works for Linux.",
-                AttributeType.STRING, "", false, new Duration(5), null, null, true));
+                AttributeType.STRING, "", false, new Duration(5), null, true));
         paramDefs.add(new ParameterDefinition(new Identifier(PARAM_ATTITUDE_QUAT_A),
                 "Attitude quaternion component A.",
-                AttributeType.FLOAT, "", false, new Duration(5), null, null, true));
+                AttributeType.FLOAT, "", false, new Duration(5), null, true));
         paramDefs.add(new ParameterDefinition(new Identifier(PARAM_ATTITUDE_QUAT_B),
                 "Attitude quaternion component B.",
-                AttributeType.FLOAT, "", false, new Duration(5), null, null, true));
+                AttributeType.FLOAT, "", false, new Duration(5), null, true));
         paramDefs.add(new ParameterDefinition(new Identifier(PARAM_ATTITUDE_QUAT_C),
                 "Attitude quaternion component C.",
-                AttributeType.FLOAT, "", false, new Duration(5), null, null, true));
+                AttributeType.FLOAT, "", false, new Duration(5), null, true));
         paramDefs.add(new ParameterDefinition(new Identifier(PARAM_ATTITUDE_QUAT_D),
                 "Attitude quaternion component D.",
-                AttributeType.FLOAT, "", false, new Duration(5), null, null, true));
+                AttributeType.FLOAT, "", false, new Duration(5), null, true));
         paramDefs.add(new ParameterDefinition(new Identifier(PARAM_ATTITUDE_MONITORING_INTERVAL),
                 "The ADCS attitude monitoring interval.",
-                AttributeType.DURATION, "seconds", false, new Duration(0), null, null, false));
+                AttributeType.DURATION, "seconds", false, new Duration(0), null, false));
         paramDefs.add(new ParameterDefinition(new Identifier(PARAM_GPS_LATITUDE),
                 "The GPS latitude.",
-                AttributeType.DOUBLE, "degrees", false, new Duration(2), null, null, true));
+                AttributeType.DOUBLE, "degrees", false, new Duration(2), null, true));
         paramDefs.add(new ParameterDefinition(new Identifier(PARAM_GPS_LONGITUDE),
                 "The GPS longitude.",
-                AttributeType.DOUBLE, "degrees", false, new Duration(2), null, null, true));
+                AttributeType.DOUBLE, "degrees", false, new Duration(2), null, true));
         paramDefs.add(new ParameterDefinition(new Identifier(PARAM_GPS_N_SATS),
                 "The number of GPS satellites in view.",
-                AttributeType.INTEGER, "sats", false, new Duration(4), null, null, true));
+                AttributeType.INTEGER, "sats", false, new Duration(4), null, true));
         paramDefs.add(new ParameterDefinition(new Identifier(PARAM_MAG_X),
                 "The magnetometer X component.",
-                AttributeType.DOUBLE, "microTesla", false, new Duration(2), null, null, true));
+                AttributeType.DOUBLE, "microTesla", false, new Duration(2), null, true));
         paramDefs.add(new ParameterDefinition(new Identifier(PARAM_MAG_Y),
                 "The magnetometer Y component.",
-                AttributeType.DOUBLE, "microTesla", false, new Duration(2), null, null, true));
+                AttributeType.DOUBLE, "microTesla", false, new Duration(2), null, true));
         paramDefs.add(new ParameterDefinition(new Identifier(PARAM_MAG_Z),
                 "The magnetometer Z component.",
-                AttributeType.DOUBLE, "microTesla", false, new Duration(2), null, null, true));
+                AttributeType.DOUBLE, "microTesla", false, new Duration(2), null, true));
         registration.registerParameters(paramDefs);
 
         ActionDefinitionList actionDefs = new ActionDefinitionList();

@@ -52,7 +52,7 @@ public final class Permissions {
     /** The services of the MO service definitions, as {@code <Area>.<Service>}. */
     private static final Set<String> SERVICES = Collections.unmodifiableSet(new LinkedHashSet<>(Arrays.asList(
             "COM.Archive", "COM.ArchiveSync", "COM.Directory", "COM.Login",
-            "MC.Action", "MC.Parameter", "MC.Alert", "MC.Aggregation", "MC.Conversion",
+            "MC.Action", "MC.Parameter", "MC.Alert", "MC.Aggregation",
             "SM.PackageManagement", "SM.Heartbeat", "SM.CommandExecutor", "SM.AppsLauncher",
             "Platform.Camera", "Platform.GPS", "Platform.AutonomousADCS",
             "Platform.SoftwareDefinedRadio", "Platform.OpticalDataReceiver", "Platform.FPGA",

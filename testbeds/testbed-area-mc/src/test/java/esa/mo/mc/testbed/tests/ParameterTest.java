@@ -31,15 +31,16 @@ import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mc.MCHelper;
+import org.ccsds.moims.mo.mc.parameter.body.GetValueResponse;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
 import org.ccsds.moims.mo.mc.structures.ParameterDefinition;
 import org.ccsds.moims.mo.mc.structures.ParameterDefinitionList;
 import org.ccsds.moims.mo.mc.structures.ParameterRawValue;
 import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
-import org.ccsds.moims.mo.mc.structures.ParameterValueDetails;
-import org.ccsds.moims.mo.mc.structures.ParameterValueDetailsList;
+import org.ccsds.moims.mo.mc.structures.ParameterValue;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -84,15 +85,24 @@ public class ParameterTest {
         LOGGER.info("Number of parameters added: " + ids.size());
 
         ParameterStub stub = harness.getParameterConsumerStub().getParameterStub();
-        ParameterValueDetailsList result = stub.getValue(ids);
+        Time before = Time.now();
+        GetValueResponse result = stub.getValue(ids);
+        Time after = Time.now();
 
-        Assert.assertNotNull("getValue must return a non-null list", result);
-        Assert.assertEquals("One value must be returned", 1, result.size());
+        Assert.assertNotNull("getValue must return a response", result);
+        Assert.assertEquals("One id must be returned", 1, result.getDefIds().size());
+        Assert.assertEquals("The id must be the one asked for", ids.get(0), result.getDefIds().get(0));
+        Assert.assertEquals("One value must be returned", 1, result.getValues().size());
 
-        ParameterValueDetails details = result.get(0);
-        Assert.assertNotNull("ParameterValueDetails must not be null", details);
+        ParameterValue value = result.getValues().get(0);
+        Assert.assertNotNull("The ParameterValue must not be null", value);
 
-        Union rawValue = (Union) details.getValue().getRawValue();
+        Time sampleTime = value.getSampleTime();
+        Assert.assertNotNull("The sampleTime must be set", sampleTime);
+        Assert.assertTrue("The sampleTime must be the time of the request",
+                sampleTime.getValue() >= before.getValue() && sampleTime.getValue() <= after.getValue());
+
+        Union rawValue = (Union) value.getRawValue();
         LOGGER.info("The raw value returned is: " + rawValue.getIntegerValue());
         Assert.assertEquals("Raw value must match the listener's fixed return value",
                 Integer.valueOf(42), rawValue.getIntegerValue());

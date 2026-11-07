@@ -32,7 +32,6 @@ its behaviour:
 - **Action** — invoke commands, optionally with multi-stage progress reporting.
 - **Aggregation** — group parameters into reports published as a unit.
 - **Alert** — publish operational alerts.
-- **Conversion** — declarative conversions between raw and engineering parameter values.
 
 See :doc:`../concepts/mo-architecture` for where the MC services sit in the broader CCSDS MO stack.
 
@@ -88,7 +87,7 @@ passing it to ``r.registerParameters(defs)``:
            false,                  // reportingEnabled
            new Duration(3),        // reportInterval
            null,                   // validityExpression
-           null                    // conversion
+           false                   // readOnly
    ));
    r.registerParameters(defs);
 
@@ -312,9 +311,8 @@ Caveats
 ^^^^^^^
 
 - **Reflection at registration.** The framework scans the adapter class at registration time. Field and method
-  names referenced in ``onGetFunction``, ``validityExpressionFieldName``, ``conversionFunctionName``, and
-  similar attributes are resolved by name and not checked at compile time; mistyped names surface only at
-  runtime.
+  names referenced in ``onGetFunction``, ``validityExpressionFieldName``, and similar attributes are
+  resolved by name and not checked at compile time; mistyped names surface only at runtime.
 - **No method-level call paths.** All dispatch goes through the annotated members, so static analysis tools
   that look for unused methods may flag annotated handlers as unused.
 - **Equivalent to the listener API.** The set of MO objects ultimately registered is the same. Choose the API

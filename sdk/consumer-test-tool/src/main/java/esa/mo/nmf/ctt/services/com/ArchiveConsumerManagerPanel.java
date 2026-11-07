@@ -119,38 +119,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                 aggParamSetList);
     }
 
-    private LineConversion generateLineConversion() {
-        PairList points = new PairList();
-        points.add(new Pair(new Union(1), new Union(33.8)));
-        points.add(new Pair(new Union(100), new Union(212)));
-        return new LineConversion(true, points);
-    }
-
-    private PolyConversion generatePolyConversion() {
-        PairList points = new PairList();
-        points.add(new Pair(new Union(0), new Union(32)));
-        points.add(new Pair(new Union(1), new Union(1.8)));
-        return new PolyConversion(points);
-    }
-
-    private DiscreteConversion generateDiscreteConversion() {
-        PairList mapping = new PairList();
-
-        mapping.add(new Pair(new Union(0), new Union("Mode 0")));
-        mapping.add(new Pair(new Union(1), new Union("Mode 1")));
-        mapping.add(new Pair(new Union(2), new Union("Mode 2")));
-        mapping.add(new Pair(new Union(3), new Union("Mode 3")));
-
-        return new DiscreteConversion(mapping);
-    }
-
-    private RangeConversion generateRangeConversion() {
-        PairList points = new PairList();
-        points.add(new Pair(new Union(0), new Union("Between 0-100")));
-        points.add(new Pair(new Union(100), new Union("Between 100-inf")));
-        return new RangeConversion(points);
-    }
-
     /**
      * Archive adapter that feeds the query results into this panel's table.
      */

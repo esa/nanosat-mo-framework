@@ -46,7 +46,7 @@ three jobs:
 - **Registers the app** with the Supervisor's Directory Service so it becomes discoverable.
 - **Provides consumer stubs** for the Supervisor's Platform and SM services, accessed via ``NMFInterface``
   methods such as ``getPlatformServices()``, so the app can read GPS, command the camera, and so on.
-- **Routes the app's M&C services** (Parameter, Action, Alert, Aggregation, Conversion) for consumption by
+- **Routes the app's M&C services** (Parameter, Action, Alert, Aggregation) for consumption by
   ground software or by other apps.
 
 The Connector is the only NMF dependency the app's main class needs to know about; everything else is reached

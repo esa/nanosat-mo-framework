@@ -83,7 +83,6 @@ public class MCRaspberryPiAdapter extends MonitorAndControlNMFAdapter {
                 false,
                 new Duration(10),
                 null,
-                null,
                 false
         ));
 
@@ -95,7 +94,6 @@ public class MCRaspberryPiAdapter extends MonitorAndControlNMFAdapter {
                 false,
                 new Duration(10),
                 null,
-                null,
                 false
         ));
 
@@ -106,7 +104,6 @@ public class MCRaspberryPiAdapter extends MonitorAndControlNMFAdapter {
                 "",
                 false,
                 new Duration(10),
-                null,
                 null,
                 false
         ));

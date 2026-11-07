@@ -90,13 +90,13 @@ public class BrokenMCAdapter extends MonitorAndControlNMFAdapter {
         ParameterDefinitionList healthyParams = new ParameterDefinitionList();
         healthyParams.add(new ParameterDefinition(new Identifier(PARAM_HEALTHY),
                 "A parameter that always reads successfully.",
-                AttributeType.DOUBLE, "unit", false, new Duration(2), null, null, false));
+                AttributeType.DOUBLE, "unit", false, new Duration(2), null, false));
         LongList healthyParamIds = registration.registerParameters(healthyParams);
 
         ParameterDefinitionList brokenParams = new ParameterDefinitionList();
         brokenParams.add(new ParameterDefinition(new Identifier(PARAM_BROKEN),
                 "A parameter whose read always throws, by design.",
-                AttributeType.DOUBLE, "unit", false, new Duration(2), null, null, false));
+                AttributeType.DOUBLE, "unit", false, new Duration(2), null, false));
         LongList brokenParamIds = registration.registerParameters(brokenParams);
 
         // ------------------ Aggregations ------------------

@@ -74,7 +74,7 @@ public class MemoryMCAdapter extends MonitorAndControlNMFAdapter {
     private static void addParam(ParameterDefinitionList defs, String name,
             String description, AttributeType type, String unit) {
         defs.add(new ParameterDefinition(new Identifier(name), description, type, unit,
-                false, new Duration(0), null, null, true));
+                false, new Duration(0), null, true));
     }
 
     @Override

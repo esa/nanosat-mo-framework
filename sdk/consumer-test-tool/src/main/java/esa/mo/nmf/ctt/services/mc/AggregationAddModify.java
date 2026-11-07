@@ -118,8 +118,7 @@ public class AggregationAddModify extends javax.swing.JFrame {
             if (!parameterSetsTableData.getValueAt(i, 2).equals("-")) {
                 periodicFilter = new ThresholdFilter(
                         ThresholdType.fromString(parameterSetsTableData.getValueAt(i, 2).toString()),
-                        new Duration(((Number) parameterSetsTableData.getValueAt(i, 3)).doubleValue()),
-                        null);
+                        new Duration(((Number) parameterSetsTableData.getValueAt(i, 3)).doubleValue()));
             }
 
             AggregationParameterSet aggRef = new AggregationParameterSet(

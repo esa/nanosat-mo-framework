@@ -25,7 +25,6 @@ Monitor & Control (``area052-Monitor-and-Control.xml``)
 - **Action** — command invocation with multi-stage progress reporting.
 - **Aggregation** — grouping of parameters into reports.
 - **Alert** — operational alert generation and distribution.
-- **Conversion** — declarative raw-to-engineering conversions.
 
 Software Management (``area053-Software-Management.xml``)
 ---------------------------------------------------------

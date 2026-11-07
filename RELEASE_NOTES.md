@@ -28,6 +28,9 @@ The different versions and respective updates are the following:
 * Checks each file of an NMF Package by its SHA-256 instead of its CRC-32, from package metadata version 6, and makes the integrity check of the Package Management service real, as it always answered true before
 * Renames the upgrade operation of the Package Management service to update, and its PackageUpgraded COM object to PackageUpdated
 * Removes the Configuration service: its ConfigurationService and ConfigurationProvider COM objects are now objects 2 and 3 of the Directory service
+* Removes the Conversion service and the conversion of parameter values, with the convertedValue of ParameterValue, the conversion of ParameterDefinition, the useConverted of ParameterExpression and ThresholdFilter, the INVALID_CONVERSION validity state and the conversionFunctionName of the @Parameter annotation
+* Adds the sampleTime field to ParameterValue: the time at which the raw value was sampled
+* Changes the response of getValue of the Parameter service to the ParameterDefinition ids and their ParameterValues, and removes ParameterValueDetails
 * Removes the source link of the COM objects, together with the ObjectLinks structure: ArchiveDetails now has a relatedLink field
 * Changes ParameterStatusListener.onGetValue(Identifier, AttributeType) to onGetValue(Identifier): Apps that implement it must update the signature, because without @Override the old method silently stops being called
 * Removes ParameterStatusListener.onGetValue(Long), so parameter values are asked for by name only; Apps that use the annotations are not affected

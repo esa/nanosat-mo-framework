@@ -55,7 +55,7 @@ public class ParameterInstance {
      * @param timestamp the timestamp
      */
     public ParameterInstance(final Identifier name, final Attribute value, final Time timestamp) {
-        this(name, new ParameterValue(ValidityState.VALID, value, null), timestamp);
+        this(name, new ParameterValue(ValidityState.VALID, value, timestamp), timestamp);
     }
 
     /**

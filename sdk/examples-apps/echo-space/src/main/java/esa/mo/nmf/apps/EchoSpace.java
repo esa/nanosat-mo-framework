@@ -100,7 +100,7 @@ public class EchoSpace {
 
             pddl.add(new ParameterDefinition(
                     new Identifier("data"), "The sent data", new AttributeType(1),
-                    null, true, new Duration(), null, null, false));
+                    null, true, new Duration(), null, false));
             registrationObject.registerParameters(pddl);
         }
 

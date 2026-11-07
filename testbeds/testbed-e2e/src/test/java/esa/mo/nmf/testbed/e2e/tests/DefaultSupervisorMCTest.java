@@ -37,7 +37,7 @@ import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
 import org.ccsds.moims.mo.mc.structures.ParameterRawValue;
 import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
-import org.ccsds.moims.mo.mc.structures.ParameterValueDetailsList;
+import org.ccsds.moims.mo.mc.structures.ParameterValueList;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -125,14 +125,14 @@ public class DefaultSupervisorMCTest {
         names.add(new Identifier(NMF_UPTIME));
         LongList ids = parameterStub.listDefinition(names);
 
-        ParameterValueDetailsList values = parameterStub.getValue(ids);
+        ParameterValueList values = parameterStub.getValue(ids).getValues();
         Assert.assertEquals("Two values must be returned", 2, values.size());
 
-        String version = ((Union) values.get(0).getValue().getRawValue()).getStringValue();
+        String version = ((Union) values.get(0).getRawValue()).getStringValue();
         Assert.assertNotNull("nmf.version must have a value", version);
         Assert.assertFalse("nmf.version must not be empty", version.isEmpty());
 
-        double uptime = ((Union) values.get(1).getValue().getRawValue()).getDoubleValue();
+        double uptime = ((Union) values.get(1).getRawValue()).getDoubleValue();
         Assert.assertTrue("nmf.uptime must be non-negative", uptime >= 0.0);
         LOGGER.info("nmf.version=" + version + ", nmf.uptime=" + uptime + "s");
     }
@@ -148,9 +148,9 @@ public class DefaultSupervisorMCTest {
         LongList ids = parameterStub.listDefinition(names);
         Assert.assertEquals("Both memory parameters must be defined", 2, ids.size());
 
-        ParameterValueDetailsList values = parameterStub.getValue(ids);
-        long ramTotal = ((Union) values.get(0).getValue().getRawValue()).getLongValue();
-        double ramPct = ((Union) values.get(1).getValue().getRawValue()).getDoubleValue();
+        ParameterValueList values = parameterStub.getValue(ids).getValues();
+        long ramTotal = ((Union) values.get(0).getRawValue()).getLongValue();
+        double ramPct = ((Union) values.get(1).getRawValue()).getDoubleValue();
         Assert.assertTrue("memory.ram.total must be positive", ramTotal > 0);
         Assert.assertTrue("memory.ram.percentage must be within 0..100",
                 ramPct >= 0.0 && ramPct <= 100.0);

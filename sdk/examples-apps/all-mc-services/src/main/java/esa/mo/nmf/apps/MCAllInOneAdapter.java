@@ -153,25 +153,6 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
     public void initialRegistrations(MCRegistration registration) {
         registration.setMode(RegistrationMode.DONT_UPDATE_IF_EXISTS);
 
-        // ===================================================================
-        PairList mappings = new PairList();
-        mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.IDLE.ordinal()), new Union("IDLE")));
-        mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.BDOT.ordinal()), new Union("BDOT")));
-        mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.SUNPOINTING.ordinal()), new Union("SUNPOINTING")));
-        mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.SINGLESPINNING.ordinal()), new Union("SINGLESPINNING")));
-        mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.TARGETTRACKING.ordinal()), new Union("TARGETTRACKING")));
-        mappings.add(new Pair(new UOctet((short) AttitudeModeEnum.NADIRPOINTING.ordinal()), new Union("NADIRPOINTING")));
-
-        DiscreteConversionList conversions = new DiscreteConversionList();
-        conversions.add(new DiscreteConversion(mappings));
-
-        ConditionalConversion condition = new ConditionalConversion(null, conversions.get(0));
-        ConditionalConversionList conditionalConversions = new ConditionalConversionList();
-        conditionalConversions.add(condition);
-
-        String convertedUnit = "n/a";
-        ParameterConversion paramConversion = new ParameterConversion(AttributeType.STRING, convertedUnit, conditionalConversions);
-
         // ------------------ Parameters ------------------
         ParameterDefinitionList defsOther = new ParameterDefinitionList();
         ParameterDefinitionList defsGPS = new ParameterDefinitionList();
@@ -179,41 +160,41 @@ public class MCAllInOneAdapter extends MonitorAndControlNMFAdapter {
 
         defsOther.add(new ParameterDefinition(new Identifier(PARAMETER_ADCS_MODE),
                 "The ADCS mode of operation", AttributeType.UOCTET,
-                "", false, new Duration(0), null, paramConversion, true));
+                "", false, new Duration(0), null, true));
 
         defsOther.add(new ParameterDefinition(new Identifier(PARAMETER_GPS_N_SATS_IN_VIEW),
                 "The number of satellites in view of GPS receiver.",
-                AttributeType.INTEGER, "sats", false, new Duration(4), null, null, true));
+                AttributeType.INTEGER, "sats", false, new Duration(4), null, true));
 
         // Create the GPS.Latitude
         defsGPS.add(new ParameterDefinition(new Identifier(PARAMETER_GPS_LATITUDE),
                 "The GPS Latitude", AttributeType.DOUBLE, "degrees",
-                false, new Duration(2), null, null, true));
+                false, new Duration(2), null, true));
 
         // Create the GPS.Longitude
         defsGPS.add(new ParameterDefinition(new Identifier(PARAMETER_GPS_LONGITUDE),
                 "The GPS Longitude", AttributeType.DOUBLE, "degrees",
-                false, new Duration(2), null, null, true));
+                false, new Duration(2), null, true));
 
         // Create the GPS.Altitude
         defsGPS.add(new ParameterDefinition(new Identifier(PARAMETER_GPS_ALTITUDE),
                 "The GPS Altitude", AttributeType.DOUBLE, "meters",
-                false, new Duration(2), null, null, true));
+                false, new Duration(2), null, true));
 
         // Create the Magnetometer.X
         defsMag.add(new ParameterDefinition(new Identifier(PARAMETER_MAG_X),
                 "The Magnetometer X component", AttributeType.DOUBLE, "microTesla",
-                false, new Duration(2), null, null, true));
+                false, new Duration(2), null, true));
 
         // Create the Magnetometer.Y
         defsMag.add(new ParameterDefinition(new Identifier(PARAMETER_MAG_Y),
                 "The Magnetometer Y component", AttributeType.DOUBLE, "microTesla",
-                false, new Duration(2), null, null, true));
+                false, new Duration(2), null, true));
 
         // Create the Magnetometer.Z
         defsMag.add(new ParameterDefinition(new Identifier(PARAMETER_MAG_Z),
                 "The Magnetometer Z component", AttributeType.DOUBLE, "microTesla",
-                false, new Duration(2), null, null, true));
+                false, new Duration(2), null, true));
 
         registration.registerParameters(defsOther);
         LongList parameterObjIdsGPS = registration.registerParameters(defsGPS);

@@ -39,7 +39,7 @@ Accessing service consumer stubs
 
 The adapter exposes typed accessors for each service category:
 
-- ``gma.getMCServices()`` — Monitor & Control (Parameter, Action, Alert, Aggregation, Conversion).
+- ``gma.getMCServices()`` — Monitor & Control (Parameter, Action, Alert, Aggregation).
 - ``gma.getCOMServices()`` — Common Object Model (Archive, Event, Directory, etc.).
 - ``gma.getSMServices()`` — Software Management (AppsLauncher, PackageManagement, Heartbeat, CommandExecutor).
 

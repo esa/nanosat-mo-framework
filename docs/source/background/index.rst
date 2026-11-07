@@ -44,7 +44,7 @@ The authoritative definitions of every MO service exposed by the NMF live in the
 
 - ``area001-MAL.xml`` — Message Abstraction Layer.
 - ``area051-COM.xml`` — Common Object Model (Event, Archive, ArchiveSync, Directory, Login, Configuration).
-- ``area052-Monitor-and-Control.xml`` — MC services (Parameter, Action, Aggregation, Alert, Conversion).
+- ``area052-Monitor-and-Control.xml`` — MC services (Parameter, Action, Aggregation, Alert).
 - ``area053-Software-Management.xml`` — SM services (AppsLauncher, PackageManagement, Heartbeat,
   CommandExecutor).
 - ``area054-Platform.xml`` — Platform services (Camera, GPS, AutonomousADCS, SoftwareDefinedRadio,

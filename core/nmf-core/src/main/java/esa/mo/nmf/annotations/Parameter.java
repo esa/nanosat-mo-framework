@@ -128,16 +128,6 @@ public @interface Parameter {
     String validityExpressionFieldName() default "";
 
     /**
-     * Name of the field containing a ParameterConversion instance containing
-     * the conversion for this parameter
-     *
-     * default: no conversion
-     *
-     * @return The function name of the conversion of the Parameter.
-     */
-    String conversionFunctionName() default "";
-
-    /**
      * If this parameter should be read only. Parameters which are final are
      * always read only!
      *

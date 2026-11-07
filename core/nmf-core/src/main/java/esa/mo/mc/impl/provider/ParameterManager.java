@@ -48,8 +48,6 @@ import org.ccsds.moims.mo.mc.structures.*;
  */
 public class ParameterManager extends MCManager {
 
-    private final ConversionServiceImpl conversionService = new ConversionServiceImpl();
-
     private final ParameterStatusListener parametersMonitoring;
 
     private Long uniqueObjIdDef; // Counter (different for every Definition)
@@ -70,15 +68,6 @@ public class ParameterManager extends MCManager {
         if (super.getArchiveService() == null) {  // No Archive?
             this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
             this.uniqueObjIdPVal = 0L; // The zeroth value will not be used (reserved for the wildcard)
-        } else {
-            // With Archive...
-
-            // Initialize the Conversion service
-            try {
-                this.conversionService.init();
-            } catch (MALException ex) {
-                Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }
 
@@ -128,7 +117,7 @@ public class ParameterManager extends MCManager {
             }
 
             try {
-                // requirement: Parameter#20
+                // requirement: Parameter#17
                 //save the published value in the COM-Archive
                 LongList objIds = super.getArchiveService().store(true,
                         ParameterServiceInfo.PARAMETERVALUE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
@@ -170,7 +159,7 @@ public class ParameterManager extends MCManager {
                 archiveDetailsList.add(archiveDetails);
             }
 
-            try {// requirement: Parameter#20
+            try {// requirement: Parameter#17
                 LongList objIds = super.getArchiveService().store(true,
                         ParameterServiceInfo.PARAMETERVALUE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
                         archiveDetailsList, pVals, null);
@@ -249,12 +238,13 @@ public class ParameterManager extends MCManager {
 
         ParameterDefinition pDef = this.getParameterDefinition(defId);
 
+        Time sampleTime = Time.now();
         try {
             Attribute rawValue = getRawValue(defId);
             // Generate final Parameter Value
-            return generateNewParameterValue(rawValue, pDef, aggrExpired);
+            return generateNewParameterValue(rawValue, sampleTime, pDef, aggrExpired);
         } catch (IOException ex) {
-            return new ParameterValue(ValidityState.INVALID_RAW, null, null);
+            return new ParameterValue(ValidityState.INVALID_RAW, null, sampleTime);
         }
     }
 
@@ -292,7 +282,6 @@ public class ParameterManager extends MCManager {
         }
 
         final Long paramDefId = expression.getParameterId();
-        ParameterDefinition pDef = this.getParameterDefinition(paramDefId);
         Attribute value;
         try {
             value = parametersMonitoring.onGetValue(super.getName(paramDefId));
@@ -301,20 +290,15 @@ public class ParameterManager extends MCManager {
             return false;
         }
 
-        if (expression.getUseConverted()) { // Is the validity checking for the converted or for the raw value?
-            value = conversionService.generateConvertedValue(value, pDef.getConversion());
-        }
-
         return HelperCOM.evaluateExpression(value, expression.getOperator(), expression.getValue());
     }
 
     /**
      * generates the validity-state for the new parameterValue
      *
-     * @param pDef the values definition that holds the parameterExpression and
-     * conversion needed for calculating the validityState
+     * @param pDef the values definition that holds the parameterExpression
+     * needed for calculating the validityState
      * @param rawValue the new raw value
-     * @param convertedValue the converted Value of the new Raw-Value
      * @param aggrExpired should be set to true, if the aggregation that is
      * sampling the parameter, is periodic and the update hasnt been received in
      * the aggregation-period. if true, the validity-state of the new parameter
@@ -322,7 +306,7 @@ public class ParameterManager extends MCManager {
      * @return the validityState
      */
     protected ValidityState generateValidityState(final ParameterDefinition pDef, final Attribute rawValue,
-            final Attribute convertedValue, final boolean aggrExpired) {
+            final boolean aggrExpired) {
 
         //parameter-aggregation has a timeout that is expired
         if (pDef.getReportingEnabled()
@@ -337,23 +321,17 @@ public class ParameterManager extends MCManager {
         }
         final ParameterExpression validityExpression = pDef.getValidityExpression();
         final Boolean evalExpression = this.evaluateParameterExpression(validityExpression);
-        final ParameterConversion conversion = pDef.getConversion();
 
         //expression didnt fail
-        if (validityExpression == null || evalExpression) {
-            //conversions didnt fail
-            if (conversion == null || convertedValue != null) { // requirement: Parameter#9
-                return ValidityState.VALID;
-            } else {// requirement: Parameter#10
-                return ValidityState.INVALID_CONVERSION;
-            }
+        if (validityExpression == null || evalExpression) { // requirement: Parameter#9
+            return ValidityState.VALID;
         } else {
             //get validityState of the parameters that are needed for the expression
             ValidityState expPValState = getValidityState(validityExpression, aggrExpired);
             //expression failed with not valid parameters
-            if (!expPValState.equals(ValidityState.VALID)) { // requirement: Parameter#11
+            if (!expPValState.equals(ValidityState.VALID)) { // requirement: Parameter#10
                 return ValidityState.UNVERIFIED;
-            } else { // requirement: Parameter#12
+            } else { // requirement: Parameter#11
                 return ValidityState.INVALID;
             }
         }
@@ -374,9 +352,7 @@ public class ParameterManager extends MCManager {
             Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             return ValidityState.INVALID_RAW;
         }
-        final ParameterDefinition expPDef = getParameterDefinition(expPDefId);
-        return generateValidityState(this.getParameterDefinition(expPDefId), expParamValue, getConvertedValue(
-                expParamValue, expPDef), aggrExpired);
+        return generateValidityState(this.getParameterDefinition(expPDefId), expParamValue, aggrExpired);
     }
 
     /**
@@ -501,7 +477,7 @@ public class ParameterManager extends MCManager {
         ParameterDefinition newDef = new ParameterDefinition(def.getName(),
                 def.getDescription(), def.getRawType(), def.getRawUnit(),
                 bool, def.getReportInterval(),
-                def.getValidityExpression(), def.getConversion(), def.getReadOnly());
+                def.getValidityExpression(), def.getReadOnly());
 
         //requirement: Parameter.enableReporting#7
         this.update(id, newDef, connectionDetails);
@@ -553,7 +529,7 @@ public class ParameterManager extends MCManager {
             ParameterDefinition newDef = new ParameterDefinition(def.getName(),
                     def.getDescription(), def.getRawType(), def.getRawUnit(),
                     bool, def.getReportInterval(),
-                    def.getValidityExpression(), def.getConversion(), def.getReadOnly());
+                    def.getValidityExpression(), def.getReadOnly());
 
             this.update(defId, newDef, connectionDetails);
         }
@@ -582,11 +558,12 @@ public class ParameterManager extends MCManager {
         ParameterValueList paramValList = new ParameterValueList();
         IdentifierList names = new IdentifierList(newRawValues.size());
 
-        //each Raw Value shall be set
+        //each Raw Value shall be set, all at the same time
+        Time sampleTime = Time.now();
         for (ParameterRawValue newRawValue : newRawValues) {
             Long id = newRawValue.getParameterId();
             ParameterDefinition def = getParameterDefinition(id);
-            paramValList.add(generateNewParameterValue(newRawValue.getRawValue(), def, false));
+            paramValList.add(generateNewParameterValue(newRawValue.getRawValue(), sampleTime, def, false));
             names.add(((ParameterDefinition) def).getName());
         }
 
@@ -599,10 +576,11 @@ public class ParameterManager extends MCManager {
     }
 
     /**
-     * This method fills a new parameter value with its rawValue, convertedValue
+     * This method fills a new parameter value with its rawValue, sampleTime
      * and validityState
      *
-     * @param rawValue the rawValue to be set and converted
+     * @param rawValue the rawValue to be set
+     * @param sampleTime the time at which the rawValue was sampled
      * @param pDef the parameter-defintion the value belongs to
      * @param aggrExpired should be set to true, if the aggregation that is
      * sampling the parameter, is periodic and the update hasnt been received in
@@ -610,23 +588,16 @@ public class ParameterManager extends MCManager {
      * will be expired.
      * @return a filled ParameterValue
      */
-    public ParameterValue generateNewParameterValue(Attribute rawValue,
+    public ParameterValue generateNewParameterValue(Attribute rawValue, final Time sampleTime,
             final ParameterDefinition pDef, final boolean aggrExpired) {
-        //convert the raw-value
-        //requirement: Parameter#14 is implicitly met here.
-        Attribute convertedValue = this.getConvertedValue(rawValue, pDef);
-
         //check the validity and set the state
-        ValidityState validityState = generateValidityState(pDef, rawValue, convertedValue, aggrExpired);
+        ValidityState validityState = generateValidityState(pDef, rawValue, aggrExpired);
 
-        if (validityState.equals(ValidityState.INVALID_CONVERSION)) {
-            convertedValue = null;  // requirement: Parameter#13
-        }
         if (validityState.equals(ValidityState.INVALID_RAW)) {
             rawValue = null; //requirement: Parameter#8
         }
 
-        return new ParameterValue(validityState, rawValue, convertedValue);
+        return new ParameterValue(validityState, rawValue, sampleTime);
     }
 
     /**
@@ -642,18 +613,6 @@ public class ParameterManager extends MCManager {
         }
 
         return parametersMonitoring.onGetValue(this.getName(defId));
-    }
-
-    /**
-     * Returns the converted value of a raw value
-     *
-     * @param rawValue The raw value.
-     * @param pDef The definition it should get the conversion from.
-     * @return The converted value, or null where the definition asks for no
-     * conversion.
-     */
-    private Attribute getConvertedValue(final Attribute rawValue, final ParameterDefinition pDef) {
-        return conversionService.generateConvertedValue(rawValue, pDef.getConversion());
     }
 
 }

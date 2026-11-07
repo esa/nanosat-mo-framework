@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.List;
 import org.ccsds.moims.mo.mc.structures.AggregationValueDetailsList;
 import org.ccsds.moims.mo.mc.structures.ParameterValue;
-import org.ccsds.moims.mo.mc.structures.ParameterValueDetailsList;
+import org.ccsds.moims.mo.mc.structures.ParameterValueList;
 import org.ccsds.moims.mo.mc.structures.ValidityState;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -144,9 +144,9 @@ public class BrokenRetrievalTest {
     // Helpers
     // -------------------------------------------------------------------------
 
-    private static ValidityState firstValidity(ParameterValueDetailsList details) {
+    private static ValidityState firstValidity(ParameterValueList details) {
         Assert.assertFalse("No parameter value was returned", details.isEmpty());
-        return details.get(0).getValue().getValidityState();
+        return details.get(0).getValidityState();
     }
 
     private static ValidityState firstAggregatedValidity(AggregationValueDetailsList details) {

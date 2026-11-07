@@ -70,13 +70,13 @@ public class MCAdapter extends MonitorAndControlNMFAdapter {
         parDef.add(new ParameterDefinition(
                 new Identifier(PARAMETER_PERIODIC),
                 "A periodic parameter with a double value.",
-                AttributeType.DOUBLE, "unit", false, new Duration(1), null, null, false));
+                AttributeType.DOUBLE, "unit", false, new Duration(1), null, false));
 
         // Creates a periodic parameter
         parDef.add(new ParameterDefinition(
                 new Identifier(PARAMETER_ARCHIVE_SIZE),
                 "The COM Archive size.", AttributeType.DOUBLE,
-                "bytes", false, new Duration(0), null, null, false));
+                "bytes", false, new Duration(0), null, false));
 
         registration.registerParameters(parDef);
 

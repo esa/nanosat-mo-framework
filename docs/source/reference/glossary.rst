@@ -58,7 +58,7 @@ Glossary
 
    MC
       Monitor & Control. The MO area for telemetry parameters, action
-      invocation, aggregations, alerts, and conversions.
+      invocation, aggregations, and alerts.
 
    Monolithic provider
       A self-contained provider composite (``NanoSatMOMonolithic``)

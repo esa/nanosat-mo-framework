@@ -33,6 +33,7 @@ import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Subscription;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.structures.UpdateHeader;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.parameter.consumer.MonitorValueSubscriptionKeys;
@@ -95,7 +96,7 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
         labels[0 * numberOfColumns].setNewValue("Obj Instance Id", false);
         labels[1 * numberOfColumns].setNewValue("Validity State", false);
         labels[2 * numberOfColumns].setNewValue("Raw Value", false);
-        labels[3 * numberOfColumns].setNewValue("Converted Value", false);
+        labels[3 * numberOfColumns].setNewValue("Sample Time", false);
 
         for (int i = 0; i < labels.length; ++i) {
             this.add(labels[i]);
@@ -201,14 +202,15 @@ public class ParameterPublishedValues extends javax.swing.JPanel {
                 String validity = validityState.toString();
                 String rawValueStr = Attribute.attribute2string(parameterValue.getRawValue());
                 final String rawValue = rawValueStr.isEmpty() ? "\"\"" : rawValueStr;
-                String convertedValue = Attribute.attribute2string(parameterValue.getConvertedValue());
+                Time sampleTime = parameterValue.getSampleTime();
+                String sampleTimeStr = (sampleTime == null) ? "" : sampleTime.toReadableString();
 
                 boolean isNotValid = ((int) validityState.getValue() != ValidityState.VALID_VALUE);
                 javax.swing.SwingUtilities.invokeLater(() -> {
                     labels[index + 0 * numberOfColumns].setNewValue(nameId, isNotValid);
                     labels[index + 1 * numberOfColumns].setNewValue(validity, isNotValid);
                     labels[index + 2 * numberOfColumns].setNewValue(rawValue, isNotValid);
-                    labels[index + 3 * numberOfColumns].setNewValue(convertedValue, isNotValid);
+                    labels[index + 3 * numberOfColumns].setNewValue(sampleTimeStr, isNotValid);
                 });
             } catch (NumberFormatException ex) {
                 Logger.getLogger(ParameterPublishedValues.class.getName()).log(Level.WARNING,

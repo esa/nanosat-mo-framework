@@ -505,12 +505,12 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                                     .append(paramValue.getRawValue().toString())
                                     .append("\n");
                         }
-                        if (paramValue.getConvertedValue() != null) {
+                        if (paramValue.getSampleTime() != null) {
                             str.append("(parameterSetValue index: ")
                                     .append(i)
                                     .append(") ")
-                                    .append("convertedValue: ")
-                                    .append(paramValue.getConvertedValue().toString())
+                                    .append("sampleTime: ")
+                                    .append(paramValue.getSampleTime().toReadableString())
                                     .append("\n");
                         }
                         str.append("\n");
@@ -613,12 +613,12 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                                     .append("rawValue: ")
                                     .append(paramValue.getRawValue().toString()).append("\n");
                         }
-                        if (paramValue.getConvertedValue() != null) {
+                        if (paramValue.getSampleTime() != null) {
                             str.append("(parameterSetValue index: ")
                                     .append(i)
                                     .append(") ")
-                                    .append("convertedValue: ")
-                                    .append(paramValue.getConvertedValue().toString()).append("\n");
+                                    .append("sampleTime: ")
+                                    .append(paramValue.getSampleTime().toReadableString()).append("\n");
                         }
                         str.append("\n");
                     }
@@ -689,9 +689,9 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                         if (paramValue.getRawValue() != null) {
                             str.append("rawValue: ").append(paramValue.getRawValue().toString()).append("\n");
                         }
-                        if (paramValue.getConvertedValue() != null) {
-                            String converted = paramValue.getConvertedValue().toString();
-                            str.append("convertedValue: ").append(converted).append("\n");
+                        if (paramValue.getSampleTime() != null) {
+                            String sampleTime = paramValue.getSampleTime().toReadableString();
+                            str.append("sampleTime: ").append(sampleTime).append("\n");
                         }
                         str.append("\n");
                     }

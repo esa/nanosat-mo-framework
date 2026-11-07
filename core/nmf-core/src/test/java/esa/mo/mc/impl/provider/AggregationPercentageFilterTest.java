@@ -37,7 +37,7 @@ import org.junit.Test;
 public class AggregationPercentageFilterTest {
 
     private static final ThresholdFilter TEN_PERCENT
-            = new ThresholdFilter(ThresholdType.PERCENTAGE, (Attribute) Attribute.javaType2Attribute(10.0), true);
+            = new ThresholdFilter(ThresholdType.PERCENTAGE, (Attribute) Attribute.javaType2Attribute(10.0));
 
     @Test
     public void aPositiveValueIsReportedOnlyBeyondTheThreshold() throws Exception {

@@ -27,13 +27,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import org.ccsds.moims.mo.com.COMService;
 import org.ccsds.moims.mo.com.structures.ExpressionOperator;
-import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MALInteractionException;
 import org.ccsds.moims.mo.mal.structures.*;
-import org.ccsds.moims.mo.mc.conversion.ConversionHelper;
 import org.ccsds.moims.mo.mc.structures.*;
 
 /**
@@ -47,8 +44,6 @@ public class ParameterAddModify extends javax.swing.JFrame {
     private DefaultTableModel parameterTableData;
     private Boolean isAddDef = false;
     private int parameterDefinitionSelectedIndex = 0;
-
-    private static transient COMService service;
 
     /**
      * Constructor.
@@ -70,8 +65,11 @@ public class ParameterAddModify extends javax.swing.JFrame {
         this.setResizable(false);
         this.setVisible(false);
 
-        service = ConversionHelper.CONVERSION_SERVICE;
-        MALContextFactory.getElementsRegistry().loadServiceAndAreaElements(service);
+        // The MC area has no conversions and no useConverted: hide their fields of the generated form
+        validity4.setVisible(false);
+        jSeparator4.setVisible(false);
+        conversionCB.setVisible(false);
+        jPanel1.setVisible(false);
     }
 
     /**
@@ -88,16 +86,14 @@ public class ParameterAddModify extends javax.swing.JFrame {
      *
      * @param instId the object instance id of the referenced parameter
      * @param operator the expression operator code
-     * @param useConverted whether the converted value is used
      * @param value the value to compare against
      * @return the new parameter expression
      */
     public ParameterExpression makeNewParameterExpression(Long instId,
-            int operator, Boolean useConverted, String value) {
+            int operator, String value) {
         return new ParameterExpression(
                 instId,
                 new ExpressionOperator(operator),
-                useConverted,
                 new Union(value));
     }
 
@@ -500,8 +496,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
         if (validityExpressionCB.isSelected()) {
             if (validity2.getSelectedIndex() != -1 && !validity3.getText().isEmpty()) {
                 Long instId = ((Number) parameterTableData.getValueAt(validity1.getSelectedIndex(), 0)).longValue();
-                PExp = makeNewParameterExpression(instId, validity2.getSelectedIndex(), validity4.isSelected(),
-                        validity3.getText());
+                PExp = makeNewParameterExpression(instId, validity2.getSelectedIndex(), validity3.getText());
             } else {
                 JOptionPane.showMessageDialog(null, "Please select an operator and a value!", "Warning!",
                         JOptionPane.PLAIN_MESSAGE);
@@ -510,9 +505,6 @@ public class ParameterAddModify extends javax.swing.JFrame {
         } else {
             PExp = null;
         }
-
-        ParameterConversion pConv = null;
-        // Inline conversion configuration is not yet supported via this dialog.
 
         float updateInterval;
         try {
@@ -530,7 +522,7 @@ public class ParameterAddModify extends javax.swing.JFrame {
                 rawUnitTF.getText(),
                 reportingEnabledCB.isSelected(),
                 new Duration(updateInterval),
-                PExp, pConv, false);
+                PExp, false);
         
         ParameterDefinitionList pDefs = new ParameterDefinitionList();
         pDefs.add(pDef);

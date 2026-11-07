@@ -59,7 +59,7 @@ import org.ccsds.moims.mo.mc.structures.AttributeValue;
 import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ExecutionRequest;
 import org.ccsds.moims.mo.mc.structures.ExecutionStageType;
-import org.ccsds.moims.mo.mc.structures.ParameterValueDetailsList;
+import org.ccsds.moims.mo.mc.structures.ParameterValueList;
 
 /**
  * Manages the lifecycle of a named NMF App for end-to-end tests.
@@ -299,17 +299,17 @@ public class AppHarness {
      * parameter comes back with validity INVALID_RAW rather than an error).
      *
      * @param names the parameter names as registered by the app.
-     * @return the returned ParameterValueDetails, in the same order as the ids.
+     * @return the returned ParameterValues, in the same order as the ids.
      * @throws IOException if the app provider could not be reached.
      */
-    public ParameterValueDetailsList getParameterValues(List<String> names) throws IOException {
+    public ParameterValueList getParameterValues(List<String> names) throws IOException {
         try {
             ParameterStub parameterStub = appMcAdapter().getMCServices()
                     .getParameterService().getParameterStub();
             IdentifierList paramNames = new IdentifierList();
             names.forEach(n -> paramNames.add(new Identifier(n)));
             LongList ids = parameterStub.listDefinition(paramNames);
-            return parameterStub.getValue(ids);
+            return parameterStub.getValue(ids).getValues();
         } catch (MALException | MOErrorException e) {
             throw new IOException("getValue (parameters) failed for app '" + appName + "': "
                     + e.getMessage(), e);

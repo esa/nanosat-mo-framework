@@ -34,6 +34,7 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
+import org.ccsds.moims.mo.mc.parameter.body.GetValueResponse;
 import org.ccsds.moims.mo.mc.parameter.provider.ParameterInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.structures.*;
 
@@ -94,7 +95,7 @@ public class ParameterProxyServiceImpl extends ParameterInheritanceSkeleton {
     }
 
     @Override
-    public ParameterValueDetailsList getValue(LongList ll, MALInteraction interaction)
+    public GetValueResponse getValue(LongList ll, MALInteraction interaction)
             throws MALException {
         // In this case, the object this.consumer represents the connection 
         // between the consumer part of the proxy to the provider on Space

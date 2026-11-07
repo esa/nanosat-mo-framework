@@ -69,12 +69,12 @@ public class BrokenRetrievalTest {
 
         LongList ids = new LongList();
         ids.add(id);
-        ParameterValueDetailsList result = harness.getParameterConsumerStub()
-                .getParameterStub().getValue(ids);
+        ParameterValueList result = harness.getParameterConsumerStub()
+                .getParameterStub().getValue(ids).getValues();
 
         Assert.assertEquals("One value must be returned", 1, result.size());
         Assert.assertEquals("A parameter whose read throws must come back as INVALID_RAW",
-                ValidityState.INVALID_RAW, result.get(0).getValue().getValidityState());
+                ValidityState.INVALID_RAW, result.get(0).getValidityState());
     }
 
     @Test

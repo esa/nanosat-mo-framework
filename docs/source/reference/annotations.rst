@@ -43,9 +43,6 @@ Applied to a field. Registers the field as an MC Parameter.
    * - ``validityExpressionFieldName``
      - ``""``
      - Name of a field holding a ``ParameterExpression`` for validity.
-   * - ``conversionFunctionName``
-     - ``""``
-     - Name of a field holding a ``ParameterConversion``.
    * - ``readOnly``
      - ``false``
      - Reject writes if true. Always true for ``final`` fields.

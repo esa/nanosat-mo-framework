@@ -39,7 +39,7 @@ public class ParameterGround {
 
     public static ParameterDefinition makeNewParameterDefinition(Identifier name, AttributeType rawType,
         String rawUnit, String description, boolean generationEnabled, float interval,
-        ParameterExpression validityExpression, ParameterConversion conversion) {
+        ParameterExpression validityExpression) {
 
         return new ParameterDefinition(
             name,
@@ -49,7 +49,6 @@ public class ParameterGround {
             generationEnabled,
             new Duration(interval),
             validityExpression,
-            conversion,
             false);
     }
 
@@ -76,7 +75,6 @@ public class ParameterGround {
         boolean generationEnabled = false;
         float interval = 10f;
         ParameterExpression parameterExpression = null;
-        ParameterConversion parameterConversion = null;
 
         ParameterDefinition parDef;
         parDef = makeNewParameterDefinition(
@@ -86,8 +84,7 @@ public class ParameterGround {
                 description,
                 generationEnabled,
                 interval,
-                parameterExpression,
-                parameterConversion);
+                parameterExpression);
 
         ParameterDefinitionList requestList = new ParameterDefinitionList();
         requestList.add(parDef);

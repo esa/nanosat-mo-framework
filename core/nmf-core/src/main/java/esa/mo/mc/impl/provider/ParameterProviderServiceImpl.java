@@ -51,6 +51,7 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.ReadOnlyException;
 import org.ccsds.moims.mo.mc.parameter.ParameterHelper;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
+import org.ccsds.moims.mo.mc.parameter.body.GetValueResponse;
 import org.ccsds.moims.mo.mc.parameter.provider.MonitorValuePublisher;
 import org.ccsds.moims.mo.mc.parameter.provider.ParameterInheritanceSkeleton;
 import org.ccsds.moims.mo.mc.structures.*;
@@ -145,7 +146,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
     }
 
     @Override
-    public ParameterValueDetailsList getValue(final LongList ids, final MALInteraction interaction)
+    public GetValueResponse getValue(final LongList ids, final MALInteraction interaction)
             throws UnknownException, InvalidArgumentException, MALException {
         if (ids == null) { // Is the input null?
             throw new InvalidArgumentException("The ids field must not be NULL");
@@ -177,16 +178,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             }
         }
 
-        ParameterValueDetailsList outList = new ParameterValueDetailsList();
-        ParameterValueList outPValLst = manager.getParameterValues(ids, false);
-
-        for (int i = 0; i < ids.size(); i++) {
-            Long paramId = ids.get(i);
-
-            outList.add(new ParameterValueDetails(paramId, Time.now(), outPValLst.get(i)));
-        }
-
-        return outList;
+        return new GetValueResponse(ids, manager.getParameterValues(ids, false));
     }
 
     @Override
@@ -293,11 +285,9 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             throw new ReadOnlyException(readOnlyIndexList);
         }
 
-        //atomic behaviour while setting the values. So let all values have the same timestamp for creation
-        //        FineTime timestamp = HelperTime.getTimestamp();
+        //atomic behaviour while setting the values: all values have the same sample time
         //requirement: Parameter.setValue#3
         ParameterValueList newParamValues = manager.setValues(rawValueList);
-        Time timestamp = Time.now();
 
         //requirement: Parameter.setValue#4, Parameter.setValue#5
         List<ParameterInstance> toPublishParamInstances = new ArrayList<>();
@@ -314,7 +304,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                 //for the parameters where values do not have to be published (generation is disabled)
                 noPublishParamValList.add(newParamValues.get(i));
                 noPublishRelatedIds.add(id);
-                timestamps.add(timestamp);
+                timestamps.add(newParamValues.get(i).getSampleTime());
             }
         }
 
@@ -797,7 +787,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
      */
     public Boolean pushSingleParameterValueAttribute(final Identifier name,
             final Attribute value, final Time timestamp) {
-        final ParameterValue parameterValue = new ParameterValue(ValidityState.VALID, value, null);
+        final ParameterValue parameterValue = new ParameterValue(ValidityState.VALID, value, timestamp);
         ArrayList<ParameterInstance> parameters = new ArrayList<>(1);
         parameters.add(new ParameterInstance(name, parameterValue, timestamp));
 
@@ -848,7 +838,8 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
 
             final LongList outIds = new LongList(parameters.size());
             final HeterogeneousList pVals = new HeterogeneousList();
-            final List<ParameterInstance> parameterInstances = new ArrayList<>(parameters.size());
+            // all Parameter-Value objects without a sample time get the same one
+            final Time defaultTimestamp = Time.now();
 
             for (int i = 0; i < parameters.size(); i++) {
                 // Does the submitted name exists in the manager?
@@ -872,7 +863,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                             true, // Auto enable the generation
                             new Duration(0),
                             null,
-                            null, false);
+                            false);
 
                     ParameterDefinitionList pDefs = new ParameterDefinitionList(1);
                     pDefs.add(pDef);
@@ -891,19 +882,11 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                 if (pDef2.getReportingEnabled()) {
                     outIds.add(id); // Don't push the PVals that are not enabled...
                     ParameterValue value = parameter.getParameterValue();
-                    Attribute convertedValue = value.getConvertedValue();
-                    ValidityState validityState = value.getValidityState();
-
-                    // If the conversion value was not provided, we can try to generate it
-                    if (convertedValue == null) {
-                        ParameterValue newPVal = manager.generateNewParameterValue(
-                                value.getRawValue(), pDef2, false);
-                        convertedValue = newPVal.getConvertedValue();
-                        validityState = newPVal.getValidityState();
+                    Time sampleTime = value.getSampleTime();
+                    if (sampleTime == null) {
+                        sampleTime = (parameter.getTimestamp() != null) ? parameter.getTimestamp() : defaultTimestamp;
                     }
-
-                    pVals.add(new ParameterValue(validityState, value.getRawValue(), convertedValue));
-                    parameterInstances.add(parameter);
+                    pVals.add(manager.generateNewParameterValue(value.getRawValue(), sampleTime, pDef2, false));
                 }
             }
 
@@ -914,15 +897,9 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             LongList relatedIds = new LongList(outIds.size());
             TimeList timestamps = new TimeList(outIds.size());
 
-            // all Parameter-Value objects shall have the same creation-time
-            final Time defaultTimestamp = Time.now();
-
             for (int i = 0; i < outIds.size(); i++) {
                 relatedIds.add(outIds.get(i));
-                final Time timestamp = (parameters.get(i).getTimestamp() != null)
-                        ? parameters.get(i).getTimestamp()
-                        : defaultTimestamp;
-                timestamps.add(timestamp);
+                timestamps.add(((ParameterValue) pVals.get(i)).getSampleTime());
             }
 
             final LongList parameterValueId;
@@ -938,21 +915,17 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             }
 
 
-            for (int i = 0; i < parameterInstances.size(); i++) {
+            for (int i = 0; i < pVals.size(); i++) {
                 AttributeList keys = new AttributeList();
                 keys.add(new Identifier(manager.getName(outIds.get(i)).toString()));
                 keys.add(new Union(outIds.get(i)));
                 keys.add(new Union(parameterValueId.get(i)));
 
-                Time time = parameterInstances.get(i).getTimestamp();
-                time = (time == null) ? defaultTimestamp : time;
-
-                //requirement: Parameter.monitorValue#1 : timestamp must be the same as for the creation of the ParameterValue
                 URI source = connection.getConnectionDetails().getProviderURI();
                 UpdateHeader updateHeader = new UpdateHeader(new Identifier(source.getValue()),
                         connection.getConnectionDetails().getDomain(), keys.getAsNullableAttributeList());
 
-                publisher.publish(updateHeader, parameterInstances.get(i).getParameterValue());
+                publisher.publish(updateHeader, (ParameterValue) pVals.get(i));
             }
         } catch (IllegalArgumentException | MALInteractionException | MALException ex) {
             Logger.getLogger(ParameterProviderServiceImpl.class.getName()).log(Level.WARNING,

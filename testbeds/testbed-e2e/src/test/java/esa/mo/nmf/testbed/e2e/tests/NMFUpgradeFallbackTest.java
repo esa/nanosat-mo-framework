@@ -39,7 +39,7 @@ import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.URI;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
-import org.ccsds.moims.mo.mc.structures.ParameterValueDetailsList;
+import org.ccsds.moims.mo.mc.structures.ParameterValueList;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -158,10 +158,10 @@ public class NMFUpgradeFallbackTest {
             names.add(new Identifier(SupervisorInfoMCAdapter.PARAM_NMF_VERSION));
             LongList ids = stub.listDefinition(names);
             Assert.assertEquals("Parameter must be defined: " + SupervisorInfoMCAdapter.PARAM_NMF_VERSION, 1, ids.size());
-            ParameterValueDetailsList values = stub.getValue(ids);
+            ParameterValueList values = stub.getValue(ids).getValues();
 
             Assert.assertEquals("The Supervisor that came up must be the released version",
-                    released, values.get(0).getValue().getRawValue().toString());
+                    released, values.get(0).getRawValue().toString());
         } finally {
             adapter.closeConnections();
         }

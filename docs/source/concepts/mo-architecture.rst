@@ -56,7 +56,6 @@ Services for exposing telemetry and accepting commands:
 - **Action** — invocation and progress reporting of commands.
 - **Aggregation** — grouping of parameters into reports.
 - **Alert** — generation and distribution of operational alerts.
-- **Conversion** — declarative conversions between raw and engineering parameter values.
 
 Software Management (SM)
 ^^^^^^^^^^^^^^^^^^^^^^^^

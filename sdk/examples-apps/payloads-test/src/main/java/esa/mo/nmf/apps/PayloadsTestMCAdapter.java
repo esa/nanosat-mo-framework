@@ -503,57 +503,19 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
         // call super for annotations to work!
         super.initialRegistrations(registration);
 
-        // conversions are not supported by annotations yet, so these have to be done the old way
         registerParameters(registration);
     }
 
     private void registerParameters(MCRegistration registration) throws IllegalArgumentException {
-        ParameterConversion paramConversion = registerAdcsModeConversion();
-
         // ------------------ Parameters ------------------
         ParameterDefinitionList defsOther = new ParameterDefinitionList();
 
         defsOther.add(new ParameterDefinition(
                 new Identifier(PARAMETER_ADCS_MODE),
                 "The ADCS mode of operation",
-                AttributeType.UOCTET, "", false, new Duration(0), null, paramConversion, false));
+                AttributeType.UOCTET, "", false, new Duration(0), null, false));
 
         registration.registerParameters(defsOther);
-    }
-
-    private ParameterConversion registerAdcsModeConversion()
-            throws IllegalArgumentException {
-        PairList mappings = new PairList();
-        mappings.add(new Pair(
-                new UOctet((short) AttitudeModeEnum.IDLE.ordinal()),
-                new Union("IDLE")));
-        mappings.add(new Pair(
-                new UOctet((short) AttitudeModeEnum.BDOT.ordinal()),
-                new Union("BDOT")));
-        mappings.add(new Pair(
-                new UOctet((short) AttitudeModeEnum.SUNPOINTING.ordinal()),
-                new Union("SUNPOINTING")));
-        mappings.add(new Pair(
-                new UOctet((short) AttitudeModeEnum.SINGLESPINNING.ordinal()),
-                new Union("SINGLESPINNING")));
-        mappings.add(new Pair(
-                new UOctet((short) AttitudeModeEnum.TARGETTRACKING.ordinal()),
-                new Union("TARGETTRACKING")));
-        mappings.add(new Pair(
-                new UOctet((short) AttitudeModeEnum.NADIRPOINTING.ordinal()),
-                new Union("NADIRPOINTING")));
-        mappings.add(new Pair(
-                new UOctet((short) AttitudeModeEnum.VECTORPOINTING.ordinal()),
-                new Union("VECTORPOINTING")));
-        DiscreteConversionList conversions = new DiscreteConversionList();
-        conversions.add(new DiscreteConversion(mappings));
-
-        ConditionalConversion condition = new ConditionalConversion(null, conversions.get(0));
-        ConditionalConversionList conditionalConversions = new ConditionalConversionList();
-        conditionalConversions.add(condition);
-
-        String convertedUnit = "n/a";
-        return new ParameterConversion(AttributeType.STRING, convertedUnit, conditionalConversions);
     }
 
     /**

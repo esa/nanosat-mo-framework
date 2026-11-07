@@ -178,27 +178,11 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                 }
             }
 
-            ParameterConversion conversion = null;
-            String convFun = annotation.conversionFunctionName();
-            if (!convFun.isEmpty()) {
-                try {
-                    Field conversionField = this.getClass().getField(convFun);
-                    conversionField.setAccessible(true);
-                    conversion = (ParameterConversion) conversionField.get(this);
-                } catch (NoSuchFieldException
-                        | SecurityException
-                        | IllegalArgumentException
-                        | IllegalAccessException ex) {
-                    LOGGER.log(Level.SEVERE, "Unable to parse conversion Field!"
-                            + " (fallback to null) {0}", ex);
-                }
-            }
-
             boolean readOnly = annotation.readOnly()
                     || (field.getModifiers() & Modifier.FINAL) == Modifier.FINAL;
             definitions.add(new ParameterDefinition(new Identifier(name),
                     description, new AttributeType(rawType), rawUnit,
-                    reportingEnabled, reportInterval, validityExpression, conversion, readOnly));
+                    reportingEnabled, reportInterval, validityExpression, readOnly));
             parameterNameMapping.put(name, field);
         }
 

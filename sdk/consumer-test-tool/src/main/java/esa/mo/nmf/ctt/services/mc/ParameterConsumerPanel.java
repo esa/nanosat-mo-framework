@@ -37,8 +37,10 @@ import org.ccsds.moims.mo.mal.structures.Blob;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.Time;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
+import org.ccsds.moims.mo.mc.parameter.body.GetValueResponse;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterAdapter;
 import org.ccsds.moims.mo.mc.structures.*;
 
@@ -349,26 +351,28 @@ public class ParameterConsumerPanel extends javax.swing.JPanel {
         LongList longlist = new LongList();
         longlist.add(parameterTable.getSelectedDefinitionObjId());
 
-        ParameterValueDetailsList values;
+        GetValueResponse response;
         try {
-            values = this.serviceMCParameter.getParameterStub().getValue(longlist);
+            response = this.serviceMCParameter.getParameterStub().getValue(longlist);
+            LongList defIds = response.getDefIds();
+            ParameterValueList values = response.getValues();
 
             StringBuilder str = new StringBuilder();
             for (int i = 0; i < values.size(); i++) {
-                str.append("The value for objId ").append(values.get(i).getDefId().toString()).append(" is:");
+                str.append("The value for objId ").append(defIds.get(i).toString()).append(" is:");
 
-                ValidityState validityState = values.get(i).getValue().getValidityState();
-                Attribute rawValue = values.get(i).getValue().getRawValue();
-                Attribute convertedValue = values.get(i).getValue().getConvertedValue();
+                ValidityState validityState = values.get(i).getValidityState();
+                Attribute rawValue = values.get(i).getRawValue();
+                Time sampleTime = values.get(i).getSampleTime();
                 str.append("\nvalidityState: ");
                 str.append(validityState == null ? "null" : validityState.toString());
                 str.append("\nrawValue: ");
                 str.append(rawValue == null ? "null" : rawValue.toString());
-                str.append("\nconvertedValue: ");
-                str.append(convertedValue == null ? "null" : convertedValue);
+                str.append("\nsampleTime: ");
+                str.append(sampleTime == null ? "null" : sampleTime.toReadableString());
                 str.append("\n");
 
-                Attribute attribute = values.get(i).getValue().getRawValue();
+                Attribute attribute = values.get(i).getRawValue();
                 if (attribute instanceof Blob) {
                     // Show the raw bytes; the CTT no longer deserializes a Blob into an object.
                     str.append(Arrays.toString(((Blob) attribute).getValue())).append("\n");

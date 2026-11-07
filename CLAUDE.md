@@ -146,7 +146,7 @@ Convenience scripts in
 ```
 CCSDS MAL (transport/encoding)
   └─ COM (Archive, ArchiveSync, Directory, Login)
-       ├─ MC (Parameter, Action, Aggregation, Alert, Conversion)
+       ├─ MC (Parameter, Action, Aggregation, Alert)
        ├─ Platform (Camera, GPS, AutonomousADCS, SoftwareDefinedRadio,
        │            OpticalDataReceiver, PowerControl,
        │            ArtificialIntelligence, FPGA, SoftwareImages)

@@ -242,7 +242,7 @@ public final class AggregationManager extends MCManager {
         try {
             return parameterManager.getParameterValue(paramIdentityId, aggrExpired);
         } catch (MOErrorException ex) {
-            return new ParameterValue(ValidityState.INVALID_RAW, null, null);
+            return new ParameterValue(ValidityState.INVALID_RAW, null, Time.now());
         }
     }
 
@@ -471,7 +471,7 @@ public final class AggregationManager extends MCManager {
                 AggregationParameterValue agg = newParameterValueSamples.get(k);
                 ParameterValue pVal = agg.getValue();
                 if (currentParamValues.get(k).getValue().getRawValue().equals(pVal.getRawValue())) {
-                    ParameterValue newValue = new ParameterValue(ValidityState.EXPIRED, pVal.getRawValue(), pVal.getConvertedValue());
+                    ParameterValue newValue = new ParameterValue(ValidityState.EXPIRED, pVal.getRawValue(), pVal.getSampleTime());
                     newParameterValueSamples.add(k, new AggregationParameterValue(newValue, agg.getParamDefinitionId()));
                 }
             }
@@ -670,22 +670,8 @@ public final class AggregationManager extends MCManager {
                 int previousValidityState = previous.getValidityState().getValue();
                 if ((currentValidityState == 0 && previousValidityState == 0)
                         || (currentValidityState == 2 && previousValidityState == 2)) { // 2 stands for the INVALID_RAW state
-                    boolean filterisTriggered = false;
-
-                    if (currentValidityState == 0
-                            && previousValidityState == 0
-                            && current.getConvertedValue() != null
-                            && previous.getConvertedValue() != null) {
-                        filterisTriggered = this.triggeredFilter(previous.getConvertedValue(),
-                                current.getConvertedValue(), aggregationParameterSet.getReportFilter());
-                    }
-
-                    if (current.getConvertedValue() == null && previous.getConvertedValue() == null) {
-                        filterisTriggered = this.triggeredFilter(previous.getRawValue(),
-                                current.getRawValue(), aggregationParameterSet.getReportFilter());
-                    }
-
-                    return filterisTriggered;
+                    return this.triggeredFilter(previous.getRawValue(),
+                            current.getRawValue(), aggregationParameterSet.getReportFilter());
                 }
 
                 break;
