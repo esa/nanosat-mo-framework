@@ -337,8 +337,11 @@ public final class ActionManager extends MCManager {
                     return false;
                 }
             }
-            // Are the argument types the same?
-            for (int index = 0; index < sizeDefArgIds; index++) {
+        }
+
+        // Are the argument types the same? Checked with or without the argumentIds
+        if (args != null) {
+            for (int index = 0; index < args.size(); index++) {
                 int defRawType = args.get(index).getRawType().getValue();
                 int instType = execReq.getArgumentValues().get(index).getValue().getTypeId().getSFP();
 

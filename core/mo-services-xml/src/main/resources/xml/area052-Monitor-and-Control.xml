@@ -1199,7 +1199,7 @@
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
-                <mal:field name="value" canBeNull="false" comment="The argument value. Shall not be NULL. NULL may be represented by having a NULL in place of the complete AttributeValue composite.">
+                <mal:field name="value" canBeNull="false" comment="The argument value.">
                     <mal:type area="MAL" list="false" name="Attribute"/>
                 </mal:field>
             </mal:composite>
@@ -1246,7 +1246,7 @@
                 <mal:field name="definitionId" canBeNull="false" comment="The id of the ActionDefinition to be used.">
                     <mal:type area="MAL" list="false" name="Long"/>
                 </mal:field>
-                <mal:field name="argumentValues" canBeNull="true" comment="List containing the values of the arguments. The ordering of the list matches that of the definition. If a value for a particular entry is not being supplied, then its position is filled with a NULL value. If no arguments are defined, then the complete list is replaced with a NULL.">
+                <mal:field name="argumentValues" canBeNull="true" comment="The values of the arguments, one for each argument of the ActionDefinition, in the order of its arguments. NULL if the ActionDefinition has no arguments.">
                     <mal:type area="MC" list="true" name="AttributeValue"/>
                 </mal:field>
                 <mal:field name="argumentIds" canBeNull="true" comment="Optional list of argument definition identifiers. Allows the provider to verify that the correct arguments are being supplied. The ordering of the list matches that of the argument list of the action definition.">
@@ -1357,7 +1357,7 @@
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
-                <mal:field name="argumentValues" canBeNull="true" comment="List containing the values of the arguments. The ordering of the list matches that of the definition. If a value for a particular entry is not being supplied, then its position is filled with a NULL value. If no arguments are defined, then the complete list is replaced with a NULL.">
+                <mal:field name="argumentValues" canBeNull="true" comment="The values of the arguments, one for each argument of the AlertDefinition, in the order of its arguments. NULL if the AlertDefinition has no arguments.">
                     <mal:type area="MC" list="true" name="AttributeValue"/>
                 </mal:field>
                 <mal:field name="argumentIds" canBeNull="true" comment="Optional list of argument definition identifiers. Allows the consumer to verify that the correct arguments are being supplied. The ordering of the list matches that of the argument list of the alert definition.">

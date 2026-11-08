@@ -33,6 +33,7 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.action.consumer.ActionAdapter;
 import org.ccsds.moims.mo.mc.action.consumer.ActionStub;
@@ -86,6 +87,36 @@ public class ActionTest {
         Assert.assertTrue("A nominal action must report execution success (success=true)", outcome);
         Assert.assertEquals("The backend actionArrived handler must have been invoked once",
                 before + 1, BACKEND.invocations.get());
+    }
+
+    // Test — An argument of the wrong type is rejected, also without the argumentIds
+
+    @Test
+    public void testWrongArgumentTypeIsRejected() throws Exception {
+        LOGGER.info("Running: testWrongArgumentTypeIsRejected()");
+        ArgumentDefinitionList args = new ArgumentDefinitionList();
+        args.add(new ArgumentDefinition(new Identifier("count"), AttributeType.INTEGER));
+        ActionDefinition def = new ActionDefinition(new Identifier("Typed_Action"),
+                "An action with one Integer argument.", new UShort(0), args);
+        ActionDefinitionList defs = new ActionDefinitionList();
+        defs.add(def);
+        Long actionId = harness.getActionProvider().addAction(defs, null).get(0);
+
+        AttributeValueList values = new AttributeValueList();
+        values.add(new AttributeValue(new Union("not an Integer")));
+        ActionStub stub = harness.getActionConsumerStub().getActionStub();
+
+        int before = BACKEND.invocations.get();
+        try {
+            stub.executeAction(new ExecutionRequest(actionId, values, null));
+            Assert.fail("An argument of the wrong type must be rejected");
+        } catch (InvalidArgumentException ex) {
+            UIntegerList indexes = (UIntegerList) ex.getExtraInformation();
+            Assert.assertEquals("The error must name the wrong argument", 1, indexes.size());
+            Assert.assertEquals("The error must name the wrong argument", 0, indexes.get(0).getValue());
+        }
+        Assert.assertEquals("A rejected action must not reach the backend",
+                before, BACKEND.invocations.get());
     }
 
     // -------------------------------------------------------------------------
