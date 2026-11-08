@@ -21,6 +21,7 @@
 package esa.mo.nmf.nmfpackage;
 
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
+import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
 import esa.mo.nmf.nmfpackage.metadata.MetadataMission;
 import esa.mo.nmf.nmfpackage.utils.ChecksumGenerator;
 import java.io.ByteArrayInputStream;
@@ -30,6 +31,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Properties;
 import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -73,10 +76,30 @@ public class PackageChecksumTest {
             pack.verifyPackageIntegrity();
         }
 
-        try (ZipFile zip = new ZipFile(built)) {
-            String written = new String(zip.getInputStream(zip.getEntry(Metadata.FILENAME)).readAllBytes(),
-                    StandardCharsets.ISO_8859_1);
-            Assert.assertFalse("No CRC-32 is written any more", written.contains(Metadata.FILE_CRC));
+        // Deprecated, to be removed in 6.1: a baseline package also lists the
+        // CRC-32 of each file, so that a 5.1 Supervisor can install it
+        Properties written = new Properties();
+        written.load(new ByteArrayInputStream(metadataOf(built)));
+        Assert.assertEquals("A baseline package lists the CRC-32 of each file for a 5.1 Supervisor",
+                crc(CONTENT), written.getProperty(Metadata.FILE_CRC + ".0"));
+    }
+
+    @Test
+    public void anAppPackageListsNoCRC() throws IOException {
+        File jar = tmp.newFile("an-app.jar");
+        Files.write(jar.toPath(), CONTENT);
+        NMFPackageBuilder builder = new NMFPackageBuilder(new MetadataApp("an-app", "1.0",
+                "esa.mo.nmf.apps.AnApp", "an-app.jar", null, null, new ArrayList<>(), "6.0"));
+        builder.addFileOrDirectory(jar);
+        File built = builder.createPackage(tmp.newFolder());
+
+        String written = new String(metadataOf(built), StandardCharsets.ISO_8859_1);
+        Assert.assertFalse("Only a baseline package lists the CRC-32", written.contains(Metadata.FILE_CRC));
+    }
+
+    private static byte[] metadataOf(File pack) throws IOException {
+        try (ZipFile zip = new ZipFile(pack)) {
+            return zip.getInputStream(zip.getEntry(Metadata.FILENAME)).readAllBytes();
         }
     }
 

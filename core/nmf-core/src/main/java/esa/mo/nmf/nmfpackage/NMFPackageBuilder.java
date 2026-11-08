@@ -24,6 +24,7 @@ import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.environment.Deployment;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.nmf.nmfpackage.utils.ChecksumGenerator;
+import esa.mo.nmf.nmfpackage.utils.HelperNMFPackage;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -126,6 +127,26 @@ public class NMFPackageBuilder {
         return create(metadata, inputFiles, locations, path);
     }
 
+    /**
+     * Adds the CRC-32 of a file of a baseline package, next to its SHA-256.
+     * A 5.1 Supervisor checks the files of a package by their CRC-32 only, so
+     * this lets it install a 6.0 NMF and mission baseline, which is how a
+     * spacecraft running 5.1 is upgraded in flight. 6.0 checks the files by
+     * their SHA-256 and ignores the CRC-32.
+     *
+     * @deprecated Only for the upgrade from 5.1; to be removed in 6.1, together
+     * with the CRC-32 in the packages it builds.
+     * @param metadata The metadata of the package.
+     * @param index The index of the file in the metadata.
+     * @param file The path of the file.
+     * @throws IOException if the file cannot be read.
+     */
+    @Deprecated(since = "6.0", forRemoval = true)
+    private static void addCRCFor51(Metadata metadata, String index, String file) throws IOException {
+        long crc = HelperNMFPackage.calculateCRCFromFile(file);
+        metadata.addProperty(Metadata.FILE_CRC + index, String.valueOf(crc));
+    }
+
     private static File create(Metadata metadata, ArrayList<String> filesInput,
             ArrayList<String> newLocationsInput, String destinationFolder) {
         final ArrayList<String> files = new ArrayList<>(filesInput);
@@ -139,6 +160,9 @@ public class NMFPackageBuilder {
                 String index = "." + i;
                 metadata.addProperty(Metadata.FILE_PATH + index, path);
                 metadata.addProperty(Metadata.FILE_SHA256 + index, sha256);
+                if (metadata.isBaselineComponent()) {
+                    addCRCFor51(metadata, index, files.get(i));
+                }
             } catch (IOException ex) {
                 Logger.getLogger(NMFPackageBuilder.class.getName()).log(Level.SEVERE,
                         "There was a problem during the SHA-256 calculation.", ex);
