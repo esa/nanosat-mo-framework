@@ -117,7 +117,7 @@ initialisation() {
     REPORT_ENABLED=true
     if [ -f "$REPORT_FILE" ] \
             && [ "$(wc -c < "$REPORT_FILE")" -gt "$((MAX_REPORT_FILE_SIZE_KB * 1024))" ]; then
-        if ! grep -q "REPORTS SUPPRESSED" "$REPORT_FILE"; then
+        if ! grep -q "further reports of today are SUPPRESSED" "$REPORT_FILE"; then
             echo "$(date "$TS_FMT") !!! MaxReportFileSize (${MAX_REPORT_FILE_SIZE_KB} KB)" \
                  "exceeded - further reports of today are SUPPRESSED" >> "$REPORT_FILE"
         fi
