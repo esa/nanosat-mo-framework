@@ -117,7 +117,7 @@ public class ParameterManager extends MCManager {
             }
 
             try {
-                // requirement: Parameter#17
+                // requirement: Parameter#16
                 //save the published value in the COM-Archive
                 LongList objIds = super.getArchiveService().store(true,
                         ParameterServiceInfo.PARAMETERVALUE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
@@ -159,7 +159,7 @@ public class ParameterManager extends MCManager {
                 archiveDetailsList.add(archiveDetails);
             }
 
-            try {// requirement: Parameter#17
+            try {// requirement: Parameter#16
                 LongList objIds = super.getArchiveService().store(true,
                         ParameterServiceInfo.PARAMETERVALUE_OBJECT_TYPE, ConfigurationProviderSingleton.getDomain(),
                         archiveDetailsList, pVals, null);
@@ -272,26 +272,23 @@ public class ParameterManager extends MCManager {
      * @return the validityState
      */
     protected ValidityState generateValidityState(final ParameterDefinition pDef, final Attribute rawValue) {
-        // requirement: Parameter#7 never applies, as every value is read when
-        // it is sampled, so no value is EXPIRED
-
         //parameter raw value cannot be obtained, or calculated for synthetic parameters
-        if (rawValue == null /*|| rawValueOfSyntheticParameterCannotBeCalculated*/) { //requirement: Parameter#8
+        if (rawValue == null /*|| rawValueOfSyntheticParameterCannotBeCalculated*/) { //requirement: Parameter#7
             return ValidityState.INVALID_RAW;
         }
         final ParameterExpression validityExpression = pDef.getValidityExpression();
         final Boolean evalExpression = this.evaluateParameterExpression(validityExpression);
 
         //expression didnt fail
-        if (validityExpression == null || evalExpression) { // requirement: Parameter#9
+        if (validityExpression == null || evalExpression) { // requirement: Parameter#8
             return ValidityState.VALID;
         } else {
             //get validityState of the parameters that are needed for the expression
             ValidityState expPValState = getValidityState(validityExpression);
             //expression failed with not valid parameters
-            if (!expPValState.equals(ValidityState.VALID)) { // requirement: Parameter#10
+            if (!expPValState.equals(ValidityState.VALID)) { // requirement: Parameter#9
                 return ValidityState.UNVERIFIED;
-            } else { // requirement: Parameter#11
+            } else { // requirement: Parameter#10
                 return ValidityState.INVALID;
             }
         }
@@ -551,7 +548,7 @@ public class ParameterManager extends MCManager {
         ValidityState validityState = generateValidityState(pDef, rawValue);
 
         if (validityState.equals(ValidityState.INVALID_RAW)) {
-            rawValue = null; //requirement: Parameter#8
+            rawValue = null; //requirement: Parameter#7
         }
 
         return new ParameterValue(defId, validityState, rawValue, sampleTime);

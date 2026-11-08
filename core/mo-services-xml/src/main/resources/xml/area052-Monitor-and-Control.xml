@@ -231,36 +231,33 @@
                 If the reportInterval field is set to '0', then the service provider shall not generate periodic reports for the parameter.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="7">
-                If the parameter is periodic and reported via a periodic aggregation, and a new report has not been received in the aggregation period, then the service provider shall set the validityState field of the ParameterValue to EXPIRED.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="8">
                 If the parameter raw value cannot be obtained, or calculated for synthetic parameters, then the service provider shall set the validityState field to INVALID_RAW and the rawValue field to NULL.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">
+            <mal:documentation name="Service-level Requirement" order="8">
                 If the validityExpression field is NULL or evaluates to TRUE, then the service provider shall set the validityState field to VALID.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
+            <mal:documentation name="Service-level Requirement" order="9">
                 If the validityExpression field is not NULL and the parameters used to determine the expression are not VALID, then the service provider shall set the validityState field to UNVERIFIED.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="11">
+            <mal:documentation name="Service-level Requirement" order="10">
                 If the validityExpression field is not NULL and the validity expression evaluates to FALSE, then the service provider shall set the validityState field to INVALID.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="12">
+            <mal:documentation name="Service-level Requirement" order="11">
                 Deployment-specific validityState values shall use values greater than 127. Note: the meaning of such values is deployment-specific and outside the scope of this standard.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="13">
+            <mal:documentation name="Service-level Requirement" order="12">
                 The service provider shall represent parameter definitions as ParameterDefinition COM objects.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="14">
+            <mal:documentation name="Service-level Requirement" order="13">
                 The service provider shall represent parameter value reports as ParameterValue COM objects.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="15">
+            <mal:documentation name="Service-level Requirement" order="14">
                 The ParameterValue object shall use the related link to indicate which ParameterDefinition object it uses.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="16">
+            <mal:documentation name="Service-level Requirement" order="15">
                 The service provider should store ParameterDefinition objects in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="17">
+            <mal:documentation name="Service-level Requirement" order="16">
                 When a parameter value report is published, the service provider should store the ParameterValue object in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1" comment="">
@@ -793,7 +790,7 @@
                 If the sendUnchanged field in the AggregationDefinition is FALSE, then the service provider shall leave out of the values list of the AggregationSetValue the parameter values that have not changed since the previous report.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="14">
-                The ordering of values in the AggregationValue shall match the ordering of parameters in the AggregationDefinition.
+                The service provider shall report the values of an AggregationSetValue in the order of the parameters of the AggregationParameterSet, leaving out only the values that requirement 13 leaves out.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="15">
                 The service provider shall represent aggregation definitions as AggregationDefinition COM objects.
@@ -1275,7 +1272,6 @@
             </mal:composite>
             <mal:enumeration name="ValidityState" shortFormPart="11" comment="The validity states of a parameter value and their numeric values.">
                 <mal:item nvalue="0" value="VALID" comment="Valid."/>
-                <mal:item nvalue="1" value="EXPIRED" comment="The parameter has a timeout associated which has expired."/>
                 <mal:item nvalue="2" value="INVALID_RAW" comment="The parameter raw value cannot be obtained, or calculated for synthetic parameters."/>
                 <mal:item nvalue="4" value="UNVERIFIED" comment="The validity expression has been evaluated to FALSE and therefore the current value cannot be verified."/>
                 <mal:item nvalue="5" value="INVALID" comment="The validity expression has been evaluated to FALSE."/>
