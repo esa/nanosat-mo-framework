@@ -246,7 +246,10 @@ public final class NMFAccessControl implements MALAccessControl {
                     header.setAuthenticationId(proof);
                 }
             }
-            warnIfNotGranted(header);
+            // Ground may call everything, so only an App is warned
+            if (!ground) {
+                warnIfNotGranted(header);
+            }
         }
         return msg;
     }
