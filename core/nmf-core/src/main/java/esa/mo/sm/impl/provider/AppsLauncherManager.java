@@ -26,6 +26,7 @@ import esa.mo.com.impl.util.DefinitionsManager;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCommon;
 import esa.mo.nmf.AppStorage;
+import esa.mo.nmf.NMFProvider;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
 import esa.mo.nmf.accesscontrol.AccessControlAuthority;
 import esa.mo.nmf.accesscontrol.AccessControlMode;
@@ -498,6 +499,12 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
         AppDetails app = (AppDetails) this.getDef(handler.getObjId());
         String appName = app.getName().getValue();
 
+        // An App built against another major version of the NMF is not started
+        String notRunnable = whyNotRunnable(appName);
+        if (notRunnable != null) {
+            throw new IOException(notRunnable);
+        }
+
         // Go to the folder where the app are installed
         File appsFolderPath = this.getAppsFolderPath(app.getName());
         final File appFolder = new File(appsFolderPath + File.separator + appName);
@@ -778,6 +785,21 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
      */
     static File storageCredentialFileOf(final String appName) {
         return new File(new File(AppStorage.getStorageRootDir(), appName), "credential");
+    }
+
+    /**
+     * Returns why an installed App cannot run on the NMF that runs, as its
+     * receipt records the NMF version it was built against, or NULL if it can.
+     * An App without a receipt was not installed from a package, so there is
+     * nothing to check it against.
+     */
+    static String whyNotRunnable(final String appName) throws IOException {
+        File receipt = new File(Deployment.getInstallationsTrackerDir(), appName + ".receipt");
+        if (!receipt.isFile()) {
+            return null;
+        }
+        Metadata metadata = Metadata.load(receipt);
+        return metadata.isApp() ? metadata.castToApp().whyNotRunnableOn(NMFProvider.getMajorVersionNMF()) : null;
     }
 
     /** The permissions an App was granted at installation, as its receipt records them. */

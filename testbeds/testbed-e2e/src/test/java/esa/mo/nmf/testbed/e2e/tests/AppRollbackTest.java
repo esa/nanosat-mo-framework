@@ -38,6 +38,7 @@ import java.util.Set;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -212,6 +213,7 @@ public class AppRollbackTest {
     @Test
     public void test4_RollbackToReleasedVersion() throws Exception {
         LOGGER.info(SEP + "\nRunning: test4_RollbackToReleasedVersion()\n" + SEP);
+        assumeReleaseOfTheSameMajorVersion();
 
         MOErrorException error = pm.update(releasedPackage);
         Assert.assertNull("Rolling back to '" + releasedPackage
@@ -232,6 +234,7 @@ public class AppRollbackTest {
     @Test
     public void test5_RolledBackAppRuns() throws Exception {
         LOGGER.info(SEP + "\nRunning: test5_RolledBackAppRuns()\n" + SEP);
+        assumeReleaseOfTheSameMajorVersion();
 
         assertRuns(releasedVersion);
     }
@@ -242,6 +245,7 @@ public class AppRollbackTest {
     @Test
     public void test6_RollForwardToCurrentVersion() throws Exception {
         LOGGER.info(SEP + "\nRunning: test6_RollForwardToCurrentVersion()\n" + SEP);
+        assumeReleaseOfTheSameMajorVersion();
 
         MOErrorException error = pm.update(currentPackage);
         Assert.assertNull("Rolling forward to '" + currentPackage
@@ -256,6 +260,24 @@ public class AppRollbackTest {
     // -------------------------------------------------------------------------
     // Helpers
     // -------------------------------------------------------------------------
+    /**
+     * Skips the rollback until a release of the major version under test is
+     * published. An App only runs on the major version of the NMF it was built
+     * against, so the Supervisor refuses a released App of another one, as it
+     * must. Before the first release of a major version, the latest release is
+     * of the previous one.
+     */
+    private static void assumeReleaseOfTheSameMajorVersion() {
+        Assume.assumeTrue("No App of major version " + major(currentVersion) + " has been released yet, "
+                + "and the released " + releasedVersion + " cannot run on it: the rollback is "
+                + "tested once a release of the same major version is published",
+                major(releasedVersion).equals(major(currentVersion)));
+    }
+
+    private static String major(String version) {
+        return version.split("\\.")[0];
+    }
+
     /**
      * Starts the App and asserts that it runs, having first asserted which
      * version is installed. Without that assertion the App would run either

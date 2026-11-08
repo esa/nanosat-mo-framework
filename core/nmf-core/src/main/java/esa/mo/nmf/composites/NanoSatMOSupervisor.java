@@ -33,6 +33,7 @@ import esa.mo.nmf.mcadapters.DefaultSupervisorAdapters;
 import esa.mo.nmf.*;
 import esa.mo.nmf.environment.Deployment;
 import esa.mo.nmf.environment.MissionConfiguration;
+import esa.mo.nmf.nmfpackage.NMFPackageManager;
 import esa.mo.nmf.nmfpackage.NMFPackagePMBackend;
 import esa.mo.platform.impl.util.PlatformServicesConsumer;
 import esa.mo.reconfigurable.provider.PersistProviderConfiguration;
@@ -156,6 +157,9 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
             this.comServices.init();
             this.heartbeatService.init();
             this.directoryService.init(comServices);
+            // Before any App can be started, so that each starts with the Java
+            // and the NMF jars of the baseline that runs now
+            NMFPackageManager.refreshStartScripts();
             this.appsLauncherService.init(comServices, directoryService);
             this.commandExecutorService.init(comServices);
             if (packageManagementBackend == null) {

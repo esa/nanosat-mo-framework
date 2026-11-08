@@ -167,6 +167,35 @@ public class MetadataApp extends Metadata {
     }
 
     /**
+     * Returns why the App cannot run on the NMF of the given major version, or
+     * NULL if it can. An App runs only on the major version of the NMF that it
+     * was built against, as a new major version changes the interfaces that
+     * the App uses. An App whose package records no NMF version cannot be
+     * checked, so it cannot run either.
+     *
+     * @param nmfMajorVersion The major version of the NMF that runs.
+     * @return The reason, or NULL if the App can run on that NMF.
+     */
+    public String whyNotRunnableOn(int nmfMajorVersion) {
+        String appVersion = getAppNMFVersion();
+        if (appVersion == null || appVersion.trim().isEmpty()) {
+            return "The App " + getPackageName() + " records no NMF version, as packages written before "
+                    + "NMF 5.0 do, so it is not known to run on NMF " + nmfMajorVersion;
+        }
+        int appMajor;
+        try {
+            appMajor = Integer.parseInt(appVersion.trim().split("\\.")[0]);
+        } catch (NumberFormatException ex) {
+            return "The App " + getPackageName() + " records an NMF version that is not valid: " + appVersion;
+        }
+        if (appMajor != nmfMajorVersion) {
+            return "The App " + getPackageName() + " was built against NMF " + appVersion
+                    + ", which is not the major version of the NMF that runs: " + nmfMajorVersion;
+        }
+        return null;
+    }
+
+    /**
      * Returns the App's dependency JAR filenames.
      *
      * @return the list of dependency filenames, empty if the App has none

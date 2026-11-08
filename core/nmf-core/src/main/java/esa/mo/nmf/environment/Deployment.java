@@ -226,6 +226,57 @@ public class Deployment {
     }
 
     /**
+     * Returns the directory of the jar files of the NMF version that runs:
+     * the {@code jars-nmf/<version>} directory that the jars of this class
+     * were loaded from. The other versions in {@code jars-nmf}, staged for an
+     * upgrade or kept for a fallback, are left out. Returns the directory for
+     * NMF jar files when the classes are not loaded from a version directory,
+     * as in a reactor build or from an IDE.
+     *
+     * @return The directory of the jar files of the NMF version that runs.
+     */
+    public static File getRunningJarsNMFDir() {
+        File jarsNMF = getJarsNMFDir();
+        try {
+            File jar = new File(Deployment.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+            File versionDir = jar.getParentFile();
+            if (jar.isFile() && versionDir != null && versionDir.getParentFile() != null
+                    && versionDir.getParentFile().getCanonicalFile().equals(jarsNMF.getCanonicalFile())) {
+                return versionDir;
+            }
+        } catch (IOException | java.net.URISyntaxException | SecurityException | NullPointerException ex) {
+            Logger.getLogger(Deployment.class.getName()).log(Level.FINE,
+                    "The location of the NMF jars could not be read", ex);
+        }
+        return jarsNMF;
+    }
+
+    /**
+     * Returns the Java command for the Apps: the Java that the Supervisor runs
+     * on, which is the Java of the running baseline. A Java runtime installed
+     * in the NMF java directory is named by its path; any other is the
+     * {@code java} of the system, found on the PATH.
+     *
+     * @return The Java command for the Apps.
+     */
+    public static String getAppJavaCommand() {
+        String javaHome = System.getProperty("java.home");
+        if (javaHome != null) {
+            try {
+                File home = new File(javaHome).getCanonicalFile();
+                File java = new File(new File(home, "bin"), "java");
+                if (home.toPath().startsWith(getJavaDir().getCanonicalFile().toPath()) && java.isFile()) {
+                    return java.getPath();
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(Deployment.class.getName()).log(Level.FINE,
+                        "The location of the Java runtime could not be read", ex);
+            }
+        }
+        return "java";
+    }
+
+    /**
      * Returns the directory for shared jar files.
      *
      * @return The directory for shared jar files.

@@ -78,7 +78,9 @@ public class AuxFilesGenerator {
         // The jar of the App is named by its full path, so that the command line
         // of the App shows the directory that it runs from (see AppProcesses)
         str.append("JAR_APP=\"$(pwd -P)\"/").append(shellQuote(meta.getAppMainJar())).append("\n");
-        str.append("JARS_NMF_DIR=").append(shellQuote(Deployment.getJarsNMFDir().toString())).append("\n");
+        // Only the jars of the NMF version that runs, never those of the versions
+        // staged beside it for an upgrade or kept for a fallback
+        str.append("JARS_NMF_DIR=").append(shellQuote(Deployment.getRunningJarsNMFDir().toString())).append("\n");
         str.append("JARS_NMF=$(find \"$JARS_NMF_DIR\" -name \"*.jar\" | tr '\\n' ':')\n");
         String shared = "";
 
@@ -260,9 +262,9 @@ public class AuxFilesGenerator {
             jarName = jar.getName();
         }
 
-        // The Java version for now will be forced to 8, however in
-        // the future the package should recommend a version
-        String javaCMD = Deployment.findJREPath(8, 8, 8);
+        // The Java of the running baseline, so that the App runs on the same Java
+        // as the NMF jars it uses, also when it is started by hand
+        String javaCMD = Deployment.getAppJavaCommand();
 
         OSValidator os = new OSValidator();
 

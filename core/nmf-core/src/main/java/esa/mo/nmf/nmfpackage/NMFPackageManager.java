@@ -22,6 +22,7 @@ package esa.mo.nmf.nmfpackage;
 
 import esa.mo.helpertools.misc.Const;
 import esa.mo.helpertools.misc.OSValidator;
+import esa.mo.nmf.NMFProvider;
 import esa.mo.nmf.environment.AppsIsolationMode;
 import esa.mo.nmf.environment.Deployment;
 import esa.mo.nmf.environment.LinuxUsersGroups;
@@ -37,6 +38,8 @@ import java.io.File;
 import java.nio.file.Path;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -145,6 +148,7 @@ public class NMFPackageManager {
         rejectIfTargetsFactory(metadata);
 
         if (metadata.isApp()) {
+            refuseIfNotRunnable(metadata.castToApp());
             installDependencies(metadata.castToApp(), packageLocation, nmfDir);
         }
 
@@ -343,6 +347,10 @@ public class NMFPackageManager {
         // The factory baseline is immutable in flight (NMF.BOOT.BMM.03)
         rejectIfTargetsFactory(newPackMetadata);
 
+        if (newPackMetadata.isApp()) {
+            refuseIfNotRunnable(newPackMetadata.castToApp());
+        }
+
         File receiptsFolder = Deployment.getInstallationsTrackerDir();
         String receiptFilename = newPackMetadata.getPackageName() + RECEIPT_ENDING;
         File oldReceiptFile = new File(receiptsFolder, receiptFilename);
@@ -383,12 +391,6 @@ public class NMFPackageManager {
 
         removeFiles(oldPackMetadata);
 
-        if (!oldReceiptFile.delete()) { // The file could not be deleted...
-            Logger.getLogger(NMFPackageManager.class.getName()).log(Level.WARNING,
-                    "The receipt file could not be deleted from: "
-                    + oldReceiptFile.getCanonicalPath());
-        }
-
         Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
                 "Copying the new files to the locations...");
 
@@ -397,6 +399,11 @@ public class NMFPackageManager {
             installDependencies(appMetadata, packageLocation, nmfDir);
         }
         newPack.extractFiles(nmfDir);
+
+        // The receipt is replaced as soon as the new files are in place, so that
+        // it always lists the files on disk: a step below that fails leaves an
+        // App that the update can be run again on
+        receiptWithGrants(newPackMetadata, acknowledged).store(oldReceiptFile);
 
         // Refresh the baseline checksums and rotate the baseline if this
         // package delivered a new baseline component (NMF Bootloader Spec)
@@ -424,9 +431,6 @@ public class NMFPackageManager {
                 }
             }
         }
-
-        // Store a copy of the newReceipt to know that it has been installed!
-        receiptWithGrants(newPackMetadata, acknowledged).store(oldReceiptFile);
 
         if (appsLauncher != null) {
             appsLauncher.refresh();
@@ -959,6 +963,64 @@ public class NMFPackageManager {
         String name = file.getFileName().toString();
         return directory.equals("bin")
                 || (directory.equals("lib") && (name.equals("jspawnhelper") || name.equals("jexec")));
+    }
+
+    /**
+     * Rewrites the start script of every installed App that can run on the
+     * NMF that runs, so that it uses the Java and the NMF jars of the running
+     * baseline, also after the NMF was upgraded to a new minor version. An App
+     * built against another major version is left as it is, and is not
+     * started. A script that is already current is not written, and a script
+     * that is rewritten keeps its owner, group and mode.
+     */
+    public static void refreshStartScripts() {
+        File[] receipts = Deployment.getInstallationsTrackerDir().listFiles(
+                (dir, name) -> name.endsWith(RECEIPT_ENDING));
+        if (receipts == null || !(OS.isUnix() || OS.isMac())) {
+            return;
+        }
+        int nmfMajorVersion = NMFProvider.getMajorVersionNMF();
+        for (File receipt : receipts) {
+            try {
+                Metadata metadata = Metadata.load(receipt);
+                if (!metadata.isApp()) {
+                    continue;
+                }
+                MetadataApp app = metadata.castToApp();
+                File script = new File(new File(Deployment.getAppsDir(), app.getPackageName()), "start_app.sh");
+                if (!script.isFile()) {
+                    continue;
+                }
+                String notRunnable = app.whyNotRunnableOn(nmfMajorVersion);
+                if (notRunnable != null) {
+                    Logger.getLogger(NMFPackageManager.class.getName()).log(Level.WARNING,
+                            "{0}: it will not be started", notRunnable);
+                    continue;
+                }
+                String content = AuxFilesGenerator.generateLinuxStartAppScript(Deployment.getAppJavaCommand(), app);
+                if (!content.equals(new String(Files.readAllBytes(script.toPath()), StandardCharsets.UTF_8))) {
+                    // Written into the existing file, which keeps its owner, group and mode
+                    Files.write(script.toPath(), content.getBytes(StandardCharsets.UTF_8));
+                    Logger.getLogger(NMFPackageManager.class.getName()).log(Level.INFO,
+                            "The start script of the App {0} was rewritten for the NMF that runs",
+                            app.getPackageName());
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(NMFPackageManager.class.getName()).log(Level.WARNING,
+                        "The start script of the App of " + receipt.getName() + " could not be rewritten", ex);
+            }
+        }
+    }
+
+    /**
+     * Refuses an App that cannot run on the NMF that runs, before any of its
+     * files is written.
+     */
+    private static void refuseIfNotRunnable(MetadataApp app) throws IOException {
+        String reason = app.whyNotRunnableOn(NMFProvider.getMajorVersionNMF());
+        if (reason != null) {
+            throw new IOException(reason);
+        }
     }
 
     private static String generateUsername(String appName) {
