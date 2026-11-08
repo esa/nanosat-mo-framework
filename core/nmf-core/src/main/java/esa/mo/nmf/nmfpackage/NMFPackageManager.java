@@ -155,6 +155,12 @@ public class NMFPackageManager {
         nmfPackage.extractFiles(nmfDir);
         String packageName = metadata.getPackageName();
 
+        // A package keeps no file modes, so the programs of a Java runtime are
+        // made executable here, or the runtime could not be run
+        if (metadata.isJava() && OS.isUnix()) {
+            makeJavaRuntimeExecutable(nmfPackage.placeFiles(nmfDir));
+        }
+
         // Refresh the baseline checksums and rotate the baseline if this
         // package delivered a new baseline component (NMF Bootloader Spec)
         handleBaselineComponent(metadata, nmfDir);
@@ -918,6 +924,41 @@ public class NMFPackageManager {
         app.setGrantedPermissions(acknowledged == null
                 ? app.getAppPermissions() : app.grantedFrom(acknowledged));
         return app;
+    }
+
+    /**
+     * Makes the programs of an installed Java runtime executable by every
+     * user, as the Apps run it under their own accounts: the files in a
+     * {@code bin} directory, and the {@code jspawnhelper} and {@code jexec}
+     * helpers in {@code lib}, with which the runtime starts processes.
+     *
+     * @param files The installed files of the Java runtime.
+     * @throws IOException if a program cannot be made executable.
+     */
+    static void makeJavaRuntimeExecutable(List<Path> files) throws IOException {
+        for (Path file : files) {
+            if (isJavaRuntimeProgram(file) && !file.toFile().setExecutable(true, false)) {
+                throw new IOException("The program of the Java runtime could not be made executable: " + file);
+            }
+        }
+    }
+
+    /**
+     * Returns whether a file of a Java runtime is one of its programs.
+     *
+     * @param file The file of the Java runtime.
+     * @return true if it is in a {@code bin} directory, or is the
+     * {@code jspawnhelper} or {@code jexec} helper in {@code lib}.
+     */
+    static boolean isJavaRuntimeProgram(Path file) {
+        Path parent = file.getParent();
+        if (parent == null || parent.getFileName() == null) {
+            return false;
+        }
+        String directory = parent.getFileName().toString();
+        String name = file.getFileName().toString();
+        return directory.equals("bin")
+                || (directory.equals("lib") && (name.equals("jspawnhelper") || name.equals("jexec")));
     }
 
     private static String generateUsername(String appName) {
