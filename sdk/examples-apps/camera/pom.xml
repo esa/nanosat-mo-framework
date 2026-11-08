@@ -107,6 +107,9 @@
                         </goals>
                         <configuration>
                             <mainClass>${assembly.mainClass}</mainClass>
+                            <permissions>
+                                <permission>Supervisor.Platform.Camera</permission>
+                            </permissions>
                         </configuration>
                     </execution>
                 </executions>

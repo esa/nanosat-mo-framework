@@ -109,6 +109,9 @@
                         </goals>
                         <configuration>
                             <mainClass>${assembly.mainClass}</mainClass>
+                            <permissions>
+                                <permission>App.gps.*</permission>
+                            </permissions>
                         </configuration>
                     </execution>
                 </executions>

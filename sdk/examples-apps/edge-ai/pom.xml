@@ -103,6 +103,9 @@
                         </goals>
                         <configuration>
                             <mainClass>${assembly.mainClass}</mainClass>
+                            <permissions>
+                                <permission>Supervisor.Platform.ArtificialIntelligence</permission>
+                            </permissions>
                             <libs>
                                 <lib>${basedir}/ai-model</lib>
                                 <lib>${basedir}/demo-tiles</lib>

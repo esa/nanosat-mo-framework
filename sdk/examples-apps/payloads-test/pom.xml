@@ -107,6 +107,15 @@
                         </goals>
                         <configuration>
                             <mainClass>${assembly.mainClass}</mainClass>
+                            <permissions>
+                                <permission>Supervisor.MC.Parameter</permission>
+                                <permission>Supervisor.Platform.AutonomousADCS</permission>
+                                <permission>Supervisor.Platform.Camera</permission>
+                                <permission>Supervisor.Platform.GPS</permission>
+                                <permission>Supervisor.Platform.OpticalDataReceiver</permission>
+                                <permission>Supervisor.Platform.PowerControl</permission>
+                                <permission>Supervisor.Platform.SoftwareDefinedRadio</permission>
+                            </permissions>
                         </configuration>
                     </execution>
                 </executions>

@@ -109,6 +109,9 @@
                         </goals>
                         <configuration>
                             <mainClass>${assembly.mainClass}</mainClass>
+                            <permissions>
+                                <permission>Supervisor.MC.Parameter</permission>
+                            </permissions>
                         </configuration>
                     </execution>
                 </executions>
