@@ -497,21 +497,11 @@ public class ParameterManager extends MCManager {
      * and storing it in the provider or COM-Archive.
      *
      * @param newRawValues the new value to be set
-     * @return The list with a set of boolean values, that specify the values
-     * that were set successfully (true) or unsuccessfully(false).
+     * @return The new parameter values, in the order of newRawValues.
+     * @throws InvalidArgumentException if the App refuses one or more of the
+     * values, with the indexes of all the values.
      */
-    protected ParameterValueList setValues(ParameterRawValueList newRawValues) {
-        // check if new interface method is implemented, if yes, call it
-        try {
-            Class cla = parametersMonitoring.getClass().getMethod("onSetValue", IdentifierList.class,
-                    ParameterRawValueList.class).getDeclaringClass();
-            if (cla == ParameterStatusListener.class) {
-                parametersMonitoring.onSetValue(newRawValues);
-            }
-        } catch (NoSuchMethodException | SecurityException ex) {
-        }
-        // else use old procedure:
-
+    protected ParameterValueList setValues(ParameterRawValueList newRawValues) throws InvalidArgumentException {
         ParameterValueList paramValList = new ParameterValueList();
         IdentifierList names = new IdentifierList(newRawValues.size());
 
@@ -524,9 +514,20 @@ public class ParameterManager extends MCManager {
             names.add(((ParameterDefinition) def).getName());
         }
 
+        // An App that does not implement onSetValue refuses every value
+        Boolean set;
         try {
-            parametersMonitoring.onSetValue(names, newRawValues);
+            set = parametersMonitoring.onSetValue(names, newRawValues);
         } catch (UnsupportedOperationException ex) {
+            set = false;
+        }
+        if (!Boolean.TRUE.equals(set)) {
+            // The App returns one answer for all the values
+            UIntegerList indexes = new UIntegerList();
+            for (int i = 0; i < newRawValues.size(); i++) {
+                indexes.add(new UInteger(i));
+            }
+            throw new InvalidArgumentException(indexes);
         }
 
         return paramValList;

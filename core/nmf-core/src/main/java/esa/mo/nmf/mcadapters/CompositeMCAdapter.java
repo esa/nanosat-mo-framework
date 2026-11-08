@@ -91,13 +91,30 @@ public class CompositeMCAdapter extends MonitorAndControlNMFAdapter {
         return null;
     }
 
+    /**
+     * Passes each value to the children in turn, until one of them sets it.
+     *
+     * @return true if every value was set by one of the children
+     */
     @Override
     public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
-        boolean anySet = false;
-        for (MonitorAndControlNMFAdapter child : children) {
-            anySet = Boolean.TRUE.equals(child.onSetValue(identifiers, values)) || anySet;
+        boolean allSet = true;
+        for (int i = 0; i < identifiers.size(); i++) {
+            IdentifierList name = new IdentifierList();
+            name.add(identifiers.get(i));
+            ParameterRawValueList value = new ParameterRawValueList();
+            value.add(values.get(i));
+
+            boolean set = false;
+            for (MonitorAndControlNMFAdapter child : children) {
+                if (Boolean.TRUE.equals(child.onSetValue(name, value))) {
+                    set = true;
+                    break;
+                }
+            }
+            allSet &= set;
         }
-        return anySet;
+        return allSet;
     }
 
     @Override

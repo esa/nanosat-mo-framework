@@ -91,13 +91,14 @@ public abstract class SimpleMonitorAndControlAdapter extends MonitorAndControlNM
             return false;
         }
 
-        final Identifier identifier = identifiers.get(0);
-        final Attribute value = values.get(0).getRawValue();
-
-        // Convert the MO attribute type into its Java type.
-        Serializable obj = (Serializable) Attribute.attribute2JavaType(value);
-
-        return this.onSetValueSimple(identifier.getValue(), obj);
+        // Every value is set, even after one that could not be
+        boolean result = true;
+        for (int i = 0; i < identifiers.size(); i++) {
+            // Convert the MO attribute type into its Java type.
+            Serializable obj = (Serializable) Attribute.attribute2JavaType(values.get(i).getRawValue());
+            result &= this.onSetValueSimple(identifiers.get(i).getValue(), obj);
+        }
+        return result;
     }
 
 }

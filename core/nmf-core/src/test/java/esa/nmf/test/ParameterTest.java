@@ -23,9 +23,16 @@ package esa.nmf.test;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MCServicesProviderNMF;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
+import esa.mo.nmf.SimpleMonitorAndControlAdapter;
 import esa.mo.nmf.annotations.Parameter;
+import esa.mo.nmf.mcadapters.CompositeMCAdapter;
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import org.ccsds.moims.mo.mal.structures.Identifier;
+import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mc.structures.ParameterDefinitionList;
@@ -110,16 +117,21 @@ public class ParameterTest {
         AutomationAdapterTester test = new AutomationAdapterTester();
         test.initialRegistrations(new RegistrationTester());
 
+        IdentifierList names = new IdentifierList();
         ParameterRawValueList setList = new ParameterRawValueList();
         Object attribute = Attribute.javaType2Attribute(42);
+        names.add(NAME1);
         setList.add(new ParameterRawValue(ID1, (Attribute) attribute));
         attribute = Attribute.javaType2Attribute(0.8f);
+        names.add(NAME2);
         setList.add(new ParameterRawValue(ID2, (Attribute) attribute));
         attribute = Attribute.javaType2Attribute(.99999);
+        names.add(NAME3);
         setList.add(new ParameterRawValue(ID3, (Attribute) attribute));
         attribute = Attribute.javaType2Attribute("Hallo");
+        names.add(NAME4);
         setList.add(new ParameterRawValue(ID4, (Attribute) attribute));
-        test.onSetValue(setList);
+        org.junit.Assert.assertTrue("Every value must be set", test.onSetValue(names, setList));
 
         Object v1 = test.onGetValue(NAME1).attribute2JavaType();
         Object v2 = test.onGetValue(NAME2).attribute2JavaType();
@@ -132,6 +144,108 @@ public class ParameterTest {
         org.junit.Assert.assertTrue("'" + v3 + "' != '" + .99999 + "'", v3.equals(.99999));
         org.junit.Assert.assertTrue("'" + v4 + "' != '" + "Hallo" + "'", v4.equals("Hallo"));
         org.junit.Assert.assertTrue("'" + v5 + "' != '" + "new" + "'", v5.equals("new"));
+    }
+
+    /**
+     * A value that cannot be set does not stop the values after it.
+     */
+    @Test
+    public void annotationsSetTheValuesAfterOneThatCannotBeSet() throws IOException {
+        AutomationAdapterTester test = new AutomationAdapterTester();
+        test.initialRegistrations(new RegistrationTester());
+
+        IdentifierList names = new IdentifierList();
+        names.add(new Identifier("no such parameter"));
+        names.add(NAME1);
+        ParameterRawValueList values = new ParameterRawValueList();
+        values.add(new ParameterRawValue(99L, (Attribute) Attribute.javaType2Attribute(1)));
+        values.add(new ParameterRawValue(ID1, (Attribute) Attribute.javaType2Attribute(7)));
+
+        org.junit.Assert.assertFalse("An unknown name must be reported", test.onSetValue(names, values));
+        org.junit.Assert.assertEquals("The value after it must still be set", 7, test.getPrivateParameter());
+    }
+
+    /**
+     * A simple adapter that records the values set on it.
+     */
+    private static class RecordingSimpleAdapter extends SimpleMonitorAndControlAdapter {
+
+        private final Map<String, Serializable> set = new HashMap<>();
+
+        @Override
+        public boolean actionArrivedSimple(String name, Serializable[] values, Long executionId) {
+            return false;
+        }
+
+        @Override
+        public Serializable onGetValueSimple(String name) {
+            return set.get(name);
+        }
+
+        @Override
+        public boolean onSetValueSimple(String name, Serializable value) {
+            set.put(name, value);
+            return true;
+        }
+    }
+
+    /**
+     * The simple adapter sets every value of a setValue, not only the first.
+     */
+    @Test
+    public void simpleAdapterSetsEveryValue() {
+        RecordingSimpleAdapter adapter = new RecordingSimpleAdapter();
+
+        IdentifierList names = new IdentifierList();
+        names.add(new Identifier("a"));
+        names.add(new Identifier("b"));
+        ParameterRawValueList values = new ParameterRawValueList();
+        values.add(new ParameterRawValue(1L, (Attribute) Attribute.javaType2Attribute(1)));
+        values.add(new ParameterRawValue(2L, (Attribute) Attribute.javaType2Attribute(2)));
+
+        org.junit.Assert.assertTrue("Every value must be set", adapter.onSetValue(names, values));
+        org.junit.Assert.assertEquals(1, adapter.set.get("a"));
+        org.junit.Assert.assertEquals(2, adapter.set.get("b"));
+    }
+
+    /**
+     * The composite of the Supervisor passes a setValue to each of its
+     * adapters, also after an adapter that has none of the parameters, so
+     * that it reaches the adapter of the mission.
+     */
+    @Test
+    public void compositeReachesEveryAdapter() {
+        RecordingSimpleAdapter mission = new RecordingSimpleAdapter();
+        CompositeMCAdapter composite = new CompositeMCAdapter(Arrays.asList(new AutomationAdapterTester(), mission));
+
+        IdentifierList names = new IdentifierList();
+        names.add(new Identifier("mission parameter"));
+        ParameterRawValueList values = new ParameterRawValueList();
+        values.add(new ParameterRawValue(1L, (Attribute) Attribute.javaType2Attribute(5)));
+
+        org.junit.Assert.assertTrue("The value must be set", composite.onSetValue(names, values));
+        org.junit.Assert.assertEquals("The value must reach the adapter of the mission",
+                5, mission.set.get("mission parameter"));
+    }
+
+    /**
+     * The composite reports a value that none of its adapters set, also when
+     * another value of the same call was set.
+     */
+    @Test
+    public void compositeReportsAValueThatNoAdapterSet() {
+        CompositeMCAdapter composite = new CompositeMCAdapter(Arrays.asList(new AutomationAdapterTester()));
+        composite.initialRegistrations(new RegistrationTester());
+
+        IdentifierList names = new IdentifierList();
+        names.add(NAME1);
+        names.add(new Identifier("no such parameter"));
+        ParameterRawValueList values = new ParameterRawValueList();
+        values.add(new ParameterRawValue(ID1, (Attribute) Attribute.javaType2Attribute(3)));
+        values.add(new ParameterRawValue(99L, (Attribute) Attribute.javaType2Attribute(4)));
+
+        org.junit.Assert.assertFalse("A value that no adapter set must be reported",
+                composite.onSetValue(names, values));
     }
 
     private static class NoValueAdapter extends MonitorAndControlNMFAdapter {

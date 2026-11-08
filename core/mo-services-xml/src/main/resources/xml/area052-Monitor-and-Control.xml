@@ -327,7 +327,7 @@
             <mal:capabilitySet number="3" comment="">
                 <mal:submitIP name="setValue" number="3" comment="The setValue operation allows a consumer to set the raw value for one or more parameters.">
                     <mal:documentation name="Requirement" order="1">
-                        If an error is raised, then the service provider shall not make any modifications as a result of this operation call.
+                        If an error is raised, then the service provider shall not make any modifications as a result of this operation call. Note: if the App refuses a value, then the values that the App set before it are not undone.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         The service provider shall set all parameter values atomically, such that all values are applied at the same time without interleaving with other set operations. Note: how this is implemented is an implementation detail.
@@ -364,6 +364,12 @@
                         <mal:errorRef comment="When the definitionId of one or more entries is the wildcard value '0', or the supplied raw value does not match the defined attribute type for the referenced ParameterDefinition.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the App refuses one or more of the values.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="The indexes of all the values in the newRawValues field.">
                                 <mal:type area="MAL" list="true" name="UInteger"/>
                             </mal:extraInformation>
                         </mal:errorRef>

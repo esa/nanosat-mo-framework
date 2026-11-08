@@ -116,7 +116,8 @@ Writing parameter values
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 When a consumer writes a parameter, ``onSetValueSimple(String name, Serializable value)`` is called. Return
-``true`` to confirm the assignment, ``false`` to reject:
+``true`` to confirm the assignment, ``false`` to reject it.
+A rejected value is neither stored nor published, and the consumer gets an Invalid Argument error:
 
 .. code-block:: java
 

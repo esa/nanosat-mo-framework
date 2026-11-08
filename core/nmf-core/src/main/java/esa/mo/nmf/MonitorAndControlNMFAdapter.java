@@ -482,34 +482,36 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
     }
 
     @Override
-    public Boolean onSetValue(ParameterRawValueList newRawValues) {
+    public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
+        // Every value is set, even after one that could not be
         boolean result = true;
-        for (ParameterRawValue newRawValue : newRawValues) {
-            result = result && onSetValue(newRawValue);
+        for (int i = 0; i < identifiers.size(); i++) {
+            result &= setField(identifiers.get(i), values.get(i).getRawValue());
         }
         return result;
     }
 
     /**
-     * Sets a single parameter's raw value on the mapped annotated field.
+     * Sets the raw value of a parameter on its annotated field.
      *
-     * @param newRawValue the parameter id and its new raw value
-     * @return {@code true} if the value was set; {@code false} if no field maps to the id
+     * @param name the name of the parameter
+     * @param rawValue the new raw value
+     * @return {@code true} if the value was set; {@code false} if no field has the name
      */
-    public Boolean onSetValue(ParameterRawValue newRawValue) {
+    private boolean setField(Identifier name, Attribute rawValue) {
         Object value;
-        Field param = parameterMapping.get(newRawValue.getDefinitionId());
+        Field param = parameterNameMapping.get(name.getValue());
 
         if (param == null) {
             return false;
         }
 
         if (param.getType() == double.class) {
-            value = Attribute.attribute2double(newRawValue.getRawValue());
+            value = Attribute.attribute2double(rawValue);
         } else if (param.getType() == String.class) {
-            value = Attribute.attribute2string(newRawValue.getRawValue());
+            value = Attribute.attribute2string(rawValue);
         } else {
-            value = Attribute.attribute2JavaType(newRawValue.getRawValue());
+            value = Attribute.attribute2JavaType(rawValue);
         }
         try {
             param.set(this, value);

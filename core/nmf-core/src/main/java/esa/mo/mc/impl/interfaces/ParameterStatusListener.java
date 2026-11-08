@@ -48,26 +48,17 @@ public interface ParameterStatusListener {
     }
 
     /**
-     * The user must implement this interface in order to set a collection of
-     * parameter values to a set variables in the application logic.
+     * Called by the NMF core when a consumer sets the values of parameters of
+     * the App, with the setValue operation of the Parameter service.
      *
-     * @param identifiers Name of the Parameters
-     * @param values The raw values to be set at the parameter
-     * @return True if the value was set successfully, false if not
+     * The user must implement this interface in order to set each value in
+     * the App.
+     *
+     * @param identifiers The names of the parameters
+     * @param values The raw values to be set, in the order of the names
+     * @return True if every value was set, false if not
      */
-    @Deprecated
     default Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * The user must implement this interface in order to set a collection of
-     * parameter values to a set variables in the application logic.
-     *
-     * @param newRawValues The new values to be set at the parameter
-     * @return True if the value was set successfully, false if not
-     */
-    default Boolean onSetValue(ParameterRawValueList newRawValues) {// This function needs to be implement here to ensure backwards compatibility
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

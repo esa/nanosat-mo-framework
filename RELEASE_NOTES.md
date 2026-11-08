@@ -40,6 +40,10 @@ The different versions and respective updates are the following:
 * Requires a value for every argument of an action execution or an alert event, as MO 15 typed lists cannot hold NULL entries
 * Removes the source link of the COM objects, together with the ObjectLinks structure: ArchiveDetails now has a relatedLink field
 * Changes ParameterStatusListener.onGetValue(Identifier, AttributeType) to onGetValue(Identifier): Apps that implement it must update the signature, because without @Override the old method silently stops being called
+* Removes ParameterStatusListener.onSetValue(ParameterRawValueList), so onSetValue(IdentifierList, ParameterRawValueList) is the only one and no longer deprecated: Apps that implement the removed one must move to it, because without @Override it silently stops being called
+* Fixes setValue in the simple adapter, which set only the first of several parameters, and in the annotations, which stopped at the first value that could not be set
+* Fixes setValue on the Supervisor, which never reached the adapter of the mission
+* Fixes setValue of the Parameter service, which reported a value that the App refused as set: it now returns an Invalid Argument error, and stores and publishes nothing
 * Removes ParameterStatusListener.onGetValue(Long), so parameter values are asked for by name only; Apps that use the annotations are not affected
 * Removes the deprecated pushParameterValue(Identifier, ParameterValue, ObjectKey, Time) of the Parameter service; use pushSingleParameterValueAttribute instead
 * Removes the deprecated MonitorAndControlNMFAdapter.getTypeShortForm; use HelperAttributes.getTypeShortForm of the MO library instead

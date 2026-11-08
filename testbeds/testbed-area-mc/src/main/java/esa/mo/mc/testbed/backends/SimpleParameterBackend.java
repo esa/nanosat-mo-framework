@@ -20,6 +20,8 @@
  */
 package esa.mo.mc.testbed.backends;
 
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.Attribute;
 import org.ccsds.moims.mo.mal.structures.Identifier;
@@ -30,11 +32,14 @@ import org.ccsds.moims.mo.mc.structures.AttributeValueList;
 import org.ccsds.moims.mo.mc.structures.ParameterRawValueList;
 
 /**
- * A simple backend that returns a fixed integer value for every parameter.
+ * A simple backend that returns a fixed integer value for every parameter, and
+ * that accepts every value set, except for the parameters it was told to
+ * refuse.
  */
 public class SimpleParameterBackend extends Backend {
 
     private final int value;
+    private final Set<String> refused = ConcurrentHashMap.newKeySet();
 
     public SimpleParameterBackend(int value) {
         this.value = value;
@@ -45,9 +50,23 @@ public class SimpleParameterBackend extends Backend {
         return new Union(value);
     }
 
+    /**
+     * Makes the backend refuse the values set on a parameter.
+     *
+     * @param name The name of the parameter.
+     */
+    public void refuse(String name) {
+        refused.add(name);
+    }
+
     @Override
     public Boolean onSetValue(IdentifierList identifiers, ParameterRawValueList values) {
-        return true; // Test backend - writable parameters accept any value
+        for (Identifier identifier : identifiers) {
+            if (refused.contains(identifier.getValue())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

@@ -26,12 +26,14 @@ import java.io.IOException;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MOErrorException;
+import org.ccsds.moims.mo.com.COMHelper;
 import org.ccsds.moims.mo.mc.ReadOnlyException;
 import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.LongList;
 import org.ccsds.moims.mo.mal.structures.Time;
+import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mal.structures.Union;
 import org.ccsds.moims.mo.mc.MCHelper;
 import org.ccsds.moims.mo.mc.parameter.consumer.ParameterStub;
@@ -154,6 +156,34 @@ public class ParameterTest {
             Assert.assertEquals("The error must be a Read Only error",
                     MCHelper.READ_ONLY_ERROR_NUMBER,
                     ex.getErrorNumber());
+        }
+    }
+
+    // Test — A value that the App refuses is reported to the consumer
+
+    @Test
+    public void testValueRefusedByTheAppReturnsError() throws Exception {
+        LOGGER.info("Running: testValueRefusedByTheAppReturnsError()");
+        Long accepted = addParameter("AcceptedInBatch", false);
+        Long refused = addParameter("RefusedByTheApp", false);
+        BACKEND.refuse("RefusedByTheApp");
+        ParameterStub stub = harness.getParameterConsumerStub().getParameterStub();
+
+        ParameterRawValueList values = new ParameterRawValueList();
+        values.add(new ParameterRawValue(accepted, new Union(1)));
+        values.add(new ParameterRawValue(refused, new Union(2)));
+
+        try {
+            stub.setValue(values);
+            Assert.fail("A value that the App refuses must be reported");
+        } catch (MOErrorException ex) {
+            // Checked by its number: COM Invalid Argument and MC Read Only are
+            // both number 1, so the stub of setValue decodes it as Read Only
+            Assert.assertEquals("The error must be an Invalid Argument error",
+                    COMHelper.INVALID_ARGUMENT_ERROR_NUMBER, ex.getErrorNumber());
+            UIntegerList indexes = (UIntegerList) ex.getExtraInformation();
+            Assert.assertEquals("The error must give the indexes of all the values",
+                    2, indexes.size());
         }
     }
 
