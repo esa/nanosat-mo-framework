@@ -139,6 +139,35 @@
     </build>
     <profiles>
         <profile>
+            <!-- Packages the mission baseline that the build lays down in
+                 jars-mission/<version>, so that a mission upgrade can be
+                 installed on-board with the Package Management service:
+                   mvn install -Pgenerate-mission-package
+                 It runs after the filesystem generation, in the same phase,
+                 as it reads the jars-mission/<version> directory of it. -->
+            <id>generate-mission-package</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>int.esa.nmf.core</groupId>
+                        <artifactId>nmf-linux-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>generate-mission-package</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>generate-mission-package</goal>
+                                </goals>
+                                <configuration>
+                                    <name>raspberry-pi</name>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <id>deploy-on-rpi</id>
             <build>
                 <!--   Deploys the generated Space File System    -->
