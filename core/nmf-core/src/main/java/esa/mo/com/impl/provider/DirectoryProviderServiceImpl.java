@@ -220,7 +220,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         final IdentifierList inputDomain = filter.getDomain();
 
         // Check if the domain contains any wildcard that is not in the end, if so, throw error
-        for (int i = 0; i < inputDomain.size(); i++) {
+        for (int i = 0; inputDomain != null && i < inputDomain.size(); i++) {
             Identifier domainPart = inputDomain.get(i);
 
             if (domainPart.toString().equals("*") && i != (inputDomain.size() - 1)) {
@@ -244,48 +244,51 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         for (int i = 0; i < keys.size(); i++) { // Filter through all providers
             Provider provider = list.get(keys.get(i));
 
-            //Check service provider name
-            if (!filter.getProviderName().toString().equals("*")) { // If not a wildcard...
-                if (!provider.getProviderName().toString().equals(filter.getProviderName().toString())) {
+            // Check service provider name: NULL and '*' match every name (requirement: Directory.lookup#5)
+            Identifier name = filter.getProviderName();
+            if (name != null && !name.toString().equals("*")) {
+                if (!provider.getProviderName().toString().equals(name.toString())) {
                     continue;
                 }
             }
 
-            if (HelperCOM.domainContainsWildcard(filter.getDomain())) {  // Does it contain a wildcard in the filter?
+            // A NULL domain matches every domain (requirement: Directory.lookup#7)
+            if (inputDomain != null && HelperCOM.domainContainsWildcard(inputDomain)) {  // Does it contain a wildcard in the filter?
                 // Compare each object one by one...
 
                 if (!HelperCOM.domainMatchesWildcardDomain(provider.getDomain(), inputDomain)) {
                     continue;
                 }
 
-            } else if (!inputDomain.equals(provider.getDomain())) {
+            } else if (inputDomain != null && !inputDomain.equals(provider.getDomain())) {
                 continue;
             }
 
             // Set the Provider Details structure
             ServiceCapabilityList outCap = new ServiceCapabilityList();
 
-            // Go through all the services and check each service
+            // Go through all the services and check each service:
+            // a NULL serviceId matches every service (requirement: Directory.lookup#9)
+            final ServiceId serviceId = filter.getServiceId();
             for (ServiceCapability serviceCapability : provider.getServiceCapabilities()) {
                 // Check service key - area field
-                if (filter.getServiceId().getKeyArea().getValue() != 0) {
-                    if (!serviceCapability.getServiceId().getKeyArea().equals(filter.getServiceId().getKeyArea())) {
+                if (serviceId != null && serviceId.getKeyArea().getValue() != 0) {
+                    if (!serviceCapability.getServiceId().getKeyArea().equals(serviceId.getKeyArea())) {
                         continue;
                     }
                 }
 
                 // Check service key - service field
-                if (filter.getServiceId().getKeyService().getValue() != 0) {
-                    if (!serviceCapability.getServiceId().getKeyService().equals(
-                            filter.getServiceId().getKeyService())) {
+                if (serviceId != null && serviceId.getKeyService().getValue() != 0) {
+                    if (!serviceCapability.getServiceId().getKeyService().equals(serviceId.getKeyService())) {
                         continue;
                     }
                 }
 
                 // Check service key - version field
-                if (filter.getServiceId().getKeyAreaVersion().getValue() != 0) {
+                if (serviceId != null && serviceId.getKeyAreaVersion().getValue() != 0) {
                     if (!serviceCapability.getServiceId().getKeyAreaVersion().equals(
-                            filter.getServiceId().getKeyAreaVersion())) {
+                            serviceId.getKeyAreaVersion())) {
                         continue;
                     }
                 }
@@ -328,25 +331,12 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
 
     @Override
     public Long add(final Provider newProviderDetails, final MALInteraction interaction)
-            throws AuthorisationFailException, InternalException, MALException {
+            throws InvalidArgumentException, AuthorisationFailException, InternalException, MALException {
+        checkProviderDetails(newProviderDetails);
         Identifier serviceProviderName = newProviderDetails.getProviderName();
 
         synchronized (MUTEX) {
             checkEntry(serviceProviderName.getValue(), "add", interaction);
-
-            final HashMap<Long, Provider> list = new HashMap<>(providersAvailable);
-
-            // Do we already have this provider in the Directory service?
-            for (Long key : list.keySet()) {
-                Provider provider = this.providersAvailable.get(key);
-
-                if (serviceProviderName.getValue().equals(provider.getProviderName().getValue())) {
-                    // It is repeated!!
-                    LOGGER.warning("There was already a provider with the same name in the "
-                            + "Directory service. Removing the old one and adding the new one...");
-                    removeEntry(key);
-                }
-            }
 
             ArchiveDetailsList archDetails = (interaction == null)
                     ? HelperArchive.generateArchiveDetailsList(null,
@@ -382,6 +372,18 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             }
 
             Long provObjId = returnedProvObjIds.get(0);
+
+            // The new entry is stored, so the old entry of the same provider can go:
+            // if the store had failed, the old entry would have been kept
+            for (Long key : new HashMap<>(providersAvailable).keySet()) {
+                Provider provider = this.providersAvailable.get(key);
+                if (serviceProviderName.getValue().equals(provider.getProviderName().getValue())) {
+                    LOGGER.warning("There was already a provider with the same name in the "
+                            + "Directory service. Replacing it with the new one...");
+                    removeEntry(key);
+                }
+            }
+
             this.providersAvailable.put(provObjId, newProviderDetails);
             if (interaction == null) {
                 ownEntries.add(serviceProviderName.getValue());
@@ -393,6 +395,9 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
     @Override
     public void remove(Long providerObjectKey, MALInteraction interaction)
             throws UnknownException, InvalidArgumentException, AuthorisationFailException, MALException {
+        if (providerObjectKey == null || providerObjectKey == 0) {
+            throw new InvalidArgumentException(null);
+        }
         synchronized (MUTEX) {
             if (!this.providersAvailable.containsKey(providerObjectKey)) { // The requested provider does not exist
                 throw new UnknownException(null);
@@ -400,6 +405,37 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
             checkEntry(this.providersAvailable.get(providerObjectKey).getProviderName().getValue(),
                     "remove", interaction);
             removeEntry(providerObjectKey);
+        }
+    }
+
+    /**
+     * Checks the provider details of an add request.
+     *
+     * @param details The provider details.
+     * @throws InvalidArgumentException if the details are NULL, the name or the
+     * domain is empty or holds the wildcard, or a ServiceId holds a '0'.
+     */
+    private static void checkProviderDetails(final Provider details) throws InvalidArgumentException {
+        if (details == null) {
+            throw new InvalidArgumentException("The newProviderDetails field must not be NULL");
+        }
+        Identifier name = details.getProviderName();
+        if (name == null || name.getValue() == null || name.getValue().isEmpty()
+                || name.getValue().contains("*")) {
+            throw new InvalidArgumentException("The providerName must not be empty or contain the wildcard '*'");
+        }
+        IdentifierList domain = details.getDomain();
+        if (domain == null || domain.isEmpty() || HelperCOM.domainContainsWildcard(domain)) {
+            throw new InvalidArgumentException("The domain must not be empty or contain the wildcard '*'");
+        }
+        if (details.getServiceCapabilities() != null) {
+            for (ServiceCapability capability : details.getServiceCapabilities()) {
+                ServiceId id = capability.getServiceId();
+                if (id.getKeyArea().getValue() == 0 || id.getKeyService().getValue() == 0
+                        || id.getKeyAreaVersion().getValue() == 0) {
+                    throw new InvalidArgumentException("The area, service and version of a ServiceId must not be '0'");
+                }
+            }
         }
     }
 
@@ -501,7 +537,7 @@ public class DirectoryProviderServiceImpl extends DirectoryInheritanceSkeleton {
         try {
             this.add(newProviderDetails, null);
             return newProviderDetails;
-        } catch (AuthorisationFailException | InternalException | MALException ex) {
+        } catch (InvalidArgumentException | AuthorisationFailException | InternalException | MALException ex) {
             LOGGER.log(Level.SEVERE, null, ex);
         }
 

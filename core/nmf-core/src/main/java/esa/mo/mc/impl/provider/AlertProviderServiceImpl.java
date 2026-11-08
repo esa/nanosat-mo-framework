@@ -323,7 +323,7 @@ public class AlertProviderServiceImpl extends AlertInheritanceSkeleton implement
         }
 
         for (int index = 0; index < alertObjInstIds.size(); index++) {
-            manager.update(alertObjInstIds.get(index), newAlertDefDetails.get(index), connection.getConnectionDetails()); //requirement: Alert.updateDefinition#2, Alert.updateDefinition#4 Change in the manager/archive
+            manager.update(alertObjInstIds.get(index), newAlertDefDetails.get(index), connection.getConnectionDetails()); //requirement: Alert.updateDefinition#2, Alert.updateDefinition#3 Change in the manager/archive
         }
 
         if (configurationAdapter != null) {

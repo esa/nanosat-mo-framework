@@ -150,9 +150,9 @@ public final class ActionManager extends MCManager {
             try {
                 HeterogeneousList defs = new HeterogeneousList();
                 defs.add(actionDefDetails);
-                //add definition to the archive requirement: Action#6
+                //add definition to the archive requirement: Action#3
                 LongList defIds = super.getArchiveService().store(true,
-                        ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE, //requirement: Action#3
+                        ActionServiceInfo.ACTIONDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
                         HelperArchive.generateArchiveDetailsList(null, uri),
                         defs,

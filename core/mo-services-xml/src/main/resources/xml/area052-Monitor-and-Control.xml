@@ -19,27 +19,15 @@
                 The list of actions supported by the action service shall be declared when deploying that service.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="3">
-                The service provider shall represent action definitions as ActionDefinition COM objects.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="4">
-                The service provider shall represent each action execution submitted via the executeAction operation as an ExecutionRequest COM object.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="5">
-                The ExecutionRequest object shall use the related link to indicate which ActionDefinition object it uses.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="6">
                 The service provider should store ActionDefinition objects in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="7">
+            <mal:documentation name="Service-level Requirement" order="4">
                 The service provider shall create an ExecutionStatus object for each execution stage reached. Note: it is implementation-specific when a progress step is reached.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="8">
+            <mal:documentation name="Service-level Requirement" order="5">
                 The service provider shall store ExecutionStatus objects in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">
-                The ExecutionStatus object shall use the related link to point to the ExecutionRequest it belongs to.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
+            <mal:documentation name="Service-level Requirement" order="6">
                 The fields of the ExecutionStatus object shall match the corresponding fields published in the monitorExecution notification for the same stage.
             </mal:documentation>
             <mal:capabilitySet number="1" comment="">
@@ -48,28 +36,25 @@
                         When an execution stage of an action is reached, the service provider shall publish an execution progress update.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The service provider shall publish the execution progress update using subscription keys corresponding to the definitionId and executionId of the executing action.
+                        The service provider shall publish the execution progress update using subscription keys corresponding to the definitionId, the executionId and the stageType of the executing action.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The PUBLISH message shall include the stageType field in the message body.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
                         A service consumer may subscribe to notifications for a specific action definition, or for all action definitions by using the wildcard value in the definitionId field.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
+                    <mal:documentation name="Requirement" order="4">
                         A service consumer may subscribe to notifications for a specific action execution, or for all action executions by using the wildcard value in the executionId field.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
+                    <mal:documentation name="Requirement" order="5">
                         If the execution stage did not complete successfully, then the success field of the PUBLISH message shall be FALSE.
                     </mal:documentation>
+                    <mal:documentation name="Requirement" order="6">
+                        The stageType subscription key shall be START when the action begins execution, PROGRESS for each intermediate progress stage, and END when the action completes execution.
+                    </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        The stageType field of the PUBLISH message shall be START when the action begins execution, PROGRESS for each intermediate progress stage, and END when the action completes execution.
+                        If the stageType subscription key is START or END, then the step field shall be NULL.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="8">
-                        If the stageType field is START or END, then the step field shall be NULL.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="9">
-                        If the stageType field is PROGRESS, then the step field shall be the current progress step number.
+                        If the stageType subscription key is PROGRESS, then the step field shall be the current progress step number.
                     </mal:documentation>
                     <mal:messages>
                         <mal:subscriptionKeys>
@@ -177,12 +162,12 @@
             </mal:capabilitySet>
             <com:features>
                 <com:objects comment="Action definitions, execution requests, and execution statuses are represented as COM objects.">
-                    <com:object number="1" name="ActionDefinition">
+                    <com:object number="1" name="ActionDefinition" comment="The definition of an action.">
                         <com:objectType>
                             <mal:type area="MC" list="false" name="ActionDefinition"/>
                         </com:objectType>
                     </com:object>
-                    <com:object number="2" name="ExecutionRequest">
+                    <com:object number="2" name="ExecutionRequest" comment="An action execution submitted via the executeAction operation.">
                         <com:objectType>
                             <mal:type area="MC" list="false" name="ExecutionRequest"/>
                         </com:objectType>
@@ -246,18 +231,9 @@
                 Deployment-specific validityState values shall use values greater than 127. Note: the meaning of such values is deployment-specific and outside the scope of this standard.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="12">
-                The service provider shall represent parameter definitions as ParameterDefinition COM objects.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="13">
-                The service provider shall represent parameter value reports as ParameterValue COM objects.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="14">
-                The ParameterValue object shall use the related link to indicate which ParameterDefinition object it uses.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="15">
                 The service provider should store ParameterDefinition objects in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="16">
+            <mal:documentation name="Service-level Requirement" order="13">
                 When a parameter value report is published, the service provider should store the ParameterValue object in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1" comment="">
@@ -336,10 +312,10 @@
                         The service provider shall create new ParameterValue objects for the updated parameters.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="4">
-                        The service provider shall store the new ParameterValue objects in the COM archive.
+                        The service provider should store the new ParameterValue objects in the COM archive.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="5">
-                        The service provider shall publish the new parameter values via the monitorValue operation.
+                        The service provider shall publish the new values of the parameters whose reportingEnabled field is TRUE via the monitorValue operation.
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
@@ -482,13 +458,10 @@
                         If an error is raised, then the service provider shall not update any definitions as a result of this operation call.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The service provider shall create a new ParameterDefinition object.
+                        The service provider shall replace the definition of each referenced ParameterDefinition object with the supplied definition, keeping its id.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The service provider shall store the new ParameterDefinition object in the COM archive.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        The new ParameterDefinition object shall become the current ParameterDefinition for the parameter.
+                        If the ParameterDefinition objects are stored in the COM archive, then the service provider shall update them there.
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
@@ -524,12 +497,12 @@
             </mal:capabilitySet>
             <com:features>
                 <com:objects comment="Parameter definitions and value instances are represented as COM objects.">
-                    <com:object number="1" name="ParameterDefinition">
+                    <com:object number="1" name="ParameterDefinition" comment="The definition of a parameter.">
                         <com:objectType>
                             <mal:type area="MC" list="false" name="ParameterDefinition"/>
                         </com:objectType>
                     </com:object>
-                    <com:object number="2" name="ParameterValue">
+                    <com:object number="2" name="ParameterValue" comment="A parameter value report.">
                         <com:objectType>
                             <mal:type area="MC" list="false" name="ParameterValue"/>
                         </com:objectType>
@@ -552,21 +525,12 @@
                 The reportingEnabled field in the AlertDefinition shall specify whether alerts are published.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="3">
-                The service provider shall represent alert definitions as AlertDefinition COM objects.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="4">
-                The service provider shall represent instances of an alert as an AlertEvent COM object.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="5">
-                The AlertEvent object shall use the related link to indicate which AlertDefinition object it uses.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="6">
                 When an alert is generated, the service provider shall publish it via the monitorAlert operation.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="7">
+            <mal:documentation name="Service-level Requirement" order="4">
                 The service provider should store AlertDefinition objects in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="8">
+            <mal:documentation name="Service-level Requirement" order="5">
                 When an alert is published, the service provider should store the AlertEvent object in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1" comment="">
@@ -688,13 +652,10 @@
                         If an error is raised, then the service provider shall not update any definitions as a result of this operation call.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The service provider shall create a new AlertDefinition object.
+                        The service provider shall replace the definition of each referenced AlertDefinition object with the supplied definition, keeping its id.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The service provider shall store the new AlertDefinition object in the COM archive.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        The new AlertDefinition object shall become the current AlertDefinition for the alert.
+                        If the AlertDefinition objects are stored in the COM archive, then the service provider shall update them there.
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
@@ -730,13 +691,12 @@
             </mal:capabilitySet>
             <com:features>
                 <com:objects comment="Alert definitions and instances are represented as COM objects.">
-                    <com:object number="1" name="AlertDefinition">
+                    <com:object number="1" name="AlertDefinition" comment="The definition of an alert.">
                         <com:objectType>
                             <mal:type area="MC" list="false" name="AlertDefinition"/>
                         </com:objectType>
                     </com:object>
-                    <com:object number="2" name="AlertEvent"
-                                comment="Stored in the COM archive when an enabled alert is published.">
+                    <com:object number="2" name="AlertEvent" comment="An instance of an alert. Stored in the COM archive when an enabled alert is published.">
                         <com:objectType>
                             <mal:type area="MC" list="false" name="AlertEvent"/>
                         </com:objectType>
@@ -799,18 +759,9 @@
                 The service provider shall report the values of an AggregationSetValue in the order of the parameters of the AggregationParameterSet, leaving out only the values that requirement 13 leaves out.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="15">
-                The service provider shall represent aggregation definitions as AggregationDefinition COM objects.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="16">
-                The service provider shall represent aggregation value reports as AggregationValue COM objects.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="17">
-                The AggregationValue object shall use the related link to indicate which AggregationDefinition object it uses.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="18">
                 The service provider should store AggregationDefinition objects in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="19">
+            <mal:documentation name="Service-level Requirement" order="16">
                 When an aggregation value report is published, the service provider should store the AggregationValue object in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1" comment="">
@@ -957,13 +908,7 @@
                         If an error is raised, then the service provider shall not make any modifications as a result of this operation call.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="7">
-                        If the filterEnabled field is changed, then the service provider shall create a new AggregationDefinition object.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
-                        If a new AggregationDefinition object is created, then the service provider shall store it in the COM archive.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="9">
-                        If a new AggregationDefinition object is created, then that new object shall be the current AggregationDefinition used for the aggregation.
+                        If the filterEnabled field is changed, then the service provider shall update the existing AggregationDefinition in the COM archive.
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
@@ -1079,13 +1024,10 @@
                         If an error is raised, then the service provider shall not update any definitions as a result of this operation call.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
-                        The service provider shall create a new AggregationDefinition object.
+                        The service provider shall replace the definition of each referenced AggregationDefinition object with the supplied definition, keeping its id.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="3">
-                        The service provider shall store the new AggregationDefinition object in the COM archive.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
-                        The new AggregationDefinition object shall be the current AggregationDefinition used for the aggregation.
+                        If the AggregationDefinition objects are stored in the COM archive, then the service provider shall update them there.
                     </mal:documentation>
                     <mal:messages>
                         <mal:submit>
@@ -1159,12 +1101,12 @@
             </mal:capabilitySet>
             <com:features>
                 <com:objects comment="Aggregation definitions and value instances are represented as COM objects.">
-                    <com:object number="1" name="AggregationDefinition">
+                    <com:object number="1" name="AggregationDefinition" comment="The definition of an aggregation.">
                         <com:objectType>
                             <mal:type area="MC" list="false" name="AggregationDefinition"/>
                         </com:objectType>
                     </com:object>
-                    <com:object number="2" name="AggregationValue">
+                    <com:object number="2" name="AggregationValue" comment="An aggregation value report.">
                         <com:objectType>
                             <mal:type area="MC" list="false" name="AggregationValue"/>
                         </com:objectType>

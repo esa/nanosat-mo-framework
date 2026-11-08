@@ -19,7 +19,7 @@
             <mal:capabilitySet number="1" comment="">
                 <mal:pubsubIP name="picturesStream" number="1" comment="The picturesStream operation allows a consumer to subscribe for pictures published after enableStream call.">
                     <mal:documentation name="Requirement" order="1">
-                        The service provider shall set the NOTIFY message timestamp to the time when the picture was taken.
+                        The service provider shall set the timestamp field of each Picture to the time when the picture was taken.
                     </mal:documentation>
                     <mal:messages>
                         <mal:subscriptionKeys>
@@ -272,15 +272,9 @@
         &lt;li&gt;the capability for maintaining the list of nearby position events.&lt;/li&gt;
         &lt;/ol&gt;</mal:documentation>
             <mal:documentation name="Service-level Requirement" order="2">
-                The service provider shall represent position markers for nearby position events as NearbyPosition COM objects.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="3">
-                The service provider shall use a boolean value as the body of the NearbyPositionAlert object.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="4">
                 The service provider should store NearbyPosition objects in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="5">
+            <mal:documentation name="Service-level Requirement" order="3">
                 Upon publishing a nearby position event, the service provider should store the NearbyPositionAlert object in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1" comment="">
@@ -664,8 +658,7 @@
             </mal:capabilitySet>
             <com:features>
                 <com:objects comment="">
-                    <com:object number="1" name="NearbyPosition"
-                                comment="A nearby position marker." >
+                    <com:object number="1" name="NearbyPosition" comment="A position marker for nearby position events.">
                         <com:objectType>
                             <mal:type area="Platform" list="false" name="NearbyPosition" />
                         </com:objectType>
@@ -694,9 +687,6 @@
             </mal:documentation>
             <mal:capabilitySet number="1" comment="">
                 <mal:pubsubIP name="monitorAttitude" number="1" comment="The monitorAttitude operation allows a consumer to subscribe for the spacecraft attitude, ADCS actuators status, and ADCS attitude control mode status.">
-                    <mal:documentation name="Requirement" order="1">
-                        A consumer shall set the ObjectKey to NULL when subscribing.
-                    </mal:documentation>
                     <mal:messages>
                         <mal:publishNotify>
                             <mal:field name="attitudeTelemetry" canBeNull="true" comment="Determined spacecraft attitude.">

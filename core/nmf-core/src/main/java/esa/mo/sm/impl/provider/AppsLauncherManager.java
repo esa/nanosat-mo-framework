@@ -63,6 +63,7 @@ import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
+import org.ccsds.moims.mo.sm.AppRunningException;
 import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
 import org.ccsds.moims.mo.sm.appslauncher.provider.StopAppInteraction;
 import org.ccsds.moims.mo.sm.structures.AppDetails;
@@ -641,7 +642,7 @@ public abstract class AppsLauncherManager extends DefinitionsManager {
                         + "so it will not be forcibly killed.",
                         new Object[]{appName, appInstId, graceMs});
                 if (interaction != null) {
-                    interaction.sendUpdateError(new InvalidArgumentException(appInstId));
+                    interaction.sendUpdateError(new AppRunningException(appInstId));
                 }
             }
         } catch (InterruptedException ex) {

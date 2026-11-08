@@ -93,9 +93,9 @@ public final class AlertManager extends MCManager {
             try {
                 HeterogeneousList defs = new HeterogeneousList();
                 defs.add(definition);
-                //add to the archive; requirement: Alert#7
+                //add to the archive; requirement: Alert#4
                 LongList defIds = super.getArchiveService().store(true,
-                        AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE, //requirement: Alert#3
+                        AlertServiceInfo.ALERTDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
                         HelperArchive.generateArchiveDetailsList(null, connectionDetails.getProviderURI()),
                         defs,

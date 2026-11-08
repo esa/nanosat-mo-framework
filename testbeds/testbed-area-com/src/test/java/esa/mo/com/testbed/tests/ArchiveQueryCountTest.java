@@ -24,6 +24,7 @@ import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.testbed.SetUpCOMServices;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -83,6 +84,13 @@ public class ArchiveQueryCountTest {
     // actually invoked — an empty result set skips filtering entirely.
     private static final ObjectType FILTER_ERROR_TYPE = new ObjectType(
             new UShort(206), new UShort(1), new UOctet((short) 1), new UShort(1));
+    // Two object types of one service, and the type that matches both through the wildcard number
+    private static final ObjectType PAIR_TYPE_1 = new ObjectType(
+            new UShort(207), new UShort(1), new UOctet((short) 1), new UShort(1));
+    private static final ObjectType PAIR_TYPE_2 = new ObjectType(
+            new UShort(207), new UShort(1), new UOctet((short) 1), new UShort(2));
+    private static final ObjectType PAIR_WILDCARD = new ObjectType(
+            new UShort(207), new UShort(1), new UOctet((short) 1), new UShort(0));
 
     @BeforeClass
     public static void setUpClass() throws IOException {
@@ -152,6 +160,47 @@ public class ArchiveQueryCountTest {
         }
         LOGGER.info("Body found in query results: " + bodyFound);
         Assert.assertTrue("Query with returnBody=true must include at least one body", bodyFound);
+    }
+
+    /**
+     * With a wildcard object type and returnBody FALSE, each UPDATE message
+     * carries NULL bodies, not an empty list (requirement: Archive.query#14).
+     * It also checks that each domain/object type pair is sorted separately,
+     * and that the pairs keep the order in which they were matched
+     * (requirement: Archive.query#16, Archive.query#17).
+     */
+    @Test
+    public void testWildcardQuerySortsEachTypeSeparatelyWithoutBodies() throws Exception {
+        LOGGER.info("Running: testWildcardQuerySortsEachTypeSeparatelyWithoutBodies()");
+        ArchiveStub stub = harness.getArchiveConsumer().getArchiveStub();
+        IdentifierList domain = ConfigurationProviderSingleton.getDomain();
+        URI providerURI = harness.getCOMServicesProvider()
+                .getArchiveService().getConnection().getConnectionDetails().getProviderURI();
+
+        // The two types are stored in turns, so that their timestamps interleave
+        for (int i = 0; i < 2; i++) {
+            storeEmpty(stub, PAIR_TYPE_1, domain, providerURI);
+            Thread.sleep(5);
+            storeEmpty(stub, PAIR_TYPE_2, domain, providerURI);
+            Thread.sleep(5);
+        }
+
+        CountDownLatch latch = new CountDownLatch(1);
+        QueryResult result = new QueryResult();
+        ArchiveQuery sortedByTime = new ArchiveQuery(null, null, 0L, null, null, Boolean.TRUE, null);
+        stub.asyncQuery(false, PAIR_WILDCARD, sortedByTime, (QueryFilter) null, new QueryAdapter(latch, result));
+        Assert.assertTrue("query interaction timed out after 5s", latch.await(5, TimeUnit.SECONDS));
+
+        Assert.assertEquals("The query must return the 4 objects", 4, countObjects(result));
+        for (HeterogeneousList bodies : result.objBodies) {
+            Assert.assertNull("Without returnBody, the bodies must be NULL", bodies);
+        }
+        List<UShort> numbers = new ArrayList<>();
+        for (ObjectType type : result.objTypes) {
+            numbers.add(type.getNumber());
+        }
+        Assert.assertEquals("Each object type must be sorted on its own, and not interleaved with the other",
+                Arrays.asList(new UShort(1), new UShort(1), new UShort(2), new UShort(2)), numbers);
     }
 
     /**
@@ -442,6 +491,7 @@ public class ArchiveQueryCountTest {
          */
         final List<ArchiveDetailsList> objDetails = new ArrayList<>();
         final List<HeterogeneousList> objBodies = new ArrayList<>();
+        final List<ObjectType> objTypes = new ArrayList<>();
         MALException error;
     }
 
@@ -466,6 +516,7 @@ public class ArchiveQueryCountTest {
                 HeterogeneousList objBodies, Map qosProperties) {
             result.objDetails.add(objDetails);
             result.objBodies.add(objBodies);
+            result.objTypes.add(objType);
         }
 
         @Override

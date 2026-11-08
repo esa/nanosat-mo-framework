@@ -53,6 +53,9 @@ The different versions and respective updates are the following:
 * Removes the OPS-SAT leftovers from the code and the READMEs, and renames the add-on folder of the Celestia visualisation to extras/cubesat
 * Builds the MCP adapter with the rest of the SDK again, as a prototype
 * Fixes the stopApp crash when an App is killed at the same time
+* Changes stopApp to return App Running instead of Invalid Argument for an App that does not close when the timeout is NULL
+* Fixes add of the Directory service, which accepted an empty or wildcard name or domain and a ServiceId with a '0', and lost the existing entry when the new one could not be stored; remove now refuses the id '0', and lookup accepts a NULL providerName, domain or serviceId
+* Fixes query of the Archive service with a wildcard object type, which returned empty body lists instead of NULL when no body was asked for, and sorted the objects across object types
 * Fixes the Geofence of the Raspberry Pi mission, which never started the App it names
 * Gives nmf-admin and the App accounts a home directory on Debian and Ubuntu
 * Changes the Raspberry Pi guide to copy the NMF with an SSH key for root, instead of a root password

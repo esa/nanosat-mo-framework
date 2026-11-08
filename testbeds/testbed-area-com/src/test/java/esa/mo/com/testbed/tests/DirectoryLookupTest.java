@@ -145,7 +145,8 @@ public class DirectoryLookupTest {
         addresses.add(makeAddress("maltcp://test-host:1024/test-service"));
         addresses.add(makeAddress("malspp://test-host:2048/test-service"));
 
-        ServiceId serviceId = new ServiceId(new UShort(0), new UShort(0), new UOctet((short) 0));
+        // A registered ServiceId names a real service: '0' is only a wildcard of lookup
+        ServiceId serviceId = new ServiceId(new UShort(1), new UShort(1), new UOctet((short) 1));
         ServiceCapabilityList capabilities = new ServiceCapabilityList();
         capabilities.add(new ServiceCapability(serviceId, new NamedValueList(), addresses));
 

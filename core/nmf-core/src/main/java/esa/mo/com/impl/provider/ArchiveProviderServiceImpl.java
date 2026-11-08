@@ -24,7 +24,9 @@ import esa.mo.com.impl.archive.db.SortByField;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.com.impl.util.HelperCOM;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.DuplicateException;
@@ -253,14 +255,25 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
         }
 
         if (lArchiveQuery != null && lArchiveQuery.getSortOrder() != null) {
+            // requirement: Archive.query#16, Archive.query#17: each domain/object type pair
+            // is sorted separately, and the pairs keep the order in which they were matched
+            Map<String, ArrayList<ArchivePersistenceObject>> pairs = new LinkedHashMap<>();
+            for (ArchivePersistenceObject perObj : perObjs) {
+                String pair = perObj.getDomain() + "|" + perObj.getObjectType();
+                pairs.computeIfAbsent(pair, k -> new ArrayList<>()).add(perObj);
+            }
+            ArrayList<ArchivePersistenceObject> sorted = new ArrayList<>();
             try {
-                perObjs = SortByField.sortPersistenceObjects(perObjs,
-                        lArchiveQuery.getSortFieldName(),
-                        lArchiveQuery.getSortOrder());
+                for (ArrayList<ArchivePersistenceObject> pairObjs : pairs.values()) {
+                    sorted.addAll(SortByField.sortPersistenceObjects(pairObjs,
+                            lArchiveQuery.getSortFieldName(),
+                            lArchiveQuery.getSortOrder()));
+                }
             } catch (NoSuchFieldException ex) {
                 throw new InvalidArgumentException("The sortFieldName " + lArchiveQuery.getSortFieldName()
                         + " is not a field of the object body");
             }
+            perObjs = sorted;
         }
 
         if (!perObjs.isEmpty()) {
@@ -270,7 +283,8 @@ public class ArchiveProviderServiceImpl extends ArchiveInheritanceSkeleton {
                 for (ArchivePersistenceObject perObj : perObjs) {
                     ArchiveDetailsList outArchDetLst = new ArchiveDetailsList();
                     outArchDetLst.add(perObj.getArchiveDetails());
-                    HeterogeneousList outObjectList = new HeterogeneousList();
+                    // requirement: Archive.query#14: no bodies unless they were asked for
+                    HeterogeneousList outObjectList = returnObjBody ? new HeterogeneousList() : null;
 
                     if (returnObjBody) {
                         Element el = (Element) Attribute.javaType2Attribute(perObj.getObject());

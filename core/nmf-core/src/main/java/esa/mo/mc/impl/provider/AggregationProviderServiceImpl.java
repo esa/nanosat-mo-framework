@@ -199,7 +199,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
             Long aValObjId;
             if (storeInCOMArchive) {
-                //requirement: Aggregation#19
+                //requirement: Aggregation#16
                 aValObjId = manager.storeAndGenerateAValobjId(aVal, id,
                         connection.getPrimaryConnectionDetails().getProviderURI(), time);
             } else {
@@ -397,7 +397,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             // requirement: Aggregation.enableFilter#3, Aggregation.enableFilter#4
             boolean changed = manager.setFilterEnabled(objIdToBeEnabled.get(index),
                     enable, connection.getConnectionDetails());
-            //requirement: Aggregation.enableFilter#9 //periodic managers must be refreshed, as the change of the filterEnabled-value creates a new Definition object
+            // The periodic managers must be refreshed, as the change of the filterEnabled field changes the definition
             if (changed) {
                 periodicReportingManager.refresh(objIdToBeEnabled.get(index));
                 periodicSamplingManager.refresh(objIdToBeEnabled.get(index));
@@ -584,7 +584,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
 
         for (int index = 0; index < ids.size(); index++) {
             final Long id = ids.get(index);
-            // requirement: Aggregation.updateDefinition#2, Aggregation.updateDefinition#4
+            // requirement: Aggregation.updateDefinition#2, Aggregation.updateDefinition#3
             manager.update(id, aDefs.get(index), connection.getConnectionDetails());
             periodicReportingManager.refresh(id);// then, refresh the Periodic updates and samplings
             periodicSamplingManager.refresh(id);

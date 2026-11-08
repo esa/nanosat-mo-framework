@@ -534,39 +534,18 @@
                 If a service has operations based on the PUB-SUB interaction pattern, then the Directory service shall hold two URIs for that service: the URI of the primary interface and the URI of the broker.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="6">
-                A Provider COM object shall represent a provider and its supported capabilities.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="7">
-                The Provider COM object body shall contain the provider details of the provider.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="8">
-                The service provider shall set the Provider COM object related link to NULL.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="9">
                 The add operation shall create the Provider object.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="10">
+            <mal:documentation name="Service-level Requirement" order="7">
                 The provider of the Directory service shall populate the id for the Provider object.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="11">
+            <mal:documentation name="Service-level Requirement" order="8">
                 If the implementation of the Directory service uses a COM archive, then the provider of the Directory service shall store all directory objects in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="12">
-                A ConfigurationService COM object shall represent the configuration of a service of a provider.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="13">
-                A ConfigurationProvider COM object shall represent the configuration of a provider, as the set of the ConfigurationService COM objects of its services.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="14">
-                The service provider shall set the ConfigurationService COM object related link to NULL.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="15">
-                The service provider shall set the ConfigurationProvider COM object related link to NULL.
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="16">
+            <mal:documentation name="Service-level Requirement" order="9">
                 If a provider stores its configuration, then the provider shall store its ConfigurationService and ConfigurationProvider COM objects in the COM archive.
             </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="17">
+            <mal:documentation name="Service-level Requirement" order="10">
                 If a provider stores its configuration, then the provider shall store the COM objects referenced by the configObjects field of each ConfigurationService COM object in the COM archive.
             </mal:documentation>
             <mal:capabilitySet number="1" comment="">
@@ -641,27 +620,18 @@
             <mal:capabilitySet number="2" comment="">
                 <mal:requestIP name="add" number="2" comment="The add operation adds a new or updates an existing entry in the list of providers held in the directory service.">
                     <mal:documentation name="Requirement" order="1">
-                        If the domain field of the newProviderDetails is empty or contains the wildcard '*', then the service provider shall return an INVALID error.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="2">
-                        If the providerName field of the Provider structure is empty or contains the wildcard '*', then the service provider shall return an INVALID error.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="3">
-                        If any area, service, or version field of a contained ServiceId structure contains '0', then the service provider shall return an INVALID error.
-                    </mal:documentation>
-                    <mal:documentation name="Requirement" order="4">
                         If an error occurs, then the service provider shall not make any changes.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="5">
+                    <mal:documentation name="Requirement" order="2">
                         If the providerName field of the Provider structure matches an existing Provider COM object, then the service provider shall update the existing details of that provider.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="6">
+                    <mal:documentation name="Requirement" order="3">
                         If the providerName field of the Provider structure does not match an existing Provider COM object, then the service provider shall create a new Provider COM object to represent the new provider.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="7">
+                    <mal:documentation name="Requirement" order="4">
                         The directory provider should store the created objects in the COM archive.
                     </mal:documentation>
-                    <mal:documentation name="Requirement" order="8">
+                    <mal:documentation name="Requirement" order="5">
                         The service provider shall return the COM identifier of the Provider COM object representing the provider.
                     </mal:documentation>
                     <mal:messages>
@@ -677,6 +647,12 @@
                         </mal:response>
                     </mal:messages>
                     <mal:errors>
+                        <mal:errorRef comment="When the newProviderDetails field is NULL, when its providerName or its domain field is empty or contains the wildcard '*', or when the area, service or version of one of its ServiceId structures is '0'.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="A description of the invalid value.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
                         <mal:errorRef comment="When the providerName field names a provider that the service provider added for itself, or, when access control is enforced, a provider other than the consumer that its credential identifies.">
                             <mal:type area="MAL" list="false" name="Authorisation Fail"/>
                         </mal:errorRef>
@@ -706,7 +682,7 @@
                         <mal:errorRef comment="When the supplied providerId does not match an existing Provider COM object.">
                             <mal:type area="MAL" list="false" name="Unknown"/>
                         </mal:errorRef>
-                        <mal:errorRef comment="When the supplied providerId is '0'.">
+                        <mal:errorRef comment="When the supplied providerId is NULL or '0'.">
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
                         </mal:errorRef>
                         <mal:errorRef comment="When the supplied providerId names the Provider COM object of a provider that the service provider added for itself, or, when access control is enforced, of a provider other than the consumer that its credential identifies.">
@@ -750,17 +726,17 @@
             </mal:capabilitySet>
             <com:features>
                 <com:objects comment="The Provider, ConfigurationService and ConfigurationProvider objects used by the Directory service.">
-                    <com:object number="1" name="Provider">
+                    <com:object number="1" name="Provider" comment="A provider and its supported capabilities.">
                         <com:objectType>
                             <mal:type area="COM" list="false" name="Provider"/>
                         </com:objectType>
                     </com:object>
-                    <com:object number="2" name="ConfigurationService">
+                    <com:object number="2" name="ConfigurationService" comment="The configuration of a service of a provider.">
                         <com:objectType>
                             <mal:type area="COM" list="false" name="ConfigurationService"/>
                         </com:objectType>
                     </com:object>
-                    <com:object number="3" name="ConfigurationProvider">
+                    <com:object number="3" name="ConfigurationProvider" comment="The configuration of a provider, as the set of the ConfigurationService objects of its services.">
                         <com:objectType>
                             <mal:type area="COM" list="false" name="ConfigurationProvider"/>
                         </com:objectType>
@@ -769,7 +745,7 @@
                 <com:archiveUsage comment="The Directory service COM archive usage."/>
             </com:features>
         </mal:service>
-        <mal:service name="Login" number="4" xsi:type="com:ExtendedServiceType" comment="The Login service defines the primary mechanism for the submission of authentication credentials to a deployment-specific security system. It supports operations to allow a user to log in and log out. The returned authentication identifiers are used in the MAL message header to authenticate and authorise messages via Access Control.">
+        <mal:service name="Login" number="4" xsi:type="com:ExtendedServiceType" comment="The Login service defines the primary mechanism for the submission of authentication credentials to a deployment-specific security system. It supports operations to allow a user to log in and log out. The returned authentication identifiers are used in the MAL message header to authenticate and authorise messages via Access Control. Note: the NMF implements only the consumer of this service; no NMF provider offers it.">
             <mal:documentation name="Service-level Requirement" order="1">The login service shall provide the capability:
 &lt;ol&gt;
  &lt;li&gt;log in;&lt;/li&gt;

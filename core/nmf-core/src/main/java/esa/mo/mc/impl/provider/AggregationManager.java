@@ -176,7 +176,7 @@ public final class AggregationManager extends MCManager {
             aValList.add(aVal);
 
             try {
-                //requirement: Aggregation#19
+                //requirement: Aggregation#16
                 LongList objIds = super.getArchiveService().store(
                         true,
                         AggregationServiceInfo.AGGREGATIONVALUE_OBJECT_TYPE,
@@ -679,7 +679,7 @@ public final class AggregationManager extends MCManager {
                 HeterogeneousList defs = new HeterogeneousList();
                 defs.add(definition);
 
-                //requirement: Aggregation#18
+                //requirement: Aggregation#15
                 super.getArchiveService().update(
                         AggregationServiceInfo.AGGREGATIONDEFINITION_OBJECT_TYPE,
                         ConfigurationProviderSingleton.getDomain(),
@@ -785,7 +785,7 @@ public final class AggregationManager extends MCManager {
                 def.getSendUnchanged(), bool,
                 def.getFilteredTimeout(), def.getReportingEnabled(), def.getParameterSets());
 
-        //requirement: Aggregation.enableFilter#7, Aggregation.enableFilter#8
+        //requirement: Aggregation.enableFilter#7
         this.update(defId, newDef, connectionDetails);
         return true;
     }

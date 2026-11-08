@@ -387,9 +387,6 @@
             <com:features/>
         </mal:service>
         <mal:service name="CommandExecutor" number="3" xsi:type="com:ExtendedServiceType" comment="The Command Executor service allows executing arbitrary system commands and monitoring their status.">
-            <mal:documentation name="Service-level Requirement" order="1">
-                The body of the Command COM object shall be of type Command.
-            </mal:documentation>
             <mal:capabilitySet number="1" comment="">
                 <mal:requestIP name="runCommand" number="1" comment="The runCommand operation allows a consumer to spawn a new shell instance and execute an arbitrary command on the provider host.">
                     <mal:messages>
@@ -479,9 +476,6 @@
 &lt;li&gt;the capability for stopping applications;&lt;/li&gt;
 &lt;li&gt;the capability for listing the ids for the available apps.&lt;/li&gt;
 &lt;/ol&gt;
-            </mal:documentation>
-            <mal:documentation name="Service-level Requirement" order="2">
-                The body of the App COM object shall be of type AppDetails.
             </mal:documentation>
 
             <mal:capabilitySet number="1" comment="">
@@ -587,7 +581,7 @@
             <mal:capabilitySet number="3" comment="">
                 <mal:progressIP name="stopApp" number="4" comment="The stopApp operation allows a consumer to stop the execution of an application on the provider.">
                     <mal:documentation name="Requirement" order="1">
-                        The service provider shall send the UPDATE message after the app acknowledges the command to stop.
+                        The service provider shall send one UPDATE message for each app once the app has closed, or has been forcibly killed after the timeout.
                     </mal:documentation>
                     <mal:documentation name="Requirement" order="2">
                         If the timeout field is NULL, then the service provider shall not forcibly kill the app.
@@ -634,6 +628,12 @@
                             <mal:type area="COM" list="false" name="Invalid Argument"/>
                             <mal:extraInformation comment="The name of the field that is NULL.">
                                 <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the timeout field is NULL and an app has not closed within a period, defined by the service provider, after the STOP_REQUESTED notification. The app is not killed.">
+                            <mal:type area="SM" list="false" name="App Running"/>
+                            <mal:extraInformation comment="The id of the app that has not closed.">
+                                <mal:type area="MAL" list="false" name="Long"/>
                             </mal:extraInformation>
                         </mal:errorRef>
                     </mal:errors>

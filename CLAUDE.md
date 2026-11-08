@@ -169,6 +169,8 @@ COM objects:
 - The object name of every COM object matches its object body type, a data type of the same area
   (for example the `ExecutionRequest` object of the Action service has the body type `MC::ExecutionRequest`).
   Keep this rule for new COM objects.
+- Do not write requirements that repeat what the XML declares for a COM object, such as its body type or its related link.
+  What the object stands for goes in the `comment` of its `<com:object>`.
 
 ## NMF Package System
 
