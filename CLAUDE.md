@@ -163,6 +163,13 @@ Service XML definitions in `core/mo-services-xml/` are the authoritative source;
 the API JARs in `mo-services-apis/` are generated from them.
 When CCSDS MO service versions change, update the XML first.
 
+COM objects:
+- The source link of COM objects is deprecated and removed in 6.0: `ArchiveDetails` carries only the `relatedLink`.
+  Do not reintroduce a source link or a `com:sourceObject` in the XML.
+- The object name of every COM object matches its object body type, a data type of the same area
+  (for example the `ExecutionRequest` object of the Action service has the body type `MC::ExecutionRequest`).
+  Keep this rule for new COM objects.
+
 ## NMF Package System
 
 Space apps are deployed as `.nmfpackage` files (ZIP archives) built by the `nmf-package-maven-plugin`.
