@@ -42,7 +42,7 @@ import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
 import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.structures.*;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
-import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.platform.PlatformHelper;
 import org.ccsds.moims.mo.mc.ExecutionFailedException;
 import org.ccsds.moims.mo.mc.structures.*;
 import org.ccsds.moims.mo.platform.autonomousadcs.body.GetStatusResponse;
@@ -449,12 +449,6 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
     /**
      * Sets an attitude mode and, on failure, says what went wrong in terms an
      * operator can act on.
-     * <p>
-     * The AutonomousADCS "Device In Use" error and the COM "Invalid Argument"
-     * error share the error number 1, so an ADCS that already has a mode set
-     * reports it here as an Invalid Argument with no reason. These modes are
-     * always sent with a well-formed descriptor, so error number 1 means the
-     * ADCS is in use rather than that the descriptor is wrong.
      *
      * @param duration How long to hold the mode, or NULL to hold it until it is
      * unset by hand.
@@ -466,7 +460,7 @@ public class MCSupervisorBasicAdapter extends MonitorAndControlNMFAdapter {
         try {
             nmfSupervisor.getPlatformServices().getAutonomousADCSService().setDesiredAttitude(duration, mode);
         } catch (MOErrorException ex) {
-            if (COMHelper.INVALID_ARGUMENT_ERROR_NUMBER.equals(ex.getErrorNumber())) {
+            if (PlatformHelper.DEVICE_IN_USE_ERROR_NUMBER.equals(ex.getErrorNumber())) {
                 LOGGER.log(Level.WARNING, "Could not set the {0} attitude mode: an attitude mode "
                         + "is already set. Unset it first with the ''adcs.mode.unset-attitude'' "
                         + "action, or set a mode with a duration so that it unsets on its own.",

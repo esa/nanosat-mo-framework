@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.MOErrorException;
-import org.ccsds.moims.mo.com.COMHelper;
+import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.mc.ReadOnlyException;
 import org.ccsds.moims.mo.mal.structures.AttributeType;
 import org.ccsds.moims.mo.mal.structures.Duration;
@@ -176,11 +176,7 @@ public class ParameterTest {
         try {
             stub.setValue(values);
             Assert.fail("A value that the App refuses must be reported");
-        } catch (MOErrorException ex) {
-            // Checked by its number: COM Invalid Argument and MC Read Only are
-            // both number 1, so the stub of setValue decodes it as Read Only
-            Assert.assertEquals("The error must be an Invalid Argument error",
-                    COMHelper.INVALID_ARGUMENT_ERROR_NUMBER, ex.getErrorNumber());
+        } catch (InvalidArgumentException ex) {
             UIntegerList indexes = (UIntegerList) ex.getExtraInformation();
             Assert.assertEquals("The error must give the indexes of all the values",
                     2, indexes.size());

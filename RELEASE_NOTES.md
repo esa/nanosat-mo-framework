@@ -62,6 +62,7 @@ The different versions and respective updates are the following:
 * Fixes install, uninstall and update reporting success when they failed on board: they now fail with the MAL Internal error
 * Adds errors that say why a request was refused: App Not Running, Package Installed, Package Not Installed, Integrity Check Failed, Checksum Mismatch and Permissions Not Acknowledged in Software Management, and Execution Failed in Platform
 * Fixes requests with a NULL argument, or for an operation that is not implemented, failing with a Java exception instead of an MO error: they now fail with Invalid Argument or Unsupported Operation
+* Renumbers the COM errors Invalid Argument and Duplicate to 100 and 101: as 1 and 2 they had the numbers of the MC, SM and Platform errors, so a consumer could receive the wrong error, such as Read Only for an Invalid Argument
 * Fixes install replacing an installed App with a package of the same name and another version, which took over its files, its storage and, under linux-userspace, its account (NMF-2026-012): such an install now fails with Package Installed, and an App is replaced with update
 * Fixes install and update reporting a package that is not valid, such as one whose name is not a plain file name, as failing its integrity check: they now fail with Invalid Argument and the reason
 * Fixes an unknown or missing apps-isolation setting running the Apps without isolation (NMF-2026-013): the Supervisor now runs no App until the setting is one of the four modes, and the Boot Report states the security settings on every boot

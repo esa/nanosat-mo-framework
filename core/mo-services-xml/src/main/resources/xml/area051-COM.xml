@@ -17,6 +17,8 @@
         </mal:documentation>
         <mal:documentation name="Area-level Requirement" order="5">If the MAL data type specification is being used, then the body of an object shall not be a list.
         </mal:documentation>
+        <mal:documentation name="Area-level Requirement" order="6">The COM errors shall be numbered from 100, so that they do not collide with the errors, numbered below 100, of the areas that reference them.
+        </mal:documentation>
         <mal:service name="Archive" number="1" xsi:type="com:ExtendedServiceType" comment="The Archive service provides a basic CRUD interface to a standard archiving function. It allows objects to be stored, retrieved, updated, deleted, and queried.">
             <mal:capabilitySet number="1" comment="">
                 <mal:invokeIP name="retrieve" number="1" comment="The retrieve operation retrieves a set of objects identified by their id.">
@@ -1135,8 +1137,8 @@
             </mal:enumeration>
         </mal:dataTypes>
         <mal:errors>
-            <mal:error number="1" name="Invalid Argument" comment="A field in the message contains an invalid value. If there are multiple errors, the first invalid field is reported."/>
-            <mal:error number="2" name="Duplicate" comment="An attempt was made to create or store an object using an identifier that is already in use."/>
+            <mal:error number="100" name="Invalid Argument" comment="A field in the message contains an invalid value. If there are multiple errors, the first invalid field is reported."/>
+            <mal:error number="101" name="Duplicate" comment="An attempt was made to create or store an object using an identifier that is already in use."/>
         </mal:errors>
     </mal:area>
 </mal:specification>
