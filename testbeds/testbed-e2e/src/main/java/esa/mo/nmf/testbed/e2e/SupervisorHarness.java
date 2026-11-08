@@ -21,13 +21,18 @@
 package esa.mo.nmf.testbed.e2e;
 
 import esa.mo.nmf.accesscontrol.NMFAccessControl;
+import esa.mo.nmf.environment.Deployment;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -62,6 +67,9 @@ public class SupervisorHarness {
     private static final int SHUTDOWN_TIMEOUT_SECONDS = 10;
 
     private static final Logger LOGGER = Logger.getLogger(SupervisorHarness.class.getName());
+
+    // The filesystems whose Boot Report of today was deleted in this run
+    private static final Set<String> BOOT_REPORTS_DELETED = ConcurrentHashMap.newKeySet();
 
     private File nmfDir;
     private Process process;
@@ -103,6 +111,7 @@ public class SupervisorHarness {
         if (!nmfDir.exists()) {
             throw new IOException("NMF filesystem directory not found: " + nmfDir.getAbsolutePath());
         }
+        deleteBootReportOnce(nmfDir);
 
         ProcessBuilder pb = buildSupervisorProcess(nmfDir);
         process = pb.start();
@@ -203,6 +212,24 @@ public class SupervisorHarness {
             }
         }
         return false;
+    }
+
+    /**
+     * Deletes the Boot Report of today, once per filesystem in a run of the
+     * testbed. The filesystem is kept between runs, and the bootloader stops
+     * writing the report of a day once it passes its size cap, so the tests
+     * that read the report would fail after a number of runs on the same day.
+     *
+     * @param nmfDir The root of the NMF filesystem.
+     * @throws IOException if the report cannot be deleted.
+     */
+    private static void deleteBootReportOnce(final File nmfDir) throws IOException {
+        if (!BOOT_REPORTS_DELETED.add(nmfDir.getAbsolutePath())) {
+            return;
+        }
+        File report = new File(new File(nmfDir, Deployment.DIR_LOGS),
+                Deployment.DIR_BOOTLOADER + File.separator + "bootloader_" + LocalDate.now() + ".log");
+        Files.deleteIfExists(report.toPath());
     }
 
     /**
