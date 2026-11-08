@@ -182,7 +182,6 @@ public class AggregationTablePanel extends SharedTablePanel {
                 def.getCategory(),
                 def.getReportInterval(),
                 def.getSendUnchanged(),
-                def.getSendDefinitions(),
                 filter,
                 def.getFilteredTimeout(),
                 generation,

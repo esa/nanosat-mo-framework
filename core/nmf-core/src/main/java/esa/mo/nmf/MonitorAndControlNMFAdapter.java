@@ -238,7 +238,7 @@ public abstract class MonitorAndControlNMFAdapter implements ActionInvocationLis
                                 new Identifier(aggregation.id()),
                                 aggregation.description(), new AggregationCategory(aggregation.category()),
                                 new Duration(aggregation.reportInterval()), aggregation.sendUnchanged(),
-                                aggregation.sendDefinitions(), aggregation.filterEnabled(),
+                                aggregation.filterEnabled(),
                                 new Duration(aggregation.filterTimeout()),
                                 aggregation.reportingEnabled(), parameterSet);
 

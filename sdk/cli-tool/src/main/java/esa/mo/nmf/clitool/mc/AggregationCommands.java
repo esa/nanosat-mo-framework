@@ -228,11 +228,6 @@ public class AggregationCommands {
                             } else {
                                 System.out.println("Aggregation " + def.getName() + " is disabled!");
                             }
-
-                            if (!def.getSendDefinitions()) {
-                                System.out.println("sendDefinitions is set to false for aggregation: "
-                                        + def.getName() + ". Parameter names will not be available.");
-                            }
                         }
 
                         synchronized (lock) {
@@ -322,15 +317,15 @@ public class AggregationCommands {
                             org.ccsds.moims.mo.mc.structures.AggregationValue newValue,
                             java.util.Map qosProperties) {
                         String aggregationName = keys.getAggregationName().getValue();
-                        AggregationParameterValueList values = newValue.getParameterSetValues().get(0).getValues();
+                        ParameterValueList values = newValue.getParameterSetValues().get(0).getValues();
                         System.out.println(aggregationName + ": ");
                         int index = 1;
 
-                        for (AggregationParameterValue value : values) {
-                            String name = definitionIdToName.get(value.getParamDefinitionId());
+                        for (ParameterValue value : values) {
+                            String name = definitionIdToName.get(value.getDefinitionId());
                             System.out.println(
                                     "  " + (name == null ? "parameter " + index : name)
-                                    + ": " + value.getValue().getRawValue().toString());
+                                    + ": " + value.getRawValue());
                             index += 1;
                         }
                         System.out.println();

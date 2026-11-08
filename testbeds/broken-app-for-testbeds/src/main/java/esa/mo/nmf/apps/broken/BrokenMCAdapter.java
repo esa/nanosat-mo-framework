@@ -104,14 +104,14 @@ public class BrokenMCAdapter extends MonitorAndControlNMFAdapter {
 
         AggregationDefinition healthyAgg = new AggregationDefinition(new Identifier(AGG_HEALTHY),
                 "Aggregates the healthy parameter.", AggregationCategory.GENERAL,
-                new Duration(0), true, false, false, new Duration(0), false,
+                new Duration(0), true, false, new Duration(0), false,
                 new AggregationParameterSetList());
         healthyAgg.getParameterSets().add(
                 new AggregationParameterSet(null, healthyParamIds, new Duration(0), null));
 
         AggregationDefinition brokenAgg = new AggregationDefinition(new Identifier(AGG_BROKEN),
                 "Aggregates the broken parameter, so its samples fail to read.", AggregationCategory.GENERAL,
-                new Duration(0), true, false, false, new Duration(0), false,
+                new Duration(0), true, false, new Duration(0), false,
                 new AggregationParameterSetList());
         brokenAgg.getParameterSets().add(
                 new AggregationParameterSet(null, brokenParamIds, new Duration(0), null));

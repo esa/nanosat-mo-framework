@@ -745,7 +745,7 @@
                 <com:archiveUsage comment="AlertDefinition and AlertEvent objects are stored in the COM archive."/>
             </com:features>
         </mal:service>
-        <mal:service name="Aggregation" number="6" xsi:type="com:ExtendedServiceType" comment="The aggregation service allows the user to acquire several parameter values in a single request.&#xA;Aggregations are generated either periodically, on an ad-hoc basis, or after a configurable timeout when being filtered. Periodic is where they are generated at a specific generation interval; in this case the periodicity is an aspect of the aggregation rather than the contained parameters. Ad-hoc is when the aggregation generation is triggered by some other deployment-specific mechanism.&#xA;Filtering is where an aggregation is only generated when the change in the value of the filtered parameters exceeds a specified threshold or a timeout is passed. Filtering can be applied to both periodic and ad-hoc aggregations.&#xA;As there may be a large amount of time between reports of an aggregation when filtering is applied, the filtering concept also has a maximum reporting interval. If a report of the aggregation has not passed the filter in the maximum reporting interval a report is generated regardless. This allows there to be regular reports of an aggregation sent regardless of filtering.&#xA;It should be noted that applying a filter with a maximum reporting interval to an ad-hoc aggregation will cause the aggregation to generate reports in a periodic way if the maximum reporting interval is left to expire. This is expected behaviour.&#xA;There are a number of intervals defined in the structures of the service, the diagram in Figure 3-12 illustrates the use of these:&#xA; insert timing diagram &#xA;The diagram shows a single report of an aggregation being generated which contains two parameter sets. Each set of parameter values in the aggregation report contains two optional durations, delta time and interval time. &#xA;&lt;ul&gt;&#xA; &lt;li&gt;The timestamp of the first value of the first set (T1) is defined as the timestamp of the aggregation report plus the delta time of the first set.&lt;/li&gt;&#xA; &lt;li&gt;The timestamp of the second value of the first set (T2) is defined as the timestamp of the first parameter (T1) plus the interval time of the set.&lt;/li&gt;&#xA; &lt;li&gt;The timestamp of the first value of the second set (T3) is defined as the timestamp of the last value of the previous set (T2) plus the delta time of the second set.&lt;/li&gt;&#xA; &lt;li&gt;The timestamp of the second value of the second set (T4) is defined as the timestamp of the first parameter (T3) plus the interval time of the set.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;The COM archive is used to hold the definitions of the aggregations.">
+        <mal:service name="Aggregation" number="6" xsi:type="com:ExtendedServiceType" comment="The aggregation service allows the user to acquire several parameter values in a single request.&#xA;Aggregations are generated either periodically, on an ad-hoc basis, or after a configurable timeout when being filtered. Periodic is where they are generated at a specific generation interval; in this case the periodicity is an aspect of the aggregation rather than the contained parameters. Ad-hoc is when the aggregation generation is triggered by some other deployment-specific mechanism.&#xA;Filtering is where an aggregation is only generated when the change in the value of the filtered parameters exceeds a specified threshold or a timeout is passed. Filtering can be applied to both periodic and ad-hoc aggregations.&#xA;As there may be a large amount of time between reports of an aggregation when filtering is applied, the filtering concept also has a maximum reporting interval. If a report of the aggregation has not passed the filter in the maximum reporting interval a report is generated regardless. This allows there to be regular reports of an aggregation sent regardless of filtering.&#xA;It should be noted that applying a filter with a maximum reporting interval to an ad-hoc aggregation will cause the aggregation to generate reports in a periodic way if the maximum reporting interval is left to expire. This is expected behaviour.&#xA;Each parameter value in an aggregation report carries the id of its ParameterDefinition and the time at which it was sampled.&#xA;The COM archive is used to hold the definitions of the aggregations.">
             <mal:documentation name="Service-level Requirement" order="1">The aggregation service shall provide:
 &lt;ol&gt;
  &lt;li&gt;the capability for periodic reporting of predefined aggregation values;&lt;/li&gt;
@@ -790,7 +790,7 @@
                 If filtering is enabled and a filteredTimeout has been set, and no change has been detected within that timeout period, then the service provider shall generate an aggregation value with a generationMode of FILTERED_TIMEOUT.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="13">
-                If the sendUnchanged field in the AggregationDefinition is FALSE, then the service provider shall replace parameter values that have not changed since the previous report with NULL in the values list of the AggregationSetValue.
+                If the sendUnchanged field in the AggregationDefinition is FALSE, then the service provider shall leave out of the values list of the AggregationSetValue the parameter values that have not changed since the previous report.
             </mal:documentation>
             <mal:documentation name="Service-level Requirement" order="14">
                 The ordering of values in the AggregationValue shall match the ordering of parameters in the AggregationDefinition.
@@ -1397,10 +1397,7 @@
                 <mal:field name="reportInterval" canBeNull="false" comment="The interval between periodic reports on this aggregation. If this aggregation is not periodic, this field shall be '0'.">
                     <mal:type area="MAL" list="false" name="Duration"/>
                 </mal:field>
-                <mal:field name="sendUnchanged" canBeNull="false" comment="If TRUE reports will include all values regardless of whether changed, if FALSE values unchanged from previous report are replaced with a NULL.">
-                    <mal:type area="MAL" list="false" name="Boolean"/>
-                </mal:field>
-                <mal:field name="sendDefinitions" canBeNull="false" comment="If TRUE reports will include the ParameterDefinition id in the AggregationParameterValue, if FALSE it will be set to NULL.">
+                <mal:field name="sendUnchanged" canBeNull="false" comment="If TRUE, then reports include all values, changed or not. If FALSE, then reports leave out the values unchanged since the previous report.">
                     <mal:type area="MAL" list="false" name="Boolean"/>
                 </mal:field>
                 <mal:field name="filterEnabled" canBeNull="false" comment="Controls whether reports for this aggregation are to be filtered.">
@@ -1447,29 +1444,12 @@
                     <mal:type area="MC" list="true" name="AggregationSetValue"/>
                 </mal:field>
             </mal:composite>
-            <mal:composite name="AggregationSetValue" shortFormPart="27" comment="The values for one parameter set in an aggregation report, including optional timing information. If the sendUnchanged field in the AggregationDefinition is FALSE, parameter values unchanged since the previous report are replaced by NULL. The parameter values shall be in the same order as defined in the matching AggregationDefinition.">
+            <mal:composite name="AggregationSetValue" shortFormPart="27" comment="The values for one parameter set in an aggregation report.">
                 <mal:extends>
                     <mal:type area="MAL" list="false" name="Composite"/>
                 </mal:extends>
-                <mal:field name="deltaTime" canBeNull="true" comment="Optional delta time, from the timestamp of the aggregation for the first parameter set of the aggregation or the last value of the previous parameter set otherwise, for the first parameter sample of this set. If NULL, then the first sample time is the same as the aggregation timestamp for the first parameter set of the aggregation or the last value of the previous parameter set otherwise.">
-                    <mal:type area="MAL" list="false" name="Duration"/>
-                </mal:field>
-                <mal:field name="intervalTime" canBeNull="true" comment="Optional delta time between samples in this set. If NULL, then all samples in this set are given the same time. This is usually driven by the sampleInterval in the aggregation set definition.">
-                    <mal:type area="MAL" list="false" name="Duration"/>
-                </mal:field>
-                <mal:field name="values" canBeNull="false" comment="List containing values of the parameters which are part of the aggregation. The ordering of the list entries shall match that of the definition of the aggregation. If there are more values than contained in the definition then it is assumed that the parameters cycle as a complete parameter set.">
-                    <mal:type area="MC" list="true" name="AggregationParameterValue"/>
-                </mal:field>
-            </mal:composite>
-            <mal:composite name="AggregationParameterValue" shortFormPart="28" comment="A single parameter value within an aggregation, paired with its ParameterDefinition id.">
-                <mal:extends>
-                    <mal:type area="MAL" list="false" name="Composite"/>
-                </mal:extends>
-                <mal:field name="value" canBeNull="false" comment="The parameter value.">
-                    <mal:type area="MC" list="false" name="ParameterValue"/>
-                </mal:field>
-                <mal:field name="paramDefinitionId" canBeNull="true" comment="The id of the ParameterDefinition. NULL if sendDefinitions in the AggregationDefinition is FALSE.">
-                    <mal:type area="MAL" list="false" name="Long"/>
+                <mal:field name="values" canBeNull="false" comment="The values of the parameters of the set, in the order of the parameters of the AggregationParameterSet. If the sendUnchanged field of the AggregationDefinition is FALSE, then the values unchanged since the previous report are left out.">
+                    <mal:type area="MC" list="true" name="ParameterValue"/>
                 </mal:field>
             </mal:composite>
             <mal:composite name="ThresholdFilter" shortFormPart="29" comment="The threshold filter for a parameter within an aggregation, specifying the type and value of the change threshold.">

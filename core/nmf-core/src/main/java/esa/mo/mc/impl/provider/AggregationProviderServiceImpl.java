@@ -659,7 +659,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             return false;
         }
         //check the filter and sample
-        if (!checkFilterAndSampleParam(id, false)) {
+        if (!checkFilterAndSampleParam(id)) {
             //filter didnt trigger
             return false;
         }
@@ -699,7 +699,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             return false;
         }
         //check the filter and sample
-        if (!checkFilterAndSampleParams(defId, false, aSetVal)) {
+        if (!checkFilterAndSampleParams(defId, aSetVal)) {
             return false;
         }
         //publish!
@@ -723,13 +723,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * enabled
      *
      * @param id The id of the aggregation definition.
-     * @param aggrExpired should be set to true, if the aggregation that is
-     * sampling the parameter is periodic and the aggregation period is up.
      * @return true if the values were successfully saved to the internal list.
      * false if the filter is enabled but wasnt triggered with the new values.
      */
-    private boolean checkFilterAndSampleParam(final Long id, boolean aggrExpired) {
-        return checkFilterAndSampleParams(id, aggrExpired, null);
+    private boolean checkFilterAndSampleParam(final Long id) {
+        return checkFilterAndSampleParams(id, null);
     }
 
     /**
@@ -738,14 +736,11 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * filter is enabled
      *
      * @param id The id of the aggregation definition.
-     * @param aggrExpired should be set to true, if the aggregation that is
-     * sampling the parameter is periodic and the aggregation period is up.
      * @param aSetVal the new parameter values to be set
      * @return true if the values were successfully saved to the internal list.
      * false if the filter is enabled but wasnt triggered with the new values.
      */
-    private boolean checkFilterAndSampleParams(final Long id,
-            boolean aggrExpired, final AggregationSetValueList aSetVal) {
+    private boolean checkFilterAndSampleParams(final Long id, final AggregationSetValueList aSetVal) {
         //check if filter enabled
         AggregationDefinition aggrDef = manager.getAggregationDefinition(id);
         final AggregationParameterSetList parameterSets = aggrDef.getParameterSets();
@@ -753,8 +748,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
         if (aggrDef.getFilterEnabled()) {
             //create new parameter-samples
             for (int i = 0; i < parameterSets.size(); i++) {
-                final AggregationParameterValueList newParaVals = (aSetVal == null ? null : aSetVal.get(i).getValues());
-                manager.sampleAndFilterParam(id, i, aggrExpired, newParaVals);
+                final ParameterValueList newParaVals = (aSetVal == null ? null : aSetVal.get(i).getValues());
+                manager.sampleAndFilterParam(id, i, newParaVals);
             }
             //check the filter is triggered
             if (!manager.isFilterTriggered(id)) {
@@ -764,8 +759,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             //no filtering enabled
             //create new parameter-samples
             for (int i = 0; i < parameterSets.size(); i++) {
-                final AggregationParameterValueList newParaVals = (aSetVal == null ? null : aSetVal.get(i).getValues());
-                manager.sampleParam(id, i, aggrExpired, newParaVals);
+                final ParameterValueList newParaVals = (aSetVal == null ? null : aSetVal.get(i).getValues());
+                manager.sampleParam(id, i, newParaVals);
             }
         }
         return true;
@@ -778,10 +773,8 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
      * the values will be set to the internal list
      *
      * @param id The id of the aggregation-definito to be
-     * @param aggrExpired Should be set to true, if the aggregation that is
-     * sampling the parameter is periodic and the aggregation period is up.
      */
-    private void checkSampleIntervalAndSampleParam(Long id, boolean aggrExpired) {
+    private void checkSampleIntervalAndSampleParam(Long id) {
         final AggregationDefinition def = manager.getAggregationDefinition(id);
         //check the sampleInterval
         final AggregationParameterSetList parameterSets = def.getParameterSets();
@@ -789,7 +782,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             final double sampleInterval = parameterSets.get(i).getSampleInterval().getInSeconds();
             //If '0' or if its greater than the updateInterval then just a single sample of the parameters is required per aggregation update
             if (sampleInterval == 0 || (sampleInterval > def.getReportInterval().getInSeconds())) {
-                checkFilterAndSampleParam(id, aggrExpired);
+                checkFilterAndSampleParam(id);
             }
         }
     }
@@ -937,7 +930,7 @@ public class AggregationProviderServiceImpl extends AggregationInheritanceSkelet
             updateTimerList.get(id).scheduleTask(new Thread(() -> {  // requirement: Aggregation#4
                 if (active) {
                     AggregationDefinition def = manager.getAggregationDefinition(id);
-                    checkSampleIntervalAndSampleParam(id, true);
+                    checkSampleIntervalAndSampleParam(id);
 
                     // To prevent race conditions with the other timer
                     synchronized (lock) {

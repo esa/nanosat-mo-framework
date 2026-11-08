@@ -113,7 +113,6 @@ public class ArchiveConsumerManagerPanel extends javax.swing.JPanel {
                 new Duration(0),
                 Boolean.FALSE,
                 Boolean.FALSE,
-                Boolean.FALSE,
                 new Duration(0),
                 Boolean.FALSE,
                 aggParamSetList);

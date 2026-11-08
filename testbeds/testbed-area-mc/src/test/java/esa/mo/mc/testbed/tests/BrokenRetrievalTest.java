@@ -88,7 +88,7 @@ public class BrokenRetrievalTest {
         sets.add(new AggregationParameterSet(null, paramIds, new Duration(0), null));
         AggregationDefinition aggDef = new AggregationDefinition(new Identifier("Broken_Aggregation"),
                 "Aggregates the broken parameter.", AggregationCategory.GENERAL,
-                new Duration(0), true, false, false, new Duration(0), false, sets);
+                new Duration(0), true, false, new Duration(0), false, sets);
         AggregationDefinitionList aggDefs = new AggregationDefinitionList();
         aggDefs.add(aggDef);
         LongList aggIds = harness.getAggregationProvider().addAggregation(aggDefs, null);
@@ -99,10 +99,11 @@ public class BrokenRetrievalTest {
         Assert.assertEquals("One aggregation value must be returned", 1, result.size());
         ParameterValue sampled = result.get(0).getValue()
                 .getParameterSetValues().get(0)
-                .getValues().get(0)
-                .getValue();
+                .getValues().get(0);
         Assert.assertEquals("An aggregation over a broken parameter must sample it as INVALID_RAW",
                 ValidityState.INVALID_RAW, sampled.getValidityState());
+        Assert.assertEquals("The aggregated value must carry the id of its ParameterDefinition",
+                paramId, sampled.getDefinitionId());
     }
 
     @Test

@@ -182,25 +182,10 @@ public class ParameterManager extends MCManager {
      * @return a list with the requested parameter-values
      */
     protected ParameterValueList getParameterValues(LongList defIds) {
-        return getParameterValues(defIds, false);
-
-    }
-
-    /**
-     * Returns the current values of the parameters with the given identity-ids
-     *
-     * @param paramIds the ids of the parameters.
-     * @param aggrExpired should be set to true, if the aggregation that is
-     * sampling the parameter, is periodic and the update hasnt been received in
-     * the aggregation-period. if true, the validity-state of the new parameter
-     * will be expired.
-     * @return a list with the requested parameter-values
-     */
-    protected ParameterValueList getParameterValues(LongList paramIds, boolean aggrExpired) {
         ParameterValueList pValList = new ParameterValueList();
-        for (Long defId : paramIds) {
+        for (Long defId : defIds) {
             try {
-                pValList.add(getParameterValue(defId, aggrExpired));
+                pValList.add(getParameterValue(defId));
             } catch (MOErrorException ex) {
                 pValList.add(null);
             }
@@ -217,21 +202,6 @@ public class ParameterManager extends MCManager {
      * @throws UnknownException if the parameter does not exist
      */
     public ParameterValue getParameterValue(Long defId) throws UnknownException {
-        return getParameterValue(defId, false);
-    }
-
-    /**
-     * Returns the current value of the parameter with the given definition id
-     *
-     * @param defId the id of the definition
-     * @param aggrExpired should be set to true, if the aggregation that is
-     * sampling the parameter, is periodic and the update hasnt been received in
-     * the aggregation-period. if true, the validity-state of the new parameter
-     * will be expired.
-     * @return The requested parameter value.
-     * @throws UnknownException if the parameter does not exist
-     */
-    public ParameterValue getParameterValue(Long defId, boolean aggrExpired) throws UnknownException {
         if (!this.existsDef(defId)) {  // The Parameter does not exist
             throw new UnknownException(defId);
         }
@@ -242,7 +212,7 @@ public class ParameterManager extends MCManager {
         try {
             Attribute rawValue = getRawValue(defId);
             // Generate final Parameter Value
-            return generateNewParameterValue(defId, rawValue, sampleTime, pDef, aggrExpired);
+            return generateNewParameterValue(defId, rawValue, sampleTime, pDef);
         } catch (IOException ex) {
             return new ParameterValue(defId, ValidityState.INVALID_RAW, null, sampleTime);
         }
@@ -299,21 +269,11 @@ public class ParameterManager extends MCManager {
      * @param pDef the values definition that holds the parameterExpression
      * needed for calculating the validityState
      * @param rawValue the new raw value
-     * @param aggrExpired should be set to true, if the aggregation that is
-     * sampling the parameter, is periodic and the update hasnt been received in
-     * the aggregation-period. if true, the validity-state of the new parameter
-     * will be expired.
      * @return the validityState
      */
-    protected ValidityState generateValidityState(final ParameterDefinition pDef, final Attribute rawValue,
-            final boolean aggrExpired) {
-
-        //parameter-aggregation has a timeout that is expired
-        if (pDef.getReportingEnabled()
-                && pDef.getReportInterval().getInSeconds() != 0
-                && aggrExpired) { //requirement: Parameter#7
-            return ValidityState.EXPIRED;
-        }
+    protected ValidityState generateValidityState(final ParameterDefinition pDef, final Attribute rawValue) {
+        // requirement: Parameter#7 never applies, as every value is read when
+        // it is sampled, so no value is EXPIRED
 
         //parameter raw value cannot be obtained, or calculated for synthetic parameters
         if (rawValue == null /*|| rawValueOfSyntheticParameterCannotBeCalculated*/) { //requirement: Parameter#8
@@ -327,7 +287,7 @@ public class ParameterManager extends MCManager {
             return ValidityState.VALID;
         } else {
             //get validityState of the parameters that are needed for the expression
-            ValidityState expPValState = getValidityState(validityExpression, aggrExpired);
+            ValidityState expPValState = getValidityState(validityExpression);
             //expression failed with not valid parameters
             if (!expPValState.equals(ValidityState.VALID)) { // requirement: Parameter#10
                 return ValidityState.UNVERIFIED;
@@ -343,7 +303,7 @@ public class ParameterManager extends MCManager {
      * @param validityExpression the expression where parameters are used
      * @return the validity-state of the parameter used in the expression
      */
-    private ValidityState getValidityState(final ParameterExpression validityExpression, boolean aggrExpired) {
+    private ValidityState getValidityState(final ParameterExpression validityExpression) {
         final Long expPDefId = validityExpression.getParameterId();
         final Attribute expParamValue;
         try {
@@ -352,7 +312,7 @@ public class ParameterManager extends MCManager {
             Logger.getLogger(ParameterManager.class.getName()).log(Level.SEVERE, null, ex);
             return ValidityState.INVALID_RAW;
         }
-        return generateValidityState(this.getParameterDefinition(expPDefId), expParamValue, aggrExpired);
+        return generateValidityState(this.getParameterDefinition(expPDefId), expParamValue);
     }
 
     /**
@@ -563,7 +523,7 @@ public class ParameterManager extends MCManager {
         for (ParameterRawValue newRawValue : newRawValues) {
             Long id = newRawValue.getDefinitionId();
             ParameterDefinition def = getParameterDefinition(id);
-            paramValList.add(generateNewParameterValue(id, newRawValue.getRawValue(), sampleTime, def, false));
+            paramValList.add(generateNewParameterValue(id, newRawValue.getRawValue(), sampleTime, def));
             names.add(((ParameterDefinition) def).getName());
         }
 
@@ -583,16 +543,12 @@ public class ParameterManager extends MCManager {
      * @param rawValue the rawValue to be set
      * @param sampleTime the time at which the rawValue was sampled
      * @param pDef the parameter-defintion the value belongs to
-     * @param aggrExpired should be set to true, if the aggregation that is
-     * sampling the parameter, is periodic and the update hasnt been received in
-     * the aggregation-period. if true, the validity-state of the new parameter
-     * will be expired.
      * @return a filled ParameterValue
      */
     public ParameterValue generateNewParameterValue(final Long defId, Attribute rawValue, final Time sampleTime,
-            final ParameterDefinition pDef, final boolean aggrExpired) {
+            final ParameterDefinition pDef) {
         //check the validity and set the state
-        ValidityState validityState = generateValidityState(pDef, rawValue, aggrExpired);
+        ValidityState validityState = generateValidityState(pDef, rawValue);
 
         if (validityState.equals(ValidityState.INVALID_RAW)) {
             rawValue = null; //requirement: Parameter#8

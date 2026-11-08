@@ -23,8 +23,8 @@ package esa.mo.mc.impl.provider;
 import org.ccsds.moims.mo.mal.MOErrorException;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.DuplicateException;
@@ -49,8 +49,6 @@ public final class AggregationManager extends MCManager {
     private final HashMap<Long, Boolean> isFilterTriggered; // DefId, Boolean Value that determines if the filter was triggered
     private final HashMap<Long, AggregationValue> aggValuesLast; // DefId, Aggregation Value List per definition
     private final HashMap<Long, AggregationValue> aggValuesCurrent; // DefId, Aggregation Value List per definition
-    private final HashMap<Long, TimeList> latestSampleTimeList; // DefId, Time of the first sample of each ParameterSetValue
-    private final HashMap<Long, ArrayList<Integer>> sampleCountList; // DefId, Amount of samples per parameterSetValue
 
     private Long uniqueObjIdDef; // Unique objId Definition (different for every Definition)
     private Long uniqueObjIdAVal;
@@ -69,8 +67,6 @@ public final class AggregationManager extends MCManager {
         this.isFilterTriggered = new HashMap<>();
         this.aggValuesLast = new HashMap<>();
         this.aggValuesCurrent = new HashMap<>();
-        this.latestSampleTimeList = new HashMap<>();
-        this.sampleCountList = new HashMap<>();
 
         if (super.getArchiveService() == null) {  // No Archive?
             this.uniqueObjIdDef = 0L; // The zeroth value will not be used (reserved for the wildcard)
@@ -100,18 +96,13 @@ public final class AggregationManager extends MCManager {
             aggValuesLast.put(defId, new AggregationValue());
             aggValuesCurrent.put(defId, new AggregationValue());
             isFilterTriggered.put(defId, false);
-            //initialize timList with the amount of parameterSets
-            //final int parameterSetsCount = getAggregationDefinition(defId).getParameterSets().size();
-            latestSampleTimeList.put(defId, new TimeList());
-            sampleCountList.put(defId, new ArrayList<>());
-
             this.populateAggregationValues(defId);
         }
     }
 
     /**
      * resets periodicAggregationValuesLast, periodicAggregationValuesCurrent,
-     * sampleCounter, latestSampleTimeList and the filterTriggered-variables.
+     * and the filterTriggered-variables.
      * this method will be called after an aggregation-definition was updated.
      *
      * @param defId The definition Id.
@@ -121,18 +112,10 @@ public final class AggregationManager extends MCManager {
         AggregationSetValueList aggregationSetValueListCurrent = new AggregationSetValueList();
         AggregationDefinition definition = this.getAggregationDefinition(defId);
         final int paramSetSize = definition.getParameterSets().size();
-        //reset the latest sample-time and the sample-counter
-        if (paramSetSize != 0) {
-            latestSampleTimeList.get(defId).clear();
-            sampleCountList.get(defId).clear();
-        }
-        //init the latest sample-time and the sample-counter, filter
-        // triggered and latest and current aggregation-values
+        // init the latest and current aggregation-values
         for (int j = 0; j < paramSetSize; j++) {
-            latestSampleTimeList.get(defId).add(j, null);
             aggregationSetValueListLast.add(j, new AggregationSetValue());
             aggregationSetValueListCurrent.add(j, new AggregationSetValue());
-            sampleCountList.get(defId).add(j, 0);
         }
 
         AggregationValue last = aggValuesLast.get(defId);
@@ -149,8 +132,7 @@ public final class AggregationManager extends MCManager {
     }
 
     /**
-     * resets samplecounter, latestsampletimelist and the
-     * filtertriggered-variables. this method will be called after each
+     * resets the filtertriggered-variable. this method will be called after each
      * aggregation-value-update was published
      *
      * @param defId The definition Id.
@@ -159,18 +141,6 @@ public final class AggregationManager extends MCManager {
     public Boolean resetAggregationSampleHelperVariables(Long defId) {
         if (!this.existsDef(defId)) {
             return false;
-        }
-        AggregationDefinition definition = this.getAggregationDefinition(defId);
-        final int paramSetSize = definition.getParameterSets().size();
-        //reset the latest sample-time and the sample-counter
-        if (paramSetSize != 0) {
-            latestSampleTimeList.get(defId).clear();
-            sampleCountList.get(defId).clear();
-        }
-        //init the latest sample-time and the sample-counter
-        for (int j = 0; j < paramSetSize; j++) {
-            latestSampleTimeList.get(defId).add(j, null);
-            sampleCountList.get(defId).add(j, 0);
         }
         this.setFilterTriggered(defId, false);  // Reset the filter state
         return true;
@@ -185,9 +155,7 @@ public final class AggregationManager extends MCManager {
     public void removeAggregationValues(Long defId) {
         aggValuesLast.remove(defId);
         aggValuesCurrent.remove(defId);
-        latestSampleTimeList.remove(defId);
         isFilterTriggered.remove(defId);
-        sampleCountList.remove(defId);
     }
 
     /**
@@ -231,46 +199,31 @@ public final class AggregationManager extends MCManager {
     /**
      *
      * @param paramIdentityId the identity id of the parameter to be sampled
-     * @param aggrExpired should be set to true, if the aggregation that is
-     * sampling the parameter, is periodic and the update hasnt been received in
-     * the aggregation-period. if true, the validity-state of the new parameter
-     * will be expired.
      * @return ParameterValue of the parameter, or an empty ParameterValue with
      * INVALID state if parameter cannot be retrieved
      */
-    private ParameterValue sampleParameter(Long paramIdentityId, boolean aggrExpired) {
+    private ParameterValue sampleParameter(Long paramIdentityId) {
         try {
-            return parameterManager.getParameterValue(paramIdentityId, aggrExpired);
+            return parameterManager.getParameterValue(paramIdentityId);
         } catch (MOErrorException ex) {
             return new ParameterValue(paramIdentityId, ValidityState.INVALID_RAW, null, Time.now());
         }
     }
 
     /**
-     * This method is created for the field:
-     * AggregationDefinition.sendDefinitions. If
-     * AggregationDefinition.sendDefinitions is TRUE, reports will include the
-     * ParameterDefinition object instance identifier in the
-     * AggregationParameterValue, if FALSE it will be set to NULL.
+     * Samples the parameters of a parameter set.
      *
      * @param paramIds the id of the parameters to be sampled
-     * @param aggrExpired should be set to true, if the aggregation that is
-     * sampling the parameter, is periodic and the update hasnt been received in
-     * the aggregation-period. if true, the validity-state of the new parameter
-     * will be expired.
-     * @return
+     * @return The parameter values, in the order of paramIds.
      */
-    private AggregationParameterValueList sampleParameters(LongList paramIds,
-            boolean aggrExpired, boolean sendDefinitions) {
-        AggregationParameterValueList aggrPValList = new AggregationParameterValueList();
+    private ParameterValueList sampleParameters(LongList paramIds) {
+        ParameterValueList pValList = new ParameterValueList();
 
         for (Long id : paramIds) {
-            final Long paramDefId = sendDefinitions ? id : null;
-            final ParameterValue paramValue = sampleParameter(id, aggrExpired);
-            aggrPValList.add(new AggregationParameterValue(paramValue, paramDefId));
+            pValList.add(sampleParameter(id));
         }
 
-        return aggrPValList;
+        return pValList;
     }
 
     private Boolean triggeredFilter(Attribute previousValue, Attribute currentValue, ThresholdFilter filter) {
@@ -330,7 +283,7 @@ public final class AggregationManager extends MCManager {
      * newParameterValueSamples at.
      */
     protected void sampleParam(Long defId, int indexOfparameterSet) {
-        this.sampleParam(defId, indexOfparameterSet, false, null);
+        this.sampleParam(defId, indexOfparameterSet, null);
     }
 
     /**
@@ -340,34 +293,17 @@ public final class AggregationManager extends MCManager {
      * @param defId The definition Id.
      * @param indexOfparameterSet the index in the aggregation to set the
      * newParameterValueSamples at.
-     * @param aggrExpired should be set to true, if the aggregation that is
-     * sampling the parameter is periodic and the aggregation period is up.
      * @param newAggrParameterValueSamples the new parameterSamples to be set.
      * if null new parameterSamples will be generated
      */
-    public void sampleParam(Long defId, int indexOfparameterSet, boolean aggrExpired,
-            AggregationParameterValueList newAggrParameterValueSamples) {
+    public void sampleParam(Long defId, int indexOfparameterSet,
+            ParameterValueList newAggrParameterValueSamples) {
         final AggregationDefinition aggrDef = this.getAggregationDefinition(defId);
 
         if (newAggrParameterValueSamples == null) {
             final LongList parameters = aggrDef.getParameterSets().get(indexOfparameterSet).getParameters();
-            //not using the aggrExpired value here but the "false" value, is because the actual check 
-            //for expired value will be done a bit furhter down this code. Ther ParameterService should 
-            //still hold the "interface" to manually check for the expired value
-
-            //If sendDefinition is TRUE reports will include the ParameterDefinition object instance 
-            //identifier in the AggregationParameterValue, if FALSE it will be set to NULL.
-            newAggrParameterValueSamples = this.sampleParameters(parameters, aggrExpired, aggrDef.getSendDefinitions());
+            newAggrParameterValueSamples = this.sampleParameters(parameters);
         }
-        //        //check for expired values if the aggregation-period was expired
-        if (aggrExpired) {
-            newAggrParameterValueSamples = checkForExpiredValues(defId, indexOfparameterSet,
-                    aggrDef.getParameterSets().get(indexOfparameterSet),
-                    newAggrParameterValueSamples);
-        }
-        //increment the number of samples for this ParameterSet
-        this.sampleCountList.get(defId).set(indexOfparameterSet, this.sampleCountList.get(defId).get(
-                indexOfparameterSet) + 1);
         this.setParameterSamplesInternally(defId, indexOfparameterSet, newAggrParameterValueSamples);
     }
 
@@ -381,7 +317,7 @@ public final class AggregationManager extends MCManager {
      * newParameterValueSamples at
      */
     public void sampleAndFilterParam(Long defId, int indexOfparameterSet) {
-        this.sampleAndFilterParam(defId, indexOfparameterSet, false, null);
+        this.sampleAndFilterParam(defId, indexOfparameterSet, null);
     }
 
     /**
@@ -392,34 +328,20 @@ public final class AggregationManager extends MCManager {
      * @param defId The definition Id.
      * @param indexOfparameterSet the index in the aggregation to set the
      * newParameterValueSamples at
-     * @param aggrExpired should be set to true, if the aggregation that is
-     * sampling the parameter is periodic and the aggregation period is up.
      * @param newParameterValueSamples the newParameterValueSamples to be set.
      * if null new parameterSamples will be generated
      */
-    public void sampleAndFilterParam(Long defId, int indexOfparameterSet, boolean aggrExpired,
-            AggregationParameterValueList newParameterValueSamples) {
+    public void sampleAndFilterParam(Long defId, int indexOfparameterSet,
+            ParameterValueList newParameterValueSamples) {
         final AggregationDefinition aggrDef = this.getAggregationDefinition(defId);
         final AggregationParameterSet aggrParamSet = aggrDef.getParameterSets().get(indexOfparameterSet);
         // Add another sample on the AggregationValue that will be returned later:
-        final AggregationParameterValueList currentUpdateValues = this.getCurrentUpdateValue(defId,
+        final ParameterValueList currentUpdateValues = this.getCurrentUpdateValue(defId,
                 indexOfparameterSet);
         if (newParameterValueSamples == null) {
-            //not using the aggrExpired value here but the "false" value, is because the actual 
-            //check for expired value will be done a bit furhter down this code. Ther ParameterService 
-            //should still hold the "interface" to manually check for the expired value
-            newParameterValueSamples = this.sampleParameters(aggrParamSet.getParameters(),
-                    false, aggrDef.getSendDefinitions());
+            newParameterValueSamples = this.sampleParameters(aggrParamSet.getParameters());
         }
-        //increment the number of samples for this ParameterSet
-        this.sampleCountList.get(defId).set(indexOfparameterSet, this.sampleCountList.get(defId).get(
-                indexOfparameterSet) + 1);
 
-        //        //check for expired values if the aggregation-period was expired
-        if (aggrExpired) {
-            newParameterValueSamples = checkForExpiredValues(defId,
-                    indexOfparameterSet, aggrParamSet, newParameterValueSamples);
-        }
         //no samples saved yet
         if (currentUpdateValues == null) {
             //first sample, set internally and trigger filter
@@ -442,45 +364,6 @@ public final class AggregationManager extends MCManager {
     }
 
     /**
-     * if the aggregation periodic expired, the parameters is periodic and the
-     * value didn't change then the parameter that will be saved must be of the
-     * validity-state: EXPIRED
-     *
-     * @param defId The definition Id.
-     * @param indexOfparameterSet The index in the aggregation to be checked.
-     * @param aggrParamSet The aggregation parameter set.
-     * @param newParameterValueSamples The new parameter value samples.
-     * @return
-     */
-    private AggregationParameterValueList checkForExpiredValues(Long defId, int indexOfparameterSet,
-            AggregationParameterSet aggrParamSet, AggregationParameterValueList newParameterValueSamples) {
-        final AggregationParameterValueList currentParamValues
-                = this.aggValuesCurrent.get(defId).getParameterSetValues().get(indexOfparameterSet).getValues();
-        //requirement: Parameter#7
-        //if sendUnchanged is true: replace validity-state with an EXPIRED state
-        //todo: try to let the ParameterService set the EXPIRED state and not the AggregationService
-        if (currentParamValues == null) {
-            return newParameterValueSamples;
-        }
-
-        for (int k = 0; k < currentParamValues.size(); k++) {
-            Long id = aggrParamSet.getParameters().get(k);
-            ParameterDefinition paramDef = parameterManager.getParameterDefinition(id);
-
-            if (paramDef.getReportingEnabled() && paramDef.getReportInterval().getInSeconds() != 0) {
-                AggregationParameterValue agg = newParameterValueSamples.get(k);
-                ParameterValue pVal = agg.getValue();
-                if (currentParamValues.get(k).getValue().getRawValue().equals(pVal.getRawValue())) {
-                    ParameterValue newValue = new ParameterValue(pVal.getDefinitionId(), ValidityState.EXPIRED,
-                            pVal.getRawValue(), pVal.getSampleTime());
-                    newParameterValueSamples.add(k, new AggregationParameterValue(newValue, agg.getParamDefinitionId()));
-                }
-            }
-        }
-        return newParameterValueSamples;
-    }
-
-    /**
      * creates new samples and returns its values. no filter, no sendUnchanged
      * will be considered and it does not interfere with other adhoc or periodic
      * updates.
@@ -495,10 +378,9 @@ public final class AggregationManager extends MCManager {
 
         //fill AggregationSetValue-objects for each parameterSet
         for (int j = 0; j < parameterSets.size(); j++) {   //Cycle through the parameterSets (requirement: Aggregation#14)
-            AggregationParameterValueList sampleParameters = this.sampleParameters(
-                    aggrDef.getParameterSets().get(j).getParameters(),
-                    false, aggrDef.getSendDefinitions());
-            AggregationSetValue aggrSetValue = new AggregationSetValue(null, null, sampleParameters);
+            ParameterValueList sampleParameters = this.sampleParameters(
+                    aggrDef.getParameterSets().get(j).getParameters());
+            AggregationSetValue aggrSetValue = new AggregationSetValue(sampleParameters);
             parameterSetValues.add(aggrSetValue);
         }
 
@@ -506,10 +388,7 @@ public final class AggregationManager extends MCManager {
     }
 
     /**
-     * gets the current aggregation value from the internal list. if the update
-     * is not periodically so adhoc or filtered, or the sampleInterval is
-     * greater or equal to the updateinterval, then this method sets the
-     * time-intervals at the returned samples.
+     * gets the current aggregation value from the internal list.
      *
      * @param defId The definition Id.
      * @param generationMode the mode of the generation (PERIODIC, ADHOC,
@@ -523,18 +402,11 @@ public final class AggregationManager extends MCManager {
 
         //fill AggregationSetValue-objects for each parameterSet
         for (int j = 0; j < parameterSets.size(); j++) {  //Cycle through the parameterSets (requirement: Aggregation#14)
-            final Duration sampleInterval = parameterSets.get(j).getSampleInterval();
-            final Duration updateInterval = aggrDef.getReportInterval();
-            //calculate the the new aggregation-values interval times
-
-            AggregationParameterValueList val = evaluateSendUnchanged(aggrDef, defId, j);
+            //requirement: Aggregation#13 leaves out the unchanged values, if they are not to be sent
+            ParameterValueList val = evaluateSendUnchanged(aggrDef, defId, j);
 
             if (val != null) {
-                AggregationSetValue parameterSetValue = calcAggrSetValueTimes(generationMode,
-                        sampleInterval, updateInterval, defId, j, val);
-                //requirement: Aggregation#13 if unchanged values should be sent with a value replaced by a null, then replace them 
-                //add the current parameterSet to the current parameterSetList
-                parameterSetValues.add(parameterSetValue);
+                parameterSetValues.add(new AggregationSetValue(val));
             }
         }
         //set the current parameterSetList as the current aggregation values
@@ -543,52 +415,9 @@ public final class AggregationManager extends MCManager {
     }
 
     /**
-     * Sets the delta-time and the update time at the sampled value.
-     *
-     * @param generationMode the mode of the generation (PERIODIC, ADHOC,
-     * FILTEREDTIMEOUT)
-     * @param sampleInterval
-     * @param updateInterval
-     * @param defId The definition Id.
-     * @param indexParameterSet
-     * @param val
-     * @return
-     */
-    private AggregationSetValue calcAggrSetValueTimes(GenerationMode generationMode,
-            Duration sampleInterval, Duration updateInterval, Long defId,
-            int indexParameterSet, AggregationParameterValueList val) {
-        //periodic updates should get the value from the last sampled value
-        if (generationMode == GenerationMode.PERIODIC
-                && sampleInterval.getInSeconds() != 0
-                && sampleInterval.getInSeconds() < updateInterval.getInSeconds()) {
-            //calculate the intervals
-            Time currentTime = Time.now();
-            //            Time AggTimeStamp = new Time(currentTime.getValue() - (long) updateInterval.getValue() * 1000);
-            //            Time firstSampleTime = new Time(this.latestSampleTimeList.get(defId).get(indexParameterSet).getValue());
-            long previous;
-            if (indexParameterSet == 0) { //if its the first Set, the reference-time is the start of this aggregation-update
-                previous = currentTime.getValue() - (long) (updateInterval.getInSeconds() * 1000);
-            } else { //otherwise its the time of the last value of the previous set
-                previous = this.latestSampleTimeList.get(defId).get(indexParameterSet - 1).getValue();
-            }
-
-            Time previousSetTimeStamp = new Time(previous);
-            Time firstSampleTime = new Time(this.latestSampleTimeList.get(defId).get(indexParameterSet).getValue()
-                    - (long) (sampleInterval.getInSeconds() * 1000) * sampleCountList.get(defId).get(indexParameterSet));
-
-            // Delta-TIme =  firstSampleTime(Setx) - (firstSampleTime(Setx-1) + y*sampleInterval) | y = amount of updates.
-            Duration deltaTime = new Duration(((float) (firstSampleTime.getValue() - previousSetTimeStamp.getValue())) / 1000);
-            // Duration is in seconds but Time is in miliseconds
-            return new AggregationSetValue(deltaTime, sampleInterval, val);
-        } else {  // a new sample should be generated (if the generationMode is ADHOC or FILTEREDTIMEOUT, or the sampleInterval is out of the updateInterval range)
-            return new AggregationSetValue(null, null, val);
-        }
-    }
-
-    /**
-     * Checks if the an aggregation expects to get unchanged values as the
-     * actual value or as the null value, and replaces these with a null if
-     * necessary.
+     * Returns the values of a parameter set to be reported, leaving out the
+     * values unchanged since the previous sample if the aggregation does not
+     * send unchanged values.
      *
      * @param aggrDef the aggregation definition that will be checked if it
      * expects you to send unchanged values.
@@ -596,15 +425,15 @@ public final class AggregationManager extends MCManager {
      * @param indexParameterSet the index of the parameter-set.
      * @return The list of aggregation parameter values.
      */
-    private AggregationParameterValueList evaluateSendUnchanged(AggregationDefinition aggrDef, Long defId,
+    private ParameterValueList evaluateSendUnchanged(AggregationDefinition aggrDef, Long defId,
             int indexParameterSet) { //requirement: Aggregation#13
         return evaluateSendUnchanged(aggrDef, defId, indexParameterSet, null);
     }
 
     /**
-     * Checks if the an aggregation expects to get unchanged values as the
-     * actual value or as the null value, and replaces these with a null if
-     * necessary.
+     * Returns the values of a parameter set to be reported, leaving out the
+     * values unchanged since the previous sample if the aggregation does not
+     * send unchanged values.
      *
      * @param aggrDef the aggregation definition that will be checked if it
      * expects you to send unchanged values.
@@ -614,27 +443,38 @@ public final class AggregationManager extends MCManager {
      * be compare with.
      * @return The list of aggregation parameter values.
      */
-    private AggregationParameterValueList evaluateSendUnchanged(AggregationDefinition aggrDef, Long defId,
-            int indexParameterSet, AggregationParameterValueList currentParamValues) { //requirement: Aggregation#13
-        AggregationParameterValueList retParamValues = new AggregationParameterValueList();
+    private ParameterValueList evaluateSendUnchanged(AggregationDefinition aggrDef, Long defId,
+            int indexParameterSet, ParameterValueList currentParamValues) { //requirement: Aggregation#13
+        ParameterValueList retParamValues = new ParameterValueList();
         if (currentParamValues == null) {
             currentParamValues = this.aggValuesCurrent.get(defId).getParameterSetValues().get(
                     indexParameterSet).getValues();
         }
-        final AggregationParameterValueList lastParamValues = getLastUpdateValue(defId, indexParameterSet);
+        final ParameterValueList lastParamValues = getLastUpdateValue(defId, indexParameterSet);
         if (!aggrDef.getSendUnchanged() && lastParamValues != null) {
-            for (int k = 0; k < currentParamValues.size(); k++) { //requirement: Aggregation#14 cyclying through for loop ensures that
-                //requirement: Aggregation#13: if unchanged replace AggregationParameterValue-Object by a NULL
-                if (currentParamValues.get(k).equals(lastParamValues.get(k))) {
-                    retParamValues.add(k, null);
-                } else {
-                    retParamValues.add(k, currentParamValues.get(k));
+            for (int k = 0; k < currentParamValues.size(); k++) { //requirement: Aggregation#14 keeps the order of the set
+                //requirement: Aggregation#13: an unchanged value is left out
+                if (!isUnchanged(lastParamValues.get(k), currentParamValues.get(k))) {
+                    retParamValues.add(currentParamValues.get(k));
                 }
             }
         } else {
             retParamValues = currentParamValues;
         }
         return retParamValues;
+    }
+
+    /**
+     * Checks if a parameter value is unchanged since the previous report. The
+     * sample time is not compared, as it is new for every sample.
+     *
+     * @param previous The value of the previous report.
+     * @param current The current value.
+     * @return true if the validity state and the raw value are the same.
+     */
+    private static boolean isUnchanged(ParameterValue previous, ParameterValue current) {
+        return previous.getValidityState().equals(current.getValidityState())
+                && Objects.equals(previous.getRawValue(), current.getRawValue());
     }
 
     /**
@@ -649,8 +489,8 @@ public final class AggregationManager extends MCManager {
      * no periodic filter or it contains more than one parameter.
      */
     private boolean checkFilterIsTriggered(final AggregationParameterSet aggregationParameterSet,
-            final AggregationParameterValueList previousUpdateValue,
-            final AggregationParameterValueList currentParameterValue) {
+            final ParameterValueList previousUpdateValue,
+            final ParameterValueList currentParameterValue) {
         // Filter Comparison Process
         if (aggregationParameterSet.getReportFilter() == null
                 || aggregationParameterSet.getParameters().size() != 1) { // requirement: Aggregation#11 
@@ -662,8 +502,8 @@ public final class AggregationManager extends MCManager {
         // because size = 1 and the remaining Parameter Values inside get the null state
         // So we can crawl the list until we find the first non-null element and compare it with the previousParameterValue
         for (int i = 0; i < currentParameterValue.size(); i++) {
-            ParameterValue current = currentParameterValue.get(i).getValue();
-            ParameterValue previous = previousUpdateValue.get(i).getValue();
+            ParameterValue current = currentParameterValue.get(i);
+            ParameterValue previous = previousUpdateValue.get(i);
 
             if (current != null && previous != null) {
                 // Compare the values:
@@ -717,7 +557,7 @@ public final class AggregationManager extends MCManager {
      * @param indexOfparameterSet The index of the parameter set.
      * @return The aggregation parameter value list.
      */
-    private AggregationParameterValueList getLastUpdateValue(Long defId, int indexOfparameterSet) {
+    private ParameterValueList getLastUpdateValue(Long defId, int indexOfparameterSet) {
         AggregationSetValueList set = this.aggValuesLast.get(defId).getParameterSetValues();
 
         if (set == null) { // It was never sampled before?
@@ -738,7 +578,7 @@ public final class AggregationManager extends MCManager {
      * @param indexOfparameterSet
      * @return
      */
-    private AggregationParameterValueList getCurrentUpdateValue(Long defId, int indexOfparameterSet) {
+    private ParameterValueList getCurrentUpdateValue(Long defId, int indexOfparameterSet) {
         AggregationSetValueList set = this.aggValuesCurrent.get(defId).getParameterSetValues();
 
         if (set == null) { // It was never sampled before?
@@ -763,32 +603,15 @@ public final class AggregationManager extends MCManager {
      * @param newParamSample the new values that should be set
      * @return
      */
-    private AggregationParameterValueList setParameterSamplesInternally(Long defId,
-            int indexOfparameterSet, AggregationParameterValueList newParamSample) {
-        final AggregationParameterValueList currentParamValues
+    private ParameterValueList setParameterSamplesInternally(Long defId,
+            int indexOfparameterSet, ParameterValueList newParamSample) {
+        final ParameterValueList currentParamValues
                 = this.aggValuesCurrent.get(defId).getParameterSetValues().get(indexOfparameterSet).getValues();
 
-        AggregationSetValueList agg1 = this.aggValuesLast.get(defId).getParameterSetValues();
-        AggregationSetValue set1 = agg1.get(indexOfparameterSet);
-        agg1.add(indexOfparameterSet, new AggregationSetValue(set1.getDeltaTime(), set1.getIntervalTime(), currentParamValues));
-
-        AggregationSetValueList agg2 = this.aggValuesCurrent.get(defId).getParameterSetValues();
-        AggregationSetValue set2 = agg2.get(indexOfparameterSet);
-        agg2.add(indexOfparameterSet, new AggregationSetValue(set2.getDeltaTime(), set2.getIntervalTime(), newParamSample));
-
-        /* Previous Code
-        final AggregationParameterValueList currentParamValues = this.aggValuesCurrent
-                .get(defId).getParameterSetValues().get(indexOfparameterSet).getValues();
-        
-        this.aggValuesLast.get(defId).getParameterSetValues()
-                .get(indexOfparameterSet).setValues(currentParamValues);
-
-        //set the new ones to the current ones
-        this.aggValuesCurrent.get(defId).getParameterSetValues()
-                .get(indexOfparameterSet).setValues(newParamSample);
-         */
-        //sets the timestamp of the latest value of the set. needed for the calculation of the delta-time
-        this.latestSampleTimeList.get(defId).set(indexOfparameterSet, Time.now());
+        this.aggValuesLast.get(defId).getParameterSetValues().set(indexOfparameterSet,
+                new AggregationSetValue(currentParamValues));
+        this.aggValuesCurrent.get(defId).getParameterSetValues().set(indexOfparameterSet,
+                new AggregationSetValue(newParamSample));
 
         return newParamSample;
     }
@@ -883,7 +706,6 @@ public final class AggregationManager extends MCManager {
 
         aggValuesLast.remove(defId);
         aggValuesCurrent.remove(defId);
-        latestSampleTimeList.remove(defId);
 
         return true;
     }
@@ -909,7 +731,7 @@ public final class AggregationManager extends MCManager {
 
         AggregationDefinition newDef = new AggregationDefinition(def.getName(),
                 def.getDescription(), def.getCategory(), def.getReportInterval(),
-                def.getSendUnchanged(), def.getSendDefinitions(), def.getFilterEnabled(),
+                def.getSendUnchanged(), def.getFilterEnabled(),
                 def.getFilteredTimeout(), status, def.getParameterSets());
 
         //requirement: Aggregation.enableReporting#7
@@ -930,7 +752,7 @@ public final class AggregationManager extends MCManager {
             if (def.getReportingEnabled().booleanValue() != bool) {
                 AggregationDefinition newDef = new AggregationDefinition(def.getName(),
                         def.getDescription(), def.getCategory(), def.getReportInterval(),
-                        def.getSendUnchanged(), def.getSendDefinitions(), def.getFilterEnabled(),
+                        def.getSendUnchanged(), def.getFilterEnabled(),
                         def.getFilteredTimeout(), bool, def.getParameterSets());
 
                 this.update(defId, newDef, connectionDetails);
@@ -960,8 +782,8 @@ public final class AggregationManager extends MCManager {
 
         AggregationDefinition newDef = new AggregationDefinition(def.getName(),
                 def.getDescription(), def.getCategory(), def.getReportInterval(),
-                def.getSendUnchanged(), def.getSendDefinitions(), def.getFilterEnabled(),
-                def.getFilteredTimeout(), bool, def.getParameterSets());
+                def.getSendUnchanged(), bool,
+                def.getFilteredTimeout(), def.getReportingEnabled(), def.getParameterSets());
 
         //requirement: Aggregation.enableFilter#7, Aggregation.enableFilter#8
         this.update(defId, newDef, connectionDetails);
@@ -982,8 +804,8 @@ public final class AggregationManager extends MCManager {
             if (def.getFilterEnabled().booleanValue() != bool) {
                 AggregationDefinition newDef = new AggregationDefinition(def.getName(),
                         def.getDescription(), def.getCategory(), def.getReportInterval(),
-                        def.getSendUnchanged(), def.getSendDefinitions(), def.getFilterEnabled(),
-                        def.getFilteredTimeout(), bool, def.getParameterSets());
+                        def.getSendUnchanged(), bool,
+                        def.getFilteredTimeout(), def.getReportingEnabled(), def.getParameterSets());
 
                 this.update(defId, newDef, connectionDetails);
             }

@@ -177,7 +177,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
             }
         }
 
-        return manager.getParameterValues(ids, false);
+        return manager.getParameterValues(ids);
     }
 
     @Override
@@ -884,7 +884,7 @@ public class ParameterProviderServiceImpl extends ParameterInheritanceSkeleton i
                     if (sampleTime == null) {
                         sampleTime = (parameter.getTimestamp() != null) ? parameter.getTimestamp() : defaultTimestamp;
                     }
-                    pVals.add(manager.generateNewParameterValue(id, value.getRawValue(), sampleTime, pDef2, false));
+                    pVals.add(manager.generateNewParameterValue(id, value.getRawValue(), sampleTime, pDef2));
                 }
             }
 

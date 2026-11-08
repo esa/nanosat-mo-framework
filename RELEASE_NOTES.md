@@ -32,6 +32,10 @@ The different versions and respective updates are the following:
 * Adds the definitionId and sampleTime fields to ParameterValue: the ParameterDefinition of the value, and the time at which its raw value was sampled
 * Changes the response of getValue of the Parameter service to a list of ParameterValues, and removes ParameterValueDetails
 * Renames the parameterId field of ParameterRawValue to definitionId, as in ParameterValue
+* Removes AggregationParameterValue, the deltaTime and intervalTime of AggregationSetValue, and the sendDefinitions of AggregationDefinition and of the @Aggregation annotation: an AggregationSetValue is now a list of ParameterValues, which carry their definitionId and sampleTime
+* Fixes enableFilter of the Aggregation service, which changed the reportingEnabled field instead of the filterEnabled field
+* Changes sendUnchanged of aggregations to leave the unchanged values out of the report, as MO 15 lists cannot hold NULL entries
+* Fixes the validity of periodic parameters in periodic aggregations, which were always EXPIRED
 * Removes the source link of the COM objects, together with the ObjectLinks structure: ArchiveDetails now has a relatedLink field
 * Changes ParameterStatusListener.onGetValue(Identifier, AttributeType) to onGetValue(Identifier): Apps that implement it must update the signature, because without @Override the old method silently stops being called
 * Removes ParameterStatusListener.onGetValue(Long), so parameter values are asked for by name only; Apps that use the annotations are not affected

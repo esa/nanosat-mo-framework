@@ -92,13 +92,6 @@ public @interface Aggregation {
     boolean sendUnchanged() default false;
 
     /**
-     * The flag stating if the definitions shall be sent.
-     *
-     * @return The status flag.
-     */
-    boolean sendDefinitions() default false;
-
-    /**
      * The flag stating if the filter is enabled.
      *
      * @return The status flag.

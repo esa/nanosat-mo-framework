@@ -153,8 +153,7 @@ public class BrokenRetrievalTest {
         Assert.assertFalse("No aggregation value was returned", details.isEmpty());
         ParameterValue value = details.get(0).getValue()
                 .getParameterSetValues().get(0)
-                .getValues().get(0)
-                .getValue();
+                .getValues().get(0);
         return value.getValidityState();
     }
 

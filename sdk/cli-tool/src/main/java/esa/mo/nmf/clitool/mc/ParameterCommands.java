@@ -292,49 +292,15 @@ public class ParameterCommands {
                 for (IdentifierList domainKey : aggregationValuesMap.keySet()) {
                     for (Map.Entry<Long, List<TimestampedAggregationValue>> entry
                             : aggregationValuesMap.get(domainKey).entrySet()) {
-                        Long definitionId = entry.getKey();
-                        AggregationDefinition definition =
-                                aggregationsAdapter.getAggregationDefinitions()
-                                .get(domainKey).get(definitionId);
-
                         for (TimestampedAggregationValue aggregationValue : entry.getValue()) {
-                            for (int i = 0; i < aggregationValue.getAggregationValue()
-                                    .getParameterSetValues().size(); i++) {
-                                AggregationSetValue values = aggregationValue
-                                        .getAggregationValue()
-                                        .getParameterSetValues().get(i);
-                                AggregationParameterSet definitions =
-                                        definition.getParameterSets().get(i);
-
-                                int valueSetNumber = 0;
-                                double deltaTime = values.getDeltaTime() != null
-                                        ? values.getDeltaTime().getInSeconds() : 0;
-                                double intervalTime = values.getIntervalTime() != null
-                                        ? values.getIntervalTime().getInSeconds() : 0;
-                                long valueSetTimestamp =
-                                        aggregationValue.getTimestamp().getValue()
-                                        + (long) (deltaTime * 1000L);
-
-                                for (int n = 0; n < values.getValues().size(); n++) {
-                                    // Check if we are starting a new set of values
-                                    // compared to the given definition list
-                                    if (n % definitions.getParameters().size() == 0) {
-                                        valueSetNumber++;
-                                    }
-
-                                    AggregationParameterValue value =
-                                            values.getValues().get(n);
-                                    int paramIdx =
-                                            n % definitions.getParameters().size();
-                                    Long parameterId =
-                                            definitions.getParameters().get(paramIdx);
+                            for (AggregationSetValue values : aggregationValue
+                                    .getAggregationValue().getParameterSetValues()) {
+                                for (ParameterValue value : values.getValues()) {
+                                    Long parameterId = value.getDefinitionId();
 
                                     TimestampedParameterValue paramValue =
                                             new TimestampedParameterValue(
-                                            value.getValue(),
-                                            new Time(valueSetTimestamp
-                                            + (long) (valueSetNumber * intervalTime
-                                            * 1000L)));
+                                            value, value.getSampleTime());
 
                                     Identifier parameterName = parametersAdapter.getNamesMap().get(domainKey).get(parameterId);
                                     if (allParameters.get(domainKey)

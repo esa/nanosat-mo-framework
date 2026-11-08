@@ -283,7 +283,6 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                 new Duration(2),
                 false,
                 false,
-                false,
                 new Duration(5),
                 true,
                 aggSetList);
@@ -489,7 +488,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                             continue;
                         }
 
-                        ParameterValue paramValue = sets.get(i).getValues().get(j).getValue();
+                        ParameterValue paramValue = sets.get(i).getValues().get(j);
                         str.append("(parameterSetValue index: ")
                                 .append(i)
                                 .append(") ")
@@ -599,7 +598,7 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                         }
 
                         ParameterValue paramValue = value.getValue()
-                                .getParameterSetValues().get(i).getValues().get(j).getValue();
+                                .getParameterSetValues().get(i).getValues().get(j);
                         str.append("(parameterSetValue index: ")
                                 .append(i)
                                 .append(") ")
@@ -672,15 +671,13 @@ public class AggregationConsumerPanel extends javax.swing.JPanel {
                 for (int i = 0; i < aggregationValue.getParameterSetValues().size(); i++) {  // Cycle through parameterSetValues
                     str.append("- AggregationParameterSet values index: ").append(i).append("\n");
                     AggregationSetValue parameterSetsValue = aggregationValue.getParameterSetValues().get(i);
-                    str.append("deltaTime: ").append(parameterSetsValue.getDeltaTime());
-                    str.append(" and intervalTime: ").append(parameterSetsValue.getIntervalTime()).append("\n");
 
                     for (int j = 0; j < parameterSetsValue.getValues().size(); j++) { // Cycle through the values
                         if (parameterSetsValue.getValues().get(j) == null) {
                             continue;
                         }
 
-                        ParameterValue paramValue = parameterSetsValue.getValues().get(j).getValue();
+                        ParameterValue paramValue = parameterSetsValue.getValues().get(j);
 
                         str.append("values index: ").append(j).append("\n");
                         str.append("validityState: ")

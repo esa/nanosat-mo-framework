@@ -141,7 +141,7 @@ public class DemoGPSData {
                     new Identifier(AGGREGATION_GPS),
                     "Aggregates: GPS Latitude, GPS Longitude, GPS Altitude, GPS.NumberOfSatellitesInView.",
                     AggregationCategory.GENERAL,
-                    new Duration(10), true, false, false,
+                    new Duration(10), true, false,
                     new Duration(20), true, new AggregationParameterSetList());
 
             defGPSAgg.getParameterSets().add(new AggregationParameterSet(null, parameterObjIdsGPS, new Duration(3),

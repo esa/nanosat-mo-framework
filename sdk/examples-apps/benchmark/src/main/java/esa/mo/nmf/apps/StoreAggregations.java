@@ -80,7 +80,6 @@ public class StoreAggregations {
                         new Duration(45),
                         false,
                         false,
-                        false,
                         new Duration(54),
                         true,
                         aaa);
