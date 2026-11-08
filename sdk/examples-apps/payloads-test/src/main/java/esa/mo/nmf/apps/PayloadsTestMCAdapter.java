@@ -640,7 +640,12 @@ public class PayloadsTestMCAdapter extends MonitorAndControlNMFAdapter {
                         Attribute value = parameterValue.getRawValue();
                         Long id = nameToId.get(parameterName);
                         if (id != null) {
-                            PayloadsTestMCAdapter.this.onSetValue(new ParameterRawValue(id, value));
+                            // The parameter of this App has the name of the one of the Supervisor
+                            IdentifierList names = new IdentifierList();
+                            names.add(new Identifier(parameterName));
+                            ParameterRawValueList values = new ParameterRawValueList();
+                            values.add(new ParameterRawValue(id, value));
+                            PayloadsTestMCAdapter.this.onSetValue(names, values);
                         } else if (supervisorTMPollingEnabled) {
                             System.out.println(parameterName + " - " + value.toString());
                         }
