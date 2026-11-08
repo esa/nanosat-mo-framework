@@ -7,74 +7,21 @@ The different versions and respective updates are the following:
 ### Version 6.0 (in development)
 * Upgrades to CCSDS MO services v15.0, whose consumer stubs throw the declared error classes instead of MALInteractionException
 * Requires Java 21 or later
-* Removes the automatic serialization of objects into parameter and action values: values must now be MO attribute types, which closes an unsafe Java deserialization vulnerability (NMF-2026-002)
-* Adds access control to the Supervisor: ground and each App must present a credential, and an App may call only a baseline of services plus the permissions it declares and ground acknowledges, which closes unauthenticated command execution through the CommandExecutor (NMF-2026-010)
-* Adds the accessControl option of the nmf-linux-maven-plugin (off, audit or enforce), with enforce as the default; the playground and the testbeds use audit
-* Signs each request to the Supervisor with the caller's credential instead of sending it, over a counter the Supervisor accepts only once, so that a request read off the unencrypted link cannot be replayed (NMF-2026-016); the accessControlCredentials option of the nmf-linux-maven-plugin (signed or plain) chooses this, with signed as the default
-* Changes the install and update operations of the Package Management service to take a list of PackageApproval, holding the checksum and the acknowledged permissions of each package
-* Stores each refused or audited call in the COM Archive as an UnauthorisedCall object of the Apps Launcher service
-* Requires by default that install and update carry the SHA-256 of each package file, computed on ground, so that only the exact package file approved there is used; the playground and the testbeds turn it off with the requirePackageChecksum option of the nmf-linux-maven-plugin
-* Fixes runApp starting an App more than once when requests for it arrive together, or when a request names it twice, which left the Supervisor tracking a process that had already ended
-* Fixes the percentage filter of the Aggregation service, which never reported a change of a parameter whose previous value was negative
-* Changes the socket between the spacecraft simulator and its GUI from Java serialization to JSON, so that no Java object is deserialized on it, and fixes the GUI losing its connection when it changed a camera setting or the header
-* Adds testbed-simulator, which runs the spacecraft simulator and checks what its clients receive
-* Fixes an App being able to take over the Supervisor's entry in the Directory service, so that ground and the other Apps looked it up instead of the Supervisor (NMF-2026-011): an App may now add and remove only its own entry, no caller may add or remove the Supervisor's, and an App cannot be named nanosat-mo-supervisor; each refused call is stored as an UnauthorisedCall with the entry it named
-* Fixes uninstall and update removing the files of an App that was still running, either started outside the Apps Launcher or not closing when asked: they now fail with the new App Running error of the Software Management area, and no package of the request is changed
-* Fixes OS command injection through the name of an App package in the Linux launcher (NMF-2026-004): a package name must now be a plain file name
-* Confines each package to its own area of the NMF root, so that an App package can no longer add, replace or delete the files of another App or of the software baseline (NMF-2026-006)
-* Creates the nmf-admin account locked, with no password, and limits its sudo rights to the App accounts (NMF-2026-007)
-* Fixes OS command injection through the launch values of an App package (NMF-2026-008): its main class, jars and heap sizes are now checked and quoted
-* Fixes OS command injection through the model and input paths of the Artificial Intelligence service (NMF-2026-009)
-* Checks each file of an NMF Package by its SHA-256 instead of its CRC-32, from package metadata version 6, and makes the integrity check of the Package Management service real, as it always answered true before
-* Renames the upgrade operation of the Package Management service to update, and its PackageUpgraded COM object to PackageUpdated
-* Removes the Configuration service: its ConfigurationService and ConfigurationProvider COM objects are now objects 2 and 3 of the Directory service
-* Removes the Conversion service and the conversion of parameter values, with the convertedValue of ParameterValue, the conversion of ParameterDefinition, the useConverted of ParameterExpression and ThresholdFilter, the INVALID_CONVERSION validity state and the conversionFunctionName of the @Parameter annotation
-* Adds the definitionId and sampleTime fields to ParameterValue: the ParameterDefinition of the value, and the time at which its raw value was sampled
-* Changes the response of getValue of the Parameter service to a list of ParameterValues, and removes ParameterValueDetails
-* Renames the parameterId field of ParameterRawValue to definitionId, as in ParameterValue
-* Removes AggregationParameterValue, the deltaTime and intervalTime of AggregationSetValue, and the sendDefinitions of AggregationDefinition and of the @Aggregation annotation: an AggregationSetValue is now a list of ParameterValues, which carry their definitionId and sampleTime
-* Fixes enableFilter of the Aggregation service, which changed the reportingEnabled field instead of the filterEnabled field
-* Changes sendUnchanged of aggregations to leave the unchanged values out of the report, as MO 15 lists cannot hold NULL entries
-* Removes the EXPIRED validity state, as every sample reads the value of the parameter: periodic parameters in periodic aggregations were always EXPIRED
-* Fixes executeAction of the Action service, which checked the argument types only when the argumentIds were given
-* Requires a value for every argument of an action execution or an alert event, as MO 15 typed lists cannot hold NULL entries
-* Removes the source link of the COM objects, together with the ObjectLinks structure: ArchiveDetails now has a relatedLink field
-* Changes ParameterStatusListener.onGetValue(Identifier, AttributeType) to onGetValue(Identifier): Apps that implement it must update the signature, because without @Override the old method silently stops being called
-* Removes ParameterStatusListener.onSetValue(ParameterRawValueList), so onSetValue(IdentifierList, ParameterRawValueList) is the only one and no longer deprecated: Apps that implement the removed one must move to it, because without @Override it silently stops being called
-* Fixes setValue in the simple adapter, which set only the first of several parameters, and in the annotations, which stopped at the first value that could not be set
-* Fixes setValue on the Supervisor, which never reached the adapter of the mission
-* Fixes setValue of the Parameter service, which reported a value that the App refused as set: it now returns an Invalid Argument error, and stores and publishes nothing
-* Removes ParameterStatusListener.onGetValue(Long), so parameter values are asked for by name only; Apps that use the annotations are not affected
-* Removes the deprecated pushParameterValue(Identifier, ParameterValue, ObjectKey, Time) of the Parameter service; use pushSingleParameterValueAttribute instead
-* Removes the deprecated MonitorAndControlNMFAdapter.getTypeShortForm; use HelperAttributes.getTypeShortForm of the MO library instead
-* Merges nmf-composites, nmf-services-impl and nmf-package-lib into a single nmf-core module: the three artifacts are no longer published, so Apps, missions and other projects that used them depend on nmf-core instead
-* Moves the composites and the MO adapters of nmf-core into the esa.mo.nmf.composites package; esa.mo.nmf.nanosatmoconnector.NanoSatMOConnectorImpl stays, deprecated, so that Apps built for 5.x still load
-* Moves the simulator code from the opssat.simulator packages to esa.mo.nmf.mission.orekit.simulator and esa.mo.nmf.mission.lite.simulator, and the Orekit Supervisor from esa.mo.nmf.sim.supervisor to esa.mo.nmf.mission.orekit.NanosatMOSupervisorBasicImpl, which is the main class to give when setting a 6.0 baseline
-* Removes the OPS-SAT leftovers from the code and the READMEs, and renames the add-on folder of the Celestia visualisation to extras/cubesat
-* Builds the MCP adapter with the rest of the SDK again, as a prototype
-* Fixes the stopApp crash when an App is killed at the same time
+* Adds multiple layers of security to the NMF
+* Adds NMF Access Control
+* Several updates to the Package Management service and Apps Launcher service
+* Several updates to the Aggregation service and Parameter service
 * Adds the listExecutions operation to the Action service, with the action executions command of the CLI: the executions of actions that the provider received, each with its request and the stages that it reached
-* Changes stopApp to return App Running instead of Invalid Argument for an App that does not close when the timeout is NULL
-* Fixes add of the Directory service, which accepted an empty or wildcard name or domain and a ServiceId with a '0', and lost the existing entry when the new one could not be stored; remove now refuses the id '0', and lookup accepts a NULL providerName, domain or serviceId
-* Fixes query of the Archive service with a wildcard object type, which returned empty body lists instead of NULL when no body was asked for, and sorted the objects across object types
-* Fixes the Geofence of the Raspberry Pi mission, which never started the App it names
-* Gives nmf-admin and the App accounts a home directory on Debian and Ubuntu
-* Changes the Raspberry Pi guide to copy the NMF with an SSH key for root, instead of a root password
-* Removes the unused stop_app.sh launch path of the Apps Launcher, which was meant for non-NMF Apps on OPS-SAT
-* Removes the unfinished package signing code, which was never called
+* Removes the Conversion service and the conversion of parameter values
+* Removes the Configuration service: its ConfigurationService and ConfigurationProvider COM objects are now objects 2 and 3 of the Directory service
+* Adds testbed-simulator, which runs the spacecraft simulator and checks what its clients receive
+* Merges nmf-composites, nmf-services-impl and nmf-package-lib into a single nmf-core module: the three artifacts are no longer published, so Apps, missions and other projects that used them depend on nmf-core instead
+* Removes the OPS-SAT leftovers from the code and the READMEs, and renames the add-on folder of the Celestia visualisation to extras/cubesat
+* Builds the MCP adapter with the rest of the SDK as a prototype
+* Fixes the Geofence of the Raspberry Pi mission
 * Removes the Facebook ground example
-* Fixes install, uninstall and update reporting success when they failed on board: they now fail with the MAL Internal error
-* Adds errors that say why a request was refused: App Not Running, Package Installed, Package Not Installed, Integrity Check Failed, Checksum Mismatch and Permissions Not Acknowledged in Software Management, and Execution Failed in Platform
-* Fixes requests with a NULL argument, or for an operation that is not implemented, failing with a Java exception instead of an MO error: they now fail with Invalid Argument or Unsupported Operation
+* Adds additional errors that say why a request was refused: App Not Running, Package Installed, Package Not Installed, Integrity Check Failed, Checksum Mismatch and Permissions Not Acknowledged in Software Management, and Execution Failed in Platform
 * Renumbers the COM errors Invalid Argument and Duplicate to 100 and 101: as 1 and 2 they had the numbers of the MC, SM and Platform errors, so a consumer could receive the wrong error, such as Read Only for an Invalid Argument
-* Fixes install replacing an installed App with a package of the same name and another version, which took over its files, its storage and, under linux-userspace, its account (NMF-2026-012): such an install now fails with Package Installed, and an App is replaced with update
-* Fixes install and update reporting a package that is not valid, such as one whose name is not a plain file name, as failing its integrity check: they now fail with Invalid Argument and the reason
-* Fixes an unknown or missing apps-isolation setting running the Apps without isolation (NMF-2026-013): the Supervisor now runs no App until the setting is one of the four modes, and the Boot Report states the security settings on every boot
-* Fixes a bubblewrap sandbox letting an App read the whole filesystem, the other Apps and the logs, and see every process of the host (NMF-2026-014): the sandbox now mounts only what the App needs and has its own /proc
-* Fixes an App container under docker-containers isolation running as root with the whole NMF root mounted read-write, so an App could change the software of the Supervisor and of the other Apps (NMF-2026-015): the container now runs as the Supervisor's user, mounts only what the App needs, drops the Linux capabilities, and caps the App's processes, memory and processor time
-* Adds the contents field to the response of findPackage of the Package Management service: the name, version and type that the metadata of each package file holds, so that the App name that the Apps Launcher takes can be found from the package file
-* Fixes the start script of an App reporting a clean exit when the exit code of the App could not be read, which under bubblewrap isolation made every failed App look like one that exited cleanly: the script now reads the code without writing to /dev/null, and reports an unknown code as a failure
-* Fixes an App under bubblewrap isolation failing to start where java is not in /usr/local/bin, /usr/bin or /bin, as in the eclipse-temurin images: the PATH of the sandbox now starts with the bin directory of the Supervisor's Java runtime, and the esa.mo.nmf.packagemanager.bubblewrap.path property replaces it
 
 ### Version 5.1 (25 September 2026)
 * Upgrades to CCSDS MO services v14.2
