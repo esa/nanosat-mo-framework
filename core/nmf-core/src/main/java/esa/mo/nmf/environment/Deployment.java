@@ -85,6 +85,14 @@ public class Deployment {
      */
     public static final int EXIT_RESTART = 90;
 
+    /**
+     * Exit code with which the Supervisor refuses to confirm its boot because
+     * ground could not command it. The bootloader counts it as a failed boot
+     * attempt, as any other non-zero code, and so falls back to the previous
+     * baseline after the configured number of attempts.
+     */
+    public static final int EXIT_NOT_COMMANDABLE = 91;
+
     private static final String BASELINE_FILE_PREFIX = "baseline-";
     private static final String BASELINE_FILE_SUFFIX = ".properties";
 

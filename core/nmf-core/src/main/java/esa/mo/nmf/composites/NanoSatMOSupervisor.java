@@ -247,8 +247,18 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         SingleConnectionDetails det
                 = directoryService.getConnection().getSecondaryConnectionDetails();
         String secondaryURI = (det != null) ? det.getProviderURI().toString() : null;
-        startAccessControl(primaryURI, secondaryURI);
+        boolean groundCredential = startAccessControl(primaryURI, secondaryURI);
         writeCentralDirectoryServiceURI(primaryURI, secondaryURI);
+
+        // A Supervisor that ground cannot command does not confirm its boot, so
+        // that the bootloader falls back to the previous baseline instead of
+        // keeping, and promoting, one that no command can reach
+        String notCommandable = whyGroundCannotCommand(System.getProperty(AccessControlMode.PROPERTY),
+                groundCredential);
+        if (notCommandable != null && Deployment.getBootloaderDir().isDirectory()) {
+            LOGGER.log(Level.SEVERE, "The boot is not confirmed: {0}", notCommandable);
+            System.exit(Deployment.EXIT_NOT_COMMANDABLE);
+        }
         this.writeBootConfirmation();
 
         LOGGER.log(Level.INFO, "NanoSat MO Supervisor initialized in "
@@ -261,14 +271,18 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
      * Has the Supervisor check every request it receives, as the access control
      * mode says, with the credential of ground that the filesystem was
      * generated with. The credential of each App is added when it starts.
+     *
+     * @return true if the credential of ground was read
      */
-    private void startAccessControl(String primaryURI, String secondaryURI) {
+    private boolean startAccessControl(String primaryURI, String secondaryURI) {
+        boolean groundCredentialRead = false;
         AccessControlAuthority authority = new AccessControlAuthority(primaryURI, secondaryURI);
         authority.setRecorder(appsLauncherService::storeUnauthorisedCall);
         File groundCredential = new File(Deployment.getBootloaderDir(), Deployment.FILE_GROUND_CREDENTIAL);
         if (groundCredential.isFile()) {
             try {
                 authority.setGroundCredential(NMFAccessControl.readCredential(groundCredential.getPath()));
+                groundCredentialRead = true;
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, "The ground credential could not be read: " + groundCredential, ex);
             }
@@ -280,6 +294,32 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         // Only an App may add or remove its own entry in the Directory, and no caller the Supervisor's
         directoryService.setEntryCheck(authority::checkDirectoryEntry);
         LOGGER.log(Level.INFO, "Access control: {0}", AccessControlMode.current().configName());
+        return groundCredentialRead;
+    }
+
+    /**
+     * Returns why ground could not command a Supervisor, or NULL if it could.
+     * Ground cannot command it when the bootloader passed no access control
+     * mode, as a bootloader older than 6.0 does, which passes none of the 6.0
+     * settings; or when access control is enforced and there is no credential
+     * of ground to check its calls with.
+     *
+     * @param modeProperty The access control mode that the bootloader passed,
+     * or NULL if it passed none.
+     * @param groundCredential true if the credential of ground was read.
+     * @return The reason, or NULL if ground can command the Supervisor.
+     */
+    static String whyGroundCannotCommand(String modeProperty, boolean groundCredential) {
+        if (modeProperty == null) {
+            return "the bootloader passed no access control mode: it is older than 6.0, and passes none "
+                    + "of the settings of 6.0, so access control is enforced without a credential of ground";
+        }
+        if (AccessControlMode.parse(modeProperty) == AccessControlMode.ENFORCE && !groundCredential) {
+            return "access control is enforced and there is no credential of ground at "
+                    + new File(Deployment.getBootloaderDir(), Deployment.FILE_GROUND_CREDENTIAL)
+                    + ", so no call from ground would be accepted";
+        }
+        return null;
     }
 
     /**
