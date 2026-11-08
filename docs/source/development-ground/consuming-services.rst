@@ -100,3 +100,22 @@ provider publishes.
    actions.monitorExecutionRegister(subscription, monitor);
 
 Each stage reported by the app appears as a notification on the adapter.
+
+Listing past action executions
+------------------------------
+
+The ``listExecutions`` operation of the Action service returns the executions that the provider received,
+each with its request and the stages that it reached, with their times.
+It needs no subscription, so it also tells a consumer that was not listening what ran, and how each stage went.
+The wildcard ``0`` lists the executions of every action;
+the time window and the maximum count are optional, and ``maxCount`` keeps the most recent executions.
+
+.. code-block:: java
+
+   ActionStub actions = gma.getMCServices().getActionService();
+   LongList allActions = new LongList();
+   allActions.add(0L);
+   ActionExecutionList executions = actions.listExecutions(allActions, null, null, new UInteger(10));
+   // each ActionExecution carries its executionId, requestTime, request and stages
+
+From the CLI, ``action executions [<actionName>] [-n <maxCount>]`` prints the same list.

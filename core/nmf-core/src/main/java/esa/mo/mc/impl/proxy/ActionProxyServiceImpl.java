@@ -38,6 +38,8 @@ import org.ccsds.moims.mo.mal.provider.MALInteraction;
 import org.ccsds.moims.mo.mal.provider.MALProvider;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.Time;
+import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mal.structures.UIntegerList;
 import org.ccsds.moims.mo.mc.action.ActionHelper;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
@@ -137,6 +139,19 @@ public class ActionProxyServiceImpl extends ActionInheritanceSkeleton {
             MALInteraction mali) throws UnknownException, InvalidArgumentException, MALException {
         try {
             return actionConsumer.getActionStub().listDefinition(il);
+        } catch (UnknownException | InvalidArgumentException ex) {
+            // Errors that this operation declares are relayed as they are
+            throw ex;
+        } catch (MALStandardError ex) {
+            throw new MALException("The proxied Action service returned an error: " + ex, ex);
+        }
+    }
+
+    @Override
+    public ActionExecutionList listExecutions(LongList definitionIds, Time startTime, Time endTime,
+            UInteger maxCount, MALInteraction mali) throws UnknownException, InvalidArgumentException, MALException {
+        try {
+            return actionConsumer.getActionStub().listExecutions(definitionIds, startTime, endTime, maxCount);
         } catch (UnknownException | InvalidArgumentException ex) {
             // Errors that this operation declares are relayed as they are
             throw ex;

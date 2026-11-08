@@ -214,6 +214,34 @@ public class ActionProviderServiceImpl extends ActionInheritanceSkeleton impleme
         return outPairLst;
     }
 
+    @Override
+    public ActionExecutionList listExecutions(final LongList definitionIds, final Time startTime,
+            final Time endTime, final UInteger maxCount, final MALInteraction interaction)
+            throws UnknownException, InvalidArgumentException, MALException {
+        if (definitionIds == null) {
+            throw new InvalidArgumentException("The definitionIds field must not be NULL");
+        }
+        if (startTime != null && endTime != null && startTime.getValue() > endTime.getValue()) {
+            throw new InvalidArgumentException("The startTime field must not be after the endTime field");
+        }
+
+        // requirement: Action.listExecutions#1
+        boolean wildcard = definitionIds.contains(0L);
+        if (!wildcard) {
+            UIntegerList unkIndexList = new UIntegerList();
+            for (int index = 0; index < definitionIds.size(); index++) {
+                if (!manager.existsDef(definitionIds.get(index))) {
+                    unkIndexList.add(new UInteger(index));
+                }
+            }
+            if (!unkIndexList.isEmpty()) {
+                throw new UnknownException(unkIndexList);
+            }
+        }
+
+        return manager.listExecutions(wildcard ? null : definitionIds, startTime, endTime, maxCount);
+    }
+
     /**
      * Adds a set of action definitions to the Action service.
      *

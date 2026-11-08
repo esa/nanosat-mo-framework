@@ -31,11 +31,20 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.structures.ArchiveQuery;
+import org.ccsds.moims.mo.mal.MALException;
+import org.ccsds.moims.mo.mal.MOErrorException;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperDomain;
 import org.ccsds.moims.mo.mal.structures.Duration;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
+import org.ccsds.moims.mo.mal.structures.LongList;
+import org.ccsds.moims.mo.mal.structures.UInteger;
 import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
+import org.ccsds.moims.mo.mc.action.consumer.ActionStub;
+import org.ccsds.moims.mo.mc.structures.ActionExecution;
+import org.ccsds.moims.mo.mc.structures.ActionExecutionList;
+import org.ccsds.moims.mo.mc.structures.ExecutionStage;
+import org.ccsds.moims.mo.mc.structures.ExecutionStatus;
 
 /**
  * Container for the {@code action} CLI subcommands.
@@ -113,6 +122,80 @@ public class ActionCommands {
             } catch (NumberFormatException ex) {
                 return value;
             }
+        }
+    }
+
+    /**
+     * Implements the {@code action executions} CLI command: the executions of
+     * actions that the provider received, each with the stages that it reached.
+     */
+    public static class ListExecutions extends BaseCommand {
+        /**
+         * Default constructor.
+         */
+        public ListExecutions() {
+        }
+
+        @Override
+        public void run(Args args) {
+            parseBaseOptions(args);
+            String maxCountOption = args.option("-n", "--max-count");
+            List<String> positionals = args.positionals();
+
+            if (!super.initRemoteConsumer()) {
+                return;
+            }
+            if (consumer.getMCServices().getActionService() == null) {
+                System.out.println("Action service is not available for this provider!");
+                return;
+            }
+
+            ActionStub stub = consumer.getMCServices().getActionService().getActionStub();
+            try {
+                LongList definitionIds = new LongList();
+                if (positionals.isEmpty()) {
+                    definitionIds.add(0L); // All the actions
+                } else {
+                    IdentifierList names = new IdentifierList();
+                    names.add(new Identifier(positionals.get(0)));
+                    definitionIds = stub.listDefinition(names);
+                }
+                UInteger maxCount = (maxCountOption == null) ? null : new UInteger(Long.parseLong(maxCountOption));
+
+                ActionExecutionList executions = stub.listExecutions(definitionIds, null, null, maxCount);
+                if (executions.isEmpty()) {
+                    System.out.println("No execution found.");
+                }
+                for (ActionExecution execution : executions) {
+                    System.out.println(execution.getExecutionId() + "  "
+                            + execution.getRequestTime().toReadableString()
+                            + "  definition " + execution.getRequest().getDefinitionId());
+                    if (execution.getStages().isEmpty()) {
+                        System.out.println("    no stage reached");
+                    }
+                    for (ExecutionStage stage : execution.getStages()) {
+                        System.out.println("    " + describe(stage));
+                    }
+                }
+            } catch (NumberFormatException ex) {
+                System.out.println("The max count is not a number: " + maxCountOption);
+            } catch (MOErrorException | MALException ex) {
+                LOGGER.log(Level.SEVERE, "Error during listExecutions!", ex);
+            }
+        }
+
+        private static String describe(ExecutionStage stage) {
+            ExecutionStatus status = stage.getStatus();
+            StringBuilder line = new StringBuilder();
+            line.append(stage.getTime().toReadableString()).append("  ")
+                    .append(status.getStageType()).append(status.getSuccess() ? " succeeded" : " failed");
+            if (status.getStep() != null) {
+                line.append(", step ").append(status.getStep());
+            }
+            if (status.getComment() != null) {
+                line.append(": ").append(status.getComment());
+            }
+            return line.toString();
         }
     }
 

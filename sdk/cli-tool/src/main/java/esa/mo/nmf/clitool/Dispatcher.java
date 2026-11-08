@@ -47,7 +47,7 @@ public class Dispatcher {
             + "Groups and commands:\n"
             + "  parameter      subscribe | enable | disable | get | list | set\n"
             + "  aggregation    subscribe | enable | disable\n"
-            + "  action         trigger | list\n"
+            + "  action         trigger | list | executions\n"
             + "  apps-launcher  subscribe | run | stop | kill\n"
             + "  software-management  findPackage | install | uninstall | update\n"
             + "  heartbeat      subscribe\n"
@@ -125,6 +125,7 @@ public class Dispatcher {
                 switch (sub) {
                     case "trigger": return new ActionCommands.SubmitAction();
                     case "list":    return new ActionCommands.ListActions();
+                    case "executions": return new ActionCommands.ListExecutions();
                 }
                 break;
             case "apps-launcher":

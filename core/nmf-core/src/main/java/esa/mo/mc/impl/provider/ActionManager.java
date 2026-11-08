@@ -24,7 +24,13 @@ import static esa.mo.com.impl.util.HelperArchive.generateArchiveDetailsList;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.HelperArchive;
 import esa.mo.mc.impl.interfaces.ActionInvocationListener;
+import esa.mo.com.impl.provider.ArchiveManager;
+import esa.mo.com.impl.provider.ArchivePersistenceObject;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadFactory;
@@ -36,6 +42,7 @@ import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.DuplicateException;
 import org.ccsds.moims.mo.com.InvalidArgumentException;
 import org.ccsds.moims.mo.com.structures.ArchiveDetailsList;
+import org.ccsds.moims.mo.com.structures.ArchiveQuery;
 import org.ccsds.moims.mo.com.structures.ObjectKey;
 import org.ccsds.moims.mo.mal.MALException;
 import org.ccsds.moims.mo.mal.helpertools.connections.ConfigurationProviderSingleton;
@@ -93,6 +100,81 @@ public final class ActionManager extends MCManager {
     public ActionDefinition getActionDefinition(Long id) {
         return (ActionDefinition) this.getDefinition(id);
     }
+
+    /**
+     * Returns the executions of actions kept in the archive, each with the
+     * stages that it reached.
+     *
+     * @param definitionIds The ids of the ActionDefinitions, or NULL for all.
+     * @param startTime The earliest request time, or NULL for no lower bound.
+     * @param endTime The latest request time, or NULL for no upper bound.
+     * @param maxCount The maximum number of executions, the most recent ones,
+     * or NULL for all.
+     * @return The executions, from the oldest to the most recent.
+     */
+    public ActionExecutionList listExecutions(final LongList definitionIds, final Time startTime,
+            final Time endTime, final UInteger maxCount) {
+        ActionExecutionList executions = new ActionExecutionList();
+        if (super.getArchiveService() == null) {
+            return executions; // Without an archive, no execution is kept
+        }
+        ArchiveManager archive = super.getArchiveService().getArchiveManager();
+        IdentifierList domain = ConfigurationProviderSingleton.getDomain();
+
+        // The ExecutionRequest objects are related to their ActionDefinition
+        LongList related = new LongList();
+        if (definitionIds == null) {
+            related.add(0L); // The wildcard
+        } else {
+            related.addAll(definitionIds);
+        }
+        List<ArchivePersistenceObject> requests = new ArrayList<>();
+        for (Long definitionId : related) {
+            requests.addAll(archive.query(ActionServiceInfo.EXECUTIONREQUEST_OBJECT_TYPE,
+                    new ArchiveQuery(domain, null, definitionId, startTime, endTime, null, null), null));
+        }
+
+        // requirement: Action.listExecutions#6
+        requests.sort(BY_TIME);
+
+        // requirement: Action.listExecutions#5
+        if (maxCount != null && requests.size() > maxCount.getValue()) {
+            requests = requests.subList(requests.size() - (int) maxCount.getValue(), requests.size());
+        }
+        if (requests.isEmpty()) {
+            return executions;
+        }
+
+        // The ExecutionStatus objects are related to their ExecutionRequest, and
+        // none is older than the oldest of the requests
+        Map<Long, List<ArchivePersistenceObject>> statuses = new HashMap<>();
+        Time since = requests.get(0).getArchiveDetails().getTimestamp();
+        for (ArchivePersistenceObject status : archive.query(ActionServiceInfo.EXECUTIONSTATUS_OBJECT_TYPE,
+                new ArchiveQuery(domain, null, 0L, since, null, null, null), null)) {
+            Long executionId = status.getArchiveDetails().getRelatedLink();
+            statuses.computeIfAbsent(executionId, k -> new ArrayList<>()).add(status);
+        }
+
+        for (ArchivePersistenceObject request : requests) {
+            // requirement: Action.listExecutions#7
+            List<ArchivePersistenceObject> reached = statuses.getOrDefault(request.getObjectId(), new ArrayList<>());
+            reached.sort(BY_TIME);
+            ExecutionStageList stages = new ExecutionStageList();
+            for (ArchivePersistenceObject status : reached) {
+                stages.add(new ExecutionStage(status.getArchiveDetails().getTimestamp(),
+                        (ExecutionStatus) status.getObject()));
+            }
+            executions.add(new ActionExecution(request.getObjectId(),
+                    request.getArchiveDetails().getTimestamp(),
+                    (ExecutionRequest) request.getObject(), stages));
+        }
+        return executions;
+    }
+
+    /** Orders archived objects by timestamp, and by id for the same timestamp. */
+    private static final Comparator<ArchivePersistenceObject> BY_TIME = Comparator
+            .comparingLong((ArchivePersistenceObject o) -> o.getArchiveDetails().getTimestamp().getValue())
+            .thenComparingLong(ArchivePersistenceObject::getObjectId);
 
     /**
      * Stores the execution request in the archive and returns its generated object id.

@@ -160,6 +160,66 @@
                     </mal:errors>
                 </mal:requestIP>
             </mal:capabilitySet>
+            <mal:capabilitySet number="4" comment="">
+                <mal:requestIP name="listExecutions" number="4" comment="The listExecutions operation allows a consumer to request the executions of actions that the provider received, each with the stages that it reached.">
+                    <mal:documentation name="Requirement" order="1">
+                        The definitionIds field shall support the wildcard value of '0', which matches all ActionDefinition objects.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the startTime field is NULL, then the service provider shall not filter the executions based on the startTime.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="3">
+                        If the endTime field is NULL, then the service provider shall not filter the executions based on the endTime.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="4">
+                        If the maxCount field is NULL, then the service provider shall return all the matched executions.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="5">
+                        If the maxCount field is not NULL, then the service provider shall return only the most recent maxCount matched executions.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="6">
+                        The service provider shall return the executions in the order in which they were requested, from the oldest to the most recent.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="7">
+                        The service provider shall return the stages of each execution in the order in which they were reached, from the first to the latest.
+                    </mal:documentation>
+                    <mal:messages>
+                        <mal:request>
+                            <mal:field name="definitionIds" canBeNull="false" comment="The ids of the ActionDefinitions whose executions are listed.">
+                                <mal:type area="MAL" list="true" name="Long"/>
+                            </mal:field>
+                            <mal:field name="startTime" canBeNull="true" comment="The earliest time at which a listed execution was requested.">
+                                <mal:type area="MAL" list="false" name="Time"/>
+                            </mal:field>
+                            <mal:field name="endTime" canBeNull="true" comment="The latest time at which a listed execution was requested.">
+                                <mal:type area="MAL" list="false" name="Time"/>
+                            </mal:field>
+                            <mal:field name="maxCount" canBeNull="true" comment="The maximum number of executions returned.">
+                                <mal:type area="MAL" list="false" name="UInteger"/>
+                            </mal:field>
+                        </mal:request>
+                        <mal:response>
+                            <mal:field name="executions" canBeNull="false" comment="The matched executions.">
+                                <mal:type area="MC" list="true" name="ActionExecution"/>
+                            </mal:field>
+                        </mal:response>
+                    </mal:messages>
+                    <mal:errors>
+                        <mal:errorRef comment="When an id of the definitionIds field is not the wildcard value '0' and does not match an existing ActionDefinition object.">
+                            <mal:type area="MAL" list="false" name="Unknown"/>
+                            <mal:extraInformation comment="The indexes of the erroneous values from the originating list.">
+                                <mal:type area="MAL" list="true" name="UInteger"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                        <mal:errorRef comment="When the definitionIds field is NULL, or the startTime field is after the endTime field.">
+                            <mal:type area="COM" list="false" name="Invalid Argument"/>
+                            <mal:extraInformation comment="A description of the invalid value.">
+                                <mal:type area="MAL" list="false" name="String"/>
+                            </mal:extraInformation>
+                        </mal:errorRef>
+                    </mal:errors>
+                </mal:requestIP>
+            </mal:capabilitySet>
             <com:features>
                 <com:objects comment="Action definitions, execution requests, and execution statuses are represented as COM objects.">
                     <com:object number="1" name="ActionDefinition" comment="The definition of an action.">
@@ -1216,6 +1276,34 @@
                 </mal:field>
                 <mal:field name="comment" canBeNull="true" comment="An optional comment providing additional details about the execution stage.">
                     <mal:type area="MAL" list="false" name="String"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="ActionExecution" shortFormPart="37" comment="An execution of an action that the provider received, with the stages that it reached.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="executionId" canBeNull="false" comment="The id of the ExecutionRequest of the execution.">
+                    <mal:type area="MAL" list="false" name="Long"/>
+                </mal:field>
+                <mal:field name="requestTime" canBeNull="false" comment="The time at which the provider received the execution request.">
+                    <mal:type area="MAL" list="false" name="Time"/>
+                </mal:field>
+                <mal:field name="request" canBeNull="false" comment="The ActionDefinition id and the argument values of the execution.">
+                    <mal:type area="MC" list="false" name="ExecutionRequest"/>
+                </mal:field>
+                <mal:field name="stages" canBeNull="false" comment="The stages that the execution reached. Empty if the execution has reached no stage.">
+                    <mal:type area="MC" list="true" name="ExecutionStage"/>
+                </mal:field>
+            </mal:composite>
+            <mal:composite name="ExecutionStage" shortFormPart="38" comment="A stage that an execution of an action reached, with the time at which it was reached.">
+                <mal:extends>
+                    <mal:type area="MAL" list="false" name="Composite"/>
+                </mal:extends>
+                <mal:field name="time" canBeNull="false" comment="The time at which the stage was reached.">
+                    <mal:type area="MAL" list="false" name="Time"/>
+                </mal:field>
+                <mal:field name="status" canBeNull="false" comment="The status of the stage.">
+                    <mal:type area="MC" list="false" name="ExecutionStatus"/>
                 </mal:field>
             </mal:composite>
             <mal:enumeration name="ValidityState" shortFormPart="11" comment="The validity states of a parameter value and their numeric values.">
