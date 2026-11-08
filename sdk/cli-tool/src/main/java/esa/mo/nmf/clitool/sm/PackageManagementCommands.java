@@ -26,6 +26,8 @@ import esa.mo.nmf.clitool.BaseCommand;
 import esa.mo.nmf.clitool.ExitCodes;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.mal.MALException;
@@ -56,6 +58,50 @@ public class PackageManagementCommands {
             = Logger.getLogger(PackageManagementCommands.class.getName());
 
     private PackageManagementCommands() {
+    }
+
+    /**
+     * The outcome of an operation that the provider answers after it has been
+     * carried out. The command waits for it, so that it reports what happened
+     * on the provider, and exits with an error code if the operation failed.
+     */
+    private static final class Outcome {
+
+        private static final long TIMEOUT_MINUTES = 10;
+
+        private final CountDownLatch answered = new CountDownLatch(1);
+        private volatile MOErrorException error;
+
+        void succeeded() {
+            answered.countDown();
+        }
+
+        void failed(MOErrorException error) {
+            this.error = error;
+            answered.countDown();
+        }
+
+        /**
+         * Waits for the answer, reports it, and exits with an error code if
+         * the operation failed or was not answered.
+         */
+        void await(String operation, String packageName, String result) {
+            try {
+                if (!answered.await(TIMEOUT_MINUTES, TimeUnit.MINUTES)) {
+                    System.out.println("The " + operation + " of " + packageName
+                            + " was not answered within " + TIMEOUT_MINUTES + " minutes");
+                    System.exit(ExitCodes.TEMP_FAIL);
+                }
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+                System.exit(ExitCodes.GENERIC_ERROR);
+            }
+            if (error != null) {
+                System.out.println("The " + operation + " of " + packageName + " failed: " + error);
+                System.exit(ExitCodes.GENERIC_ERROR);
+            }
+            System.out.println("Package name: " + packageName + "  (" + result + ")");
+        }
     }
 
     /**
@@ -166,7 +212,10 @@ public class PackageManagementCommands {
                 for (int i = 0; i < response.getNames().size(); i++) {
                     String packageName = response.getNames().get(i).getValue();
                     Boolean isInstalled = response.getInstalled().get(i);
-                    if (!isInstalled) {
+                    if (isInstalled) {
+                        System.out.println("Package name: " + packageName + "  (already installed)");
+                    } else {
+                        Outcome outcome = new Outcome();
                         packageManagement.install(approvalFor(name, sha256, grant),
                                 new PackageManagementAdapter() {
                             @Override
@@ -179,28 +228,24 @@ public class PackageManagementCommands {
                             @Override
                             public void installResponseReceived(
                                     MALMessageHeader msgHeader, Map qosProperties) {
-                                LOGGER.log(Level.INFO, "Installed successfully");
+                                outcome.succeeded();
                             }
 
                             @Override
                             public void installAckErrorReceived(
                                     MALMessageHeader msgHeader,
                                     MOErrorException error, Map qosProperties) {
-                                LOGGER.log(Level.SEVERE,
-                                        "There was an error during the install operation.",
-                                        error);
+                                outcome.failed(error);
                             }
 
                             @Override
                             public void installResponseErrorReceived(
                                     MALMessageHeader msgHeader,
                                     MOErrorException error, Map qosProperties) {
-                                LOGGER.log(Level.SEVERE,
-                                        "There was an error during the install operation.",
-                                        error);
+                                outcome.failed(error);
                             }
                         });
-                        System.out.println("Package name: " + packageName + "  (installed)");
+                        outcome.await("install", packageName, "installed");
                     }
                 }
             } catch (MOErrorException | MALException e) {
@@ -250,6 +295,7 @@ public class PackageManagementCommands {
                 BooleanList keepConfigurations = new BooleanList();
                 keepConfigurations.add(keepConfiguration);
 
+                Outcome outcome = new Outcome();
                 packageManagement.uninstall(names,
                         keepConfigurations,
                         new PackageManagementAdapter() {
@@ -260,26 +306,23 @@ public class PackageManagementCommands {
 
                     @Override
                     public void uninstallResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
-                        LOGGER.log(Level.INFO, "Uninstalled successfully");
+                        outcome.succeeded();
                     }
 
                     @Override
                     public void uninstallAckErrorReceived(MALMessageHeader msgHeader,
                             MOErrorException error, Map qosProperties) {
-                        LOGGER.log(Level.SEVERE,
-                                "There was an error during the uninstall operation.",
-                                error);
+                        outcome.failed(error);
                     }
 
                     @Override
                     public void uninstallResponseErrorReceived(MALMessageHeader msgHeader,
                             MOErrorException error, Map qosProperties) {
-                        LOGGER.log(Level.SEVERE,
-                                "There was an error during the uninstall operation.",
-                                error);
+                        outcome.failed(error);
                     }
                 }
                 );
+                outcome.await("uninstall", name, "uninstalled");
             } catch (MOErrorException | MALException e) {
                 LOGGER.log(Level.SEVERE,
                         "Error during the execution of the uninstall operation!", e);
@@ -327,6 +370,7 @@ public class PackageManagementCommands {
                 PackageManagementStub packageManagement = getPackageManagement();
                 IdentifierList names = new IdentifierList();
                 names.add(new Identifier(name));
+                Outcome outcome = new Outcome();
                 packageManagement.update(approvalFor(name, sha256, grant),
                         new PackageManagementAdapter() {
                     @Override
@@ -336,26 +380,23 @@ public class PackageManagementCommands {
 
                     @Override
                     public void updateResponseReceived(MALMessageHeader msgHeader, Map qosProperties) {
-                        LOGGER.log(Level.INFO, "Updated successfully");
+                        outcome.succeeded();
                     }
 
                     @Override
                     public void updateAckErrorReceived(MALMessageHeader msgHeader,
                             MOErrorException error, Map qosProperties) {
-                        LOGGER.log(Level.SEVERE,
-                                "There was an error during the update operation.",
-                                error);
+                        outcome.failed(error);
                     }
 
                     @Override
                     public void updateResponseErrorReceived(MALMessageHeader msgHeader,
                             MOErrorException error, Map qosProperties) {
-                        LOGGER.log(Level.SEVERE,
-                                "There was an error during the update operation.",
-                                error);
+                        outcome.failed(error);
                     }
                 }
                 );
+                outcome.await("update", name, "updated");
             } catch (MOErrorException | MALException e) {
                 LOGGER.log(Level.SEVERE,
                         "Error during the execution of the update operation!", e);
