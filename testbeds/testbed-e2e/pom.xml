@@ -84,6 +84,19 @@
         <nmf.e2e.current.version>${project.version}</nmf.e2e.current.version>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <!-- The MCP adapter, a test dependency, reaches slf4j-api through
+                 the MCP SDK at 2.0.16 and 2.0.17. The higher of the two is
+                 chosen here, so that the dependencies converge. -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>2.0.17</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <!-- Supervisor — used by generate-filesystem to classify JARs -->
         <dependency>
@@ -120,6 +133,13 @@
         <dependency>
             <groupId>int.esa.nmf</groupId>
             <artifactId>cubesat-spacecraft-simulator</artifactId>
+            <version>${esa.nmf.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- The MCP adapter, exercised end-to-end against the Supervisor -->
+        <dependency>
+            <groupId>int.esa.nmf.sdk</groupId>
+            <artifactId>mcp-adapter</artifactId>
             <version>${esa.nmf.version}</version>
             <scope>test</scope>
         </dependency>
