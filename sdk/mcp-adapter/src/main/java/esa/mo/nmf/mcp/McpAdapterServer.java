@@ -107,12 +107,15 @@ public final class McpAdapterServer {
      * that any service the provider offers becomes tools, with no list of
      * services to keep: a service added to a provider appears on its own.
      *
+     * The access control credential, if any, must be presented before this is
+     * called, as the first connection is opened here.
+     *
      * @param directoryURI the URI of the Supervisor's Directory
      * @param providerName the name of the provider, or null for the first one
      * @return the tools of every service the provider advertises
      * @throws Exception if the provider could not be read
      */
-    private static List<McpTool> toolsForProvider(String directoryURI, String providerName)
+    public static List<McpTool> toolsForProvider(String directoryURI, String providerName)
             throws Exception {
         HelperMisc.loadPropertiesFile();
         // Registers the types of the MAL, COM, MC, SM and Platform areas, so
