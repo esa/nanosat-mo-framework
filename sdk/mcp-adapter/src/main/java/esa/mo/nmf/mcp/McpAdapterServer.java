@@ -20,13 +20,9 @@
  */
 package esa.mo.nmf.mcp;
 
-import esa.mo.com.impl.util.COMServicesConsumer;
-import esa.mo.mc.impl.util.MCServicesConsumer;
+import esa.mo.com.impl.util.HelperCommon;
 import esa.mo.nmf.NMFConsumer;
 import esa.mo.nmf.accesscontrol.NMFAccessControl;
-import esa.mo.nmf.composites.GroundMOAdapterImpl;
-import esa.mo.platform.impl.util.PlatformServicesConsumer;
-import esa.mo.sm.impl.util.SMServicesConsumer;
 import io.modelcontextprotocol.json.McpJsonMapper;
 import io.modelcontextprotocol.json.jackson3.JacksonMcpJsonMapperSupplier;
 import io.modelcontextprotocol.server.McpServer;
@@ -36,45 +32,35 @@ import io.modelcontextprotocol.spec.McpSchema;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.ccsds.moims.mo.com.archive.ArchiveServiceInfo;
-import org.ccsds.moims.mo.com.archivesync.ArchiveSyncServiceInfo;
-import org.ccsds.moims.mo.com.directory.DirectoryServiceInfo;
 import org.ccsds.moims.mo.com.structures.Provider;
+import org.ccsds.moims.mo.com.structures.ServiceCapability;
 import org.ccsds.moims.mo.com.structures.ProviderList;
+import org.ccsds.moims.mo.mal.MALArea;
+import org.ccsds.moims.mo.mal.MALContextFactory;
 import org.ccsds.moims.mo.mal.ServiceInfo;
+import org.ccsds.moims.mo.mal.structures.ServiceId;
 import org.ccsds.moims.mo.mal.consumer.MALConsumer;
+import org.ccsds.moims.mo.mal.helpertools.connections.ConnectionConsumer;
+import org.ccsds.moims.mo.mal.helpertools.connections.SingleConnectionDetails;
 import org.ccsds.moims.mo.mal.helpertools.helpers.HelperMisc;
 import org.ccsds.moims.mo.mal.structures.URI;
-import org.ccsds.moims.mo.mc.action.ActionServiceInfo;
-import org.ccsds.moims.mo.mc.aggregation.AggregationServiceInfo;
-import org.ccsds.moims.mo.mc.alert.AlertServiceInfo;
-import org.ccsds.moims.mo.mc.parameter.ParameterServiceInfo;
-import org.ccsds.moims.mo.platform.artificialintelligence.ArtificialIntelligenceServiceInfo;
-import org.ccsds.moims.mo.platform.autonomousadcs.AutonomousADCSServiceInfo;
-import org.ccsds.moims.mo.platform.camera.CameraServiceInfo;
-import org.ccsds.moims.mo.platform.fpga.FPGAServiceInfo;
-import org.ccsds.moims.mo.platform.gps.GPSServiceInfo;
-import org.ccsds.moims.mo.platform.opticaldatareceiver.OpticalDataReceiverServiceInfo;
-import org.ccsds.moims.mo.platform.powercontrol.PowerControlServiceInfo;
-import org.ccsds.moims.mo.platform.softwaredefinedradio.SoftwareDefinedRadioServiceInfo;
-import org.ccsds.moims.mo.platform.softwareimages.SoftwareImagesServiceInfo;
-import org.ccsds.moims.mo.sm.appslauncher.AppsLauncherServiceInfo;
-import org.ccsds.moims.mo.sm.commandexecutor.CommandExecutorServiceInfo;
-import org.ccsds.moims.mo.sm.heartbeat.HeartbeatServiceInfo;
-import org.ccsds.moims.mo.sm.packagemanagement.PackageManagementServiceInfo;
 
 /**
- * A Model Context Protocol server that exposes the AppsLauncher service of an
- * NMF Supervisor as MCP tools. The tools are generated from the service
- * metadata by the {@link OperationToolMapper}, so they automatically reflect
- * the operations, fields and descriptions defined in the MO service XML.
+ * A Model Context Protocol server that exposes an NMF provider as MCP tools.
+ * Every service the provider advertises in the Directory becomes tools, with
+ * no list of services to keep: the server reads the provider's entry, opens a
+ * consumer for each service it offers, and generates the tools from the service
+ * metadata through the {@link OperationToolMapper}, so they reflect the
+ * operations, fields and descriptions defined in the MO service XML, and a
+ * service added to a provider appears on its own.
  *
  * <p>
  * It connects as a ground consumer (the same path as the CLI Tool) to the
- * Directory service URI passed as the single argument, then serves over stdio.
+ * Directory service URI passed as the first argument, then serves over stdio.
  */
 public final class McpAdapterServer {
 
@@ -104,8 +90,7 @@ public final class McpAdapterServer {
 
         presentGroundCredential(directoryURI, credentialFile);
 
-        GroundMOAdapterImpl adapter = connect(directoryURI, providerName);
-        List<McpTool> tools = allTools(adapter);
+        List<McpTool> tools = toolsForProvider(directoryURI, providerName);
         if (tools.isEmpty()) {
             throw new IllegalStateException("The provider exposes no operation that can be a tool");
         }
@@ -115,92 +100,86 @@ public final class McpAdapterServer {
     }
 
     /**
-     * Builds the tools for every service that the provider exposes: each COM,
-     * MC, SM and Platform service it offers contributes its operations as
-     * tools. A service that the provider does not offer is skipped.
+     * Builds the tools for every service that the provider advertises in the
+     * Directory. The provider's entry lists each service it offers, with the
+     * service key (area, service and version) and the address it is reached at.
+     * For each, a consumer is opened and the service metadata is looked up, so
+     * that any service the provider offers becomes tools, with no list of
+     * services to keep: a service added to a provider appears on its own.
      *
-     * @param adapter the adapter connected to the provider
-     * @return the tools of every service offered
+     * @param directoryURI the URI of the Supervisor's Directory
+     * @param providerName the name of the provider, or null for the first one
+     * @return the tools of every service the provider advertises
+     * @throws Exception if the provider could not be read
      */
-    private static List<McpTool> allTools(GroundMOAdapterImpl adapter) {
-        List<McpTool> tools = new ArrayList<>();
-        COMServicesConsumer com = adapter.getCOMServices();
-        MCServicesConsumer mc = adapter.getMCServices();
-        SMServicesConsumer sm = adapter.getSMServices();
-        PlatformServicesConsumer platform = adapter.getPlatformServices();
+    private static List<McpTool> toolsForProvider(String directoryURI, String providerName)
+            throws Exception {
+        HelperMisc.loadPropertiesFile();
+        // Registers the types of the MAL, COM, MC, SM and Platform areas, so
+        // that a service of any of them can be looked up and its values decoded
+        NMFConsumer.initHelpers();
 
-        if (com != null) {
-            addService(tools, new ArchiveServiceInfo(),
-                    () -> com.getArchiveService().getArchiveStub().getConsumer());
-            addService(tools, new ArchiveSyncServiceInfo(),
-                    () -> com.getArchiveSyncService().getArchiveSyncStub().getConsumer());
-            addService(tools, new DirectoryServiceInfo(),
-                    () -> com.getDirectoryService().getDirectoryStub().getConsumer());
-        }
-        if (mc != null) {
-            addService(tools, new ParameterServiceInfo(),
-                    () -> mc.getParameterService().getParameterStub().getConsumer());
-            addService(tools, new ActionServiceInfo(),
-                    () -> mc.getActionService().getActionStub().getConsumer());
-            addService(tools, new AlertServiceInfo(),
-                    () -> mc.getAlertService().getAlertStub().getConsumer());
-            addService(tools, new AggregationServiceInfo(),
-                    () -> mc.getAggregationService().getAggregationStub().getConsumer());
-        }
-        if (sm != null) {
-            addService(tools, new AppsLauncherServiceInfo(),
-                    () -> sm.getAppsLauncherService().getAppsLauncherStub().getConsumer());
-            addService(tools, new PackageManagementServiceInfo(),
-                    () -> sm.getPackageManagementService().getPackageManagementStub().getConsumer());
-            addService(tools, new HeartbeatServiceInfo(),
-                    () -> sm.getHeartbeatService().getHeartbeatStub().getConsumer());
-            addService(tools, new CommandExecutorServiceInfo(),
-                    () -> sm.getCommandExecutorService().getCommandExecutorStub().getConsumer());
-        }
-        if (platform != null) {
-            addService(tools, new CameraServiceInfo(),
-                    () -> platform.getCameraService().getConsumer());
-            addService(tools, new GPSServiceInfo(),
-                    () -> platform.getGPSService().getConsumer());
-            addService(tools, new AutonomousADCSServiceInfo(),
-                    () -> platform.getAutonomousADCSService().getConsumer());
-            addService(tools, new OpticalDataReceiverServiceInfo(),
-                    () -> platform.getOpticalDataReceiverService().getConsumer());
-            addService(tools, new SoftwareDefinedRadioServiceInfo(),
-                    () -> platform.getSoftwareDefinedRadioService().getConsumer());
-            addService(tools, new PowerControlServiceInfo(),
-                    () -> platform.getPowerControlService().getConsumer());
-            addService(tools, new ArtificialIntelligenceServiceInfo(),
-                    () -> platform.getAIService().getConsumer());
-            addService(tools, new FPGAServiceInfo(),
-                    () -> platform.getFPGAService().getConsumer());
-            addService(tools, new SoftwareImagesServiceInfo(),
-                    () -> platform.getSoftwareImagesService().getConsumer());
+        Provider provider = selectProvider(directoryURI, providerName);
+        ConnectionConsumer connection = HelperCommon.providerToConnectionConsumer(provider);
+        Map<String, SingleConnectionDetails> addresses = connection.getServicesDetails().getServices();
+
+        List<McpTool> tools = new ArrayList<>();
+        for (ServiceCapability capability : provider.getServiceCapabilities()) {
+            ServiceId key = capability.getServiceId();
+            try {
+                ServiceInfo service = lookupService(key);
+                if (service == null) {
+                    LOGGER.log(Level.INFO, "The service with key {0} is not known and is skipped", key);
+                    continue;
+                }
+                SingleConnectionDetails details = addresses.get(service.getName().toString());
+                if (details == null) {
+                    continue; // The provider advertises no address for the service
+                }
+                MALConsumer consumer = connection.startService(details, service, null, null);
+                List<McpTool> serviceTools = OperationToolMapper.toolsFor(service, consumer);
+                tools.addAll(serviceTools);
+                LOGGER.log(Level.INFO, "Service {0}: {1} tools",
+                        new Object[]{service.getName().getValue(), serviceTools.size()});
+            } catch (Exception ex) {
+                LOGGER.log(Level.WARNING, "The service with key " + key + " could not be read and is skipped", ex);
+            }
         }
         return tools;
     }
 
     /**
-     * Adds the tools of one service, when the provider offers it. The consumer
-     * is read through a supplier, because the getter of a service that is not
-     * offered returns null or throws; such a service is logged and skipped.
+     * Looks up the metadata of the service with the given key (area, service
+     * and version), from the areas that {@link NMFConsumer#initHelpers()}
+     * registered, or NULL if that service is not known to this build.
      */
-    private static void addService(List<McpTool> tools, ServiceInfo service, ConsumerSupplier consumer) {
-        String name = service.getName().getValue();
+    private static ServiceInfo lookupService(ServiceId key) {
         try {
-            List<McpTool> serviceTools = OperationToolMapper.toolsFor(service, consumer.get());
-            tools.addAll(serviceTools);
-            LOGGER.log(Level.INFO, "Service {0}: {1} tools", new Object[]{name, serviceTools.size()});
-        } catch (Exception ex) {
-            LOGGER.log(Level.FINE, "Service " + name + " is not available and is skipped", ex);
+            MALArea area = MALContextFactory.lookupArea(key.getKeyArea(), key.getKeyAreaVersion());
+            return (area == null) ? null : area.getServiceByNumber(key.getKeyService());
+        } catch (IllegalArgumentException ex) {
+            return null;
         }
     }
 
-    /** Reads the consumer of a service, which may be absent. */
-    @FunctionalInterface
-    private interface ConsumerSupplier {
-
-        MALConsumer get() throws Exception;
+    /**
+     * Selects the provider to connect to from the Directory: the one with the
+     * given name, or the first one when no name is given.
+     */
+    private static Provider selectProvider(String directoryURI, String providerName) throws Exception {
+        ProviderList providers = NMFConsumer.retrieveProvidersFromDirectory(new URI(directoryURI));
+        if (providers.isEmpty()) {
+            throw new IllegalStateException("No providers found at " + directoryURI);
+        }
+        if (providerName == null) {
+            return providers.get(0);
+        }
+        for (Provider p : providers) {
+            if (p.getProviderName().getValue().equals(providerName)) {
+                return p;
+            }
+        }
+        throw new IllegalStateException("Provider '" + providerName + "' not found");
     }
 
     /**
@@ -226,31 +205,6 @@ public final class McpAdapterServer {
         } else {
             NMFAccessControl.presentGroundCredential(directoryURI);
         }
-    }
-
-    private static GroundMOAdapterImpl connect(String directoryURI, String providerName) throws Exception {
-        HelperMisc.loadPropertiesFile();
-        ProviderList providers = NMFConsumer.retrieveProvidersFromDirectory(new URI(directoryURI));
-        if (providers.isEmpty()) {
-            throw new IllegalStateException("No providers found at " + directoryURI);
-        }
-
-        Provider provider = null;
-        if (providerName != null) {
-            for (Provider p : providers) {
-                if (p.getProviderName().getValue().equals(providerName)) {
-                    provider = p;
-                    break;
-                }
-            }
-            if (provider == null) {
-                throw new IllegalStateException("Provider '" + providerName + "' not found");
-            }
-        } else {
-            provider = providers.get(0);
-        }
-
-        return new GroundMOAdapterImpl(provider);
     }
 
     /**
