@@ -129,7 +129,7 @@ public final class OperationToolMapper {
         return schema.toString();
     }
 
-    private static String invoke(MALConsumer consumer, MALOperation op,
+    private static McpTool.Result invoke(MALConsumer consumer, MALOperation op,
             OperationField[] fields, Map<String, Object> args) {
         Object[] body = new Object[fields.length];
         for (int i = 0; i < fields.length; i++) {
@@ -142,20 +142,20 @@ public final class OperationToolMapper {
         try {
             if (op instanceof MALSubmitOperation) {
                 consumer.submit((MALSubmitOperation) op, body);
-                return "Operation '" + name + "' submitted successfully.";
+                return new McpTool.Result("Operation '" + name + "' submitted successfully.", false);
             }
             if (op instanceof MALSendOperation) {
                 consumer.send((MALSendOperation) op, body);
-                return "Operation '" + name + "' sent.";
+                return new McpTool.Result("Operation '" + name + "' sent.", false);
             }
             if (op instanceof MALRequestOperation) {
                 MALMessageBody response = consumer.request((MALRequestOperation) op, body);
-                return formatResponse((MALRequestOperation) op, response);
+                return new McpTool.Result(formatResponse((MALRequestOperation) op, response), false);
             }
-            return "Operation '" + name + "' uses an unsupported interaction pattern.";
+            return new McpTool.Result("Operation '" + name + "' uses an unsupported interaction pattern.", true);
         } catch (MALInteractionException | MALException ex) {
             LOGGER.log(Level.WARNING, "Invocation of '" + name + "' failed", ex);
-            return "Error invoking '" + name + "': " + ex.getMessage();
+            return new McpTool.Result("Error invoking '" + name + "': " + ex.getMessage(), true);
         }
     }
 

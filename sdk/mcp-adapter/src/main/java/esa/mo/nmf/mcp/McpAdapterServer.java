@@ -21,6 +21,7 @@
 package esa.mo.nmf.mcp;
 
 import esa.mo.nmf.NMFConsumer;
+import esa.mo.nmf.accesscontrol.NMFAccessControl;
 import esa.mo.nmf.composites.GroundMOAdapterImpl;
 import io.modelcontextprotocol.json.McpJsonMapper;
 import io.modelcontextprotocol.json.jackson3.JacksonMcpJsonMapperSupplier;
@@ -28,6 +29,7 @@ import io.modelcontextprotocol.server.McpServer;
 import io.modelcontextprotocol.server.McpServerFeatures;
 import io.modelcontextprotocol.server.transport.StdioServerTransportProvider;
 import io.modelcontextprotocol.spec.McpSchema;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -58,12 +60,25 @@ public final class McpAdapterServer {
     }
 
     public static void main(String[] args) throws Exception {
-        if (args.length < 1) {
-            System.err.println("Usage: McpAdapterServer <directory-service-uri> [provider-name]");
+        String credentialFile = null;
+        List<String> positionals = new ArrayList<>();
+        for (int i = 0; i < args.length; i++) {
+            if ("--credential-file".equals(args[i]) && i + 1 < args.length) {
+                credentialFile = args[++i];
+            } else {
+                positionals.add(args[i]);
+            }
+        }
+
+        if (positionals.isEmpty()) {
+            System.err.println("Usage: McpAdapterServer <directory-service-uri> [provider-name] "
+                    + "[--credential-file <file>]");
             System.exit(1);
         }
-        String directoryURI = args[0];
-        String providerName = (args.length > 1) ? args[1] : null;
+        String directoryURI = positionals.get(0);
+        String providerName = (positionals.size() > 1) ? positionals.get(1) : null;
+
+        presentGroundCredential(directoryURI, credentialFile);
 
         MALConsumer consumer = connect(directoryURI, providerName);
         List<McpTool> tools = OperationToolMapper.toolsFor(consumer,
@@ -77,6 +92,31 @@ public final class McpAdapterServer {
      * Connects to the Supervisor through the Directory service and returns the
      * MAL consumer backing the AppsLauncher stub.
      */
+    /**
+     * Presents the credential of ground on the requests that this server sends
+     * to the Supervisor, so that its calls are accepted when the Supervisor
+     * enforces access control. It must run before the first connection is
+     * opened. The credential comes from the file named by {@code --credential-file},
+     * or, when none is given, from the file named by the ground credential
+     * system property, as in the playground. Without either, no credential is
+     * presented, which is enough only for a Supervisor that does not enforce
+     * access control.
+     *
+     * @param directoryURI the URI of the Supervisor's Directory
+     * @param credentialFile the credential file, or null
+     * @throws IOException if the credential file cannot be read
+     */
+    private static void presentGroundCredential(String directoryURI, String credentialFile)
+            throws IOException {
+        NMFAccessControl.install();
+        if (credentialFile != null) {
+            NMFAccessControl.INSTANCE.presentGroundCredential(
+                    NMFAccessControl.readCredential(credentialFile), directoryURI);
+        } else {
+            NMFAccessControl.presentGroundCredential(directoryURI);
+        }
+    }
+
     private static MALConsumer connect(String directoryURI, String providerName) throws Exception {
         HelperMisc.loadPropertiesFile();
         ProviderList providers = NMFConsumer.retrieveProvidersFromDirectory(new URI(directoryURI));
@@ -140,9 +180,9 @@ public final class McpAdapterServer {
         return new McpServerFeatures.SyncToolSpecification.Builder()
                 .tool(schemaTool)
                 .callHandler((exchange, request) -> {
-                    String result = tool.getHandler().apply(request.arguments());
+                    McpTool.Result result = tool.getHandler().apply(request.arguments());
                     return new McpSchema.CallToolResult(
-                            List.of(new McpSchema.TextContent(result)), Boolean.FALSE, null, null);
+                            List.of(new McpSchema.TextContent(result.text())), result.isError(), null, null);
                 })
                 .build();
     }

@@ -33,7 +33,18 @@ public final class McpTool {
     private final String name;
     private final String description;
     private final String inputSchema;
-    private final Function<Map<String, Object>, String> handler;
+    private final Function<Map<String, Object>, Result> handler;
+
+    /**
+     * The outcome of a tool call: the text to return to the MCP client, and
+     * whether it reports a failure, so that the client can tell a failed call
+     * from a successful one.
+     *
+     * @param text the text of the result
+     * @param isError true if the call failed
+     */
+    public record Result(String text, boolean isError) {
+    }
 
     /**
      * Constructor.
@@ -45,7 +56,7 @@ public final class McpTool {
      * the textual result.
      */
     public McpTool(String name, String description, String inputSchema,
-            Function<Map<String, Object>, String> handler) {
+            Function<Map<String, Object>, Result> handler) {
         this.name = name;
         this.description = description;
         this.inputSchema = inputSchema;
@@ -84,7 +95,7 @@ public final class McpTool {
      *
      * @return The tool handler.
      */
-    public Function<Map<String, Object>, String> getHandler() {
+    public Function<Map<String, Object>, Result> getHandler() {
         return handler;
     }
 }
