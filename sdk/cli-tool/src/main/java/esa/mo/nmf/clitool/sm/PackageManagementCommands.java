@@ -25,6 +25,7 @@ import esa.mo.nmf.clitool.Args;
 import esa.mo.nmf.clitool.BaseCommand;
 import esa.mo.nmf.clitool.ExitCodes;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -41,6 +42,8 @@ import org.ccsds.moims.mo.sm.structures.PackageApproval;
 import org.ccsds.moims.mo.sm.structures.PackageApprovalList;
 import org.ccsds.moims.mo.sm.structures.PackageContent;
 import org.ccsds.moims.mo.sm.structures.PackageContentList;
+import org.ccsds.moims.mo.sm.structures.PackageType;
+import org.ccsds.moims.mo.sm.structures.PackageTypeList;
 import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 import org.ccsds.moims.mo.sm.packagemanagement.body.FindPackageResponse;
 import org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementAdapter;
@@ -118,12 +121,23 @@ public class PackageManagementCommands {
         @Override
         public void run(Args args) {
             parseBaseOptions(args);
+            String typeOption = args.option("--type");
             List<String> positionals = args.positionals();
             if (positionals.isEmpty()) {
                 System.out.println("Missing required argument: <packageName>");
                 return;
             }
             String name = positionals.get(0);
+
+            PackageTypeList types = null;
+            if (typeOption != null) {
+                types = parseTypes(typeOption);
+                if (types == null) {
+                    System.out.println("Invalid --type value: " + typeOption
+                            + ". It must be a comma-separated list of: app, dependency, java, mission, nmf, delta.");
+                    System.exit(ExitCodes.GENERIC_ERROR);
+                }
+            }
 
             if (!super.initRemoteConsumer()) {
                 System.exit(ExitCodes.NO_HOST);
@@ -139,7 +153,7 @@ public class PackageManagementCommands {
                 PackageManagementStub packageManagement = getPackageManagement();
                 IdentifierList names = new IdentifierList();
                 names.add(new Identifier(name));
-                FindPackageResponse response = packageManagement.findPackage(names);
+                FindPackageResponse response = packageManagement.findPackage(names, types);
                 for (int i = 0; i < response.getNames().size(); i++) {
                     String packageName = response.getNames().get(i).getValue();
                     Boolean isInstalled = response.getInstalled().get(i);
@@ -154,7 +168,26 @@ public class PackageManagementCommands {
             }
         }
 
-        /** What the metadata of the i-th package file holds, such as " - app hello-world 5.1". */
+        /**
+         * Parses a comma-separated, case-insensitive list of package types,
+         * such as {@code app,dependency}, into a {@link PackageTypeList}.
+         *
+         * @param option the value of the {@code --type} option
+         * @return the parsed types, or null if any entry is not a package type
+         */
+        private static PackageTypeList parseTypes(String option) {
+            PackageTypeList types = new PackageTypeList();
+            for (String entry : option.split(",")) {
+                try {
+                    types.add(PackageType.fromString(entry.trim().toUpperCase(Locale.ROOT)));
+                } catch (RuntimeException ex) {
+                    return null;
+                }
+            }
+            return types;
+        }
+
+        /** What the metadata of the i-th package file holds, such as " - APP hello-world 5.1". */
         private static String contentOf(PackageContentList contents, int i) {
             if (contents == null || i >= contents.size() || contents.get(i).getName() == null) {
                 return "";
@@ -208,7 +241,7 @@ public class PackageManagementCommands {
                 PackageManagementStub packageManagement = getPackageManagement();
                 IdentifierList names = new IdentifierList();
                 names.add(new Identifier(name));
-                FindPackageResponse response = packageManagement.findPackage(names);
+                FindPackageResponse response = packageManagement.findPackage(names, null);
                 for (int i = 0; i < response.getNames().size(); i++) {
                     String packageName = response.getNames().get(i).getValue();
                     Boolean isInstalled = response.getInstalled().get(i);

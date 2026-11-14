@@ -48,6 +48,8 @@ import org.ccsds.moims.mo.sm.structures.PackageContent;
 import org.ccsds.moims.mo.sm.structures.PackageContentList;
 import org.ccsds.moims.mo.sm.structures.PackageIntegrity;
 import org.ccsds.moims.mo.sm.structures.PackageIntegrityList;
+import org.ccsds.moims.mo.sm.structures.PackageType;
+import org.ccsds.moims.mo.sm.structures.PackageTypeList;
 
 /**
  * The PackageManagementConsumerPanel class holds a panel to interact with a
@@ -59,6 +61,10 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
 
     private final PackageManagementConsumerServiceImpl serviceSMPackageManagement;
     private final PackageManagementTablePanel packagesTable;
+
+    /** Filters the listed packages by type; "all" applies no type filter. */
+    private final javax.swing.JComboBox<String> typeFilterCombo = new javax.swing.JComboBox<>(
+            new String[]{"all", "app", "dependency", "java", "mission", "nmf", "delta"});
 
     /**
      * Constructor.
@@ -73,6 +79,11 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
         this.serviceSMPackageManagement = serviceSMPackageManagement;
         packagesTable = new PackageManagementTablePanel();
         jScrollPane2.setViewportView(packagesTable);
+
+        // Added programmatically to avoid touching the generated form code
+        typeFilterCombo.addActionListener(this::listAppAllButtonActionPerformed);
+        jPanel1.add(new javax.swing.JLabel("  type:"));
+        jPanel1.add(typeFilterCombo);
     }
 
     /**
@@ -177,9 +188,10 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
     private void listAppAllButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listAppAllButtonActionPerformed
         IdentifierList idList = new IdentifierList();
         idList.add(new Identifier("*"));
+        PackageTypeList types = selectedTypes();
 
         try {
-            this.serviceSMPackageManagement.getPackageManagementStub().asyncFindPackage(idList,
+            this.serviceSMPackageManagement.getPackageManagementStub().asyncFindPackage(idList, types,
                     new PackageManagementAdapter() {
                 @Override
                 public void findPackageResponseReceived(MALMessageHeader msgHeader,
@@ -212,6 +224,22 @@ public class PackageManagementConsumerPanel extends javax.swing.JPanel {
                     Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_listAppAllButtonActionPerformed
+
+    /**
+     * The package types selected in the filter combo box, or null when "all" is
+     * selected so that no type filter is applied.
+     *
+     * @return the selected types, or null for no filter
+     */
+    private PackageTypeList selectedTypes() {
+        Object selected = typeFilterCombo.getSelectedItem();
+        if (selected == null || "all".equals(selected)) {
+            return null;
+        }
+        PackageTypeList types = new PackageTypeList();
+        types.add(PackageType.fromString(((String) selected).toUpperCase(java.util.Locale.ROOT)));
+        return types;
+    }
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         if (packagesTable.getSelectedRow() == -1) { // The row is not selected?

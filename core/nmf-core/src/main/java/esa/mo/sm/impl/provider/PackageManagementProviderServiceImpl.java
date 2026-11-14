@@ -57,6 +57,8 @@ import org.ccsds.moims.mo.sm.structures.PackageContentList;
 import org.ccsds.moims.mo.sm.structures.PackageInstalled;
 import org.ccsds.moims.mo.sm.structures.PackageIntegrity;
 import org.ccsds.moims.mo.sm.structures.PackageIntegrityList;
+import org.ccsds.moims.mo.sm.structures.PackageType;
+import org.ccsds.moims.mo.sm.structures.PackageTypeList;
 import org.ccsds.moims.mo.sm.structures.PackageUninstalled;
 import org.ccsds.moims.mo.sm.structures.PackageUpdated;
 
@@ -132,7 +134,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     }
 
     @Override
-    public FindPackageResponse findPackage(IdentifierList names, MALInteraction interaction)
+    public FindPackageResponse findPackage(IdentifierList names, PackageTypeList types, MALInteraction interaction)
             throws UnknownException, InternalException, InvalidArgumentException, MALException {
         UIntegerList unkIndexList = new UIntegerList();
         FindPackageResponse outList;
@@ -159,10 +161,13 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
 
             if (returnAll) {
                 for (String pack : availablePackages) {
-                    boolean isInstalled = backend.isPackageInstalled(pack);
+                    PackageContent content = contentOf(pack);
+                    if (!matchesTypeFilter(content, types)) {
+                        continue;
+                    }
                     packages.add(new Identifier(pack));
-                    installed.add(isInstalled);
-                    contents.add(contentOf(pack));
+                    installed.add(backend.isPackageInstalled(pack));
+                    contents.add(content);
                 }
             } else {
                 for (int j = 0; j < names.size(); j++) {
@@ -172,10 +177,14 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
                     if (index == -1) {
                         unkIndexList.add(new UInteger(j));
                     } else {
-                        boolean isInstalled = backend.isPackageInstalled(availablePackages.get(index));
-                        packages.add(new Identifier(availablePackages.get(index)));
-                        installed.add(isInstalled);
-                        contents.add(contentOf(availablePackages.get(index)));
+                        String pack = availablePackages.get(index);
+                        PackageContent content = contentOf(pack);
+                        if (!matchesTypeFilter(content, types)) {
+                            continue;
+                        }
+                        packages.add(new Identifier(pack));
+                        installed.add(backend.isPackageInstalled(pack));
+                        contents.add(content);
                     }
                 }
             }
@@ -536,6 +545,24 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     private PackageContent contentOf(final String packageFile) {
         PackageContent content = backend.getPackageContent(packageFile);
         return (content != null) ? content : new PackageContent(null, null, null);
+    }
+
+    /**
+     * Whether a package passes the type filter of a findPackage request. A NULL
+     * filter accepts every package; otherwise only a package whose type is one
+     * of the requested types passes, which excludes a package whose type could
+     * not be read.
+     *
+     * @param content the content of the package, never null
+     * @param types the requested types, or null for no type filter
+     * @return true if the package passes the filter
+     */
+    private static boolean matchesTypeFilter(final PackageContent content, final PackageTypeList types) {
+        if (types == null) {
+            return true;
+        }
+        PackageType type = content.getType();
+        return type != null && types.contains(type);
     }
 
     /**

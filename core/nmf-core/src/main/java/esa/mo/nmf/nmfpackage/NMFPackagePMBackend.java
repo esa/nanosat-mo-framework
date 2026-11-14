@@ -38,6 +38,7 @@ import java.util.zip.ZipFile;
 import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.StringList;
 import org.ccsds.moims.mo.sm.structures.PackageContent;
+import org.ccsds.moims.mo.sm.structures.PackageType;
 
 /**
  * The Package Management backend to handle the NMF Packages.
@@ -201,12 +202,42 @@ public class NMFPackagePMBackend implements PMBackend {
         try (NMFPackage nmfPackage = new NMFPackage(this.getFolderLocation(packageName))) {
             Metadata metadata = nmfPackage.getMetadata();
             return new PackageContent(new Identifier(metadata.getPackageName()),
-                    metadata.getPackageVersion(), metadata.getPackageType());
+                    metadata.getPackageVersion(), toPackageType(metadata.getPackageType()));
         } catch (IOException ex) {
             Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.FINE,
                     "The content of the package {0} could not be read: {1}",
                     new Object[]{packageName, ex.getMessage()});
             return null;
+        }
+    }
+
+    /**
+     * Maps the package type that the metadata records, as one of the
+     * {@code Metadata.TYPE_*} strings, to its {@link PackageType} value.
+     *
+     * @param type the package type string from the metadata
+     * @return the matching {@link PackageType}, or null if the type is null or
+     * is not one of the known types
+     */
+    private static PackageType toPackageType(final String type) {
+        if (type == null) {
+            return null;
+        }
+        switch (type) {
+            case Metadata.TYPE_APP:
+                return PackageType.APP;
+            case Metadata.TYPE_DEPENDENCY:
+                return PackageType.DEPENDENCY;
+            case Metadata.TYPE_UPDATE_JAVA:
+                return PackageType.JAVA;
+            case Metadata.TYPE_UPDATE_MISSION:
+                return PackageType.MISSION;
+            case Metadata.TYPE_UPDATE_NMF:
+                return PackageType.NMF;
+            case Metadata.TYPE_DELTA:
+                return PackageType.DELTA;
+            default:
+                return null;
         }
     }
 

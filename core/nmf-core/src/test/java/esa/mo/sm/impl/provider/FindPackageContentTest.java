@@ -37,6 +37,8 @@ import org.ccsds.moims.mo.mal.structures.Identifier;
 import org.ccsds.moims.mo.mal.structures.IdentifierList;
 import org.ccsds.moims.mo.sm.packagemanagement.body.FindPackageResponse;
 import org.ccsds.moims.mo.sm.structures.PackageContent;
+import org.ccsds.moims.mo.sm.structures.PackageType;
+import org.ccsds.moims.mo.sm.structures.PackageTypeList;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -71,9 +73,9 @@ public class FindPackageContentTest {
                 "hello-world-5.1.jar", null, null, new ArrayList<>(), "6.0"));
         write("commons-lang3-3.14.nmfpack", new MetadataDependency("commons-lang3", "3.14"));
 
-        Assert.assertEquals(new PackageContent(new Identifier("hello-world"), "5.1", Metadata.TYPE_APP),
+        Assert.assertEquals(new PackageContent(new Identifier("hello-world"), "5.1", PackageType.APP),
                 contentOf("hello-world-5.1.nmfpack"));
-        Assert.assertEquals(new PackageContent(new Identifier("commons-lang3"), "3.14", "dependency"),
+        Assert.assertEquals(new PackageContent(new Identifier("commons-lang3"), "3.14", PackageType.DEPENDENCY),
                 contentOf("commons-lang3-3.14.nmfpack"));
     }
 
@@ -91,7 +93,7 @@ public class FindPackageContentTest {
 
         IdentifierList all = new IdentifierList();
         all.add(new Identifier("*"));
-        FindPackageResponse response = service.findPackage(all, null);
+        FindPackageResponse response = service.findPackage(all, null, null);
 
         Assert.assertEquals(response.getNames().size(), response.getContents().size());
         for (int i = 0; i < response.getNames().size(); i++) {
@@ -101,10 +103,28 @@ public class FindPackageContentTest {
         }
     }
 
+    @Test
+    public void theTypesFilterReturnsOnlyThePackagesOfThoseTypes() throws Exception {
+        write("hello-world-5.1.nmfpack", new MetadataApp("hello-world", "5.1", "esa.mo.nmf.apps.Hello",
+                "hello-world-5.1.jar", null, null, new ArrayList<>(), "6.0"));
+        write("commons-lang3-3.14.nmfpack", new MetadataDependency("commons-lang3", "3.14"));
+
+        IdentifierList all = new IdentifierList();
+        all.add(new Identifier("*"));
+        PackageTypeList appsOnly = new PackageTypeList();
+        appsOnly.add(PackageType.APP);
+
+        FindPackageResponse response = service.findPackage(all, appsOnly, null);
+
+        Assert.assertEquals(1, response.getContents().size());
+        Assert.assertEquals("hello-world", response.getContents().get(0).getName().getValue());
+        Assert.assertEquals(PackageType.APP, response.getContents().get(0).getType());
+    }
+
     private PackageContent contentOf(String file) throws Exception {
         IdentifierList names = new IdentifierList();
         names.add(new Identifier(file));
-        FindPackageResponse response = service.findPackage(names, null);
+        FindPackageResponse response = service.findPackage(names, null, null);
         Assert.assertEquals(1, response.getContents().size());
         return response.getContents().get(0);
     }

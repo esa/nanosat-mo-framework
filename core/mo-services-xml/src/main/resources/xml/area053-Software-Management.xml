@@ -20,10 +20,19 @@
             </mal:documentation>
             <mal:capabilitySet number="1" comment="">
                 <mal:requestIP name="findPackage" number="1" comment="The findPackage operation allows a consumer to find the available packages on the provider.">
+                    <mal:documentation name="Requirement" order="1">
+                        If the types field is NULL, then the service provider shall not filter the packages by type.
+                    </mal:documentation>
+                    <mal:documentation name="Requirement" order="2">
+                        If the types field is not NULL, then the service provider shall return only the packages whose type is in the types field.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:request>
                             <mal:field name="names" canBeNull="false" comment="The names of the package files, such as hello-world-5.1.nmfpack.">
                                 <mal:type area="MAL" list="true" name="Identifier"/>
+                            </mal:field>
+                            <mal:field name="types" canBeNull="true" comment="The package types to return, such as app. NULL returns every type.">
+                                <mal:type area="SM" list="true" name="PackageType"/>
                             </mal:field>
                         </mal:request>
                         <mal:response>
@@ -1007,10 +1016,18 @@
                 <mal:field name="version" canBeNull="true" comment="The version of the package, such as 5.1. NULL if the package file cannot be read.">
                     <mal:type area="MAL" list="false" name="String"/>
                 </mal:field>
-                <mal:field name="type" canBeNull="true" comment="The type of the package: app, dependency, java, mission, nmf or delta. NULL if the package file cannot be read.">
-                    <mal:type area="MAL" list="false" name="String"/>
+                <mal:field name="type" canBeNull="true" comment="The type of the package. NULL if the package file cannot be read.">
+                    <mal:type area="SM" list="false" name="PackageType"/>
                 </mal:field>
             </mal:composite>
+            <mal:enumeration name="PackageType" shortFormPart="17" comment="The PackageType enumeration identifies the kind of content that a package file holds.">
+                <mal:item nvalue="1" value="APP"        comment="An NMF App."/>
+                <mal:item nvalue="2" value="DEPENDENCY" comment="A shared library used by one or more Apps."/>
+                <mal:item nvalue="3" value="JAVA"       comment="A Java runtime update."/>
+                <mal:item nvalue="4" value="MISSION"    comment="A mission baseline update."/>
+                <mal:item nvalue="5" value="NMF"        comment="An NMF baseline update."/>
+                <mal:item nvalue="6" value="DELTA"      comment="A partial update relative to an existing package."/>
+            </mal:enumeration>
         </mal:dataTypes>
         <mal:errors>
             <mal:error number="1" name="App Running" comment="The referenced App is running."/>
