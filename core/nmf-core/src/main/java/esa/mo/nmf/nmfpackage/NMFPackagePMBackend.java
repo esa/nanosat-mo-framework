@@ -24,6 +24,7 @@ import esa.mo.helpertools.misc.Const;
 import esa.mo.nmf.environment.Deployment;
 import esa.mo.nmf.nmfpackage.metadata.InvalidPackageException;
 import esa.mo.nmf.nmfpackage.metadata.Metadata;
+import esa.mo.nmf.nmfpackage.metadata.MetadataApp;
 import esa.mo.nmf.nmfpackage.utils.ChecksumGenerator;
 import esa.mo.sm.impl.provider.AppsLauncherProviderServiceImpl;
 import esa.mo.sm.impl.util.PMBackend;
@@ -201,8 +202,14 @@ public class NMFPackagePMBackend implements PMBackend {
     public PackageContent getPackageContent(final String packageName) {
         try (NMFPackage nmfPackage = new NMFPackage(this.getFolderLocation(packageName))) {
             Metadata metadata = nmfPackage.getMetadata();
+            MetadataApp app = metadata.castToApp();
+            StringList dependencies = null;
+            if (app != null && app.hasDependencies()) {
+                dependencies = new StringList();
+                dependencies.addAll(app.getAppDependencies());
+            }
             return new PackageContent(new Identifier(metadata.getPackageName()),
-                    metadata.getPackageVersion(), toPackageType(metadata.getPackageType()));
+                    metadata.getPackageVersion(), toPackageType(metadata.getPackageType()), dependencies);
         } catch (IOException ex) {
             Logger.getLogger(NMFPackagePMBackend.class.getName()).log(Level.FINE,
                     "The content of the package {0} could not be read: {1}",

@@ -117,6 +117,16 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
     }
 
     /**
+     * Returns the connection provider of this service, which holds the
+     * connection details that a consumer uses to reach it.
+     *
+     * @return the connection provider
+     */
+    public ConnectionProvider getConnection() {
+        return this.connection;
+    }
+
+    /**
      * Closes all running threads and releases the MAL resources.
      */
     public void close() {
@@ -544,7 +554,7 @@ public class PackageManagementProviderServiceImpl extends PackageManagementInher
      */
     private PackageContent contentOf(final String packageFile) {
         PackageContent content = backend.getPackageContent(packageFile);
-        return (content != null) ? content : new PackageContent(null, null, null);
+        return (content != null) ? content : new PackageContent(null, null, null, null);
     }
 
     /**

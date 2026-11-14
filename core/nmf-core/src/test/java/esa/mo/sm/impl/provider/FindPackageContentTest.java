@@ -73,17 +73,32 @@ public class FindPackageContentTest {
                 "hello-world-5.1.jar", null, null, new ArrayList<>(), "6.0"));
         write("commons-lang3-3.14.nmfpack", new MetadataDependency("commons-lang3", "3.14"));
 
-        Assert.assertEquals(new PackageContent(new Identifier("hello-world"), "5.1", PackageType.APP),
+        Assert.assertEquals(new PackageContent(new Identifier("hello-world"), "5.1", PackageType.APP, null),
                 contentOf("hello-world-5.1.nmfpack"));
-        Assert.assertEquals(new PackageContent(new Identifier("commons-lang3"), "3.14", PackageType.DEPENDENCY),
+        Assert.assertEquals(new PackageContent(new Identifier("commons-lang3"), "3.14", PackageType.DEPENDENCY, null),
                 contentOf("commons-lang3-3.14.nmfpack"));
+    }
+
+    @Test
+    public void anAppPackageGivesItsDependencyJarNames() throws Exception {
+        ArrayList<String> deps = new ArrayList<>();
+        deps.add("orekit-11.3.2.jar");
+        deps.add("hipparchus-core-2.3.jar");
+        write("cas-6.0.nmfpack", new MetadataApp("cas", "6.0", "esa.mo.nmf.apps.Cas",
+                "cas-6.0.jar", null, null, deps, "6.0"));
+
+        org.ccsds.moims.mo.mal.structures.StringList expected
+                = new org.ccsds.moims.mo.mal.structures.StringList();
+        expected.add("orekit-11.3.2.jar");
+        expected.add("hipparchus-core-2.3.jar");
+        Assert.assertEquals(expected, contentOf("cas-6.0.nmfpack").getDependencies());
     }
 
     @Test
     public void aFileThatCannotBeReadGetsAnEntryWithNoContent() throws Exception {
         Files.writeString(new File(packages, "broken-1.0.nmfpack").toPath(), "not a package");
 
-        Assert.assertEquals(new PackageContent(null, null, null), contentOf("broken-1.0.nmfpack"));
+        Assert.assertEquals(new PackageContent(null, null, null, null), contentOf("broken-1.0.nmfpack"));
     }
 
     @Test

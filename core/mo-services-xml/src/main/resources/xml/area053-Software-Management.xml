@@ -1019,6 +1019,9 @@
                 <mal:field name="type" canBeNull="true" comment="The type of the package. NULL if the package file cannot be read.">
                     <mal:type area="SM" list="false" name="PackageType"/>
                 </mal:field>
+                <mal:field name="dependencies" canBeNull="true" comment="The dependency JAR file names of an App package, such as orekit-11.3.2.jar. NULL for a package that declares no dependencies, or whose type is not app.">
+                    <mal:type area="MAL" list="true" name="String"/>
+                </mal:field>
             </mal:composite>
             <mal:enumeration name="PackageType" shortFormPart="17" comment="The PackageType enumeration identifies the kind of content that a package file holds.">
                 <mal:item nvalue="1" value="APP"        comment="An NMF App."/>
