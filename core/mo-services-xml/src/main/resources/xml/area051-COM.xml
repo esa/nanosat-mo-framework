@@ -399,6 +399,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="2" comment="">
                 <mal:progressIP name="retrieveRange" number="2" comment="The retrieveRange operation allows a consumer to retrieve COM archive objects within a specified time range. The response is streamed as a sequence of compressed chunks.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall send the serialized matched objects as a sequence of UPDATE messages, where reassembling the chunk fields in ascending index order reconstructs the complete response.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:progress>
                             <mal:field name="from" canBeNull="true" comment="The start time of the range to retrieve.">
@@ -437,6 +440,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="3" comment="">
                 <mal:progressIP name="retrieveRangeAgain" number="3" comment="The retrieveRangeAgain operation allows a consumer to re-request chunks that were not received in a previous retrieveRange interaction.">
+                    <mal:documentation name="Requirement" order="1">
+                        For each index in the missingIndexes field, the service provider shall send an UPDATE message whose chunk and index fields match the chunk originally sent at that index in the retrieveRange interaction identified by the interactionTicket field.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:progress>
                             <mal:field name="interactionTicket" canBeNull="true" comment="The ticket id from the previous retrieveRange interaction.">
@@ -484,6 +490,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="5" comment="">
                 <mal:submitIP name="free" number="5" comment="The free operation allows a consumer to release a transaction after completing a retrieval.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall release the retained state of the transaction identified by the transactionTicket field.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:submit>
                             <mal:field name="transactionTicket" canBeNull="true" comment="The ticket id of the transaction to be released.">

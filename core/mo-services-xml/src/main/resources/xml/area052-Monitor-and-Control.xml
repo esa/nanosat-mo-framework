@@ -298,6 +298,9 @@
             </mal:documentation>
             <mal:capabilitySet number="1" comment="">
                 <mal:pubsubIP name="monitorValue" number="1" comment="The monitorValue operation allows a consumer to subscribe for parameter value reports.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall take the timestamp of the ParameterValue report from the PUBLISH message.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:subscriptionKeys>
                             <mal:field name="name" canBeNull="false" comment="The name of the parameter.">

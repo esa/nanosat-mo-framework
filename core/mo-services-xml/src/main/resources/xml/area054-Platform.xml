@@ -687,6 +687,9 @@
             </mal:documentation>
             <mal:capabilitySet number="1" comment="">
                 <mal:pubsubIP name="monitorAttitude" number="1" comment="The monitorAttitude operation allows a consumer to subscribe for the spacecraft attitude, ADCS actuators status, and ADCS attitude control mode status.">
+                    <mal:documentation name="Requirement" order="1">
+                        The timestamp of the NOTIFY message shall be the on-board time at which it is published.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:publishNotify>
                             <mal:field name="attitudeTelemetry" canBeNull="true" comment="Determined spacecraft attitude.">

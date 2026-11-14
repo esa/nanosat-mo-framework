@@ -60,6 +60,9 @@
                     </mal:errors>
                 </mal:requestIP>
                 <mal:invokeIP name="install" number="2" comment="The install operation allows a consumer to install the content of a package on the provider. The selected packages will be installed sequentially.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall install the content of each package in the packages field.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:invoke>
                             <mal:field name="packages" canBeNull="false" comment="The packages, each with what ground approved for it: the checksum of its file and its permissions.">
@@ -126,6 +129,9 @@
                     </mal:errors>
                 </mal:invokeIP>
                 <mal:invokeIP name="uninstall" number="3" comment="The uninstall operation allows a consumer to uninstall the content of a package on the provider. The selected packages will be uninstalled sequentially.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall remove the content of each package named in the names field from the provider.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:invoke>
                             <mal:field name="names" canBeNull="false" comment="The names of the package files, such as hello-world-5.1.nmfpack.">
@@ -182,6 +188,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="2" comment="">
                 <mal:invokeIP name="update" number="4" comment="The update operation allows a consumer to update the content of a package on the provider. The selected packages will be updated sequentially.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall replace the installed content of each package in the packages field with its newer version.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:invoke>
                             <mal:field name="packages" canBeNull="false" comment="The packages, each with what ground approved for it: the checksum of its file and its permissions.">
@@ -341,6 +350,9 @@
             </mal:documentation>
             <mal:capabilitySet number="1" comment="">
                 <mal:pubsubIP name="beat" number="1" comment="The beat operation allows a provider to periodically send a heartbeat to the consumers.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall publish one NOTIFY message per time period, where the length of the period is the value returned by the getPeriod operation.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:subscriptionKeys>
                         </mal:subscriptionKeys>
@@ -389,6 +401,9 @@
         <mal:service name="CommandExecutor" number="3" xsi:type="com:ExtendedServiceType" comment="The Command Executor service allows executing arbitrary system commands and monitoring their status.">
             <mal:capabilitySet number="1" comment="">
                 <mal:requestIP name="runCommand" number="1" comment="The runCommand operation allows a consumer to spawn a new shell instance and execute an arbitrary command on the provider host.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall report the standard output, standard error, and termination of the command through the monitorOutput operation.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:request>
                             <mal:field name="command" canBeNull="false" comment="Details of the command to be run.">
@@ -502,6 +517,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="2" comment="">
                 <mal:submitIP name="runApp" number="2" comment="The runApp operation allows a consumer to run an application on the provider.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall start a new process for each app in the appIds field.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:submit>
                             <mal:field name="appIds" canBeNull="false" comment="The list of apps to run.">
@@ -549,6 +567,9 @@
                     </mal:errors>
                 </mal:submitIP>
                 <mal:submitIP name="killApp" number="3" comment="The killApp operation allows a consumer to kill the execution of an application on the provider in case an application becomes unresponsive.">
+                    <mal:documentation name="Requirement" order="1">
+                        The service provider shall forcibly terminate the process of each app in the appIds field, without waiting for the app to close.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:submit>
                             <mal:field name="appIds" canBeNull="false" comment="The list of apps to be killed.">
@@ -680,6 +701,9 @@
             </mal:capabilitySet>
             <mal:capabilitySet number="5" comment="">
                 <mal:pubsubIP name="monitorEvents" number="6" comment="The monitorEvents operation allows a consumer to subscribe to app lifecycle events.">
+                    <mal:documentation name="Requirement" order="1">
+                        The timestamp of the NOTIFY message shall be the on-board time at which it is published.
+                    </mal:documentation>
                     <mal:messages>
                         <mal:subscriptionKeys>
                             <mal:field name="appName" canBeNull="false" comment="The name of the app to subscribe to, or wildcard for all apps.">
