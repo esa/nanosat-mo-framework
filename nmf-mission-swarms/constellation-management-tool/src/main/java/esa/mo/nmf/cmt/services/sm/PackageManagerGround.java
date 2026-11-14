@@ -66,7 +66,7 @@ public class PackageManagerGround {
         idList.add(new Identifier("*"));
 
         try {
-            return serviceSMPackageManagement.getPackageManagementStub().findPackage(idList);
+            return serviceSMPackageManagement.getPackageManagementStub().findPackage(idList, null);
         } catch (MOErrorException | MALException ex) {
             Logger.getLogger(ConstellationManagementTool.class.getName()).log(Level.SEVERE, null, ex);
         }

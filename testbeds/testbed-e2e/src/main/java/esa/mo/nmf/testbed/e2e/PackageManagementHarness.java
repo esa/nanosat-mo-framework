@@ -121,7 +121,7 @@ public class PackageManagementHarness {
         IdentifierList names = new IdentifierList();
         names.add(new Identifier("*"));
         try {
-            return stub.findPackage(names);
+            return stub.findPackage(names, null);
         } catch (MALException | MOErrorException e) {
             throw new IOException("findPackage failed: " + e.getMessage(), e);
         }

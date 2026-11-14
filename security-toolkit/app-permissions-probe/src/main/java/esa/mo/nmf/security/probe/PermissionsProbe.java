@@ -241,7 +241,7 @@ public class PermissionsProbe {
         attempt("Supervisor.SM.AppsLauncher", "listApp", () -> supervisor.getSMServices()
                 .getAppsLauncherService().getAppsLauncherStub().listApp(all, new Identifier("*")));
         attempt("Supervisor.SM.PackageManagement", "findPackage", () -> supervisor.getSMServices()
-                .getPackageManagementService().getPackageManagementStub().findPackage(all));
+                .getPackageManagementService().getPackageManagementStub().findPackage(all, null));
         attempt("Supervisor.SM.CommandExecutor", "runCommand", () -> supervisor.getSMServices()
                 .getCommandExecutorService().getCommandExecutorStub()
                 .runCommand(new Command("id", null, null)));
@@ -269,7 +269,7 @@ public class PermissionsProbe {
         org.ccsds.moims.mo.sm.packagemanagement.consumer.PackageManagementStub forgedStub = forger
                 .getSMServices().getPackageManagementService().getPackageManagementStub();
         forgedStub.getConsumer().setAuthenticationId(new org.ccsds.moims.mo.mal.structures.Blob(forged));
-        attempt("Forged.Supervisor.SM.PackageManagement", "findPackage", () -> forgedStub.findPackage(all));
+        attempt("Forged.Supervisor.SM.PackageManagement", "findPackage", () -> forgedStub.findPackage(all, null));
 
         // The same CommandExecutor, with the Supervisor's host written as this computer's
         // name instead of its address: the same socket, so the same service, but the
