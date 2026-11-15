@@ -1,6 +1,6 @@
-========================
-nmf-linux-maven-plugin
-========================
+======================
+NMF Linux Maven Plugin
+======================
 
 The ``nmf-linux-maven-plugin`` generates the on-board filesystem of a mission: the directory tree, the baseline files, the bootloader and its configuration, and the checksum manifests.
 It is a mission-side plugin and has nothing to do with the ``nmf-package-maven-plugin``, which packages an App (see :doc:`../development-app/packaging`).
