@@ -48,6 +48,9 @@ main class per baseline keeps every version- or mission-specific value out of th
 state (``state.properties``); it is the complete boot-integrity domain and can be permission-locked as a
 unit.
 
+Besides the boot parameters, ``config.properties`` also carries the Supervisor's security settings — the apps isolation mode, the access control mode, the credentials mode and whether a package checksum is required — which the bootloader reads, passes to the Supervisor and records in the Boot Report.
+The directory holds two further access-control files: ``supervisor-secret.credential``, the operator credential the Supervisor accepts as a full-access caller, and ``security-baseline.properties``, which records the security posture the filesystem was generated with (see *Security configuration* below).
+
 The baseline files are the single source of boot configuration. They are written by three actors: the
 Package Management service rotates primary/secondary automatically on a confirmed upgrade; ground can set
 the *primary* and *secondary* baselines directly through the Parameter service (validated before
@@ -119,6 +122,19 @@ retained — the bootloader never deletes them. The only bound is the daily file
 (``MaxReportFileSize``), which only a persistent failure loop can reach: further reports of the day are
 then suppressed after a notice, preserving the first — most diagnostic — reports of the day. Once the
 Supervisor is running, the reports are retrievable from ground through its services.
+
+Security configuration
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The access control settings — the mode (``off``, ``audit`` or ``enforce``), the credentials mode (``signed`` or ``plain``) and whether a package checksum is required — are chosen at filesystem generation and written to ``config.properties``, from where the bootloader passes them to the Supervisor.
+The same posture is recorded, at generation, in ``security-baseline.properties``, which — where the apps isolation mode provides a root provisioning step — is locked to root like the factory baseline file.
+
+At every boot the bootloader and the Supervisor each compare the running ``config.properties`` against this reference.
+A weakening, such as access control turned off, is reported as a warning, because it reduces on-board protection and may indicate tampering; a strengthening is reported as information.
+The boot is not blocked — the difference is only reported, from the Boot Report and the Supervisor log independently, so that one report does not depend on the other.
+
+Detecting a weakening is not the same as preventing it: a caller able to write both ``config.properties`` and the root-locked ``security-baseline.properties`` leaves no difference to report.
+Preventing an unauthenticated downgrade would require a signed configuration, which is a separate decision outside this specification.
 
 Restart types
 ~~~~~~~~~~~~~
@@ -324,8 +340,9 @@ the Boot Report immediately after the execution of that step.
 
 **NMF.BOOT.BAA.04 — Boot Report content.** As a minimum, the Boot Report shall include: timestamp,
 cold/warm restart indication, the selected baseline and its framework, mission and Java runtime versions,
-the primary, secondary and factory baseline versions, the result of each self-test and integrity test, any
-reconfiguration decision, and any error detected.
+the primary, secondary and factory baseline versions, the result of each self-test and integrity test, the
+access control configuration and any difference from the security baseline the filesystem was generated
+with, any reconfiguration decision, and any error detected.
 
   :Traces to: SAVOIR.BOOTSW.BAA.385
 
@@ -426,9 +443,11 @@ Package Management service shall reject any install, update or uninstall operati
      baseline is the last rung of the fallback ladder and must be beyond the reach of in-flight software
      maintenance.
   :Note: where the apps isolation mode provides a root provisioning step (``setup_linux_userspace.sh``),
-     the factory baseline file is additionally locked at OS level (owned by root, read-only) and the
-     ``bootloader/`` directory is restricted to the NMF Admin user; the Package Management rejection is
-     the mode-independent guarantee.
+     the factory baseline file and the security baseline (``security-baseline.properties``) are additionally
+     locked at OS level (owned by root, read-only), the operator credential
+     (``supervisor-secret.credential``) is readable only by the Supervisor, and the ``bootloader/``
+     directory is restricted to the NMF Admin user; the Package Management rejection is the
+     mode-independent guarantee.
 
 **NMF.BOOT.BMM.04 — Baseline independence.** The bootloader shall be independent from the actual values of
 the baseline (version strings, file lists, sizes); all baseline knowledge comes from the baseline files
