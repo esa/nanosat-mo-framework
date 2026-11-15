@@ -38,6 +38,9 @@ Package type                   In-archive directory
 ``java``                       ``java/...``
 ============================== =================================================
 
+A ``dependency`` package installs into ``jars-shared-libraries``, which is on the app classpath but not the Supervisor's.
+See :doc:`../development-mission/filesystem` for how the jar directories map to the Supervisor and app classpaths, and why a library used by both is present in two of them.
+
 Every package also contains a ``package-metadata.properties`` file at the archive root.
 It declares the package name, version, type, creation timestamp, metadata schema version,
 and one entry per included file with its installed path and SHA-256 checksum:

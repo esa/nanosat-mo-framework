@@ -36,6 +36,35 @@ The constants for each directory name live in ``esa.mo.nmf.environment.Deploymen
 The Supervisor startup script — the NMF Bootloader, see the
 :doc:`../background/bootloader-specification` — is placed at the root of the output.
 
+Classpath directories
+---------------------
+
+The Supervisor and the apps run from different classpaths, so the jar directories are not interchangeable.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 30 30
+
+   * - Directory
+     - Supervisor classpath
+     - App classpath
+   * - ``jars-nmf/<version>``
+     - yes
+     - yes
+   * - ``jars-mission/<version>``
+     - yes
+     - no
+   * - ``jars-shared-libraries/``
+     - no
+     - yes
+
+The Supervisor reads ``jars-nmf`` and ``jars-mission``; an app reads ``jars-nmf`` and ``jars-shared-libraries``.
+``jars-nmf`` is the only directory shared by both.
+An app never has ``jars-mission`` on its classpath, so a library that an app depends on is installed into ``jars-shared-libraries`` as a ``dependency``-type package, even when the Supervisor already ships the same library in ``jars-mission``.
+
+A library used by both the Supervisor and an app therefore appears in both ``jars-mission`` and ``jars-shared-libraries``.
+This is expected, not a misconfiguration: the Supervisor does not read ``jars-shared-libraries`` and apps do not read ``jars-mission``, which keeps the mission baseline self-contained and the apps independent of the mission's internals.
+
 Delivering a new baseline
 -------------------------
 
