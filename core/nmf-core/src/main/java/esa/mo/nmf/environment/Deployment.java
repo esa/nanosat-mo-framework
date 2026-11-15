@@ -104,6 +104,12 @@ public class Deployment {
     public static final String FILE_BASELINE_FACTORY = BASELINE_FILE_PREFIX + ROLE_FACTORY + BASELINE_FILE_SUFFIX;
     /** The file bootloader config. */
     public static final String FILE_BOOTLOADER_CONFIG = "config.properties";
+    /**
+     * The file, in the bootloader directory, that records the security posture
+     * the filesystem was generated with, so that the bootloader and the
+     * Supervisor can warn when the running configuration differs from it.
+     */
+    public static final String FILE_SECURITY_BASELINE = "security-baseline.properties";
 
     /**
      * The file, in the bootloader directory, that holds the credential of

@@ -229,6 +229,10 @@ chmod 700 bootloader
 chmod 600 bootloader/supervisor-secret.credential
 chown root:root bootloader/baseline-factory.properties
 chmod 444 bootloader/baseline-factory.properties
+# The security baseline is immutable in flight too: root-owned and read-only,
+# so a weakening of the running configuration can be told apart from it.
+chown root:root bootloader/security-baseline.properties
+chmod 444 bootloader/security-baseline.properties
 
 echo "Success! The NanoSat MO Framework was set up for linux-userspace isolation!"
 

@@ -83,6 +83,54 @@ write_state() {
     } > "$STATE_FILE.tmp" 2>/dev/null && mv "$STATE_FILE.tmp" "$STATE_FILE" 2>/dev/null
 }
 
+# rank_security <field> <value> — strength rank of a security setting; higher is
+# stronger, -1 if the value is unknown. Fields: access-control, credentials, checksum.
+rank_security() {
+    case "$1:$2" in
+        access-control:off) printf '%s' 0 ;;
+        access-control:audit) printf '%s' 1 ;;
+        access-control:enforce) printf '%s' 2 ;;
+        credentials:plain) printf '%s' 0 ;;
+        credentials:signed) printf '%s' 1 ;;
+        checksum:false) printf '%s' 0 ;;
+        checksum:true) printf '%s' 1 ;;
+        *) printf '%s' -1 ;;
+    esac
+}
+
+# check_security_drift — compares the running security settings against the posture
+# the filesystem was generated with (security-baseline.properties) and reports a
+# WARNING when it was weakened (reduced protection, possible tampering) or an
+# informational line when it was strengthened. The Supervisor makes the same check,
+# so a reduced posture is reported from two independent places.
+check_security_drift() {
+    [ -r "$SECURITY_BASELINE_FILE" ] || return 0
+    _weaker=0
+    _stronger=0
+    _details=""
+    for _spec in "access-control:access-control:$ACCESS_CONTROL" \
+                 "credentials:access-control-credentials:$ACCESS_CONTROL_CREDENTIALS" \
+                 "checksum:require-package-checksum:$REQUIRE_PACKAGE_CHECKSUM"; do
+        _field=${_spec%%:*}
+        _rest=${_spec#*:}
+        _key=${_rest%%:*}
+        _cur=${_rest#*:}
+        _dep=$(get_prop "$_key" "$SECURITY_BASELINE_FILE")
+        [ -n "$_dep" ] || continue
+        [ "$_cur" = "$_dep" ] && continue
+        _dr=$(rank_security "$_field" "$_dep")
+        _cr=$(rank_security "$_field" "$_cur")
+        _details="$_details $_key: $_dep->$_cur;"
+        [ "$_cr" -lt "$_dr" ] && _weaker=1
+        [ "$_cr" -gt "$_dr" ] && _stronger=1
+    done
+    if [ "$_weaker" = "1" ]; then
+        report "INITIALISATION WARNING security posture DOWNGRADED from what was deployed:$_details reduced on-board protection, possible tampering with the configuration"
+    elif [ "$_stronger" = "1" ]; then
+        report "INITIALISATION security posture strengthened from what was deployed:$_details"
+    fi
+}
+
 # =============================================================================
 # Step 1 — Initialisation
 # =============================================================================
@@ -133,6 +181,7 @@ initialisation() {
     report "INITIALISATION config: $CONFIG_STATUS"
     _security="apps-isolation=${APPS_ISOLATION:-<missing>} access-control=$ACCESS_CONTROL access-control-credentials=$ACCESS_CONTROL_CREDENTIALS"
     report "INITIALISATION security: $_security require-package-checksum=$REQUIRE_PACKAGE_CHECKSUM"
+    check_security_drift
     case "$APPS_ISOLATION" in
         none|linux-userspace|bubblewrap|docker-containers) ;;
         *)
@@ -399,6 +448,7 @@ else
 fi
 BOOT_DIR=$NMF_HOME/bootloader
 CONFIG_FILE=$BOOT_DIR/config.properties
+SECURITY_BASELINE_FILE=$BOOT_DIR/security-baseline.properties
 STATE_FILE=$BOOT_DIR/state.properties
 MARKER_FILE=$BOOT_DIR/boot-confirmed
 REPORT_DIR=$NMF_HOME/logs/bootloader

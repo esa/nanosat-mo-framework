@@ -22,7 +22,9 @@ package esa.mo.nmf.composites;
 
 import esa.mo.nmf.accesscontrol.AccessControlAuthority;
 import esa.mo.nmf.accesscontrol.AccessControlMode;
+import esa.mo.nmf.accesscontrol.CredentialsMode;
 import esa.mo.nmf.accesscontrol.NMFAccessControl;
+import esa.mo.nmf.accesscontrol.SecurityPosture;
 import esa.mo.com.impl.util.COMServicesProvider;
 import esa.mo.com.impl.util.Quota;
 import esa.mo.helpertools.misc.Const;
@@ -42,8 +44,11 @@ import esa.mo.sm.impl.provider.CommandExecutorProviderServiceImpl;
 import esa.mo.sm.impl.provider.PackageManagementProviderServiceImpl;
 import esa.mo.sm.impl.util.PMBackend;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ccsds.moims.mo.com.directory.DirectoryHelper;
@@ -252,6 +257,7 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                 = directoryService.getConnection().getSecondaryConnectionDetails();
         String secondaryURI = (det != null) ? det.getProviderURI().toString() : null;
         boolean supervisorSecret = startAccessControl(primaryURI, secondaryURI);
+        checkSecurityPostureDrift();
         writeCentralDirectoryServiceURI(primaryURI, secondaryURI);
 
         // A Supervisor that ground cannot command does not confirm its boot, so
@@ -309,6 +315,48 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
                     + "configuration.", mode.configName());
         }
         return supervisorSecretRead;
+    }
+
+    /**
+     * Logs a warning when the security posture in force differs from the one the
+     * filesystem was generated with. A weakening is a warning, because it reduces
+     * on-board protection and may indicate tampering; a strengthening is only
+     * information. The reference is the {@code security-baseline.properties} file
+     * in the bootloader directory; a filesystem generated without it is not
+     * checked. The bootloader makes the same check against its own Boot Report,
+     * so a reduced posture is reported from two independent places.
+     */
+    private void checkSecurityPostureDrift() {
+        File reference = new File(Deployment.getBootloaderDir(), Deployment.FILE_SECURITY_BASELINE);
+        if (!reference.isFile()) {
+            return;
+        }
+        try {
+            Properties properties = new Properties();
+            try (InputStream in = new FileInputStream(reference)) {
+                properties.load(in);
+            }
+            SecurityPosture deployed = SecurityPosture.fromProperties(properties);
+            boolean requireChecksum = !"false".equalsIgnoreCase(System.getProperty(
+                    PackageManagementProviderServiceImpl.PROPERTY_REQUIRE_CHECKSUM, "true"));
+            SecurityPosture current = new SecurityPosture(AccessControlMode.current(),
+                    CredentialsMode.current(), requireChecksum);
+            switch (current.driftFrom(deployed)) {
+                case WEAKENED:
+                    LOGGER.log(Level.WARNING, "Security posture DOWNGRADED from what was deployed ({0}). "
+                            + "This reduces on-board protection and may indicate tampering with the configuration.",
+                            current.describeChangeFrom(deployed));
+                    break;
+                case STRENGTHENED:
+                    LOGGER.log(Level.INFO, "Security posture strengthened from what was deployed ({0}).",
+                            current.describeChangeFrom(deployed));
+                    break;
+                default:
+                    break;
+            }
+        } catch (IOException ex) {
+            LOGGER.log(Level.WARNING, "The security baseline could not be read: " + reference, ex);
+        }
     }
 
     /**

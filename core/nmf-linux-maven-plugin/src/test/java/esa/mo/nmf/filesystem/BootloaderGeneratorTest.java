@@ -129,7 +129,7 @@ public class BootloaderGeneratorTest {
     }
 
     @Test
-    public void aGroundCredentialIsGeneratedWithTheFilesystem() throws Exception {
+    public void aSupervisorSecretIsGeneratedWithTheFilesystem() throws Exception {
         generate("none");
         File credential = new File(new File(nmfRoot, Deployment.DIR_BOOTLOADER), Deployment.FILE_SUPERVISOR_SECRET);
         Assert.assertTrue("The filesystem must hold the supervisor secret", credential.isFile());
@@ -140,6 +140,17 @@ public class BootloaderGeneratorTest {
         generate("none");
         String second = new String(Files.readAllBytes(credential.toPath()), StandardCharsets.US_ASCII).trim();
         Assert.assertNotEquals("Each filesystem must get its own credential", first, second);
+    }
+
+    @Test
+    public void aSecurityBaselineRecordsTheDeployedPosture() throws Exception {
+        generate("none");
+        File baseline = new File(new File(nmfRoot, Deployment.DIR_BOOTLOADER), Deployment.FILE_SECURITY_BASELINE);
+        Assert.assertTrue("The filesystem must hold the security baseline", baseline.isFile());
+        String content = new String(Files.readAllBytes(baseline.toPath()), StandardCharsets.UTF_8);
+        Assert.assertTrue(content.contains("access-control=enforce"));
+        Assert.assertTrue(content.contains("access-control-credentials=signed"));
+        Assert.assertTrue(content.contains("require-package-checksum=true"));
     }
 
     @Test

@@ -197,6 +197,17 @@ public class BootloaderGenerator {
                 + "promotion-soak-s=" + DEFAULT_PROMOTION_SOAK_S + "\n";
         writeFile(new File(bootloaderDir, Deployment.FILE_BOOTLOADER_CONFIG), config);
 
+        // The security posture the filesystem was generated with, kept apart from
+        // the editable config.properties so that the bootloader and the Supervisor
+        // can warn when the running configuration differs from it. Under
+        // linux-userspace isolation this file is locked to root.
+        String securityBaseline = "# NMF security baseline: the posture this filesystem was generated with.\n"
+                + "# The bootloader and the Supervisor warn when the running configuration differs from it.\n"
+                + "access-control=" + accessControl + "\n"
+                + "access-control-credentials=" + accessControlCredentials + "\n"
+                + "require-package-checksum=" + requirePackageChecksum + "\n";
+        writeFile(new File(bootloaderDir, Deployment.FILE_SECURITY_BASELINE), securityBaseline);
+
         // The supervisor secret, new for each filesystem: requests that present
         // it may call every service. It stays in the bootloader directory, which
         // only the Supervisor can read under linux-userspace isolation.
