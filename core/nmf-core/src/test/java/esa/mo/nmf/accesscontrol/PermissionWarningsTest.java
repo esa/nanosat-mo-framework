@@ -108,7 +108,7 @@ public class PermissionWarningsTest {
     @Test
     public void aGroundToolIsNotWarned() throws Exception {
         NMFAccessControl process = newProcess();
-        process.presentGroundCredential(NMFAccessControl.newCredential(), SUPERVISOR + "/Directory");
+        process.presentSupervisorSecret(NMFAccessControl.newCredential(), SUPERVISOR + "/Directory");
 
         process.check(message(request(SUPERVISOR + COMMAND_EXECUTOR)));
 

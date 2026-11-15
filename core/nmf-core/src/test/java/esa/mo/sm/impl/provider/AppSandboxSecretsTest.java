@@ -38,7 +38,7 @@ import org.junit.rules.TemporaryFolder;
 /**
  * Holds that an App started in a sandbox can read its own credential, which
  * the Supervisor gives it for the run, and neither the credential of another
- * App nor the credential of ground, and that it has the usual devices, such as
+ * App nor the supervisor secret, and that it has the usual devices, such as
  * {@code /dev/null}.
  * <p>
  * Each test starts a real sandbox through the launcher, with a start script
@@ -77,7 +77,7 @@ public class AppSandboxSecretsTest {
         // The three secrets: this App's credential, another App's, and ground's
         write(new File(home, ".nmf-apps/" + APP + "/credential"), "own");
         write(new File(home, ".nmf-apps/other/credential"), "other");
-        write(new File(new File(root, Deployment.DIR_BOOTLOADER), Deployment.FILE_GROUND_CREDENTIAL), "ground");
+        write(new File(new File(root, Deployment.DIR_BOOTLOADER), Deployment.FILE_SUPERVISOR_SECRET), "ground");
 
         // The App: a start script that reports which of them it can read
         File script = new File(workDir, "start_app.sh");
@@ -86,7 +86,7 @@ public class AppSandboxSecretsTest {
                 + "check OWN '" + new File(home, ".nmf-apps/" + APP + "/credential") + "'\n"
                 + "check OTHER '" + new File(home, ".nmf-apps/other/credential") + "'\n"
                 + "check GROUND '" + new File(new File(root, Deployment.DIR_BOOTLOADER),
-                        Deployment.FILE_GROUND_CREDENTIAL) + "'\n"
+                        Deployment.FILE_SUPERVISOR_SECRET) + "'\n"
                 + "if echo x >/dev/null 2>/tmp/check; then echo DEVNULL=yes; else echo DEVNULL=no; fi\n");
         Assert.assertTrue(script.setExecutable(true, false));
     }
@@ -134,7 +134,7 @@ public class AppSandboxSecretsTest {
                 report.contains("OWN=yes"));
         Assert.assertTrue("The App must not be able to read the credential of another App\n" + report,
                 report.contains("OTHER=no"));
-        Assert.assertTrue("The App must not be able to read the credential of ground\n" + report,
+        Assert.assertTrue("The App must not be able to read the supervisor secret\n" + report,
                 report.contains("GROUND=no"));
     }
 

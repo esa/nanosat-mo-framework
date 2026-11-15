@@ -445,7 +445,7 @@ public class DirectoryConnectionConsumerPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     private void load_URI_links1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_load_URI_links1ActionPerformed
         try {
-            NMFAccessControl.presentGroundCredential(this.getAddressToBeUsed().getValue());
+            NMFAccessControl.presentSupervisorSecret(this.getAddressToBeUsed().getValue());
             providerList = GroundMOAdapterImpl.retrieveProvidersFromDirectory(this.getAddressToBeUsed());
             DefaultListModel listOfProviders = new DefaultListModel();
 

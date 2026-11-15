@@ -88,7 +88,7 @@ public final class McpAdapterServer {
         String directoryURI = positionals.get(0);
         String providerName = (positionals.size() > 1) ? positionals.get(1) : null;
 
-        presentGroundCredential(directoryURI, credentialFile);
+        presentSupervisorSecret(directoryURI, credentialFile);
 
         List<McpTool> tools = toolsForProvider(directoryURI, providerName);
         if (tools.isEmpty()) {
@@ -186,11 +186,11 @@ public final class McpAdapterServer {
     }
 
     /**
-     * Presents the credential of ground on the requests that this server sends
+     * Presents the supervisor secret on the requests that this server sends
      * to the Supervisor, so that its calls are accepted when the Supervisor
      * enforces access control. It must run before the first connection is
      * opened. The credential comes from the file named by {@code --credential-file},
-     * or, when none is given, from the file named by the ground credential
+     * or, when none is given, from the file named by the supervisor secret
      * system property, as in the playground. Without either, no credential is
      * presented, which is enough only for a Supervisor that does not enforce
      * access control.
@@ -199,14 +199,14 @@ public final class McpAdapterServer {
      * @param credentialFile the credential file, or null
      * @throws IOException if the credential file cannot be read
      */
-    private static void presentGroundCredential(String directoryURI, String credentialFile)
+    private static void presentSupervisorSecret(String directoryURI, String credentialFile)
             throws IOException {
         NMFAccessControl.install();
         if (credentialFile != null) {
-            NMFAccessControl.INSTANCE.presentGroundCredential(
+            NMFAccessControl.INSTANCE.presentSupervisorSecret(
                     NMFAccessControl.readCredential(credentialFile), directoryURI);
         } else {
-            NMFAccessControl.presentGroundCredential(directoryURI);
+            NMFAccessControl.presentSupervisorSecret(directoryURI);
         }
     }
 

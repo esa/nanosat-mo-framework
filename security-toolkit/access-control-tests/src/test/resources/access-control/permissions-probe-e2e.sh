@@ -11,7 +11,7 @@
 # App was installed between ---INSTALL--- and ---END---, the access control
 # lines of the Supervisor's log between ---SUPERVISOR-LOG--- and ---END---, and
 # a JSON dump of the Supervisor's Archive between ---ARCHIVE--- and ---END---,
-# and whether calls from ground with and without the ground credential got
+# and whether calls from ground with and without the supervisor secret got
 # through between ---GROUND--- and ---END---, for the test to read.
 #
 # Arguments:
@@ -25,9 +25,9 @@ NMF=/nanosat-mo-framework
 CLI="$NMF/security-tools/cli-tool.jar"
 APP_NAME=permissions-probe
 REPORT=/tmp/permissions-probe-report
-# The ground credential that the filesystem was generated with: every CLI call
+# The supervisor secret that the filesystem was generated with: every CLI call
 # below presents it, as an operator on ground would
-CRED_FILE="$NMF/bootloader/ground.credential"
+CRED_FILE="$NMF/bootloader/supervisor-secret.credential"
 CRED="--credential-file $CRED_FILE"
 
 echo "=== mode: $MODE, acknowledged: $GRANTS ==="
@@ -85,7 +85,7 @@ else
 fi
 echo "---END---"
 
-# A call from ground, without and with the ground credential
+# A call from ground, without and with the supervisor secret
 # ALLOWED only on evidence that the call was answered: the package is listed
 outcome() {
     if echo "$1" | grep -q -i "Authentication Failed\|Authorisation Fail\|AuthenticationFailed\|AuthorisationFail"; then echo "REFUSED";
@@ -97,8 +97,8 @@ OUT=$(java -jar "$CLI" software-management findPackage "$PKG" -p nanosat-mo-supe
 echo "WITHOUT_CREDENTIAL=$(outcome "$OUT")"
 OUT=$(java -jar "$CLI" software-management findPackage "$PKG" $CRED -p nanosat-mo-supervisor -r "$URI" 2>&1 || true)
 echo "WITH_CREDENTIAL=$(outcome "$OUT")"
-# As the playground's tools do: the ground credential file given as a system property
-OUT=$(java -Desa.mo.nmf.accesscontrol.groundCredentialFile="$CRED_FILE" -jar "$CLI" software-management \
+# As the playground's tools do: the supervisor secret file given as a system property
+OUT=$(java -Desa.mo.nmf.accesscontrol.supervisorSecretFile="$CRED_FILE" -jar "$CLI" software-management \
     findPackage "$PKG" -p nanosat-mo-supervisor -r "$URI" 2>&1 || true)
 echo "WITH_GROUND_PROPERTY=$(outcome "$OUT")"
 echo "---END---"

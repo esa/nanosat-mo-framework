@@ -47,7 +47,7 @@ public class McpAdapterE2ETest {
     @BeforeClass
     public static void setUpClass() throws Exception {
         harness.setUp();
-        // The harness presents the ground credential, so these calls are accepted
+        // The harness presents the supervisor secret, so these calls are accepted
         tools = McpAdapterServer.toolsForProvider(harness.getDirectoryURI(), null);
     }
 

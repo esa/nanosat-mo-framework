@@ -109,7 +109,7 @@ public class Deployment {
      * The file, in the bootloader directory, that holds the credential of
      * ground: the requests that present it may call every service.
      */
-    public static final String FILE_GROUND_CREDENTIAL = "ground.credential";
+    public static final String FILE_SUPERVISOR_SECRET = "supervisor-secret.credential";
     /** The file bootloader state. */
     public static final String FILE_BOOTLOADER_STATE = "state.properties";
     /** The file boot confirmed. */

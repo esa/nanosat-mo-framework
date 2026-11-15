@@ -104,9 +104,9 @@ public class PermissionsProbe {
     public static final String REPORT_PROPERTY = "esa.mo.nmf.security.probe.permissionsReport";
     private static final String DEFAULT_REPORT = "/tmp/permissions-probe-report";
 
-    /** The ground credential file; overridable for a filesystem in another place. */
-    public static final String GROUND_CREDENTIAL_PROPERTY = "esa.mo.nmf.security.probe.groundCredential";
-    private static final String DEFAULT_GROUND_CREDENTIAL = "/nanosat-mo-framework/bootloader/ground.credential";
+    /** The supervisor secret file; overridable for a filesystem in another place. */
+    public static final String SUPERVISOR_SECRET_PROPERTY = "esa.mo.nmf.security.probe.supervisorSecret";
+    private static final String DEFAULT_SUPERVISOR_SECRET = "/nanosat-mo-framework/bootloader/supervisor-secret.credential";
 
     private static final long TIMEOUT_S = 10;
 
@@ -287,9 +287,9 @@ public class PermissionsProbe {
                     .getCommandExecutorStub().runCommand(new Command("id", null, null)));
         }
 
-        // The ground credential, which would give an App the rights of ground
+        // The supervisor secret, which would give an App the rights of ground
         attempt("Supervisor.GroundCredential", "read", () -> Files.readAllBytes(Paths.get(
-                System.getProperty(GROUND_CREDENTIAL_PROPERTY, DEFAULT_GROUND_CREDENTIAL))));
+                System.getProperty(SUPERVISOR_SECRET_PROPERTY, DEFAULT_SUPERVISOR_SECRET))));
     }
 
     /**

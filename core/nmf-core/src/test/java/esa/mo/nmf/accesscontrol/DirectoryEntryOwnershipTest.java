@@ -60,7 +60,7 @@ public class DirectoryEntryOwnershipTest {
     @Before
     public void startTheAuthority() {
         authority = new AccessControlAuthority(SUPERVISOR + "/Directory");
-        authority.setGroundCredential(GROUND);
+        authority.setSupervisorSecret(GROUND);
         authority.registerApp("probe", PROBE, Collections.emptySet());
         authority.setRecorder((app, permission, operation, from, entry, refused) ->
                 recorded.add(app + " " + permission + " " + operation + " " + entry + " refused=" + refused));

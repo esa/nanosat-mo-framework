@@ -72,9 +72,9 @@ public final class NMFAccessControl implements MALAccessControl {
 
     /**
      * The system property that a ground tool, such as the CTT or the CLI of the
-     * playground, uses to find the credential of ground.
+     * playground, uses to find the supervisor secret.
      */
-    public static final String GROUND_CREDENTIAL_FILE_PROPERTY = "esa.mo.nmf.accesscontrol.groundCredentialFile";
+    public static final String SUPERVISOR_SECRET_FILE_PROPERTY = "esa.mo.nmf.accesscontrol.supervisorSecretFile";
 
     /**
      * The system property, set for an App by the Supervisor, that holds the
@@ -99,7 +99,7 @@ public final class NMFAccessControl implements MALAccessControl {
     private volatile Set<String> granted = Collections.emptySet();
     private volatile AccessControlAuthority authority;
 
-    /** Whether the credential is ground's, which signs over the Supervisor's run id. */
+    /** Whether the presented credential is the supervisor secret, which ground presents and signs over the Supervisor's run id. */
     private volatile boolean ground;
     /** The run id that the Supervisor last gave, or null before it gave one. */
     private volatile byte[] runId;
@@ -136,16 +136,16 @@ public final class NMFAccessControl implements MALAccessControl {
     }
 
     /**
-     * Presents the credential of ground on the requests that this tool sends to
+     * Presents the supervisor secret on the requests that this tool sends to
      * the Supervisor at the given URI, and only there. Under signed credentials
      * the tool signs over the run id the Supervisor gives it, as a ground tool
      * does; it is the credential, not the way it is presented, that may call
      * every service.
      *
-     * @param secret the ground credential
+     * @param secret the supervisor secret
      * @param supervisorURI any URI of the Supervisor, such as its Directory's
      */
-    public void presentGroundCredential(final byte[] secret, final String supervisorURI) {
+    public void presentSupervisorSecret(final byte[] secret, final String supervisorURI) {
         present(secret, supervisorURI, true);
     }
 
@@ -157,16 +157,16 @@ public final class NMFAccessControl implements MALAccessControl {
     }
 
     /**
-     * Presents the credential of ground, from the file that the
-     * {@value #GROUND_CREDENTIAL_FILE_PROPERTY} system property names, on the
+     * Presents the supervisor secret, from the file that the
+     * {@value #SUPERVISOR_SECRET_FILE_PROPERTY} system property names, on the
      * requests that this ground tool sends to the Supervisor whose Directory is
      * at the given URI, and only there, so that no App receives it.
      *
      * @param directoryURI the URI of the Supervisor's Directory that the tool uses
      * @return true if a credential is now presented, false if none is configured
      */
-    public static boolean presentGroundCredential(final String directoryURI) {
-        String file = System.getProperty(GROUND_CREDENTIAL_FILE_PROPERTY);
+    public static boolean presentSupervisorSecret(final String directoryURI) {
+        String file = System.getProperty(SUPERVISOR_SECRET_FILE_PROPERTY);
         if (file == null || directoryURI == null) {
             return false;
         }
@@ -175,7 +175,7 @@ public final class NMFAccessControl implements MALAccessControl {
             INSTANCE.present(readCredential(file), directoryURI, true);
             return true;
         } catch (IOException ex) {
-            LOGGER.log(Level.WARNING, "The ground credential could not be read from " + file, ex);
+            LOGGER.log(Level.WARNING, "The supervisor secret could not be read from " + file, ex);
             return false;
         }
     }

@@ -99,12 +99,12 @@ with the ``accessControl`` parameter of the ``nmf-linux-maven-plugin``:
 
 A Supervisor started without a mode, for example from an IDE, also enforces access control.
 
-In ``enforce`` mode, ground tools present the credential of ground,
-which is generated with the filesystem in ``bootloader/ground.credential``.
-With the CLI: ``--credential-file <path to ground.credential>``.
+In ``enforce`` mode, ground tools present the supervisor secret,
+which is generated with the filesystem in ``bootloader/supervisor-secret.credential``.
+With the CLI: ``--credential-file <path to supervisor-secret.credential>``.
 The credential is not exchanged: the mission keeps a copy of that file on ground and gives it to its tools.
 It travels in clear in every request, so the link must be encrypted.
 
 In the playground, ``run_CTT.sh`` and ``run_CLI.sh`` point the tools at the playground's own
-``bootloader/ground.credential``, which they read from the same filesystem as the Supervisor.
+``bootloader/supervisor-secret.credential``, which they read from the same filesystem as the Supervisor.
 A tool presents the credential only to the Supervisor whose Directory it connects to, never to an App.

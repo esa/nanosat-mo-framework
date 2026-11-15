@@ -35,20 +35,20 @@ public class NotCommandableBootTest {
         String reason = NanoSatMOSupervisor.whyGroundCannotCommand(null, false);
         Assert.assertNotNull("Without the access control mode, ground cannot command the Supervisor", reason);
         Assert.assertTrue(reason, reason.contains("older than 6.0"));
-        Assert.assertNotNull("A credential of ground placed by hand does not bring the other settings",
+        Assert.assertNotNull("A supervisor secret placed by hand does not bring the other settings",
                 NanoSatMOSupervisor.whyGroundCannotCommand(null, true));
     }
 
     @Test
     public void enforceWithoutACredentialOfGroundIsNotCommandable() {
         String reason = NanoSatMOSupervisor.whyGroundCannotCommand("enforce", false);
-        Assert.assertNotNull("Enforced without a credential of ground, no call from ground is accepted", reason);
-        Assert.assertTrue(reason, reason.contains("no credential of ground"));
+        Assert.assertNotNull("Enforced without a supervisor secret, no call from ground is accepted", reason);
+        Assert.assertTrue(reason, reason.contains("no supervisor secret"));
     }
 
     @Test
     public void groundCanCommandItOtherwise() {
-        Assert.assertNull("Enforced with the credential of ground",
+        Assert.assertNull("Enforced with the supervisor secret",
                 NanoSatMOSupervisor.whyGroundCannotCommand("enforce", true));
         Assert.assertNull("In audit mode, the calls of ground go through",
                 NanoSatMOSupervisor.whyGroundCannotCommand("audit", false));

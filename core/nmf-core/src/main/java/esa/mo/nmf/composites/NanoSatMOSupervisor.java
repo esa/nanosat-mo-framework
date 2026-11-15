@@ -251,14 +251,14 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
         SingleConnectionDetails det
                 = directoryService.getConnection().getSecondaryConnectionDetails();
         String secondaryURI = (det != null) ? det.getProviderURI().toString() : null;
-        boolean groundCredential = startAccessControl(primaryURI, secondaryURI);
+        boolean supervisorSecret = startAccessControl(primaryURI, secondaryURI);
         writeCentralDirectoryServiceURI(primaryURI, secondaryURI);
 
         // A Supervisor that ground cannot command does not confirm its boot, so
         // that the bootloader falls back to the previous baseline instead of
         // keeping, and promoting, one that no command can reach
         String notCommandable = whyGroundCannotCommand(System.getProperty(AccessControlMode.PROPERTY),
-                groundCredential);
+                supervisorSecret);
         if (notCommandable != null && Deployment.getBootloaderDir().isDirectory()) {
             LOGGER.log(Level.SEVERE, "The boot is not confirmed: {0}", notCommandable);
             System.exit(Deployment.EXIT_NOT_COMMANDABLE);
@@ -273,32 +273,42 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
 
     /**
      * Has the Supervisor check every request it receives, as the access control
-     * mode says, with the credential of ground that the filesystem was
+     * mode says, with the supervisor secret that the filesystem was
      * generated with. The credential of each App is added when it starts.
      *
-     * @return true if the credential of ground was read
+     * @return true if the supervisor secret was read
      */
     private boolean startAccessControl(String primaryURI, String secondaryURI) {
-        boolean groundCredentialRead = false;
+        boolean supervisorSecretRead = false;
         AccessControlAuthority authority = new AccessControlAuthority(primaryURI, secondaryURI);
         authority.setRecorder(appsLauncherService::storeUnauthorisedCall);
-        File groundCredential = new File(Deployment.getBootloaderDir(), Deployment.FILE_GROUND_CREDENTIAL);
-        if (groundCredential.isFile()) {
+        File supervisorSecret = new File(Deployment.getBootloaderDir(), Deployment.FILE_SUPERVISOR_SECRET);
+        if (supervisorSecret.isFile()) {
             try {
-                authority.setGroundCredential(NMFAccessControl.readCredential(groundCredential.getPath()));
-                groundCredentialRead = true;
+                authority.setSupervisorSecret(NMFAccessControl.readCredential(supervisorSecret.getPath()));
+                supervisorSecretRead = true;
             } catch (IOException ex) {
-                LOGGER.log(Level.SEVERE, "The ground credential could not be read: " + groundCredential, ex);
+                LOGGER.log(Level.SEVERE, "The supervisor secret could not be read: " + supervisorSecret, ex);
             }
         } else if (AccessControlMode.current() != AccessControlMode.OFF) {
-            LOGGER.log(Level.WARNING, "There is no ground credential at {0}: in enforce mode, "
-                    + "no call from ground will be accepted", groundCredential);
+            LOGGER.log(Level.WARNING, "There is no supervisor secret at {0}: in enforce mode, "
+                    + "no call from ground will be accepted", supervisorSecret);
         }
         NMFAccessControl.INSTANCE.enforce(authority);
         // Only an App may add or remove its own entry in the Directory, and no caller the Supervisor's
         directoryService.setEntryCheck(authority::checkDirectoryEntry);
-        LOGGER.log(Level.INFO, "Access control: {0}", AccessControlMode.current().configName());
-        return groundCredentialRead;
+        AccessControlMode mode = AccessControlMode.current();
+        if (mode == AccessControlMode.ENFORCE) {
+            LOGGER.log(Level.INFO, "Access control: enforce");
+        } else {
+            // A reduced posture is never silent: it is logged as a warning on every boot, so that
+            // turning access control off or down shows up plainly in the logs.
+            LOGGER.log(Level.WARNING, "Access control is NOT enforced (mode: {0}). The Supervisor is "
+                    + "accepting calls that enforce mode would refuse. If this mission was configured to "
+                    + "enforce access control, this reduced posture may indicate tampering with the on-board "
+                    + "configuration.", mode.configName());
+        }
+        return supervisorSecretRead;
     }
 
     /**
@@ -310,17 +320,17 @@ public abstract class NanoSatMOSupervisor extends NMFProvider {
      *
      * @param modeProperty The access control mode that the bootloader passed,
      * or NULL if it passed none.
-     * @param groundCredential true if the credential of ground was read.
+     * @param supervisorSecret true if the supervisor secret was read.
      * @return The reason, or NULL if ground can command the Supervisor.
      */
-    static String whyGroundCannotCommand(String modeProperty, boolean groundCredential) {
+    static String whyGroundCannotCommand(String modeProperty, boolean supervisorSecret) {
         if (modeProperty == null) {
             return "the bootloader passed no access control mode: it is older than 6.0, and passes none "
-                    + "of the settings of 6.0, so access control is enforced without a credential of ground";
+                    + "of the settings of 6.0, so access control is enforced without a supervisor secret";
         }
-        if (AccessControlMode.parse(modeProperty) == AccessControlMode.ENFORCE && !groundCredential) {
-            return "access control is enforced and there is no credential of ground at "
-                    + new File(Deployment.getBootloaderDir(), Deployment.FILE_GROUND_CREDENTIAL)
+        if (AccessControlMode.parse(modeProperty) == AccessControlMode.ENFORCE && !supervisorSecret) {
+            return "access control is enforced and there is no supervisor secret at "
+                    + new File(Deployment.getBootloaderDir(), Deployment.FILE_SUPERVISOR_SECRET)
                     + ", so no call from ground would be accepted";
         }
         return null;

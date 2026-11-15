@@ -41,7 +41,7 @@ import static esa.mo.nmf.testbed.e2e.tests.SharedOutput.SETUP_CLASS_SEP;
 
 /**
  * The testbed runs in audit mode, like the playground, and its calls from
- * ground present the ground credential that the filesystem was generated with,
+ * ground present the supervisor secret that the filesystem was generated with,
  * so that audit mode records only what an App does without permission.
  */
 public class AccessControlAuditTest {
@@ -73,14 +73,14 @@ public class AccessControlAuditTest {
     @Test
     public void theCallsOfTheTestbedPresentTheGroundCredential() throws Exception {
         LOGGER.info(SEP + "\nRunning: theCallsOfTheTestbedPresentTheGroundCredential()\n" + SEP);
-        // A call that needs a permission: without the ground credential, audit mode would flag it
+        // A call that needs a permission: without the supervisor secret, audit mode would flag it
         pm.findPackageByPrefix("benchmark-");
         Thread.sleep(500);
 
         List<String> flagged = supervisorHarness.getProviderLog().stream()
                 .filter(line -> line.contains("carries no valid credentials"))
                 .collect(Collectors.toList());
-        Assert.assertTrue("The calls of the testbed must present the ground credential, but these were flagged: "
+        Assert.assertTrue("The calls of the testbed must present the supervisor secret, but these were flagged: "
                 + flagged, flagged.isEmpty());
     }
 }

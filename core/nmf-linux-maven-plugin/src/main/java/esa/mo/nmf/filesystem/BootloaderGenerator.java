@@ -197,10 +197,10 @@ public class BootloaderGenerator {
                 + "promotion-soak-s=" + DEFAULT_PROMOTION_SOAK_S + "\n";
         writeFile(new File(bootloaderDir, Deployment.FILE_BOOTLOADER_CONFIG), config);
 
-        // The credential of ground, new for each filesystem: requests that present
+        // The supervisor secret, new for each filesystem: requests that present
         // it may call every service. It stays in the bootloader directory, which
         // only the Supervisor can read under linux-userspace isolation.
-        writeFile(new File(bootloaderDir, Deployment.FILE_GROUND_CREDENTIAL),
+        writeFile(new File(bootloaderDir, Deployment.FILE_SUPERVISOR_SECRET),
                 NMFAccessControl.toText(NMFAccessControl.newCredential()) + "\n");
 
         // The Boot Report directory

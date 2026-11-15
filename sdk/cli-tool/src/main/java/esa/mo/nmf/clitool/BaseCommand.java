@@ -93,12 +93,12 @@ public abstract class BaseCommand {
         providerName  = args.option("-p", "--provider");
         String credentialFile = args.option("--credential-file");
 
-        // The ground credential is presented on the requests to the Supervisor
+        // The supervisor secret is presented on the requests to the Supervisor
         // at the given URI, and to nothing else
         NMFAccessControl.install();
         if (credentialFile != null && providerURI != null) {
             try {
-                NMFAccessControl.INSTANCE.presentGroundCredential(
+                NMFAccessControl.INSTANCE.presentSupervisorSecret(
                         NMFAccessControl.readCredential(credentialFile), providerURI);
             } catch (IOException ex) {
                 LOGGER.log(Level.SEVERE, "The credential could not be read from " + credentialFile, ex);
@@ -106,7 +106,7 @@ public abstract class BaseCommand {
             }
         } else {
             // As in the playground: the credential file given as a system property
-            NMFAccessControl.presentGroundCredential(providerURI);
+            NMFAccessControl.presentSupervisorSecret(providerURI);
         }
     }
 

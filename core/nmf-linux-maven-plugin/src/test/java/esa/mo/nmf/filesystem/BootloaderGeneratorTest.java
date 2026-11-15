@@ -131,8 +131,8 @@ public class BootloaderGeneratorTest {
     @Test
     public void aGroundCredentialIsGeneratedWithTheFilesystem() throws Exception {
         generate("none");
-        File credential = new File(new File(nmfRoot, Deployment.DIR_BOOTLOADER), Deployment.FILE_GROUND_CREDENTIAL);
-        Assert.assertTrue("The filesystem must hold the credential of ground", credential.isFile());
+        File credential = new File(new File(nmfRoot, Deployment.DIR_BOOTLOADER), Deployment.FILE_SUPERVISOR_SECRET);
+        Assert.assertTrue("The filesystem must hold the supervisor secret", credential.isFile());
         String first = new String(Files.readAllBytes(credential.toPath()), StandardCharsets.US_ASCII).trim();
         Assert.assertTrue("The credential must be 32 random bytes, as 64 hexadecimal digits: " + first,
                 first.matches("[0-9a-f]{64}"));

@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -72,6 +73,9 @@ import org.ccsds.moims.mo.mal.transport.MALMessageHeader;
 public final class AccessControlAuthority {
 
     private static final Logger LOGGER = Logger.getLogger(AccessControlAuthority.class.getName());
+
+    /** Logs the guidance on the first refusal of a run, so it is not repeated on every refused call. */
+    private static final AtomicBoolean HINT_LOGGED = new AtomicBoolean(false);
 
     /**
      * How many ground sessions one run id serves before the Supervisor chooses a
@@ -190,11 +194,11 @@ public final class AccessControlAuthority {
     }
 
     /**
-     * Sets the credential of ground, which may call every service.
+     * Sets the supervisor secret, which may call every service.
      *
-     * @param secret the ground credential
+     * @param secret the supervisor secret
      */
-    public void setGroundCredential(final byte[] secret) {
+    public void setSupervisorSecret(final byte[] secret) {
         callers.put(NMFAccessControl.toText(secret), new Caller(null, Collections.emptySet(), secret));
     }
 
@@ -641,6 +645,12 @@ public final class AccessControlAuthority {
             return false;
         }
         LOGGER.log(Level.WARNING, "Refused: {0}", what);
+        if (HINT_LOGGED.compareAndSet(false, true)) {
+            LOGGER.log(Level.INFO, "Access control is enforcing: a call from ground must present the "
+                    + "supervisor secret (CLI: --credential-file), and an App may call only the services it "
+                    + "was granted at install. To run a mission without enforcement, generate its filesystem "
+                    + "with accessControl set to off or audit (nmf-linux-maven-plugin generate-filesystem).");
+        }
         return true;
     }
 

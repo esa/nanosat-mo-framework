@@ -17,6 +17,6 @@ if [ -z "$CTT_JAR" ]; then
     exit 1
 fi
 cd "$CTT_DIR" || exit 1
-# The playground's tools present the credential of ground to its Supervisor
+# The playground's tools present the supervisor secret to its Supervisor
 exec java -Djava.util.logging.config.file="$NMF_HOME/etc/logging.properties" \
-    -Desa.mo.nmf.accesscontrol.groundCredentialFile="$NMF_HOME/bootloader/ground.credential" -jar "$CTT_JAR" "$@"
+    -Desa.mo.nmf.accesscontrol.supervisorSecretFile="$NMF_HOME/bootloader/supervisor-secret.credential" -jar "$CTT_JAR" "$@"

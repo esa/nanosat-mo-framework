@@ -137,9 +137,9 @@ public class SupervisorHarness {
         this.waitForReadiness();
         LOGGER.info("Supervisor is ready. Directory URI: " + directoryURI);
 
-        System.setProperty(NMFAccessControl.GROUND_CREDENTIAL_FILE_PROPERTY,
-                new File(new File(nmfDir, "bootloader"), "ground.credential").getAbsolutePath());
-        NMFAccessControl.presentGroundCredential(directoryURI);
+        System.setProperty(NMFAccessControl.SUPERVISOR_SECRET_FILE_PROPERTY,
+                new File(new File(nmfDir, "bootloader"), "supervisor-secret.credential").getAbsolutePath());
+        NMFAccessControl.presentSupervisorSecret(directoryURI);
     }
 
     /**

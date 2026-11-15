@@ -50,7 +50,7 @@ public class ConsumerTestToolGUI extends javax.swing.JFrame {
      */
     public static void main(final String[] args) {
         // Every MAL context of the CTT uses NMF's access control, which presents the
-        // credential of ground, if one is configured, to the Supervisor it connects to
+        // supervisor secret, if one is configured, to the Supervisor it connects to
         NMFAccessControl.install();
 
         try {

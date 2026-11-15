@@ -169,11 +169,11 @@ public class AppPermissionsTest {
         Run run = run("enforce", DECLARED);
 
         System.out.println("In enforce mode, a call from ground:\n" + run.ground);
-        Assert.assertTrue("Without the ground credential, a call from ground must be refused.\n" + run.ground,
+        Assert.assertTrue("Without the supervisor secret, a call from ground must be refused.\n" + run.ground,
                 run.ground.contains("WITHOUT_CREDENTIAL=REFUSED"));
-        Assert.assertTrue("With the ground credential, a call from ground must go through.\n" + run.ground,
+        Assert.assertTrue("With the supervisor secret, a call from ground must go through.\n" + run.ground,
                 run.ground.contains("WITH_CREDENTIAL=ALLOWED"));
-        Assert.assertTrue("With the ground credential file given as a system property, as the playground's "
+        Assert.assertTrue("With the supervisor secret file given as a system property, as the playground's "
                 + "tools do, a call from ground must go through.\n" + run.ground,
                 run.ground.contains("WITH_GROUND_PROPERTY=ALLOWED"));
     }
